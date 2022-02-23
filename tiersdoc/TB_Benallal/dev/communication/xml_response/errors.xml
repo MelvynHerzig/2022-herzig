@@ -1,0 +1,10 @@
+<errors>
+	<error>
+		<id>empty node</id>
+		<message lang="en">Node is empty</message>
+	</error>
+	<error>
+		...
+	</error>
+	...
+</errors>

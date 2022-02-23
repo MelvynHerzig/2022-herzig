@@ -1,0 +1,10 @@
+<warnings>
+	<warning>
+		<id>unknown_drug_id</id>
+		<message lang="en">Unknown drugID</message>
+	</warning>
+	<warning>
+		...
+	</warning>
+	...
+</warnings>

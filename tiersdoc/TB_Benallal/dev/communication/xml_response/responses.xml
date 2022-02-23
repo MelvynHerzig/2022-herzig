@@ -1,0 +1,39 @@
+<responses>
+	<response>
+		<queryID>1234</queryID>
+		<requestID>123456</requestID>
+		<issues>
+			<!-- Le status indique si les calculs ont étés possibles ou pas.
+			Les valeurs possibles sont "Success" ou "Error" -->
+			<status>Error</status>
+			<!-- Les erreurs sont des éléments qui empêchent les calculs -->
+			<errors>
+				<error>
+					<id>anerrorid</id>
+					<!-- Cette erreur serait le type d'erreur récupérée lors de la validation par le XSD -->
+					<message lang="en">Node query/parameters/drugs/drug/target/min contains 'string' instead of 'decimal'</message>
+				</error>
+				<error>
+					<id>anothererrorid</id>
+					<!-- Cette erreur serait le type d'erreur qui ne sont pas gérées par le XSD -->
+					<message lang="en">'vancomy': Unknown drugID</message>
+				</error>
+			</errors>
+			<!-- Les avertissements sont des éléments qui n'empêchent pas les calculs, mais qui ne sont quand-même pas attendus -->
+			<warnings>
+				<warning>
+					<id>awarningid</id>
+					<message lang="en">'query/parameters/drugs/drug/target/unit': Node is empty</message>
+				</warning>
+			</warnings>
+		</issues>
+		<!-- Ici sont présentées les données attendues pour la requête associée -->
+		<data>
+			...
+		</data>
+	</response>
+	<response>
+		...
+	</response>
+	...
+</responses>
