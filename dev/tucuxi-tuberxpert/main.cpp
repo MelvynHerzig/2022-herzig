@@ -1,6 +1,16 @@
+/*
+* Copyright (C) 2017 Tucuxi SA
+*
+* Bachelor's thesis
+* Made by: Herzig Melvyn
+*/
+
 #include <QCoreApplication>
 #include <QLocale>
 #include <QTranslator>
+
+#include <QDir>
+#include <QProcess>
 
 #include <iostream>
 
@@ -18,7 +28,23 @@ int main(int argc, char *argv[])
         }
     }
 
-    std::cout << "Hello from TuberXpert" << std::endl;
+    // Preparing tucucore
+    QObject *parent = nullptr;
+    QString program = "../tucuxi-core/make/qtcreator/tucucli/debug/tucucli";
+    QStringList arguments;
 
-    return EXIT_SUCCESS;
+    // Starting
+    QProcess *myProcess = new QProcess(parent);
+    myProcess->start(program, arguments);
+
+    // Waiting execution end
+    myProcess->waitForFinished();
+    QString output( myProcess->readAllStandardOutput());
+
+    // Printing result
+    std::cout << "Hello from TuberXpert. App under building" <<  std::endl;
+    std::cout << "Core output: " << std::endl;
+    std::cout << output.toStdString() << std::endl;
+
+    return EXIT_SUCCESS; //a.exec();
 }
