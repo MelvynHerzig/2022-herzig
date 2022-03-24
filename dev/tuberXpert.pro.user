@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 6.0.2, 2022-03-23T13:54:09. -->
+<!-- Written by QtCreator 6.0.2, 2022-03-24T11:58:37. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -243,7 +243,7 @@
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/melvy/Desktop/Dev/2022-herzig/dev/tucuxi-core/make/qtcreator/tucucli/tucucli.pro</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/melvy/Desktop/Dev/2022-herzig/dev/tucuxi-core/make/qtcreator/tucucli/tucucli.pro</value>
-    <value type="QString" key="RunConfiguration.Arguments">-i &quot;C:\Users\melvy\Desktop\Dev\2022-herzig\dev\tucuxi-drugs\validation\comparative\data\queries\ch.tucuxi.imatinib.gotta2012.2.tqf&quot; -o &quot;C:\Users\melvy\Desktop\test.xml&quot; -d &quot;C:\Users\melvy\Desktop\Dev\2022-herzig\dev\tucuxi-drugs\drugfiles&quot;</value>
+    <value type="QString" key="RunConfiguration.Arguments">-i &quot;C:\Users\melvy\Desktop\Dev\2022-herzig\dev\tucuxi-drugs\validation\comparative\data\queries\ch.tucuxi.rifampicin.svensson2017.1.tqf&quot; -o &quot;C:\Users\melvy\Desktop\test.xml&quot; -d &quot;C:\Users\melvy\Desktop\Dev\2022-herzig\dev\tucuxi-drugs\drugfiles&quot;</value>
     <value type="bool" key="RunConfiguration.Arguments.multi">true</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
