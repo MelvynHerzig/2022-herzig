@@ -1,0 +1,1 @@
+Dans le cas d'un patient qui se situerait en dessous de la cible, il y aurait-il un intérêt à ne pas commencer l'ajustement par une dose de charge ?
