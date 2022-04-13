@@ -1,0 +1,40 @@
+1 Context
+
+This work takes place in the domain of therapeutic drug monitoring (TDM). Currently, Tanzania is experiencing a high amount of tuberculosis (TB) cases. The country has expressed its commitment to end TB by 2035. The main tool to achieve this goal is TDM. However, the problem is that it is a long and difficult process. A software called Tucuxi has already been developed and is part of the solution. Nevertheless, it does not solve the fact that the tool needs TDM professionals to be used efficiently. On this perspective, the purpose of this work is to develop a clinical decision support system (CDSS) on top of Tucuxi computation core to automate TDM decisions making.
+
+2 Objective
+
+By the 29nth of July, an extensible CDSS must be developed, tested, and documented. The CDSS will use a local version of Tucuxi computation core for dosage prediction and adjustment computations. The system will be a command line interface that will produce a dosage adjustment report based on the received inputs. 
+
+3 Features
+
+Input validation
+	• The program will receive an XML file similar to Tucuxi computation core.
+		o The XML structure may be extended with new useful elements if needed. 
+	• The program will analyze, and check data relevance. 
+
+Drug file selection
+	• The program must be able to select a relevant drug file for each drug in input.
+
+Dosage adjustment
+	• The program must be able to understand the current state of a treatment and suggest an adjustment.
+
+Output 
+	• The output of the decisions must be an XML file that can be used by various templates for report generation.
+
+Report generation
+	• The program must summarize all useful information in a well formatted report.
+		o Suspicious covariates.
+		o Drug file selected.
+		o Graph (A priori or A posteriori, depending on patient).
+		o Dosage adjustment.
+		o …
+
+Multi language
+	• The program must support various language.
+	• At least, English must be available.
+		o It should be easy to add a translation and use it.
+
+Testing
+	• The program behavior must be tested with various inputs.
+		o Since it is difficult to predict all cases, obvious cases testing is sufficient. 
