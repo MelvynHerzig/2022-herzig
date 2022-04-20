@@ -1,26 +1,36 @@
-QT -= gui
-
-CONFIG += c++20 console
+TEMPLATE = app
+CONFIG += console c++11
 CONFIG -= app_bundle
+CONFIG -= qt   
 
-# You can make your code fail to compile if it uses deprecated APIs.
-# In order to do so, uncomment the following line.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+unix {
+    LIBS += -lpthread
+}
+
+win32 {
+    include(../tucuxi-core/make/qtcreator/tinyjs.pri)
+}
+
+include(../tucuxi-core/make/qtcreator/general.pri)
+include(../tucuxi-core/make/qtcreator/tucucommon.pri)
+include(../tucuxi-core/make/qtcreator/tucucore.pri)
+include(../tucuxi-core/make/qtcreator/tucuquery.pri)
+
+HEADERS += \
+    src/language/languagemanager.h
 
 SOURCES += \
-        main.cpp
+    src/language/languagemanager.cpp \
+    src/main.cpp
 
-TRANSLATIONS += \
-    tucuxi-tuberxpert_en_US.ts
-CONFIG += lrelease
-CONFIG += embed_translations
+!win32 {
+    # Because of Eigen:
+    QMAKE_CXXFLAGS += -Wno-int-in-bool-context
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+    # Because of macros and clang:
+    QMAKE_CXXFLAGS += -Wno-extra-semi-stmt
+}
 
-SUBDIRS += \
-    ../tucuxi-core/make/qtcreator/tucucli/tucucli.pro
-
-HEADERS +=
+DISTFILES += \
+    language/dictionary.xsd \
+    language/en.xml
