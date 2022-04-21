@@ -6,49 +6,61 @@
 #include "tucucommon/xmliterator.h"
 #include "tucucommon/xmlnode.h"
 
+#include "languageexception.h"
+
 #include <fstream>
 
 namespace Tucuxi {
 namespace Language {
 
-std::string LanguageManager::dictionariesFolder = "../language/";
+const std::string LanguageManager::dictionariesFolder = "../language/";
 
-LanguageManager* LanguageManager::pInstance{nullptr};
+std::unique_ptr<LanguageManager> LanguageManager::upInstance{nullptr};
+
+const std::string LanguageManager::defaultTranslation = "unknown translation";
 
 std::mutex LanguageManager::mutex;
 
-LanguageManager::LanguageManager()
+LanguageManager::LanguageManager(const std::string& lang)
 {
-    std::ifstream ifs(dictionariesFolder + "en.xml");
-
-    // TODO check opening success
+    std::ifstream ifs(dictionariesFolder + lang + ".xml");
 
     std::string xmlString((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
 
     Tucuxi::Common::XmlDocument document;
 
-    if (!document.fromString(xmlString)) {
-       // TODO check if could be formed
+    if (xmlString == "" || !document.fromString(xmlString)) {
+        throw LanguageException("Error importing language file. It may be missing or bad formatted.");
     }
 
-     Common::XmlNode root = document.getRoot();
-     Common::XmlNodeIterator it = root.getChildren();
+    Common::XmlNode root = document.getRoot();
+    Common::XmlNodeIterator it = root.getChildren();
 
-     while (it != Common::XmlNodeIterator::none()) {
-         std::cout<< "Attribute: " << it->getAttribute("key").getValue() << " Value: " << it->getValue() << std::endl;
-         it++;
-     }
-
+    while (it != Common::XmlNodeIterator::none()) {
+        keyToEntry[it->getAttribute("key").getValue()] = it->getValue();
+        it++;
+    }
 }
 
-LanguageManager* LanguageManager::getInstance()
+std::unique_ptr<LanguageManager>& LanguageManager::getInstance(const std::string& filePath)
 {
     std::lock_guard<std::mutex> lock(mutex);
-    if (pInstance == nullptr)
+    if (upInstance == nullptr)
     {
-        pInstance = new LanguageManager();
+        upInstance = std::make_unique<LanguageManager>(filePath);
     }
-    return pInstance;
+    return upInstance;
+}
+
+const std::string& LanguageManager::translate(const std::string &key) const
+{
+    auto it = keyToEntry.find(key);
+    if (it != keyToEntry.end()) {
+        return it->second;
+    }
+    else {
+        return defaultTranslation;
+    }
 }
 
 

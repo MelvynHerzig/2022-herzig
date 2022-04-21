@@ -3,6 +3,9 @@
 
 #include <mutex>
 #include <string>
+#include <memory>
+#include <map>
+#include <vector>
 
 namespace Tucuxi {
 namespace Language {
@@ -16,13 +19,22 @@ class LanguageManager
 {
 public:
 
-    /// \brief The only way to get a hold on the language manager.
+    /// \brief Gets the unique instance of dictionary. If not already created, load it using lang argument.
+    /// The argument is ignored when getInstance has already been called once.
+    /// \param lang Lang to use. Default "en". May be "it", "de", "fr" if such xml files exist.
     /// \return The language manager itself.
-    static LanguageManager* getInstance();
+    static std::unique_ptr<LanguageManager>& getInstance(const std::string& lang = "en");
+
+    /// \brief Gets a translation for a given key.
+    /// \param key Key to look for.
+    /// \return Translated string.
+    const std::string& translate(const std::string& key) const;
 
 private:
+
     /// \brief Constructor. Used internal to create the singleton instance.
-    LanguageManager();
+    /// \param lang Lang to use. Default "en". May be "it", "de", "fr" if such xml files exist.
+    LanguageManager(const std::string& lang = "en");
 
     // Singletons should not be cloneable.
     LanguageManager( LanguageManager& other) = delete;
@@ -31,13 +43,24 @@ private:
     void operator=(const  LanguageManager&) = delete;
 
     /// \brief Path to translation fiiles.
-    static std::string dictionariesFolder;
+    const static std::string dictionariesFolder;
 
     /// \brief Language manager single instance.
-    static LanguageManager* pInstance;
+    static std::unique_ptr<LanguageManager> upInstance;
 
     /// \brief Mutex to handle multi threading creation.
     static std::mutex mutex;
+
+    /// \brief Map containing key to entry mapping.
+    std::map<std::string, std::string> keyToEntry;
+
+public:
+
+    /// \brief String returned when key is not found when usgin translate method.
+    static const std::string defaultTranslation;
+
+    // To allow make_to create the instance.
+    friend std::unique_ptr<LanguageManager> std::make_unique<LanguageManager>(const std::string&);
 };
 
 } // namespace Language

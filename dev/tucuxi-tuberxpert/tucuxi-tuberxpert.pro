@@ -16,11 +16,11 @@ include(../tucuxi-core/make/qtcreator/tucucommon.pri)
 include(../tucuxi-core/make/qtcreator/tucucore.pri)
 include(../tucuxi-core/make/qtcreator/tucuquery.pri)
 
+include(./src/language/tuculanguage.pri)
+
 HEADERS += \
-    src/language/languagemanager.h
 
 SOURCES += \
-    src/language/languagemanager.cpp \
     src/main.cpp
 
 !win32 {

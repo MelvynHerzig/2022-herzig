@@ -1,17 +1,15 @@
 #include <iostream>
+#include <memory>
 
 #include "language/languagemanager.h"
 #include "tucucommon/utils.h"
 
 using namespace std;
 
-int main(int _argc, char** _argv)
+int main()
 {
-    // Get application folder
-    std::string appFolder = Tucuxi::Common::Utils::getAppFolder(_argv);
+    unique_ptr<Tucuxi::Language::LanguageManager>& upLangMgr = Tucuxi::Language::LanguageManager::getInstance("fr");
 
-    Tucuxi::Language::LanguageManager* pLangMgr = Tucuxi::Language::LanguageManager::getInstance();
-
-    cout << appFolder << endl;
+    cout << upLangMgr->translate("hello") << " " << upLangMgr->translate("world") << endl;
     return 0;
 }

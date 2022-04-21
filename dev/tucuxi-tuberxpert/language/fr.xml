@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dictionary
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="dictionary.xsd">
+    
+    <entry key="hello">Bonjour</entry>
+    <entry key="world">le monde</entry>
+    <entraday key="ada">le monde</entraday>
+
+</dictionary>
