@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += console c++11
+CONFIG += console c++17
 CONFIG -= app_bundle
 CONFIG -= qt   
 
@@ -16,12 +16,12 @@ include(../tucuxi-core/make/qtcreator/tucucommon.pri)
 include(../tucuxi-core/make/qtcreator/tucucore.pri)
 include(../tucuxi-core/make/qtcreator/tucuquery.pri)
 
-include(./src/language/tuculanguage.pri)
+include(./src/tuberxpert.pri)
 
 HEADERS += \
 
 SOURCES += \
-    src/main.cpp
+    src/tuberxpert.cpp
 
 !win32 {
     # Because of Eigen:
@@ -31,6 +31,7 @@ SOURCES += \
     QMAKE_CXXFLAGS += -Wno-extra-semi-stmt
 }
 
-DISTFILES += \
+OTHER_FILES += \
     language/dictionary.xsd \
     language/en.xml
+

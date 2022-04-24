@@ -31,4 +31,4 @@ DEFINES+= \
     test_language
 
 HEADERS += \
-    test_language.h
+    test_languagemanager.h

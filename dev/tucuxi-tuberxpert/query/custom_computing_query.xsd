@@ -24,13 +24,13 @@
 			</xs:element>
 
 			<!-- Admin element from Benallal Bachelor thesis 2018 -->
-			<xs:element name="administrativeInfo" type="administrativeType" minOccurs="0" />
+			<xs:element name="admin" type="adminType" minOccurs="0" />
 
 			<xs:element name="drugTreatment" type="parametersType" />
 			<xs:element name="requests">
 			<xs:complexType>
 		        <xs:sequence>
-				  	<xs:element name="requestExpert" type="requestExpertType" minOccurs="0" maxOccurs="unbounded" />	
+				  	<xs:element name="requestXpert" type="requestXpertType" minOccurs="0" />	
 		          	<xs:element name="request" type="requestType" maxOccurs="unbounded" />
 		        </xs:sequence>
 			</xs:complexType>
@@ -48,16 +48,13 @@
 	</xs:complexType>
 </xs:element>
 
-<!-- ##################################################################### -->
-<!-- Global types for administrativeInfo -->
-<!-- ##################################################################### -->
-
-<xs:complexType name="administrativeType">
+<!-- Everything is optional in this type -->
+<xs:complexType name="adminType">
 	<xs:sequence>
 		<xs:element name="mandator" minOccurs="0">
 			<xs:complexType>
 				<xs:sequence>
-					<xs:element name="person" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="person" minOccurs="0">
 						<xs:complexType>
 							<xs:sequence>
 								<xs:element name="id" type="xs:string" minOccurs="0" />
@@ -73,7 +70,7 @@
 			</xs:complexType>
 		</xs:element>
 		<xs:element name="patient" minOccurs="0">
-        	<xs:complexType>
+			<xs:complexType>
 				<xs:sequence>
 					<xs:element name="person" minOccurs="0">
 						<xs:complexType>
@@ -156,6 +153,7 @@
 		<xs:element name="email" type="emailType" minOccurs="0" />
 	</xs:sequence>
 </xs:group>
+
 
 
 <!-- ##################################################################### -->
@@ -690,25 +688,19 @@ with the DosageHistory class and AbstractDosage subclasses -->
 	</xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="requestExpertType">
+<xs:complexType name="requestXpertType">
 	<xs:sequence>
-		<xs:element name="computation">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="local" />
-					<!--<xs:enumeration value="distant" />-->
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:element>
+		<xs:element name="queryId" type="xs:string" />
+		<xs:element name="localComputation" type="xs:boolean"/>
 		<xs:element name="output">
 			<xs:complexType>
 				<xs:sequence>
 					<xs:element name="format">
 						<xs:simpleType>
 							<xs:restriction base="xs:string">
-								<xs:enumeration value="pdf" />
+								<xs:enumeration value="html" />
 								<xs:enumeration value="xml" />
-								<!-- <xs:enumeration value="html" /> -->
+								<!-- <xs:enumeration value="pdf" /> -->
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:element>

@@ -1,7 +1,7 @@
 #include <iostream>
 
 #if defined(test_language)
-#include "test_language.h"
+#include "test_languagemanager.h"
 #endif
 
 using namespace std;
@@ -19,10 +19,10 @@ int main(int argc, char** argv)
      ***********************************************************/
 
 #if defined(test_language)
-    TestLanguage languageTests;
+    TestLanguageManager languageTests;
 
-    languageTests.add_test("GetInstance", &TestLanguage::retrieveDictionary);
-    languageTests.add_test("translate", &TestLanguage::wordTranslation);
+    languageTests.add_test("GetInstance", &TestLanguageManager::retrieveDictionary);
+    languageTests.add_test("translate", &TestLanguageManager::wordTranslation);
 
     res = languageTests.run(argc, argv);
     if (res != 0) {

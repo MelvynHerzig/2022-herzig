@@ -1,5 +1,5 @@
-#ifndef TEST_LANGUAGE_H
-#define TEST_LANGUAGE_H
+#ifndef TEST_LANGUAGEMANAGER_H
+#define TEST_LANGUAGEMANAGER_H
 
 #include <memory>
 
@@ -10,7 +10,7 @@
 /// \brief Tests for LanguageManager
 /// \date 21/04/2022
 /// \author Herzig Melvyn
-struct TestLanguage : public fructose::test_base<TestLanguage>
+struct TestLanguageManager : public fructose::test_base<TestLanguageManager>
 {
 
     /// \brief Checks that getInstance behave correctly.
@@ -41,4 +41,4 @@ struct TestLanguage : public fructose::test_base<TestLanguage>
     }
 };
 
-#endif // TEST_LANGUAGE_H
+#endif // TEST_LANGUAGEMANAGER_H

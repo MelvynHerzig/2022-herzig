@@ -13,17 +13,17 @@
 namespace Tucuxi {
 namespace Language {
 
-const std::string LanguageManager::dictionariesFolder = "../language/";
+const std::string LanguageManager::s_dictionariesFolder = "../language/";
 
-std::unique_ptr<LanguageManager> LanguageManager::upInstance{nullptr};
+std::unique_ptr<LanguageManager> LanguageManager::s_upInstance{nullptr};
 
-const std::string LanguageManager::defaultTranslation = "unknown translation";
+const std::string LanguageManager::s_defaultTranslation = "unknown translation";
 
-std::mutex LanguageManager::mutex;
+std::mutex LanguageManager::s_mutex;
 
-LanguageManager::LanguageManager(const std::string& lang)
+LanguageManager::LanguageManager(const std::string& _lang)
 {
-    std::ifstream ifs(dictionariesFolder + lang + ".xml");
+    std::ifstream ifs(s_dictionariesFolder + _lang + ".xml");
 
     std::string xmlString((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
 
@@ -37,29 +37,29 @@ LanguageManager::LanguageManager(const std::string& lang)
     Common::XmlNodeIterator it = root.getChildren();
 
     while (it != Common::XmlNodeIterator::none()) {
-        keyToEntry[it->getAttribute("key").getValue()] = it->getValue();
+        m_keyToEntry[it->getAttribute("key").getValue()] = it->getValue();
         it++;
     }
 }
 
 std::unique_ptr<LanguageManager>& LanguageManager::getInstance(const std::string& filePath)
 {
-    std::lock_guard<std::mutex> lock(mutex);
-    if (upInstance == nullptr)
+    std::lock_guard<std::mutex> lock(s_mutex);
+    if (s_upInstance == nullptr)
     {
-        upInstance = std::make_unique<LanguageManager>(filePath);
+        s_upInstance = std::make_unique<LanguageManager>(filePath);
     }
-    return upInstance;
+    return s_upInstance;
 }
 
 const std::string& LanguageManager::translate(const std::string &key) const
 {
-    auto it = keyToEntry.find(key);
-    if (it != keyToEntry.end()) {
+    auto it = m_keyToEntry.find(key);
+    if (it != m_keyToEntry.end()) {
         return it->second;
     }
     else {
-        return defaultTranslation;
+        return s_defaultTranslation;
     }
 }
 

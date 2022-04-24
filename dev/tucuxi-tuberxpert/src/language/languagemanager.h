@@ -21,43 +21,43 @@ public:
 
     /// \brief Gets the unique instance of dictionary. If not already created, load it using lang argument.
     /// The argument is ignored when getInstance has already been called once.
-    /// \param lang Lang to use. Default "en". May be "it", "de", "fr" if such xml files exist.
+    /// \param _lang Lang to use. Default "en". May be "it", "de", "fr" if such xml files exist.
     /// \return The language manager itself.
-    static std::unique_ptr<LanguageManager>& getInstance(const std::string& lang = "en");
+    static std::unique_ptr<LanguageManager>& getInstance(const std::string& _lang = "en");
 
     /// \brief Gets a translation for a given key.
-    /// \param key Key to look for.
+    /// \param _key Key to look for.
     /// \return Translated string.
-    const std::string& translate(const std::string& key) const;
+    const std::string& translate(const std::string& _key) const;
 
 private:
 
     /// \brief Constructor. Used internal to create the singleton instance.
-    /// \param lang Lang to use. Default "en". May be "it", "de", "fr" if such xml files exist.
-    LanguageManager(const std::string& lang = "en");
+    /// \param _lang Lang to use. Default "en". May be "it", "de", "fr" if such xml files exist.
+    LanguageManager(const std::string& _lang = "en");
 
     // Singletons should not be cloneable.
-    LanguageManager( LanguageManager& other) = delete;
+    LanguageManager( LanguageManager& _other) = delete;
 
     // Singletons should not be assignable.
-    void operator=(const  LanguageManager&) = delete;
+    void operator=(const  LanguageManager& _other) = delete;
 
     /// \brief Path to translation fiiles.
-    const static std::string dictionariesFolder;
+    const static std::string s_dictionariesFolder;
 
     /// \brief Language manager single instance.
-    static std::unique_ptr<LanguageManager> upInstance;
+    static std::unique_ptr<LanguageManager> s_upInstance;
 
     /// \brief Mutex to handle multi threading creation.
-    static std::mutex mutex;
+    static std::mutex s_mutex;
 
     /// \brief Map containing key to entry mapping.
-    std::map<std::string, std::string> keyToEntry;
+    std::map<std::string, std::string> m_keyToEntry;
 
 public:
 
     /// \brief String returned when key is not found when usgin translate method.
-    static const std::string defaultTranslation;
+    static const std::string s_defaultTranslation;
 
     // To allow make_to create the instance.
     friend std::unique_ptr<LanguageManager> std::make_unique<LanguageManager>(const std::string&);

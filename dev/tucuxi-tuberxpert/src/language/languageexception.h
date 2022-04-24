@@ -16,12 +16,12 @@ public:
     /// \brief Constructor for string.
 
     /// \brief Constructor
-    /// \param msg Message to embeed.
-    explicit LanguageException(const std::string& msg);
+    /// \param _msg Message to embeed.
+    explicit LanguageException(const std::string& _msg);
 
     /// \brief Constructor
-    /// \param msg Message to embeed.
-    explicit LanguageException(const char* msg);
+    /// \param _msg Message to embeed.
+    explicit LanguageException(const char* _msg);
 };
 
 } // namespace Language
