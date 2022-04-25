@@ -7,8 +7,8 @@
 
 #include "language/languagemanager.h"
 #include "query/xpertqueryimport.h"
+#include "query/xpertquerydata.h"
 
-#include "tucuquery/querydata.h"
 #include <fstream>
 
 using namespace std;
@@ -113,10 +113,10 @@ int main(int argc, char** argv)
     }
     std::string xmlString((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
 
-    std::unique_ptr<Tucuxi::Query::QueryData> query = nullptr;
+    std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
 
-    //Tucuxi::XpertQuery::XpertQueryImport importer;
-    //Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
+    Tucuxi::XpertQuery::XpertQueryImport importer;
+    Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
     logHelper.info("Tuberxpert console application is exiting...");
 

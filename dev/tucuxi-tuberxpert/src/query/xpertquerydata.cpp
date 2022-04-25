@@ -18,15 +18,15 @@ XpertQueryData::XpertQueryData(
         m_pAdministrative(move(_pAdministrative)), m_xpertRequests(move(_xpertRequests))
 {}
 
-//const Query::AdministrativeData& XpertQueryData::getpAdministrative() const
-//{
-//    return *m_pAdministrative;
-//}
+const Query::AdministrativeData& XpertQueryData::getpAdministrative() const
+{
+    return *m_pAdministrative;
+}
 
-//const std::vector<std::unique_ptr<XpertRequestData> > &XpertQueryData::getXpertRequests() const
-//{
-//    return m_xpertRequests;
-//}
+const std::vector<std::unique_ptr<XpertRequestData> > &XpertQueryData::getXpertRequests() const
+{
+    return m_xpertRequests;
+}
 
 
 } // namespace XpertQuery

@@ -690,7 +690,7 @@ with the DosageHistory class and AbstractDosage subclasses -->
 
 <xs:complexType name="requestXpertType">
 	<xs:sequence>
-		<xs:element name="queryId" type="xs:string" />
+		<xs:element name="drugId" type="xs:string" />
 		<xs:element name="localComputation" type="xs:boolean"/>
 		<xs:element name="output">
 			<xs:complexType>

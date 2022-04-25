@@ -45,15 +45,15 @@ public:
     /// \brief Copy constructor is not supported.
     ///  The copy constructor is not supported because of the use of
     ///  unique_ptr wich can't be copied.
-    XpertQueryData(const QueryData& _other) = delete;
+    XpertQueryData(const QueryData& _other) = delete;    
 
-//    /// \brief Gets administrative information.
-//    /// \return The administrative information.
-//    const Query::AdministrativeData& getpAdministrative() const;
+    /// \brief Gets administrative information.
+    /// \return The administrative information.
+    const Query::AdministrativeData& getpAdministrative() const;
 
-//    /// \brief Get the custom requests for tuberXpert
-//    /// \return A vector of custom requests.
-//    const std::vector<std::unique_ptr<XpertRequestData>>& getXpertRequests() const;
+    /// \brief Get the custom requests for tuberXpert
+    /// \return A vector of custom requests.
+    const std::vector<std::unique_ptr<XpertRequestData>>& getXpertRequests() const;
 
 protected:
     /// Administrative information.
