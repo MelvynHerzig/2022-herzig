@@ -10,7 +10,7 @@
     <admin>
 		<mandator>
 			<person>
-			  <id>asdf</id>
+			    <id>asdf</id>
 				<title>Dr.</title>
 				<firstName>John</firstName>
 				<lastName>Doe</lastName>
@@ -23,7 +23,7 @@
 				</address>
 				<phone>
 					<number>0213140002</number>
-					<type>work</type>
+					<type>professional</type>
 				</phone>
 				<email>
 					<address>john.doe@chuv.com</address>
@@ -42,7 +42,7 @@
 				</address>
 				<phone>
 					<number>0213140001</number>
-					<type>work</type>
+					<type>professional</type>
 				</phone>
 				<email>
 					<address>info@chuv.com</address>
@@ -54,11 +54,7 @@
 			<person>
 				<id>123456</id>
 				<firstName>Alice</firstName>
-				<middleName></middleName>
 				<lastName>Aupaysdesmerveilles</lastName>
-				<birthdate>1970-01-01T00:00:00</birthdate>
-				<gender>Woman</gender>
-				<hospitalStayNumber>1337</hospitalStayNumber>
 				<address>
 					<street>Av. d'Ouchy 27</street>
 					<postCode>1006</postCode>
@@ -68,13 +64,32 @@
 				</address>
 				<phone>
 					<number>0216170002</number>
-					<type>work</type>
+					<type>professional</type>
 				</phone>
 				<email>
 					<address>alice.apdm@gmail.com</address>
 					<type>private</type>
 				</email>
 			</person>
+            <institute>
+				<id>1234</id>
+				<name>EHNV</name>
+				<address>
+					<street>Street name 2</street>
+					<postCode>1400</postCode>
+					<city>Yverdon-les-Bains</city>
+					<state>Vaud</state>
+					<country>Suisse</country>
+				</address>
+				<phone>
+					<number>0123456789</number>
+					<type>professional</type>
+				</phone>
+				<email>
+					<address>info@ehnv.com</address>
+					<type>professional</type>
+				</email>
+			</institute>
 		</patient>
 		<clinicalData>
 			<note>random note</note>

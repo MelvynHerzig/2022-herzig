@@ -41,7 +41,8 @@ int main(int argc, char** argv)
 #if defined(test_query)
     TestXpertQueryImport QueryImportTests;
 
-    QueryImportTests.add_test("Get complete admin", &TestXpertQueryImport::retrieveCompleteAdmin);
+    QueryImportTests.add_test("Get complete admin element", &TestXpertQueryImport::retrieveCompleteAdmin);
+    QueryImportTests.add_test("Get no admin element", &TestXpertQueryImport::retrieveNoAdmin);
 
     res = QueryImportTests.run(argc, argv);
     if (res != 0) {

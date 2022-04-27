@@ -167,8 +167,8 @@ std::unique_ptr<Query::PersonalContact> XpertQueryImport::createPersonalContact(
 
     string id = getChildStringOptional(_personalContactRootIterator, ID_NODE_NAME, "");
     string title = getChildStringOptional(_personalContactRootIterator, TITLE_NODE_NAME, "");
-    string firstname = getChildStringOptional(_personalContactRootIterator, FIRSTNAME_NODE_NAME, "");
-    string lastname = getChildStringOptional(_personalContactRootIterator, LASTNAME_NODE_NAME, "");
+    string firstname = getChildString(_personalContactRootIterator, FIRSTNAME_NODE_NAME);
+    string lastname = getChildString(_personalContactRootIterator, LASTNAME_NODE_NAME);
     Common::XmlNodeIterator iterator = _personalContactRootIterator->getChildren(ADDRESS_NODE_NAME);
     unique_ptr<Query::Address> pAddress = createAddress(iterator);
     iterator = _personalContactRootIterator->getChildren(PHONE_NODE_NAME);

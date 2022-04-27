@@ -37,3 +37,6 @@ HEADERS += \
 
 OTHER_FILES += \
     query/complete_admin.tqf
+
+DISTFILES += \
+    query/no_admin.tqf

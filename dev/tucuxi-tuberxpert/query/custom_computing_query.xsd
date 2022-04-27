@@ -54,41 +54,18 @@
 		<xs:element name="mandator" minOccurs="0">
 			<xs:complexType>
 				<xs:sequence>
-					<xs:element name="person" minOccurs="0">
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element name="id" type="xs:string" minOccurs="0" />
-								<xs:element name="title" type="xs:string" minOccurs="0" />
-								<xs:element name="firstName" type="xs:string" minOccurs="0" />
-								<xs:element name="lastName" type="xs:string" minOccurs="0" />
-								<xs:group ref="contactGroup" minOccurs="0" />
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
+					<xs:element name="person" type="personType"/>
 					<xs:element name="institute" type="instituteType" minOccurs="0" />
 				</xs:sequence>
-			</xs:complexType>
+			</xs:complexType>	
 		</xs:element>
 		<xs:element name="patient" minOccurs="0">
 			<xs:complexType>
 				<xs:sequence>
-					<xs:element name="person" minOccurs="0">
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element name="id" type="xs:string" minOccurs="0" />
-								<xs:element name="firstName" type="xs:string" minOccurs="0" />
-								<xs:element name="middleName" type="xs:string" minOccurs="0" />
-								<xs:element name="lastName" type="xs:string" minOccurs="0" />
-								<xs:element name="birthdate" type="xs:dateTime" minOccurs="0" />
-								<xs:element name="gender" type="xs:string" minOccurs="0" />
-								<xs:element name="hospitalStayNumber" type="xs:string" minOccurs="0" />
-								<xs:group ref="contactGroup" minOccurs="0" />
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
+					<xs:element name="person" type="personType"/>
 					<xs:element name="institute" type="instituteType" minOccurs="0" />
 				</xs:sequence>
-			</xs:complexType>
+			</xs:complexType>	
 		</xs:element>
 		<xs:element name="clinicalData" minOccurs="0">
 			<xs:complexType>
@@ -100,18 +77,28 @@
 	</xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="personType">
+	<xs:sequence>
+		<xs:element name="id" type="xs:string" minOccurs="0" />
+		<xs:element name="title" type="xs:string" minOccurs="0" />
+		<xs:element name="firstName" type="xs:string" />
+		<xs:element name="lastName" type="xs:string" />
+		<xs:group ref="contactGroup" />
+	</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="instituteType">
 	<xs:sequence>
 		<xs:element name="id" type="xs:string" minOccurs="0" />
-		<xs:element name="name" type="xs:string" minOccurs="0" />
-		<xs:group ref="contactGroup" minOccurs="0" />
+		<xs:element name="name" type="xs:string" />
+		<xs:group ref="contactGroup" />
 	</xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="addressType">
 	<xs:sequence>
-		<xs:element name="street" type="xs:string" minOccurs="0" />
-		<xs:element name="postCode" minOccurs="0">
+		<xs:element name="street" type="xs:string" />
+		<xs:element name="postCode" >
 			<xs:simpleType>
 				 <xs:restriction base="xs:string">
 				 	<!-- 4 digit number that can't begin with a 0 -->
@@ -119,7 +106,7 @@
 			    </xs:restriction>
 			</xs:simpleType>
 		</xs:element>
-		<xs:element name="city" type="xs:string" minOccurs="0" />
+		<xs:element name="city" type="xs:string" />
 		<xs:element name="state" type="xs:string" minOccurs="0" />
 		<xs:element name="country" type="xs:string" minOccurs="0" />
 	</xs:sequence>
@@ -128,19 +115,30 @@
 <xs:complexType name="phoneType">
 	<xs:sequence>
 		<!-- Number hasn't a regex restriction because of other coutries phone numbers -->
-		<xs:element name="number" type="xs:string" minOccurs="0" />
-		<xs:element name="type" type="xs:string" minOccurs="0" />
+		<xs:element name="number" type="xs:string" />
+		<xs:element name="type" type="coordinateType" minOccurs="0" />
 	</xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="emailType">
 	<xs:sequence>
-		<!-- Address hasn't a regex restriction because there's 
-		a problem with meta characters for this particular regex -->
-		<xs:element name="address" type="xs:string" minOccurs="0" />
-		<xs:element name="type" type="xs:string" minOccurs="0" />
+		<xs:element name="address">
+			<xs:simpleType>
+    			<xs:restriction base="xs:string">
+        			<xs:pattern value="([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})"/>
+    			</xs:restriction>
+			</xs:simpleType>
+		</xs:element>	
+		<xs:element name="type" type="coordinateType" minOccurs="0" />
 	</xs:sequence>
 </xs:complexType>
+
+<xs:simpleType name="coordinateType">
+	<xs:restriction base="xs:string">
+		<xs:enumeration value="private" />
+		<xs:enumeration value="professional" />
+	</xs:restriction>
+</xs:simpleType>
 
 <!-- ##################################################################### -->
 <!-- Global groups for administrative informations -->

@@ -18,9 +18,14 @@ XpertQueryData::XpertQueryData(
         m_pAdministrative(move(_pAdministrative)), m_xpertRequests(move(_xpertRequests))
 {}
 
-const Query::AdministrativeData& XpertQueryData::getpAdministrative() const
+optional<reference_wrapper<const Query::AdministrativeData>> XpertQueryData::getpAdministrative() const
 {
-    return *m_pAdministrative;
+    // Admin is optional info in XML.
+    if(m_pAdministrative != nullptr) {
+        return optional<reference_wrapper<Query::AdministrativeData>>{*m_pAdministrative};
+    }
+
+    return nullopt;
 }
 
 const std::vector<std::unique_ptr<XpertRequestData> > &XpertQueryData::getXpertRequests() const

@@ -1,6 +1,8 @@
 #ifndef XPERTQUERYDATA_H
 #define XPERTQUERYDATA_H
 
+#include <optional>
+
 #include "tucuquery/querydata.h"
 #include "tucuquery/parametersdata.h"
 
@@ -49,7 +51,7 @@ public:
 
     /// \brief Gets administrative information.
     /// \return The administrative information.
-    const Query::AdministrativeData& getpAdministrative() const;
+    std::optional<std::reference_wrapper<const Query::AdministrativeData>> getpAdministrative() const;
 
     /// \brief Get the custom requests for tuberXpert
     /// \return A vector of custom requests.
