@@ -87,7 +87,14 @@ protected:
     /// \brief Extracts a custom Xpert Request from the xml.
     /// \param _requestXpertRootIterator XpertRequest node to start from.
     /// \return Unique pointer on request xpert data.
-    std::unique_ptr<XpertRequestData> createRequest(Common::XmlNodeIterator& _requestXpertRootIterator);
+    std::unique_ptr<XpertRequestData> createRequestXpert(Common::XmlNodeIterator& _requestXpertRootIterator);
+
+    /// \brief getChildStringOptional Extract a child string value with optionnal value if not present.
+    /// \param _rootIterator Iterator to get child string value.
+    /// \param _childName Child name of iterator to extract string.
+    /// \param _defaultValue Default value to return if child name is not present.
+    /// \return  Return the value from child if present otherwise _defaultValue.
+    std::string getChildStringOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName, std::string _defaultValue);
 };
 
 } // namespace XpertQuery

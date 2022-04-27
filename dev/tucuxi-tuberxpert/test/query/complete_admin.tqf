@@ -142,29 +142,7 @@
                                 <unit>mg/l</unit>
                             </concentration>
                         </concentrations>
-                    </sample> <!--
-                    <sample>
-                        <sampleId>123456</sampleId>
-                        <sampleDate>2018-07-07T07:00:00</sampleDate>
-                        <concentrations>
-                            <concentration>
-                                <analyteId>rifampicin</analyteId>
-                                <value>0.6</value>
-                                <unit>mg/l</unit>
-                            </concentration>
-                        </concentrations>
-                    </sample>
-                    <sample>
-                        <sampleId>123456</sampleId>
-                        <sampleDate>2018-07-07T13:00:00</sampleDate>
-                        <concentrations>
-                            <concentration>
-                                <analyteId>rifampicin</analyteId>
-                                <value>0.8</value>
-                                <unit>mg/l</unit>
-                            </concentration>
-                        </concentrations>
-                    </sample> -->
+                    </sample> 
                 </samples>
                 <!-- Personalised targets -->
                 <targets>
@@ -221,73 +199,5 @@
               </dateInterval>
             </predictionTraits>
         </request>
-        <!--<request>
-            <requestId>apriori_1</requestId>
-            <drugId>rifampicin</drugId>
-            <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-            <predictionTraits>
-              <computingOption>
-                <parametersType>apriori</parametersType>
-                <compartmentOption>allActiveMoieties</compartmentOption>
-                <retrieveStatistics>true</retrieveStatistics>
-                <retrieveParameters>true</retrieveParameters>
-                <retrieveCovariates>true</retrieveCovariates>
-              </computingOption>
-              <nbPointsPerHour>20</nbPointsPerHour>
-              <dateInterval>
-                  <start>2018-07-06T08:00:00</start>
-                  <end>2018-07-08T08:00:00</end>
-              </dateInterval>
-            </predictionTraits>
-        </request>
-
-        <request>
-            <requestId>aposteriori_1</requestId>
-            <drugId>rifampicin</drugId>
-            <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-            <predictionTraits>
-              <computingOption>
-                <parametersType>aposteriori</parametersType>
-                <compartmentOption>allActiveMoieties</compartmentOption>
-                <retrieveStatistics>true</retrieveStatistics>
-                <retrieveParameters>true</retrieveParameters>
-                <retrieveCovariates>true</retrieveCovariates>
-              </computingOption>
-              <nbPointsPerHour>20</nbPointsPerHour>
-              <dateInterval>
-                  <start>2018-07-06T08:00:00</start>
-                  <end>2018-07-08T08:00:00</end>
-              </dateInterval>
-            </predictionTraits>
-        </request>
-
-        <request>
-            <requestId>population_1_percentiles</requestId>
-            <drugId>rifampicin</drugId>
-            <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-            <percentilesTraits>
-              <computingOption>
-                <parametersType>population</parametersType>
-                <compartmentOption>allActiveMoieties</compartmentOption>
-                <retrieveStatistics>true</retrieveStatistics>
-                <retrieveParameters>true</retrieveParameters>
-                <retrieveCovariates>true</retrieveCovariates>
-              </computingOption>
-              <nbPointsPerHour>20</nbPointsPerHour>
-              <dateInterval>
-                  <start>2018-07-06T08:00:00</start>
-                  <end>2018-07-08T08:00:00</end>
-              </dateInterval>
-              <ranks>
-                  <rank>5</rank>
-                  <rank>10</rank>
-                  <rank>25</rank>
-                  <rank>50</rank>
-                  <rank>75</rank>
-                  <rank>90</rank>
-                  <rank>95</rank>
-              </ranks>
-            </percentilesTraits>
-        </request>-->
     </requests>
 </query>

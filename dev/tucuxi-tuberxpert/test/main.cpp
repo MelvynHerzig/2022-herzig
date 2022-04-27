@@ -4,6 +4,10 @@
 #include "test_languagemanager.h"
 #endif
 
+#if defined(test_query)
+#include "test_xpertqueryimport.h"
+#endif
+
 using namespace std;
 
 /// \brief Testing program.
@@ -31,6 +35,21 @@ int main(int argc, char** argv)
     }
     else {
         std::cout << "Language module test succeeded\n";
+    }
+#endif
+
+#if defined(test_query)
+    TestXpertQueryImport QueryImportTests;
+
+    QueryImportTests.add_test("Get complete admin", &TestXpertQueryImport::retrieveCompleteAdmin);
+
+    res = QueryImportTests.run(argc, argv);
+    if (res != 0) {
+        printf("Query import module test failed\n");
+        exit(1);
+    }
+    else {
+        std::cout << "Query import module test succeeded\n";
     }
 #endif
 

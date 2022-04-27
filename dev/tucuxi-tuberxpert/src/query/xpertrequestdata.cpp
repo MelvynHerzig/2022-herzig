@@ -4,7 +4,7 @@ namespace Tucuxi {
 namespace XpertQuery {
 
 XpertRequestData::XpertRequestData(
-        std::string& _drugID,
+        const std::string& _drugID,
         bool _localComputation,
         OutputFormat _outputFormat,
         OutputLang _outputLang,

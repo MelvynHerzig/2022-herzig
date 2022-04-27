@@ -14,7 +14,8 @@ win32 {
 include(../../tucuxi-core/make/qtcreator/general.pri)
 include(../../tucuxi-core/make/qtcreator/tucucommon.pri)
 include(../../tucuxi-core/make/qtcreator/tucucore.pri)
-include(../src/language/tuculanguage.pri)
+include(../../tucuxi-core/make/qtcreator/tucuquery.pri)
+include(../src/tuberxpert.pri)
 
 SOURCES += \
         main.cpp
@@ -28,7 +29,11 @@ SOURCES += \
 }
 
 DEFINES+= \
-    test_language
+    test_query
 
 HEADERS += \
-    test_languagemanager.h
+    test_languagemanager.h \
+    test_xpertqueryimport.h
+
+OTHER_FILES += \
+    query/complete_admin.tqf

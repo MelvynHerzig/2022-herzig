@@ -86,13 +86,14 @@ Common::IImport::Status XpertQueryImport::importDocument(std::unique_ptr<XpertQu
         requestsIterator++;
     }
 
+    requestsRootIterator = root.getChildren(REQUESTS_NODE_NAME);
     Common::XmlNodeIterator requestsXpertIterator = requestsRootIterator->getChildren(REQUEST_XPERT_REQUESTS_NODE_NAME);
-    checkNodeIterator(requestsIterator, REQUEST_REQUESTS_NODE_NAME);
+    checkNodeIterator(requestsXpertIterator, REQUEST_XPERT_REQUESTS_NODE_NAME);
 
     vector<unique_ptr<XpertRequestData> > requestsXpert;
-    while (requestsIterator != Common::XmlNodeIterator::none()) {
-        //requests.emplace_back(createRequest(requestsIterator));
-        requestsIterator++;
+    while (requestsXpertIterator != Common::XmlNodeIterator::none()) {
+        requestsXpert.emplace_back(createRequestXpert(requestsXpertIterator));
+        requestsXpertIterator++;
     }
 
     _query = std::make_unique<XpertQueryData>(queryId, clientId, date, language,  move(pAdministrativeData), move(pParametersData), requests, requestsXpert);
@@ -164,10 +165,10 @@ std::unique_ptr<Query::PersonalContact> XpertQueryImport::createPersonalContact(
     static const string PHONE_NODE_NAME = "phone";
     static const string EMAIL_NODE_NAME = "email";
 
-    string id = getChildString(_personalContactRootIterator, ID_NODE_NAME);
-    string title = getChildString(_personalContactRootIterator, TITLE_NODE_NAME);
-    string firstname = getChildString(_personalContactRootIterator, FIRSTNAME_NODE_NAME);
-    string lastname = getChildString(_personalContactRootIterator, LASTNAME_NODE_NAME);
+    string id = getChildStringOptional(_personalContactRootIterator, ID_NODE_NAME, "");
+    string title = getChildStringOptional(_personalContactRootIterator, TITLE_NODE_NAME, "");
+    string firstname = getChildStringOptional(_personalContactRootIterator, FIRSTNAME_NODE_NAME, "");
+    string lastname = getChildStringOptional(_personalContactRootIterator, LASTNAME_NODE_NAME, "");
     Common::XmlNodeIterator iterator = _personalContactRootIterator->getChildren(ADDRESS_NODE_NAME);
     unique_ptr<Query::Address> pAddress = createAddress(iterator);
     iterator = _personalContactRootIterator->getChildren(PHONE_NODE_NAME);
@@ -198,8 +199,8 @@ std::unique_ptr<Query::InstituteContact> XpertQueryImport::createInstituteContac
     static const string PHONE_NODE_NAME = "phone";
     static const string EMAIL_NODE_NAME = "email";
 
-    string id = getChildString(_instituteContactRootIterator, ID_NODE_NAME);
-    string name = getChildString(_instituteContactRootIterator, NAME_NODE_NAME);
+    string id = getChildStringOptional(_instituteContactRootIterator, ID_NODE_NAME, "");
+    string name = getChildStringOptional(_instituteContactRootIterator, NAME_NODE_NAME, "");
     Common::XmlNodeIterator iterator = _instituteContactRootIterator->getChildren(ADDRESS_NODE_NAME);
     unique_ptr<Query::Address> pAddress = createAddress(iterator);
     iterator = _instituteContactRootIterator->getChildren(PHONE_NODE_NAME);
@@ -228,11 +229,11 @@ std::unique_ptr<Query::Address> XpertQueryImport::createAddress(Common::XmlNodeI
     static const string STATE_NODE_NAME = "state";
     static const string COUNTRY_NODE_NAME = "country";
 
-    string street = getChildString(_addressRootIterator, STREET_NODE_NAME);
+    string street = getChildStringOptional(_addressRootIterator, STREET_NODE_NAME, "");
     int postalCode = getChildInt(_addressRootIterator, POSTALCODE_NODE_NAME);
-    string city = getChildString(_addressRootIterator, CITY_NODE_NAME);
-    string state = getChildString(_addressRootIterator, STATE_NODE_NAME);
-    string country = getChildString(_addressRootIterator, COUNTRY_NODE_NAME);
+    string city = getChildStringOptional(_addressRootIterator, CITY_NODE_NAME, "");
+    string state = getChildStringOptional(_addressRootIterator, STATE_NODE_NAME, "");
+    string country = getChildStringOptional(_addressRootIterator, COUNTRY_NODE_NAME, "");
 
     return make_unique<Query::Address>(
                 street,
@@ -249,11 +250,11 @@ std::unique_ptr<Query::Phone> XpertQueryImport::createPhone(Common::XmlNodeItera
         return nullptr;
     }
 
-    static const string NUMBER_NODE_NAME = "address";
+    static const string NUMBER_NODE_NAME = "number";
     static const string TYPE_NODE_NAME = "type";
 
-    string number = getChildString(_phoneRootIterator, NUMBER_NODE_NAME);
-    string type = getChildString(_phoneRootIterator, TYPE_NODE_NAME);
+    string number = getChildStringOptional(_phoneRootIterator, NUMBER_NODE_NAME, "");
+    string type = getChildStringOptional(_phoneRootIterator, TYPE_NODE_NAME, "");
 
     return make_unique<Query::Phone>(number, type);
 }
@@ -267,8 +268,8 @@ std::unique_ptr<Query::Email> XpertQueryImport::createEmail(Common::XmlNodeItera
     static const string ADDRESS_NODE_NAME = "address";
     static const string TYPE_NODE_NAME = "type";
 
-    string address = getChildString(_emailRootIterator, ADDRESS_NODE_NAME);
-    string type = getChildString(_emailRootIterator, TYPE_NODE_NAME);
+    string address = getChildStringOptional(_emailRootIterator, ADDRESS_NODE_NAME, "");
+    string type = getChildStringOptional(_emailRootIterator, TYPE_NODE_NAME, "");
 
     return make_unique<Query::Email>(address, type);
 }
@@ -290,7 +291,7 @@ std::unique_ptr<Query::ClinicalData> XpertQueryImport::createClinicalData(Common
     return make_unique<Query::ClinicalData>(data);
 }
 
-std::unique_ptr<XpertRequestData> XpertQueryImport::createRequest(Common::XmlNodeIterator &_requestXpertRootIterator)
+std::unique_ptr<XpertRequestData> XpertQueryImport::createRequestXpert(Common::XmlNodeIterator& _requestXpertRootIterator)
 {
     static const string DRUG_ID_NODE_NAME = "drugId";
     static const string LOCAL_COMPUTATION_NODE_NAME = "localComputation";
@@ -298,67 +299,75 @@ std::unique_ptr<XpertRequestData> XpertQueryImport::createRequest(Common::XmlNod
     static const string DATE_ADJUSTMENT_TIME_NODE_NAME = "adjustmentDate";
     static const string OPTIONS_NODE_NAME = "options";
 
-    return nullptr;
+    string drugId = getChildString(_requestXpertRootIterator, DRUG_ID_NODE_NAME);
+    bool localComputation = getChildBool(_requestXpertRootIterator, LOCAL_COMPUTATION_NODE_NAME);
+
+    Common::XmlNodeIterator outputRootIterator = _requestXpertRootIterator->getChildren(OUTPUT_NODE_NAME);
+
+    static const string FORMAT_NODE_NAME = "format";
+    static const string LANGUAGE_NODE_NAME = "language";
+
+    string formatStr = getChildString(outputRootIterator, FORMAT_NODE_NAME);
+    OutputFormat format;
+
+    if(formatStr == "xml") {
+        format = OutputFormat::XML;
+    } else if (formatStr == "html") {
+        format = OutputFormat::HTML;
+    }
+
+    string languageStr = getChildString(outputRootIterator, LANGUAGE_NODE_NAME);
+
+    OutputLang language;
+
+    if(languageStr == "en") {
+        language = OutputLang::ENGLISH;
+    }
+
+    Common::DateTime adjustmentTime = getChildDateTime(_requestXpertRootIterator, DATE_ADJUSTMENT_TIME_NODE_NAME);
+
+    Tucuxi::Core::BestCandidatesOption bestCandidateOption = getChildBestCandidatesOptionEnum(_requestXpertRootIterator, OPTIONS_NODE_NAME);
+
+    Tucuxi::Core::LoadingOption loadingOption = getChildLoadingOptionEnum(_requestXpertRootIterator, OPTIONS_NODE_NAME);
+
+    Tucuxi::Core::RestPeriodOption restPeriodOption = getChildRestPeriodTargetOptionEnum(_requestXpertRootIterator, OPTIONS_NODE_NAME);
+
+    Tucuxi::Core::SteadyStateTargetOption steadyStateTargetOption =
+            getChildSteadyStateTargetOptionEnum(_requestXpertRootIterator, OPTIONS_NODE_NAME);
+
+    Tucuxi::Core::TargetExtractionOption targetExtractionOption =
+            getChildTargetExtractionOptionEnum(_requestXpertRootIterator, OPTIONS_NODE_NAME);
+
+    Tucuxi::Core::FormulationAndRouteSelectionOption formulationAndRouteSelectionOption =
+            getChildFormulationAndRouteSelectionOptionEnum(_requestXpertRootIterator, OPTIONS_NODE_NAME);
+
+
+    return make_unique<XpertRequestData>(drugId,
+                                         localComputation,
+                                         format,
+                                         language,
+                                         adjustmentTime,
+                                         bestCandidateOption,
+                                         loadingOption,
+                                         restPeriodOption,
+                                         steadyStateTargetOption,
+                                         targetExtractionOption,
+                                         formulationAndRouteSelectionOption);
 }
-//unique_ptr<RequestData> QueryImport::createRequest(Tucuxi::Common::XmlNodeIterator& _requestRootIterator)
-//{
-//    static const string REQUEST_ID_NODE_NAME = "requestId";
-//    static const string DRUG_ID_NODE_NAME = "drugId";
-//    static const string DRUGMODEL_ID_NODE_NAME = "drugModelId";
-//    static const string COMPUTING_TRAIT_ADJUSTMENT_NAME = "adjustmentTraits";
-//    static const string COMPUTING_TRAIT_CONCENTRATION_NAME = "predictionTraits";
-//    static const string COMPUTING_TRAIT_PERCENTILES_NAME = "percentilesTraits";
-//    static const string COMPUTING_TRAIT_SINGLE_POINT_NAME = "predictionAtTimesTraits";
-//    static const string COMPUTING_TRAIT_AT_MESURE_NAME = "predictionAtSampleTimesTraits";
 
-//    string requestId = getChildString(_requestRootIterator, REQUEST_ID_NODE_NAME);
-//    string drugId = getChildString(_requestRootIterator, DRUG_ID_NODE_NAME);
-//    string drugModelId = getChildString(_requestRootIterator, DRUGMODEL_ID_NODE_NAME);
+string XpertQueryImport::getChildStringOptional(
+        Common::XmlNodeIterator _rootIterator,
+        const std::string& _childName,
+        string _defaultValue)
+{
+    auto child = _rootIterator->getChildren(_childName);
 
-//    unique_ptr<Tucuxi::Core::ComputingTrait> computingTrait;
-//    Common::XmlNodeIterator computingTraitAdjustmentRootIterator =
-//            _requestRootIterator->getChildren(COMPUTING_TRAIT_ADJUSTMENT_NAME);
+    if (child == Common::XmlNodeIterator::none()) {
+        return _defaultValue;
+    }
+    return extractString(child);
+}
 
-//    if (computingTraitAdjustmentRootIterator != Common::XmlNodeIterator::none()) {
-//        computingTrait = getChildComputingTraitAdjustment(computingTraitAdjustmentRootIterator, requestId);
-//    }
-
-//    Common::XmlNodeIterator computingTraitConcentrationRootIterator =
-//            _requestRootIterator->getChildren(COMPUTING_TRAIT_CONCENTRATION_NAME);
-
-//    if (computingTraitConcentrationRootIterator != Common::XmlNodeIterator::none()) {
-//        computingTrait = getChildComputingTraitConcentration(computingTraitConcentrationRootIterator, requestId);
-//    }
-
-//    Common::XmlNodeIterator computingTraitPercentilesRootIterator =
-//            _requestRootIterator->getChildren(COMPUTING_TRAIT_PERCENTILES_NAME);
-
-//    if (computingTraitPercentilesRootIterator != Common::XmlNodeIterator::none()) {
-//        computingTrait = getChildComputingTraitPercentiles(computingTraitPercentilesRootIterator, requestId);
-//    }
-
-//    Common::XmlNodeIterator computingTraitSinglePointRootIterator =
-//            _requestRootIterator->getChildren(COMPUTING_TRAIT_SINGLE_POINT_NAME);
-
-//    if (computingTraitSinglePointRootIterator != Common::XmlNodeIterator::none()) {
-//        computingTrait = getChildComputingTraitSinglePoints(computingTraitSinglePointRootIterator, requestId);
-//    }
-
-//    Common::XmlNodeIterator computingTraitAtMeasuresRootIterator =
-//            _requestRootIterator->getChildren(COMPUTING_TRAIT_AT_MESURE_NAME);
-
-//    if (computingTraitAtMeasuresRootIterator != Common::XmlNodeIterator::none()) {
-//        computingTrait = getChildComputingTraitAtMeasures(computingTraitAtMeasuresRootIterator, requestId);
-//    }
-
-//    if (computingTrait == nullptr) {
-//        setNodeError(computingTraitAdjustmentRootIterator);
-//    }
-
-
-
-//    return make_unique<RequestData>(requestId, drugId, drugModelId, move(computingTrait));
-//}
 
 } // namespace XpertQuery
 } // namespace Tucuxi

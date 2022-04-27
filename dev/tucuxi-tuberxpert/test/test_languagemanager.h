@@ -37,7 +37,7 @@ struct TestLanguageManager : public fructose::test_base<TestLanguageManager>
         // Test translate
         // world key exists and return World, but "unknown key" is not part of test.xml
         fructose_assert_eq(upLangMgr->translate("world"), "World");
-        fructose_assert_eq(upLangMgr->translate("unknown key"), upLangMgr->defaultTranslation);
+        fructose_assert_eq(upLangMgr->translate("unknown key"), upLangMgr->s_defaultTranslation);
     }
 };
 
