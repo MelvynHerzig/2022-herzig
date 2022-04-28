@@ -43,6 +43,14 @@ int main(int argc, char** argv)
 
     QueryImportTests.add_test("Get complete admin element", &TestXpertQueryImport::retrieveCompleteAdmin);
     QueryImportTests.add_test("Get no admin element", &TestXpertQueryImport::retrieveNoAdmin);
+    QueryImportTests.add_test("Get empty admin element", &TestXpertQueryImport::retrieveEmptyAdmin);
+    QueryImportTests.add_test("Get minimal persons", &TestXpertQueryImport::retrieveMinimalPerson);
+    QueryImportTests.add_test("Get minimal institutes", &TestXpertQueryImport::retrieveMinimalInstitute);
+    QueryImportTests.add_test("Get minimal coordinates", &TestXpertQueryImport::retrieveMinimalCoordinates);
+    QueryImportTests.add_test("Error when missing mandatory values in mandator person", &TestXpertQueryImport::errorWhenMissingMandatoryInMandatorPerson);
+    QueryImportTests.add_test("Error when missing mandatory values in mandator institute", &TestXpertQueryImport::errorWhenMissingMandatoryInMandatorInstitute);
+    QueryImportTests.add_test("Error when missing mandatory values in patient person", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientPerson);
+    QueryImportTests.add_test("Error when missing mandatory values in patient institute", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientInstitute);
 
     res = QueryImportTests.run(argc, argv);
     if (res != 0) {

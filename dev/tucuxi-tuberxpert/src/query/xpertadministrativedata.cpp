@@ -191,12 +191,9 @@ Person::Person(std::unique_ptr<PersonalContact> _pPerson, std::unique_ptr<Instit
 {
 }
 
-optional<reference_wrapper<const PersonalContact>> Person::getpPerson() const
+const PersonalContact& Person::getpPerson() const
 {
-    if(m_pPerson != nullptr){
-        return optional<reference_wrapper<const PersonalContact>>{*m_pPerson};
-    }
-    return nullopt;
+    return *m_pPerson;
 }
 
 optional<reference_wrapper<const InstituteContact>> Person::getpInstitute() const

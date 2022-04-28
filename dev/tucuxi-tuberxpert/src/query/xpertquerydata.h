@@ -7,6 +7,7 @@
 #include "tucuquery/parametersdata.h"
 
 #include "xpertrequestdata.h"
+#include "xpertadministrativedata.h"
 
 namespace Tucuxi {
 namespace XpertQuery {
@@ -37,7 +38,7 @@ public:
             const std::string& _clientID,
             const Common::DateTime& _pQueryDate,
             const std::string& _language,
-            std::unique_ptr<Query::AdministrativeData> _pAdministrative,
+            std::unique_ptr<AdministrativeData> _pAdministrative,
             std::unique_ptr<Query::DrugTreatmentData> _pParameters,
             std::vector<std::unique_ptr<Query::RequestData>>& _requests,
             std::vector<std::unique_ptr<XpertRequestData>>& _xpertRequests);
@@ -49,7 +50,7 @@ public:
 
     /// \brief Gets administrative information.
     /// \return The administrative information.
-    std::optional<std::reference_wrapper<const Query::AdministrativeData>> getpAdministrative() const;
+    std::optional<std::reference_wrapper<const AdministrativeData>> getpAdministrative() const;
 
     /// \brief Get the custom requests for tuberXpert
     /// \return A vector of custom requests.
@@ -57,7 +58,7 @@ public:
 
 protected:
     /// Administrative information.
-    std::unique_ptr<Tucuxi::Query::AdministrativeData> m_pAdministrative;
+    std::unique_ptr<AdministrativeData> m_pAdministrative;
 
     /// Custom requests for tuberXpert.
     std::vector<std::unique_ptr<XpertRequestData>> m_xpertRequests;

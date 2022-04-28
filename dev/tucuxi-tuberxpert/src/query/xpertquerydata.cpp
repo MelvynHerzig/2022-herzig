@@ -10,7 +10,7 @@ XpertQueryData::XpertQueryData(
         const string& _clientID,
         const Common::DateTime& _pQueryDate,
         const string& _language,
-        unique_ptr<Query::AdministrativeData> _pAdministrative,
+        unique_ptr<AdministrativeData> _pAdministrative,
         unique_ptr<Query::DrugTreatmentData> _pParameters,
         vector<unique_ptr<Query::RequestData>>& _requests,
         vector<unique_ptr<XpertRequestData>>& _xpertRequests) :
@@ -18,17 +18,17 @@ XpertQueryData::XpertQueryData(
         m_pAdministrative(move(_pAdministrative)), m_xpertRequests(move(_xpertRequests))
 {}
 
-optional<reference_wrapper<const Query::AdministrativeData>> XpertQueryData::getpAdministrative() const
+optional<reference_wrapper<const AdministrativeData>> XpertQueryData::getpAdministrative() const
 {
     // Admin is optional info in XML.
     if(m_pAdministrative != nullptr) {
-        return optional<reference_wrapper<Query::AdministrativeData>>{*m_pAdministrative};
+        return optional<reference_wrapper<AdministrativeData>>{*m_pAdministrative};
     }
 
     return nullopt;
 }
 
-const std::vector<std::unique_ptr<XpertRequestData> > &XpertQueryData::getXpertRequests() const
+const std::vector<std::unique_ptr<XpertRequestData>>& XpertQueryData::getXpertRequests() const
 {
     return m_xpertRequests;
 }
