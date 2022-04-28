@@ -20,9 +20,7 @@ class XpertQueryData : public Query::QueryData
 public:
     // Constructors
 
-    ///
     /// \brief Default constructor is not supported.
-    ///
     XpertQueryData() = delete;
 
     /// \brief Constructor of a query.

@@ -1,5 +1,6 @@
 
 HEADERS += \
+    $$PWD/query/xpertadministrativedata.h \
     $$PWD/query/xpertquerydata.h \
     $$PWD/query/xpertqueryimport.h \
     $$PWD/language/languageexception.h \
@@ -7,6 +8,7 @@ HEADERS += \
     $$PWD/query/xpertrequestdata.h
 
 SOURCES += \
+    $$PWD/query/xpertadministrativedata.cpp \
     $$PWD/query/xpertquerydata.cpp \
     $$PWD/query/xpertqueryimport.cpp \
     $$PWD/language/languageexception.cpp \
