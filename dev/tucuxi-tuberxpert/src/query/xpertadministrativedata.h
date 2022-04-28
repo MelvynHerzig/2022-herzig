@@ -17,41 +17,75 @@
 namespace Tucuxi {
 namespace XpertQuery {
 
-
+/// \brief Represent an address.
+/// \date 28/04/2022
 class Address
 {
 public:
     // Constructors
+
+    /// \brief Default constructor is not supported.
     Address() = delete;
 
+    /// \brief Address constructor.
+    /// \param _street Street name.
+    /// \param _postCode Post code of the address.
+    /// \param _city City of the address.
+    /// \param _state State of the address.
+    /// \param _country Country of the address.
     Address(const std::string& _street, int _postCode, const std::string& _city, const std::string& _state, const std::string& _country);
 
-    Address(Address& _other) = delete;
-
     // Getters
+    /// \brief Gets the street.
+    /// \return Street string
     const std::string& getStreet() const;
+
+    /// \brief Get the address post code.
+    /// \return Post code integer.
     int getPostCode() const;
+
+    /// \brief Gets the city.
+    /// \return City name string.
     const std::string& getCity() const;
+
+    /// \brief Gets the state.
+    /// \return State name string
     const std::string& getState() const;
+
+    /// \brief Gets the country
+    /// \return Country name string.
     const std::string& getCountry() const;
 
 protected:
+    /// street of the address.
     const std::string m_street;
+
+    /// Post code of the address.
     const int m_postCode;
+
+    /// City of the address.
     const std::string m_city;
+
+    /// State of the address.
     const std::string m_state;
+
+    /// Country of the address.
     const std::string m_country;
 };
 
+/// \brief Represent phone number
+/// \date 28/04/2022
 class Phone
 {
 public:
     // Constructors
+    /// \brief Default constructor is not supported.
     Phone() = delete;
 
+    /// \brief Phone constructor.
+    /// \param _number Phone number.
+    /// \param _type Phone type.
     Phone(const std::string& _number, const std::string& _type);
-
-    Phone(Phone& _other) = delete;
 
     // Getters
     const std::string& getNumber() const;
@@ -158,8 +192,8 @@ public:
     Person(Person& _other) = delete;
 
     // Getters
-    const PersonalContact& getpPerson() const;
-    const InstituteContact& getpInstitute() const;
+    std::optional<std::reference_wrapper<const PersonalContact>> getpPerson() const;
+    std::optional<std::reference_wrapper<const InstituteContact>> getpInstitute() const;
 
 protected:
     std::unique_ptr<PersonalContact> m_pPerson;
@@ -172,7 +206,7 @@ public:
     // Constructors
     ClinicalData() = delete;
 
-    ClinicalData(std::map<std::string, std::string>& _data);
+    ClinicalData(const std::map<std::string, std::string>& _data);
 
     ClinicalData(ClinicalData& _other) = delete;
 
@@ -212,6 +246,11 @@ public:
     std::optional<std::reference_wrapper<const Person>> getpMandator() const;
     std::optional<std::reference_wrapper<const Person>> getpPatient() const;
     std::optional<std::reference_wrapper<const ClinicalData>> getpClinicalData() const;
+
+protected:
+    std::unique_ptr<Person> m_pMandator;
+    std::unique_ptr<Person> m_pPatient;
+    std::unique_ptr<ClinicalData> m_pClinicalData;
 };
 
 } // namespace XpertQuery
