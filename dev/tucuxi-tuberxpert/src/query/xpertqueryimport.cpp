@@ -332,19 +332,19 @@ std::unique_ptr<XpertRequestData> XpertQueryImport::createRequestXpert(Common::X
             getChildDateTime(_requestXpertRootIterator, DATE_ADJUSTMENT_TIME_NODE_NAME);
 
     Tucuxi::Core::BestCandidatesOption bestCandidateOption =
-            getChildBestCandidatesOptionEnum(_requestXpertRootIterator, OPTIONS_NODE_NAME);
+            getChildBestCandidatesOptionEnumOptional(_requestXpertRootIterator, OPTIONS_NODE_NAME);
 
     Tucuxi::Core::LoadingOption loadingOption =
-            getChildLoadingOptionEnum(_requestXpertRootIterator, OPTIONS_NODE_NAME);
+            getChildLoadingOptionEnumOptional(_requestXpertRootIterator, OPTIONS_NODE_NAME);
 
     Tucuxi::Core::RestPeriodOption restPeriodOption =
-            getChildRestPeriodTargetOptionEnum(_requestXpertRootIterator, OPTIONS_NODE_NAME);
+            getChildRestPeriodTargetOptionEnumOptional(_requestXpertRootIterator, OPTIONS_NODE_NAME);
 
     Tucuxi::Core::TargetExtractionOption targetExtractionOption =
-            getChildTargetExtractionOptionEnum(_requestXpertRootIterator, OPTIONS_NODE_NAME);
+            getChildTargetExtractionOptionEnumOptional(_requestXpertRootIterator, OPTIONS_NODE_NAME);
 
     Tucuxi::Core::FormulationAndRouteSelectionOption formulationAndRouteSelectionOption =
-            getChildFormulationAndRouteSelectionOptionEnum(_requestXpertRootIterator, OPTIONS_NODE_NAME);
+            getChildFormulationAndRouteSelectionOptionEnumOptional(_requestXpertRootIterator, OPTIONS_NODE_NAME);
 
 
     return make_unique<XpertRequestData>(drugId,
@@ -372,7 +372,7 @@ string XpertQueryImport::getChildStringOptional(
     return extractString(child);
 }
 
-Core::BestCandidatesOption XpertQueryImport::getChildBestCandidatesOptionEnum(
+Core::BestCandidatesOption XpertQueryImport::getChildBestCandidatesOptionEnumOptional(
         Common::XmlNodeIterator _rootIterator, const std::string& _childName)
 {
 
@@ -397,7 +397,7 @@ Core::BestCandidatesOption XpertQueryImport::getChildBestCandidatesOptionEnum(
     return Core::BestCandidatesOption::BestDosagePerInterval;
 }
 
-Core::LoadingOption XpertQueryImport::getChildLoadingOptionEnum(
+Core::LoadingOption XpertQueryImport::getChildLoadingOptionEnumOptional(
         Common::XmlNodeIterator _rootIterator, const std::string& _childName)
 {
     static const string LOADING_OPTION_NODE = "loadingOption";
@@ -420,7 +420,7 @@ Core::LoadingOption XpertQueryImport::getChildLoadingOptionEnum(
     return Core::LoadingOption::LoadingDoseAllowed;
 }
 
-Core::RestPeriodOption XpertQueryImport::getChildRestPeriodTargetOptionEnum(
+Core::RestPeriodOption XpertQueryImport::getChildRestPeriodTargetOptionEnumOptional(
         Common::XmlNodeIterator _rootIterator, const std::string& _childName)
 {
 
@@ -444,7 +444,7 @@ Core::RestPeriodOption XpertQueryImport::getChildRestPeriodTargetOptionEnum(
     return Core::RestPeriodOption::RestPeriodAllowed;
 }
 
-Core::TargetExtractionOption XpertQueryImport::getChildTargetExtractionOptionEnum(
+Core::TargetExtractionOption XpertQueryImport::getChildTargetExtractionOptionEnumOptional(
         Common::XmlNodeIterator _rootIterator, const std::string& _childName)
 {
 
@@ -477,7 +477,7 @@ Core::TargetExtractionOption XpertQueryImport::getChildTargetExtractionOptionEnu
     return Tucuxi::Core::TargetExtractionOption::DefinitionIfNoIndividualTarget;
 }
 
-Core::FormulationAndRouteSelectionOption XpertQueryImport::getChildFormulationAndRouteSelectionOptionEnum(
+Core::FormulationAndRouteSelectionOption XpertQueryImport::getChildFormulationAndRouteSelectionOptionEnumOptional(
         Common::XmlNodeIterator _rootIterator, const std::string& _childName)
 {
 

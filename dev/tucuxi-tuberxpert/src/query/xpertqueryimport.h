@@ -101,31 +101,31 @@ protected:
     /// \param _rootIterator XpertRequest root iterator.
     /// \param _childName Node name of options.
     /// \return If found the best candaidates option set otherwise bestDosagePerInterval.
-    Core::BestCandidatesOption getChildBestCandidatesOptionEnum(Common::XmlNodeIterator _rootIterator, const std::string& _childName);
+    Core::BestCandidatesOption getChildBestCandidatesOptionEnumOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName);
 
     /// \brief Parse the document to get the loadingOption choice optionally. Does not set any import error.
     /// \param _rootIterator XpertRequest root iterator.
     /// \param _childName Node name of options.
     /// \return If found the loading option set otherwise loadingDoseAllowed.
-    Core::LoadingOption getChildLoadingOptionEnum(Common::XmlNodeIterator _rootIterator, const std::string& _childName);
+    Core::LoadingOption getChildLoadingOptionEnumOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName);
 
     /// \brief Parse the document to get the restPeriodOtion choice optionally. Does not set any import error.
     /// \param _rootIterator XpertRequest root iterator.
     /// \param _childName Node name of options.
     /// \return If found the rest period option set otherwise restPeriodAllowed.
-    Core::RestPeriodOption getChildRestPeriodTargetOptionEnum(Common::XmlNodeIterator _rootIterator, const std::string& _childName);
+    Core::RestPeriodOption getChildRestPeriodTargetOptionEnumOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName);
 
     /// \brief Parse the document to get the targetExtractionOption choice optionally. Does not set any import error.
     /// \param _rootIterator XpertRequest root iterator.
     /// \param _childName Node name of options.
     /// \return If found the target extraction option set otherwise definitionIfNoIndividualTarget.
-    Core::TargetExtractionOption getChildTargetExtractionOptionEnum(Common::XmlNodeIterator _rootIterator, const std::string& _childName);
+    Core::TargetExtractionOption getChildTargetExtractionOptionEnumOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName);
 
     /// \brief Parse the document to get the formulationAndRouteSelectionOpton choice optionally. Does not set any import error.
     /// \param _rootIterator XpertRequest root iterator.
     /// \param _childName Node name of options.
     /// \return If found the formulation and route selection option set otherwise lastFormulationAndRoute.
-    Core::FormulationAndRouteSelectionOption getChildFormulationAndRouteSelectionOptionEnum(Common::XmlNodeIterator _rootIterator, const std::string& _childName);
+    Core::FormulationAndRouteSelectionOption getChildFormulationAndRouteSelectionOptionEnumOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName);
 
     /// \brief Parse the document to get the adjustment date optionally. Does not set any import error.
     /// \param _rootIterator XpertRequest root iterator.

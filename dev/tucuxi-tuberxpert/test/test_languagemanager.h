@@ -13,31 +13,99 @@
 struct TestLanguageManager : public fructose::test_base<TestLanguageManager>
 {
 
-    /// \brief Checks that getInstance behave correctly.
+    /// \brief Checks that the loadDictionary method behave as expected.
     /// \param _testName Name of the test
     void retrieveDictionary(const std::string& _testName)
     {
+
+        std::string goodString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <dictionary
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="dictionary.xsd">
+
+                                        <entry key="hello">Hello</entry>
+                                        <entry key="world">World</entry>
+
+                                    </dictionary>)";
+
+
+        std::string missSpelledEntryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <dictionary
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="dictionary.xsd">
+
+                                        <entry key="hello">Hello</entry>
+                                        <abc key="world">World</abc>
+
+                                    </dictionary>)";
+
+        std::string noAttributeString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <dictionary
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="dictionary.xsd">
+
+                                        <entry>Hello</entry>
+
+                                    </dictionary>)";
+
+        std::string badAttributeString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <dictionary
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="dictionary.xsd">
+
+                                        <entry yek="hello">Hello</entry>
+
+                                    </dictionary>)";
+
+        std::string nestedElement = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <dictionary
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="dictionary.xsd">
+
+                                        <entry yek="hello">Hello</entry>
+                                        <entry key="nested">
+                                            <nested> a value </nested>
+                                        </entry>
+
+                                    </dictionary>)";
+
+
         std::cout << _testName << std::endl;
 
-        // Test constructors
-        // bad_file.xml doesn't exist, but test.xml does.
-        // Must be executed in that order. Otherwhise "bad_file" is ignored because "test" already loaded.
-        fructose_assert_exception(Tucuxi::Language::LanguageManager::getInstance("bad_file"), Tucuxi::Language::LanguageException)
-        fructose_assert_no_exception(Tucuxi::Language::LanguageManager::getInstance("test"))
+        Tucuxi::Language::LanguageManager& lm = Tucuxi::Language::LanguageManager::getInstance();
+
+        fructose_assert_exception(lm.loadDictionary(""), Tucuxi::Language::LanguageException);
+        fructose_assert_exception(lm.loadDictionary(missSpelledEntryString), Tucuxi::Language::LanguageException);
+        fructose_assert_exception(lm.loadDictionary(noAttributeString), Tucuxi::Language::LanguageException);
+        fructose_assert_exception(lm.loadDictionary(badAttributeString), Tucuxi::Language::LanguageException);
+        fructose_assert_exception(lm.loadDictionary(nestedElement), Tucuxi::Language::LanguageException);
+        fructose_assert_no_exception(lm.loadDictionary(goodString));
     }
 
     /// \brief Checks that translate behave correctly.
     /// \param _testName Name of the test
     void wordTranslation(const std::string& _testName)
     {
+
+        std::string goodString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <dictionary
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="dictionary.xsd">
+
+                                        <entry key="hello">Hello</entry>
+                                        <entry key="world">World</entry>
+
+                                    </dictionary>)";
+
         std::cout << _testName << std::endl;
 
-         std::unique_ptr<Tucuxi::Language::LanguageManager>& upLangMgr = Tucuxi::Language::LanguageManager::getInstance("fr");
+        Tucuxi::Language::LanguageManager& lm = Tucuxi::Language::LanguageManager::getInstance();
+        lm.loadDictionary(goodString);
 
         // Test translate
         // world key exists and return World, but "unknown key" is not part of test.xml
-        fructose_assert_eq(upLangMgr->translate("world"), "World");
-        fructose_assert_eq(upLangMgr->translate("unknown key"), upLangMgr->s_defaultTranslation);
+        fructose_assert_eq(lm.translate("world"), "World");
+        fructose_assert_eq(lm.translate("unknown key"), lm.s_defaultTranslation);
     }
 };
 

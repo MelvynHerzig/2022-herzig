@@ -20,7 +20,7 @@ using namespace std;
 /// \param inputFileName String value to store parsed input file path.
 /// \param outputFileName String value to store parsed output file path.
 /// \return true if parsing went ok otherwise false.
-bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, string& outputFileName)
+bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, string& outputFileName, string& languagePath)
 {
     Tucuxi::Common::LoggerHelper logHelper;
 
@@ -33,6 +33,7 @@ bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, stri
                 ("d,drugpath", "Drug files directory path", cxxopts::value<std::string>())
                 ("i,input", "Input request file path", cxxopts::value<std::string>())
                 ("o,output", "Output response file path", cxxopts::value<std::string>())
+                ("l,languagepath", "Language files directory path", cxxopts::value<std::string>())
                 ("help", "Print help");
 
 
@@ -69,9 +70,15 @@ bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, stri
             return false;
         }
 
+
+        if (result.count("languagepath") > 0) {
+            languagePath = result["languagepath"].as<std::string>();
+        }
+
         logHelper.info("Drugs directory : {}", drugPath);
         logHelper.info("Input file : {}", inputFileName);
         logHelper.info("Output file name : {}", outputFileName);
+        logHelper.info("Language directory : {}", languagePath);
 
         return true;
     }
@@ -98,7 +105,8 @@ int main(int argc, char** argv)
 
     // Parsing program arguments
     string drugPath, inputFileName, outputFileName;
-    bool allGood = parse(argc, argv, drugPath, inputFileName, outputFileName);
+    string languagePath = "../language/";
+    bool allGood = parse(argc, argv, drugPath, inputFileName, outputFileName, languagePath);
     if(not allGood){
         return -2;
     }
