@@ -699,6 +699,7 @@ with the DosageHistory class and AbstractDosage subclasses -->
 								<xs:enumeration value="html" />
 								<xs:enumeration value="xml" />
 								<!-- <xs:enumeration value="pdf" /> -->
+								<!-- <xs:enumeration value="json" /> -->
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:element>

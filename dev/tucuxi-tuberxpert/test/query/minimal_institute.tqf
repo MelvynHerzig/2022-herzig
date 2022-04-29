@@ -122,7 +122,6 @@
                 <bestCandidatesOption>bestDosage</bestCandidatesOption>
                 <loadingOption>noLoadingDose</loadingOption>
                 <restPeriodOption>noRestPeriod</restPeriodOption>
-                <steadyStateTargetOption>atSteadyState</steadyStateTargetOption>
                 <targetExtractionOption>populationValues</targetExtractionOption>
                 <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
             </options>

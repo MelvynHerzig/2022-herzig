@@ -12,12 +12,11 @@ XpertRequestData::XpertRequestData(
         Core::BestCandidatesOption _candidatesOption,
         Core::LoadingOption _loadingOption,
         Core::RestPeriodOption _restPeriodOption,
-        Core::SteadyStateTargetOption _steadyStateTargetOption,
         Core::TargetExtractionOption _targetExtractionOption,
         Core::FormulationAndRouteSelectionOption _formulationAndRouteSelectionOption) :
         m_drugID(_drugID), m_localComputation(_localComputation), m_outputFormat(_outputFormat), m_outputLang(_outputLang),
         m_adjustmentTime(_adjustmentTime), m_bestCandidatesOption(_candidatesOption), m_loadingOption(_loadingOption),
-        m_restPeriodOption(_restPeriodOption), m_steadyStateTargetOption(_steadyStateTargetOption), m_targetExtractionOption(_targetExtractionOption),
+        m_restPeriodOption(_restPeriodOption), m_targetExtractionOption(_targetExtractionOption),
         m_formulationAndRouteSelectionOption(_formulationAndRouteSelectionOption)
 {
 }
@@ -60,11 +59,6 @@ Tucuxi::Core::LoadingOption Tucuxi::XpertQuery::XpertRequestData::getLoadingOpti
 Tucuxi::Core::RestPeriodOption Tucuxi::XpertQuery::XpertRequestData::getRestPeriodOption() const
 {
     return m_restPeriodOption;
-}
-
-Tucuxi::Core::SteadyStateTargetOption Tucuxi::XpertQuery::XpertRequestData::getSteadyStateTargetOption() const
-{
-    return m_steadyStateTargetOption;
 }
 
 Tucuxi::Core::TargetExtractionOption Tucuxi::XpertQuery::XpertRequestData::getTargetExtractionOption() const

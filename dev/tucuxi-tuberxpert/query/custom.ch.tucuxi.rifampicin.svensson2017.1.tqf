@@ -190,10 +190,8 @@
             </output>
             <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
             <options>
-                <bestCandidatesOption>bestDosage</bestCandidatesOption>
                 <loadingOption>noLoadingDose</loadingOption>
                 <restPeriodOption>noRestPeriod</restPeriodOption>
-                <steadyStateTargetOption>atSteadyState</steadyStateTargetOption>
                 <targetExtractionOption>populationValues</targetExtractionOption>
                 <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
             </options>

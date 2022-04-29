@@ -8,16 +8,92 @@
     <language>en</language>
 
     <admin>
-		<patient>
+		<mandator>
 			<person>
+			    <id>asdf</id>
+				<title>Dr.</title>
+				<firstName>John</firstName>
+				<lastName>Doe</lastName>
 				<address>
+					<street>Av. de l'Ours 2</street>
+					<postCode>1010</postCode>
+					<city>Lausanne</city>
+					<state>Vaud</state>
+					<country>Suisse</country>
 				</address>
 				<phone>
+					<number>0213140002</number>
+					<type>professional</type>
 				</phone>
 				<email>
+					<address>john.doe@chuv.com</address>
+					<type>professional</type>
 				</email>
 			</person>
+			<institute>
+				<id>456789</id>
+				<name>CHUV</name>
+				<address>
+					<street>Av. de l'Ours 1</street>
+					<postCode>1010</postCode>
+					<city>Lausanne</city>
+					<state>Vaud</state>
+					<country>Suisse</country>
+				</address>
+				<phone>
+					<number>0213140001</number>
+					<type>professional</type>
+				</phone>
+				<email>
+					<address>info@chuv.com</address>
+					<type>professional</type>
+				</email>
+			</institute>
+		</mandator>
+		<patient>
+			<person>
+				<id>123456</id>
+				<firstName>Alice</firstName>
+				<lastName>Aupaysdesmerveilles</lastName>
+				<address>
+					<street>Av. d'Ouchy 27</street>
+					<postCode>1006</postCode>
+					<city>Lausanne</city>
+					<state>Vaud</state>
+					<country>Suisse</country>
+				</address>
+				<phone>
+					<number>0216170002</number>
+					<type>professional</type>
+				</phone>
+				<email>
+					<address>alice.apdm@gmail.com</address>
+					<type>private</type>
+				</email>
+			</person>
+            <institute>
+				<id>1234</id>
+				<name>EHNV</name>
+				<address>
+					<street>Street name 2</street>
+					<postCode>1400</postCode>
+					<city>Yverdon-les-Bains</city>
+					<state>Vaud</state>
+					<country>Suisse</country>
+				</address>
+				<phone>
+					<number>0123456789</number>
+					<type>professional</type>
+				</phone>
+				<email>
+					<address>info@ehnv.com</address>
+					<type>professional</type>
+				</email>
+			</institute>
 		</patient>
+		<clinicalData>
+			<note>random note</note>
+		</clinicalData>
 	</admin>
 
     <drugTreatment>
@@ -115,7 +191,7 @@
                 <loadingOption>noLoadingDose</loadingOption>
                 <restPeriodOption>noRestPeriod</restPeriodOption>
                 <targetExtractionOption>populationValues</targetExtractionOption>
-                <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
+                <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
             </options>
         </requestXpert>
         <request>

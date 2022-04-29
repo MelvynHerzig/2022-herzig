@@ -2,6 +2,8 @@
 #define TEST_XPERTQUERYIMPORT_H
 
 #include "../src/query/xpertqueryimport.h"
+#include "../src/query/xpertrequestdata.h"
+
 #include "fructose/fructose.h"
 
 /// \brief Tests for XpertQueryImport
@@ -16,7 +18,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
     {
         std::cout << _testName << std::endl;
 
-        std::ifstream ifs("../test/query/complete_admin.tqf");
+        std::ifstream ifs("../test/query/complete.tqf");
         std::string xmlString((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
 
         std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
@@ -370,6 +372,112 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_ne(importer.getErrorMessage().find("city"), std::string::npos);
         fructose_assert_ne(importer.getErrorMessage().find("number"), std::string::npos);
         fructose_assert_ne(importer.getErrorMessage().find("address"), std::string::npos);
+    }
+
+    /// \brief Load an xml file with every possible data in requestXpert node
+    /// and check if the recieved values are expected.
+    /// \param _testName Name of the test.
+    void retrieveCompleteRequestXpert(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        std::ifstream ifs("../test/query/complete.tqf");
+        std::string xmlString((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
+
+        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+
+        Tucuxi::XpertQuery::XpertQueryImport importer;
+        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
+
+
+        fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
+
+        fructose_assert_eq(query->getXpertRequests().size(), 1);
+
+        const Tucuxi::XpertQuery::XpertRequestData& xpertRequest = *(query->getXpertRequests()[0]);
+
+        fructose_assert_eq(xpertRequest.getDrugID(), "rifampicin");
+        fructose_assert_eq(xpertRequest.getLocalComputation(), true);
+        fructose_assert_eq(xpertRequest.getOutputFormat() == Tucuxi::XpertQuery::OutputFormat::XML, true);
+        fructose_assert_eq(xpertRequest.getOutputLang() == Tucuxi::XpertQuery::OutputLang::ENGLISH, true);
+        fructose_assert_eq(xpertRequest.getAdjustmentTime(), DateTime("2018-07-06T08:00:00", "%Y-%m-%dT%H:%M:%S"));
+        fructose_assert_eq(xpertRequest.getBestCandidatesOption() == Tucuxi::Core::BestCandidatesOption::BestDosage, true);
+        fructose_assert_eq(xpertRequest.getLoadingOption() == Tucuxi::Core::LoadingOption::NoLoadingDose, true);
+        fructose_assert_eq(xpertRequest.getRestPeriodOption() == Tucuxi::Core::RestPeriodOption::NoRestPeriod, true);
+        fructose_assert_eq(xpertRequest.getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::PopulationValues, true);
+        fructose_assert_eq(xpertRequest.getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::AllFormulationAndRoutes, true);
+
+    }
+
+    /// \brief Load an xml file with default data in requestXpert node
+    /// and check if the recieved values are expected.
+    /// \param _testName Name of the test.
+    void retrieveDefaultRequestXpert(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        std::ifstream ifs("../test/query/default_request.tqf");
+        std::string xmlString((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
+
+        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+
+        Tucuxi::XpertQuery::XpertQueryImport importer;
+        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
+
+
+        fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
+
+        fructose_assert_eq(query->getXpertRequests().size(), 1);
+
+        const Tucuxi::XpertQuery::XpertRequestData& xpertRequest = *(query->getXpertRequests()[0]);
+
+
+        fructose_assert_eq(xpertRequest.getAdjustmentTime(), Tucuxi::Common::DateTime::undefinedDateTime());
+        fructose_assert_eq(xpertRequest.getBestCandidatesOption() == Tucuxi::Core::BestCandidatesOption::BestDosagePerInterval, true);
+        fructose_assert_eq(xpertRequest.getLoadingOption() == Tucuxi::Core::LoadingOption::LoadingDoseAllowed, true);
+        fructose_assert_eq(xpertRequest.getRestPeriodOption() == Tucuxi::Core::RestPeriodOption::RestPeriodAllowed, true);
+        fructose_assert_eq(xpertRequest.getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::DefinitionIfNoIndividualTarget, true);
+        fructose_assert_eq(xpertRequest.getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute, true);
+    }
+
+    /// \brief Load an xml file without requestXpert and check that error is returned.
+    /// \param _testName Name of the test.
+    void errorWhenNoRequestXpert(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        std::ifstream ifs("../test/query/no_request.tqf");
+        std::string xmlString((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
+
+        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+
+        Tucuxi::XpertQuery::XpertQueryImport importer;
+        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
+
+        fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Error);
+        fructose_assert_ne(importer.getErrorMessage().find("No requestXpert found"), std::string::npos);
+        fructose_assert_eq(query->getXpertRequests().size(), 0);
+    }
+
+    /// \brief Load an xml file without mandatory values in requestXpert and check that error is returned.
+    /// \param _testName Name of the test.
+    void errorWhenMissingMandatoryRequestXpert(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        std::ifstream ifs("../test/query/missing_mandatory_request.tqf");
+        std::string xmlString((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
+
+        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+
+        Tucuxi::XpertQuery::XpertQueryImport importer;
+        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
+
+        fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Error);
+        fructose_assert_ne(importer.getErrorMessage().find("drugId"), std::string::npos);
+        fructose_assert_ne(importer.getErrorMessage().find("localComputation"), std::string::npos);
+        fructose_assert_ne(importer.getErrorMessage().find("format"), std::string::npos);
+        fructose_assert_ne(importer.getErrorMessage().find("language"), std::string::npos);
     }
 };
 

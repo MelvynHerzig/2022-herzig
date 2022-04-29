@@ -47,10 +47,14 @@ int main(int argc, char** argv)
     QueryImportTests.add_test("Get minimal persons", &TestXpertQueryImport::retrieveMinimalPerson);
     QueryImportTests.add_test("Get minimal institutes", &TestXpertQueryImport::retrieveMinimalInstitute);
     QueryImportTests.add_test("Get minimal coordinates", &TestXpertQueryImport::retrieveMinimalCoordinates);
-    QueryImportTests.add_test("Error when missing mandatory values in mandator person", &TestXpertQueryImport::errorWhenMissingMandatoryInMandatorPerson);
-    QueryImportTests.add_test("Error when missing mandatory values in mandator institute", &TestXpertQueryImport::errorWhenMissingMandatoryInMandatorInstitute);
-    QueryImportTests.add_test("Error when missing mandatory values in patient person", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientPerson);
-    QueryImportTests.add_test("Error when missing mandatory values in patient institute", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientInstitute);
+    QueryImportTests.add_test("Get an error when missing mandatory values in mandator person", &TestXpertQueryImport::errorWhenMissingMandatoryInMandatorPerson);
+    QueryImportTests.add_test("Get an error when missing mandatory values in mandator institute", &TestXpertQueryImport::errorWhenMissingMandatoryInMandatorInstitute);
+    QueryImportTests.add_test("Get an error when missing mandatory values in patient person", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientPerson);
+    QueryImportTests.add_test("Get an error when missing mandatory values in patient institute", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientInstitute);
+    QueryImportTests.add_test("Get complete request xpert element", &TestXpertQueryImport::retrieveCompleteRequestXpert);
+    QueryImportTests.add_test("Get default request xpert element", &TestXpertQueryImport::retrieveDefaultRequestXpert);
+    QueryImportTests.add_test("Get an error when missing request xpert", &TestXpertQueryImport:: errorWhenNoRequestXpert);
+    QueryImportTests.add_test("Get an error when missing mandatory values in request xpert", &TestXpertQueryImport:: errorWhenMissingMandatoryRequestXpert);
 
     res = QueryImportTests.run(argc, argv);
     if (res != 0) {
