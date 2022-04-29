@@ -29,6 +29,7 @@ SOURCES += \
 }
 
 DEFINES+= \
+    test_language \
     test_query
 
 HEADERS += \
