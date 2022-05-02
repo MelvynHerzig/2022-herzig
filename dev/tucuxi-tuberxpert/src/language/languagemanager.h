@@ -25,7 +25,7 @@ public:
     /// \brief Gets a translation for a given key.
     /// \param _key Key to look for.
     /// \return Translated string.
-    const std::string& translate(const std::string& _key) const;
+    std::string translate(const std::string& _key) const;
 
     /// \brief Loads an xml dictionary from  xml string.
     ///  Each call erases the last.

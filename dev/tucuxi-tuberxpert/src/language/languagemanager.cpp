@@ -31,7 +31,7 @@ LanguageManager& LanguageManager::getInstance()
     return *s_upInstance;
 }
 
-const std::string& LanguageManager::translate(const std::string &key) const
+std::string LanguageManager::translate(const std::string &key) const
 {
     auto it = m_keyToEntry.find(key);
     if (it != m_keyToEntry.end()) {

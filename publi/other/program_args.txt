@@ -1,1 +1,32 @@
 -i "C:\Users\melvy\Desktop\Dev\2022-herzig\dev\tucuxi-drugs\validation\comparative\data\queries\ch.tucuxi.rifampicin.svensson2017.1.tqf" -o "C:\Users\melvy\Desktop\test.xml" -d "C:\Users\melvy\Desktop\Dev\2022-herzig\dev\tucuxi-drugs\drugfiles"
+
+
+<requests>
+        <request>
+            <requestId>adjustment</requestId>
+            <drugId>imatinib</drugId>
+            <drugModelId>ch.tucuxi.imatinib.gotta2012</drugModelId>
+            <adjustmentTraits>
+                <computingOption>
+                    <parametersType>aposteriori</parametersType>
+                    <compartmentOption>allActiveMoieties</compartmentOption>
+                    <retrieveStatistics>true</retrieveStatistics>
+                    <retrieveParameters>true</retrieveParameters>
+                    <retrieveCovariates>true</retrieveCovariates>
+                </computingOption>
+                <nbPointsPerHour>20</nbPointsPerHour>
+                <dateInterval>
+                    <start>2018-01-12T07:00:00</start>
+                    <end>2018-03-15T12:59:00</end>
+                </dateInterval>
+                <adjustmentDate>2018-01-12T07:00:00</adjustmentDate>
+                <options>
+                    <bestCandidatesOption>bestDosagePerInterval</bestCandidatesOption>
+                    <loadingOption>noLoadingDose</loadingOption>
+                    <restPeriodOption>noRestPeriod</restPeriodOption>
+                    <steadyStateTargetOption>atSteadyState</steadyStateTargetOption>
+                    <targetExtractionOption>definitionIfNoIndividualTarget</targetExtractionOption>
+                    <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
+                </options>
+            </adjustmentTraits>
+        </request>
