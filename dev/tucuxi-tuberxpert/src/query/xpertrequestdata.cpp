@@ -10,8 +10,8 @@ XpertRequestData::XpertRequestData(
         OutputLang _outputLang,
         Common::DateTime _adjustmentTime,
         Core::BestCandidatesOption _candidatesOption,
-        Core::LoadingOption _loadingOption,
-        Core::RestPeriodOption _restPeriodOption,
+        LoadingOption _loadingOption,
+        RestPeriodOption _restPeriodOption,
         Core::TargetExtractionOption _targetExtractionOption,
         Core::FormulationAndRouteSelectionOption _formulationAndRouteSelectionOption) :
         m_drugID(_drugID), m_localComputation(_localComputation), m_outputFormat(_outputFormat), m_outputLang(_outputLang),
@@ -21,52 +21,52 @@ XpertRequestData::XpertRequestData(
 {
 }
 
-std::string Tucuxi::XpertQuery::XpertRequestData::getDrugID() const
+std::string XpertQuery::XpertRequestData::getDrugID() const
 {
     return m_drugID;
 }
 
-bool Tucuxi::XpertQuery::XpertRequestData::getLocalComputation() const
+bool XpertQuery::XpertRequestData::getLocalComputation() const
 {
     return m_localComputation;
 }
 
-Tucuxi::XpertQuery::OutputFormat Tucuxi::XpertQuery::XpertRequestData::getOutputFormat() const
+XpertQuery::OutputFormat XpertQuery::XpertRequestData::getOutputFormat() const
 {
     return m_outputFormat;
 }
 
-Tucuxi::XpertQuery::OutputLang Tucuxi::XpertQuery::XpertRequestData::getOutputLang() const
+XpertQuery::OutputLang XpertQuery::XpertRequestData::getOutputLang() const
 {
     return m_outputLang;
 }
 
-DateTime Tucuxi::XpertQuery::XpertRequestData::getAdjustmentTime() const
+DateTime XpertQuery::XpertRequestData::getAdjustmentTime() const
 {
     return m_adjustmentTime;
 }
 
-Tucuxi::Core::BestCandidatesOption Tucuxi::XpertQuery::XpertRequestData::getBestCandidatesOption() const
+Core::BestCandidatesOption XpertQuery::XpertRequestData::getBestCandidatesOption() const
 {
     return m_bestCandidatesOption;
 }
 
-Tucuxi::Core::LoadingOption Tucuxi::XpertQuery::XpertRequestData::getLoadingOption() const
+LoadingOption XpertQuery::XpertRequestData::getLoadingOption() const
 {
     return m_loadingOption;
 }
 
-Tucuxi::Core::RestPeriodOption Tucuxi::XpertQuery::XpertRequestData::getRestPeriodOption() const
+RestPeriodOption XpertQuery::XpertRequestData::getRestPeriodOption() const
 {
     return m_restPeriodOption;
 }
 
-Tucuxi::Core::TargetExtractionOption Tucuxi::XpertQuery::XpertRequestData::getTargetExtractionOption() const
+Core::TargetExtractionOption XpertQuery::XpertRequestData::getTargetExtractionOption() const
 {
     return m_targetExtractionOption;
 }
 
-Tucuxi::Core::FormulationAndRouteSelectionOption Tucuxi::XpertQuery::XpertRequestData::getFormulationAndRouteSelectionOption() const
+Core::FormulationAndRouteSelectionOption XpertQuery::XpertRequestData::getFormulationAndRouteSelectionOption() const
 {
     return m_formulationAndRouteSelectionOption;
 }

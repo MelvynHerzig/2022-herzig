@@ -109,14 +109,14 @@ protected:
     /// \param _childName Node name of options.
     /// \param _default Default value to return if child name is not present.
     /// \return If found the loading option set otherwise loadingDoseAllowed.
-    Core::LoadingOption getChildLoadingOptionEnumOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName, Core::LoadingOption _default);
+    LoadingOption getChildLoadingOptionEnumOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName, LoadingOption _default);
 
     /// \brief Parse the document to get the restPeriodOtion choice optionally. Does not set any import error.
     /// \param _rootIterator XpertRequest root iterator.
     /// \param _childName Node name of options.
     /// \param _default Default value to return if child name is not present.
     /// \return If found the rest period option set otherwise restPeriodAllowed.
-    Core::RestPeriodOption getChildRestPeriodTargetOptionEnumOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName, Core::RestPeriodOption _default);
+    RestPeriodOption getChildRestPeriodTargetOptionEnumOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName, RestPeriodOption _default);
 
     /// \brief Parse the document to get the targetExtractionOption choice optionally. Does not set any import error.
     /// \param _rootIterator XpertRequest root iterator.

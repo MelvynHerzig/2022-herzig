@@ -33,6 +33,37 @@ enum class OutputFormat
     HTML,
 };
 
+/// \brief The LoadingOption enum.
+/// This option allows to authorize or not a loading dose to rapidly attain steady state.
+/// This is the same we can find computingTrait.h with an added value that means "unspecified".
+enum class LoadingOption
+{
+    /// No loading dose is allowed
+    NoLoadingDose = 0,
+
+    /// A loading dose shall be proposed if relevant
+    LoadingDoseAllowed,
+
+    /// The user will use the drug model recommendation.
+    Unspecified
+};
+
+///
+/// \brief The RestPeriodOption enum.
+/// This option allows to authorize or not a resting period to rapidly attain steady state.
+/// This is the same we can find computingTrait.h with an added value that means "unspecified".
+enum class RestPeriodOption
+{
+    /// No resting period is allowed
+    NoRestPeriod = 0,
+
+    /// A resting period shall be proposed if relevant
+    RestPeriodAllowed,
+
+    /// The user will use the drug model recommendation.
+    Unspecified
+};
+
 
 /// \brief Class of custom request for tuberXpert
 /// \date 24/04/2022
@@ -61,12 +92,12 @@ public:
             bool _localComputation,
             OutputFormat _outputFormat,
             OutputLang _outputLang,
-            Tucuxi::Common::DateTime _adjustmentTime,
-            Tucuxi::Core::BestCandidatesOption _candidatesOption,
-            Tucuxi::Core::LoadingOption _loadingOption,
-            Tucuxi::Core::RestPeriodOption _restPeriodOption,
-            Tucuxi::Core::TargetExtractionOption _targetExtractionOption,
-            Tucuxi::Core::FormulationAndRouteSelectionOption _formulationAndRouteSelectionOption);
+            Common::DateTime _adjustmentTime,
+            Core::BestCandidatesOption _candidatesOption,
+            LoadingOption _loadingOption,
+            RestPeriodOption _restPeriodOption,
+            Core::TargetExtractionOption _targetExtractionOption,
+            Core::FormulationAndRouteSelectionOption _formulationAndRouteSelectionOption);
 
     /// \brief Copy constructor is not supported.
     XpertRequestData(const XpertRequestData& _other) = delete;
@@ -91,27 +122,27 @@ public:
 
     /// \brief Gets the time of adjustment
     /// \return Time of the adjustment
-    Tucuxi::Common::DateTime getAdjustmentTime() const;
+    Common::DateTime getAdjustmentTime() const;
 
     /// \brief Gets the best candidate option
     /// \return The best candidate option
-    Tucuxi::Core::BestCandidatesOption getBestCandidatesOption() const;
+    Core::BestCandidatesOption getBestCandidatesOption() const;
 
     /// \brief Gets the option about a potential loading dose
     /// \return The option about a potential loading dose
-    Tucuxi::Core::LoadingOption getLoadingOption() const;
+    LoadingOption getLoadingOption() const;
 
     /// \brief Gets the option about a potential rest period
     /// \return The option about a potential rest period
-    Tucuxi::Core::RestPeriodOption getRestPeriodOption() const;
+    RestPeriodOption getRestPeriodOption() const;
 
     /// \brief Gets the target extraction option
     /// \return The target extraction option
-    Tucuxi::Core::TargetExtractionOption getTargetExtractionOption() const;
+    Core::TargetExtractionOption getTargetExtractionOption() const;
 
     /// \brief Gets the formulation and route selection option
     /// \return The formulation and route selection option
-    Tucuxi::Core::FormulationAndRouteSelectionOption getFormulationAndRouteSelectionOption() const;
+    Core::FormulationAndRouteSelectionOption getFormulationAndRouteSelectionOption() const;
 
 protected:
     /// Targeted drug to use tuberXpert.
@@ -127,22 +158,22 @@ protected:
     OutputLang m_outputLang;
 
     /// Date of the adjustment
-    Tucuxi::Common::DateTime m_adjustmentTime;
+    Common::DateTime m_adjustmentTime;
 
     /// Adjustment options : only the best, or all possible ones
-    Tucuxi::Core::BestCandidatesOption m_bestCandidatesOption;
+    Core::BestCandidatesOption m_bestCandidatesOption;
 
     /// Shall we propose a loading dose if applicable?
-    Tucuxi::Core::LoadingOption m_loadingOption;
+    LoadingOption m_loadingOption;
 
     /// Shall we propose a rest period if applicable?
-    Tucuxi::Core::RestPeriodOption m_restPeriodOption;
+    RestPeriodOption m_restPeriodOption;
 
     /// Target extraction options
-    Tucuxi::Core::TargetExtractionOption m_targetExtractionOption;
+    Core::TargetExtractionOption m_targetExtractionOption;
 
     /// What formulation and route have to be used for generating candidates
-    Tucuxi::Core::FormulationAndRouteSelectionOption m_formulationAndRouteSelectionOption;
+    Core::FormulationAndRouteSelectionOption m_formulationAndRouteSelectionOption;
 };
 
 } // namespace XpertQuery

@@ -334,17 +334,17 @@ std::unique_ptr<XpertRequestData> XpertQueryImport::createRequestXpert(Common::X
     Tucuxi::Core::BestCandidatesOption bestCandidateOption =
             getChildBestCandidatesOptionEnumOptional(_requestXpertRootIterator, OPTIONS_NODE_NAME, Core::BestCandidatesOption::BestDosagePerInterval);
 
-    Tucuxi::Core::LoadingOption loadingOption =
-            getChildLoadingOptionEnumOptional(_requestXpertRootIterator, OPTIONS_NODE_NAME, Core::LoadingOption::LoadingDoseAllowed);
+    LoadingOption loadingOption =
+            getChildLoadingOptionEnumOptional(_requestXpertRootIterator, OPTIONS_NODE_NAME, LoadingOption::Unspecified);
 
-    Tucuxi::Core::RestPeriodOption restPeriodOption =
-            getChildRestPeriodTargetOptionEnumOptional(_requestXpertRootIterator, OPTIONS_NODE_NAME, Core::RestPeriodOption::RestPeriodAllowed);
+    RestPeriodOption restPeriodOption =
+            getChildRestPeriodTargetOptionEnumOptional(_requestXpertRootIterator, OPTIONS_NODE_NAME, RestPeriodOption::Unspecified);
 
     Tucuxi::Core::TargetExtractionOption targetExtractionOption =
             getChildTargetExtractionOptionEnumOptional(_requestXpertRootIterator, OPTIONS_NODE_NAME, Core::TargetExtractionOption::DefinitionIfNoIndividualTarget);
 
     Tucuxi::Core::FormulationAndRouteSelectionOption formulationAndRouteSelectionOption =
-            getChildFormulationAndRouteSelectionOptionEnumOptional(_requestXpertRootIterator, OPTIONS_NODE_NAME, Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute;);
+            getChildFormulationAndRouteSelectionOptionEnumOptional(_requestXpertRootIterator, OPTIONS_NODE_NAME, Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute);
 
 
     return make_unique<XpertRequestData>(drugId,
@@ -397,8 +397,8 @@ Core::BestCandidatesOption XpertQueryImport::getChildBestCandidatesOptionEnumOpt
     return _default;
 }
 
-Core::LoadingOption XpertQueryImport::getChildLoadingOptionEnumOptional(
-        Common::XmlNodeIterator _rootIterator, const std::string& _childName, Core::LoadingOption _default)
+LoadingOption XpertQueryImport::getChildLoadingOptionEnumOptional(
+        Common::XmlNodeIterator _rootIterator, const std::string& _childName, LoadingOption _default)
 {
     static const string LOADING_OPTION_NODE = "loadingOption";
 
@@ -407,9 +407,9 @@ Core::LoadingOption XpertQueryImport::getChildLoadingOptionEnumOptional(
     Common::XmlNodeIterator loadingOptionRootIterator = optionsRootIterator->getChildren(LOADING_OPTION_NODE);
 
 
-    static std::map<std::string, Core::LoadingOption> m = {
-            {"noLoadingDose", Core::LoadingOption::NoLoadingDose},
-            {"loadingDoseAllowed", Core::LoadingOption::LoadingDoseAllowed}};
+    static std::map<std::string, LoadingOption> m = {
+            {"noLoadingDose", LoadingOption::NoLoadingDose},
+            {"loadingDoseAllowed", LoadingOption::LoadingDoseAllowed}};
 
     string value = loadingOptionRootIterator->getValue();
     auto it = m.find(value);
@@ -420,8 +420,8 @@ Core::LoadingOption XpertQueryImport::getChildLoadingOptionEnumOptional(
     return _default;
 }
 
-Core::RestPeriodOption XpertQueryImport::getChildRestPeriodTargetOptionEnumOptional(
-        Common::XmlNodeIterator _rootIterator, const std::string& _childName, Core::RestPeriodOption _default)
+RestPeriodOption XpertQueryImport::getChildRestPeriodTargetOptionEnumOptional(
+        Common::XmlNodeIterator _rootIterator, const std::string& _childName, RestPeriodOption _default)
 {
 
     static const string REST_PERIOD_OPTION_NODE = "restPeriodOption";
@@ -431,9 +431,9 @@ Core::RestPeriodOption XpertQueryImport::getChildRestPeriodTargetOptionEnumOptio
     Common::XmlNodeIterator restPeriodOptionRootIterator = optionsRootIterator->getChildren(REST_PERIOD_OPTION_NODE);
 
 
-    static std::map<std::string, Core::RestPeriodOption> m = {
-            {"noRestPeriod", Core::RestPeriodOption::NoRestPeriod},
-            {"restPeriodAllowed", Core::RestPeriodOption::RestPeriodAllowed}};
+    static std::map<std::string, RestPeriodOption> m = {
+            {"noRestPeriod", RestPeriodOption::NoRestPeriod},
+            {"restPeriodAllowed", RestPeriodOption::RestPeriodAllowed}};
 
     string value = restPeriodOptionRootIterator->getValue();
     auto it = m.find(value);

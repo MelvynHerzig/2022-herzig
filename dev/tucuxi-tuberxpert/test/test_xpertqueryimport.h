@@ -2164,8 +2164,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(xpertRequest.getOutputLang() == Tucuxi::XpertQuery::OutputLang::ENGLISH, true);
         fructose_assert_eq(xpertRequest.getAdjustmentTime(), DateTime("2018-07-06T08:00:00", "%Y-%m-%dT%H:%M:%S"));
         fructose_assert_eq(xpertRequest.getBestCandidatesOption() == Tucuxi::Core::BestCandidatesOption::BestDosage, true);
-        fructose_assert_eq(xpertRequest.getLoadingOption() == Tucuxi::Core::LoadingOption::NoLoadingDose, true);
-        fructose_assert_eq(xpertRequest.getRestPeriodOption() == Tucuxi::Core::RestPeriodOption::NoRestPeriod, true);
+        fructose_assert_eq(xpertRequest.getLoadingOption() == Tucuxi::XpertQuery::LoadingOption::NoLoadingDose, true);
+        fructose_assert_eq(xpertRequest.getRestPeriodOption() == Tucuxi::XpertQuery::RestPeriodOption::NoRestPeriod, true);
         fructose_assert_eq(xpertRequest.getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::PopulationValues, true);
         fructose_assert_eq(xpertRequest.getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::AllFormulationAndRoutes, true);
 
@@ -2404,8 +2404,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
 
         fructose_assert_eq(xpertRequest.getAdjustmentTime(), Tucuxi::Common::DateTime::undefinedDateTime());
         fructose_assert_eq(xpertRequest.getBestCandidatesOption() == Tucuxi::Core::BestCandidatesOption::BestDosagePerInterval, true);
-        fructose_assert_eq(xpertRequest.getLoadingOption() == Tucuxi::Core::LoadingOption::LoadingDoseAllowed, true);
-        fructose_assert_eq(xpertRequest.getRestPeriodOption() == Tucuxi::Core::RestPeriodOption::RestPeriodAllowed, true);
+        fructose_assert_eq(xpertRequest.getLoadingOption() == Tucuxi::XpertQuery::LoadingOption::Unspecified, true);
+        fructose_assert_eq(xpertRequest.getRestPeriodOption() == Tucuxi::XpertQuery::RestPeriodOption::Unspecified, true);
         fructose_assert_eq(xpertRequest.getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::DefinitionIfNoIndividualTarget, true);
         fructose_assert_eq(xpertRequest.getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute, true);
     }
