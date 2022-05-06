@@ -104,7 +104,7 @@ int main(int argc, char** argv)
     logHelper.info("Tuberxpert console application is starting up...");
 
     // Parsing program arguments
-    string drugPath, inputFileName, outputFileName;
+    /*string drugPath, inputFileName, outputFileName;
     string languagePath = "../language/";
     bool allGood = parse(argc, argv, drugPath, inputFileName, outputFileName, languagePath);
     if(not allGood){
@@ -124,7 +124,7 @@ int main(int argc, char** argv)
     std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
 
     Tucuxi::XpertQuery::XpertQueryImport importer;
-    Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
+    Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);*/
 
     logHelper.info("Tuberxpert console application is exiting...");
 
