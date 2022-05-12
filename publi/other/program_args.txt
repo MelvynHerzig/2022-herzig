@@ -1,7 +1,6 @@
 -i "C:\Users\melvy\Desktop\Dev\2022-herzig\dev\tucuxi-drugs\validation\comparative\data\queries\ch.tucuxi.rifampicin.svensson2017.1.tqf" -o "C:\Users\melvy\Desktop\test.xml" -d "C:\Users\melvy\Desktop\Dev\2022-herzig\dev\tucuxi-drugs\drugfiles"
 
 
-<requests>
         <request>
             <requestId>adjustment</requestId>
             <drugId>imatinib</drugId>

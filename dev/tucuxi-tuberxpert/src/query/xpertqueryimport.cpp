@@ -318,6 +318,8 @@ std::unique_ptr<XpertRequestData> XpertQueryImport::createRequestXpert(Common::X
         format = OutputFormat::XML;
     } else if (formatStr == "html") {
         format = OutputFormat::HTML;
+    } else {
+        setStatus(Status::Error, "Unknown output format");
     }
 
     string languageStr = getChildString(outputRootIterator, LANGUAGE_NODE_NAME);
@@ -326,6 +328,8 @@ std::unique_ptr<XpertRequestData> XpertQueryImport::createRequestXpert(Common::X
 
     if(languageStr == "en") {
         language = OutputLang::ENGLISH;
+    } else {
+        setStatus(Status::Error, "Unknown output language");
     }
 
     Common::DateTime adjustmentTime =
