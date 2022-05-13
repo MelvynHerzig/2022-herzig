@@ -118,7 +118,7 @@
             <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
             <adjustmentTraits>
                 <computingOption>
-                    <parametersType>aposteriori</parametersType>
+                    <parametersType>apriori</parametersType>
                     <compartmentOption>allActiveMoieties</compartmentOption>
                     <retrieveStatistics>true</retrieveStatistics>
                     <retrieveParameters>true</retrieveParameters>
@@ -132,7 +132,7 @@
                 <adjustmentDate>2018-01-12T07:00:00</adjustmentDate>
                 <options>
                     <bestCandidatesOption>bestDosagePerInterval</bestCandidatesOption>
-                    <loadingOption>noLoadingDose</loadingOption>
+                    <loadingOption>loadingDoseAllowed</loadingOption>
                     <restPeriodOption>noRestPeriod</restPeriodOption>
                     <steadyStateTargetOption>atSteadyState</steadyStateTargetOption>
                     <targetExtractionOption>definitionIfNoIndividualTarget</targetExtractionOption>
