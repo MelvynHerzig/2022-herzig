@@ -30,7 +30,7 @@
 			<xs:element name="requests">
 			<xs:complexType>
 		        <xs:sequence>
-				  	<xs:element name="requestXpert" type="requestXpertType" minOccurs="0" />	
+				  	<xs:element name="requestXpert" type="requestXpertType" minOccurs="1" maxOccurs="unbounded"/>	
 		          	<xs:element name="request" type="requestType" maxOccurs="unbounded" />
 		        </xs:sequence>
 			</xs:complexType>

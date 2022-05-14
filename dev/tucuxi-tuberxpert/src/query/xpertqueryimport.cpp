@@ -328,6 +328,8 @@ std::unique_ptr<XpertRequestData> XpertQueryImport::createRequestXpert(Common::X
 
     if(languageStr == "en") {
         language = OutputLang::ENGLISH;
+    } else if (languageStr == "fr") {
+        language = OutputLang::FRENCH;
     } else {
         setStatus(Status::Error, "Unknown output language");
     }

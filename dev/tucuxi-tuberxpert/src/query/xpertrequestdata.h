@@ -19,6 +19,7 @@ namespace XpertQuery {
 enum class OutputLang
 {
     ENGLISH = 0,
+    FRENCH,
 };
 
 /// \brief List of the supported languages
