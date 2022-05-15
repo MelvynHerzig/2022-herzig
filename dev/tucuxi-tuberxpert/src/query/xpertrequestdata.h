@@ -19,7 +19,7 @@ namespace XpertQuery {
 enum class OutputLang
 {
     ENGLISH = 0,
-    FRENCH,
+    FRENCH
 };
 
 /// \brief List of the supported languages
@@ -32,6 +32,7 @@ enum class OutputFormat
 {
     XML = 0,
     HTML,
+    PDF
 };
 
 /// \brief The LoadingOption enum.

@@ -698,7 +698,7 @@ with the DosageHistory class and AbstractDosage subclasses -->
 							<xs:restriction base="xs:string">
 								<xs:enumeration value="html" />
 								<xs:enumeration value="xml" />
-								<!-- <xs:enumeration value="pdf" /> -->
+								<xs:enumeration value="pdf" />
 								<!-- <xs:enumeration value="json" /> -->
 							</xs:restriction>
 						</xs:simpleType>
@@ -707,7 +707,7 @@ with the DosageHistory class and AbstractDosage subclasses -->
 						<xs:simpleType>
 							<xs:restriction base="xs:string">
 								<xs:enumeration value="en" />
-								<!-- <xs:enumeration value="fr" /> -->
+								<xs:enumeration value="fr" />
 								<!-- <xs:enumeration value="de" /> -->
 								<!-- <xs:enumeration value="it" /> -->
 							</xs:restriction>
@@ -720,10 +720,8 @@ with the DosageHistory class and AbstractDosage subclasses -->
 		<xs:element name="options" minOccurs="0">
 			<xs:complexType>
 				<xs:sequence>
-					<xs:element ref="bestCandidatesOption" minOccurs="0"/>
 					<xs:element ref="loadingOption" minOccurs="0"/>
 					<xs:element ref="restPeriodOption" minOccurs="0"/>
-					<xs:element ref="steadyStateTargetOption" minOccurs="0"/>
 					<xs:element ref="targetExtractionOption" minOccurs="0"/>
 					<xs:element ref="formulationAndRouteSelectionOption" minOccurs="0"/>
 				</xs:sequence>

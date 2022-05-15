@@ -318,6 +318,8 @@ std::unique_ptr<XpertRequestData> XpertQueryImport::createRequestXpert(Common::X
         format = OutputFormat::XML;
     } else if (formatStr == "html") {
         format = OutputFormat::HTML;
+    } else if (formatStr == "pdf") {
+        format = OutputFormat::PDF;
     } else {
         setStatus(Status::Error, "Unknown output format");
     }

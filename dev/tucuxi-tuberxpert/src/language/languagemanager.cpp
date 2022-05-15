@@ -48,7 +48,7 @@ void LanguageManager::loadDictionary(const std::string& _xmlString)
     Tucuxi::Common::XmlDocument document;
 
     if (_xmlString == "" || !document.fromString(_xmlString)) {
-        throw LanguageException("Error importing language file. It may be missing or bad formatted.");
+        throw LanguageException("Error importing language file. It may be badly formatted.");
     }
 
     Common::XmlNode root = document.getRoot();

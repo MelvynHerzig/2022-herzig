@@ -113,7 +113,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                </institute>
                                            </patient>
                                            <clinicalData>
-                                               <note>random note</note>
+                                               <goodNote> nice </goodNote>
+                                               <badNote> <yet>random note</yet> </badNote>
                                            </clinicalData>
                                        </admin>
 
@@ -315,7 +316,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(patientInstituteEmail.getAddress(), "info@ehnv.com");
         fructose_assert_eq(patientInstituteEmail.getType(), "professional");
 
-        fructose_assert_eq(pAdmin.getpClinicalData()->get().getData().find("note")->second, "random note");
+        fructose_assert_eq(pAdmin.getpClinicalData()->get().getData().find("goodNote")->second, " nice ");
+        fructose_assert_eq(pAdmin.getpClinicalData()->get().getData().find("badNote")->second, "");
     }
 
     /// \brief Load an xml file with no admin element
