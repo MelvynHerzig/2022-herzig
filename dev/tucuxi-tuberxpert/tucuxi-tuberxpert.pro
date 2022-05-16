@@ -33,5 +33,6 @@ SOURCES += \
 
 OTHER_FILES += \
     language/dictionary.xsd \
-    language/en.xml
+    language/en.xml \
+    query/tuberxpert_computing_query.xsd
 
