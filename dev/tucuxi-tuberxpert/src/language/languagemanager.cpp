@@ -11,7 +11,7 @@
 #include <fstream>
 
 namespace Tucuxi {
-namespace Language {
+namespace XpertLanguage {
 
 std::unique_ptr<LanguageManager> LanguageManager::s_upInstance{nullptr};
 

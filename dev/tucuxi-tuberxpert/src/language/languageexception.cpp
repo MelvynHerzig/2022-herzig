@@ -1,7 +1,7 @@
 #include "languageexception.h"
 
 namespace Tucuxi {
-namespace Language {
+namespace XpertLanguage {
 
 LanguageException::LanguageException(const std::string& _msg) : std::runtime_error(_msg) {};
 

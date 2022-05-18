@@ -8,10 +8,20 @@
 #include "language/languagemanager.h"
 #include "query/xpertqueryimport.h"
 #include "query/xpertquerydata.h"
+#include "validation/modelselector.h"
 
 #include <fstream>
 
 using namespace std;
+
+/// \brief BAD_ARGUMENTS_ERROR Exit code when everything went fine.
+const int BAD_ARGUMENTS_ERROR = -1;
+
+/// \brief EXECUTION_SUCCESS Exit code when everything went fine.
+const int EXECUTION_SUCCESS = EXIT_SUCCESS;
+
+/// \brief IMPORT_ERROR Exit code when the query could not be loaded.
+const int IMPORT_ERROR = 1;
 
 /// \brief Parses the program arguments argc/argv to extract drugPath, inputFileName and outputFileName.
 /// \param argc Program argument count.
@@ -104,31 +114,37 @@ int main(int argc, char** argv)
     logHelper.info("Tuberxpert console application is starting up...");
 
     // Parsing program arguments
-    /*string drugPath, inputFileName, outputFileName;
+    string drugPath, inputFileName, outputFileName;
     string languagePath = "../language/";
     bool allGood = parse(argc, argv, drugPath, inputFileName, outputFileName, languagePath);
     if(not allGood){
-        return -2;
+        return BAD_ARGUMENTS_ERROR;
     }
+
+    /*********************************************************************************
+     *                               Query Importation                               *
+     * *******************************************************************************/
 
     cout << drugPath << " " << inputFileName << " " << outputFileName << std::endl;
 
-    std::ifstream ifs(inputFileName);
-    if (ifs.fail()) {
-        logHelper.error("Could not open the input file: " + inputFileName);
-
-        return -1;
-    }
-    std::string xmlString((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
-
     std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
-
     Tucuxi::XpertQuery::XpertQueryImport importer;
-    Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);*/
+    Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromFile(query, inputFileName);
+
+    if (importResult != Tucuxi::XpertQuery::XpertQueryImport::Status::Ok) {
+
+       logHelper.error("Error, see details : {}", importer.getErrorMessage());
+        return IMPORT_ERROR;
+    }
+
+    /*********************************************************************************
+     *                               Getting Drug Models                             *
+     * *******************************************************************************/
+
 
     logHelper.info("Tuberxpert console application is exiting...");
 
     Tucuxi::Common::LoggerHelper::beforeExit();
 
-    return EXIT_SUCCESS;
+    return EXECUTION_SUCCESS;
 }

@@ -53,8 +53,10 @@ int main(int argc, char** argv)
     QueryImportTests.add_test("Get an error when missing mandatory values in patient institute", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientInstitute);
     QueryImportTests.add_test("Get complete request xpert element", &TestXpertQueryImport::retrieveCompleteRequestXpert);
     QueryImportTests.add_test("Get default request xpert element", &TestXpertQueryImport::retrieveDefaultRequestXpert);
-    QueryImportTests.add_test("Get an error when missing request xpert", &TestXpertQueryImport:: errorWhenNoRequestXpert);
-    QueryImportTests.add_test("Get an error when missing mandatory values in request xpert", &TestXpertQueryImport:: errorWhenMissingMandatoryRequestXpert);
+    QueryImportTests.add_test("Get an error when missing request xpert", &TestXpertQueryImport::errorWhenNoRequestXpert);
+    QueryImportTests.add_test("Get an error when missing mandatory values in request xpert", &TestXpertQueryImport::errorWhenMissingMandatoryRequestXpert);
+    QueryImportTests.add_test("Get an error when the xml document can't be created from string", &TestXpertQueryImport::errorWhenCreatingXmlDocumentFromString);
+    QueryImportTests.add_test("Get an error when the xml document can't be created from file", &TestXpertQueryImport::errorWhenCreatingXmlDocumentFromFile);
 
     res = QueryImportTests.run(argc, argv);
     if (res != 0) {

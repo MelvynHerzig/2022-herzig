@@ -8,7 +8,7 @@
 #include <vector>
 
 namespace Tucuxi {
-namespace Language {
+namespace XpertLanguage {
 
 /// \brief The language manager class is a singleton that loads an xml language
 /// file and allows to get the translation strings with common identifiers.

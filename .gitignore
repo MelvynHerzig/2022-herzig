@@ -1,5 +1,11 @@
 build-tuxuci-tuberxpert-Desktop_Qt_6_2_3_MinGW_64_bit-Debug
+build-tucuxi-tuberxpert-Desktop_Qt_6_2_3_MinGW_64_bit-Release
+build-test-Desktop_Qt_6_2_3_MinGW_64_bit-Debug
+build-test-Desktop_Qt_6_2_3_MinGW_64_bit-Release
 
 *.user
 
 node_modules
+
+*.log
+.qmake.stash

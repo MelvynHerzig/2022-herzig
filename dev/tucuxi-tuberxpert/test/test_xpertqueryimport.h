@@ -2861,6 +2861,38 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_ne(importer.getErrorMessage().find("format"), std::string::npos);
         fructose_assert_ne(importer.getErrorMessage().find("language"), std::string::npos);
     }
+
+    /// \brief Load an xml file not well formatted
+    /// \param _testName Name of the test.
+    void errorWhenCreatingXmlDocumentFromString(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <badFormatted>
+                                    )";
+
+        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+
+        Tucuxi::XpertQuery::XpertQueryImport importer;
+        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
+
+        fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::CantCreateXmlDocument);
+    }
+
+    /// \brief Tries to open a file that does not exist.
+    /// \param _testName Name of the test.
+    void errorWhenCreatingXmlDocumentFromFile(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+
+        Tucuxi::XpertQuery::XpertQueryImport importer;
+        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromFile(query, "this file is not existing.xml");
+
+        fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::CantOpenFile);
+    }
 };
 
 #endif // TEST_XPERTQUERYIMPORT_H
