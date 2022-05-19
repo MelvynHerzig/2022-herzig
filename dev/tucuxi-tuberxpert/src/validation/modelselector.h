@@ -32,8 +32,9 @@ public:
         TotallyMissingModels
     };
 
-    /// \brief Default constructor.
-    ModelSelector();
+    /// \brief ModelSelector constructor.
+    /// \param drugsFolder Folder in which search for drug models.
+    ModelSelector(const std::string& _drugsFolder);
 
     /// \brief Gets the best drug model for each drug in the query.
     /// \param _query Query to parse.
@@ -47,12 +48,13 @@ public:
 
 protected:
 
-    /// \brief Sets a new execution status and append an error message to existing.
-    /// \param _status New execution status.
+    /// \brief Append an error message to existing error message.
     /// \param _errorMessage Error message to append.
-    void setStatus(Status _status, const std::string& _errorMessage = "");
+    void appendErrorMessage(const std::string& _errorMessage);
 
 protected:
+
+    std::string m_drugsFolder;
 
     /// Execution status.
     Status m_status{Status::Ok};

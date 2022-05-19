@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <map>
 
 #include "tucucommon/loggerhelper.h"
 #include "tucucommon/utils.h"
@@ -9,8 +10,6 @@
 #include "query/xpertqueryimport.h"
 #include "query/xpertquerydata.h"
 #include "validation/modelselector.h"
-
-#include <fstream>
 
 using namespace std;
 
@@ -40,49 +39,49 @@ bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, stri
         options.positional_help("[optional args]").show_positional_help();
 
         options.allow_unrecognised_options().add_options()
-                ("d,drugpath", "Drug files directory path", cxxopts::value<std::string>())
-                ("i,input", "Input request file path", cxxopts::value<std::string>())
-                ("o,output", "Output response file path", cxxopts::value<std::string>())
-                ("l,languagepath", "Language files directory path", cxxopts::value<std::string>())
+                ("d,drugpath", "Drug files directory path", cxxopts::value<string>())
+                ("i,input", "Input request file path", cxxopts::value<string>())
+                ("o,output", "Output response file path", cxxopts::value<string>())
+                ("l,languagepath", "Language files directory path", cxxopts::value<string>())
                 ("help", "Print help");
 
 
         auto result = options.parse(argc, argv);
 
         if (result.count("help") > 0) {
-            std::cout << options.help({"", "Group"}) << std::endl;
+            cout << options.help({"", "Group"}) << endl;
             return EXIT_SUCCESS;
         }
 
         if (result.count("drugpath") > 0) {
-            drugPath = result["drugpath"].as<std::string>();
+            drugPath = result["drugpath"].as<string>();
         } else {
-            std::cout << "The drug files directory is mandatory" << std::endl << std::endl;
-            std::cout << options.help({"", "Group"}) << std::endl;
+            cout << "The drug files directory is mandatory" << endl << endl;
+            cout << options.help({"", "Group"}) << endl;
             return false;
         }
 
         if (result.count("input") > 0) {
-            inputFileName = result["input"].as<std::string>();
+            inputFileName = result["input"].as<string>();
         }
         else {
-            std::cout << "The input file is mandatory" << std::endl << std::endl;
-            std::cout << options.help({"", "Group"}) << std::endl;
+            cout << "The input file is mandatory" << endl << endl;
+            cout << options.help({"", "Group"}) << endl;
             return false;
         }
 
         if (result.count("output") > 0) {
-            outputFileName = result["output"].as<std::string>();
+            outputFileName = result["output"].as<string>();
         }
         else {
-            std::cout << "The output file is mandatory" << std::endl << std::endl;
-            std::cout << options.help({"", "Group"}) << std::endl;
+            cout << "The output file is mandatory" << endl << endl;
+            cout << options.help({"", "Group"}) << endl;
             return false;
         }
 
 
         if (result.count("languagepath") > 0) {
-            languagePath = result["languagepath"].as<std::string>();
+            languagePath = result["languagepath"].as<string>();
         }
 
         logHelper.info("Drugs directory : {}", drugPath);
@@ -105,7 +104,7 @@ bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, stri
 int main(int argc, char** argv)
 {
     // Get application folder
-    std::string appFolder = Tucuxi::Common::Utils::getAppFolder(argv);
+    string appFolder = Tucuxi::Common::Utils::getAppFolder(argv);
 
     Tucuxi::Common::LoggerHelper::init(appFolder + "/tuberxpert.log");
     Tucuxi::Common::LoggerHelper logHelper;
@@ -121,13 +120,13 @@ int main(int argc, char** argv)
         return BAD_ARGUMENTS_ERROR;
     }
 
+     cout << drugPath << " " << inputFileName << " " << outputFileName << endl;
+
     /*********************************************************************************
      *                               Query Importation                               *
      * *******************************************************************************/
 
-    cout << drugPath << " " << inputFileName << " " << outputFileName << std::endl;
-
-    std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+    unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
     Tucuxi::XpertQuery::XpertQueryImport importer;
     Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromFile(query, inputFileName);
 
@@ -140,6 +139,10 @@ int main(int argc, char** argv)
     /*********************************************************************************
      *                               Getting Drug Models                             *
      * *******************************************************************************/
+
+    Tucuxi::XpertValidation::ModelSelector modelSelector{drugPath};
+    map<Tucuxi::Query::DrugData*, std::string> modelIdPerDrug;
+    modelSelector.getBestModelForQueryDrugs(*query, modelIdPerDrug);
 
 
     logHelper.info("Tuberxpert console application is exiting...");
