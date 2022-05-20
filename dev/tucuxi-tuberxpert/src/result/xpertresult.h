@@ -1,5 +1,5 @@
-#ifndef RESULT_H
-#define RESULT_H
+#ifndef XPERTRESULT_H
+#define XPERTRESULT_H
 
 #include <memory>
 #include <map>
@@ -28,18 +28,17 @@ namespace XpertResult {
 ///
 /// \date 20/05/2022
 /// \author Herzig Melvyn
-class Result
+class XpertResult
 {
 public:
 
     /// \brief Constructor
-    /// \param lang Language to use for translating.
-    Result(const std::string& _lang);
+    XpertResult();
 
     /// \brief Copy constructor is not supported.
     ///  The copy constructor is not supported because of the use of
     ///  unique_ptr wich can't be copied.
-    Result(const Result& _other) = delete;
+    XpertResult(const XpertResult& _other) = delete;
 
     /// \brief Gets the language to use for
     /// \return Return the language to be used if possible.
@@ -59,9 +58,6 @@ public:
 
 protected:
 
-    /// Language to use if possible.
-    const std::string m_language;
-
     /// Date of generation.
     Common::DateTime m_generationDate;
 
@@ -75,4 +71,4 @@ protected:
 } // namespace XpertResult
 } // namespace Tucuxi
 
-#endif // RESULT_H
+#endif // XPERTRESULT_H

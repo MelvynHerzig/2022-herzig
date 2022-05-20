@@ -2,6 +2,9 @@
 #define COVARIATERESULT_H
 
 #include <string>
+#include <optional>
+
+#include "tucucommon/unit.h"
 
 namespace Tucuxi {
 namespace XpertResult {
@@ -11,6 +14,20 @@ namespace XpertResult {
 enum class CovariateSource {
     Patient,
     Model
+};
+
+class AbsractCovariateResult {
+public:
+    virtual ~AbsractCovariateResult(){};
+
+    virtual std::string getValue() const = 0;
+
+    //virtual Common::TucuUnit getUnit() const = 0;
+
+    virtual std::string getSource() const = 0;
+
+    virtual std::optional<std::string> getWarning() const = 0;
+
 };
 
 /// \brief This is a wrapper class that stores the information about the
@@ -25,18 +42,62 @@ enum class CovariateSource {
 ///        A patient coavriate might be invalid (not respecting the domain of the definition), so it could
 ///        contain an optional error message.
 ///
+///        The generic value is expected to be a PatientCovariate or a CovariateDefinition.
+///        They must implement the methods getValue() and getUnit()
+///
 /// \date 20/05/2022
 /// \author Herzig Melvyn
-class CovariateResult
+template<typename T>
+class CovariateResult : public AbsractCovariateResult
 {
 public:
 
-    /// \brief Create a covariate result for covariate definition.
-    /// \param value Value used for computation
-    /// \param unit Unit used.
-    /// \param source Source of the covariate.
-    /// \param error Optional error message
-    CovariateResult(const std::string& value, const std::string& unit, CovariateSource source, const std::string& error = "");
+    /// \brief Create a covariate result for a given covariate definition.
+    /// \param _source Define from where comes the _covariate element.
+    /// \param _covariate Reference to a PatientCovariate or a CovariateDefinition with getValue() and getUnit()
+    /// \param _warning Optionnal warning message, if PatientCovariate does not match DefinitionCovariate domain.
+    CovariateResult(CovariateSource _source, T _covariate, const std::optional<std::string>& _warning):
+        m_source(_source), m_covariate(_covariate), m_warning(_warning)
+    {};
+
+    /// \brief Get the value (as string) of the covariate.
+    /// \return Returns the value.
+    std::string getValue() const {
+        return "m_covariate.getValue();";
+    };
+
+    /// \brief Get the data's unit of measure.
+    /// \return Data's unit of measure.
+//    Common::TucuUnit getUnit() const{
+//        return m_covariate.getUnit();
+//    }
+
+    /// \brief Get the source of the covariate as a string.
+    /// \return Source of the covariate
+    std::string getSource() const{
+        switch(m_source) {
+            case CovariateSource::Patient : return "patient";
+            case CovariateSource::Model   : return "model";
+            default : return "unknown";
+        }
+    }
+
+    /// \brief Get the optional warning message.
+    /// \return Return a copy of the optional warning.
+    std::optional<std::string> getWarning() const{
+        return m_warning;
+    }
+
+protected:
+
+    /// Covariate source indication.
+    CovariateSource m_source;
+
+    /// Covariates reference to use getValue and getUnit.
+    T m_covariate;
+
+    /// Error to print when generating the covariate in report.
+    std::optional<std::string> m_warning;
 };
 
 } // namespace XpertResult

@@ -9,7 +9,7 @@
 #include "language/languagemanager.h"
 #include "query/xpertqueryimport.h"
 #include "query/xpertquerydata.h"
-#include "result/result.h"
+#include "result/xpertresult.h"
 #include "result/validation/modelselector.h"
 
 using namespace std;
@@ -127,14 +127,14 @@ int main(int argc, char** argv)
       *                                Result Wrapper                                 *
       * *******************************************************************************/
 
-     Tucuxi::XpertResult::Result result;
+     Tucuxi::XpertResult::XpertResult xpertResult;
 
     /*********************************************************************************
      *                               Query Importation                               *
      * *******************************************************************************/
 
     Tucuxi::XpertQuery::XpertQueryImport importer;
-    Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromFile(result.getQuery(), inputFileName);
+    Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromFile(xpertResult.getQuery(), inputFileName);
 
     if (importResult != Tucuxi::XpertQuery::XpertQueryImport::Status::Ok) {
 
@@ -148,7 +148,7 @@ int main(int argc, char** argv)
 
     Tucuxi::XpertResult::ModelSelector modelSelector{drugPath};
     map<Tucuxi::Query::DrugData*, std::string> modelIdPerDrug;
-    modelSelector.getBestModelForQueryDrugs(*result.getQuery(), modelIdPerDrug);
+    modelSelector.getBestModelForQueryDrugs(xpertResult);
 
 
     logHelper.info("Tuberxpert console application is exiting...");

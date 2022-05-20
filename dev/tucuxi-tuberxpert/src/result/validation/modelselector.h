@@ -6,6 +6,7 @@
 #include "tucuquery/parametersdata.h"
 
 #include "../../query/xpertquerydata.h"
+#include "../xpertresult.h"
 
 namespace Tucuxi {
 namespace XpertResult {
@@ -36,11 +37,10 @@ public:
     /// \param drugsFolder Folder in which search for drug models.
     ModelSelector(const std::string& _drugsFolder);
 
-    /// \brief Gets the best drug model for each drug in the query.
-    /// \param _query Query to parse.
-    /// \param _modelIdPerDrug Map that will get populated with drug model id by drug in _query.
+    /// \brief Gets the best drug model for each drug requested by a request xpert in the query.
+    /// \param _xpertResult Xpert result containing the query to parse and the decisions.
     /// \return Returns a Status depending on the execution.
-    Status getBestModelForQueryDrugs(const XpertQuery::XpertQueryData& _query, std::map<Query::DrugData*, std::string>& _modelIdPerDrug);
+    Status getBestModelForQueryDrugs(XpertResult& _xpertResult);
 
     /// \brief Gets the error message describing error that could happen during getBestModelForQueryDrug.
     /// \return Returns the error message as a string.

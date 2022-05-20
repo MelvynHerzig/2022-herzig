@@ -9,7 +9,7 @@ HEADERS += \
     $$PWD/result/covariateresult.h \
     $$PWD/result/drugresult.h \
     $$PWD/result/validation/modelselector.h \
-    $$PWD/result/result.h
+    $$PWD/result/xpertresult.h
 
 SOURCES += \
     $$PWD/query/xpertadministrativedata.cpp \
@@ -21,4 +21,4 @@ SOURCES += \
     $$PWD/result/covariateresult.cpp \
     $$PWD/result/drugresult.cpp \
     $$PWD/result/validation/modelselector.cpp \
-    $$PWD/result/result.cpp
+    $$PWD/result/xpertresult.cpp
