@@ -10,7 +10,7 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertValidation {
+namespace XpertResult {
 
 ModelSelector::ModelSelector(const string& _drugsFolder) : m_drugsFolder(_drugsFolder)
 {}
@@ -20,7 +20,7 @@ ModelSelector::Status ModelSelector::getBestModelForQueryDrugs(const XpertQuery:
     size_t nbDrugFailed = 0;
 
     // For each drug.
-    const vector<unique_ptr<Query::DrugData>> queryDrugs = _query.getpParameters().getDrugs();
+    const vector<unique_ptr<Query::DrugData>>& queryDrugs = _query.getpParameters().getDrugs();
     for(size_t i = 0; i < queryDrugs.size(); ++i) {
 
         // Check that each Formulation and route are the same
@@ -57,7 +57,7 @@ ModelSelector::Status ModelSelector::getBestModelForQueryDrugs(const XpertQuery:
             //Checking that the drug models support the formulation and route used by the query.
             if(!queryFormulationsAndRoutes.empty()){
                 bool isFormulationAndRouteSupported = false;
-                vector<unique_ptr<Core::FullFormulationAndRoute>> modelFormulationAndRoutes = drugModels[i]->getFormulationAndRoutes().getList();
+                const vector<unique_ptr<Core::FullFormulationAndRoute>>& modelFormulationAndRoutes = drugModels[i]->getFormulationAndRoutes().getList();
                 for(size_t k = 0; k < modelFormulationAndRoutes.size(); ++k){
                     Core::FormulationAndRoute modelFormulationAndRoute = modelFormulationAndRoutes[k]->getFormulationAndRoute();
                     if(modelFormulationAndRoute.getFormulation() == queryFormulationsAndRoutes.front().getFormulation() &&
@@ -91,5 +91,5 @@ void ModelSelector::appendErrorMessage(const std::string& _errorMessage)
     m_errorMessage += _errorMessage + "\n";
 }
 
-} // namespace XpertValidation
+} // namespace XpertResult
 } // namespace Tucuxi

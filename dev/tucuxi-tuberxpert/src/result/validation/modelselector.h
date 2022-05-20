@@ -5,10 +5,10 @@
 
 #include "tucuquery/parametersdata.h"
 
-#include "../query/xpertquerydata.h"
+#include "../../query/xpertquerydata.h"
 
 namespace Tucuxi {
-namespace XpertValidation {
+namespace XpertResult {
 
 /// \brief This is a utility class responsible to get the best drug model for a given drug.
 ///
@@ -63,7 +63,7 @@ protected:
     std::string m_errorMessage;
 };
 
-} // namespace XpertValidation
+} // namespace XpertResult
 } // namespace Tucuxi
 
 #endif // MODELSELECTOR_H

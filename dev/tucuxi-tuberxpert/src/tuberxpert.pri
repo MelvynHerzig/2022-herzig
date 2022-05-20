@@ -6,7 +6,10 @@ HEADERS += \
     $$PWD/query/xpertrequestdata.h \
     $$PWD/language/languageexception.h \
     $$PWD/language/languagemanager.h \
-    $$PWD/validation/modelselector.h \
+    $$PWD/result/covariateresult.h \
+    $$PWD/result/drugresult.h \
+    $$PWD/result/validation/modelselector.h \
+    $$PWD/result/result.h
 
 SOURCES += \
     $$PWD/query/xpertadministrativedata.cpp \
@@ -15,4 +18,7 @@ SOURCES += \
     $$PWD/language/languageexception.cpp \
     $$PWD/language/languagemanager.cpp \
     $$PWD/query/xpertrequestdata.cpp \
-    $$PWD/validation/modelselector.cpp
+    $$PWD/result/covariateresult.cpp \
+    $$PWD/result/drugresult.cpp \
+    $$PWD/result/validation/modelselector.cpp \
+    $$PWD/result/result.cpp

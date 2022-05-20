@@ -13,7 +13,7 @@ XpertQueryImport::XpertQueryImport() = default;
 XpertQueryImport::~XpertQueryImport() = default;
 
 
-Common::IImport::Status XpertQueryImport::importFromFile(std::unique_ptr<XpertQueryData> &_query, const std::string &_fileName)
+Common::IImport::Status XpertQueryImport::importFromFile(std::unique_ptr<XpertQueryData>& _query, const std::string &_fileName)
 {
     // Ensure the function is reentrant
     std::lock_guard<std::mutex> lock(m_mutex);

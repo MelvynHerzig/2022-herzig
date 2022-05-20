@@ -9,7 +9,8 @@
 #include "language/languagemanager.h"
 #include "query/xpertqueryimport.h"
 #include "query/xpertquerydata.h"
-#include "validation/modelselector.h"
+#include "result/result.h"
+#include "result/validation/modelselector.h"
 
 using namespace std;
 
@@ -122,13 +123,18 @@ int main(int argc, char** argv)
 
      cout << drugPath << " " << inputFileName << " " << outputFileName << endl;
 
+     /*********************************************************************************
+      *                                Result Wrapper                                 *
+      * *******************************************************************************/
+
+     Tucuxi::XpertResult::Result result;
+
     /*********************************************************************************
      *                               Query Importation                               *
      * *******************************************************************************/
 
-    unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
     Tucuxi::XpertQuery::XpertQueryImport importer;
-    Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromFile(query, inputFileName);
+    Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromFile(result.getQuery(), inputFileName);
 
     if (importResult != Tucuxi::XpertQuery::XpertQueryImport::Status::Ok) {
 
@@ -140,9 +146,9 @@ int main(int argc, char** argv)
      *                               Getting Drug Models                             *
      * *******************************************************************************/
 
-    Tucuxi::XpertValidation::ModelSelector modelSelector{drugPath};
+    Tucuxi::XpertResult::ModelSelector modelSelector{drugPath};
     map<Tucuxi::Query::DrugData*, std::string> modelIdPerDrug;
-    modelSelector.getBestModelForQueryDrugs(*query, modelIdPerDrug);
+    modelSelector.getBestModelForQueryDrugs(*result.getQuery(), modelIdPerDrug);
 
 
     logHelper.info("Tuberxpert console application is exiting...");
