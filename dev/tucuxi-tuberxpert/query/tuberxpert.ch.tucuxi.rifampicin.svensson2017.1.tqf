@@ -85,8 +85,8 @@
                     <covariateId>ffm</covariateId>
                     <date>2018-07-11T10:45:30</date>
                     <value>40</value>
-                    <unit>kg</unit>
-                      <dataType>double</dataType>
+                    <unit>g</unit>
+                    <dataType>double</dataType>
                     <nature>continuous</nature>
                 </covariate>
             </covariates>

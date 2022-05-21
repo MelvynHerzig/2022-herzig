@@ -3,12 +3,12 @@
 namespace Tucuxi {
 namespace XpertResult {
 
-DrugResult::DrugResult(const std::string& _drugModelId) : m_drugModelId(_drugModelId)
+DrugResult::DrugResult(const Core::DrugModel* _drugModel) : m_drugModel(_drugModel)
 {}
 
-const std::string& DrugResult::drugModelId() const
+const Core::DrugModel* DrugResult::getDrugModel() const
 {
-    return m_drugModelId;
+    return m_drugModel;
 }
 
 std::map<Core::CovariateDefinition*, AbsractCovariateResult*>& DrugResult::getCovariateResults()

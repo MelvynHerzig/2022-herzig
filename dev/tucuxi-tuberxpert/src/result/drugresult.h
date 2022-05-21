@@ -5,6 +5,7 @@
 #include <map>
 
 #include "tucucore/drugmodel/covariatedefinition.h"
+#include "tucucore/drugmodel/drugmodel.h"
 
 #include "./covariateresult.h"
 
@@ -23,12 +24,12 @@ class DrugResult
 {
 public:
     /// \brief Default constructor.
-    /// \param _drugModelId Drug model Identifier used for reference.
-    DrugResult(const std::string& _drugModelId);
+    /// \param _drugModel Drug model associated to the current drug result
+    DrugResult(const Core::DrugModel* _drugModel);
 
-    /// \brief Gets the drug model identifier to use.
-    /// \return Return the drug model identifier.
-    const std::string &drugModelId() const;
+    /// \brief Gets the drug model to use.
+    /// \return Return the drug model.
+    const Core::DrugModel* getDrugModel() const;
 
     /// \brief Gets the covariate results map.
     /// \return Return the map which corresponds CovariateDefinition& to CovariateResult.
@@ -36,8 +37,8 @@ public:
 
 protected:
 
-    /// Identifier of the drug model to use when making adjustmentRequest.
-    std::string m_drugModelId;
+    /// Drug model to use when making adjustmentRequest.
+    const Core::DrugModel* m_drugModel;
 
     /// Mapping of CovariateResult to CovariateDefinition of the drug model.
     std::map<Core::CovariateDefinition*, AbsractCovariateResult*> m_covariateResults;

@@ -34,8 +34,7 @@ public:
     };
 
     /// \brief ModelSelector constructor.
-    /// \param drugsFolder Folder in which search for drug models.
-    ModelSelector(const std::string& _drugsFolder);
+    ModelSelector();
 
     /// \brief Gets the best drug model for each drug requested by a request xpert in the query.
     /// \param _xpertResult Xpert result containing the query to parse and the decisions.
@@ -53,8 +52,6 @@ protected:
     void appendErrorMessage(const std::string& _errorMessage);
 
 protected:
-
-    std::string m_drugsFolder;
 
     /// Execution status.
     Status m_status{Status::Ok};

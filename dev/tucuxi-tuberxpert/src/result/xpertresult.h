@@ -54,7 +54,7 @@ public:
 
     /// \brief Gets a reference on map of drug results.
     /// \return Returns a reference of the drug results map.
-    std::map<Query::DrugData*, DrugResult>& getDrugResults();
+    std::map<XpertQuery::XpertRequestData*, DrugResult>& getDrugResults();
 
 protected:
 
@@ -64,8 +64,8 @@ protected:
     /// Query importation data.
     std::unique_ptr<XpertQuery::XpertQueryData> m_query;
 
-    /// Maps DrugData to associated DrugResult.
-    std::map<Query::DrugData*, DrugResult> m_drugResults;
+    /// Maps XpertQuery to associated DrugResult.
+    std::map<XpertQuery::XpertRequestData*, DrugResult> m_drugResults;
 };
 
 } // namespace XpertResult

@@ -5,6 +5,7 @@
 #include "tucucommon/loggerhelper.h"
 #include "tucucommon/utils.h"
 #include "cxxopts/include/cxxopts.hpp"
+#include "tucucore/drugmodelrepository.h"
 
 #include "language/languagemanager.h"
 #include "query/xpertqueryimport.h"
@@ -121,13 +122,22 @@ int main(int argc, char** argv)
         return BAD_ARGUMENTS_ERROR;
     }
 
-     cout << drugPath << " " << inputFileName << " " << outputFileName << endl;
 
-     /*********************************************************************************
+    // Drug models repository creation
+    Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
+
+    auto drugModelRepository =
+            dynamic_cast<Tucuxi::Core::DrugModelRepository*>(Tucuxi::Core::DrugModelRepository::createComponent());
+
+    pCmpMgr->registerComponent("DrugModelRepository", drugModelRepository);
+
+    drugModelRepository->addFolderPath(drugPath);
+
+    /*********************************************************************************
       *                                Result Wrapper                                 *
       * *******************************************************************************/
 
-     Tucuxi::XpertResult::XpertResult xpertResult;
+    Tucuxi::XpertResult::XpertResult xpertResult;
 
     /*********************************************************************************
      *                               Query Importation                               *
@@ -138,7 +148,7 @@ int main(int argc, char** argv)
 
     if (importResult != Tucuxi::XpertQuery::XpertQueryImport::Status::Ok) {
 
-       logHelper.error("Error, see details : {}", importer.getErrorMessage());
+        logHelper.error("Error, see details : {}", importer.getErrorMessage());
         return IMPORT_ERROR;
     }
 
@@ -146,12 +156,14 @@ int main(int argc, char** argv)
      *                               Getting Drug Models                             *
      * *******************************************************************************/
 
-    Tucuxi::XpertResult::ModelSelector modelSelector{drugPath};
+    Tucuxi::XpertResult::ModelSelector modelSelector;
     map<Tucuxi::Query::DrugData*, std::string> modelIdPerDrug;
     modelSelector.getBestModelForQueryDrugs(xpertResult);
 
 
     logHelper.info("Tuberxpert console application is exiting...");
+
+    pCmpMgr->unregisterComponent("DrugModelRepository");
 
     Tucuxi::Common::LoggerHelper::beforeExit();
 

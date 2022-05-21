@@ -16,7 +16,7 @@ Common::DateTime XpertResult::getGenerationDate()
     return m_generationDate;
 }
 
-std::map<Query::DrugData *, DrugResult>& XpertResult::getDrugResults()
+std::map<XpertQuery::XpertRequestData*, DrugResult>& XpertResult::getDrugResults()
 {
     return m_drugResults;
 }
