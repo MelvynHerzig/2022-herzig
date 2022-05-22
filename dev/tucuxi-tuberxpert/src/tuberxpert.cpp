@@ -1,9 +1,8 @@
 #include <iostream>
 #include <memory>
-#include <map>
+#include <fstream>
 
 #include "tucucommon/loggerhelper.h"
-#include "tucucommon/utils.h"
 #include "cxxopts/include/cxxopts.hpp"
 #include "tucucore/drugmodelrepository.h"
 
@@ -15,6 +14,10 @@
 
 using namespace std;
 
+/*********************************************************************************
+ *                                 Result Codes                                  *
+ * *******************************************************************************/
+
 /// \brief BAD_ARGUMENTS_ERROR Exit code when everything went fine.
 const int BAD_ARGUMENTS_ERROR = -1;
 
@@ -23,6 +26,12 @@ const int EXECUTION_SUCCESS = EXIT_SUCCESS;
 
 /// \brief IMPORT_ERROR Exit code when the query could not be loaded.
 const int IMPORT_ERROR = 1;
+
+/// \brief SOME_REQUESTS_FAILED Exit code when some of the requests could not get fulfilled.
+const int SOME_REQUESTS_FAILED = 2;
+
+/// \brief ALL_REQUESTS_FAILED Exit code when all the requests could not get fulfilled.
+const int ALL_REQUESTS_FAILED = 3;
 
 /// \brief Parses the program arguments argc/argv to extract drugPath, inputFileName and outputFileName.
 /// \param argc Program argument count.
@@ -116,12 +125,11 @@ int main(int argc, char** argv)
 
     // Parsing program arguments
     string drugPath, inputFileName, outputFileName;
-    string languagePath = "../language/";
+    string languagePath = "../language";
     bool allGood = parse(argc, argv, drugPath, inputFileName, outputFileName, languagePath);
     if(not allGood){
         return BAD_ARGUMENTS_ERROR;
     }
-
 
     // Drug models repository creation
     Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
@@ -133,15 +141,14 @@ int main(int argc, char** argv)
 
     drugModelRepository->addFolderPath(drugPath);
 
-    /*********************************************************************************
-      *                                Result Wrapper                                 *
-      * *******************************************************************************/
-
-    Tucuxi::XpertResult::XpertResult xpertResult;
+    // Getting language manager
+    Tucuxi::XpertLanguage::LanguageManager& languageManager = Tucuxi::XpertLanguage::LanguageManager::getInstance();
 
     /*********************************************************************************
      *                               Query Importation                               *
      * *******************************************************************************/
+
+    Tucuxi::XpertResult::XpertResult xpertResult;
 
     Tucuxi::XpertQuery::XpertQueryImport importer;
     Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromFile(xpertResult.getQuery(), inputFileName);
@@ -153,12 +160,51 @@ int main(int argc, char** argv)
     }
 
     /*********************************************************************************
-     *                               Getting Drug Models                             *
+     *                             For each xpert resquest                           *
      * *******************************************************************************/
 
-    Tucuxi::XpertResult::ModelSelector modelSelector;
-    map<Tucuxi::Query::DrugData*, std::string> modelIdPerDrug;
-    modelSelector.getBestModelForQueryDrugs(xpertResult);
+    unsigned nbUnfulfilledRequest = 0;
+
+    for (const unique_ptr<Tucuxi::XpertQuery::XpertRequestData>& xpertRequest : xpertResult.getQuery()->getXpertRequests()) {
+
+        /**************************************************************
+         *                  Load the translation file                 *
+         * ************************************************************/
+
+        try {
+            string languageFileName = languagePath + "/" + languageManager.computeLanguageFileName(xpertRequest->getOutputLang());
+            ifstream ifs(languageFileName);
+
+            // If language file opening failed.
+            if (ifs.fail()) {
+                throw runtime_error("Could not open the input file: " + languageFileName);
+            }
+
+            // Try loading the language file, it may throw a LanguageException.
+            string xmlLanguageString((istreambuf_iterator<char>(ifs)), (istreambuf_iterator<char>()));
+            languageManager.loadDictionary(xmlLanguageString);
+
+        } catch (const runtime_error& e) {
+
+            // Somehow, the acquisition of the language file failed.
+            // Leave this requestXpert and try the next one.
+            logHelper.error(e.what());
+            ++nbUnfulfilledRequest;
+            continue;
+        }
+
+        /**************************************************************
+         *                       Model selection                      *
+         * ************************************************************/
+
+        unique_ptr<Tucuxi::XpertResult::XpertRequestResult> xpertRequestResult = nullptr;
+        Tucuxi::XpertResult::ModelSelector modelSelector;
+        modelSelector.getBestDrugModel(xpertRequest, xpertResult);
+
+        int randomBPoint = 0;
+    }
+
+
 
 
     logHelper.info("Tuberxpert console application is exiting...");

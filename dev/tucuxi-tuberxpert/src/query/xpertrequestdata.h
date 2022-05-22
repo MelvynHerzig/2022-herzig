@@ -26,6 +26,7 @@ enum class OutputLang
 /// It can be:
 /// 0: xml
 /// 1: html
+/// 2: pdf
 /// \date 24/04/2022
 /// \author Herzig Melvyn
 enum class OutputFormat

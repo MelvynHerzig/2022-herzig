@@ -3,39 +3,46 @@
 namespace Tucuxi {
 namespace XpertResult {
 
+CovariateResult::CovariateResult(const Core::CovariateDefinition*_source, CovariateType _type, std::optional<std::string>& _warning) :
+m_sourceFromModel(_source), m_sourceFromPatient(nullptr), m_type(_type), m_warning(_warning)
+{}
 
-//template<typename T>
-//CovariateResult<T>::CovariateResult(T _covariate):
-//    m_covariate(_covariate)
-//{}
+CovariateResult::CovariateResult(const Query::CovariateData*_source, CovariateType _type, std::optional<std::string>& _warning) :
+ m_sourceFromModel(nullptr), m_sourceFromPatient(_source), m_type(_type), m_warning(_warning)
+{}
 
-//template<typename T>
-//std::string CovariateResult<T>::getValue() const
-//{
-//    return m_covariate.getValue();
-//}
+std::string CovariateResult::getValue() const
+{
+    if (m_sourceFromModel == nullptr) {
+        return m_sourceFromPatient->getValue();
+    } else {
+        return Common::Utils::varToString(m_sourceFromModel->getValue());
+    }
+}
 
-//template<typename T>
-//Common::TucuUnit CovariateResult<T>::getUnit() const
-//{
-//    return m_covariate.getUnit();
-//}
+Common::TucuUnit CovariateResult::getUnit() const
+{
+    if (m_sourceFromModel == nullptr) {
+        return m_sourceFromPatient->getUnit();
+    } else {
+        return m_sourceFromModel->getUnit();
+    }
+}
 
-//template<typename T>
-//std::string CovariateResult<T>::getSource() const
-//{
-//    switch(m_source) {
-//        case CovariateSource::Patient : return "patient";
-//        case CovariateSource::Model   : return "model";
-//        default : return "unknown";
-//    }
-//}
+CovariateType CovariateResult::getType() const
+{
+    return m_type;
+}
 
-//template<typename T>
-//std::optional<std::string> CovariateResult<T>::getWarning() const
-//{
-//    return m_warning;
-//}
+std::optional<std::string> CovariateResult::getWarning() const
+{
+    return m_warning;
+}
+
+
+
+
+
 
 } // namespace XpertResult
 } // namespace Tucuxi

@@ -61,7 +61,7 @@
 											"font": "Arial;13;1",
 											"left": 573,
 											"top": 383,
-											"width": 326.22509765625,
+											"width": 361.6513671875,
 											"height": 13,
 											"text": "LanguageManager"
 										},
@@ -96,7 +96,7 @@
 									"font": "Arial;13;0",
 									"left": 568,
 									"top": 376,
-									"width": 336.22509765625,
+									"width": 371.6513671875,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGAhAsmNerYORc="
@@ -133,7 +133,7 @@
 											"font": "Arial;13;0",
 											"left": 573,
 											"top": 406,
-											"width": 326.22509765625,
+											"width": 361.6513671875,
 											"height": 13,
 											"underline": true,
 											"text": "+s_defaultTranslation: const string",
@@ -151,7 +151,7 @@
 											"font": "Arial;13;0",
 											"left": 573,
 											"top": 421,
-											"width": 326.22509765625,
+											"width": 361.6513671875,
 											"height": 13,
 											"underline": true,
 											"text": "-s_upInstance: unique_ptr<LanguageManager>",
@@ -169,7 +169,7 @@
 											"font": "Arial;13;0",
 											"left": 573,
 											"top": 436,
-											"width": 326.22509765625,
+											"width": 361.6513671875,
 											"height": 13,
 											"underline": true,
 											"text": "-s_mutex: mutex",
@@ -187,7 +187,7 @@
 											"font": "Arial;13;0",
 											"left": 573,
 											"top": 451,
-											"width": 326.22509765625,
+											"width": 361.6513671875,
 											"height": 13,
 											"text": "-m_keyToEntry: map<string, string>",
 											"horizontalAlignment": 0
@@ -196,7 +196,7 @@
 									"font": "Arial;13;0",
 									"left": 568,
 									"top": 401,
-									"width": 336.22509765625,
+									"width": 371.6513671875,
 									"height": 68
 								},
 								{
@@ -221,7 +221,7 @@
 											"font": "Arial;13;0",
 											"left": 573,
 											"top": 474,
-											"width": 326.22509765625,
+											"width": 361.6513671875,
 											"height": 13,
 											"text": "-LanguageManager()",
 											"horizontalAlignment": 0
@@ -238,10 +238,28 @@
 											"font": "Arial;13;0",
 											"left": 573,
 											"top": 489,
-											"width": 326.22509765625,
+											"width": 361.6513671875,
 											"height": 13,
 											"underline": true,
 											"text": "+getInstance(): LanguageManager&",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAGA6+t/WGwEjGg=",
+											"_parent": {
+												"$ref": "AAAAAAGAhAsmNerd9kA="
+											},
+											"model": {
+												"$ref": "AAAAAAGA6+t/UGwBEN0="
+											},
+											"font": "Arial;13;0",
+											"left": 573,
+											"top": 504,
+											"width": 361.6513671875,
+											"height": 13,
+											"underline": true,
+											"text": "+computeLanguageFileName(lang: OutputLang): string",
 											"horizontalAlignment": 0
 										},
 										{
@@ -255,8 +273,8 @@
 											},
 											"font": "Arial;13;0",
 											"left": 573,
-											"top": 504,
-											"width": 326.22509765625,
+											"top": 519,
+											"width": 361.6513671875,
 											"height": 13,
 											"text": "+const translate(key: const string&): string",
 											"horizontalAlignment": 0
@@ -272,8 +290,8 @@
 											},
 											"font": "Arial;13;0",
 											"left": 573,
-											"top": 519,
-											"width": 326.22509765625,
+											"top": 534,
+											"width": 361.6513671875,
 											"height": 13,
 											"text": "+loadDictionary(xmlString: const string&)",
 											"horizontalAlignment": 0
@@ -282,8 +300,8 @@
 									"font": "Arial;13;0",
 									"left": 568,
 									"top": 469,
-									"width": 336.22509765625,
-									"height": 68
+									"width": 371.6513671875,
+									"height": 83
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -322,8 +340,8 @@
 							"containerChangeable": true,
 							"left": 568,
 							"top": 376,
-							"width": 336.22509765625,
-							"height": 161,
+							"width": 371.6513671875,
+							"height": 176,
 							"nameCompartment": {
 								"$ref": "AAAAAAGAhAsmNerX/kY="
 							},
@@ -1012,6 +1030,38 @@
 									"name": "LanguageManager&",
 									"type": "LanguageManager&",
 									"direction": "return"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAGA6+t/UGwBEN0=",
+							"_parent": {
+								"$ref": "AAAAAAGAhAsmNOrUezQ="
+							},
+							"name": "computeLanguageFileName",
+							"isStatic": true,
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGA6+yEXGwLlts=",
+									"_parent": {
+										"$ref": "AAAAAAGA6+t/UGwBEN0="
+									},
+									"name": "Parameter1",
+									"type": "string",
+									"direction": "return"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGA6+yMZmwOP9U=",
+									"_parent": {
+										"$ref": "AAAAAAGA6+t/UGwBEN0="
+									},
+									"name": "lang",
+									"type": {
+										"$ref": "AAAAAAGAhGJUNla6kEU="
+									}
 								}
 							]
 						},

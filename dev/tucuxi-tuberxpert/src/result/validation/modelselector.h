@@ -23,15 +23,6 @@ class ModelSelector
 {
 public:
 
-    /// \brief Possible return value of the drug model selection
-    /// Ok: All good.
-    /// PartiallyMissingModels: Some drugs could not get attributed a model.
-    /// TotallyMissingModels: All the drugs could not get attributed a model.
-    enum class Status {
-        Ok = 0,
-        PartiallyMissingModels,
-        TotallyMissingModels
-    };
 
     /// \brief ModelSelector constructor.
     ModelSelector();
@@ -39,22 +30,27 @@ public:
     /// \brief Gets the best drug model for each drug requested by a request xpert in the query.
     /// \param _xpertResult Xpert result containing the query to parse and the decisions.
     /// \return Returns a Status depending on the execution.
-    Status getBestModelForQueryDrugs(XpertResult& _xpertResult);
+    bool getBestDrugModel(const std::unique_ptr<XpertQuery::XpertRequestData>& _xpertRequest, XpertResult& _xpertResult);
 
     /// \brief Gets the error message describing error that could happen during getBestModelForQueryDrug.
     /// \return Returns the error message as a string.
     std::string getErrorMessage() const;
 
+
 protected:
 
     /// \brief Append an error message to existing error message.
     /// \param _errorMessage Error message to append.
-    void appendErrorMessage(const std::string& _errorMessage);
+    void setErrorMessage(const std::string& _errorMessage);
+
+    const Query::DrugData* extractDrugData(const std::unique_ptr<XpertQuery::XpertRequestData>& _xpertRequest, const std::unique_ptr<XpertQuery::XpertQueryData>& _xpertQuery);
+
+    bool computeDrugModelScore(const Core::DrugModel* _drugModel, const Query::DrugData* _drugData, const std::vector<std::unique_ptr<Core::PatientCovariate>>& _patientCovariates, XpertRequestResult& _xpertRequestResult, unsigned& _score);
+
+    bool isFormulationAndRouteSupportedByDrugModel(const Core::DrugModel* _drugModel, const Query::DrugData* _drugData);
+
 
 protected:
-
-    /// Execution status.
-    Status m_status{Status::Ok};
 
     /// Error message of last getBestModelForQueryDrugs execution.
     std::string m_errorMessage;

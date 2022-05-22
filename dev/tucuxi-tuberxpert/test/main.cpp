@@ -27,6 +27,7 @@ int main(int argc, char** argv)
 
     languageTests.add_test("GetInstance", &TestLanguageManager::retrieveDictionary);
     languageTests.add_test("translate", &TestLanguageManager::wordTranslation);
+    languageTests.add_test("Compute language file name", &TestLanguageManager::computeLanguageFileName);
 
     res = languageTests.run(argc, argv);
     if (res != 0) {

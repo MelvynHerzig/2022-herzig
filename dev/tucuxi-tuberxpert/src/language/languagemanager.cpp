@@ -10,28 +10,30 @@
 
 #include <fstream>
 
+using namespace std;
+
 namespace Tucuxi {
 namespace XpertLanguage {
 
-std::unique_ptr<LanguageManager> LanguageManager::s_upInstance{nullptr};
+unique_ptr<LanguageManager> LanguageManager::s_upInstance{nullptr};
 
-const std::string LanguageManager::s_defaultTranslation = "unknown translation";
+const string LanguageManager::s_defaultTranslation = "unknown translation";
 
-std::mutex LanguageManager::s_mutex;
+mutex LanguageManager::s_mutex;
 
 LanguageManager::LanguageManager(){};
 
 LanguageManager& LanguageManager::getInstance()
 {
-    std::lock_guard<std::mutex> lock(s_mutex);
+    lock_guard<mutex> lock(s_mutex);
     if (s_upInstance == nullptr)
     {
-        s_upInstance = std::make_unique<LanguageManager>();
+        s_upInstance = make_unique<LanguageManager>();
     }
     return *s_upInstance;
 }
 
-std::string LanguageManager::translate(const std::string &key) const
+string LanguageManager::translate(const string &key) const
 {
     auto it = m_keyToEntry.find(key);
     if (it != m_keyToEntry.end()) {
@@ -42,7 +44,7 @@ std::string LanguageManager::translate(const std::string &key) const
     }
 }
 
-void LanguageManager::loadDictionary(const std::string& _xmlString)
+void LanguageManager::loadDictionary(const string& _xmlString)
 {
     m_keyToEntry.clear();
     Tucuxi::Common::XmlDocument document;
@@ -80,6 +82,19 @@ void LanguageManager::loadDictionary(const std::string& _xmlString)
         m_keyToEntry[it->getAttribute("key").getValue()] = it->getValue();
         it++;
     }
+}
+
+string LanguageManager::computeLanguageFileName(XpertQuery::OutputLang _lang)
+{
+    string fileName;
+
+    switch(_lang) {
+    case Tucuxi::XpertQuery::OutputLang::ENGLISH : fileName = "en.xml"; break;
+    case Tucuxi::XpertQuery::OutputLang::FRENCH  : fileName = "fr.xml"; break;
+    default : throw LanguageException("Unknown language");
+    }
+
+    return fileName;
 }
 
 

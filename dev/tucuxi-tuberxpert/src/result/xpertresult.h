@@ -7,7 +7,7 @@
 #include "tucucommon/datetime.h"
 
 #include "../query/xpertquerydata.h"
-#include "drugresult.h"
+#include "xpertrequestresult.h"
 
 namespace Tucuxi {
 namespace XpertResult {
@@ -44,17 +44,17 @@ public:
     /// \return Return the language to be used if possible.
     std::string getLanguage();
 
-    /// \brief Gets a reference on the query to be used in XpertQueryImport.
-    /// \return Return the query pointer by reference.
-    std::unique_ptr<XpertQuery::XpertQueryData>& getQuery();
-
     /// \brief Gets the generation date of the result.
     /// \return Return the generation date.
     Common::DateTime getGenerationDate();
 
+    /// \brief Gets a reference on the query to be used in XpertQueryImport.
+    /// \return Return the query pointer by reference.
+    std::unique_ptr<XpertQuery::XpertQueryData>& getQuery();
+
     /// \brief Gets a reference on map of drug results.
     /// \return Returns a reference of the drug results map.
-    std::map<XpertQuery::XpertRequestData*, DrugResult>& getDrugResults();
+    std::map<XpertQuery::XpertRequestData*, XpertRequestResult>& getXpertRequestResults();
 
 protected:
 
@@ -65,7 +65,7 @@ protected:
     std::unique_ptr<XpertQuery::XpertQueryData> m_query;
 
     /// Maps XpertQuery to associated DrugResult.
-    std::map<XpertQuery::XpertRequestData*, DrugResult> m_drugResults;
+    std::map<XpertQuery::XpertRequestData*, XpertRequestResult> m_xpertRequestResults;
 };
 
 } // namespace XpertResult

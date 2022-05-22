@@ -7,6 +7,8 @@
 #include <map>
 #include <vector>
 
+#include "../query/xpertrequestdata.h"
+
 namespace Tucuxi {
 namespace XpertLanguage {
 
@@ -22,14 +24,21 @@ public:
     /// \return The language manager itself.
     static LanguageManager& getInstance();
 
+    /// \brief Compute The language file name out of OutputLang.
+    /// \param lang OutputLang to get the corresponding language file name.
+    /// \return Return a string with file name corresponding to OutputLang requested.
+    /// \throw LanguageException if the OutputLang is not supported.
+    static std::string computeLanguageFileName(XpertQuery::OutputLang _lang);
+
     /// \brief Gets a translation for a given key.
     /// \param _key Key to look for.
     /// \return Translated string.
     std::string translate(const std::string& _key) const;
 
     /// \brief Loads an xml dictionary from  xml string.
-    ///  Each call erases the last.
+    ///  Each call erase and reload the map.
     /// \param _xmlString Xml string to use.
+    /// \throw LanguageException if the xml string could not be imported
     void loadDictionary(const std::string& _xmlString);
 
 private:

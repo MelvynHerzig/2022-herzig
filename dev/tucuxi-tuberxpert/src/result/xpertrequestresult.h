@@ -1,5 +1,5 @@
-#ifndef DRUGRESULT_H
-#define DRUGRESULT_H
+#ifndef XPERTREQUESTRESULT_H
+#define XPERTREQUESTRESULT_H
 
 #include <string>
 #include <map>
@@ -20,12 +20,12 @@ namespace XpertResult {
 ///        when selecting best drug model
 /// \date 20/05/2022
 /// \author Herzig Melvyn
-class DrugResult
+class XpertRequestResult
 {
 public:
     /// \brief Default constructor.
-    /// \param _drugModel Drug model associated to the current drug result
-    DrugResult(const Core::DrugModel* _drugModel);
+
+    XpertRequestResult();
 
     /// \brief Gets the drug model to use.
     /// \return Return the drug model.
@@ -33,7 +33,13 @@ public:
 
     /// \brief Gets the covariate results map.
     /// \return Return the map which corresponds CovariateDefinition& to CovariateResult.
-    std::map<Core::CovariateDefinition*, AbsractCovariateResult*>& getCovariateResults();
+    const std::map<Core::CovariateDefinition*, CovariateResult>& getCovariateResults();
+
+
+
+    void setDrugModel(const Core::DrugModel* _newDrugModel);
+
+    void setCovariateResults(const std::map<Core::CovariateDefinition *, CovariateResult>& _newCovariateResults);
 
 protected:
 
@@ -41,11 +47,11 @@ protected:
     const Core::DrugModel* m_drugModel;
 
     /// Mapping of CovariateResult to CovariateDefinition of the drug model.
-    std::map<Core::CovariateDefinition*, AbsractCovariateResult*> m_covariateResults;
+    std::map<Core::CovariateDefinition*, CovariateResult> m_covariateResults;
 
 };
 
 } // namespace XpertResult
 } // namespace Tucuxi
 
-#endif // DRUGRESULT_H
+#endif // XPERTREQUESTRESULT_H

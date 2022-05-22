@@ -6,19 +6,19 @@ namespace XpertResult {
 XpertResult::XpertResult() : m_generationDate(Common::DateTime::now()), m_query(nullptr)
 {}
 
-std::unique_ptr<XpertQuery::XpertQueryData>& XpertResult::getQuery()
-{
-    return m_query;
-}
-
 Common::DateTime XpertResult::getGenerationDate()
 {
     return m_generationDate;
 }
 
-std::map<XpertQuery::XpertRequestData*, DrugResult>& XpertResult::getDrugResults()
+std::unique_ptr<XpertQuery::XpertQueryData>& XpertResult::getQuery()
 {
-    return m_drugResults;
+    return m_query;
+}
+
+std::map<XpertQuery::XpertRequestData*, XpertRequestResult>& XpertResult::getXpertRequestResults()
+{
+    return m_xpertRequestResults;
 }
 
 } // namespace XpertResult
