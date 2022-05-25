@@ -7,7 +7,7 @@ CovariateResult::CovariateResult(const Core::CovariateDefinition*_source, Covari
 m_sourceFromModel(_source), m_sourceFromPatient(nullptr), m_type(_type), m_warning(_warning)
 {}
 
-CovariateResult::CovariateResult(const Query::CovariateData*_source, CovariateType _type, std::optional<std::string>& _warning) :
+CovariateResult::CovariateResult(const Core::PatientCovariate*_source, CovariateType _type, std::optional<std::string>& _warning) :
  m_sourceFromModel(nullptr), m_sourceFromPatient(_source), m_type(_type), m_warning(_warning)
 {}
 

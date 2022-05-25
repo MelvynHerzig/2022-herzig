@@ -52,9 +52,13 @@ public:
     /// \return The administrative information.
     std::optional<std::reference_wrapper<const AdministrativeData>> getpAdministrative() const;
 
+    std::unique_ptr<AdministrativeData>&& movepAdministrative();
+
     /// \brief Get the custom requests for tuberXpert
     /// \return A vector of custom requests.
     const std::vector<std::unique_ptr<XpertRequestData>>& getXpertRequests() const;
+
+    std::unique_ptr<XpertRequestData>&& moveXpertRequest(size_t i);
 
 protected:
     /// Administrative information.

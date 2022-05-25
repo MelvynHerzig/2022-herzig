@@ -44,7 +44,7 @@ public:
 
     CovariateResult(const Core::CovariateDefinition* _source, CovariateType _type, std::optional<std::string>& _warning);
 
-    CovariateResult(const Query::CovariateData* _source, CovariateType _type, std::optional<std::string>& _warning);
+    CovariateResult(const Core::PatientCovariate* _source, CovariateType _type, std::optional<std::string>& _warning);
 
 
     /// \brief Get the value (as string) of the covariate.
@@ -67,7 +67,7 @@ protected:
 
     const Core::CovariateDefinition* m_sourceFromModel;
 
-    const Query::CovariateData* m_sourceFromPatient;
+    const Core::PatientCovariate* m_sourceFromPatient;
 
     CovariateType m_type;
 

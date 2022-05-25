@@ -3,6 +3,7 @@ HEADERS += \
     $$PWD/query/xpertadministrativedata.h \
     $$PWD/query/xpertquerydata.h \
     $$PWD/query/xpertqueryimport.h \
+    $$PWD/query/xpertquerytocoreextractor.h \
     $$PWD/query/xpertrequestdata.h \
     $$PWD/language/languageexception.h \
     $$PWD/language/languagemanager.h \
@@ -17,6 +18,7 @@ SOURCES += \
     $$PWD/query/xpertqueryimport.cpp \
     $$PWD/language/languageexception.cpp \
     $$PWD/language/languagemanager.cpp \
+    $$PWD/query/xpertquerytocoreextractor.cpp \
     $$PWD/query/xpertrequestdata.cpp \
     $$PWD/result/covariateresult.cpp \
     $$PWD/result/validation/modelselector.cpp \

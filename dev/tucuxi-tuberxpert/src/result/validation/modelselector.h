@@ -45,9 +45,11 @@ protected:
 
     const Query::DrugData* extractDrugData(const std::unique_ptr<XpertQuery::XpertRequestData>& _xpertRequest, const std::unique_ptr<XpertQuery::XpertQueryData>& _xpertQuery);
 
-    bool computeDrugModelScore(const Core::DrugModel* _drugModel, const Query::DrugData* _drugData, const std::vector<std::unique_ptr<Core::PatientCovariate>>& _patientCovariates, XpertRequestResult& _xpertRequestResult, unsigned& _score);
+    bool computeDrugModelScore(const Core::DrugModel* _drugModel, const Query::DrugData* _drugData, const std::vector<std::unique_ptr<Core::PatientCovariate>>& _patientCovariates, std::map<Core::CovariateDefinition*, CovariateResult>& _covariateResults, unsigned& _score);
 
     bool isFormulationAndRouteSupportedByDrugModel(const Core::DrugModel* _drugModel, const Query::DrugData* _drugData);
+
+    void createCovariateResultFromPatient(const std::unique_ptr<Core::PatientCovariate>& _patientCovariate, const Core::CovariateDefinition* _covariateDefinition, std::map<Core::CovariateDefinition*, CovariateResult>& _covariateResults, double& _score);
 
 
 protected:

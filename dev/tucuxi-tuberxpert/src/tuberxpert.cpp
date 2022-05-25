@@ -148,10 +148,10 @@ int main(int argc, char** argv)
      *                               Query Importation                               *
      * *******************************************************************************/
 
-    Tucuxi::XpertResult::XpertResult xpertResult;
+    unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
 
     Tucuxi::XpertQuery::XpertQueryImport importer;
-    Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromFile(xpertResult.getQuery(), inputFileName);
+    Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromFile(query, inputFileName);
 
     if (importResult != Tucuxi::XpertQuery::XpertQueryImport::Status::Ok) {
 
@@ -159,50 +159,52 @@ int main(int argc, char** argv)
         return IMPORT_ERROR;
     }
 
+    Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+
     /*********************************************************************************
      *                             For each xpert resquest                           *
      * *******************************************************************************/
 
-    unsigned nbUnfulfilledRequest = 0;
+//    unsigned nbUnfulfilledRequest = 0;
 
-    for (const unique_ptr<Tucuxi::XpertQuery::XpertRequestData>& xpertRequest : xpertResult.getQuery()->getXpertRequests()) {
+//    for (const unique_ptr<Tucuxi::XpertQuery::XpertRequestData>& xpertRequest : xpertResult.getQuery()->getXpertRequests()) {
 
-        /**************************************************************
-         *                  Load the translation file                 *
-         * ************************************************************/
+//        /**************************************************************
+//         *                  Load the translation file                 *
+//         * ************************************************************/
 
-        try {
-            string languageFileName = languagePath + "/" + languageManager.computeLanguageFileName(xpertRequest->getOutputLang());
-            ifstream ifs(languageFileName);
+//        try {
+//            string languageFileName = languagePath + "/" + languageManager.computeLanguageFileName(xpertRequest->getOutputLang());
+//            ifstream ifs(languageFileName);
 
-            // If language file opening failed.
-            if (ifs.fail()) {
-                throw runtime_error("Could not open the input file: " + languageFileName);
-            }
+//            // If language file opening failed.
+//            if (ifs.fail()) {
+//                throw runtime_error("Could not open the input file: " + languageFileName);
+//            }
 
-            // Try loading the language file, it may throw a LanguageException.
-            string xmlLanguageString((istreambuf_iterator<char>(ifs)), (istreambuf_iterator<char>()));
-            languageManager.loadDictionary(xmlLanguageString);
+//            // Try loading the language file, it may throw a LanguageException.
+//            string xmlLanguageString((istreambuf_iterator<char>(ifs)), (istreambuf_iterator<char>()));
+//            languageManager.loadDictionary(xmlLanguageString);
 
-        } catch (const runtime_error& e) {
+//        } catch (const runtime_error& e) {
 
-            // Somehow, the acquisition of the language file failed.
-            // Leave this requestXpert and try the next one.
-            logHelper.error(e.what());
-            ++nbUnfulfilledRequest;
-            continue;
-        }
+//            // Somehow, the acquisition of the language file failed.
+//            // Leave this requestXpert and try the next one.
+//            logHelper.error(e.what());
+//            ++nbUnfulfilledRequest;
+//            continue;
+//        }
 
-        /**************************************************************
-         *                       Model selection                      *
-         * ************************************************************/
+//        /**************************************************************
+//         *                       Model selection                      *
+//         * ************************************************************/
 
-        unique_ptr<Tucuxi::XpertResult::XpertRequestResult> xpertRequestResult = nullptr;
-        Tucuxi::XpertResult::ModelSelector modelSelector;
-        modelSelector.getBestDrugModel(xpertRequest, xpertResult);
+//        unique_ptr<Tucuxi::XpertResult::XpertRequestResult> xpertRequestResult = nullptr;
+//        Tucuxi::XpertResult::ModelSelector modelSelector;
+//        modelSelector.getBestDrugModel(xpertRequest, xpertResult);
 
-        int randomBPoint = 0;
-    }
+//        int randomBPoint = 0;
+//    }
 
 
 

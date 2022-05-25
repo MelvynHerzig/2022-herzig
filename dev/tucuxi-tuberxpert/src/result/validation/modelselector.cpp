@@ -22,42 +22,42 @@ ModelSelector::ModelSelector()
 bool ModelSelector::getBestDrugModel(const unique_ptr<XpertQuery::XpertRequestData>& _xpertRequest, XpertResult& _xpertResult)
 {
     // Drug identifier targeted.
-    string drugId = _xpertRequest->getDrugID();
+//    string drugId = _xpertRequest->getDrugID();
 
-    // Get the drug data for the given request.
-    const Query::DrugData* drugData = extractDrugData(_xpertRequest, _xpertResult.getQuery());
+//    // Get the drug data for the given request.
+//    const Query::DrugData* drugData = extractDrugData(_xpertRequest, _xpertResult.getQuery());
 
-    if (drugData == nullptr) return false;
+//    if (drugData == nullptr) return false;
 
-    // Get the "DrugModelRepository" component from the component manager
-    Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
-    Tucuxi::Core::IDrugModelRepository* drugModelRepository = pCmpMgr->getComponent<Tucuxi::Core::IDrugModelRepository>("DrugModelRepository");
+//    // Get the "DrugModelRepository" component from the component manager
+//    Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
+//    Tucuxi::Core::IDrugModelRepository* drugModelRepository = pCmpMgr->getComponent<Tucuxi::Core::IDrugModelRepository>("DrugModelRepository");
 
-    // Getting drug models that match the drug.
-    vector<Core::DrugModel*> drugModels = drugModelRepository->getDrugModelsByDrugId(drugId);
+//    // Getting drug models that match the drug.
+//    vector<Core::DrugModel*> drugModels = drugModelRepository->getDrugModelsByDrugId(drugId);
 
-    // Get the drug model with the lowest dissimilarity score.
-    unsigned bestScore = numeric_limits<unsigned>::max();
-    XpertRequestResult requestResult;
+//    // Get the drug model with the lowest dissimilarity score.
+//    unsigned bestScore = numeric_limits<unsigned>::max();
+//    XpertRequestResult requestResult;
 
-    for (const Core::DrugModel* drugModel : drugModels) {
+//    for (const Core::DrugModel* drugModel : drugModels) {
 
-        unsigned score = 0;
+//        unsigned score = 0;
+//        map<Core::CovariateDefinition*, CovariateResult> covariateResults;
+//        bool scoreSuccess = computeDrugModelScore(drugModel, drugData, _xpertResult.getQuery()->getpParameters().getpPatient().getCovariates(), covariateResults, score);
 
-        bool scoreSuccess = computeDrugModelScore(drugModel, drugData, _xpertResult.getQuery()->getpParameters().getpPatient().getCovariates(), requestResult, score);
+//        // Better, the best is replaced.
+//        if (scoreSuccess && score < bestScore) {
+//            bestScore = score;
+//        }
+//    }
 
-        // Better, the best is replaced.
-        if (scoreSuccess && score < bestScore) {
-            bestScore = score;
-        }
-    }
+//    // If a result has not been found (the initial score is still the same)
+//    if (bestScore == numeric_limits<unsigned>::max()) {
+//        return false;
+//    }
 
-    // If a result has not been found (the initial score is still the same)
-    if (bestScore == numeric_limits<unsigned>::max()) {
-        return false;
-    }
-
-    _xpertResult.getXpertRequestResults().emplace(make_pair(_xpertRequest.get(), requestResult));
+//    _xpertResult.getXpertRequestResults().emplace(make_pair(_xpertRequest.get(), requestResult));
     return true;
 }
 
@@ -117,17 +117,14 @@ const Query::DrugData* ModelSelector::extractDrugData(const unique_ptr<XpertQuer
     return selectedDrugData;
 }
 
-bool ModelSelector::computeDrugModelScore(const Core::DrugModel* _drugModel, const Query::DrugData* _drugData, const std::vector<std::unique_ptr<Core::PatientCovariate>>& _patientCovariates, XpertRequestResult& _xpertRequestResult, unsigned& _score)
+bool ModelSelector::computeDrugModelScore(const Core::DrugModel* _drugModel, const Query::DrugData* _drugData, const std::vector<std::unique_ptr<Core::PatientCovariate>>& _patientCovariates, map<Core::CovariateDefinition*, CovariateResult>& _covariateResults, unsigned& _score)
 {
     // Before further investigation, check if the formulation and route used is compatible.
     if (not isFormulationAndRouteSupportedByDrugModel(_drugModel, _drugData)) {
         return false;
     }
 
-    // Map that will be moved into xpertRequestResult if better score than the current.
-    map<Core::CovariateDefinition*, CovariateResult> covariateResults;
-
-    unsigned modelScore = 0;
+    _score = 0;
 
     // Check for each covariate definition, if the patient has the covariate and if it respects the bounds.
     for (const unique_ptr<Core::CovariateDefinition>& covariateDefinition : _drugModel->getCovariates()){
@@ -144,130 +141,32 @@ bool ModelSelector::computeDrugModelScore(const Core::DrugModel* _drugModel, con
             }
             return false;
         });
+
+        // If not present only once, use definition and put warning
+        if (nbMatchingCovariates != 1) {
+
+            optional<string> warning;
+            if (nbMatchingCovariates > 0) {
+                // TODO Translation
+                warning = "Multiple definitions in query replaced by model definition";
+            } else {
+                warning = nullopt;
+            }
+
+            ++_score;
+            _covariateResults.emplace(make_pair(covariateDefinition.get(), CovariateResult(covariateDefinition.get(), CovariateType::Model, warning)));
+
+        // Otherwise
+        } else {
+
+
+        }
     }
 
     return true;
 }
 
-//bool ModelSelector::computeDrugModelScore(const Core::DrugModel* _drugModel, const Query::DrugData* _drugData, const vector<unique_ptr<Core::PatientCovariate>>& _patientCovariates, XpertRequestResult& _xpertRequestResult, unsigned& _score)
-//{
-//    // Before further investigation, check if the formulation and route used is compatible.
-//    if (not isFormulationAndRouteSupportedByDrugModel(_drugModel, _drugData)) {
-//        return false;
-//    }
 
-//    // Map that will be moved into xpertRequestResult if better score than the current.
-//    map<Core::CovariateDefinition*, CovariateResult> covariateResults;
-
-//    unsigned modelScore = 0;
-
-//    // Check for each covariate definition, if the patient has the covariate and if it respects the bounds.
-//    for (const unique_ptr<Core::CovariateDefinition>& covariateDefinition : _drugModel->getCovariates()){
-
-//        string covariateId = covariateDefinition->getId();
-
-//        // Count and get pointer to the corresponding patientCovariate.
-//        const Core::PatientCovariate* patientCovariate = nullptr;
-//        int nbMatchingCovariates = count_if(_patientCovariates.begin(), _patientCovariates.end(),
-//                                            [covariateId, &patientCovariate](const unique_ptr<Core::PatientCovariate>& pc){
-//            if (pc->getId() == covariateId) {
-//                patientCovariate = pc.get();
-//                return true;
-//            }
-//            return false;
-//        });
-
-////        // The covariate is missing in query or present multiple time
-////        if (nbMatchingCovariates != 1) {
-
-////            optional<string> warning;
-////            if (nbMatchingCovariates > 0) {
-////                // TODO Translation
-////                warning = "Multiple definitions in query replaced by model definition";
-////            } else {
-////                warning = nullopt;
-////            }
-
-
-////            ++modelScore;
-////            covariateResults.emplace(make_pair(covariateDefinition.get(), CovariateResult(covariateDefinition.get(), CovariateType::Model, warning)));
-////        } else {
-
-////        }
-////            // The covariate is present once in query
-////        } else {
-
-
-////            // Same unit
-////            if (patientCovariatePtr->getUnit() == covariateDefinition->getUnit()) {
-////                Core::Operation* operation = covariateDefinition->getValidation();
-////                Core::OperationInputList defInputList = operation->getInputs();
-////                Core::OperationInputList inputList;
-
-////                // TODO confirm that 1 input by covariate definition, but it's assumed here
-////                switch (defInputList.front().getType()) {
-////                case Core::InputType::BOOL: {
-////                    bool b;
-////                    istringstream(patientCovariatePtr->getValue()) >> boolalpha >> b;
-////                    inputList.push_back(Core::OperationInput(defInputList.front().getName(),b));
-////                } break;
-////                case Core::InputType::DOUBLE: {
-////                    inputList.push_back(Core::OperationInput(defInputList.front().getName(),stod(patientCovariatePtr->getValue())));
-////                } break;
-////                case Core::InputType::INTEGER: {
-////                    inputList.push_back(Core::OperationInput(defInputList.front().getName(),stoi(patientCovariatePtr->getValue())));
-////                } break;
-////                }
-
-////                double result = 0;
-////                if (!operation->evaluate(inputList, result)){
-////                    // TODO error
-////                }
-
-////                // Not respecting the domain
-////                if (result == 0) {
-////                    // TODO Translation
-////                    CovariateResult<const Core::PatientCovariate*> covR{CovariateSource::Model, patientCovariatePtr, "Present in query but wrong domain"};
-////                    ++score;
-////                    drugResult.getCovariateResults().emplace(make_pair(covariateDefinition.get(), &covR));
-////                }
-////            } else {
-////                if (unitManager.isCompatible(covariateDefinition->getUnit(), patientCovariatePtr->getUnit())) {
-////                    double convertedValue = unitManager.convertToUnit(stod(patientCovariatePtr->getValue()), patientCovariatePtr->getUnit(), covariateDefinition->getUnit());
-
-////                    // TODO check domain
-
-////                    CovariateResult<const Core::PatientCovariate*> covR{CovariateSource::Model, patientCovariatePtr, nullopt};
-////                    ++score;
-////                    drugResult.getCovariateResults().emplace(make_pair(covariateDefinition.get(), &covR));
-
-////                } else {
-////                    // TODO Translation
-////                    CovariateResult<const Core::CovariateDefinition&> covR{CovariateSource::Model, *covariateDefinition, "Present in query but invalid unit"};
-////                    ++score;
-////                    drugResult.getCovariateResults().emplace(make_pair(covariateDefinition.get(), &covR));
-////                }
-////            }
-
-
-////            // Checks if unit are compatible
-////            // unitManager.isCompatible(patientCovariatePtr->getUnit(), )
-
-////            // Validate the domain of the definition
-////            // Core::Operation* operation = covariateDefinition->getValidation();
-////            // Core::OperationInputList opInputList = operation->getInputs();
-
-////        }
-
-////        //                drugResult.getCovariateResults().emplace(make_pair(covariateDefinition))
-////        //                Core::Operation* validation = covariateDefinition->getValidation();
-////        //                covariateDefinition->
-
-//    }
-
-
-//    return true;
-//}
 
 bool ModelSelector::isFormulationAndRouteSupportedByDrugModel(const Core::DrugModel* _drugModel, const Query::DrugData* _drugData)
 {
@@ -289,6 +188,78 @@ bool ModelSelector::isFormulationAndRouteSupportedByDrugModel(const Core::DrugMo
     }
 
     return false;
+}
+
+void ModelSelector::createCovariateResultFromPatient(const std::unique_ptr<Core::PatientCovariate>& _patientCovariate, const Core::CovariateDefinition* _covariateDefinition, map<Core::CovariateDefinition*, CovariateResult>& _covariateResults, double &_score)
+{
+//    // If units are different.
+//    if ((_patientCovariate->getUnit() == _covariateDefinition->getUnit()) == false) {
+
+//        // Can be converted
+//        if (Common::UnitManager::isCompatible(_covariateDefinition->getUnit(), _patientCovariate->getUnit())) {
+//            double convertedValue = Common::UnitManager::convertToUnit(stod(_patientCovariate->getValue()), _patientCovariate->getUnit(), _covariateDefinition->getUnit());
+
+//            // TODO check domain
+//            CovariateResult<const Core::PatientCovariate*> covR{CovariateSource::Model, patientCovariatePtr, nullopt};
+//            ++_score;
+//            drugResult.getCovariateResults().emplace(make_pair(covariateDefinition.get(), &covR));
+
+//        // Incompatible unit
+//        } else {
+
+//            // TODO Translation
+//            optional<string> warning = "Covariate found in query but incompatble unit with defintion.";
+//            ++_score;
+//            _covariateResults.emplace(make_pair(_covariateDefinition, CovariateResult(_covariateDefinition, CovariateType::Model, warning)));
+//        }
+
+//    // Units are the same
+//    } else {
+
+
+//        Core::Operation* operation = _covariateDefinition->getValidation();
+//        Core::OperationInputList defInputList = operation->getInputs();
+//        Core::OperationInputList inputList;
+
+//        // TODO confirm that 1 input by covariate definition, but it's assumed here
+//        switch (defInputList.front().getType()) {
+//        case Core::InputType::BOOL: {
+//            bool b;
+//            istringstream(_patientCovariate->getValue()) >> boolalpha >> b;
+//            inputList.push_back(Core::OperationInput(defInputList.front().getName(),b));
+//        } break;
+//        case Core::InputType::DOUBLE: {
+//            inputList.push_back(Core::OperationInput(defInputList.front().getName(),stod(_patientCovariate->getValue())));
+//        } break;
+//        case Core::InputType::INTEGER: {
+//            inputList.push_back(Core::OperationInput(defInputList.front().getName(),stoi(_patientCovariate->getValue())));
+//        } break;
+//        }
+
+//        double result = 0;
+//        if (!operation->evaluate(inputList, result)){
+
+//            // TODO Translation
+//            optional<string> warning = "Covariate found in query but could not get validated.";
+//            ++_score;
+//            _covariateResults.emplace(make_pair(_covariateDefinition, CovariateResult(_covariateDefinition, CovariateType::Model, warning)));
+
+//        } else {
+//            // Not respecting the domain
+//            optional<string> warning;
+//            if (result == 0) {
+
+//                // TODO Translation
+//                optional<string> warning = "Domain error";
+//                ++_score;
+
+//            } else {
+//                warning = nullopt;
+//            }
+
+//            _covariateResults.emplace(make_pair(_covariateDefinition, CovariateResult(_patientCovariate.get(), CovariateType::Patient, warning)));
+//        }
+//    }
 }
 
 } // namespace XpertResult

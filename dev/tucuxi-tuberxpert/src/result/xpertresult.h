@@ -5,6 +5,7 @@
 #include <map>
 
 #include "tucucommon/datetime.h"
+#include "tucucore/drugtreatment/drugtreatment.h"
 
 #include "../query/xpertquerydata.h"
 #include "xpertrequestresult.h"
@@ -33,39 +34,27 @@ class XpertResult
 public:
 
     /// \brief Constructor
-    XpertResult();
+    XpertResult(std::unique_ptr<XpertQuery::XpertQueryData> _xpertQuery);
 
     /// \brief Copy constructor is not supported.
     ///  The copy constructor is not supported because of the use of
     ///  unique_ptr wich can't be copied.
     XpertResult(const XpertResult& _other) = delete;
 
-    /// \brief Gets the language to use for
-    /// \return Return the language to be used if possible.
-    std::string getLanguage();
 
     /// \brief Gets the generation date of the result.
     /// \return Return the generation date.
     Common::DateTime getGenerationDate();
-
-    /// \brief Gets a reference on the query to be used in XpertQueryImport.
-    /// \return Return the query pointer by reference.
-    std::unique_ptr<XpertQuery::XpertQueryData>& getQuery();
-
-    /// \brief Gets a reference on map of drug results.
-    /// \return Returns a reference of the drug results map.
-    std::map<XpertQuery::XpertRequestData*, XpertRequestResult>& getXpertRequestResults();
 
 protected:
 
     /// Date of generation.
     Common::DateTime m_generationDate;
 
-    /// Query importation data.
-    std::unique_ptr<XpertQuery::XpertQueryData> m_query;
+    /// Administrative information.
+    std::unique_ptr<XpertQuery::AdministrativeData> m_pAdministrative;
 
-    /// Maps XpertQuery to associated DrugResult.
-    std::map<XpertQuery::XpertRequestData*, XpertRequestResult> m_xpertRequestResults;
+    std::vector<XpertRequestResult> m_xpertRequestResults;
 };
 
 } // namespace XpertResult

@@ -3,11 +3,14 @@
 
 #include <string>
 #include <map>
+#include <optional>
 
 #include "tucucore/drugmodel/covariatedefinition.h"
 #include "tucucore/drugmodel/drugmodel.h"
+#include "tucucore/drugtreatment/drugtreatment.h"
 
 #include "./covariateresult.h"
+#include "../query/xpertrequestdata.h"
 
 namespace Tucuxi {
 namespace XpertResult {
@@ -25,26 +28,37 @@ class XpertRequestResult
 public:
     /// \brief Default constructor.
 
-    XpertRequestResult();
+    XpertRequestResult(
+            std::unique_ptr<XpertQuery::XpertRequestData> _xpertRequest,
+            std::unique_ptr<Core::DrugTreatment> _dTreatment,
+            const std::optional<std::string>& _errorMessage);
 
-    /// \brief Gets the drug model to use.
-    /// \return Return the drug model.
+    const std::unique_ptr<XpertQuery::XpertRequestData>& getXpertRequest() const;
+
+    const std::unique_ptr<Core::DrugTreatment>& getTreatment() const;
+
+    const std::optional<std::string>& getErrorMessage() const;
+
     const Core::DrugModel* getDrugModel() const;
 
-    /// \brief Gets the covariate results map.
-    /// \return Return the map which corresponds CovariateDefinition& to CovariateResult.
     const std::map<Core::CovariateDefinition*, CovariateResult>& getCovariateResults();
-
-
 
     void setDrugModel(const Core::DrugModel* _newDrugModel);
 
     void setCovariateResults(const std::map<Core::CovariateDefinition *, CovariateResult>& _newCovariateResults);
 
+    bool shouldBeHandled() const;
+
 protected:
 
+    std::unique_ptr<XpertQuery::XpertRequestData> m_xpertRequest;
+
+    std::unique_ptr<Core::DrugTreatment> m_dTreatment;
+
+    std::optional<std::string> m_errorMessage;
+
     /// Drug model to use when making adjustmentRequest.
-    const Core::DrugModel* m_drugModel;
+    Core::DrugModel* m_drugModel;
 
     /// Mapping of CovariateResult to CovariateDefinition of the drug model.
     std::map<Core::CovariateDefinition*, CovariateResult> m_covariateResults;
