@@ -10,7 +10,8 @@ XpertRequestResult::XpertRequestResult(unique_ptr<XpertQuery::XpertRequestData> 
                                        const optional<string>& _errorMessage)
     : m_xpertRequest(move(_xpertRequest)),
       m_dTreatment(move(_dTreatment)),
-      m_errorMessage(_errorMessage)
+      m_errorMessage(_errorMessage),
+      m_drugModel(nullptr)
 {}
 
 const std::unique_ptr<XpertQuery::XpertRequestData>& XpertRequestResult::getXpertRequest() const

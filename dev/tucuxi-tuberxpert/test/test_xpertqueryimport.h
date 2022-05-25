@@ -216,25 +216,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                </options>
                                            </requestXpert>
-                                           <request>
-                                               <requestId>population_1</requestId>
-                                               <drugId>rifampicin</drugId>
-                                               <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-                                               <predictionTraits>
-                                                 <computingOption>
-                                                   <parametersType>population</parametersType>
-                                                   <compartmentOption>allActiveMoieties</compartmentOption>
-                                                   <retrieveStatistics>true</retrieveStatistics>
-                                                   <retrieveParameters>true</retrieveParameters>
-                                                   <retrieveCovariates>true</retrieveCovariates>
-                                                 </computingOption>
-                                                 <nbPointsPerHour>20</nbPointsPerHour>
-                                                 <dateInterval>
-                                                     <start>2018-07-06T08:00:00</start>
-                                                     <end>2018-07-08T08:00:00</end>
-                                                 </dateInterval>
-                                               </predictionTraits>
-                                           </request>
                                        </requests>
                                    </query>)";
 
@@ -433,25 +414,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
                                             </requestXpert>
-                                            <request>
-                                                <requestId>population_1</requestId>
-                                                <drugId>rifampicin</drugId>
-                                                <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-                                                <predictionTraits>
-                                                  <computingOption>
-                                                    <parametersType>population</parametersType>
-                                                    <compartmentOption>allActiveMoieties</compartmentOption>
-                                                    <retrieveStatistics>true</retrieveStatistics>
-                                                    <retrieveParameters>true</retrieveParameters>
-                                                    <retrieveCovariates>true</retrieveCovariates>
-                                                  </computingOption>
-                                                  <nbPointsPerHour>20</nbPointsPerHour>
-                                                  <dateInterval>
-                                                      <start>2018-07-06T08:00:00</start>
-                                                      <end>2018-07-08T08:00:00</end>
-                                                  </dateInterval>
-                                                </predictionTraits>
-                                            </request>
                                         </requests>
                                     </query>
                                     )";
@@ -582,25 +544,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
                                             </requestXpert>
-                                            <request>
-                                                <requestId>population_1</requestId>
-                                                <drugId>rifampicin</drugId>
-                                                <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-                                                <predictionTraits>
-                                                  <computingOption>
-                                                    <parametersType>population</parametersType>
-                                                    <compartmentOption>allActiveMoieties</compartmentOption>
-                                                    <retrieveStatistics>true</retrieveStatistics>
-                                                    <retrieveParameters>true</retrieveParameters>
-                                                    <retrieveCovariates>true</retrieveCovariates>
-                                                  </computingOption>
-                                                  <nbPointsPerHour>20</nbPointsPerHour>
-                                                  <dateInterval>
-                                                      <start>2018-07-06T08:00:00</start>
-                                                      <end>2018-07-08T08:00:00</end>
-                                                  </dateInterval>
-                                                </predictionTraits>
-                                            </request>
                                         </requests>
                                     </query>
                                     )";
@@ -750,25 +693,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
                                             </requestXpert>
-                                            <request>
-                                                <requestId>population_1</requestId>
-                                                <drugId>rifampicin</drugId>
-                                                <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-                                                <predictionTraits>
-                                                  <computingOption>
-                                                    <parametersType>population</parametersType>
-                                                    <compartmentOption>allActiveMoieties</compartmentOption>
-                                                    <retrieveStatistics>true</retrieveStatistics>
-                                                    <retrieveParameters>true</retrieveParameters>
-                                                    <retrieveCovariates>true</retrieveCovariates>
-                                                  </computingOption>
-                                                  <nbPointsPerHour>20</nbPointsPerHour>
-                                                  <dateInterval>
-                                                      <start>2018-07-06T08:00:00</start>
-                                                      <end>2018-07-08T08:00:00</end>
-                                                  </dateInterval>
-                                                </predictionTraits>
-                                            </request>
                                         </requests>
                                     </query>
                                     )";
@@ -937,25 +861,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
                                             </requestXpert>
-                                            <request>
-                                                <requestId>population_1</requestId>
-                                                <drugId>rifampicin</drugId>
-                                                <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-                                                <predictionTraits>
-                                                  <computingOption>
-                                                    <parametersType>population</parametersType>
-                                                    <compartmentOption>allActiveMoieties</compartmentOption>
-                                                    <retrieveStatistics>true</retrieveStatistics>
-                                                    <retrieveParameters>true</retrieveParameters>
-                                                    <retrieveCovariates>true</retrieveCovariates>
-                                                  </computingOption>
-                                                  <nbPointsPerHour>20</nbPointsPerHour>
-                                                  <dateInterval>
-                                                      <start>2018-07-06T08:00:00</start>
-                                                      <end>2018-07-08T08:00:00</end>
-                                                  </dateInterval>
-                                                </predictionTraits>
-                                            </request>
                                         </requests>
                                     </query>
                                     )";
@@ -1165,25 +1070,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
                                             </requestXpert>
-                                            <request>
-                                                <requestId>population_1</requestId>
-                                                <drugId>rifampicin</drugId>
-                                                <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-                                                <predictionTraits>
-                                                  <computingOption>
-                                                    <parametersType>population</parametersType>
-                                                    <compartmentOption>allActiveMoieties</compartmentOption>
-                                                    <retrieveStatistics>true</retrieveStatistics>
-                                                    <retrieveParameters>true</retrieveParameters>
-                                                    <retrieveCovariates>true</retrieveCovariates>
-                                                  </computingOption>
-                                                  <nbPointsPerHour>20</nbPointsPerHour>
-                                                  <dateInterval>
-                                                      <start>2018-07-06T08:00:00</start>
-                                                      <end>2018-07-08T08:00:00</end>
-                                                  </dateInterval>
-                                                </predictionTraits>
-                                            </request>
                                         </requests>
                                     </query>
                                     )";
@@ -1364,25 +1250,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
                                             </requestXpert>
-                                            <request>
-                                                <requestId>population_1</requestId>
-                                                <drugId>rifampicin</drugId>
-                                                <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-                                                <predictionTraits>
-                                                  <computingOption>
-                                                    <parametersType>population</parametersType>
-                                                    <compartmentOption>allActiveMoieties</compartmentOption>
-                                                    <retrieveStatistics>true</retrieveStatistics>
-                                                    <retrieveParameters>true</retrieveParameters>
-                                                    <retrieveCovariates>true</retrieveCovariates>
-                                                  </computingOption>
-                                                  <nbPointsPerHour>20</nbPointsPerHour>
-                                                  <dateInterval>
-                                                      <start>2018-07-06T08:00:00</start>
-                                                      <end>2018-07-08T08:00:00</end>
-                                                  </dateInterval>
-                                                </predictionTraits>
-                                            </request>
                                         </requests>
                                     </query>
                                     )";
@@ -1543,25 +1410,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
                                             </requestXpert>
-                                            <request>
-                                                <requestId>population_1</requestId>
-                                                <drugId>rifampicin</drugId>
-                                                <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-                                                <predictionTraits>
-                                                  <computingOption>
-                                                    <parametersType>population</parametersType>
-                                                    <compartmentOption>allActiveMoieties</compartmentOption>
-                                                    <retrieveStatistics>true</retrieveStatistics>
-                                                    <retrieveParameters>true</retrieveParameters>
-                                                    <retrieveCovariates>true</retrieveCovariates>
-                                                  </computingOption>
-                                                  <nbPointsPerHour>20</nbPointsPerHour>
-                                                  <dateInterval>
-                                                      <start>2018-07-06T08:00:00</start>
-                                                      <end>2018-07-08T08:00:00</end>
-                                                  </dateInterval>
-                                                </predictionTraits>
-                                            </request>
                                         </requests>
                                     </query>
                                     )";
@@ -1706,25 +1554,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
                                             </requestXpert>
-                                            <request>
-                                                <requestId>population_1</requestId>
-                                                <drugId>rifampicin</drugId>
-                                                <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-                                                <predictionTraits>
-                                                  <computingOption>
-                                                    <parametersType>population</parametersType>
-                                                    <compartmentOption>allActiveMoieties</compartmentOption>
-                                                    <retrieveStatistics>true</retrieveStatistics>
-                                                    <retrieveParameters>true</retrieveParameters>
-                                                    <retrieveCovariates>true</retrieveCovariates>
-                                                  </computingOption>
-                                                  <nbPointsPerHour>20</nbPointsPerHour>
-                                                  <dateInterval>
-                                                      <start>2018-07-06T08:00:00</start>
-                                                      <end>2018-07-08T08:00:00</end>
-                                                  </dateInterval>
-                                                </predictionTraits>
-                                            </request>
                                         </requests>
                                     </query>
                                     )";
@@ -1885,25 +1714,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
                                             </requestXpert>
-                                            <request>
-                                                <requestId>population_1</requestId>
-                                                <drugId>rifampicin</drugId>
-                                                <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-                                                <predictionTraits>
-                                                  <computingOption>
-                                                    <parametersType>population</parametersType>
-                                                    <compartmentOption>allActiveMoieties</compartmentOption>
-                                                    <retrieveStatistics>true</retrieveStatistics>
-                                                    <retrieveParameters>true</retrieveParameters>
-                                                    <retrieveCovariates>true</retrieveCovariates>
-                                                  </computingOption>
-                                                  <nbPointsPerHour>20</nbPointsPerHour>
-                                                  <dateInterval>
-                                                      <start>2018-07-06T08:00:00</start>
-                                                      <end>2018-07-08T08:00:00</end>
-                                                  </dateInterval>
-                                                </predictionTraits>
-                                            </request>
                                         </requests>
                                     </query>
                                     )";
@@ -2125,25 +1935,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
                                             </requestXpert>
-                                            <request>
-                                                <requestId>population_1</requestId>
-                                                <drugId>rifampicin</drugId>
-                                                <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-                                                <predictionTraits>
-                                                  <computingOption>
-                                                    <parametersType>population</parametersType>
-                                                    <compartmentOption>allActiveMoieties</compartmentOption>
-                                                    <retrieveStatistics>true</retrieveStatistics>
-                                                    <retrieveParameters>true</retrieveParameters>
-                                                    <retrieveCovariates>true</retrieveCovariates>
-                                                  </computingOption>
-                                                  <nbPointsPerHour>20</nbPointsPerHour>
-                                                  <dateInterval>
-                                                      <start>2018-07-06T08:00:00</start>
-                                                      <end>2018-07-08T08:00:00</end>
-                                                  </dateInterval>
-                                                </predictionTraits>
-                                            </request>
                                         </requests>
                                     </query>
                                     )";
@@ -2368,25 +2159,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <language>en</language>
                                                 </output>
                                             </requestXpert>
-                                            <request>
-                                                <requestId>population_1</requestId>
-                                                <drugId>rifampicin</drugId>
-                                                <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-                                                <predictionTraits>
-                                                  <computingOption>
-                                                    <parametersType>population</parametersType>
-                                                    <compartmentOption>allActiveMoieties</compartmentOption>
-                                                    <retrieveStatistics>true</retrieveStatistics>
-                                                    <retrieveParameters>true</retrieveParameters>
-                                                    <retrieveCovariates>true</retrieveCovariates>
-                                                  </computingOption>
-                                                  <nbPointsPerHour>20</nbPointsPerHour>
-                                                  <dateInterval>
-                                                      <start>2018-07-06T08:00:00</start>
-                                                      <end>2018-07-08T08:00:00</end>
-                                                  </dateInterval>
-                                                </predictionTraits>
-                                            </request>
                                         </requests>
                                     </query>
                                     )";
@@ -2598,25 +2370,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <request>
-                                                <requestId>population_1</requestId>
-                                                <drugId>rifampicin</drugId>
-                                                <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-                                                <predictionTraits>
-                                                  <computingOption>
-                                                    <parametersType>population</parametersType>
-                                                    <compartmentOption>allActiveMoieties</compartmentOption>
-                                                    <retrieveStatistics>true</retrieveStatistics>
-                                                    <retrieveParameters>true</retrieveParameters>
-                                                    <retrieveCovariates>true</retrieveCovariates>
-                                                  </computingOption>
-                                                  <nbPointsPerHour>20</nbPointsPerHour>
-                                                  <dateInterval>
-                                                      <start>2018-07-06T08:00:00</start>
-                                                      <end>2018-07-08T08:00:00</end>
-                                                  </dateInterval>
-                                                </predictionTraits>
-                                            </request>
                                         </requests>
                                     </query>
                                     )";
@@ -2827,25 +2580,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
                                             </requestXpert>
-                                            <request>
-                                                <requestId>population_1</requestId>
-                                                <drugId>rifampicin</drugId>
-                                                <drugModelId>ch.tucuxi.rifampicin.svensson2017</drugModelId>
-                                                <predictionTraits>
-                                                  <computingOption>
-                                                    <parametersType>population</parametersType>
-                                                    <compartmentOption>allActiveMoieties</compartmentOption>
-                                                    <retrieveStatistics>true</retrieveStatistics>
-                                                    <retrieveParameters>true</retrieveParameters>
-                                                    <retrieveCovariates>true</retrieveCovariates>
-                                                  </computingOption>
-                                                  <nbPointsPerHour>20</nbPointsPerHour>
-                                                  <dateInterval>
-                                                      <start>2018-07-06T08:00:00</start>
-                                                      <end>2018-07-08T08:00:00</end>
-                                                  </dateInterval>
-                                                </predictionTraits>
-                                            </request>
                                         </requests>
                                     </query>
                                     )";

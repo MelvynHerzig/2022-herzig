@@ -206,9 +206,6 @@ int main(int argc, char** argv)
 //        int randomBPoint = 0;
 //    }
 
-
-
-
     logHelper.info("Tuberxpert console application is exiting...");
 
     pCmpMgr->unregisterComponent("DrugModelRepository");

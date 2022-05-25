@@ -3,8 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="dictionary.xsd">
     
-    <entry key="hello">Bonjour</entry>
-    <entry key="world">le monde</entry>
-    <entraday key="ada">le monde</entraday>
+    <entry key="multiple_drug_extraction_error">Trop de médicaments correspondent. Impossible d'extraire le traitement.</entry>
+    <entry key="absent_drug_extraction_error">Aucun médicament ne correspond. Impossible d'extraire le traitement.</entry>
 
 </dictionary>

@@ -1,5 +1,7 @@
 #include "xpertquerytocoreextractor.h"
 
+#include "../language/languagemanager.h"
+
 using namespace std;
 
 namespace Tucuxi {
@@ -26,11 +28,14 @@ unique_ptr<Core::DrugTreatment> XpertQuery::XpertQueryToCoreExtractor::extractDr
 
     // If there is none or multiple drugs matchins
     if (nbMatchingDrug != 1) {
+
+        Tucuxi::XpertLanguage::LanguageManager& lm = Tucuxi::XpertLanguage::LanguageManager::getInstance();
+
         if (nbMatchingDrug == 0) {
             // TODO translation
-            _errorMessage = "Could not fullfil request for " + drugId + ", drug not found in query";
+            _errorMessage = lm.translate("absent_drug_extraction_error");
         } else {
-            _errorMessage = "Could not fullfil request for " + drugId + ", drug found multiple times in query";
+            _errorMessage = lm.translate("multiple_drug_extraction_error");
         }
         return nullptr;
     }

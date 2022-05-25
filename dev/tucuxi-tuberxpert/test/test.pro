@@ -30,11 +30,15 @@ SOURCES += \
 
 DEFINES+= \
     test_language \
-    test_query
+    test_query \
+    test_xpertquerytocoreextractor \
+    test_xpertresultcreation \
 
 HEADERS += \
     test_languagemanager.h \
-    test_xpertqueryimport.h
+    test_xpertqueryimport.h \
+    test_xpertquerytocoreextractor.h \
+    test_xpertresultcreation.h
 
 OTHER_FILES += \
     query/complete_admin.tqf

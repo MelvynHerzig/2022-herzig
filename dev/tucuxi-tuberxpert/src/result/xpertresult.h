@@ -46,6 +46,10 @@ public:
     /// \return Return the generation date.
     Common::DateTime getGenerationDate();
 
+    const std::unique_ptr<XpertQuery::AdministrativeData>& getAdministrative() const;
+
+    const std::vector<XpertRequestResult>& getXpertRequestResults() const;
+
 protected:
 
     /// Date of generation.
