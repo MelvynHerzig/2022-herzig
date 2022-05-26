@@ -11,7 +11,7 @@
     <drugTreatment>
         <!-- All the information regarding the patient -->
         <patient>
-            <covariates> <!--
+            <covariates> 
                 <covariate>
                     <covariateId>birthdate</covariateId>
                     <date>2018-07-11T10:45:30</date>
@@ -19,11 +19,19 @@
                     <unit></unit>
                       <dataType>date</dataType>
                     <nature>discrete</nature>
-                </covariate> -->
+                </covariate> 
                 <covariate>
                     <covariateId>bodyweight</covariateId>
-                    <date>2018-07-11T10:45:30</date>
-                    <value>40</value>
+                    <date>2018-07-06T08:00:00</date>
+                    <value>70</value>
+                    <unit>kg</unit>
+                      <dataType>double</dataType>
+                    <nature>discrete</nature>
+                </covariate>
+                <covariate>
+                    <covariateId>bodyweight</covariateId>
+                    <date>2018-07-08T08:00:00</date>
+                    <value>80</value>
                     <unit>kg</unit>
                       <dataType>double</dataType>
                     <nature>discrete</nature>

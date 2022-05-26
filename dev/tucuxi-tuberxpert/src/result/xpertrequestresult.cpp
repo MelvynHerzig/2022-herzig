@@ -34,9 +34,14 @@ const Core::DrugModel* XpertRequestResult::getDrugModel() const
     return m_drugModel;
 }
 
-const std::map<Core::CovariateDefinition*, CovariateResult>& XpertRequestResult::getCovariateResults()
+const vector<CovariateResult>& XpertRequestResult::getCovariateResults()
 {
     return m_covariateResults;
+}
+
+void XpertRequestResult::setErrorMessage(const std::string& _message)
+{
+    m_errorMessage = _message;
 }
 
 void XpertRequestResult::setDrugModel(const Core::DrugModel* _newDrugModel)
@@ -44,9 +49,9 @@ void XpertRequestResult::setDrugModel(const Core::DrugModel* _newDrugModel)
     m_drugModel = nullptr;
 }
 
-void XpertRequestResult::setCovariateResults(const std::map<Core::CovariateDefinition *, CovariateResult>& _newCovariateResults)
+void XpertRequestResult::setCovariateResults(std::vector<CovariateResult>&& _newCovariateResults)
 {
-    m_covariateResults = move(_newCovariateResults);
+    m_covariateResults = _newCovariateResults;
 }
 
 

@@ -4,13 +4,11 @@
 #include <string>
 #include <optional>
 
-#include "tucucommon/unit.h"
 #include "tucucore/drugmodel/covariatedefinition.h"
 #include "tucuquery/parametersdata.h"
 
 namespace Tucuxi {
 namespace XpertResult {
-
 
 /// \brief Enum used to specify the source of a covariate
 enum class CovariateType {
@@ -42,10 +40,9 @@ class CovariateResult
 public:
 
 
-    CovariateResult(const Core::CovariateDefinition* _source, CovariateType _type, std::optional<std::string>& _warning);
-
-    CovariateResult(const Core::PatientCovariate* _source, CovariateType _type, std::optional<std::string>& _warning);
-
+    CovariateResult(const Core::CovariateDefinition* _definition,
+                    const Core::PatientCovariate* _patient,
+                    const std::optional<std::string>& _warning);
 
     /// \brief Get the value (as string) of the covariate.
     /// \return Returns the value.
@@ -61,13 +58,11 @@ public:
     /// \return Return a copy of the optional warning.
     std::optional<std::string> getWarning() const;
 
-
 protected:
 
+    const Core::CovariateDefinition* m_definition;
 
-    const Core::CovariateDefinition* m_sourceFromModel;
-
-    const Core::PatientCovariate* m_sourceFromPatient;
+    const Core::PatientCovariate* m_patient;
 
     CovariateType m_type;
 

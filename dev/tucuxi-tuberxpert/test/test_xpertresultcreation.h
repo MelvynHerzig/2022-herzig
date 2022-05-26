@@ -769,20 +769,7 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
                                             </query>
                                             )";
 
-        std::string enDictionnary = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                        <dictionary
-                                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                            xsi:noNamespaceSchemaLocation="dictionary.xsd">
-
-                                            <entry key="multiple_drug_extraction_error">Too many drugs matching. Could not extract drug treatment.</entry>
-                                            <entry key="absent_drug_extraction_error">No drug matching. Could not extract drug treatment.</entry>
-
-                                        </dictionary>)";
-
         std::cout << _testName << std::endl;
-
-        Tucuxi::XpertLanguage::LanguageManager& lm = Tucuxi::XpertLanguage::LanguageManager::getInstance();
-        lm.loadDictionary(enDictionnary);
 
         std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
 
@@ -802,7 +789,7 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
         fructose_assert_eq(xpertResult.getXpertRequestResults()[0].shouldBeHandled(), true);
 
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getDrugModel(), nullptr);
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getErrorMessage().value(), lm.translate("absent_drug_extraction_error"));
+        fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getErrorMessage().value(), "No drug matching. Could not extract drug treatment.");
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getTreatment().get(), nullptr);
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getXpertRequest()->getDrugID(), "imatinib");
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].shouldBeHandled(), false);

@@ -35,7 +35,7 @@ const unique_ptr<XpertQuery::AdministrativeData>& XpertResult::getAdministrative
     return m_pAdministrative;
 }
 
-const std::vector<XpertRequestResult>& XpertResult::getXpertRequestResults() const
+std::vector<XpertRequestResult>& XpertResult::getXpertRequestResults()
 {
     return m_xpertRequestResults;
 }

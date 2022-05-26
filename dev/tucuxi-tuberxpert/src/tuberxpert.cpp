@@ -155,7 +155,7 @@ int main(int argc, char** argv)
 
     if (importResult != Tucuxi::XpertQuery::XpertQueryImport::Status::Ok) {
 
-        logHelper.error("Error, see details : {}", importer.getErrorMessage());
+        logHelper.error("Query import error, see details : {}", importer.getErrorMessage());
         return IMPORT_ERROR;
     }
 
@@ -165,48 +165,70 @@ int main(int argc, char** argv)
      *                             For each xpert resquest                           *
      * *******************************************************************************/
 
-//    unsigned nbUnfulfilledRequest = 0;
+    unsigned nbUnfulfilledRequest = 0;
+    unsigned requestNbBeingHandled = 0;
+    for (Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult : xpertResult.getXpertRequestResults()) {
 
-//    for (const unique_ptr<Tucuxi::XpertQuery::XpertRequestData>& xpertRequest : xpertResult.getQuery()->getXpertRequests()) {
+        logHelper.info("\n---------------------------------------");
+        logHelper.info("Handling request number: " + to_string(++requestNbBeingHandled));
 
-//        /**************************************************************
-//         *                  Load the translation file                 *
-//         * ************************************************************/
+        // Check if extraction was successfull
+        logHelper.info("\nChecking extraction state...");
+        if (xpertRequestResult.shouldBeHandled() == false) {
+            logHelper.error(xpertRequestResult.getErrorMessage().value());
+            ++nbUnfulfilledRequest;
+            continue;
+        }
 
-//        try {
-//            string languageFileName = languagePath + "/" + languageManager.computeLanguageFileName(xpertRequest->getOutputLang());
-//            ifstream ifs(languageFileName);
+        /**************************************************************
+         *                  Load the translation file                 *
+         * ************************************************************/
 
-//            // If language file opening failed.
-//            if (ifs.fail()) {
-//                throw runtime_error("Could not open the input file: " + languageFileName);
-//            }
+        logHelper.info("\nLoading translation file...");
 
-//            // Try loading the language file, it may throw a LanguageException.
-//            string xmlLanguageString((istreambuf_iterator<char>(ifs)), (istreambuf_iterator<char>()));
-//            languageManager.loadDictionary(xmlLanguageString);
+        try {
+            string languageFileName = languagePath + "/" + languageManager.computeLanguageFileName(xpertRequestResult.getXpertRequest()->getOutputLang());
+            ifstream ifs(languageFileName);
 
-//        } catch (const runtime_error& e) {
+            // If language file opening failed.
+            if (ifs.fail()) {
+                throw runtime_error("Could not open the file " + languageFileName);
+            }
 
-//            // Somehow, the acquisition of the language file failed.
-//            // Leave this requestXpert and try the next one.
-//            logHelper.error(e.what());
-//            ++nbUnfulfilledRequest;
-//            continue;
-//        }
+            // Try loading the language file, it may throw a LanguageException.
+            string xmlLanguageString((istreambuf_iterator<char>(ifs)), (istreambuf_iterator<char>()));
+            languageManager.loadDictionary(xmlLanguageString);
 
-//        /**************************************************************
-//         *                       Model selection                      *
-//         * ************************************************************/
+            logHelper.info("Successfully loaded " + languageFileName);
 
-//        unique_ptr<Tucuxi::XpertResult::XpertRequestResult> xpertRequestResult = nullptr;
-//        Tucuxi::XpertResult::ModelSelector modelSelector;
-//        modelSelector.getBestDrugModel(xpertRequest, xpertResult);
+        } catch (const runtime_error& e) {
 
-//        int randomBPoint = 0;
-//    }
+            // Somehow, the acquisition of the language file failed.
+            // Leave this requestXpert and try the next one.
+            logHelper.error(e.what());
+            ++nbUnfulfilledRequest;
+            continue;
+        }
+
+        /**************************************************************
+         *                       Model selection                      *
+         * ************************************************************/
+
+        logHelper.info("\nSelecting drug model...");
+
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
+        bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
+
+        // Check if model selection was successfull
+        if (xpertRequestResult.shouldBeHandled() == false) {
+            logHelper.error(xpertRequestResult.getErrorMessage().value());
+            ++nbUnfulfilledRequest;
+            continue;
+        }
+    }
 
     logHelper.info("Tuberxpert console application is exiting...");
+    logHelper.info("********************************************************");
 
     pCmpMgr->unregisterComponent("DrugModelRepository");
 

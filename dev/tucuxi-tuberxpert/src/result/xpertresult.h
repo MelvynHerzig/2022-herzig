@@ -48,7 +48,7 @@ public:
 
     const std::unique_ptr<XpertQuery::AdministrativeData>& getAdministrative() const;
 
-    const std::vector<XpertRequestResult>& getXpertRequestResults() const;
+    std::vector<XpertRequestResult>& getXpertRequestResults();
 
 protected:
 

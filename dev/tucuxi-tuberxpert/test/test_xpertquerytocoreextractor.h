@@ -454,20 +454,7 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
                                     </query>
                                     )";
 
-        std::string enDictionnary = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                        <dictionary
-                                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                            xsi:noNamespaceSchemaLocation="dictionary.xsd">
-
-                                            <entry key="multiple_drug_extraction_error">Too many drugs matching. Could not extract drug treatment.</entry>
-                                            <entry key="absent_drug_extraction_error">No drug matching. Could not extract drug treatment.</entry>
-
-                                        </dictionary>)";
-
         std::cout << _testName << std::endl;
-
-        Tucuxi::XpertLanguage::LanguageManager& lm = Tucuxi::XpertLanguage::LanguageManager::getInstance();
-        lm.loadDictionary(enDictionnary);
 
         std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
 
@@ -492,8 +479,8 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
         fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
         fructose_assert_eq(errorMessage0.has_value(), true);
         fructose_assert_eq(errorMessage1.has_value(), true);
-        fructose_assert_eq(errorMessage0.value(), lm.translate("multiple_drug_extraction_error"));
-        fructose_assert_eq(errorMessage1.value(), lm.translate("absent_drug_extraction_error"));
+        fructose_assert_eq(errorMessage0.value(), "Too many drugs matching. Could not extract drug treatment.");
+        fructose_assert_eq(errorMessage1.value(), "No drug matching. Could not extract drug treatment.");
         fructose_assert_eq(drugTreatment0.get(), nullptr);
         fructose_assert_eq(drugTreatment1.get(), nullptr);
     }

@@ -2,7 +2,7 @@
 #define XPERTREQUESTRESULT_H
 
 #include <string>
-#include <map>
+#include <vector>
 #include <optional>
 
 #include "tucucore/drugmodel/covariatedefinition.h"
@@ -41,11 +41,13 @@ public:
 
     const Core::DrugModel* getDrugModel() const;
 
-    const std::map<Core::CovariateDefinition*, CovariateResult>& getCovariateResults();
+    const std::vector<CovariateResult>& getCovariateResults();
+
+    void setErrorMessage(const std::string& _message);
 
     void setDrugModel(const Core::DrugModel* _newDrugModel);
 
-    void setCovariateResults(const std::map<Core::CovariateDefinition *, CovariateResult>& _newCovariateResults);
+    void setCovariateResults(std::vector<CovariateResult>&& _newCovariateResults);
 
     bool shouldBeHandled() const;
 
@@ -61,7 +63,7 @@ protected:
     Core::DrugModel* m_drugModel;
 
     /// Mapping of CovariateResult to CovariateDefinition of the drug model.
-    std::map<Core::CovariateDefinition*, CovariateResult> m_covariateResults;
+    std::vector<CovariateResult> m_covariateResults;
 
 };
 

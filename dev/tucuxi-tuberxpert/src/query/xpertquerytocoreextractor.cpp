@@ -28,14 +28,10 @@ unique_ptr<Core::DrugTreatment> XpertQuery::XpertQueryToCoreExtractor::extractDr
 
     // If there is none or multiple drugs matchins
     if (nbMatchingDrug != 1) {
-
-        Tucuxi::XpertLanguage::LanguageManager& lm = Tucuxi::XpertLanguage::LanguageManager::getInstance();
-
         if (nbMatchingDrug == 0) {
-            // TODO translation
-            _errorMessage = lm.translate("absent_drug_extraction_error");
+            _errorMessage = "No drug matching. Could not extract drug treatment.";
         } else {
-            _errorMessage = lm.translate("multiple_drug_extraction_error");
+            _errorMessage = "Too many drugs matching. Could not extract drug treatment.";
         }
         return nullptr;
     }
