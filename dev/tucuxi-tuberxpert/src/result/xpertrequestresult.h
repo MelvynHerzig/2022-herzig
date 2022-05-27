@@ -59,10 +59,8 @@ protected:
 
     std::optional<std::string> m_errorMessage;
 
-    /// Drug model to use when making adjustmentRequest.
-    Core::DrugModel* m_drugModel;
+    const Core::DrugModel* m_drugModel;
 
-    /// Mapping of CovariateResult to CovariateDefinition of the drug model.
     std::vector<CovariateResult> m_covariateResults;
 
 };

@@ -33,9 +33,11 @@ DEFINES+= \
     test_query \
     test_xpertquerytocoreextractor \
     test_xpertresultcreation \
+    test_modelselector \
 
 HEADERS += \
     test_languagemanager.h \
+    test_modelselector.h \
     test_xpertqueryimport.h \
     test_xpertquerytocoreextractor.h \
     test_xpertresultcreation.h

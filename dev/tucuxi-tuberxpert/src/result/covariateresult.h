@@ -58,13 +58,13 @@ public:
     /// \return Return a copy of the optional warning.
     std::optional<std::string> getWarning() const;
 
+    const Core::CovariateDefinition* getDefinition() const;
+
 protected:
 
     const Core::CovariateDefinition* m_definition;
 
     const Core::PatientCovariate* m_patient;
-
-    CovariateType m_type;
 
     /// Error to print when generating the covariate in report.
     std::optional<std::string> m_warning;

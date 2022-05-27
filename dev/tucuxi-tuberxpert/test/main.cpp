@@ -16,6 +16,10 @@
 #include "test_xpertresultcreation.h"
 #endif
 
+#if defined(test_modelselector)
+#include "test_modelselector.h"
+#endif
+
 using namespace std;
 
 /// \brief Testing program.
@@ -123,6 +127,38 @@ int main(int argc, char** argv)
     }
     else {
         std::cout << "XpertResult creation tests succeeded\n";
+    }
+#endif
+
+    /***********************************************************
+     *                     ModelSelector                       *
+     ***********************************************************/
+
+#if defined(test_modelselector)
+    TestModelSelector modelSelectorTests;
+
+    modelSelectorTests.add_test("No corresponding model for drug id", &TestModelSelector::noCorrespondingModelForDrugId);
+    modelSelectorTests.add_test("No result if the query formulations and routes are not equal.", &TestModelSelector::noResultIfQueryFormulationsAndRoutesAreNotEqual);
+    modelSelectorTests.add_test("No result if only one model with incompatible formulation and route.", &TestModelSelector::noResultOneModelIncompatibleFormulationAndRoute);
+    modelSelectorTests.add_test("Get one result if there are one model with incompatible formulation and route and a second compatible.", &TestModelSelector::getResultOneModelIncompatibleFormulationAndRouteSecondCompatible);
+    modelSelectorTests.add_test("No result if one model with incompatible hard constraint.", &TestModelSelector::noResultOneModelIncompatibleConstraint);
+    modelSelectorTests.add_test("Get one result if there are one model with hard constraint not respected and a second compatible.", &TestModelSelector::getResultOneModelIncompatibleConstraintSecondCompatible);
+    modelSelectorTests.add_test("Get one result if one model with partially incompatible soft constraint.", &TestModelSelector::getResultOneModelPartiallyCompatibleSoftConstraint);
+    modelSelectorTests.add_test("No result when multiple birthdates even with models left.", &TestModelSelector::noResultMultipleBirthdate);
+    modelSelectorTests.add_test("No result when birthdate with bad datatype even with models left.", &TestModelSelector::noResultBadDatatypeBirthdate);
+    modelSelectorTests.add_test("No result when bodyweight with bad unit even with models left.", &TestModelSelector::noResultBadUnitBodyweight);
+    modelSelectorTests.add_test("Get the best result out of 3 models without tie.", &TestModelSelector::getResultOutofThreeNoTie);
+    modelSelectorTests.add_test("Get the best result out of 2 models with tie.", &TestModelSelector::getResultOutofTwoTie);
+    modelSelectorTests.add_test("Get covariateResults.", &TestModelSelector::getCovariateResults);
+
+
+    res = modelSelectorTests.run(argc, argv);
+    if (res != 0) {
+        std::cout << "Model selector tests failed" << std::endl;
+        exit(1);
+    }
+    else {
+        std::cout << "Model selector tests succeeded\n";
     }
 #endif
 

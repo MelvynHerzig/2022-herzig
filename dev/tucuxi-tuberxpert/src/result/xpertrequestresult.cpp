@@ -46,7 +46,7 @@ void XpertRequestResult::setErrorMessage(const std::string& _message)
 
 void XpertRequestResult::setDrugModel(const Core::DrugModel* _newDrugModel)
 {
-    m_drugModel = nullptr;
+    m_drugModel = _newDrugModel;
 }
 
 void XpertRequestResult::setCovariateResults(std::vector<CovariateResult>&& _newCovariateResults)

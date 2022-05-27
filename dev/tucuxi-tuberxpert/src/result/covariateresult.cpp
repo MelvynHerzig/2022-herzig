@@ -43,5 +43,10 @@ std::optional<std::string> CovariateResult::getWarning() const
     return m_warning;
 }
 
+const Core::CovariateDefinition* CovariateResult::getDefinition() const
+{
+    return m_definition;
+}
+
 } // namespace XpertResult
 } // namespace Tucuxi

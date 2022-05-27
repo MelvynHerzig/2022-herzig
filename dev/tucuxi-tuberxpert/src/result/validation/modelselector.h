@@ -40,6 +40,12 @@ protected:
     unsigned computeScore(const Core::PatientVariates& _patientVariates,
                           const Core::CovariateDefinitions& _modelDefinitions,
                           std::vector<CovariateResult>& _results) const;
+
+    bool checkOperation(Core::Operation* _op,
+                        double _val,
+                        const Core::CovariateDefinition* _definition,
+                        const Core::PatientCovariate* _patient,
+                        std::vector<CovariateResult>& _results) const;
 };
 
 } // namespace XpertResult
