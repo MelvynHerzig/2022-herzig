@@ -9,38 +9,38 @@
 namespace Tucuxi {
 namespace XpertQuery {
 
-/// \brief This class extends the tucucore queryimporter in order to load administrative information
-/// and the custom request "requestXpert"
+/// \brief This class extends the tucucore queryimporter in order to import administrative data
+///         and the custom requests "requestXpert" when loading an xml query.
 /// \date 23/04/2022
 /// \author Herzig Melvyn
 class XpertQueryImport : public Query::QueryImport
 {
 public:
 
-    /// \brief Xpert query import empty constructor.
+    /// \brief XpertQueryImport empty constructor.
     XpertQueryImport();
 
     /// \brief Destructor.
     virtual ~XpertQueryImport();
 
-    /// \brief Import a query based on a document name. This function is reentrant.
-    /// \param _query A reference to a query pointer that will be allocated within the function
-    /// \param _fileName The name of the file in which the drug model is stored
-    /// \return Result::Ok if the import went well, another Result else.
+    /// \brief Imports a query based on a file name. This function is reentrant.
+    /// \param _query A reference to a query pointer that will be allocated within the function.
+    /// \param _fileName The name of the file in which the drug model is stored.
+    /// \return Status::Ok if the import went well, another Status otherwise.
     Status importFromFile(std::unique_ptr<XpertQueryData>& _query, const std::string& _fileName);
 
-    /// \brief Import a query based on an xml string. This function is reentrant.
+    /// \brief Imports a query based on an xml string. This function is reentrant.
     /// \param _query A reference to a query pointer that will be allocated within the function
     /// \param _xml A string in which the drug model is stored
-    /// \return Result::Ok if the import went well, another Result else.
+    /// \return Status::Ok if the import went well, another Status otherwise.
     Status importFromString(std::unique_ptr<XpertQueryData>& _query, const std::string& _xml);
 
 protected:
 
-    /// \brief Import a query from an xml document. This function is reentrant.
+    /// \brief Imports a query from an xml document. This function is reentrant.
     /// \param _query A reference to a query pointer that will be allocated within the function
     /// \param _document An XmlDocument in which the query is stored
-    /// \return Result::Ok if the import went well, another Result else.
+    /// \return Status::Ok if the import went well, another Status otherwise.
     Status importDocument(std::unique_ptr<XpertQueryData>& _query, Common::XmlDocument& _document);
 
     // Methods to separate the creation of an AdministrativeData. Those methods were first created in
@@ -70,12 +70,12 @@ protected:
     std::unique_ptr<Address> createAddress(Common::XmlNodeIterator& _addressRootIterator);
 
     /// \brief Creates a phone number object.
-    /// \param _instituteContactRootIterator Phone node iterator to start from.
+    /// \param _phoneRootIterator Phone node iterator to start from.
     /// \return Unique pointer on phone number. Nullpointer if node doesn't exists.
     std::unique_ptr<Phone> createPhone(Common::XmlNodeIterator& _phoneRootIterator);
 
     /// \brief Creates an email object.
-    /// \param _instituteContactRootIterator Email node iterator to start from.
+    /// \param _emailRootIterator Email node iterator to start from.
     /// \return Unique pointer on email. Nullpointer if node doesn't exists.
     std::unique_ptr<Email> createEmail(Common::XmlNodeIterator& _emailRootIterator);
 
@@ -90,49 +90,42 @@ protected:
     /// \return Unique pointer on request xpert data.
     std::unique_ptr<XpertRequestData> createRequestXpert(Common::XmlNodeIterator& _requestXpertRootIterator);
 
-    /// \brief getChildStringOptional Extract a child string value with optionnal value if not present. Does not set any import error.
+    /// \brief Extracts a child string value with optionnal value if not present. Does not set any import error.
     /// \param _rootIterator XpertRequest root iterator.
     /// \param _childName Node name of options.
     /// \param _default Default value to return if child name is not present.
-    /// \return  Return the value from child if present otherwise _defaultValue.
+    /// \return Returns the value from child if present otherwise _default.
     std::string getChildStringOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName, const std::string& _default);
 
-    /// \brief Parse the document to get the bestDosage choice optionally. Does not set any import error.
+    /// \brief Parses the document to get the loadingOption choice optionally. Does not set any import error.
     /// \param _rootIterator XpertRequest root iterator.
     /// \param _childName Node name of options.
     /// \param _default Default value to return if child name is not present.
-    /// \return If found the best candaidates option set otherwise bestDosagePerInterval.
-    Core::BestCandidatesOption getChildBestCandidatesOptionEnumOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName, Core::BestCandidatesOption _default);
-
-    /// \brief Parse the document to get the loadingOption choice optionally. Does not set any import error.
-    /// \param _rootIterator XpertRequest root iterator.
-    /// \param _childName Node name of options.
-    /// \param _default Default value to return if child name is not present.
-    /// \return If found the loading option set otherwise loadingDoseAllowed.
+    /// \return If found the loading option set otherwise Unspecified.
     LoadingOption getChildLoadingOptionEnumOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName, LoadingOption _default);
 
     /// \brief Parse the document to get the restPeriodOtion choice optionally. Does not set any import error.
     /// \param _rootIterator XpertRequest root iterator.
     /// \param _childName Node name of options.
     /// \param _default Default value to return if child name is not present.
-    /// \return If found the rest period option set otherwise restPeriodAllowed.
+    /// \return If found the rest period option set otherwise Unspecified.
     RestPeriodOption getChildRestPeriodTargetOptionEnumOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName, RestPeriodOption _default);
 
-    /// \brief Parse the document to get the targetExtractionOption choice optionally. Does not set any import error.
+    /// \brief Parses the document to get the targetExtractionOption choice optionally. Does not set any import error.
     /// \param _rootIterator XpertRequest root iterator.
     /// \param _childName Node name of options.
     /// \param _default Default value to return if child name is not present.
     /// \return If found the target extraction option set otherwise definitionIfNoIndividualTarget.
     Core::TargetExtractionOption getChildTargetExtractionOptionEnumOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName, Core::TargetExtractionOption _default);
 
-    /// \brief Parse the document to get the formulationAndRouteSelectionOpton choice optionally. Does not set any import error.
+    /// \brief Parses the document to get the formulationAndRouteSelectionOpton choice optionally. Does not set any import error.
     /// \param _rootIterator XpertRequest root iterator.
     /// \param _childName Node name of options.
     /// \param _default Default value to return if child name is not present.
     /// \return If found the formulation and route selection option set otherwise lastFormulationAndRoute.
     Core::FormulationAndRouteSelectionOption getChildFormulationAndRouteSelectionOptionEnumOptional(Common::XmlNodeIterator _rootIterator, const std::string& _childName, Core::FormulationAndRouteSelectionOption _default);
 
-    /// \brief Parse the document to get the adjustment date optionally. Does not set any import error.
+    /// \brief Parses the document to get the adjustment date optionally. Does not set any import error.
     /// \param _rootIterator XpertRequest root iterator.
     /// \param _childName Node name of adjustment date.
     /// \return If found the adjustment date set otherwhise UndefinedDateTime.

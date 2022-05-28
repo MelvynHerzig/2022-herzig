@@ -13,51 +13,52 @@
 namespace Tucuxi {
 namespace XpertResult {
 
-/// \brief This is a wrapper class that contains the analysis for each drug of tuberXpert.
+/// \brief This is a wrapper class that contains the analysis for TuberXpert request.
 ///
-///        Concretely, this class is created with an empty constructor. It is passed
-///        by refrence to each execution steps to be populated with results gathered.
-///        It mainly consists of map [DrugData, DrugResult] of drug results that is initlially populated
-///        when selecting the models in modelselector.h
-///
-///        This class closely work with information from query file. Since a lot of
-///        element are not copyable, it uses references on these elements. Consequently,
-///        it is important that this class shares the same lifecycle than XpertQueryData associated.
-///
-///        To enforce that, when the object Result is created, it creates an internal XpertQueryData
-///        object, that can be retrieved by a getter and it should be used by XpertQueryImport.
-///
+///        The class is constructed with an XpertQueryDataObject. It acquires the administrative data.
+///        Then for each XpertRequest found, it creates an XpertRequestResult that is stored in an
+///        internal vector.
 /// \date 20/05/2022
 /// \author Herzig Melvyn
 class XpertResult
 {
 public:
 
-    /// \brief Constructor
+    /// \brief Constructor. Moves the AdministrativeData unique pointer
+    ///        from _xpertQuery and moves each XpertRequest unique pointer
+    ///        into XpertRequestResult.
     XpertResult(std::unique_ptr<XpertQuery::XpertQueryData> _xpertQuery);
 
     /// \brief Copy constructor is not supported.
-    ///  The copy constructor is not supported because of the use of
-    ///  unique_ptr wich can't be copied.
+    ///        The copy constructor is not supported because of the use of
+    ///        unique_ptr wich can't be copied.
     XpertResult(const XpertResult& _other) = delete;
 
 
-    /// \brief Gets the generation date of the result.
-    /// \return Return the generation date.
+    /// \brief Gets the generation date of the result. In other words, the creation date
+    ///        of this object.
+    /// \return Returns the generation date.
     Common::DateTime getGenerationDate();
 
+    /// \brief Gets a reference on the administrative data.
+    /// \return A reference on the administrative data.
     const std::unique_ptr<XpertQuery::AdministrativeData>& getAdministrative() const;
 
+    /// \brief Gets a reference on the vector of XpertRequestResult objects.
+    ///        This is non const because the objects must be editable by the
+    ///        TuberXpert "pipeline".
+    /// \return A reference one the vector of XpertRequestResult objects.
     std::vector<XpertRequestResult>& getXpertRequestResults();
 
 protected:
 
-    /// Date of generation.
+    /// \brief Date of generation.
     Common::DateTime m_generationDate;
 
-    /// Administrative information.
+    /// \brief Administrative information moved from query.
     std::unique_ptr<XpertQuery::AdministrativeData> m_pAdministrative;
 
+    /// \brief Vector of XpertRequestResults edited along the TuberXpert "pipeline".
     std::vector<XpertRequestResult> m_xpertRequestResults;
 };
 

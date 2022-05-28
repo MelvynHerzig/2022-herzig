@@ -110,28 +110,19 @@ const string& PersonalContact::getLastName() const
     return m_lastName;
 }
 
-std::optional<std::reference_wrapper<const Address>> PersonalContact::getpAddress() const
+const unique_ptr<Address>& PersonalContact::getpAddress() const
 {
-    if(m_pAddress != nullptr){
-        return optional<reference_wrapper<const Address>>{*m_pAddress};
-    }
-    return nullopt;
+    return m_pAddress;
 }
 
-std::optional<std::reference_wrapper<const Phone>> PersonalContact::getpPhone() const
+const unique_ptr<Phone>& PersonalContact::getpPhone() const
 {
-    if(m_pPhone != nullptr){
-        return optional<reference_wrapper<const Phone>>{*m_pPhone};
-    }
-    return nullopt;
+    return m_pPhone;
 }
 
-std::optional<std::reference_wrapper<const Email>> PersonalContact::getpEmail() const
+const unique_ptr<Email>& PersonalContact::getpEmail() const
 {
-    if(m_pEmail != nullptr){
-        return optional<reference_wrapper<const Email>>{*m_pEmail};
-    }
-    return nullopt;
+    return m_pEmail;
 }
 
 /**************************************************
@@ -158,28 +149,19 @@ const std::string& InstituteContact::getName() const
     return m_name;
 }
 
-std::optional<std::reference_wrapper<const Address>> InstituteContact::getpAddress() const
+const unique_ptr<Address>& InstituteContact::getpAddress() const
 {
-    if(m_pAddress != nullptr){
-        return optional<reference_wrapper<const Address>>{*m_pAddress};
-    }
-    return nullopt;
+    return m_pAddress;
 }
 
-std::optional<std::reference_wrapper<const Phone>> InstituteContact::getpPhone() const
+const unique_ptr<Phone>& InstituteContact::getpPhone() const
 {
-    if(m_pPhone != nullptr){
-        return optional<reference_wrapper<const Phone>>{*m_pPhone};
-    }
-    return nullopt;
+    return m_pPhone;
 }
 
-std::optional<std::reference_wrapper<const Email>> InstituteContact::getpEmail() const
+const unique_ptr<Email>& InstituteContact::getpEmail() const
 {
-    if(m_pEmail != nullptr){
-        return optional<reference_wrapper<const Email>>{*m_pEmail};
-    }
-    return nullopt;
+    return m_pEmail;
 }
 
 /**************************************************
@@ -196,12 +178,9 @@ const PersonalContact& Person::getpPerson() const
     return *m_pPerson;
 }
 
-optional<reference_wrapper<const InstituteContact>> Person::getpInstitute() const
+const unique_ptr<InstituteContact>& Person::getpInstitute() const
 {
-    if(m_pInstitute != nullptr){
-        return optional<reference_wrapper<const InstituteContact>>{*m_pInstitute};
-    }
-    return nullopt;
+    return m_pInstitute;
 }
 
 /**************************************************
@@ -227,28 +206,19 @@ AdministrativeData::AdministrativeData(
 {
 }
 
-std::optional<std::reference_wrapper<const Person>> AdministrativeData::getpMandator() const
+const unique_ptr<Person>& AdministrativeData::getpMandator() const
 {
-    if(m_pMandator != nullptr){
-        return optional<reference_wrapper<const Person>>{*m_pMandator};
-    }
-    return nullopt;
+    return m_pMandator;
 }
 
-std::optional<std::reference_wrapper<const Person>> AdministrativeData::getpPatient() const
+const unique_ptr<Person>& AdministrativeData::getpPatient() const
 {
-    if(m_pPatient != nullptr){
-        return optional<reference_wrapper<const Person>>{*m_pPatient};
-    }
-    return nullopt;
+    return m_pPatient;
 }
 
-std::optional<std::reference_wrapper<const ClinicalData>> AdministrativeData::getpClinicalData() const
+const unique_ptr<ClinicalData>& AdministrativeData::getpClinicalData() const
 {
-    if(m_pClinicalData != nullptr){
-        return optional<reference_wrapper<const ClinicalData>>{*m_pClinicalData};
-    }
-    return nullopt;
+    return m_pClinicalData;
 }
 
 } // namespace XpertQuery

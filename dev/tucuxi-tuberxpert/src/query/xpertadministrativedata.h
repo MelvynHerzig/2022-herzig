@@ -4,8 +4,7 @@
 /**************************************************
  |      Basically this class is a copypasta       |
  |    of Tucuquery::Query::AdministrativeData,    |
- |    but with better practices, const refs and   |
- |                  optionals                     |
+ |       but with const refs, and comments.       |
  **************************************************/
 
 #include <string>
@@ -13,11 +12,10 @@
 #include <memory>
 #include <map>
 
-
 namespace Tucuxi {
 namespace XpertQuery {
 
-/// \brief Represent an address.
+/// \brief Class representing an address of an institute or a person.
 /// \date 28/04/2022
 class Address
 {
@@ -37,10 +35,10 @@ public:
 
     // Getters
     /// \brief Gets the street.
-    /// \return Street string
+    /// \return Street name as string.
     const std::string& getStreet() const;
 
-    /// \brief Get the address post code.
+    /// \brief Gets the address post code.
     /// \return Post code integer.
     int getPostCode() const;
 
@@ -49,31 +47,31 @@ public:
     const std::string& getCity() const;
 
     /// \brief Gets the state.
-    /// \return State name string
+    /// \return State name string.
     const std::string& getState() const;
 
-    /// \brief Gets the country
+    /// \brief Gets the country.
     /// \return Country name string.
     const std::string& getCountry() const;
 
 protected:
-    /// street of the address.
+    /// \brief Street of the address.
     const std::string m_street;
 
-    /// Post code of the address.
+    /// \brief Post code of the address.
     const int m_postCode;
 
-    /// City of the address.
+    /// \brief City of the address.
     const std::string m_city;
 
-    /// State of the address.
+    /// \brief State of the address.
     const std::string m_state;
 
-    /// Country of the address.
+    /// \brief Country of the address.
     const std::string m_country;
 };
 
-/// \brief Represent a phone number.
+/// \brief Class represent a phone number of an institute or a person.
 /// \date 28/04/2022
 class Phone
 {
@@ -97,14 +95,14 @@ public:
     const std::string& getType() const;
 
 protected:
-    /// Phone number.
+    /// \brief Phone number.
     const std::string m_number;
 
-    /// Phone number type.
+    /// \brief Phone number type.
     const std::string m_type;
 };
 
-/// \brief Represent a enamil address.
+/// \brief Class represent a email address of an institute or a person.
 /// \date 28/04/2022
 class Email
 {
@@ -128,14 +126,14 @@ public:
     const std::string& getType() const;
 
 protected:
-    /// Email address.
+    /// \brief Email address.
     const std::string m_address;
 
-    /// Email address type.
+    /// \brief Email address type.
     const std::string m_type;
 };
 
-/// \brief Represent a person and his coordinates.
+/// \brief Class representing a person and his contact coordinates.
 /// \date 28/04/2022
 class PersonalContact
 {
@@ -182,41 +180,41 @@ public:
     const std::string& getLastName() const;
 
     /// \brief Gets the person's address.
-    /// \return Person's address optional.
-    std::optional<std::reference_wrapper<const Address>> getpAddress() const;
+    /// \return Person's address optional. May be nullptr.
+    const std::unique_ptr<Address>& getpAddress() const;
 
     /// \brief Gets the person's phone number.
-    /// \return Person's phone number optional.
-    std::optional<std::reference_wrapper<const Phone>> getpPhone() const;
+    /// \return Person's phone number optional. May be nullptr.
+    const std::unique_ptr<Phone>& getpPhone() const;
 
     /// \brief Gets the person's email.
-    /// \return Person's email optional.
-    std::optional<std::reference_wrapper<const Email>> getpEmail() const;
+    /// \return Person's email optional. May be nullptr.
+    const std::unique_ptr<Email>& getpEmail() const;
 
 protected:
-    /// Perosn's identifier.
+    /// \brief Perosn's identifier.
     const std::string m_id;
 
-    /// Person's title.
+    /// \brief Person's title.
     const std::string m_title;
 
-    /// Person's firstname.
+    /// \brief Person's firstname.
     const std::string m_firstName;
 
-    /// Person's lastname.
+    /// \brief Person's lastname.
     const std::string m_lastName;
 
-    /// Person's address.
+    /// \brief Person's address. May be nullptr.
     std::unique_ptr<Address> m_pAddress;
 
-    /// Person's phone number.
+    /// \brief Person's phone number. May be nullptr.
     std::unique_ptr<Phone> m_pPhone;
 
-    /// Person's email.
+    /// \brief Person's email. May be nullptr.
     std::unique_ptr<Email> m_pEmail;
 };
 
-/// \brief Represent a institute and his coordinates.
+/// \brief Class representing an institute and its contact coordinates.
 /// \date 28/04/2022
 class InstituteContact
 {
@@ -251,35 +249,35 @@ public:
     const std::string& getName() const;
 
     /// \brief Gets the address of the institute.
-    /// \return Optional address of the institute.
-    std::optional<std::reference_wrapper<const Address>> getpAddress() const;
+    /// \return Optional address of the institute. May be nullptr.
+    const std::unique_ptr<Address>& getpAddress() const;
 
     /// \brief Gets the phone of the institute.
-    /// \return Optional phone of the institute.
-    std::optional<std::reference_wrapper<const Phone>> getpPhone() const;
+    /// \return Optional phone of the institute. May be nullptr.
+    const std::unique_ptr<Phone>& getpPhone() const;
 
     /// \brief Gets the email of the institute.
-    /// \return Optional email of the institute.
-    std::optional<std::reference_wrapper<const Email>> getpEmail() const;
+    /// \return Optional email of the institute. May be nullptr.
+    const std::unique_ptr<Email>& getpEmail() const;
 
 protected:
-    /// Identifier of the institute.
+    /// \brief Identifier of the institute.
     const std::string m_id;
 
-    /// Name of the institute.
+    /// \brief Name of the institute.
     const std::string m_name;
 
-    /// Address of the institute.
+    /// \brief Address of the institute. May be nullptr.
     std::unique_ptr<Address> m_pAddress;
 
-    /// Phone of the institute.
+    /// \brief Phone of the institute. May be nullptr.
     std::unique_ptr<Phone> m_pPhone;
 
-    /// Email of the institute.
+    /// \brief Email of the institute. May be nullptr.
     std::unique_ptr<Email> m_pEmail;
 };
 
-/// \brief A person has coordinates and may be affiliated to an institute.
+/// \brief A person (mandator or patient) has contact coordinates and may be affiliated to an institute.
 /// \date 28/04/2022
 class Person
 {
@@ -303,17 +301,17 @@ public:
 
     /// \brief Gets the person's institute.
     /// \return Person's optional institute.
-    std::optional<std::reference_wrapper<const InstituteContact>> getpInstitute() const;
+    const std::unique_ptr<InstituteContact>& getpInstitute() const;
 
 protected:
-    /// Person's coordinates.
+    /// \brief Person's coordinates.
     std::unique_ptr<PersonalContact> m_pPerson;
 
-    /// Peson's institute.
+    /// \brief Peson's institute.
     std::unique_ptr<InstituteContact> m_pInstitute;
 };
 
-/// \brief Class for storing any infroamtion about a patient.
+/// \brief Class for storing any information about a patient.
 /// \date 28/04/2022
 class ClinicalData
 {
@@ -332,11 +330,11 @@ public:
     const std::map<std::string, std::string>& getData() const;
 
 protected:
-    /// Clinical data.
-    const std::map<std::string, std::string> m_data;
+    /// \brief Clinical data.
+    std::map<std::string, std::string> m_data;
 };
 
-/// \brief Wrapper for all administrative data of an xpert query.
+/// \brief Wrapper for all administrative data of TuberXpert query.
 /// \date 28/04/2022
 class AdministrativeData
 {
@@ -354,30 +352,30 @@ public:
             std::unique_ptr<Person> _pPatient,
             std::unique_ptr<ClinicalData> _pClinicalData);
 
-    /// \brief Copy constructor is not supported.
+    /// \brief Copy constructor is not supported because of unique pointers.
     AdministrativeData(AdministrativeData& _other) = delete;
 
     // Getters
     /// \brief Gets the mandator person.
-    /// \return Optional mandator person.
-    std::optional<std::reference_wrapper<const Person>> getpMandator() const;
+    /// \return Optional mandator person. may be nullptr.
+    const std::unique_ptr<Person>& getpMandator() const;
 
     /// \brief Gets the patient person.
-    /// \return Optional patient person.
-    std::optional<std::reference_wrapper<const Person>> getpPatient() const;
+    /// \return Optional patient person. May be nullptr.
+    const std::unique_ptr<Person>& getpPatient() const;
 
     /// \brief Gets the clinical data.
-    /// \return Optional clinical data.
-    std::optional<std::reference_wrapper<const ClinicalData>> getpClinicalData() const;
+    /// \return Optional clinical data. May be nullptr.
+    const std::unique_ptr<ClinicalData>& getpClinicalData() const;
 
 protected:
-    /// Mandator.
+    /// \brief Mandator. May be nullptr.
     std::unique_ptr<Person> m_pMandator;
 
-    /// Patient.
+    /// \brief Patient. May be nullptr.
     std::unique_ptr<Person> m_pPatient;
 
-    /// Clinical data.
+    /// \brief Clinical data. May be nullptr.
     std::unique_ptr<ClinicalData> m_pClinicalData;
 };
 

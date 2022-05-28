@@ -568,14 +568,14 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
         fructose_assert_eq(xpertResultEmptyAdmin.getAdministrative().get(), nullptr);
         fructose_assert_ne(xpertResultCompleteAdmin.getAdministrative().get(), nullptr);
 
-        const Tucuxi::XpertQuery::PersonalContact& mandator = xpertResultCompleteAdmin.getAdministrative()->getpMandator()->get().getpPerson();
-        const Tucuxi::XpertQuery::Address& mandatorAddress = mandator.getpAddress()->get();
-        const Tucuxi::XpertQuery::Phone& mandatorPhone = mandator.getpPhone()->get();
-        const Tucuxi::XpertQuery::Email& mandatorEmail = mandator.getpEmail()->get();
-        const Tucuxi::XpertQuery::InstituteContact& mandatorInstitute = xpertResultCompleteAdmin.getAdministrative()->getpMandator()->get().getpInstitute()->get();
-        const Tucuxi::XpertQuery::Address& mandatorInstituteAddress = mandatorInstitute.getpAddress()->get();
-        const Tucuxi::XpertQuery::Phone& mandatorInstitutePhone = mandatorInstitute.getpPhone()->get();
-        const Tucuxi::XpertQuery::Email& mandatorInstituteEmail = mandatorInstitute.getpEmail()->get();
+        const Tucuxi::XpertQuery::PersonalContact& mandator = xpertResultCompleteAdmin.getAdministrative()->getpMandator()->getpPerson();
+        const Tucuxi::XpertQuery::Address& mandatorAddress = *mandator.getpAddress();
+        const Tucuxi::XpertQuery::Phone& mandatorPhone = *mandator.getpPhone();
+        const Tucuxi::XpertQuery::Email& mandatorEmail = *mandator.getpEmail();
+        const Tucuxi::XpertQuery::InstituteContact& mandatorInstitute = *xpertResultCompleteAdmin.getAdministrative()->getpMandator()->getpInstitute();
+        const Tucuxi::XpertQuery::Address& mandatorInstituteAddress = *mandatorInstitute.getpAddress();
+        const Tucuxi::XpertQuery::Phone& mandatorInstitutePhone = *mandatorInstitute.getpPhone();
+        const Tucuxi::XpertQuery::Email& mandatorInstituteEmail = *mandatorInstitute.getpEmail();
 
         fructose_assert_eq(mandator.getId(), "asdf");
         fructose_assert_eq(mandator.getTitle(), "Dr.");
@@ -602,14 +602,14 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
         fructose_assert_eq(mandatorInstituteEmail.getAddress(), "info@chuv.com");
         fructose_assert_eq(mandatorInstituteEmail.getType(), "professional");
 
-        const Tucuxi::XpertQuery::PersonalContact& patient =  xpertResultCompleteAdmin.getAdministrative()->getpPatient()->get().getpPerson();
-        const Tucuxi::XpertQuery::Address& patientAddress = patient.getpAddress()->get();
-        const Tucuxi::XpertQuery::Phone& patientPhone = patient.getpPhone()->get();
-        const Tucuxi::XpertQuery::Email& patientEmail = patient.getpEmail()->get();
-        const Tucuxi::XpertQuery::InstituteContact& patientInstitute = xpertResultCompleteAdmin.getAdministrative()->getpPatient()->get().getpInstitute()->get();
-        const Tucuxi::XpertQuery::Address& patientInstituteAddress = patientInstitute.getpAddress()->get();
-        const Tucuxi::XpertQuery::Phone& patientInstitutePhone = patientInstitute.getpPhone()->get();
-        const Tucuxi::XpertQuery::Email& patientInstituteEmail = patientInstitute.getpEmail()->get();
+        const Tucuxi::XpertQuery::PersonalContact& patient =  xpertResultCompleteAdmin.getAdministrative()->getpPatient()->getpPerson();
+        const Tucuxi::XpertQuery::Address& patientAddress = *patient.getpAddress();
+        const Tucuxi::XpertQuery::Phone& patientPhone = *patient.getpPhone();
+        const Tucuxi::XpertQuery::Email& patientEmail = *patient.getpEmail();
+        const Tucuxi::XpertQuery::InstituteContact& patientInstitute = *xpertResultCompleteAdmin.getAdministrative()->getpPatient()->getpInstitute();
+        const Tucuxi::XpertQuery::Address& patientInstituteAddress = *patientInstitute.getpAddress();
+        const Tucuxi::XpertQuery::Phone& patientInstitutePhone = *patientInstitute.getpPhone();
+        const Tucuxi::XpertQuery::Email& patientInstituteEmail = *patientInstitute.getpEmail();
 
         fructose_assert_eq(patient.getId(), "123456");
         fructose_assert_eq(patient.getFirstName(), "Alice");
@@ -635,8 +635,8 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
         fructose_assert_eq(patientInstituteEmail.getAddress(), "info@ehnv.com");
         fructose_assert_eq(patientInstituteEmail.getType(), "professional");
 
-        fructose_assert_eq(xpertResultCompleteAdmin.getAdministrative()->getpClinicalData()->get().getData().find("goodNote")->second, " nice ");
-        fructose_assert_eq(xpertResultCompleteAdmin.getAdministrative()->getpClinicalData()->get().getData().find("badNote")->second, "");
+        fructose_assert_eq(xpertResultCompleteAdmin.getAdministrative()->getpClinicalData()->getData().find("goodNote")->second, " nice ");
+        fructose_assert_eq(xpertResultCompleteAdmin.getAdministrative()->getpClinicalData()->getData().find("badNote")->second, "");
     }
 
     /// \brief Checks that the vector of XpertRequestResult is valid.
@@ -783,13 +783,13 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
         fructose_assert_eq(xpertResult.getXpertRequestResults().size(), 2);
 
         fructose_assert_eq(xpertResult.getXpertRequestResults()[0].getDrugModel(), nullptr);
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[0].getErrorMessage().has_value(), false);
+        fructose_assert_eq(xpertResult.getXpertRequestResults()[0].getErrorMessage(), "");
         fructose_assert_ne(xpertResult.getXpertRequestResults()[0].getTreatment().get(), nullptr);
         fructose_assert_eq(xpertResult.getXpertRequestResults()[0].getXpertRequest()->getDrugID(), "rifampicin");
         fructose_assert_eq(xpertResult.getXpertRequestResults()[0].shouldBeHandled(), true);
 
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getDrugModel(), nullptr);
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getErrorMessage().value(), "No drug matching. Could not extract drug treatment.");
+        fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getErrorMessage(), "No drug matching. Could not extract drug treatment.");
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getTreatment().get(), nullptr);
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getXpertRequest()->getDrugID(), "imatinib");
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].shouldBeHandled(), false);

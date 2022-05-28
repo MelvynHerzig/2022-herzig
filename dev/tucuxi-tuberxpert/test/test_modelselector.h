@@ -141,7 +141,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -165,7 +164,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage().value(), "Directory does not contain drug model for the given drug.");
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Directory does not contain drug model for the given drug.");
     }
 
     /// \brief Checks that all formulations and routes of the query are the same.
@@ -330,7 +329,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -346,7 +344,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -371,9 +368,9 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult1);
 
         fructose_assert_eq(xpertRequestResult0.shouldBeHandled(), false);
-        fructose_assert_eq(xpertRequestResult0.getErrorMessage().value(), "All formulations and routes must be equal.");
+        fructose_assert_eq(xpertRequestResult0.getErrorMessage(), "All formulations and routes must be equal.");
         fructose_assert_eq(xpertRequestResult1.shouldBeHandled(), false);
-        fructose_assert_eq(xpertRequestResult1.getErrorMessage().value(), "All formulations and routes must be equal.");
+        fructose_assert_eq(xpertRequestResult1.getErrorMessage(), "All formulations and routes must be equal.");
     }
 
     /// \brief If the model is incompatible in terms of formulation and route and it is the only one
@@ -454,7 +451,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -1188,7 +1184,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage().value(), "No valid drug model found.");
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "No valid drug model found.");
     }
 
     /// \brief If the model is incompatible in terms of formulation and route but there is another compatible
@@ -1270,7 +1266,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -2714,7 +2709,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage().has_value(), false);
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
         fructose_assert_eq(xpertRequestResult.getDrugModel()->getDrugModelId(), "ch.tucuxi.imatinib.gotta2012_good");
     }
 
@@ -2804,7 +2799,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -3537,7 +3531,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage().value(), "No valid drug model found.");
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "No valid drug model found.");
     }
 
     /// \brief If the model is incompatible in terms of constraints, but there is antoher compatible
@@ -3627,7 +3621,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -5070,7 +5063,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage().has_value(), false);
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
         fructose_assert_eq(xpertRequestResult.getDrugModel()->getDrugModelId(), "ch.tucuxi.imatinib.gotta2012_compatible");
     }
 
@@ -5160,7 +5153,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -5893,7 +5885,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage().has_value(), false);
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
         fructose_assert_eq(xpertRequestResult.getDrugModel()->getDrugModelId(), "ch.tucuxi.imatinib.gotta2012");
     }
 
@@ -5992,7 +5984,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -7362,7 +7353,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage().value(), "Patient covariate error found in model: ch.tucuxi.imatinib.gotta2012, details: Multiple birthdate not allowed.");
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found in model: ch.tucuxi.imatinib.gotta2012, details: Multiple birthdate not allowed.");
     }
 
     /// \brief The query sets one birthdate with bad datatype and the model require an age.
@@ -7451,7 +7442,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -8821,7 +8811,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage().value(), "Patient covariate error found in model: ch.tucuxi.imatinib.gotta2012, details: Invalid data type for birthdate.");
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found in model: ch.tucuxi.imatinib.gotta2012, details: Invalid data type for birthdate.");
     }
 
     /// \brief The query sets one bodyweight with bad unit and the model requiring this covariate.
@@ -8911,7 +8901,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -10158,7 +10147,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage().value(), "Patient covariate error found in model: ch.tucuxi.imatinib.gotta2012, details: Error in unit conversion");
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found in model: ch.tucuxi.imatinib.gotta2012, details: Error in unit conversion");
     }
 
     /// \brief Three versions of imatinib model:
@@ -10274,7 +10263,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -12541,7 +12529,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage().has_value(), false);
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
         fructose_assert_eq(xpertRequestResult.getDrugModel()->getDrugModelId() ,"ch.tucuxi.imatinib.gotta2012_2");
     }
 
@@ -12633,7 +12621,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -14108,7 +14095,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage().has_value(), false);
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
         fructose_assert_eq(xpertRequestResult.getDrugModel()->getDrugModelId() ,"ch.tucuxi.imatinib.gotta2012_2");
     }
 
@@ -14213,7 +14200,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -14896,41 +14882,41 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage().has_value(), false);
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
         fructose_assert_eq(xpertRequestResult.getDrugModel()->getDrugModelId() ,"ch.tucuxi.imatinib.gotta2012");
 
         const std::vector<Tucuxi::XpertResult::CovariateResult>& results = xpertRequestResult.getCovariateResults();
         fructose_assert_eq(results.size(), 5); // 3 covariates ( 2 weights + 1 birthdate) + Gist definition + Sex definition
 
-        fructose_assert_eq(results[0].getDefinition()->getId(), "birthdate");
+        fructose_assert_eq(results[0].getDefinition()->getId(), "age");
         fructose_assert_eq(results[0].getValue(), "1990-01-01 00:00:00");
         fructose_assert_eq(results[0].getUnit().toString(), "");
         fructose_assert_eq(results[0].getType() == Tucuxi::XpertResult::CovariateType::Patient, true);
-        fructose_assert_eq(results[0].getWarning().has_value(), false);
+        fructose_assert_eq(results[0].getWarning(), "");
 
         fructose_assert_eq(results[1].getDefinition()->getId(), "bodyweight");
         fructose_assert_eq(results[1].getValue(), "70");
         fructose_assert_eq(results[1].getUnit().toString(), "kg");
         fructose_assert_eq(results[1].getType() == Tucuxi::XpertResult::CovariateType::Patient, true);
-        fructose_assert_eq(results[1].getWarning().has_value(), false);
+        fructose_assert_eq(results[1].getWarning(), "");
 
         fructose_assert_eq(results[2].getDefinition()->getId(), "bodyweight");
         fructose_assert_eq(results[2].getValue(), "150000");
         fructose_assert_eq(results[2].getUnit().toString(), "g");
         fructose_assert_eq(results[2].getType() == Tucuxi::XpertResult::CovariateType::Patient, true);
-        fructose_assert_eq(results[2].getWarning().value(), "Domain error");
+        fructose_assert_eq(results[2].getWarning(), "Domain error");
 
         fructose_assert_eq(results[3].getDefinition()->getId(), "gist");
         fructose_assert_eq(results[3].getValue(), "0.000000");
         fructose_assert_eq(results[3].getUnit().toString(), "-");
         fructose_assert_eq(results[3].getType() == Tucuxi::XpertResult::CovariateType::Model, true);
-        fructose_assert_eq(results[3].getWarning().has_value(), false);
+        fructose_assert_eq(results[3].getWarning(), "");
 
         fructose_assert_eq(results[4].getDefinition()->getId(), "sex");
-        fructose_assert_eq(results[4].getValue(), "0.5000000");
+        fructose_assert_eq(results[4].getValue(), "0.500000");
         fructose_assert_eq(results[4].getUnit().toString(), "-");
         fructose_assert_eq(results[4].getType() == Tucuxi::XpertResult::CovariateType::Model, true);
-        fructose_assert_eq(results[4].getWarning().has_value(), false);
+        fructose_assert_eq(results[4].getWarning(), "");
 
 
     }

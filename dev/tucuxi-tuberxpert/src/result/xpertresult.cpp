@@ -14,8 +14,9 @@ XpertResult::XpertResult(unique_ptr<XpertQuery::XpertQueryData> _xpertQuery) :
 {
     XpertQuery::XpertQueryToCoreExtractor extractor;
 
+    // For each requestXpert, extract the treatment.
     for (size_t i = 0; i < _xpertQuery->getXpertRequests().size(); ++i) {
-        optional<string> errorMessage;
+        string errorMessage;
         unique_ptr<Core::DrugTreatment> drugTreatment = extractor.extractDrugTreatment(
                     _xpertQuery->getXpertRequests()[i],
                     *_xpertQuery,

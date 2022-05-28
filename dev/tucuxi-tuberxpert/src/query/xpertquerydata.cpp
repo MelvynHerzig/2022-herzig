@@ -18,13 +18,9 @@ XpertQueryData::XpertQueryData(
         m_pAdministrative(move(_pAdministrative)), m_xpertRequests(move(_xpertRequests))
 {}
 
-std::optional<std::reference_wrapper<const AdministrativeData> > XpertQueryData::getpAdministrative() const
+const unique_ptr<AdministrativeData>& XpertQueryData::getpAdministrative() const
 {
-    if (m_pAdministrative != nullptr) {
-        return optional<reference_wrapper<AdministrativeData>>{*m_pAdministrative};
-    }
-
-    return nullopt;
+    return m_pAdministrative;
 }
 
 unique_ptr<AdministrativeData>&& XpertQueryData::movepAdministrative()
@@ -37,10 +33,10 @@ const std::vector<std::unique_ptr<XpertRequestData>>& XpertQueryData::getXpertRe
     return m_xpertRequests;
 }
 
-std::unique_ptr<XpertRequestData>&& XpertQueryData::moveXpertRequest(size_t i)
+unique_ptr<XpertRequestData>&& XpertQueryData::moveXpertRequest(size_t _i)
 {
-    if (i < m_xpertRequests.size()) {
-        return move(m_xpertRequests[i]);
+    if (_i < m_xpertRequests.size()) {
+        return move(m_xpertRequests[_i]);
     }
 
     throw out_of_range("Cannot move XpertRequestData. Out of range index.");

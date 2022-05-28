@@ -15,52 +15,77 @@
 namespace Tucuxi {
 namespace XpertResult {
 
-/// \brief This is a wrapper class that contains the analysis for drug of tuberXpert.
-///        It contains a reference to an associated drugData object.
-///
-///        The object is constructed by the default constructor. Its state is progressively
-///        created when running validations. For example the covariates checks is initialized
-///        when selecting best drug model
+/// \brief This is object stores the results of tuberXpert in regards of
+///        a given requestXpert. This object is filled along the tuberXpert "pipeline".
 /// \date 20/05/2022
 /// \author Herzig Melvyn
 class XpertRequestResult
 {
 public:
-    /// \brief Default constructor.
 
+    /// \brief Constructor. Used in XpertResult construction.
+    /// \param _xpertRequest Related requestXpert.
+    /// \param _dTreatment Associated treatment if extraction was successfull.
+    /// \param _errorMessage If the treatment extraction was not successfull, the related error message or empty string.
     XpertRequestResult(
             std::unique_ptr<XpertQuery::XpertRequestData> _xpertRequest,
             std::unique_ptr<Core::DrugTreatment> _dTreatment,
-            const std::optional<std::string>& _errorMessage);
+            const std::string& _errorMessage);
 
+    /// \brief Gets the related XpertRequestData.
+    /// \return A reference on the XpertRequestData.
     const std::unique_ptr<XpertQuery::XpertRequestData>& getXpertRequest() const;
 
+    /// \brief Gets the related treatment.
+    /// \return The related treatment. May be nullptr if extraction failed.
     const std::unique_ptr<Core::DrugTreatment>& getTreatment() const;
 
-    const std::optional<std::string>& getErrorMessage() const;
+    /// \brief Gets the error message that might be set during the "pipeline".
+    /// \return The error message. Empty string if everything is fine.
+    const std::string& getErrorMessage() const;
 
+    /// \brief Gets the drug model chosen during ModelSelector step.
+    /// \return The drug model selected or nullptr if none.
     const Core::DrugModel* getDrugModel() const;
 
+    /// \brief Gets the covariates results.
+    /// \return The vector containing each CovariateResult for each covariates. May be empty if
+    ///         model selection failed.
     const std::vector<CovariateResult>& getCovariateResults();
 
+    /// \brief Sets a new error message.
+    /// \param _message New message to set.
     void setErrorMessage(const std::string& _message);
 
+    /// \brief Sets a new drug model.
+    /// \param _newDrugModel New drug model pointer.
     void setDrugModel(const Core::DrugModel* _newDrugModel);
 
+    /// \brief Sets a new CovariateResult vector.
+    /// \param _newCovariateResults CovariateResult vector to retrieve.
     void setCovariateResults(std::vector<CovariateResult>&& _newCovariateResults);
 
+    /// \brief Checks if the XpertRequestResult should go to next pipeline step.
+    /// \return True if no problem was detected until the call otherwise false.
     bool shouldBeHandled() const;
 
 protected:
 
+    /// \brief Unique pointer to the related request this object stores results for.
     std::unique_ptr<XpertQuery::XpertRequestData> m_xpertRequest;
 
+    /// \brief Treatment related to the request of this object.
     std::unique_ptr<Core::DrugTreatment> m_dTreatment;
 
-    std::optional<std::string> m_errorMessage;
+    /// \brief Error message possibly set during a step of the pipeline.
+    std::string m_errorMessage;
 
+    /// \brief Drug model chosen during ModelSelector phase.
     const Core::DrugModel* m_drugModel;
 
+    /// \brief Result for each covariate made during ModelSelector phase.
+    ///        One entry per covariate present and per definition missing in regards
+    ///        of the selected drug model.
     std::vector<CovariateResult> m_covariateResults;
 
 };

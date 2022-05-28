@@ -10,15 +10,15 @@ namespace XpertQuery {
 unique_ptr<Core::DrugTreatment> XpertQuery::XpertQueryToCoreExtractor::extractDrugTreatment(
         const unique_ptr<XpertRequestData>& _xpertRequest,
         const XpertQueryData& _xpertQuery,
-        optional<string>& _errorMessage) const
+        string& _errorMessage) const
 {
     string drugId = _xpertRequest->getDrugID();
 
-    // Get the number of matching drugs by id.
+    // Gets the number of matching drugs by id.
     auto drugDataBegin = _xpertQuery.getpParameters().getDrugs().begin();
     auto drugDataEnd = _xpertQuery.getpParameters().getDrugs().end();
 
-    // Use lambda to count the matching drug data.
+    // Uses lambda to count the matching drug data.
     int nbMatchingDrug = count_if(drugDataBegin, drugDataEnd, [drugId](const unique_ptr<Query::DrugData>& drugData) {
         if (drugData->getDrugID()  == drugId) {
             return true;
@@ -26,7 +26,7 @@ unique_ptr<Core::DrugTreatment> XpertQuery::XpertQueryToCoreExtractor::extractDr
         return false;
     });
 
-    // If there is none or multiple drugs matchins
+    // If there is none or multiple drugs matching.
     if (nbMatchingDrug != 1) {
         if (nbMatchingDrug == 0) {
             _errorMessage = "No drug matching. Could not extract drug treatment.";
@@ -36,11 +36,12 @@ unique_ptr<Core::DrugTreatment> XpertQuery::XpertQueryToCoreExtractor::extractDr
         return nullptr;
     }
 
-    // There is only one drug matching, extract the tratment
-    _errorMessage = nullopt;
+    // There is only one drug matching, extract the tratment.
     string requestId = "";
     string drugModelId = "";
     Query::RequestData rd {requestId, drugId, drugModelId, nullptr};
+
+    _errorMessage = "";
     return QueryToCoreExtractor::extractDrugTreatment(_xpertQuery, rd);
 }
 

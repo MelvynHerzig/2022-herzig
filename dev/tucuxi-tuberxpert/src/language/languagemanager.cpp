@@ -60,12 +60,12 @@ void LanguageManager::loadDictionary(const string& _xmlString)
     // Iterating over child elements of root.
     while (it != Common::XmlNodeIterator::none()) {
 
-        // Check if named correctly.
-        if(it->getName() != "entry") {
+        // Checks if named correctly.
+        if (it->getName() != "entry") {
             throw LanguageException("element name must be entry.");
         }
 
-        // Check if only attribute is "key"
+        // Checks if only attribute is "key".
         Common::XmlAttributeIterator ait = it->getAttributes();
 
         if (ait == Common::XmlAttributeIterator::none()) {
@@ -73,7 +73,7 @@ void LanguageManager::loadDictionary(const string& _xmlString)
         }
 
         while (ait != Common::XmlAttributeIterator::none()) {
-            if(ait->getName() != "key") {
+            if (ait->getName() != "key") {
                 throw LanguageException("attribute expected must be key.");
             }
             ait++;
@@ -88,10 +88,10 @@ string LanguageManager::computeLanguageFileName(XpertQuery::OutputLang _lang)
 {
     string fileName;
 
-    switch(_lang) {
+    switch (_lang) {
     case Tucuxi::XpertQuery::OutputLang::ENGLISH : fileName = "en.xml"; break;
     case Tucuxi::XpertQuery::OutputLang::FRENCH  : fileName = "fr.xml"; break;
-    default : throw LanguageException("Unknown language");
+    default : throw LanguageException("Unknown language"); // If well maintained, should never be returned.
     }
 
     return fileName;

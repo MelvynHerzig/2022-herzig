@@ -43,11 +43,11 @@ int main(int argc, char** argv)
 
     res = languageTests.run(argc, argv);
     if (res != 0) {
-        std::cout << "Language module tests failed" << std::endl;
+        std::cout << "Language module tests failed" << std::endl << std::endl;
         exit(1);
     }
     else {
-        std::cout << "Language module tests succeeded" << std::endl;
+        std::cout << "Language module tests succeeded" << std::endl << std::endl;
     }
 #endif
 
@@ -78,11 +78,11 @@ int main(int argc, char** argv)
 
     res = queryImportTests.run(argc, argv);
     if (res != 0) {
-        std::cout << "Query import module tests failed" << std::endl;
+        std::cout << "Query import module tests failed" << std::endl << std::endl;
         exit(1);
     }
     else {
-        std::cout << "Query import module tests succeeded" << std::endl;
+        std::cout << "Query import module tests succeeded" << std::endl << std::endl;
     }
 #endif
 
@@ -99,11 +99,11 @@ int main(int argc, char** argv)
 
     res = queryToCoreExtractorTests.run(argc, argv);
     if (res != 0) {
-        std::cout << "Xpert query to core extractor tests failed" << std::endl;
+        std::cout << "Xpert query to core extractor tests failed" << std::endl << std::endl;
         exit(1);
     }
     else {
-        std::cout << "Xpert query to core extractor tests succeeded" << std::endl;
+        std::cout << "Xpert query to core extractor tests succeeded" << std::endl << std::endl;
     }
 #endif
 
@@ -122,11 +122,11 @@ int main(int argc, char** argv)
 
     res = xpertResultCreationTests.run(argc, argv);
     if (res != 0) {
-        std::cout << "XpertResult creation tests failed" << std::endl;
+        std::cout << "XpertResult creation tests failed" << std::endl << std::endl;
         exit(1);
     }
     else {
-        std::cout << "XpertResult creation tests succeeded\n";
+        std::cout << "XpertResult creation tests succeeded" << std::endl << std::endl;
     }
 #endif
 
@@ -149,16 +149,16 @@ int main(int argc, char** argv)
     modelSelectorTests.add_test("No result when bodyweight with bad unit even with models left.", &TestModelSelector::noResultBadUnitBodyweight);
     modelSelectorTests.add_test("Get the best result out of 3 models without tie.", &TestModelSelector::getResultOutofThreeNoTie);
     modelSelectorTests.add_test("Get the best result out of 2 models with tie.", &TestModelSelector::getResultOutofTwoTie);
-    modelSelectorTests.add_test("Get covariateResults.", &TestModelSelector::getCovariateResults);
+    modelSelectorTests.add_test("Get and checks the content of the covariate results.", &TestModelSelector::getCovariateResults);
 
 
     res = modelSelectorTests.run(argc, argv);
     if (res != 0) {
-        std::cout << "Model selector tests failed" << std::endl;
+        std::cout << "Model selector tests failed" << std::endl << std::endl;
         exit(1);
     }
     else {
-        std::cout << "Model selector tests succeeded\n";
+        std::cout << "Model selector tests succeeded" << std::endl << std::endl;
     }
 #endif
 

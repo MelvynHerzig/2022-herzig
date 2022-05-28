@@ -209,7 +209,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                </output>
                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                <options>
-                                                   <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                    <loadingOption>noLoadingDose</loadingOption>
                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
                                                    <targetExtractionOption>populationValues</targetExtractionOption>
@@ -225,19 +224,18 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::XpertQuery::XpertQueryImport importer;
         Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        auto optAdmin = query->getpAdministrative();
-        const Tucuxi::XpertQuery::AdministrativeData& pAdmin = optAdmin.value();
+        const Tucuxi::XpertQuery::AdministrativeData& pAdmin = *query->getpAdministrative();
 
         fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
 
-        const Tucuxi::XpertQuery::PersonalContact& mandator = pAdmin.getpMandator()->get().getpPerson();
-        const Tucuxi::XpertQuery::Address& mandatorAddress = mandator.getpAddress()->get();
-        const Tucuxi::XpertQuery::Phone& mandatorPhone = mandator.getpPhone()->get();
-        const Tucuxi::XpertQuery::Email& mandatorEmail = mandator.getpEmail()->get();
-        const Tucuxi::XpertQuery::InstituteContact& mandatorInstitute = pAdmin.getpMandator()->get().getpInstitute()->get();
-        const Tucuxi::XpertQuery::Address& mandatorInstituteAddress = mandatorInstitute.getpAddress()->get();
-        const Tucuxi::XpertQuery::Phone& mandatorInstitutePhone = mandatorInstitute.getpPhone()->get();
-        const Tucuxi::XpertQuery::Email& mandatorInstituteEmail = mandatorInstitute.getpEmail()->get();
+        const Tucuxi::XpertQuery::PersonalContact& mandator = pAdmin.getpMandator()->getpPerson();
+        const Tucuxi::XpertQuery::Address& mandatorAddress = *mandator.getpAddress();
+        const Tucuxi::XpertQuery::Phone& mandatorPhone = *mandator.getpPhone();
+        const Tucuxi::XpertQuery::Email& mandatorEmail = *mandator.getpEmail();
+        const Tucuxi::XpertQuery::InstituteContact& mandatorInstitute = *pAdmin.getpMandator()->getpInstitute();
+        const Tucuxi::XpertQuery::Address& mandatorInstituteAddress = *mandatorInstitute.getpAddress();
+        const Tucuxi::XpertQuery::Phone& mandatorInstitutePhone = *mandatorInstitute.getpPhone();
+        const Tucuxi::XpertQuery::Email& mandatorInstituteEmail = *mandatorInstitute.getpEmail();
 
         fructose_assert_eq(mandator.getId(), "asdf");
         fructose_assert_eq(mandator.getTitle(), "Dr.");
@@ -264,14 +262,14 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(mandatorInstituteEmail.getAddress(), "info@chuv.com");
         fructose_assert_eq(mandatorInstituteEmail.getType(), "professional");
 
-        const Tucuxi::XpertQuery::PersonalContact& patient = pAdmin.getpPatient()->get().getpPerson();
-        const Tucuxi::XpertQuery::Address& patientAddress = patient.getpAddress()->get();
-        const Tucuxi::XpertQuery::Phone& patientPhone = patient.getpPhone()->get();
-        const Tucuxi::XpertQuery::Email& patientEmail = patient.getpEmail()->get();
-        const Tucuxi::XpertQuery::InstituteContact& patientInstitute = pAdmin.getpPatient()->get().getpInstitute()->get();
-        const Tucuxi::XpertQuery::Address& patientInstituteAddress = patientInstitute.getpAddress()->get();
-        const Tucuxi::XpertQuery::Phone& patientInstitutePhone = patientInstitute.getpPhone()->get();
-        const Tucuxi::XpertQuery::Email& patientInstituteEmail = patientInstitute.getpEmail()->get();
+        const Tucuxi::XpertQuery::PersonalContact& patient = pAdmin.getpPatient()->getpPerson();
+        const Tucuxi::XpertQuery::Address& patientAddress = *patient.getpAddress();
+        const Tucuxi::XpertQuery::Phone& patientPhone = *patient.getpPhone();
+        const Tucuxi::XpertQuery::Email& patientEmail = *patient.getpEmail();
+        const Tucuxi::XpertQuery::InstituteContact& patientInstitute = *pAdmin.getpPatient()->getpInstitute();
+        const Tucuxi::XpertQuery::Address& patientInstituteAddress = *patientInstitute.getpAddress();
+        const Tucuxi::XpertQuery::Phone& patientInstitutePhone = *patientInstitute.getpPhone();
+        const Tucuxi::XpertQuery::Email& patientInstituteEmail = *patientInstitute.getpEmail();
 
         fructose_assert_eq(patient.getId(), "123456");
         fructose_assert_eq(patient.getFirstName(), "Alice");
@@ -297,8 +295,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(patientInstituteEmail.getAddress(), "info@ehnv.com");
         fructose_assert_eq(patientInstituteEmail.getType(), "professional");
 
-        fructose_assert_eq(pAdmin.getpClinicalData()->get().getData().find("goodNote")->second, " nice ");
-        fructose_assert_eq(pAdmin.getpClinicalData()->get().getData().find("badNote")->second, "");
+        fructose_assert_eq(pAdmin.getpClinicalData()->getData().find("goodNote")->second, " nice ");
+        fructose_assert_eq(pAdmin.getpClinicalData()->getData().find("badNote")->second, "");
     }
 
     /// \brief Load an xml file with no admin element
@@ -407,7 +405,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -423,10 +420,9 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::XpertQuery::XpertQueryImport importer;
         Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        auto optAdmin = query->getpAdministrative();
 
         fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(optAdmin.has_value(), false);
+        fructose_assert_eq(query->getpAdministrative().get(), nullptr);
     }
 
     /// \brief Load an xml file with admin but no mandator, no patient and no clinical data.
@@ -537,7 +533,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -553,16 +548,12 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::XpertQuery::XpertQueryImport importer;
         Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        auto optAdmin = query->getpAdministrative();
-
         fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(optAdmin.has_value(), true);
+        fructose_assert_ne(query->getpAdministrative().get(), nullptr);
 
-        const Tucuxi::XpertQuery::AdministrativeData& pAdmin = optAdmin.value();
-
-        fructose_assert_eq(pAdmin.getpMandator().has_value(), false);
-        fructose_assert_eq(pAdmin.getpPatient().has_value(), false);
-        fructose_assert_eq(pAdmin.getpClinicalData().has_value(), false);
+        fructose_assert_eq(query->getpAdministrative()->getpMandator().get(), nullptr);
+        fructose_assert_eq(query->getpAdministrative()->getpPatient().get(), nullptr);
+        fructose_assert_eq(query->getpAdministrative()->getpClinicalData().get(), nullptr);
     }
 
     /// \brief Load an xml file with admin and minimal persons element
@@ -686,7 +677,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -702,29 +692,28 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::XpertQuery::XpertQueryImport importer;
         Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        auto optAdmin = query->getpAdministrative();
+        const std::unique_ptr<Tucuxi::XpertQuery::AdministrativeData>& admin = query->getpAdministrative();
 
         fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(optAdmin.has_value(), true);
+        fructose_assert_ne(admin.get(), nullptr);
 
-        const Tucuxi::XpertQuery::AdministrativeData& pAdmin = optAdmin.value();
-        const Tucuxi::XpertQuery::PersonalContact& mandator = pAdmin.getpMandator()->get().getpPerson();
-        const Tucuxi::XpertQuery::PersonalContact& patient = pAdmin.getpPatient()->get().getpPerson();
+        const Tucuxi::XpertQuery::PersonalContact& mandator = admin->getpMandator()->getpPerson();
+        const Tucuxi::XpertQuery::PersonalContact& patient = admin->getpPatient()->getpPerson();
 
 
         fructose_assert_eq(mandator.getId(), "");
         fructose_assert_eq(mandator.getTitle(), "");
-        fructose_assert_eq(mandator.getpAddress().has_value(), false);
-        fructose_assert_eq(mandator.getpPhone().has_value(), false);
-        fructose_assert_eq(mandator.getpEmail().has_value(), false);
-        fructose_assert_eq(pAdmin.getpMandator()->get().getpInstitute().has_value(), false);
+        fructose_assert_eq(mandator.getpAddress().get(), nullptr);
+        fructose_assert_eq(mandator.getpPhone().get(), nullptr);
+        fructose_assert_eq(mandator.getpEmail().get(), nullptr);
+        fructose_assert_eq(admin->getpMandator()->getpInstitute().get(), nullptr);
 
         fructose_assert_eq(patient.getId(), "");
         fructose_assert_eq(patient.getTitle(), "");
-        fructose_assert_eq(patient.getpAddress().has_value(), false);
-        fructose_assert_eq(patient.getpPhone().has_value(), false);
-        fructose_assert_eq(patient.getpEmail().has_value(), false);
-        fructose_assert_eq(pAdmin.getpPatient()->get().getpInstitute().has_value(), false);
+        fructose_assert_eq(patient.getpAddress().get(), nullptr);
+        fructose_assert_eq(patient.getpPhone().get(), nullptr);
+        fructose_assert_eq(patient.getpEmail().get(), nullptr);
+        fructose_assert_eq(admin->getpPatient()->getpInstitute().get(), nullptr);
     }
 
     /// \brief Load an xml file with admin and minimal institutes elements
@@ -854,7 +843,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -870,25 +858,24 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::XpertQuery::XpertQueryImport importer;
         Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        auto optAdmin = query->getpAdministrative();
+         const std::unique_ptr<Tucuxi::XpertQuery::AdministrativeData>& admin = query->getpAdministrative();
 
         fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(optAdmin.has_value(), true);
+        fructose_assert_ne(admin.get(), nullptr);
 
-        const Tucuxi::XpertQuery::AdministrativeData& pAdmin = optAdmin.value();
-        const Tucuxi::XpertQuery::InstituteContact& mandatorInstitute = pAdmin.getpMandator()->get().getpInstitute()->get();
-        const Tucuxi::XpertQuery::InstituteContact& patientInstitute = pAdmin.getpPatient()->get().getpInstitute()->get();
+        const std::unique_ptr<Tucuxi::XpertQuery::InstituteContact>& mandatorInstitute = admin->getpMandator()->getpInstitute();
+        const std::unique_ptr<Tucuxi::XpertQuery::InstituteContact>& patientInstitute = admin->getpPatient()->getpInstitute();
 
 
-        fructose_assert_eq(mandatorInstitute.getId(), "");
-        fructose_assert_eq(mandatorInstitute.getpAddress().has_value(), false);
-        fructose_assert_eq(mandatorInstitute.getpPhone().has_value(), false);
-        fructose_assert_eq(mandatorInstitute.getpEmail().has_value(), false);
+        fructose_assert_eq(mandatorInstitute->getId(), "");
+        fructose_assert_eq(mandatorInstitute->getpAddress().get(), nullptr);
+        fructose_assert_eq(mandatorInstitute->getpPhone().get(), nullptr);
+        fructose_assert_eq(mandatorInstitute->getpEmail().get(), nullptr);
 
-        fructose_assert_eq(patientInstitute.getId(), "");
-        fructose_assert_eq(patientInstitute.getpAddress().has_value(), false);
-        fructose_assert_eq(patientInstitute.getpPhone().has_value(), false);
-        fructose_assert_eq(patientInstitute.getpEmail().has_value(), false);
+        fructose_assert_eq(patientInstitute->getId(), "");
+        fructose_assert_eq(patientInstitute->getpAddress().get(), nullptr);
+        fructose_assert_eq(patientInstitute->getpPhone().get(), nullptr);
+        fructose_assert_eq(patientInstitute->getpEmail().get(), nullptr);
     }
 
     /// \brief Load an xml file with admin and minimal coordinates elements (address, phone and email)
@@ -1063,7 +1050,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -1079,29 +1065,27 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::XpertQuery::XpertQueryImport importer;
         Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        auto optAdmin = query->getpAdministrative();
-        const Tucuxi::XpertQuery::AdministrativeData& pAdmin = optAdmin.value();
+        const std::unique_ptr<Tucuxi::XpertQuery::AdministrativeData>& pAdmin = query->getpAdministrative();
 
         fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(optAdmin.has_value(), true);
 
-        const Tucuxi::XpertQuery::PersonalContact& mandator = pAdmin.getpMandator()->get().getpPerson();
-        const Tucuxi::XpertQuery::Address& mandatorAddress = mandator.getpAddress()->get();
-        const Tucuxi::XpertQuery::Phone& mandatorPhone = mandator.getpPhone()->get();
-        const Tucuxi::XpertQuery::Email& mandatorEmail = mandator.getpEmail()->get();
-        const Tucuxi::XpertQuery::InstituteContact& mandatorInstitute = pAdmin.getpMandator()->get().getpInstitute()->get();
-        const Tucuxi::XpertQuery::Address& mandatorInstituteAddress = mandatorInstitute.getpAddress()->get();
-        const Tucuxi::XpertQuery::Phone& mandatorInstitutePhone = mandatorInstitute.getpPhone()->get();
-        const Tucuxi::XpertQuery::Email& mandatorInstituteEmail = mandatorInstitute.getpEmail()->get();
+        const Tucuxi::XpertQuery::PersonalContact& mandator = pAdmin->getpMandator()->getpPerson();
+        const Tucuxi::XpertQuery::Address& mandatorAddress = *mandator.getpAddress();
+        const Tucuxi::XpertQuery::Phone& mandatorPhone = *mandator.getpPhone();
+        const Tucuxi::XpertQuery::Email& mandatorEmail = *mandator.getpEmail();
+        const Tucuxi::XpertQuery::InstituteContact& mandatorInstitute = *pAdmin->getpMandator()->getpInstitute();
+        const Tucuxi::XpertQuery::Address& mandatorInstituteAddress = *mandatorInstitute.getpAddress();
+        const Tucuxi::XpertQuery::Phone& mandatorInstitutePhone = *mandatorInstitute.getpPhone();
+        const Tucuxi::XpertQuery::Email& mandatorInstituteEmail = *mandatorInstitute.getpEmail();
 
-        const Tucuxi::XpertQuery::PersonalContact& patient = pAdmin.getpPatient()->get().getpPerson();
-        const Tucuxi::XpertQuery::Address& patientAddress = patient.getpAddress()->get();
-        const Tucuxi::XpertQuery::Phone& patientPhone = patient.getpPhone()->get();
-        const Tucuxi::XpertQuery::Email& patientEmail = patient.getpEmail()->get();
-        const Tucuxi::XpertQuery::InstituteContact& patientInstitute = pAdmin.getpPatient()->get().getpInstitute()->get();
-        const Tucuxi::XpertQuery::Address& patientInstituteAddress = patientInstitute.getpAddress()->get();
-        const Tucuxi::XpertQuery::Phone& patientInstitutePhone = patientInstitute.getpPhone()->get();
-        const Tucuxi::XpertQuery::Email& patientInstituteEmail = patientInstitute.getpEmail()->get();
+        const Tucuxi::XpertQuery::PersonalContact& patient = pAdmin->getpPatient()->getpPerson();
+        const Tucuxi::XpertQuery::Address& patientAddress = *patient.getpAddress();
+        const Tucuxi::XpertQuery::Phone& patientPhone = *patient.getpPhone();
+        const Tucuxi::XpertQuery::Email& patientEmail = *patient.getpEmail();
+        const Tucuxi::XpertQuery::InstituteContact& patientInstitute = *pAdmin->getpPatient()->getpInstitute();
+        const Tucuxi::XpertQuery::Address& patientInstituteAddress = *patientInstitute.getpAddress();
+        const Tucuxi::XpertQuery::Phone& patientInstitutePhone = *patientInstitute.getpPhone();
+        const Tucuxi::XpertQuery::Email& patientInstituteEmail = *patientInstitute.getpEmail();
 
         fructose_assert_eq(mandatorAddress.getState(), "");
         fructose_assert_eq(mandatorInstituteAddress.getState(), "");
@@ -1243,7 +1227,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -1403,7 +1386,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -1547,7 +1529,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -1707,7 +1688,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -1928,7 +1908,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                 </output>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
@@ -1956,7 +1935,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(xpertRequest.getOutputFormat() == Tucuxi::XpertQuery::OutputFormat::XML, true);
         fructose_assert_eq(xpertRequest.getOutputLang() == Tucuxi::XpertQuery::OutputLang::ENGLISH, true);
         fructose_assert_eq(xpertRequest.getAdjustmentTime(), DateTime("2018-07-06T08:00:00", "%Y-%m-%dT%H:%M:%S"));
-        fructose_assert_eq(xpertRequest.getBestCandidatesOption() == Tucuxi::Core::BestCandidatesOption::BestDosage, true);
         fructose_assert_eq(xpertRequest.getLoadingOption() == Tucuxi::XpertQuery::LoadingOption::NoLoadingDose, true);
         fructose_assert_eq(xpertRequest.getRestPeriodOption() == Tucuxi::XpertQuery::RestPeriodOption::NoRestPeriod, true);
         fructose_assert_eq(xpertRequest.getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::PopulationValues, true);
@@ -2177,7 +2155,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
 
 
         fructose_assert_eq(xpertRequest.getAdjustmentTime(), Tucuxi::Common::DateTime::undefinedDateTime());
-        fructose_assert_eq(xpertRequest.getBestCandidatesOption() == Tucuxi::Core::BestCandidatesOption::BestDosagePerInterval, true);
         fructose_assert_eq(xpertRequest.getLoadingOption() == Tucuxi::XpertQuery::LoadingOption::Unspecified, true);
         fructose_assert_eq(xpertRequest.getRestPeriodOption() == Tucuxi::XpertQuery::RestPeriodOption::Unspecified, true);
         fructose_assert_eq(xpertRequest.getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::DefinitionIfNoIndividualTarget, true);
@@ -2573,7 +2550,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                             <requestXpert>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
-                                                    <bestCandidatesOption>bestDosage</bestCandidatesOption>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>

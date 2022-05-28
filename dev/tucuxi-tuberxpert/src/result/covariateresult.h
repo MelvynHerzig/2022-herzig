@@ -18,56 +18,70 @@ enum class CovariateType {
 
 
 
-/// \brief This is a wrapper class that stores the information about the
-///        covariates of drug considering a drug model.
+/// \brief This class stores results for patients covariates.
 ///
-///        Basically this class is used in a DrugResult which is associated to a drug model.
-///        A DrugResult contains a list of covariate that corresponds to the definitions located
-///        in the associated drug model. Consequently, it contains a map [CovariateDefinition, CovariateResult]
-///        that tells for each definitions what is the value used, the unit and the source that are stored in
-///        this class.
+///        This class is created during the ModelSelector phase. It aims to
+///        tell what the computing core will receive:
 ///
-///        A patient coavriate might be invalid (not respecting the domain of the definition), so it could
-///        contain an optional error message.
+///         - The value from the drugmodel
+///              or
+///         - The value from the patient + the drug model definition associated.
 ///
-///        The generic value is expected to be a PatientCovariate or a CovariateDefinition.
-///        They must implement the methods getValue() and getUnit()
-///
+///         When the value from the patient is used, it is possible to set a
+///         warning if the covariateDefinition validation is not respected.
 /// \date 20/05/2022
 /// \author Herzig Melvyn
 class CovariateResult
 {
 public:
 
-
+    /// \brief Constructor. Used in ModelSelector.
+    /// \param _definition. Associated drug model definition.
+    /// \param _patient Related patient covariate if present.
+    /// \param _warning Warning noticed.
     CovariateResult(const Core::CovariateDefinition* _definition,
                     const Core::PatientCovariate* _patient,
-                    const std::optional<std::string>& _warning);
+                    const std::string& _warning);
 
-    /// \brief Get the value (as string) of the covariate.
-    /// \return Returns the value.
+    /// \brief Gets the value (as string) of the covariate.
+    ///        If the patient is set, use it otherwise returns
+    ///        the value from the definition.
+    /// \return The value.
     std::string getValue() const;
 
-    /// \brief Get the data's unit of measure.
+    /// \brief Gets the data's unit of measure.
+    ///        If the patient is set, use it otherwise returns
+    ///        the unit from the definition.
     /// \return Data's unit of measure.
     Common::TucuUnit getUnit() const;
 
+    /// \brief Gets information about the source of getUnit and getValue
+    /// \return Return CovariateType::Patient if patient is not nullptr
+    ///         otherwise CovariateType::Model
     CovariateType getType() const;
 
-    /// \brief Get the optional warning message.
-    /// \return Return a copy of the optional warning.
-    std::optional<std::string> getWarning() const;
-
+    /// \brief Gets the definition asociated with this result.
+    /// \return The covariate definition associated.
     const Core::CovariateDefinition* getDefinition() const;
+
+    /// \brief Gets the possible patientCovariate that override the definition.
+    /// \return The patient covariate. May be nullptr.
+    const Core::PatientCovariate* getPatient() const;
+
+    /// \brief Gets the warning message.
+    /// \return The warning message. May be empty string if none.
+    const std::string& getWarning() const;
 
 protected:
 
+    /// \brief The definition asociated with this result.
     const Core::CovariateDefinition* m_definition;
 
+    /// \brief The possible patientCovariate that override the definition.
     const Core::PatientCovariate* m_patient;
 
-    /// Error to print when generating the covariate in report.
-    std::optional<std::string> m_warning;
+    /// \brief Error to print when generating the covariate in report.
+    std::string m_warning;
 };
 
 } // namespace XpertResult

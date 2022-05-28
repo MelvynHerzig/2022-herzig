@@ -9,17 +9,20 @@ XpertRequestData::XpertRequestData(
         OutputFormat _outputFormat,
         OutputLang _outputLang,
         Common::DateTime _adjustmentTime,
-        Core::BestCandidatesOption _candidatesOption,
         LoadingOption _loadingOption,
         RestPeriodOption _restPeriodOption,
         Core::TargetExtractionOption _targetExtractionOption,
         Core::FormulationAndRouteSelectionOption _formulationAndRouteSelectionOption) :
-        m_drugID(_drugID), m_localComputation(_localComputation), m_outputFormat(_outputFormat), m_outputLang(_outputLang),
-        m_adjustmentTime(_adjustmentTime), m_bestCandidatesOption(_candidatesOption), m_loadingOption(_loadingOption),
-        m_restPeriodOption(_restPeriodOption), m_targetExtractionOption(_targetExtractionOption),
+        m_drugID(_drugID),
+        m_localComputation(_localComputation),
+        m_outputFormat(_outputFormat),
+        m_outputLang(_outputLang),
+        m_adjustmentTime(_adjustmentTime),
+        m_loadingOption(_loadingOption),
+        m_restPeriodOption(_restPeriodOption),
+        m_targetExtractionOption(_targetExtractionOption),
         m_formulationAndRouteSelectionOption(_formulationAndRouteSelectionOption)
-{
-}
+{}
 
 std::string XpertQuery::XpertRequestData::getDrugID() const
 {
@@ -44,11 +47,6 @@ XpertQuery::OutputLang XpertQuery::XpertRequestData::getOutputLang() const
 DateTime XpertQuery::XpertRequestData::getAdjustmentTime() const
 {
     return m_adjustmentTime;
-}
-
-Core::BestCandidatesOption XpertQuery::XpertRequestData::getBestCandidatesOption() const
-{
-    return m_bestCandidatesOption;
 }
 
 LoadingOption XpertQuery::XpertRequestData::getLoadingOption() const

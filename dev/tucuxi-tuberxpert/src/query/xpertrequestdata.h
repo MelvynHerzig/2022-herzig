@@ -12,8 +12,9 @@ namespace Tucuxi {
 namespace XpertQuery {
 
 /// \brief List of the supported languages
-/// It can be:
-/// 0: English
+///        It can be:
+///         0: English (ENGLISH)
+///         1: French (FRENCH)
 /// \date 24/04/2022
 /// \author Herzig Melvyn
 enum class OutputLang
@@ -23,10 +24,10 @@ enum class OutputLang
 };
 
 /// \brief List of the supported languages
-/// It can be:
-/// 0: xml
-/// 1: html
-/// 2: pdf
+///        It can be:
+///         0: xml (XML)
+///         1: html (HTML)
+///         2: pdf (PDF)
 /// \date 24/04/2022
 /// \author Herzig Melvyn
 enum class OutputFormat
@@ -37,8 +38,10 @@ enum class OutputFormat
 };
 
 /// \brief The LoadingOption enum.
-/// This option allows to authorize or not a loading dose to rapidly attain steady state.
-/// This is the same we can find computingTrait.h with an added value that means "unspecified".
+///        This option allows to authorize or not a loading dose to rapidly attain the steady state.
+///        This is the same we can find computingTrait.h with an added value "unspecified".
+///        The last value just means:
+///        "I don't know what to fill, so check and follow drug model recommendations".
 enum class LoadingOption
 {
     /// No loading dose is allowed
@@ -53,8 +56,10 @@ enum class LoadingOption
 
 ///
 /// \brief The RestPeriodOption enum.
-/// This option allows to authorize or not a resting period to rapidly attain steady state.
-/// This is the same we can find computingTrait.h with an added value that means "unspecified".
+///        This option allows to authorize or not a resting period to rapidly attain steady state.
+///        This is the same we can find computingTrait.h with an added value "unspecified".
+///        The last value just means:
+///        "I don't know what to fill, so check and follow drug model recommendations".
 enum class RestPeriodOption
 {
     /// No resting period is allowed
@@ -63,12 +68,14 @@ enum class RestPeriodOption
     /// A resting period shall be proposed if relevant
     RestPeriodAllowed,
 
-    /// The user will use the drug model recommendation.
+    /// The user will use the drug model recommendation. 
     Unspecified
 };
 
 
-/// \brief Class of custom request for tuberXpert
+/// \brief Class representing the custom request of tuberXpert.
+///        This is the representation of the "RequestXpert" element
+///        from an XML query file.
 /// \date 24/04/2022
 /// \author Herzig Melvyn
 class XpertRequestData
@@ -81,13 +88,12 @@ public:
 
     /// \brief XpertRequestData constructor.
     /// \param _drugID Drug targeted.
-    /// \param _localComputation Should the computation be executed locally ?
+    /// \param _localComputation Should the computation be executed locally?
     /// \param _outputFormat Output format.
     /// \param _outputLang Output language.
-    /// \param _adjustmentTime Time at which the adjustment has to be calculated
-    /// \param _candidatesOption Selection of best candidates options
-    /// \param _loadingOption Selects if a loading dose can be proposed or not
-    /// \param _restPeriodOption Selects if a rest period can be proposed or not
+    /// \param _adjustmentTime Time at which the adjustment take place.
+    /// \param _loadingOption Selects if a loading dose can be proposed or not.
+    /// \param _restPeriodOption Selects if a rest period can be proposed or not.
     /// \param _targetExtractionOption Target extraction options
     /// \param _formulationAndRouteSelectionOption Selection of the formulation and route options
     XpertRequestData(
@@ -96,17 +102,13 @@ public:
             OutputFormat _outputFormat,
             OutputLang _outputLang,
             Common::DateTime _adjustmentTime,
-            Core::BestCandidatesOption _candidatesOption,
             LoadingOption _loadingOption,
             RestPeriodOption _restPeriodOption,
             Core::TargetExtractionOption _targetExtractionOption,
             Core::FormulationAndRouteSelectionOption _formulationAndRouteSelectionOption);
 
-    /// \brief Copy constructor is not supported.
-    XpertRequestData(const XpertRequestData& _other) = delete;
 
     // Getters
-
     /// \brief Gets the drug id to adjust.
     /// \return Drug identifier.
     std::string getDrugID() const;
@@ -123,59 +125,52 @@ public:
     /// \return Output language.
     OutputLang getOutputLang() const;
 
-    /// \brief Gets the time of adjustment
-    /// \return Time of the adjustment
+    /// \brief Gets the time of adjustment.
+    /// \return Time of the adjustment.
     Common::DateTime getAdjustmentTime() const;
 
-    /// \brief Gets the best candidate option
-    /// \return The best candidate option
-    Core::BestCandidatesOption getBestCandidatesOption() const;
-
-    /// \brief Gets the option about a potential loading dose
-    /// \return The option about a potential loading dose
+    /// \brief Gets the option about a potential loading dose.
+    /// \return The option about a potential loading dose.
     LoadingOption getLoadingOption() const;
 
-    /// \brief Gets the option about a potential rest period
-    /// \return The option about a potential rest period
+    /// \brief Gets the option about a potential rest period.
+    /// \return The option about a potential rest period.
     RestPeriodOption getRestPeriodOption() const;
 
-    /// \brief Gets the target extraction option
-    /// \return The target extraction option
+    /// \brief Gets the target extraction option.
+    /// \return The target extraction option.
     Core::TargetExtractionOption getTargetExtractionOption() const;
 
-    /// \brief Gets the formulation and route selection option
-    /// \return The formulation and route selection option
+    /// \brief Gets the formulation and route selection option.
+    /// \return The formulation and route selection option.
     Core::FormulationAndRouteSelectionOption getFormulationAndRouteSelectionOption() const;
 
 protected:
-    /// Targeted drug to use tuberXpert.
+    /// \brief Targeted drug to use tuberXpert.
     std::string m_drugID;
 
-    /// Should we execute the computation locally?
+    /// \brief Should we execute the computation locally?
     bool m_localComputation;
 
-    /// Output format.
+    /// \brief Output format.
     OutputFormat m_outputFormat;
 
-    /// Output language.
+    /// \brief Output language.
     OutputLang m_outputLang;
 
-    /// Date of the adjustment
+    /// \brief Date of the adjustment
     Common::DateTime m_adjustmentTime;
 
-    /// Adjustment options : only the best, or all possible ones
-    Core::BestCandidatesOption m_bestCandidatesOption;
-
-    /// Shall we propose a loading dose if applicable?
+    /// \brief Shall we propose a loading dose if applicable?
     LoadingOption m_loadingOption;
 
-    /// Shall we propose a rest period if applicable?
+    /// \brief Shall we propose a rest period if applicable?
     RestPeriodOption m_restPeriodOption;
 
-    /// Target extraction options
+    /// \brief Target extraction options
     Core::TargetExtractionOption m_targetExtractionOption;
 
-    /// What formulation and route have to be used for generating candidates
+    /// \brief What formulation and route have to be used for generating candidates
     Core::FormulationAndRouteSelectionOption m_formulationAndRouteSelectionOption;
 };
 

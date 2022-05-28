@@ -2,12 +2,14 @@
 
 #include "tucucommon/utils.h"
 
+using namespace std;
+
 namespace Tucuxi {
 namespace XpertResult {
 
 CovariateResult::CovariateResult(const Core::CovariateDefinition* _definition,
                                  const Core::PatientCovariate* _patient,
-                                 const std::optional<std::string>& _warning):
+                                 const string& _warning):
     m_definition(_definition), m_patient(_patient), m_warning(_warning)
 {}
 
@@ -38,14 +40,19 @@ CovariateType CovariateResult::getType() const
     return CovariateType::Model;
 }
 
-std::optional<std::string> CovariateResult::getWarning() const
-{
-    return m_warning;
-}
-
 const Core::CovariateDefinition* CovariateResult::getDefinition() const
 {
     return m_definition;
+}
+
+const Core::PatientCovariate *CovariateResult::getPatient() const
+{
+    return m_patient;
+}
+
+const string& CovariateResult::getWarning() const
+{
+    return m_warning;
 }
 
 } // namespace XpertResult

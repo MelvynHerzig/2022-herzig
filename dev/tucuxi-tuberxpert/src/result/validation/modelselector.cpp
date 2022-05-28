@@ -28,20 +28,21 @@ void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestRe
 {
     Tucuxi::Common::LoggerHelper logHelper;
 
+    // Checks patient forumulations and routes compatibility.
     bool areFormulationAndRoutesEqual = checkPatientDosageHistoryFormulationAndRoutes(_xpertRequestResult.getTreatment()->getDosageHistory());
     if (areFormulationAndRoutesEqual == false) {
         _xpertRequestResult.setErrorMessage("All formulations and routes must be equal.");
         return;
     }
 
-    // Targeted drug identifier
+    // Targeted drug identifier.
     string drugId = _xpertRequestResult.getXpertRequest()->getDrugID();
 
-    // Get the drug model repository
+    // Gets the drug model repository.
     Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
     Tucuxi::Core::IDrugModelRepository* drugModelRepository = pCmpMgr->getComponent<Tucuxi::Core::IDrugModelRepository>("DrugModelRepository");
 
-    // Getting drug models that match the drug.
+    // Getting drug models that matches the drug..
     vector<Core::DrugModel*> drugModels = drugModelRepository->getDrugModelsByDrugId(drugId);
 
     if (drugModels.size() == 0) {
@@ -49,8 +50,8 @@ void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestRe
         return;
     }
 
-    // Evaluate each drug model for the given drug id.
-    // Remember the best.
+    // Evaluates each drug model for the given drug id.
+    // Remembers the best.
     unsigned bestScore = numeric_limits<unsigned>::max();
     const Core::DrugModel* bestDrugModel = nullptr;
     vector<CovariateResult> bestCovariateResults;
@@ -93,7 +94,7 @@ void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestRe
             }
 
         }  catch (const invalid_argument& e) {
-            // We catch unit conversion and stop drug model search
+            // We catch unit conversion error and operation error, then stop drug model search.
             _xpertRequestResult.setErrorMessage("Patient covariate error found in model: " +
                                                 drugModel->getDrugModelId() +
                                                 ", details: " +
@@ -102,7 +103,7 @@ void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestRe
         }
     }
 
-    // If a compatible model is found
+    // If a compatible model is found:
     if (bestScore != numeric_limits<unsigned>::max()) {
         _xpertRequestResult.setCovariateResults(move(bestCovariateResults));
         _xpertRequestResult.setDrugModel(bestDrugModel);
@@ -113,7 +114,7 @@ void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestRe
 
 bool BestDrugModelSelector::checkPatientDosageHistoryFormulationAndRoutes(const Core::DosageHistory &_dosageHistory) const
 {
-    // Check that all formulations and routes are the same.
+    // Checks that all formulations and routes are the same.
     vector<Core::FormulationAndRoute> queryFormulationsAndRoutes = _dosageHistory.getFormulationAndRouteList();
     for (size_t j = 0; j < queryFormulationsAndRoutes.size(); ++j) {
 
@@ -165,7 +166,7 @@ unsigned BestDrugModelSelector::computeScore(const Core::PatientVariates& _patie
         }
     }
 
-    // Now compute the score.
+    // Now computes the score.
     for (auto it = idToDefinitionFiltered.begin(); it != idToDefinitionFiltered.end(); ++it) {
 
         string covariateId = it->first;
@@ -177,7 +178,7 @@ unsigned BestDrugModelSelector::computeScore(const Core::PatientVariates& _patie
         if(covariateId == "age") {
             // The patient has set his birthday
             if (idToPatient.count("birthdate") == 0) {
-                _results.emplace_back(definition, nullptr, nullopt);
+                _results.emplace_back(definition, nullptr, "");
                 ++score;
             // There are some covariates for this definition.
             } else {
@@ -213,17 +214,20 @@ unsigned BestDrugModelSelector::computeScore(const Core::PatientVariates& _patie
         } else {
             // The patient has no covariate for this definition.
             if (idToPatient.count(definition->getId()) == 0) {
-                _results.emplace_back(definition, nullptr, nullopt);
+                _results.emplace_back(definition, nullptr, "");
                 ++score;
             // There are some covariates for this definition.
             } else {
+                bool alreadyScored = false;
+
                 for (const Core::PatientCovariate* patientCovariate : idToPatient[definition->getId()]){
                     Core::Value newVal = Common::Utils::stringToValue( patientCovariate->getValue(), patientCovariate->getDataType());
 
                     newVal = Common::UnitManager::convertToUnit(newVal, patientCovariate->getUnit(), definition->getUnit());
 
-                    if (checkOperation(operation, newVal, definition, patientCovariate, _results) == false) {
+                    if (checkOperation(operation, newVal, definition, patientCovariate, _results) == false && !alreadyScored) {
                         ++score;
+                        alreadyScored = true;
                     }
                 }
             }
@@ -249,11 +253,11 @@ bool BestDrugModelSelector::checkOperation(Core::Operation* _op,
     }
 
     // TODO translation
-    optional<string> warning = (result == 0 ? optional<string>("Domain error") : nullopt);
+    string warning = (result == 0 ? "Domain error" : "");
 
      _results.emplace_back(_definition, _patient, warning);
 
-     // If success return 1
+     // If operation checks success.
      return result == 1;
 }
 

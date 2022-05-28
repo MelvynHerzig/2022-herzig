@@ -175,7 +175,7 @@ int main(int argc, char** argv)
         // Check if extraction was successfull
         logHelper.info("\nChecking extraction state...");
         if (xpertRequestResult.shouldBeHandled() == false) {
-            logHelper.error(xpertRequestResult.getErrorMessage().value());
+            logHelper.error(xpertRequestResult.getErrorMessage());
             ++nbUnfulfilledRequest;
             continue;
         }
@@ -221,7 +221,7 @@ int main(int argc, char** argv)
 
         // Check if model selection was successfull
         if (xpertRequestResult.shouldBeHandled() == false) {
-            logHelper.error(xpertRequestResult.getErrorMessage().value());
+            logHelper.error(xpertRequestResult.getErrorMessage());
             ++nbUnfulfilledRequest;
             continue;
         }

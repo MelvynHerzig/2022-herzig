@@ -6,20 +6,17 @@
 namespace Tucuxi {
 namespace XpertLanguage {
 
-/// \brief Custom exception used for language problems
+/// \brief Custom exception used for language problems.
 /// \date 21/04/2022
 /// \author Herzig Melvyn
 class LanguageException : public std::runtime_error
 {
 public:
-
-    /// \brief Constructor for string.
-
-    /// \brief Constructor
+    /// \brief String constructor.
     /// \param _msg Message to embeed.
     explicit LanguageException(const std::string& _msg);
 
-    /// \brief Constructor
+    /// \brief Char array constructor.
     /// \param _msg Message to embeed.
     explicit LanguageException(const char* _msg);
 };

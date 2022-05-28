@@ -1,8 +1,6 @@
 #ifndef XPERTQUERYDATA_H
 #define XPERTQUERYDATA_H
 
-#include <optional>
-
 #include "tucuquery/querydata.h"
 #include "tucuquery/parametersdata.h"
 
@@ -12,13 +10,14 @@
 namespace Tucuxi {
 namespace XpertQuery {
 
-/// \brief This class extends the core queryData to include administrative information and
-/// the custom request "requestXpert".
+/// \brief This class extends the core queryData to include AdministrativeData class and
+/// the custom request "requestXpert" as XpertRequestData class.
 /// \date 23/04/2022
 /// \author Herzig Melvyn
 class XpertQueryData : public Query::QueryData
 {
 public:
+
     // Constructors
 
     /// \brief Default constructor is not supported.
@@ -44,27 +43,33 @@ public:
             std::vector<std::unique_ptr<XpertRequestData>>& _xpertRequests);
 
     /// \brief Copy constructor is not supported.
-    ///  The copy constructor is not supported because of the use of
-    ///  unique_ptr wich can't be copied.
+    ///        The copy constructor is not supported because of the use of
+    ///        unique_ptr wich can't be copied.
     XpertQueryData(const QueryData& _other) = delete;    
 
     /// \brief Gets administrative information.
     /// \return The administrative information.
-    std::optional<std::reference_wrapper<const AdministrativeData>> getpAdministrative() const;
+    const std::unique_ptr<AdministrativeData>& getpAdministrative() const;
 
+    /// \brief Moves the administrative data unique pointer ownership.
+    /// \return Returns a right value on the administrative data unique pointer.
     std::unique_ptr<AdministrativeData>&& movepAdministrative();
 
     /// \brief Get the custom requests for tuberXpert
     /// \return A vector of custom requests.
     const std::vector<std::unique_ptr<XpertRequestData>>& getXpertRequests() const;
 
-    std::unique_ptr<XpertRequestData>&& moveXpertRequest(size_t i);
+    /// \brief Moves an XpertRequest unique pointer ownership.
+    /// \param _i Index of the XpertRequest to move. _i must be smaller than m_xpertRequests.size().
+    /// \return Returns a right value on the XpertRequest unique pointer.
+    /// \throw out_of_range If the index _i bigger or equal to m_xpertRequests.size().
+    std::unique_ptr<XpertRequestData>&& moveXpertRequest(size_t _i);
 
 protected:
-    /// Administrative information.
+    /// \brief Administrative information.
     std::unique_ptr<AdministrativeData> m_pAdministrative;
 
-    /// Custom requests for tuberXpert.
+    /// \brief Custom requests for tuberXpert.
     std::vector<std::unique_ptr<XpertRequestData>> m_xpertRequests;
 };
 

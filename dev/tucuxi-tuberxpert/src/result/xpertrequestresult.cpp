@@ -7,7 +7,7 @@ namespace XpertResult {
 
 XpertRequestResult::XpertRequestResult(unique_ptr<XpertQuery::XpertRequestData> _xpertRequest,
                                        unique_ptr<Core::DrugTreatment> _dTreatment,
-                                       const optional<string>& _errorMessage)
+                                       const string& _errorMessage)
     : m_xpertRequest(move(_xpertRequest)),
       m_dTreatment(move(_dTreatment)),
       m_errorMessage(_errorMessage),
@@ -24,7 +24,7 @@ const  std::unique_ptr<Core::DrugTreatment>& XpertRequestResult::getTreatment() 
     return m_dTreatment;
 }
 
-const std::optional<std::string>& XpertRequestResult::getErrorMessage() const
+const std::string& XpertRequestResult::getErrorMessage() const
 {
     return m_errorMessage;
 }
@@ -57,7 +57,7 @@ void XpertRequestResult::setCovariateResults(std::vector<CovariateResult>&& _new
 
 bool XpertRequestResult::shouldBeHandled() const
 {
-    return m_errorMessage == nullopt;
+    return m_errorMessage == "";
 }
 
 } // namespace XpertResult
