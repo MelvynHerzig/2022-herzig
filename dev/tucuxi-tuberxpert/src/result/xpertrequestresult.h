@@ -8,8 +8,10 @@
 #include "tucucore/drugmodel/covariatedefinition.h"
 #include "tucucore/drugmodel/drugmodel.h"
 #include "tucucore/drugtreatment/drugtreatment.h"
+#include "tucucore/dosage.h"
 
-#include "./covariateresult.h"
+#include "covariateresult.h"
+#include "doseresult.h"
 #include "../query/xpertrequestdata.h"
 
 namespace Tucuxi {
@@ -34,7 +36,7 @@ public:
 
     /// \brief Gets the related XpertRequestData.
     /// \return A reference on the XpertRequestData.
-    const std::unique_ptr<XpertQuery::XpertRequestData>& getXpertRequest() const;
+    const XpertQuery::XpertRequestData& getXpertRequest() const;
 
     /// \brief Gets the related treatment.
     /// \return The related treatment. May be nullptr if extraction failed.
@@ -65,6 +67,8 @@ public:
     /// \param _newCovariateResults CovariateResult vector to retrieve.
     void setCovariateResults(std::vector<CovariateResult>&& _newCovariateResults);
 
+    void setDosageResults(std::map<const Core::SingleDose*, DoseResult>&& _newDoseResults);
+
     /// \brief Checks if the XpertRequestResult should go to next pipeline step.
     /// \return True if no problem was detected until the call otherwise false.
     bool shouldBeHandled() const;
@@ -87,6 +91,8 @@ protected:
     ///        One entry per covariate present and per definition missing in regards
     ///        of the selected drug model.
     std::vector<CovariateResult> m_covariateResults;
+
+    std::map<const Core::SingleDose*, DoseResult> m_doseResults;
 
 };
 

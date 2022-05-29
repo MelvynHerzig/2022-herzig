@@ -17,7 +17,7 @@
                     <date>2018-07-11T10:45:30</date>
                     <value>1990-01-01T00:00:00</value>
                     <unit></unit>
-                      <dataType>g</dataType>
+                      <dataType>date</dataType>
                     <nature>discrete</nature>
                 </covariate> 
                 <covariate>
@@ -57,7 +57,7 @@
                                     <lastingDosage>
                                         <interval>12:00:00</interval>
                                         <dose>
-                                            <value>400</value>
+                                            <value>40000</value>
                                             <unit>mg</unit>
                                             <infusionTimeInMinutes>60</infusionTimeInMinutes>
                                         </dose>

@@ -785,13 +785,13 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
         fructose_assert_eq(xpertResult.getXpertRequestResults()[0].getDrugModel(), nullptr);
         fructose_assert_eq(xpertResult.getXpertRequestResults()[0].getErrorMessage(), "");
         fructose_assert_ne(xpertResult.getXpertRequestResults()[0].getTreatment().get(), nullptr);
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[0].getXpertRequest()->getDrugID(), "rifampicin");
+        fructose_assert_eq(xpertResult.getXpertRequestResults()[0].getXpertRequest().getDrugID(), "rifampicin");
         fructose_assert_eq(xpertResult.getXpertRequestResults()[0].shouldBeHandled(), true);
 
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getDrugModel(), nullptr);
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getErrorMessage(), "No drug matching. Could not extract drug treatment.");
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getTreatment().get(), nullptr);
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getXpertRequest()->getDrugID(), "imatinib");
+        fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getXpertRequest().getDrugID(), "imatinib");
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].shouldBeHandled(), false);
     }
 

@@ -14,9 +14,9 @@ XpertRequestResult::XpertRequestResult(unique_ptr<XpertQuery::XpertRequestData> 
       m_drugModel(nullptr)
 {}
 
-const std::unique_ptr<XpertQuery::XpertRequestData>& XpertRequestResult::getXpertRequest() const
+const XpertQuery::XpertRequestData& XpertRequestResult::getXpertRequest() const
 {
-    return m_xpertRequest;
+    return *m_xpertRequest;
 }
 
 const  std::unique_ptr<Core::DrugTreatment>& XpertRequestResult::getTreatment() const
@@ -54,6 +54,10 @@ void XpertRequestResult::setCovariateResults(std::vector<CovariateResult>&& _new
     m_covariateResults = _newCovariateResults;
 }
 
+void XpertRequestResult::setDosageResults(std::map<const Core::SingleDose*, DoseResult> &&_newDoseResults)
+{
+    m_doseResults = _newDoseResults;
+}
 
 bool XpertRequestResult::shouldBeHandled() const
 {

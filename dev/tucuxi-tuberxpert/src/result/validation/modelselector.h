@@ -7,8 +7,7 @@
 #include "tucuquery/parametersdata.h"
 #include "tucucore/dosage.h"
 
-#include "../../query/xpertquerydata.h"
-#include "../xpertresult.h"
+#include "../xpertrequestresult.h"
 
 namespace Tucuxi {
 namespace XpertResult {

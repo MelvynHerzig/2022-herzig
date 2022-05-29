@@ -2,7 +2,6 @@
 #define COVARIATERESULT_H
 
 #include <string>
-#include <optional>
 
 #include "tucucore/drugmodel/covariatedefinition.h"
 #include "tucuquery/parametersdata.h"

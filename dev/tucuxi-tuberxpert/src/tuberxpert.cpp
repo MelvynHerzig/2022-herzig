@@ -11,6 +11,7 @@
 #include "query/xpertquerydata.h"
 #include "result/xpertresult.h"
 #include "result/validation/modelselector.h"
+#include "result/validation/dosevalidator.h"
 
 using namespace std;
 
@@ -187,7 +188,7 @@ int main(int argc, char** argv)
         logHelper.info("\nLoading translation file...");
 
         try {
-            string languageFileName = languagePath + "/" + languageManager.computeLanguageFileName(xpertRequestResult.getXpertRequest()->getOutputLang());
+            string languageFileName = languagePath + "/" + languageManager.computeLanguageFileName(xpertRequestResult.getXpertRequest().getOutputLang());
             ifstream ifs(languageFileName);
 
             // If language file opening failed.
@@ -218,6 +219,22 @@ int main(int argc, char** argv)
 
         Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
+
+        // Check if model selection was successfull
+        if (xpertRequestResult.shouldBeHandled() == false) {
+            logHelper.error(xpertRequestResult.getErrorMessage());
+            ++nbUnfulfilledRequest;
+            continue;
+        }
+
+        /**************************************************************
+         *                       Dosages checking                     *
+         * ************************************************************/
+
+        logHelper.info("\nChecking dosages...");
+
+        Tucuxi::XpertResult::DoseValidator doseValidator;
+        doseValidator.getDoseValidations(xpertRequestResult);
 
         // Check if model selection was successfull
         if (xpertRequestResult.shouldBeHandled() == false) {

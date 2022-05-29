@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="dictionary.xsd">
     
-    <entry key="multiple_drug_extraction_error">Too many drugs matching. Could not extract drug treatment.</entry>
-    <entry key="absent_drug_extraction_error">No drug matching. Could not extract drug treatment.</entry>
+    <entry key="maximum_dosage_warning">Maximum recommended dosage reached</entry>
+    <entry key="minimum_dosage_warning">Minimum recommended dosage reached</entry>
 
 </dictionary>

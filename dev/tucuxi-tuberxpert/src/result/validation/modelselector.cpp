@@ -36,7 +36,7 @@ void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestRe
     }
 
     // Targeted drug identifier.
-    string drugId = _xpertRequestResult.getXpertRequest()->getDrugID();
+    string drugId = _xpertRequestResult.getXpertRequest().getDrugID();
 
     // Gets the drug model repository.
     Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
@@ -95,7 +95,7 @@ void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestRe
 
         }  catch (const invalid_argument& e) {
             // We catch unit conversion error and operation error, then stop drug model search.
-            _xpertRequestResult.setErrorMessage("Patient covariate error found in model: " +
+            _xpertRequestResult.setErrorMessage("Patient covariate error found in model " +
                                                 drugModel->getDrugModelId() +
                                                 ", details: " +
                                                 string(e.what()));
