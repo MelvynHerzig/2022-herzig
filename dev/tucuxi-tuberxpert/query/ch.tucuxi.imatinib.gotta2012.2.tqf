@@ -28,14 +28,6 @@
                       <dataType>double</dataType>
                     <nature>discrete</nature>
                 </covariate>
-                <covariate>
-                    <covariateId>bodyweight</covariateId>
-                    <date>2018-07-08T08:00:00</date>
-                    <value>80</value>
-                    <unit>kg</unit>
-                      <dataType>double</dataType>
-                    <nature>discrete</nature>
-                </covariate>
             </covariates>
         </patient>
         <!-- List of the drugs informations we have concerning the patient -->

@@ -16,17 +16,29 @@ namespace XpertResult {
 DoseValidator::DoseValidator()
 {}
 
-void DoseValidator::getDoseValidations(XpertRequestResult &_xpertRequestResult) const
+void DoseValidator::getDoseValidations(XpertRequestResult& _xpertRequestResult) const
 {
+    // Check treatment
+    if (_xpertRequestResult.getTreatment() == nullptr) {
+        _xpertRequestResult.setErrorMessage("No treatment set.");
+        return;
+    }
+
+    // Checks drug model
+    if (_xpertRequestResult.getDrugModel() == nullptr) {
+        _xpertRequestResult.setErrorMessage("No drug model set.");
+        return;
+    }
+
     const Core::DosageHistory& dosageHistory = _xpertRequestResult.getTreatment()->getDosageHistory();
     const Core::FormulationAndRoutes& modelFormulationAndRoutes = _xpertRequestResult.getDrugModel()->getFormulationAndRoutes();
 
     try {
         map<const Core::SingleDose *, DoseResult> results;
         checkDoses(dosageHistory, modelFormulationAndRoutes, results);
-        _xpertRequestResult.setDosageResults(move(results));
+        _xpertRequestResult.setDoseResults(move(results));
     } catch (invalid_argument& e) {
-        _xpertRequestResult.setErrorMessage("Patient dosage error found., details: " + string(e.what()));
+        _xpertRequestResult.setErrorMessage("Patient dosage error found, details: " + string(e.what()));
     }
 }
 

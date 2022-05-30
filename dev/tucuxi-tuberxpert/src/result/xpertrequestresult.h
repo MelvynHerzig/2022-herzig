@@ -55,6 +55,9 @@ public:
     ///         model selection failed.
     const std::vector<CovariateResult>& getCovariateResults();
 
+
+    const std::map<const Core::SingleDose*, DoseResult>& getDoseResults();
+
     /// \brief Sets a new error message.
     /// \param _message New message to set.
     void setErrorMessage(const std::string& _message);
@@ -67,7 +70,7 @@ public:
     /// \param _newCovariateResults CovariateResult vector to retrieve.
     void setCovariateResults(std::vector<CovariateResult>&& _newCovariateResults);
 
-    void setDosageResults(std::map<const Core::SingleDose*, DoseResult>&& _newDoseResults);
+    void setDoseResults(std::map<const Core::SingleDose*, DoseResult>&& _newDoseResults);
 
     /// \brief Checks if the XpertRequestResult should go to next pipeline step.
     /// \return True if no problem was detected until the call otherwise false.

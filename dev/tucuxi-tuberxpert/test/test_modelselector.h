@@ -12,6 +12,8 @@
 #include "../src/query/xpertqueryimport.h"
 #include "../src/result/validation/modelselector.h"
 #include "../src/result/xpertrequestresult.h"
+#include "../src/result/xpertresult.h"
+#include "../src/language/languagemanager.h"
 
 #include "fructose/fructose.h"
 
@@ -20,7 +22,12 @@
 /// \author Herzig Melvyn
 struct TestModelSelector : public fructose::test_base<TestModelSelector>
 {
-
+    /// \brief Sets up environment for clean execution of the model select. Loads the query string and creates
+    ///        the associated XpertQueryData. Loads the drugs model strings in _models and put them in the
+    ///        drug model repository.
+    /// \param _queryString Query string to load.
+    /// \param _models Drug models to load.
+    /// \param _query Query pointer that will recieve the query string importation result.
     void setupEnv(const std::string& _queryString, const std::vector<std::string>& _models, std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData>& _query) {
 
         // Drug models repository creation
@@ -7353,7 +7360,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found in model: ch.tucuxi.imatinib.gotta2012, details: Multiple birthdate not allowed.");
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found when handling model ch.tucuxi.imatinib.gotta2012, details: Multiple birthdate not allowed.");
     }
 
     /// \brief The query sets one birthdate with bad datatype and the model require an age.
@@ -8811,7 +8818,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found in model: ch.tucuxi.imatinib.gotta2012, details: Invalid data type for birthdate.");
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found when handling model ch.tucuxi.imatinib.gotta2012, details: Invalid data type for birthdate.");
     }
 
     /// \brief The query sets one bodyweight with bad unit and the model requiring this covariate.
@@ -10147,7 +10154,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found in model: ch.tucuxi.imatinib.gotta2012, details: Error in unit conversion");
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found when handling model ch.tucuxi.imatinib.gotta2012, details: Error in unit conversion");
     }
 
     /// \brief Three versions of imatinib model:

@@ -34,8 +34,10 @@ DEFINES+= \
     test_xpertquerytocoreextractor \
     test_xpertresultcreation \
     test_modelselector \
+    test_dosevalidator \
 
 HEADERS += \
+    test_dosevalidator.h \
     test_languagemanager.h \
     test_modelselector.h \
     test_xpertqueryimport.h \

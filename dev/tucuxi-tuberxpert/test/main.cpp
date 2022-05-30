@@ -20,6 +20,11 @@
 #include "test_modelselector.h"
 #endif
 
+#if defined(test_dosevalidator)
+#include "test_dosevalidator.h"
+#endif
+
+
 using namespace std;
 
 /// \brief Testing program.
@@ -161,6 +166,34 @@ int main(int argc, char** argv)
         std::cout << "Model selector tests succeeded" << std::endl << std::endl;
     }
 #endif
+
+
+    /***********************************************************
+     *                     DoseValidator                       *
+     ***********************************************************/
+
+#if defined(test_dosevalidator)
+    TestDoseValidator doseValidatorTests;
+
+    doseValidatorTests.add_test("Get an error when no treatment.", &TestDoseValidator::errorWhenNoTreatment);
+    doseValidatorTests.add_test("Get an error when no drug model.", &TestDoseValidator::errorWhenNoDrugModel);
+    doseValidatorTests.add_test("The resulting map is empty when there is no dosage.", &TestDoseValidator::emptyResultWhenNoDosages);
+    doseValidatorTests.add_test("The resulting dose result contains a warning when underdosing.", &TestDoseValidator::warningUnderdose);
+    doseValidatorTests.add_test("The resulting dose result contains a warning when overdosing.", &TestDoseValidator::warningOverdose);
+    doseValidatorTests.add_test("Get an error when the unit conversion fails.", &TestDoseValidator::errorFailUnitConversion);
+    doseValidatorTests.add_test("Get an error when the formulation and route not supported by model.", &TestDoseValidator::errorFormulationAndRouteNotSupported);
+    doseValidatorTests.add_test("Checks that result is fine with multiple dosage type and timerange.", &TestDoseValidator::multipleDosageTypeAndDosageTimeRange);
+
+
+    res = doseValidatorTests.run(argc, argv);
+    if (res != 0) {
+        std::cout << "Dose validator tests failed" << std::endl << std::endl;
+        exit(1);
+    } else {
+        std::cout << "Dose validator tests succeeded" << std::endl << std::endl;
+    }
+#endif
+
 
     return 0;
 }

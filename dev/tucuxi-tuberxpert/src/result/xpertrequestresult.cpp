@@ -39,6 +39,11 @@ const vector<CovariateResult>& XpertRequestResult::getCovariateResults()
     return m_covariateResults;
 }
 
+const std::map<const Core::SingleDose*, DoseResult>& XpertRequestResult::getDoseResults()
+{
+    return m_doseResults;
+}
+
 void XpertRequestResult::setErrorMessage(const std::string& _message)
 {
     m_errorMessage = _message;
@@ -54,7 +59,7 @@ void XpertRequestResult::setCovariateResults(std::vector<CovariateResult>&& _new
     m_covariateResults = _newCovariateResults;
 }
 
-void XpertRequestResult::setDosageResults(std::map<const Core::SingleDose*, DoseResult> &&_newDoseResults)
+void XpertRequestResult::setDoseResults(std::map<const Core::SingleDose*, DoseResult>&& _newDoseResults)
 {
     m_doseResults = _newDoseResults;
 }
