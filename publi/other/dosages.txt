@@ -43,3 +43,48 @@
                                     </dailyDosage>
                                 </dosage>
                             </dosageTimeRange>
+
+
+										<dosageTimeRange>
+                                                                <start>2018-07-11T08:00:00</start>
+                                                                <end>2018-08-12T08:00:00</end>
+                                                                <dosage>
+                                                                    <dosageSequence>
+                                                                        <dosageRepeat>
+                                                                            <iterations>4</iterations>
+                                                                            <dailyDosage>
+                                                                                <time>10:00:00</time>
+                                                                                <dose>
+                                                                                    <value>400</value>
+                                                                                    <unit>mg</unit>
+                                                                                    <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                                                                </dose>
+                                                                                <formulationAndRoute>
+                                                                                    <formulation>parenteralSolution</formulation>
+                                                                                    <administrationName>foo bar</administrationName>
+                                                                                    <administrationRoute>oral</administrationRoute>
+                                                                                    <absorptionModel>extravascular</absorptionModel>
+                                                                                </formulationAndRoute>
+                                                                            </dailyDosage>
+                                                                        </dosageRepeat>
+                                                                        <dosageRepeat>
+                                                                            <iterations>2</iterations>
+                                                                            <weeklyDosage>
+                                                                                <day>2</day>
+                                                                                <time>11:00:00</time>
+                                                                                <dose>
+                                                                                    <value>550</value>
+                                                                                    <unit>mg</unit>
+                                                                                    <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                                                                </dose>
+                                                                                <formulationAndRoute>
+                                                                                    <formulation>parenteralSolution</formulation>
+                                                                                    <administrationName>foo bar</administrationName>
+                                                                                    <administrationRoute>oral</administrationRoute>
+                                                                                    <absorptionModel>extravascular</absorptionModel>
+                                                                                </formulationAndRoute>
+                                                                            </weeklyDosage>
+                                                                        </dosageRepeat>
+                                                                    </dosageSequence>
+                                                                </dosage>
+                                                            </dosageTimeRange>

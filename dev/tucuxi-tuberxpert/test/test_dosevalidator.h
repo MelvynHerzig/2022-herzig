@@ -16,6 +16,7 @@
 #include "../src/result/xpertrequestresult.h"
 #include "../src/query/xpertquerydata.h"
 #include "../src/query/xpertqueryimport.h"
+#include "../src/utils/xpertutils.h"
 
 /// \date 21/04/2022
 /// \author Herzig Melvyn
@@ -2465,7 +2466,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getDoseResults().size(), 1);
-        fructose_assert_eq(xrr.getDoseResults().begin()->second.getWarning(), "Maximum recommended dosage reached (100.00 mg)");
+        fructose_assert_eq(xrr.getDoseResults().begin()->second.getWarning(), "Maximum recommended dosage reached (400.00 mg)");
     }
 
     /// \brief Checks that XpertRequestResult gets an error if the unit conversion fails.
@@ -3988,7 +3989,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
         fructose_assert_eq(xrr.getErrorMessage(), "Patient dosage error found, details: no corresponding full formulation and route found for a dosage.");
     }
 
-    /// \brief Checks that DosageValidator works with every type of dosage and multiple time dosageTimeRange.
+    /// \brief Checks that DosageValidator works with every types of dosage and multiple dosageTimeRange.
     /// \param _testName Name of the test
     void multipleDosageTypeAndDosageTimeRange(const std::string& _testName)
     {
@@ -4027,7 +4028,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                                         <lastingDosage>
                                                                             <interval>12:00:00</interval>
                                                                             <dose>
-                                                                                <value>300</value>
+                                                                                <value>3000</value>
                                                                                 <unit>mg</unit>
                                                                                 <infusionTimeInMinutes>60</infusionTimeInMinutes>
                                                                             </dose>
@@ -4050,7 +4051,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                                         <lastingDosage>
                                                                             <interval>12:00:00</interval>
                                                                             <dose>
-                                                                                <value>310</value>
+                                                                                <value>3</value>
                                                                                 <unit>mg</unit>
                                                                                 <infusionTimeInMinutes>60</infusionTimeInMinutes>
                                                                             </dose>
@@ -4092,8 +4093,8 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                                                 <day>2</day>
                                                                                 <time>11:00:00</time>
                                                                                 <dose>
-                                                                                    <value>550</value>
-                                                                                    <unit>mg</unit>
+                                                                                    <value>0.39</value>
+                                                                                    <unit>g</unit>
                                                                                     <infusionTimeInMinutes>60</infusionTimeInMinutes>
                                                                                 </dose>
                                                                                 <formulationAndRoute>
@@ -4809,9 +4810,57 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
         Tucuxi::XpertResult::DoseValidator dv;
         dv.getDoseValidations(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), false);
-        fructose_assert_eq(xrr.getDoseResults().size(), 0);
-        fructose_assert_eq(xrr.getErrorMessage(), "Patient dosage error found, details: no corresponding full formulation and route found for a dosage.");
+        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.getDoseResults().size(), 4);
+        fructose_assert_eq(xrr.getErrorMessage(), "");
+
+
+
+        // All dose are diffrent and we are going to use this to get the correct asserts
+        // This is because map are not guaranteed in the same order. This not really elegant but it does
+        // the trick.
+        bool first = false, second = false, third = false, fourth = false;
+        for(auto doseIt = xrr.getDoseResults().begin(); doseIt != xrr.getDoseResults().end(); ++doseIt) {
+             const Tucuxi::Core::SingleDose* psd = doseIt->first;
+
+             // Checking that the key equals to the dose pointer in the DoseResult.
+             // Must be true for all dose.
+             fructose_assert_eq(doseIt->second.getDose(), psd);
+
+             // Now, checking specific elements.
+
+             switch(int(psd->getDose())) {
+                case 3000 :
+                 fructose_assert_eq(Tucuxi::XpertUtils::varToString(psd->getDose()), "3000.00");
+                 fructose_assert_eq(psd->getDoseUnit().toString(), "mg");
+                 fructose_assert_eq(doseIt->second.getWarning(), "Maximum recommended dosage reached (400.00 mg)");
+                 first = true;
+                 break;
+
+                case 3 :
+                 fructose_assert_eq(Tucuxi::XpertUtils::varToString(psd->getDose()), "3.00");
+                 fructose_assert_eq(psd->getDoseUnit().toString(), "mg");
+                 fructose_assert_eq(doseIt->second.getWarning(), "Minimum recommended dosage reached (100.00 mg)");
+                 second = true;
+                 break;
+
+                case 400 :
+                 fructose_assert_eq(Tucuxi::XpertUtils::varToString(psd->getDose()), "400.00");
+                 fructose_assert_eq(psd->getDoseUnit().toString(), "mg");
+                 fructose_assert_eq(doseIt->second.getWarning(), "");
+                 third = true;
+                 break;
+
+                case 0 :
+                 fructose_assert_eq(Tucuxi::XpertUtils::varToString(psd->getDose()), "0.39");
+                 fructose_assert_eq(psd->getDoseUnit().toString(), "g");
+                 fructose_assert_eq(doseIt->second.getWarning(), "");
+                 fourth = true;
+                 break;
+             }
+        }
+
+        fructose_assert_eq(first && second && third && fourth, true);
     }
 };
 

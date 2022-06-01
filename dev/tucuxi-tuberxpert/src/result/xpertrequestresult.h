@@ -55,7 +55,9 @@ public:
     ///         model selection failed.
     const std::vector<CovariateResult>& getCovariateResults();
 
-
+    /// \brief Gets the doses results.
+    /// \return The vector containing each DoseResult for each dose found in the treatment.
+    ///         This may be empty if there is no dosage or if the doses validation failed.
     const std::map<const Core::SingleDose*, DoseResult>& getDoseResults();
 
     /// \brief Sets a new error message.
@@ -70,6 +72,8 @@ public:
     /// \param _newCovariateResults CovariateResult vector to retrieve.
     void setCovariateResults(std::vector<CovariateResult>&& _newCovariateResults);
 
+    /// \brief Sets a new DoseRsult map.
+    /// \param _newDoseResults DoseResult map to retrieve.
     void setDoseResults(std::map<const Core::SingleDose*, DoseResult>&& _newDoseResults);
 
     /// \brief Checks if the XpertRequestResult should go to next pipeline step.
@@ -95,6 +99,9 @@ protected:
     ///        of the selected drug model.
     std::vector<CovariateResult> m_covariateResults;
 
+    /// \brief m_doseResults Result for each dose made during DoseValidator phase.
+    ///        One entry per dose found. The map keys are the same pointers
+    ///        stored in each DoseResult.
     std::map<const Core::SingleDose*, DoseResult> m_doseResults;
 
 };

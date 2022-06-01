@@ -15,8 +15,6 @@ enum class CovariateType {
     Model
 };
 
-
-
 /// \brief This class stores results for patients covariates.
 ///
 ///        This class is created during the ModelSelector phase. It aims to

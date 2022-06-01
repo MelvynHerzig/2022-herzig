@@ -147,7 +147,7 @@ void DoseValidator::checkDoses(const Core::SingleDose& _singleDose,
         } else if (value > matchingFr->getValidDoses()->getToValue()) {
             // (for example in english) : warning = Maximum recommended dosage reached (1 mg/l)
             warning = XpertLanguage::LanguageManager::getInstance().translate("maximum_dosage_warning") +
-                    " (" + XpertUtils::varToString(matchingFr->getValidDoses()->getFromValue()) + " " +  matchingFr->getValidDoses()->getUnit().toString() + ")";
+                    " (" + XpertUtils::varToString(matchingFr->getValidDoses()->getToValue()) + " " +  matchingFr->getValidDoses()->getUnit().toString() + ")";
         }
 
         _doseResults.emplace(make_pair(&_singleDose, DoseResult(&_singleDose, warning)));
