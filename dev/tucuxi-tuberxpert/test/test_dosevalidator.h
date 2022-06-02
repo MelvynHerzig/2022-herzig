@@ -4825,7 +4825,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
              // Checking that the key equals to the dose pointer in the DoseResult.
              // Must be true for all dose.
-             fructose_assert_eq(doseIt->second.getDose(), psd);
+             fructose_assert_eq(doseIt->second.getSource(), psd);
 
              // Now, checking specific elements.
 

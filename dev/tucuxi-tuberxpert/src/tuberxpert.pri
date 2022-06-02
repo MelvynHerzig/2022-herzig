@@ -7,8 +7,10 @@ HEADERS += \
     $$PWD/query/xpertrequestdata.h \
     $$PWD/language/languageexception.h \
     $$PWD/language/languagemanager.h \
+    $$PWD/result/abstractresult.h \
     $$PWD/result/covariateresult.h \
     $$PWD/result/doseresult.h \
+    $$PWD/result/sampleresult.h \
     $$PWD/result/validation/dosevalidator.h \
     $$PWD/result/validation/modelselector.h \
     $$PWD/result/xpertrequestresult.h \
@@ -25,6 +27,7 @@ SOURCES += \
     $$PWD/query/xpertrequestdata.cpp \
     $$PWD/result/covariateresult.cpp \
     $$PWD/result/doseresult.cpp \
+    $$PWD/result/sampleresult.cpp \
     $$PWD/result/validation/dosevalidator.cpp \
     $$PWD/result/validation/modelselector.cpp \
     $$PWD/result/xpertrequestresult.cpp \

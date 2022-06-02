@@ -14895,31 +14895,31 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         const std::vector<Tucuxi::XpertResult::CovariateResult>& results = xpertRequestResult.getCovariateResults();
         fructose_assert_eq(results.size(), 5); // 3 covariates ( 2 weights + 1 birthdate) + Gist definition + Sex definition
 
-        fructose_assert_eq(results[0].getDefinition()->getId(), "age");
+        fructose_assert_eq(results[0].getSource()->getId(), "age");
         fructose_assert_eq(results[0].getValue(), "1990-01-01 00:00:00");
         fructose_assert_eq(results[0].getUnit().toString(), "");
         fructose_assert_eq(results[0].getType() == Tucuxi::XpertResult::CovariateType::Patient, true);
         fructose_assert_eq(results[0].getWarning(), "");
 
-        fructose_assert_eq(results[1].getDefinition()->getId(), "bodyweight");
+        fructose_assert_eq(results[1].getSource()->getId(), "bodyweight");
         fructose_assert_eq(results[1].getValue(), "70");
         fructose_assert_eq(results[1].getUnit().toString(), "kg");
         fructose_assert_eq(results[1].getType() == Tucuxi::XpertResult::CovariateType::Patient, true);
         fructose_assert_eq(results[1].getWarning(), "");
 
-        fructose_assert_eq(results[2].getDefinition()->getId(), "bodyweight");
+        fructose_assert_eq(results[2].getSource()->getId(), "bodyweight");
         fructose_assert_eq(results[2].getValue(), "150000");
         fructose_assert_eq(results[2].getUnit().toString(), "g");
         fructose_assert_eq(results[2].getType() == Tucuxi::XpertResult::CovariateType::Patient, true);
         fructose_assert_eq(results[2].getWarning(), "Domain error");
 
-        fructose_assert_eq(results[3].getDefinition()->getId(), "gist");
+        fructose_assert_eq(results[3].getSource()->getId(), "gist");
         fructose_assert_eq(results[3].getValue(), "0.000000");
         fructose_assert_eq(results[3].getUnit().toString(), "-");
         fructose_assert_eq(results[3].getType() == Tucuxi::XpertResult::CovariateType::Model, true);
         fructose_assert_eq(results[3].getWarning(), "");
 
-        fructose_assert_eq(results[4].getDefinition()->getId(), "sex");
+        fructose_assert_eq(results[4].getSource()->getId(), "sex");
         fructose_assert_eq(results[4].getValue(), "0.500000");
         fructose_assert_eq(results[4].getUnit().toString(), "-");
         fructose_assert_eq(results[4].getType() == Tucuxi::XpertResult::CovariateType::Model, true);

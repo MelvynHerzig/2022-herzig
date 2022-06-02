@@ -10,7 +10,7 @@ namespace XpertResult {
 CovariateResult::CovariateResult(const Core::CovariateDefinition* _definition,
                                  const Core::PatientCovariate* _patient,
                                  const string& _warning):
-    m_definition(_definition), m_patient(_patient), m_warning(_warning)
+    AbstractResult<Core::CovariateDefinition>(_definition, _warning), m_patient(_patient)
 {}
 
 std::string CovariateResult::getValue() const
@@ -19,7 +19,7 @@ std::string CovariateResult::getValue() const
         return m_patient->getValue();
     }
 
-    return Common::Utils::varToString(m_definition->getValue());
+    return Common::Utils::varToString(m_source->getValue());
 }
 
 Common::TucuUnit CovariateResult::getUnit() const
@@ -28,7 +28,7 @@ Common::TucuUnit CovariateResult::getUnit() const
         return m_patient->getUnit();
     }
 
-    return m_definition->getUnit();
+    return m_source->getUnit();
 }
 
 CovariateType CovariateResult::getType() const
@@ -40,19 +40,10 @@ CovariateType CovariateResult::getType() const
     return CovariateType::Model;
 }
 
-const Core::CovariateDefinition* CovariateResult::getDefinition() const
-{
-    return m_definition;
-}
 
 const Core::PatientCovariate *CovariateResult::getPatient() const
 {
     return m_patient;
-}
-
-const string& CovariateResult::getWarning() const
-{
-    return m_warning;
 }
 
 } // namespace XpertResult

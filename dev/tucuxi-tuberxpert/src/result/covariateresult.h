@@ -6,6 +6,8 @@
 #include "tucucore/drugmodel/covariatedefinition.h"
 #include "tucuquery/parametersdata.h"
 
+#include "abstractresult.h"
+
 namespace Tucuxi {
 namespace XpertResult {
 
@@ -28,7 +30,7 @@ enum class CovariateType {
 ///         warning if the covariateDefinition validation is not respected.
 /// \date 20/05/2022
 /// \author Herzig Melvyn
-class CovariateResult
+class CovariateResult : public AbstractResult<Core::CovariateDefinition>
 {
 public:
 
@@ -57,28 +59,17 @@ public:
     ///         otherwise CovariateType::Model
     CovariateType getType() const;
 
-    /// \brief Gets the definition asociated with this result.
-    /// \return The covariate definition associated.
-    const Core::CovariateDefinition* getDefinition() const;
 
     /// \brief Gets the possible patientCovariate that override the definition.
     /// \return The patient covariate. May be nullptr.
     const Core::PatientCovariate* getPatient() const;
 
-    /// \brief Gets the warning message.
-    /// \return The warning message. May be empty string if none.
-    const std::string& getWarning() const;
 
 protected:
-
-    /// \brief The definition asociated with this result.
-    const Core::CovariateDefinition* m_definition;
 
     /// \brief The possible patientCovariate that override the definition.
     const Core::PatientCovariate* m_patient;
 
-    /// \brief Error to print when generating the covariate in report.
-    std::string m_warning;
 };
 
 } // namespace XpertResult

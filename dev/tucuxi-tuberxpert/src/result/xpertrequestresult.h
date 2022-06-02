@@ -10,9 +10,10 @@
 #include "tucucore/drugtreatment/drugtreatment.h"
 #include "tucucore/dosage.h"
 
+#include "../query/xpertrequestdata.h"
 #include "covariateresult.h"
 #include "doseresult.h"
-#include "../query/xpertrequestdata.h"
+#include "sampleresult.h"
 
 namespace Tucuxi {
 namespace XpertResult {
@@ -76,6 +77,8 @@ public:
     /// \param _newDoseResults DoseResult map to retrieve.
     void setDoseResults(std::map<const Core::SingleDose*, DoseResult>&& _newDoseResults);
 
+    setSampleResults(std::map<const Core::Sample*, SampleResult>&& _newSampleResults);
+
     /// \brief Checks if the XpertRequestResult should go to next pipeline step.
     /// \return True if no problem was detected until the call otherwise false.
     bool shouldBeHandled() const;
@@ -103,6 +106,8 @@ protected:
     ///        One entry per dose found. The map keys are the same pointers
     ///        stored in each DoseResult.
     std::map<const Core::SingleDose*, DoseResult> m_doseResults;
+
+    std::map<const Core::Sample*, SampleResult> m_sampleResults;
 
 };
 
