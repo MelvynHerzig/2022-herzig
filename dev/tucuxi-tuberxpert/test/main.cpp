@@ -1,5 +1,9 @@
 #include <iostream>
 
+#if defined(test_xpertutils)
+#include "test_xpertutils.h"
+#endif
+
 #if defined(test_language)
 #include "test_languagemanager.h"
 #endif
@@ -35,6 +39,28 @@ int main(int argc, char** argv)
 
     int res;
 
+
+    /***********************************************************
+     *                       XpertUtils                        *
+     ***********************************************************/
+
+#if defined(test_xpertutils)
+    TestXpertUtils xpertUtilsTests;
+
+    xpertUtilsTests.add_test("Converts output lang to string", &TestXpertUtils::convertOutputLangToString);
+    xpertUtilsTests.add_test("Converts double to string", &TestXpertUtils::convertDoubleToString);
+    xpertUtilsTests.add_test("Get a translatable string with english fallback.", &TestXpertUtils::getStringFromTranslatableWithFallback);
+
+    res = xpertUtilsTests.run(argc, argv);
+    if (res != 0) {
+        std::cout << "XpertUtils tests failed" << std::endl << std::endl;
+        exit(1);
+    }
+    else {
+        std::cout << "XpertUtils tests succeeded" << std::endl << std::endl;
+    }
+#endif
+
     /***********************************************************
      *                        Language                         *
      ***********************************************************/
@@ -44,7 +70,6 @@ int main(int argc, char** argv)
 
     languageTests.add_test("GetInstance", &TestLanguageManager::retrieveDictionary);
     languageTests.add_test("translate", &TestLanguageManager::wordTranslation);
-    languageTests.add_test("Compute language file name", &TestLanguageManager::computeLanguageFileName);
 
     res = languageTests.run(argc, argv);
     if (res != 0) {
@@ -154,6 +179,8 @@ int main(int argc, char** argv)
     modelSelectorTests.add_test("No result when bodyweight with bad unit even with models left.", &TestModelSelector::noResultBadUnitBodyweight);
     modelSelectorTests.add_test("Get the best result out of 3 models without tie.", &TestModelSelector::getResultOutofThreeNoTie);
     modelSelectorTests.add_test("Get the best result out of 2 models with tie.", &TestModelSelector::getResultOutofTwoTie);
+    modelSelectorTests.add_test("Selection failed when selected model covariates does not support request language without english fallbabk.", &TestModelSelector::requestFailDefinitionsNotSupportingLanguageWithoutEnglishBackup);
+    modelSelectorTests.add_test("Checks that the translations match the requests languages.", &TestModelSelector::getGoodCovariateWarningTranslation);
     modelSelectorTests.add_test("Get and checks the content of the covariate results.", &TestModelSelector::getCovariateResults);
 
 

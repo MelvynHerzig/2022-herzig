@@ -73,7 +73,7 @@
 			</person>
 		</patient>
 		<clinicalData>
-			<note>random note</note>
+			<clinicalDataEntry key="note">random note</clinicalDataEntry>
 		</clinicalData>
 	</admin>
 
@@ -183,7 +183,6 @@
     <requests>
         <requestXpert>
             <drugId>rifampicin</drugId>
-            <localComputation>true</localComputation>
             <output>
                 <format>xml</format>
                 <language>en</language>

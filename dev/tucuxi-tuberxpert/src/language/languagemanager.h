@@ -24,12 +24,6 @@ public:
     /// \return The language manager itself.
     static LanguageManager& getInstance();
 
-    /// \brief Computes the language file name out of an OutputLang.
-    /// \param lang OutputLang to "translate" into language file name.
-    /// \return Returns a string with file name corresponding to OutputLang requested.
-    /// \throw LanguageException If the OutputLang is not supported.
-    static std::string computeLanguageFileName(XpertQuery::OutputLang _lang);
-
     /// \brief Gets a translation for a given key.
     /// \param _key Key to look for translation.
     /// \return Translated string.

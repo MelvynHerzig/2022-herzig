@@ -15,7 +15,8 @@ HEADERS += \
     $$PWD/result/validation/modelselector.h \
     $$PWD/result/xpertrequestresult.h \
     $$PWD/result/xpertresult.h \
-    $$PWD/utils/xpertutils.h
+    $$PWD/utils/xpertutils.h \
+    $$PWD/tuberxpertcomputer.h
 
 SOURCES += \
     $$PWD/query/xpertadministrativedata.cpp \
@@ -32,4 +33,5 @@ SOURCES += \
     $$PWD/result/validation/modelselector.cpp \
     $$PWD/result/xpertrequestresult.cpp \
     $$PWD/result/xpertresult.cpp \
-    $$PWD/utils/xpertutils.cpp
+    $$PWD/utils/xpertutils.cpp \
+    $$PWD/tuberxpertcomputer.cpp

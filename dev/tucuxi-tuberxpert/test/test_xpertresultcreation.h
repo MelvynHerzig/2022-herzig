@@ -188,7 +188,6 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
                                         <requests>
                                             <requestXpert>
                                                 <drugId>rifampicin</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -203,7 +202,6 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
                                             </requestXpert>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -331,7 +329,6 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
                                                 <requests>
                                                     <requestXpert>
                                                         <drugId>rifampicin</drugId>
-                                                        <localComputation>true</localComputation>
                                                         <output>
                                                             <format>xml</format>
                                                             <language>en</language>
@@ -442,8 +439,8 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
                                                         </institute>
                                                     </patient>
                                                     <clinicalData>
-                                                        <goodNote> nice </goodNote>
-                                                        <badNote> <yet>random note</yet> </badNote>
+                                                        <clinicalDataEntry key="goodNote"> nice </clinicalDataEntry>
+                                                        <clinicalDataEntry key="badNote"> <yet>random note</yet> </clinicalDataEntry>
                                                     </clinicalData>
                                                 </admin>
 
@@ -531,7 +528,6 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
                                                 <requests>
                                                     <requestXpert>
                                                         <drugId>rifampicin</drugId>
-                                                        <localComputation>true</localComputation>
                                                         <output>
                                                             <format>xml</format>
                                                             <language>en</language>
@@ -737,7 +733,6 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
                                                 <requests>
                                                     <requestXpert>
                                                         <drugId>rifampicin</drugId>
-                                                        <localComputation>true</localComputation>
                                                         <output>
                                                             <format>xml</format>
                                                             <language>en</language>
@@ -752,7 +747,6 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
                                                     </requestXpert>
                                                     <requestXpert>
                                                         <drugId>imatinib</drugId>
-                                                        <localComputation>true</localComputation>
                                                         <output>
                                                             <format>xml</format>
                                                             <language>en</language>
@@ -894,7 +888,6 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
                                                 <requests>
                                                     <requestXpert>
                                                         <drugId>rifampicin</drugId>
-                                                        <localComputation>true</localComputation>
                                                         <output>
                                                             <format>xml</format>
                                                             <language>en</language>
@@ -909,7 +902,6 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
                                                     </requestXpert>
                                                     <requestXpert>
                                                         <drugId>imatinib</drugId>
-                                                        <localComputation>true</localComputation>
                                                         <output>
                                                             <format>xml</format>
                                                             <language>en</language>

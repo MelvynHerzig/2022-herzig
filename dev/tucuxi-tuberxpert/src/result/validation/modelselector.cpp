@@ -16,12 +16,14 @@
 #include "tucucommon/utils.h"
 #include "tucucommon/unit.h"
 
+#include "../../utils/xpertutils.h"
+
 using namespace std;
 
 namespace Tucuxi {
 namespace XpertResult {
 
-BestDrugModelSelector::BestDrugModelSelector()
+BestDrugModelSelector::BestDrugModelSelector(Common::DateTime _computationDate) : m_computationDate(_computationDate)
 {}
 
 void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestResult) const
@@ -69,7 +71,7 @@ void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestRe
         // Are the drug model constraints respected?
         if (drugModel->getDomain().getConstraints().size() > 0) {
             Common::DateTime start = getOldestCovariateDateTime(_xpertRequestResult.getTreatment()->getCovariates());
-            Common::DateTime end = Common::DateTime::now();
+            Common::DateTime end = m_computationDate;
             vector<Core::DrugDomainConstraintsEvaluator::EvaluationResult> results;
             Core::DrugDomainConstraintsEvaluator ddcEvaluator;
             Core::DrugDomainConstraintsEvaluator::Result result = ddcEvaluator.evaluate(*drugModel, *_xpertRequestResult.getTreatment(), start, end, results);
@@ -82,9 +84,13 @@ void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestRe
         }
 
         try {
-          // Individually, are the covariates respecting their validation?
+            // Individually, are the covariates respecting their validation?
             vector<CovariateResult> covariateResults;
-            unsigned score = computeScore(_xpertRequestResult.getTreatment()->getCovariates(), drugModel->getCovariates(), covariateResults);
+            unsigned score = computeScore(
+                        _xpertRequestResult.getTreatment()->getCovariates(),
+                        drugModel->getCovariates(),
+                        _xpertRequestResult.getXpertRequest().getOutputLang(),
+                        covariateResults);
 
             // Compare score
             if (score < bestScore || ( score == bestScore && bestDrugModel->getCovariates().size() < drugModel->getCovariates().size())) {
@@ -99,14 +105,21 @@ void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestRe
                                                 drugModel->getDrugModelId() +
                                                 ", details: " +
                                                 string(e.what()));
-           return;
+            return;
         }
     }
 
     // If a compatible model is found:
     if (bestScore != numeric_limits<unsigned>::max()) {
-        _xpertRequestResult.setCovariateResults(move(bestCovariateResults));
-        _xpertRequestResult.setDrugModel(bestDrugModel);
+
+        //check language compatibility
+        if (checkCovariateDefinitionsLanguage(bestDrugModel->getCovariates(), _xpertRequestResult.getXpertRequest().getOutputLang())) {
+            _xpertRequestResult.setCovariateResults(move(bestCovariateResults));
+            _xpertRequestResult.setDrugModel(bestDrugModel);
+        } else {
+            _xpertRequestResult.setErrorMessage("Best drug model found but covariate definitions dont't support requested language.");
+        }
+
     } else {
         _xpertRequestResult.setErrorMessage("No valid drug model found.");
     }
@@ -128,7 +141,7 @@ bool BestDrugModelSelector::checkPatientDosageHistoryFormulationAndRoutes(const 
 
 Common::DateTime BestDrugModelSelector::getOldestCovariateDateTime(const Core::PatientVariates& _patientVariates) const
 {
-    Common::DateTime oldestDateTime = Common::DateTime::now();
+    Common::DateTime oldestDateTime = m_computationDate;
     for (const unique_ptr<Core::PatientCovariate>& patientVariate: _patientVariates) {
         if (patientVariate->getEventTime() < oldestDateTime) {
             oldestDateTime = patientVariate->getEventTime();
@@ -140,6 +153,7 @@ Common::DateTime BestDrugModelSelector::getOldestCovariateDateTime(const Core::P
 
 unsigned BestDrugModelSelector::computeScore(const Core::PatientVariates& _patientVariates,
                                              const Core::CovariateDefinitions& _modelDefinitions,
+                                             XpertQuery::OutputLang _lang,
                                              vector<CovariateResult>& _results) const
 {
     unsigned score = 0;
@@ -180,44 +194,43 @@ unsigned BestDrugModelSelector::computeScore(const Core::PatientVariates& _patie
             if (idToPatient.count("birthdate") == 0) {
                 _results.emplace_back(definition, nullptr, "");
                 ++score;
-            // There are some covariates for this definition.
+                // There are some covariates for this definition.
             } else {
                 if (idToPatient["birthdate"].size() > 1){
                     throw invalid_argument("Multiple birthdate not allowed.");
                 } else if (idToPatient["birthdate"][0]->getDataType() != Core::DataType::Date){
                     throw invalid_argument("Invalid data type for birthdate.");
                 } else {
-                   Common::DateTime birthdate = idToPatient["birthdate"][0]->getValueAsDate();
-                   Core::Value newVal = 0;
-                   switch (idToDefinitionFiltered["age"]->getType()) {
-                   case Core::CovariateType::AgeInDays:
-                       // Date now mettre possiblité de choisir
-                       newVal = static_cast<double>(Common::Utils::dateDiffInDays(birthdate, Common::DateTime::now()));
-                       break;
-                   case Core::CovariateType::AgeInWeeks:
-                       newVal = static_cast<double>(Common::Utils::dateDiffInWeeks(birthdate,  Common::DateTime::now()));
-                       break;
-                   case Core::CovariateType::AgeInMonths:
-                       newVal = static_cast<double>(Common::Utils::dateDiffInMonths(birthdate,  Common::DateTime::now()));
-                       break;
-                   case Core::CovariateType::AgeInYears:
-                       newVal = static_cast<double>(Common::Utils::dateDiffInYears(birthdate,  Common::DateTime::now()));
-                       break;
+                    Common::DateTime birthdate = idToPatient["birthdate"][0]->getValueAsDate();
+                    Core::Value newVal = 0;
+                    switch (idToDefinitionFiltered["age"]->getType()) {
+                    case Core::CovariateType::AgeInDays:
+                        newVal = static_cast<double>(Common::Utils::dateDiffInDays(birthdate, m_computationDate));
+                        break;
+                    case Core::CovariateType::AgeInWeeks:
+                        newVal = static_cast<double>(Common::Utils::dateDiffInWeeks(birthdate,  m_computationDate));
+                        break;
+                    case Core::CovariateType::AgeInMonths:
+                        newVal = static_cast<double>(Common::Utils::dateDiffInMonths(birthdate,  m_computationDate));
+                        break;
+                    case Core::CovariateType::AgeInYears:
+                        newVal = static_cast<double>(Common::Utils::dateDiffInYears(birthdate,  m_computationDate));
+                        break;
                     default: break; // Unreachable
-                   }
+                    }
 
-                   if (checkOperation(operation, newVal, definition, idToPatient["birthdate"][0], _results) == false) {
-                       ++score;
-                   }
+                    if (checkOperation(operation, newVal, definition, idToPatient["birthdate"][0], _lang, _results) == false) {
+                        ++score;
+                    }
                 }
             }
-        // If covariate definition is not "age"
+            // If covariate definition is not "age"
         } else {
             // The patient has no covariate for this definition.
             if (idToPatient.count(definition->getId()) == 0) {
                 _results.emplace_back(definition, nullptr, "");
                 ++score;
-            // There are some covariates for this definition.
+                // There are some covariates for this definition.
             } else {
                 bool alreadyScored = false;
 
@@ -226,7 +239,7 @@ unsigned BestDrugModelSelector::computeScore(const Core::PatientVariates& _patie
 
                     newVal = Common::UnitManager::convertToUnit(newVal, patientCovariate->getUnit(), definition->getUnit());
 
-                    if (checkOperation(operation, newVal, definition, patientCovariate, _results) == false && !alreadyScored) {
+                    if (checkOperation(operation, newVal, definition, patientCovariate, _lang, _results) == false && !alreadyScored) {
                         ++score;
                         alreadyScored = true;
                     }
@@ -241,6 +254,7 @@ bool BestDrugModelSelector::checkOperation(Core::Operation* _op,
                                            double _val,
                                            const Core::CovariateDefinition* _definition,
                                            const Core::PatientCovariate* _patient,
+                                           XpertQuery::OutputLang _lang,
                                            std::vector<CovariateResult>& _results) const
 {
     Core::OperationInputList defInputList = _op->getInputs();
@@ -253,13 +267,40 @@ bool BestDrugModelSelector::checkOperation(Core::Operation* _op,
         throw invalid_argument("Evaluation failed for covariate " + _patient->getId());
     }
 
-    // TODO translation
-    string warning = (result == 0 ? "Domain error" : "");
+    string warning = (result == 0 ? XpertUtils::getStringWithEnglishFallback(_definition->getValidationErrorMessage(), _lang) : "");
 
-     _results.emplace_back(_definition, _patient, warning);
+    _results.emplace_back(_definition, _patient, warning);
 
-     // If operation checks success.
-     return result == 1;
+    // If operation checks success.
+    return result == 1;
+}
+
+bool BestDrugModelSelector::checkCovariateDefinitionsLanguage(
+        const Core::CovariateDefinitions& _modelDefinitions,
+        XpertQuery::OutputLang _lang) const
+{
+    for (const unique_ptr<Core::CovariateDefinition>& cd : _modelDefinitions) {
+
+        // Checking name translation.
+        if( cd->getName().getString(XpertUtils::outputLangToString(XpertQuery::OutputLang::ENGLISH)) == "" &&
+                cd->getName().getString(XpertUtils::outputLangToString(_lang)) == "") {
+            return false;
+        }
+
+        // Checking description translation.
+        if( cd->getDescription().getString(XpertUtils::outputLangToString(XpertQuery::OutputLang::ENGLISH)) == "" &&
+                cd->getDescription().getString(XpertUtils::outputLangToString(_lang)) == "") {
+            return false;
+        }
+
+        // Checking validation error message translation.
+        if( cd->getValidationErrorMessage().getString(XpertUtils::outputLangToString(XpertQuery::OutputLang::ENGLISH)) == "" &&
+                cd->getValidationErrorMessage().getString(XpertUtils::outputLangToString(_lang)) == "") {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 } // namespace XpertResult

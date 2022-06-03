@@ -35,6 +35,7 @@ DEFINES+= \
     test_xpertresultcreation \
     test_modelselector \
     test_dosevalidator \
+    test_xpertutils \
 
 HEADERS += \
     test_dosevalidator.h \
@@ -42,7 +43,8 @@ HEADERS += \
     test_modelselector.h \
     test_xpertqueryimport.h \
     test_xpertquerytocoreextractor.h \
-    test_xpertresultcreation.h
+    test_xpertresultcreation.h \
+    test_xpertutils.h
 
 OTHER_FILES += \
     query/complete_admin.tqf

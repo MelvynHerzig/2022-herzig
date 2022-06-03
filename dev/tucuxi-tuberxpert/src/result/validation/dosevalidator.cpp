@@ -60,8 +60,6 @@ void DoseValidator::checkDoses(const Core::DosageTimeRange& _timeRange,
     checkDoses(*_timeRange.getDosage(), _modelFormulationAndRoutes, _doseResults);
 }
 
-// This is killing OOP.
-// If I had full control over the core, it would have been better to implement a getSingleDoseList method.
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define TRY_CHECK(Type)                                                                                           \
     if (dynamic_cast<const Tucuxi::Core::Type*>(&_dosage)) {                                                      \

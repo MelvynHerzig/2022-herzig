@@ -5,7 +5,6 @@ namespace XpertQuery {
 
 XpertRequestData::XpertRequestData(
         const std::string& _drugID,
-        bool _localComputation,
         OutputFormat _outputFormat,
         OutputLang _outputLang,
         Common::DateTime _adjustmentTime,
@@ -14,7 +13,6 @@ XpertRequestData::XpertRequestData(
         Core::TargetExtractionOption _targetExtractionOption,
         Core::FormulationAndRouteSelectionOption _formulationAndRouteSelectionOption) :
         m_drugID(_drugID),
-        m_localComputation(_localComputation),
         m_outputFormat(_outputFormat),
         m_outputLang(_outputLang),
         m_adjustmentTime(_adjustmentTime),
@@ -27,11 +25,6 @@ XpertRequestData::XpertRequestData(
 std::string XpertQuery::XpertRequestData::getDrugID() const
 {
     return m_drugID;
-}
-
-bool XpertQuery::XpertRequestData::getLocalComputation() const
-{
-    return m_localComputation;
 }
 
 XpertQuery::OutputFormat XpertQuery::XpertRequestData::getOutputFormat() const

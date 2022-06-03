@@ -277,11 +277,13 @@ unique_ptr<ClinicalData> XpertQueryImport::createClinicalData(Common::XmlNodeIte
         return nullptr;
     }
 
+    static const string CLINICAL_DATA_ENTRY_NODE_NAME = "clinicalDataEntry";
+
     map<string, string> data;
 
-    Common::XmlNodeIterator xmlNodeIterator = _clinicalDataRootIterator->getChildren();
+    Common::XmlNodeIterator xmlNodeIterator = _clinicalDataRootIterator->getChildren(CLINICAL_DATA_ENTRY_NODE_NAME);
     while(xmlNodeIterator != xmlNodeIterator.none()) {
-        data[xmlNodeIterator->getName()] = xmlNodeIterator->getValue();
+        data[xmlNodeIterator->getAttribute("key").getValue()] = xmlNodeIterator->getValue();
         xmlNodeIterator++;
     }
 
@@ -291,13 +293,11 @@ unique_ptr<ClinicalData> XpertQueryImport::createClinicalData(Common::XmlNodeIte
 unique_ptr<XpertRequestData> XpertQueryImport::createRequestXpert(Common::XmlNodeIterator& _requestXpertRootIterator)
 {
     static const string DRUG_ID_NODE_NAME = "drugId";
-    static const string LOCAL_COMPUTATION_NODE_NAME = "localComputation";
     static const string OUTPUT_NODE_NAME = "output";
     static const string DATE_ADJUSTMENT_TIME_NODE_NAME = "adjustmentDate";
     static const string OPTIONS_NODE_NAME = "options";
 
     string drugId = getChildString(_requestXpertRootIterator, DRUG_ID_NODE_NAME);
-    bool localComputation = getChildBool(_requestXpertRootIterator, LOCAL_COMPUTATION_NODE_NAME);
 
     Common::XmlNodeIterator outputRootIterator = _requestXpertRootIterator->getChildren(OUTPUT_NODE_NAME);
 
@@ -346,7 +346,6 @@ unique_ptr<XpertRequestData> XpertQueryImport::createRequestXpert(Common::XmlNod
 
 
     return make_unique<XpertRequestData>(drugId,
-                                         localComputation,
                                          format,
                                          language,
                                          adjustmentTime,

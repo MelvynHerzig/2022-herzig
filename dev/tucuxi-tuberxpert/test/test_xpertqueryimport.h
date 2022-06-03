@@ -113,8 +113,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                </institute>
                                            </patient>
                                            <clinicalData>
-                                               <goodNote> nice </goodNote>
-                                               <badNote> <yet>random note</yet> </badNote>
+                                               <clinicalDataEntry key="goodNote"> nice </clinicalDataEntry>
+                                               <clinicalDataEntry key="badNote"> <yet>random note</yet> </clinicalDataEntry>
                                            </clinicalData>
                                        </admin>
 
@@ -202,7 +202,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                        <requests>
                                            <requestXpert>
                                                <drugId>rifampicin</drugId>
-                                               <localComputation>true</localComputation>
                                                <output>
                                                    <format>xml</format>
                                                    <language>en</language>
@@ -398,7 +397,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>rifampicin</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -526,7 +524,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>rifampicin</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -670,7 +667,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>rifampicin</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -836,7 +832,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>rifampicin</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -1043,7 +1038,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>rifampicin</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -1220,7 +1214,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>rifampicin</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -1379,7 +1372,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>rifampicin</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -1522,7 +1514,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>rifampicin</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -1681,7 +1672,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>rifampicin</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -1813,7 +1803,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                 </institute>
                                             </patient>
                                             <clinicalData>
-                                                <note>random note</note>
+                                                <clinicalDataEntry key="note">random note</clinicalDataEntry>
                                             </clinicalData>
                                         </admin>
 
@@ -1901,7 +1891,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>rifampicin</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -1931,7 +1920,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         const Tucuxi::XpertQuery::XpertRequestData& xpertRequest = *(query->getXpertRequests()[0]);
 
         fructose_assert_eq(xpertRequest.getDrugID(), "rifampicin");
-        fructose_assert_eq(xpertRequest.getLocalComputation(), true);
         fructose_assert_eq(xpertRequest.getOutputFormat() == Tucuxi::XpertQuery::OutputFormat::XML, true);
         fructose_assert_eq(xpertRequest.getOutputLang() == Tucuxi::XpertQuery::OutputLang::ENGLISH, true);
         fructose_assert_eq(xpertRequest.getAdjustmentTime(), DateTime("2018-07-06T08:00:00", "%Y-%m-%dT%H:%M:%S"));
@@ -2043,7 +2031,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                 </institute>
                                             </patient>
                                             <clinicalData>
-                                                <note>random note</note>
+                                                <clinicalDataEntry key="note">random note</clinicalDataEntry>
                                             </clinicalData>
                                         </admin>
 
@@ -2131,7 +2119,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>rifampicin</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -2261,7 +2248,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                 </institute>
                                             </patient>
                                             <clinicalData>
-                                                <note>random note</note>
+                                                <clinicalDataEntry key="note">random note</clinicalDataEntry>
                                             </clinicalData>
                                         </admin>
 
@@ -2461,7 +2448,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                 </institute>
                                             </patient>
                                             <clinicalData>
-                                                <note>random note</note>
+                                                <clinicalDataEntry key="note">random note</clinicalDataEntry>
                                             </clinicalData>
                                         </admin>
 
@@ -2567,7 +2554,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
 
         fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Error);
         fructose_assert_ne(importer.getErrorMessage().find("drugId"), std::string::npos);
-        fructose_assert_ne(importer.getErrorMessage().find("localComputation"), std::string::npos);
         fructose_assert_ne(importer.getErrorMessage().find("format"), std::string::npos);
         fructose_assert_ne(importer.getErrorMessage().find("language"), std::string::npos);
     }

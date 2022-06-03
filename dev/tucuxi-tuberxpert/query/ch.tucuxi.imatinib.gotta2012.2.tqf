@@ -122,14 +122,12 @@
     <requests>
         <requestXpert>
             <drugId>imatinib</drugId>
-            <localComputation>true</localComputation>
             <output>
                 <format>xml</format>
                 <language>en</language>
             </output>
             <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
             <options>
-                <bestCandidatesOption>bestDosage</bestCandidatesOption>
                 <loadingOption>noLoadingDose</loadingOption>
                 <restPeriodOption>noRestPeriod</restPeriodOption>
                 <targetExtractionOption>populationValues</targetExtractionOption>

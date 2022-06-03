@@ -174,7 +174,6 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -256,7 +255,6 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -1016,7 +1014,6 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -1777,7 +1774,6 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -2537,7 +2533,6 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -3297,7 +3292,6 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -4123,7 +4117,6 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>

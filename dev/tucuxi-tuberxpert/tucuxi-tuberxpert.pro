@@ -21,7 +21,7 @@ include(./src/tuberxpert.pri)
 HEADERS += \
 
 SOURCES += \
-    src/tuberxpert.cpp
+    src/tuberxpert.cpp \
 
 !win32 {
     # Because of Eigen:

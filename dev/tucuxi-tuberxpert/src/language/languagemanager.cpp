@@ -84,19 +84,6 @@ void LanguageManager::loadDictionary(const string& _xmlString)
     }
 }
 
-string LanguageManager::computeLanguageFileName(XpertQuery::OutputLang _lang)
-{
-    string fileName;
-
-    switch (_lang) {
-    case Tucuxi::XpertQuery::OutputLang::ENGLISH : fileName = "en.xml"; break;
-    case Tucuxi::XpertQuery::OutputLang::FRENCH  : fileName = "fr.xml"; break;
-    default : throw LanguageException("Unknown language"); // If well maintained, should never be returned.
-    }
-
-    return fileName;
-}
-
 
 } // namespace Language
 } // namespace Tucuxi

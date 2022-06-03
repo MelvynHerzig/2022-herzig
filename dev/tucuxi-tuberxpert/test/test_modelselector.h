@@ -22,6 +22,10 @@
 /// \author Herzig Melvyn
 struct TestModelSelector : public fructose::test_base<TestModelSelector>
 {
+
+    /// \brief Testing time to use to get the same result every time.
+    date::year_month_day _testingTimeRef = date::year_month_day(date::year(2022), date::month(06), date::day(03));
+
     /// \brief Sets up environment for clean execution of the model select. Loads the query string and creates
     ///        the associated XpertQueryData. Loads the drugs model strings in _models and put them in the
     ///        drug model repository.
@@ -141,7 +145,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -166,7 +169,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
 
@@ -329,7 +332,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -344,7 +346,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                             </requestXpert>
                                             <requestXpert>
                                                 <drugId>rifampicin</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -370,7 +371,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult0 = xpertResult.getXpertRequestResults()[0];
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult1 = xpertResult.getXpertRequestResults()[1];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult0);
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult1);
 
@@ -451,7 +452,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -639,7 +639,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -683,7 +683,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -727,7 +727,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -771,7 +771,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -931,7 +931,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -990,7 +990,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -1090,7 +1090,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -1123,7 +1123,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -1186,7 +1186,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
 
@@ -1266,7 +1266,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -1454,7 +1453,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -1498,7 +1497,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -1542,7 +1541,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -1586,7 +1585,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -1746,7 +1745,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -1805,7 +1804,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -1905,7 +1904,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -1938,7 +1937,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -2164,7 +2163,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -2208,7 +2207,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -2252,7 +2251,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -2296,7 +2295,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -2456,7 +2455,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -2515,7 +2514,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -2615,7 +2614,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -2648,7 +2647,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -2711,7 +2710,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime()};
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
 
@@ -2799,7 +2798,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -2987,7 +2985,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -3031,7 +3029,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -3075,7 +3073,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -3119,7 +3117,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -3279,7 +3277,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -3338,7 +3336,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -3438,7 +3436,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -3471,7 +3469,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -3534,7 +3532,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
@@ -3621,7 +3619,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -3809,7 +3806,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -3853,7 +3850,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -3897,7 +3894,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -3941,7 +3938,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -4101,7 +4098,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -4160,7 +4157,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -4260,7 +4257,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -4293,7 +4290,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -4519,7 +4516,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -4563,7 +4560,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -4607,7 +4604,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -4651,7 +4648,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -4811,7 +4808,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -4870,7 +4867,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -4970,7 +4967,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -5003,7 +5000,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -5066,7 +5063,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
@@ -5153,7 +5150,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -5341,7 +5337,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -5385,7 +5381,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -5429,7 +5425,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -5473,7 +5469,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -5633,7 +5629,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -5692,7 +5688,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -5792,7 +5788,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -5825,7 +5821,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -5888,7 +5884,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
@@ -5984,7 +5980,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -6172,7 +6167,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -6216,7 +6211,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -6260,7 +6255,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -6304,7 +6299,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -6464,7 +6459,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -6523,7 +6518,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -6623,7 +6618,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -6656,7 +6651,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -6857,7 +6852,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -6901,7 +6896,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -6945,7 +6940,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -7101,7 +7096,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -7160,7 +7155,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -7260,7 +7255,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -7293,7 +7288,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -7356,7 +7351,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
@@ -7442,7 +7437,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -7630,7 +7624,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -7674,7 +7668,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -7718,7 +7712,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -7762,7 +7756,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -7922,7 +7916,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -7981,7 +7975,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -8081,7 +8075,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -8114,7 +8108,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -8315,7 +8309,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -8359,7 +8353,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -8403,7 +8397,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -8559,7 +8553,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -8618,7 +8612,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -8718,7 +8712,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -8751,7 +8745,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -8814,7 +8808,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
@@ -8901,7 +8895,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -9039,7 +9032,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -9083,7 +9076,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -9127,7 +9120,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -9171,7 +9164,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -9331,7 +9324,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -9390,7 +9383,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -9490,7 +9483,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -9523,7 +9516,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -9699,7 +9692,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -9743,7 +9736,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -9895,7 +9888,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -9954,7 +9947,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -10054,7 +10047,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -10087,7 +10080,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -10150,7 +10143,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
@@ -10263,7 +10256,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -10401,7 +10393,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -10445,7 +10437,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -10489,7 +10481,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -10533,7 +10525,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -10577,7 +10569,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -10621,7 +10613,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -10781,7 +10773,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -10840,7 +10832,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -10940,7 +10932,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -10973,7 +10965,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -11149,7 +11141,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -11193,7 +11185,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [440,1100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [440,1100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -11237,7 +11229,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -11281,7 +11273,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -11325,7 +11317,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -11369,7 +11361,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -11529,7 +11521,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -11588,7 +11580,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -11688,7 +11680,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -11721,7 +11713,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -11897,7 +11889,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [440,1100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [440,1100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -11941,7 +11933,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [440,1100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [440,1100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -11985,7 +11977,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -12029,7 +12021,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -12073,7 +12065,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -12117,7 +12109,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -12277,7 +12269,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -12336,7 +12328,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -12436,7 +12428,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -12469,7 +12461,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -12532,7 +12524,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
@@ -12621,7 +12613,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -12759,7 +12750,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -12803,7 +12794,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -12847,7 +12838,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -12891,7 +12882,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -12935,7 +12926,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -13095,7 +13086,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -13154,7 +13145,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -13254,7 +13245,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -13287,7 +13278,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -13463,7 +13454,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -13507,7 +13498,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,110].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,110].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -13551,7 +13542,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -13595,7 +13586,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -13639,7 +13630,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -13683,7 +13674,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -13843,7 +13834,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -13902,7 +13893,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -14002,7 +13993,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -14035,7 +14026,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -14098,13 +14089,3726 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
         fructose_assert_eq(xpertRequestResult.getDrugModel()->getDrugModelId() ,"ch.tucuxi.imatinib.gotta2012_2");
     }
+
+
+    /// \brief Checks that the CovariateResults failed when the selected drug model does not support
+    ///        the requested language in its covariate definitions.
+    ///        This test makes 3 request requiring french on 3 different drugs whose drug model
+    ///        covariates does not support french (imatinib with different id).
+    ///        There are 3 request to test that it fails on name, description and error message
+    ///        of the first covariate.
+    /// \param _testName Name of the test
+    void requestFailDefinitionsNotSupportingLanguageWithoutEnglishBackup(const std::string& _testName)
+    {
+
+        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <query version="1.0"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+
+                                        <queryId>imatinib_2</queryId>
+                                        <clientId>124568</clientId>
+                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <language>en</language>
+
+                                        <drugTreatment>
+                                            <!-- All the information regarding the patient -->
+                                            <patient>
+                                                <covariates>
+                                                    <covariate>
+                                                        <covariateId>birthdate</covariateId>
+                                                        <date>2018-07-11T10:45:30</date>
+                                                        <value>1990-01-01T00:00:00</value>
+                                                        <unit></unit>
+                                                          <dataType>date</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <date>2017-07-06T08:00:00</date>
+                                                        <value>70</value>
+                                                        <unit>kg</unit>
+                                                          <dataType>double</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <date>2018-07-06T08:00:00</date>
+                                                        <value>150000</value>
+                                                        <unit>g</unit>
+                                                          <dataType>double</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                </covariates>
+                                            </patient>
+                                            <!-- List of the drugs informations we have concerning the patient -->
+                                            <drugs>
+                                                <!-- All the information regarding the drug -->
+                                                <drug>
+                                                    <drugId>imatinib0</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <!-- All the information regarding the treatment -->
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                            <dosageTimeRange>
+                                                                <start>2018-07-06T08:00:00</start>
+                                                                <end>2018-07-08T08:00:00</end>
+                                                                <dosage>
+                                                                    <dosageLoop>
+                                                                        <lastingDosage>
+                                                                            <interval>12:00:00</interval>
+                                                                            <dose>
+                                                                                <value>400</value>
+                                                                                <unit>mg</unit>
+                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                                                            </dose>
+                                                                            <formulationAndRoute>
+                                                                                <formulation>parenteralSolution</formulation>
+                                                                                <administrationName>foo bar</administrationName>
+                                                                                <administrationRoute>oral</administrationRoute>
+                                                                                <absorptionModel>extravascular</absorptionModel>
+                                                                            </formulationAndRoute>
+                                                                        </lastingDosage>
+                                                                    </dosageLoop>
+                                                                </dosage>
+                                                            </dosageTimeRange>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <!-- Samples history -->
+                                                    <samples>
+                                                    </samples>
+                                                    <!-- Personalised targets -->
+                                                    <targets>
+                                                    </targets>
+                                                </drug>
+                                                <drug>
+                                                    <drugId>imatinib1</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <!-- All the information regarding the treatment -->
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                            <dosageTimeRange>
+                                                                <start>2018-07-06T08:00:00</start>
+                                                                <end>2018-07-08T08:00:00</end>
+                                                                <dosage>
+                                                                    <dosageLoop>
+                                                                        <lastingDosage>
+                                                                            <interval>12:00:00</interval>
+                                                                            <dose>
+                                                                                <value>400</value>
+                                                                                <unit>mg</unit>
+                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                                                            </dose>
+                                                                            <formulationAndRoute>
+                                                                                <formulation>parenteralSolution</formulation>
+                                                                                <administrationName>foo bar</administrationName>
+                                                                                <administrationRoute>oral</administrationRoute>
+                                                                                <absorptionModel>extravascular</absorptionModel>
+                                                                            </formulationAndRoute>
+                                                                        </lastingDosage>
+                                                                    </dosageLoop>
+                                                                </dosage>
+                                                            </dosageTimeRange>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <!-- Samples history -->
+                                                    <samples>
+                                                    </samples>
+                                                    <!-- Personalised targets -->
+                                                    <targets>
+                                                    </targets>
+                                                </drug>
+                                                <drug>
+                                                    <drugId>imatinib2</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <!-- All the information regarding the treatment -->
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                            <dosageTimeRange>
+                                                                <start>2018-07-06T08:00:00</start>
+                                                                <end>2018-07-08T08:00:00</end>
+                                                                <dosage>
+                                                                    <dosageLoop>
+                                                                        <lastingDosage>
+                                                                            <interval>12:00:00</interval>
+                                                                            <dose>
+                                                                                <value>400</value>
+                                                                                <unit>mg</unit>
+                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                                                            </dose>
+                                                                            <formulationAndRoute>
+                                                                                <formulation>parenteralSolution</formulation>
+                                                                                <administrationName>foo bar</administrationName>
+                                                                                <administrationRoute>oral</administrationRoute>
+                                                                                <absorptionModel>extravascular</absorptionModel>
+                                                                            </formulationAndRoute>
+                                                                        </lastingDosage>
+                                                                    </dosageLoop>
+                                                                </dosage>
+                                                            </dosageTimeRange>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <!-- Samples history -->
+                                                    <samples>
+                                                    </samples>
+                                                    <!-- Personalised targets -->
+                                                    <targets>
+                                                    </targets>
+                                                </drug>
+                                            </drugs>
+                                        </drugTreatment>
+                                        <!-- List of the requests we want the server to take care of -->
+                                        <requests>
+                                            <requestXpert>
+                                                <drugId>imatinib0</drugId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>fr</language>
+                                                </output>
+                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
+                                                <options>
+                                                    <loadingOption>noLoadingDose</loadingOption>
+                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
+                                                    <targetExtractionOption>populationValues</targetExtractionOption>
+                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
+                                                </options>
+                                            </requestXpert>
+                                            <requestXpert>
+                                                <drugId>imatinib1</drugId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>fr</language>
+                                                </output>
+                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
+                                                <options>
+                                                    <loadingOption>noLoadingDose</loadingOption>
+                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
+                                                    <targetExtractionOption>populationValues</targetExtractionOption>
+                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
+                                                </options>
+                                            </requestXpert>
+                                            <requestXpert>
+                                                <drugId>imatinib2</drugId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>fr</language>
+                                                </output>
+                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
+                                                <options>
+                                                    <loadingOption>noLoadingDose</loadingOption>
+                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
+                                                    <targetExtractionOption>populationValues</targetExtractionOption>
+                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
+                                                </options>
+                                            </requestXpert>
+                                        </requests>
+                                    </query>)";
+
+        std::string modelString0 = R"(<?xml version="1.0" encoding="UTF-8"?>
+                                    <model version='0.6' xsi:noNamespaceSchemaLocation='drugfile.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+                                        <history>
+                                            <revisions>
+                                                <revision>
+                                                    <revisionAction>creation</revisionAction>
+                                                    <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                                                    <institution>HEIG-VD // REDS</institution>
+                                                    <email>yann.thoma@heig-vd.ch</email>
+                                                    <date>2018-10-30</date>
+                                                    <comments>
+                                                        <comment lang='en'>This file is based on the first version of
+                                                                                                                                    imatinib : ch.heig-vd.ezechiel.imatinib.xml
+                                                                                                                    </comment>
+                                                    </comments>
+                                                </revision>
+                                                <revision>
+                                                    <revisionAction>modification</revisionAction>
+                                                    <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                                                    <institution>HEIG-VD // REDS</institution>
+                                                    <email>yann.thoma@heig-vd.ch</email>
+                                                    <date>2018-11-07</date>
+                                                    <comments>
+                                                        <comment lang='en'>Now the Ka and F parameters are absorption parameters.
+                                                                                                                    </comment>
+                                                    </comments>
+                                                </revision>
+                                            </revisions>
+                                        </history>
+                                        <head>
+                                            <drug>
+                                                <atcs>
+                                                    <atc>L01XE01</atc>
+                                                </atcs>
+                                                <activeSubstances>
+                                                    <activeSubstance>imatinib</activeSubstance>
+                                                </activeSubstances>
+                                                <drugName>
+                                                    <name lang='en'>Imatinib</name>
+                                                    <name lang='fr'>Imatinib</name>
+                                                </drugName>
+                                                <drugDescription>
+                                                    <desc lang='en'>TODO : Add a description here</desc>
+                                                </drugDescription>
+                                                <tdmStrategy>
+                                                    <text lang='en'>TODO : Add a TDM strategy</text>
+                                                </tdmStrategy>
+                                            </drug>
+                                            <study>
+                                                <studyName>
+                                                    <name lang='en'>Therapeutic Drug Monitoring of Imatinib.
+                                    Bayesian and Alternative Methods to Predict Trough Levels</name>
+                                                </studyName>
+                                                <studyAuthors>Verena Gotta, Nicolas Widmer, Michael Montemurro, Serge Leyvraz, Amina Haouala, Laurent A. Decosterd, Chantal Csajka and Thierry Buclin</studyAuthors>
+                                                <description>
+                                                    <desc lang='en'>Based on Widmer et al. Br J Clin Pharmacol 2006, validated by Gotta et al. Clin Pharamcokinet 2012. Adult, (Disease: CML and GIST, Age range: 20-88 yrs, Weight range: 44-110kg, AGP plasma concentration range: 0.4–2.0 g/L)</desc>
+                                                    <desc lang='fr'>Basé sur Widmer et al. Br J Clin Pharmacol 2006, validé par Gotta et al. Clin Pharamcokinet 2012</desc>
+                                                </description>
+                                                <references>
+                                                    <reference type='bibtex'>
+                                                        <![CDATA[@article{Gotta2012,
+                                                        author={Gotta, Verena
+                                                        and Widmer, Nicolas
+                                                        and Montemurro, Michael
+                                                        and Leyvraz, Serge
+                                                        and Haouala, Amina
+                                                        and Decosterd, Laurent A.
+                                                        and Csajka, Chantal
+                                                        and Buclin, Thierry},
+                                                        title={Therapeutic Drug Monitoring of Imatinib},
+                                                        journal={Clinical Pharmacokinetics},
+                                                        year={2012},
+                                                        month={Mar},
+                                                        day={01},
+                                                        volume={51},
+                                                        number={3},
+                                                        pages={187--201},
+                                                        abstract={The imatinib trough plasma concentration (Cmin) correlates with clinical response in cancer patients. Therapeutic drug monitoring (TDM) of plasma Cmin is therefore suggested. In practice, however, blood sampling for TDM is often not performed at trough. The corresponding measurement is thus only remotely informative about Cmin exposure.},
+                                                        issn={1179-1926},
+                                                        doi={10.2165/11596990-000000000-00000},
+                                                        url={https://doi.org/10.2165/11596990-000000000-00000}
+                                                        }
+                                    ]]>
+                                                    </reference>
+                                                </references>
+                                            </study>
+                                            <comments/>
+                                        </head>
+                                        <drugModel>
+                                            <drugId>imatinib0</drugId>
+                                            <drugModelId>ch.tucuxi.imatinib0.gotta2012</drugModelId>
+                                            <domain>
+                                                <description>
+                                                    <desc lang='en'>Adult, (Disease: CML and GIST, Age range: 20-88 yrs, Weight range: 44-110kg, AGP plasma concentration range: 0.4–2.0 g/L)</desc>
+                                                </description>
+                                                <constraints>
+                                                </constraints>
+                                            </domain>
+                                            <covariates>
+                                                <covariate>
+                                                    <covariateId>bodyweight</covariateId>
+                                                    <covariateName>
+                                                        <name lang='de'>Total Body Weight</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Total body weight of patient, in kilogramms</desc>
+                                                        <desc lang='fr'>Total body weight of patient, in kilogramms</desc>
+                                                    </description>
+                                                    <unit>kg</unit>
+                                                    <covariateType>standard</covariateType>
+                                                    <dataType>double</dataType>
+                                                    <interpolationType>linear</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>d</unit>
+                                                      <value>30</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>70</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>bodyweight</id>
+                                                                        <type>double</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return ((bodyweight >= 44) && (bodyweight <= 110));
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                                <covariate>
+                                                    <covariateId>gist</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>GIST</name>
+                                                        <name lang='fr'>GIST</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Gastrointestinal stromal tumour</desc>
+                                                        <desc lang='fr'>Tumeur stromale gastro-intestinale</desc>
+                                                    </description>
+                                                    <unit>-</unit>
+                                                    <covariateType>standard</covariateType>
+                                                    <dataType>bool</dataType>
+                                                    <interpolationType>direct</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>y</unit>
+                                                      <value>1</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>0</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>Always correct.</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>gist</id>
+                                                                        <type>bool</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return true;
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                                <covariate>
+                                                    <covariateId>sex</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>Sex</name>
+                                                        <name lang='fr'>Sexe</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Sex of the patient</desc>
+                                                        <desc lang='fr'>Sexe du patient</desc>
+                                                    </description>
+                                                    <unit>-</unit>
+                                                    <covariateType>sex</covariateType>
+                                                    <dataType>double</dataType>
+                                                    <interpolationType>direct</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>y</unit>
+                                                      <value>1</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>0.5</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>sex</id>
+                                                                        <type>double</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return ((sex >= 0.0) && (sex <= 1.0));
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                                <covariate>
+                                                    <covariateId>age</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>Age</name>
+                                                        <name lang='fr'>Age</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Age of the patient, in years</desc>
+                                                        <desc lang='fr'>Âge du patient, en années</desc>
+                                                    </description>
+                                                    <unit>y</unit>
+                                                    <covariateType>ageInYears</covariateType>
+                                                    <dataType>double</dataType>
+                                                    <interpolationType>direct</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>y</unit>
+                                                      <value>1</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>50</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>age</id>
+                                                                        <type>double</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return ((age >= 20) && (age <= 88));
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                            </covariates>
+                                            <activeMoieties>
+                                                <activeMoiety>
+                                                    <activeMoietyId>imatinib</activeMoietyId>
+                                                    <activeMoietyName>
+                                                        <name lang='en'>Imatinib</name>
+                                                    </activeMoietyName>
+                                                    <unit>ug/l</unit>
+                                                    <analyteIdList>
+                                                        <analyteId>imatinib</analyteId>
+                                                    </analyteIdList>
+                                                    <analytesToMoietyFormula>
+                                                        <hardFormula>direct</hardFormula>
+                                                        <comments/>
+                                                    </analytesToMoietyFormula>
+                                                    <targets>
+                                                        <target>
+                                                            <targetType>residual</targetType>
+                                                            <targetValues>
+                                                                <unit>ug/l</unit>
+                                                                <min>
+                                                                    <standardValue>750</standardValue>
+                                                                </min>
+                                                                <max>
+                                                                    <standardValue>1500</standardValue>
+                                                                </max>
+                                                                <best>
+                                                                    <standardValue>1000</standardValue>
+                                                                </best>
+                                                                <toxicityAlarm>
+                                                                    <standardValue>10000.0</standardValue>
+                                                                </toxicityAlarm>
+                                                                <inefficacyAlarm>
+                                                                    <standardValue>0.0</standardValue>
+                                                                </inefficacyAlarm>
+                                                            </targetValues>
+                                                            <comments>
+                                                                <comment lang='en'>A Toxicity and inefficacyAlarm should be added</comment>
+                                                            </comments>
+                                                        </target>
+                                                    </targets>
+                                                </activeMoiety>
+                                            </activeMoieties>
+                                            <analyteGroups>
+                                                <analyteGroup>
+                                                    <groupId>imatinib</groupId>
+                                                    <pkModelId>linear.1comp.macro</pkModelId>
+                                                    <analytes>
+                                                        <analyte>
+                                                            <analyteId>imatinib</analyteId>
+                                                            <unit>ug/l</unit>
+                                                            <molarMass>
+                                                                <value>493.603</value>
+                                                                <unit>g/mol</unit>
+                                                            </molarMass>
+                                                            <description>
+                                                                <desc lang='en'>There is only a single analyte : imatinib.</desc>
+                                                            </description>
+                                                            <errorModel>
+                                                                <errorModelType>proportional</errorModelType>
+                                                                <sigmas>
+                                                                    <sigma>
+                                                                        <standardValue>0.3138</standardValue>
+                                                                    </sigma>
+                                                                </sigmas>
+                                                                <comments/>
+                                                            </errorModel>
+                                                            <comments/>
+                                                        </analyte>
+                                                    </analytes>
+                                                    <dispositionParameters>
+                                                        <parameters>
+                                                            <parameter>
+                                                                <parameterId>CL</parameterId>
+                                                                <unit>l/h</unit>
+                                                                <parameterValue>
+                                                                    <standardValue>14.3</standardValue>
+                                                                    <aprioriComputation>
+                                                                        <softFormula>
+                                                                            <inputs>
+                                                                                <input>
+                                                                                    <id>CL_population</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>bodyweight</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>age</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>gist</id>
+                                                                                    <type>bool</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>sex</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                            </inputs>
+                                                                            <code>
+                                                                                <![CDATA[
+                                                                                theta1 = CL_population;
+                                                                                theta4 = 5.42;
+                                                                                theta5 = 1.49;
+                                                                                theta6 = -5.81;
+                                                                                theta7 = -0.806;
+
+                                                                                MEANBW = 70;
+                                                                                FBW = (bodyweight - MEANBW) / MEANBW;
+
+                                                                                MEANAG = 50;
+                                                                                FAGE = (age - MEANAG) / MEANAG;
+
+                                                                                if (gist)
+                                                                                  PATH = 1;
+                                                                                else
+                                                                                  PATH = 0;
+
+                                                                                MALE = sex;
+
+                                                                                TVCL = theta1 + theta4 * FBW + theta5 * MALE-theta5 * (1-MALE) + theta6 * FAGE + theta7 * PATH - theta7 * (1 - PATH);
+
+                                                                                return TVCL;
+                                                                                                         ]]>
+                                                                            </code>
+                                                                        </softFormula>
+                                                                        <comments/>
+                                                                    </aprioriComputation>
+                                                                </parameterValue>
+                                                                <bsv>
+                                                                    <bsvType>exponential</bsvType>
+                                                                    <stdDevs>
+                                                                        <stdDev>0.356</stdDev>
+                                                                    </stdDevs>
+                                                                </bsv>
+                                                                <validation>
+                                                                    <errorMessage>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
+                                                                    </errorMessage>
+                                                                    <operation>
+                                                                        <softFormula>
+                                                                            <inputs>
+                                                                                <input>
+                                                                                    <id>CL</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                            </inputs>
+                                                                            <code>
+                                                                                <![CDATA[
+                                                                                return CL < 300.0 and CL > 0.0;
+                                                                                            ]]>
+                                                                                </code>
+                                                                            </softFormula>
+                                                                            <comments/>
+                                                                        </operation>
+                                                                        <comments/>
+                                                                    </validation>
+                                                                    <comments/>
+                                                                </parameter>
+                                                                <parameter>
+                                                                    <parameterId>V</parameterId>
+                                                                    <unit>l</unit>
+                                                                    <parameterValue>
+                                                                        <standardValue>347</standardValue>
+                                                                        <aprioriComputation>
+                                                                            <softFormula>
+                                                                                <inputs>
+                                                                                    <input>
+                                                                                        <id>V_population</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                    <input>
+                                                                                        <id>sex</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                </inputs>
+                                                                                <code>
+                                                                                    <![CDATA[
+                                                                                    theta2 = V_population;
+                                                                                    theta8 = 46.2;
+                                                                                    tvv = theta2 + theta8 * sex - theta8 * (1 - sex);
+                                                                                    return tvv;
+                                                                                                                                ]]>
+                                                                                </code>
+                                                                            </softFormula>
+                                                                            <comments/>
+                                                                        </aprioriComputation>
+                                                                    </parameterValue>
+                                                                    <bsv>
+                                                                        <bsvType>exponential</bsvType>
+                                                                        <stdDevs>
+                                                                            <stdDev>0.629</stdDev>
+                                                                        </stdDevs>
+                                                                    </bsv>
+                                                                    <validation>
+                                                                        <errorMessage>
+                                                                            <text lang='en'>V shall be positive.</text>
+                                                                        </errorMessage>
+                                                                        <operation>
+                                                                            <softFormula>
+                                                                                <inputs>
+                                                                                    <input>
+                                                                                        <id>V</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                </inputs>
+                                                                                <code>
+                                                                                    <![CDATA[
+                                                                                    return V < 300.0 and V > 0.0;
+                                                                                                ]]>
+                                                                                    </code>
+                                                                                </softFormula>
+                                                                                <comments/>
+                                                                            </operation>
+                                                                            <comments/>
+                                                                        </validation>
+                                                                        <comments/>
+                                                                    </parameter>
+                                                                </parameters>
+                                                                <correlations>
+                                                                    <correlation>
+                                                                        <param1>CL</param1>
+                                                                        <param2>V</param2>
+                                                                        <value>0.798</value>
+                                                                        <comments>
+                                                                            <comment lang='fr'>coefficient de correlation correspondant à omega2=0.179</comment>
+                                                                        </comments>
+                                                                    </correlation>
+                                                                </correlations>
+                                                            </dispositionParameters>
+                                                        </analyteGroup>
+                                                    </analyteGroups>
+                                                    <formulationAndRoutes default='id0'>
+                                                        <formulationAndRoute>
+                                                            <formulationAndRouteId>id0</formulationAndRouteId>
+                                                            <formulation>parenteralSolution</formulation>
+                                                            <administrationName>champ libre</administrationName>
+                                                            <administrationRoute>oral</administrationRoute>
+                                                            <absorptionModel>extra</absorptionModel>
+                                                            <dosages>
+                                                                <analyteConversions>
+                                                                    <analyteConversion>
+                                                                        <analyteId>imatinib</analyteId>
+                                                                        <factor>1</factor>
+                                                                    </analyteConversion>
+                                                                </analyteConversions>
+                                                                <availableDoses>
+                                                                    <unit>mg</unit>
+                                                                    <default>
+                                                                        <standardValue>400</standardValue>
+                                                                    </default>
+                                                                    <rangeValues>
+                                                                        <from>
+                                                                            <standardValue>100</standardValue>
+                                                                        </from>
+                                                                        <to>
+                                                                            <standardValue>400</standardValue>
+                                                                        </to>
+                                                                        <step>
+                                                                            <standardValue>100</standardValue>
+                                                                        </step>
+                                                                    </rangeValues>
+                                                                    <fixedValues>
+                                                                        <value>600</value>
+                                                                        <value>800</value>
+                                                                    </fixedValues>
+                                                                </availableDoses>
+                                                                <availableIntervals>
+                                                                    <unit>h</unit>
+                                                                    <default>
+                                                                        <standardValue>24</standardValue>
+                                                                    </default>
+                                                                    <fixedValues>
+                                                                        <value>12</value>
+                                                                        <value>24</value>
+                                                                    </fixedValues>
+                                                                </availableIntervals>
+                                                                <comments/>
+                                                            </dosages>
+                                                            <absorptionParameters>
+                                                                <parameterSetAnalyteGroup>
+                                                                    <analyteGroupId>imatinib</analyteGroupId>
+                                                                    <absorptionModel>extra</absorptionModel>
+                                                                    <parameterSet>
+                                                                        <parameters>
+                                                                            <parameter>
+                                                                                <parameterId>F</parameterId>
+                                                                                <unit>%</unit>
+                                                                                <parameterValue>
+                                                                                    <standardValue>1</standardValue>
+                                                                                </parameterValue>
+                                                                                <bsv>
+                                                                                    <bsvType>none</bsvType>
+                                                                                </bsv>
+                                                                                <validation>
+                                                                                    <errorMessage>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
+                                                                                    </errorMessage>
+                                                                                    <operation>
+                                                                                        <softFormula>
+                                                                                            <inputs>
+                                                                                                <input>
+                                                                                                    <id>F</id>
+                                                                                                    <type>double</type>
+                                                                                                </input>
+                                                                                            </inputs>
+                                                                                            <code>
+                                                                                                <![CDATA[
+                                                                                                return F <= 1.0 and F > 0.0;
+                                                                                                            ]]>
+                                                                                                </code>
+                                                                                            </softFormula>
+                                                                                            <comments/>
+                                                                                        </operation>
+                                                                                        <comments/>
+                                                                                    </validation>
+                                                                                    <comments/>
+                                                                                </parameter>
+                                                                                <parameter>
+                                                                                    <parameterId>Ka</parameterId>
+                                                                                    <unit>h-1</unit>
+                                                                                    <parameterValue>
+                                                                                        <standardValue>0.609</standardValue>
+                                                                                    </parameterValue>
+                                                                                    <bsv>
+                                                                                        <bsvType>none</bsvType>
+                                                                                    </bsv>
+                                                                                    <validation>
+                                                                                        <errorMessage>
+                                                                                            <text lang='en'>No check on Ka now.</text>
+                                                                                        </errorMessage>
+                                                                                        <operation>
+                                                                                            <softFormula>
+                                                                                                <inputs>
+                                                                                                    <input>
+                                                                                                        <id>Ka</id>
+                                                                                                        <type>double</type>
+                                                                                                    </input>
+                                                                                                </inputs>
+                                                                                                <code>
+                                                                                                    <![CDATA[
+                                                                                                    return true;
+                                                                                                    ]]>
+                                                                                                </code>
+                                                                                            </softFormula>
+                                                                                            <comments/>
+                                                                                        </operation>
+                                                                                        <comments/>
+                                                                                    </validation>
+                                                                                    <comments/>
+                                                                                </parameter>
+                                                                            </parameters>
+                                                                            <correlations/>
+                                                                        </parameterSet>
+                                                                    </parameterSetAnalyteGroup>
+                                                                </absorptionParameters>
+                                                            </formulationAndRoute>
+                                                        </formulationAndRoutes>
+                                                        <timeConsiderations>
+                                                            <halfLife>
+                                                                <unit>h</unit>
+                                                                <duration>
+                                                                    <standardValue>12</standardValue>
+                                                                </duration>
+                                                                <multiplier>20</multiplier>
+                                                                <comments>
+                                                                    <comment lang='en'>TODO : Find the half life</comment>
+                                                                </comments>
+                                                            </halfLife>
+                                                            <outdatedMeasure>
+                                                                <unit>d</unit>
+                                                                <duration>
+                                                                    <standardValue>100</standardValue>
+                                                                </duration>
+                                                                <comments>
+                                                                    <comment lang='en'>TODO : This value is not set now</comment>
+                                                                </comments>
+                                                            </outdatedMeasure>
+                                                        </timeConsiderations>
+                                                        <comments/>
+                                                    </drugModel>
+                                                </model>)";
+        std::string modelString1 = R"(<?xml version="1.0" encoding="UTF-8"?>
+                                    <model version='0.6' xsi:noNamespaceSchemaLocation='drugfile.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+                                        <history>
+                                            <revisions>
+                                                <revision>
+                                                    <revisionAction>creation</revisionAction>
+                                                    <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                                                    <institution>HEIG-VD // REDS</institution>
+                                                    <email>yann.thoma@heig-vd.ch</email>
+                                                    <date>2018-10-30</date>
+                                                    <comments>
+                                                        <comment lang='en'>This file is based on the first version of
+                                                                                                                                    imatinib : ch.heig-vd.ezechiel.imatinib.xml
+                                                                                                                    </comment>
+                                                    </comments>
+                                                </revision>
+                                                <revision>
+                                                    <revisionAction>modification</revisionAction>
+                                                    <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                                                    <institution>HEIG-VD // REDS</institution>
+                                                    <email>yann.thoma@heig-vd.ch</email>
+                                                    <date>2018-11-07</date>
+                                                    <comments>
+                                                        <comment lang='en'>Now the Ka and F parameters are absorption parameters.
+                                                                                                                    </comment>
+                                                    </comments>
+                                                </revision>
+                                            </revisions>
+                                        </history>
+                                        <head>
+                                            <drug>
+                                                <atcs>
+                                                    <atc>L01XE01</atc>
+                                                </atcs>
+                                                <activeSubstances>
+                                                    <activeSubstance>imatinib</activeSubstance>
+                                                </activeSubstances>
+                                                <drugName>
+                                                    <name lang='en'>Imatinib</name>
+                                                    <name lang='fr'>Imatinib</name>
+                                                </drugName>
+                                                <drugDescription>
+                                                    <desc lang='en'>TODO : Add a description here</desc>
+                                                </drugDescription>
+                                                <tdmStrategy>
+                                                    <text lang='en'>TODO : Add a TDM strategy</text>
+                                                </tdmStrategy>
+                                            </drug>
+                                            <study>
+                                                <studyName>
+                                                    <name lang='en'>Therapeutic Drug Monitoring of Imatinib.
+                                    Bayesian and Alternative Methods to Predict Trough Levels</name>
+                                                </studyName>
+                                                <studyAuthors>Verena Gotta, Nicolas Widmer, Michael Montemurro, Serge Leyvraz, Amina Haouala, Laurent A. Decosterd, Chantal Csajka and Thierry Buclin</studyAuthors>
+                                                <description>
+                                                    <desc lang='en'>Based on Widmer et al. Br J Clin Pharmacol 2006, validated by Gotta et al. Clin Pharamcokinet 2012. Adult, (Disease: CML and GIST, Age range: 20-88 yrs, Weight range: 44-110kg, AGP plasma concentration range: 0.4–2.0 g/L)</desc>
+                                                    <desc lang='fr'>Basé sur Widmer et al. Br J Clin Pharmacol 2006, validé par Gotta et al. Clin Pharamcokinet 2012</desc>
+                                                </description>
+                                                <references>
+                                                    <reference type='bibtex'>
+                                                        <![CDATA[@article{Gotta2012,
+                                                        author={Gotta, Verena
+                                                        and Widmer, Nicolas
+                                                        and Montemurro, Michael
+                                                        and Leyvraz, Serge
+                                                        and Haouala, Amina
+                                                        and Decosterd, Laurent A.
+                                                        and Csajka, Chantal
+                                                        and Buclin, Thierry},
+                                                        title={Therapeutic Drug Monitoring of Imatinib},
+                                                        journal={Clinical Pharmacokinetics},
+                                                        year={2012},
+                                                        month={Mar},
+                                                        day={01},
+                                                        volume={51},
+                                                        number={3},
+                                                        pages={187--201},
+                                                        abstract={The imatinib trough plasma concentration (Cmin) correlates with clinical response in cancer patients. Therapeutic drug monitoring (TDM) of plasma Cmin is therefore suggested. In practice, however, blood sampling for TDM is often not performed at trough. The corresponding measurement is thus only remotely informative about Cmin exposure.},
+                                                        issn={1179-1926},
+                                                        doi={10.2165/11596990-000000000-00000},
+                                                        url={https://doi.org/10.2165/11596990-000000000-00000}
+                                                        }
+                                    ]]>
+                                                    </reference>
+                                                </references>
+                                            </study>
+                                            <comments/>
+                                        </head>
+                                        <drugModel>
+                                            <drugId>imatinib1</drugId>
+                                            <drugModelId>ch.tucuxi.imatinib1.gotta2012</drugModelId>
+                                            <domain>
+                                                <description>
+                                                    <desc lang='en'>Adult, (Disease: CML and GIST, Age range: 20-88 yrs, Weight range: 44-110kg, AGP plasma concentration range: 0.4–2.0 g/L)</desc>
+                                                </description>
+                                                <constraints>
+                                                </constraints>
+                                            </domain>
+                                            <covariates>
+                                                <covariate>
+                                                    <covariateId>bodyweight</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>Total Body Weight</name>
+                                                        <name lang='fr'>Total Body Weight</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='de'>Total body weight of patient, in kilogramms</desc>
+                                                    </description>
+                                                    <unit>kg</unit>
+                                                    <covariateType>standard</covariateType>
+                                                    <dataType>double</dataType>
+                                                    <interpolationType>linear</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>d</unit>
+                                                      <value>30</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>70</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>bodyweight</id>
+                                                                        <type>double</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return ((bodyweight >= 44) && (bodyweight <= 110));
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                                <covariate>
+                                                    <covariateId>gist</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>GIST</name>
+                                                        <name lang='fr'>GIST</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Gastrointestinal stromal tumour</desc>
+                                                        <desc lang='fr'>Tumeur stromale gastro-intestinale</desc>
+                                                    </description>
+                                                    <unit>-</unit>
+                                                    <covariateType>standard</covariateType>
+                                                    <dataType>bool</dataType>
+                                                    <interpolationType>direct</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>y</unit>
+                                                      <value>1</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>0</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>Always correct.</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>gist</id>
+                                                                        <type>bool</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return true;
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                                <covariate>
+                                                    <covariateId>sex</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>Sex</name>
+                                                        <name lang='fr'>Sexe</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Sex of the patient</desc>
+                                                        <desc lang='fr'>Sexe du patient</desc>
+                                                    </description>
+                                                    <unit>-</unit>
+                                                    <covariateType>sex</covariateType>
+                                                    <dataType>double</dataType>
+                                                    <interpolationType>direct</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>y</unit>
+                                                      <value>1</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>0.5</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>sex</id>
+                                                                        <type>double</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return ((sex >= 0.0) && (sex <= 1.0));
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                                <covariate>
+                                                    <covariateId>age</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>Age</name>
+                                                        <name lang='fr'>Age</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Age of the patient, in years</desc>
+                                                        <desc lang='fr'>Âge du patient, en années</desc>
+                                                    </description>
+                                                    <unit>y</unit>
+                                                    <covariateType>ageInYears</covariateType>
+                                                    <dataType>double</dataType>
+                                                    <interpolationType>direct</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>y</unit>
+                                                      <value>1</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>50</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>age</id>
+                                                                        <type>double</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return ((age >= 20) && (age <= 88));
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                            </covariates>
+                                            <activeMoieties>
+                                                <activeMoiety>
+                                                    <activeMoietyId>imatinib</activeMoietyId>
+                                                    <activeMoietyName>
+                                                        <name lang='en'>Imatinib</name>
+                                                    </activeMoietyName>
+                                                    <unit>ug/l</unit>
+                                                    <analyteIdList>
+                                                        <analyteId>imatinib</analyteId>
+                                                    </analyteIdList>
+                                                    <analytesToMoietyFormula>
+                                                        <hardFormula>direct</hardFormula>
+                                                        <comments/>
+                                                    </analytesToMoietyFormula>
+                                                    <targets>
+                                                        <target>
+                                                            <targetType>residual</targetType>
+                                                            <targetValues>
+                                                                <unit>ug/l</unit>
+                                                                <min>
+                                                                    <standardValue>750</standardValue>
+                                                                </min>
+                                                                <max>
+                                                                    <standardValue>1500</standardValue>
+                                                                </max>
+                                                                <best>
+                                                                    <standardValue>1000</standardValue>
+                                                                </best>
+                                                                <toxicityAlarm>
+                                                                    <standardValue>10000.0</standardValue>
+                                                                </toxicityAlarm>
+                                                                <inefficacyAlarm>
+                                                                    <standardValue>0.0</standardValue>
+                                                                </inefficacyAlarm>
+                                                            </targetValues>
+                                                            <comments>
+                                                                <comment lang='en'>A Toxicity and inefficacyAlarm should be added</comment>
+                                                            </comments>
+                                                        </target>
+                                                    </targets>
+                                                </activeMoiety>
+                                            </activeMoieties>
+                                            <analyteGroups>
+                                                <analyteGroup>
+                                                    <groupId>imatinib</groupId>
+                                                    <pkModelId>linear.1comp.macro</pkModelId>
+                                                    <analytes>
+                                                        <analyte>
+                                                            <analyteId>imatinib</analyteId>
+                                                            <unit>ug/l</unit>
+                                                            <molarMass>
+                                                                <value>493.603</value>
+                                                                <unit>g/mol</unit>
+                                                            </molarMass>
+                                                            <description>
+                                                                <desc lang='en'>There is only a single analyte : imatinib.</desc>
+                                                            </description>
+                                                            <errorModel>
+                                                                <errorModelType>proportional</errorModelType>
+                                                                <sigmas>
+                                                                    <sigma>
+                                                                        <standardValue>0.3138</standardValue>
+                                                                    </sigma>
+                                                                </sigmas>
+                                                                <comments/>
+                                                            </errorModel>
+                                                            <comments/>
+                                                        </analyte>
+                                                    </analytes>
+                                                    <dispositionParameters>
+                                                        <parameters>
+                                                            <parameter>
+                                                                <parameterId>CL</parameterId>
+                                                                <unit>l/h</unit>
+                                                                <parameterValue>
+                                                                    <standardValue>14.3</standardValue>
+                                                                    <aprioriComputation>
+                                                                        <softFormula>
+                                                                            <inputs>
+                                                                                <input>
+                                                                                    <id>CL_population</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>bodyweight</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>age</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>gist</id>
+                                                                                    <type>bool</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>sex</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                            </inputs>
+                                                                            <code>
+                                                                                <![CDATA[
+                                                                                theta1 = CL_population;
+                                                                                theta4 = 5.42;
+                                                                                theta5 = 1.49;
+                                                                                theta6 = -5.81;
+                                                                                theta7 = -0.806;
+
+                                                                                MEANBW = 70;
+                                                                                FBW = (bodyweight - MEANBW) / MEANBW;
+
+                                                                                MEANAG = 50;
+                                                                                FAGE = (age - MEANAG) / MEANAG;
+
+                                                                                if (gist)
+                                                                                  PATH = 1;
+                                                                                else
+                                                                                  PATH = 0;
+
+                                                                                MALE = sex;
+
+                                                                                TVCL = theta1 + theta4 * FBW + theta5 * MALE-theta5 * (1-MALE) + theta6 * FAGE + theta7 * PATH - theta7 * (1 - PATH);
+
+                                                                                return TVCL;
+                                                                                                         ]]>
+                                                                            </code>
+                                                                        </softFormula>
+                                                                        <comments/>
+                                                                    </aprioriComputation>
+                                                                </parameterValue>
+                                                                <bsv>
+                                                                    <bsvType>exponential</bsvType>
+                                                                    <stdDevs>
+                                                                        <stdDev>0.356</stdDev>
+                                                                    </stdDevs>
+                                                                </bsv>
+                                                                <validation>
+                                                                    <errorMessage>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
+                                                                    </errorMessage>
+                                                                    <operation>
+                                                                        <softFormula>
+                                                                            <inputs>
+                                                                                <input>
+                                                                                    <id>CL</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                            </inputs>
+                                                                            <code>
+                                                                                <![CDATA[
+                                                                                return CL < 300.0 and CL > 0.0;
+                                                                                            ]]>
+                                                                                </code>
+                                                                            </softFormula>
+                                                                            <comments/>
+                                                                        </operation>
+                                                                        <comments/>
+                                                                    </validation>
+                                                                    <comments/>
+                                                                </parameter>
+                                                                <parameter>
+                                                                    <parameterId>V</parameterId>
+                                                                    <unit>l</unit>
+                                                                    <parameterValue>
+                                                                        <standardValue>347</standardValue>
+                                                                        <aprioriComputation>
+                                                                            <softFormula>
+                                                                                <inputs>
+                                                                                    <input>
+                                                                                        <id>V_population</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                    <input>
+                                                                                        <id>sex</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                </inputs>
+                                                                                <code>
+                                                                                    <![CDATA[
+                                                                                    theta2 = V_population;
+                                                                                    theta8 = 46.2;
+                                                                                    tvv = theta2 + theta8 * sex - theta8 * (1 - sex);
+                                                                                    return tvv;
+                                                                                                                                ]]>
+                                                                                </code>
+                                                                            </softFormula>
+                                                                            <comments/>
+                                                                        </aprioriComputation>
+                                                                    </parameterValue>
+                                                                    <bsv>
+                                                                        <bsvType>exponential</bsvType>
+                                                                        <stdDevs>
+                                                                            <stdDev>0.629</stdDev>
+                                                                        </stdDevs>
+                                                                    </bsv>
+                                                                    <validation>
+                                                                        <errorMessage>
+                                                                            <text lang='en'>V shall be positive.</text>
+                                                                        </errorMessage>
+                                                                        <operation>
+                                                                            <softFormula>
+                                                                                <inputs>
+                                                                                    <input>
+                                                                                        <id>V</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                </inputs>
+                                                                                <code>
+                                                                                    <![CDATA[
+                                                                                    return V < 300.0 and V > 0.0;
+                                                                                                ]]>
+                                                                                    </code>
+                                                                                </softFormula>
+                                                                                <comments/>
+                                                                            </operation>
+                                                                            <comments/>
+                                                                        </validation>
+                                                                        <comments/>
+                                                                    </parameter>
+                                                                </parameters>
+                                                                <correlations>
+                                                                    <correlation>
+                                                                        <param1>CL</param1>
+                                                                        <param2>V</param2>
+                                                                        <value>0.798</value>
+                                                                        <comments>
+                                                                            <comment lang='fr'>coefficient de correlation correspondant à omega2=0.179</comment>
+                                                                        </comments>
+                                                                    </correlation>
+                                                                </correlations>
+                                                            </dispositionParameters>
+                                                        </analyteGroup>
+                                                    </analyteGroups>
+                                                    <formulationAndRoutes default='id0'>
+                                                        <formulationAndRoute>
+                                                            <formulationAndRouteId>id0</formulationAndRouteId>
+                                                            <formulation>parenteralSolution</formulation>
+                                                            <administrationName>champ libre</administrationName>
+                                                            <administrationRoute>oral</administrationRoute>
+                                                            <absorptionModel>extra</absorptionModel>
+                                                            <dosages>
+                                                                <analyteConversions>
+                                                                    <analyteConversion>
+                                                                        <analyteId>imatinib</analyteId>
+                                                                        <factor>1</factor>
+                                                                    </analyteConversion>
+                                                                </analyteConversions>
+                                                                <availableDoses>
+                                                                    <unit>mg</unit>
+                                                                    <default>
+                                                                        <standardValue>400</standardValue>
+                                                                    </default>
+                                                                    <rangeValues>
+                                                                        <from>
+                                                                            <standardValue>100</standardValue>
+                                                                        </from>
+                                                                        <to>
+                                                                            <standardValue>400</standardValue>
+                                                                        </to>
+                                                                        <step>
+                                                                            <standardValue>100</standardValue>
+                                                                        </step>
+                                                                    </rangeValues>
+                                                                    <fixedValues>
+                                                                        <value>600</value>
+                                                                        <value>800</value>
+                                                                    </fixedValues>
+                                                                </availableDoses>
+                                                                <availableIntervals>
+                                                                    <unit>h</unit>
+                                                                    <default>
+                                                                        <standardValue>24</standardValue>
+                                                                    </default>
+                                                                    <fixedValues>
+                                                                        <value>12</value>
+                                                                        <value>24</value>
+                                                                    </fixedValues>
+                                                                </availableIntervals>
+                                                                <comments/>
+                                                            </dosages>
+                                                            <absorptionParameters>
+                                                                <parameterSetAnalyteGroup>
+                                                                    <analyteGroupId>imatinib</analyteGroupId>
+                                                                    <absorptionModel>extra</absorptionModel>
+                                                                    <parameterSet>
+                                                                        <parameters>
+                                                                            <parameter>
+                                                                                <parameterId>F</parameterId>
+                                                                                <unit>%</unit>
+                                                                                <parameterValue>
+                                                                                    <standardValue>1</standardValue>
+                                                                                </parameterValue>
+                                                                                <bsv>
+                                                                                    <bsvType>none</bsvType>
+                                                                                </bsv>
+                                                                                <validation>
+                                                                                    <errorMessage>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
+                                                                                    </errorMessage>
+                                                                                    <operation>
+                                                                                        <softFormula>
+                                                                                            <inputs>
+                                                                                                <input>
+                                                                                                    <id>F</id>
+                                                                                                    <type>double</type>
+                                                                                                </input>
+                                                                                            </inputs>
+                                                                                            <code>
+                                                                                                <![CDATA[
+                                                                                                return F <= 1.0 and F > 0.0;
+                                                                                                            ]]>
+                                                                                                </code>
+                                                                                            </softFormula>
+                                                                                            <comments/>
+                                                                                        </operation>
+                                                                                        <comments/>
+                                                                                    </validation>
+                                                                                    <comments/>
+                                                                                </parameter>
+                                                                                <parameter>
+                                                                                    <parameterId>Ka</parameterId>
+                                                                                    <unit>h-1</unit>
+                                                                                    <parameterValue>
+                                                                                        <standardValue>0.609</standardValue>
+                                                                                    </parameterValue>
+                                                                                    <bsv>
+                                                                                        <bsvType>none</bsvType>
+                                                                                    </bsv>
+                                                                                    <validation>
+                                                                                        <errorMessage>
+                                                                                            <text lang='en'>No check on Ka now.</text>
+                                                                                        </errorMessage>
+                                                                                        <operation>
+                                                                                            <softFormula>
+                                                                                                <inputs>
+                                                                                                    <input>
+                                                                                                        <id>Ka</id>
+                                                                                                        <type>double</type>
+                                                                                                    </input>
+                                                                                                </inputs>
+                                                                                                <code>
+                                                                                                    <![CDATA[
+                                                                                                    return true;
+                                                                                                    ]]>
+                                                                                                </code>
+                                                                                            </softFormula>
+                                                                                            <comments/>
+                                                                                        </operation>
+                                                                                        <comments/>
+                                                                                    </validation>
+                                                                                    <comments/>
+                                                                                </parameter>
+                                                                            </parameters>
+                                                                            <correlations/>
+                                                                        </parameterSet>
+                                                                    </parameterSetAnalyteGroup>
+                                                                </absorptionParameters>
+                                                            </formulationAndRoute>
+                                                        </formulationAndRoutes>
+                                                        <timeConsiderations>
+                                                            <halfLife>
+                                                                <unit>h</unit>
+                                                                <duration>
+                                                                    <standardValue>12</standardValue>
+                                                                </duration>
+                                                                <multiplier>20</multiplier>
+                                                                <comments>
+                                                                    <comment lang='en'>TODO : Find the half life</comment>
+                                                                </comments>
+                                                            </halfLife>
+                                                            <outdatedMeasure>
+                                                                <unit>d</unit>
+                                                                <duration>
+                                                                    <standardValue>100</standardValue>
+                                                                </duration>
+                                                                <comments>
+                                                                    <comment lang='en'>TODO : This value is not set now</comment>
+                                                                </comments>
+                                                            </outdatedMeasure>
+                                                        </timeConsiderations>
+                                                        <comments/>
+                                                    </drugModel>
+                                                </model>)";
+        std::string modelString2 = R"(<?xml version="1.0" encoding="UTF-8"?>
+                                    <model version='0.6' xsi:noNamespaceSchemaLocation='drugfile.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+                                        <history>
+                                            <revisions>
+                                                <revision>
+                                                    <revisionAction>creation</revisionAction>
+                                                    <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                                                    <institution>HEIG-VD // REDS</institution>
+                                                    <email>yann.thoma@heig-vd.ch</email>
+                                                    <date>2018-10-30</date>
+                                                    <comments>
+                                                        <comment lang='en'>This file is based on the first version of
+                                                                                                                                    imatinib : ch.heig-vd.ezechiel.imatinib.xml
+                                                                                                                    </comment>
+                                                    </comments>
+                                                </revision>
+                                                <revision>
+                                                    <revisionAction>modification</revisionAction>
+                                                    <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                                                    <institution>HEIG-VD // REDS</institution>
+                                                    <email>yann.thoma@heig-vd.ch</email>
+                                                    <date>2018-11-07</date>
+                                                    <comments>
+                                                        <comment lang='en'>Now the Ka and F parameters are absorption parameters.
+                                                                                                                    </comment>
+                                                    </comments>
+                                                </revision>
+                                            </revisions>
+                                        </history>
+                                        <head>
+                                            <drug>
+                                                <atcs>
+                                                    <atc>L01XE01</atc>
+                                                </atcs>
+                                                <activeSubstances>
+                                                    <activeSubstance>imatinib</activeSubstance>
+                                                </activeSubstances>
+                                                <drugName>
+                                                    <name lang='en'>Imatinib</name>
+                                                    <name lang='fr'>Imatinib</name>
+                                                </drugName>
+                                                <drugDescription>
+                                                    <desc lang='en'>TODO : Add a description here</desc>
+                                                </drugDescription>
+                                                <tdmStrategy>
+                                                    <text lang='en'>TODO : Add a TDM strategy</text>
+                                                </tdmStrategy>
+                                            </drug>
+                                            <study>
+                                                <studyName>
+                                                    <name lang='en'>Therapeutic Drug Monitoring of Imatinib.
+                                    Bayesian and Alternative Methods to Predict Trough Levels</name>
+                                                </studyName>
+                                                <studyAuthors>Verena Gotta, Nicolas Widmer, Michael Montemurro, Serge Leyvraz, Amina Haouala, Laurent A. Decosterd, Chantal Csajka and Thierry Buclin</studyAuthors>
+                                                <description>
+                                                    <desc lang='en'>Based on Widmer et al. Br J Clin Pharmacol 2006, validated by Gotta et al. Clin Pharamcokinet 2012. Adult, (Disease: CML and GIST, Age range: 20-88 yrs, Weight range: 44-110kg, AGP plasma concentration range: 0.4–2.0 g/L)</desc>
+                                                    <desc lang='fr'>Basé sur Widmer et al. Br J Clin Pharmacol 2006, validé par Gotta et al. Clin Pharamcokinet 2012</desc>
+                                                </description>
+                                                <references>
+                                                    <reference type='bibtex'>
+                                                        <![CDATA[@article{Gotta2012,
+                                                        author={Gotta, Verena
+                                                        and Widmer, Nicolas
+                                                        and Montemurro, Michael
+                                                        and Leyvraz, Serge
+                                                        and Haouala, Amina
+                                                        and Decosterd, Laurent A.
+                                                        and Csajka, Chantal
+                                                        and Buclin, Thierry},
+                                                        title={Therapeutic Drug Monitoring of Imatinib},
+                                                        journal={Clinical Pharmacokinetics},
+                                                        year={2012},
+                                                        month={Mar},
+                                                        day={01},
+                                                        volume={51},
+                                                        number={3},
+                                                        pages={187--201},
+                                                        abstract={The imatinib trough plasma concentration (Cmin) correlates with clinical response in cancer patients. Therapeutic drug monitoring (TDM) of plasma Cmin is therefore suggested. In practice, however, blood sampling for TDM is often not performed at trough. The corresponding measurement is thus only remotely informative about Cmin exposure.},
+                                                        issn={1179-1926},
+                                                        doi={10.2165/11596990-000000000-00000},
+                                                        url={https://doi.org/10.2165/11596990-000000000-00000}
+                                                        }
+                                    ]]>
+                                                    </reference>
+                                                </references>
+                                            </study>
+                                            <comments/>
+                                        </head>
+                                        <drugModel>
+                                            <drugId>imatinib2</drugId>
+                                            <drugModelId>ch.tucuxi.imatinib2.gotta2012</drugModelId>
+                                            <domain>
+                                                <description>
+                                                    <desc lang='en'>Adult, (Disease: CML and GIST, Age range: 20-88 yrs, Weight range: 44-110kg, AGP plasma concentration range: 0.4–2.0 g/L)</desc>
+                                                </description>
+                                                <constraints>
+                                                </constraints>
+                                            </domain>
+                                            <covariates>
+                                                <covariate>
+                                                    <covariateId>bodyweight</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>Total Body Weight</name>
+                                                        <name lang='fr'>Total Body Weight</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='fr'>Total body weight of patient, in kilogramms</desc>
+                                                        <desc lang='en'>Total body weight of patient, in kilogramms</desc>
+                                                    </description>
+                                                    <unit>kg</unit>
+                                                    <covariateType>standard</covariateType>
+                                                    <dataType>double</dataType>
+                                                    <interpolationType>linear</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>d</unit>
+                                                      <value>30</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>70</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='de'>The body weight shall be in the interval [44,100].</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>bodyweight</id>
+                                                                        <type>double</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return ((bodyweight >= 44) && (bodyweight <= 110));
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                                <covariate>
+                                                    <covariateId>gist</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>GIST</name>
+                                                        <name lang='fr'>GIST</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Gastrointestinal stromal tumour</desc>
+                                                        <desc lang='fr'>Tumeur stromale gastro-intestinale</desc>
+                                                    </description>
+                                                    <unit>-</unit>
+                                                    <covariateType>standard</covariateType>
+                                                    <dataType>bool</dataType>
+                                                    <interpolationType>direct</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>y</unit>
+                                                      <value>1</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>0</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>Always correct.</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>gist</id>
+                                                                        <type>bool</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return true;
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                                <covariate>
+                                                    <covariateId>sex</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>Sex</name>
+                                                        <name lang='fr'>Sexe</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Sex of the patient</desc>
+                                                        <desc lang='fr'>Sexe du patient</desc>
+                                                    </description>
+                                                    <unit>-</unit>
+                                                    <covariateType>sex</covariateType>
+                                                    <dataType>double</dataType>
+                                                    <interpolationType>direct</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>y</unit>
+                                                      <value>1</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>0.5</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>sex</id>
+                                                                        <type>double</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return ((sex >= 0.0) && (sex <= 1.0));
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                                <covariate>
+                                                    <covariateId>age</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>Age</name>
+                                                        <name lang='fr'>Age</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Age of the patient, in years</desc>
+                                                        <desc lang='fr'>Âge du patient, en années</desc>
+                                                    </description>
+                                                    <unit>y</unit>
+                                                    <covariateType>ageInYears</covariateType>
+                                                    <dataType>double</dataType>
+                                                    <interpolationType>direct</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>y</unit>
+                                                      <value>1</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>50</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>age</id>
+                                                                        <type>double</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return ((age >= 20) && (age <= 88));
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                            </covariates>
+                                            <activeMoieties>
+                                                <activeMoiety>
+                                                    <activeMoietyId>imatinib</activeMoietyId>
+                                                    <activeMoietyName>
+                                                        <name lang='en'>Imatinib</name>
+                                                    </activeMoietyName>
+                                                    <unit>ug/l</unit>
+                                                    <analyteIdList>
+                                                        <analyteId>imatinib</analyteId>
+                                                    </analyteIdList>
+                                                    <analytesToMoietyFormula>
+                                                        <hardFormula>direct</hardFormula>
+                                                        <comments/>
+                                                    </analytesToMoietyFormula>
+                                                    <targets>
+                                                        <target>
+                                                            <targetType>residual</targetType>
+                                                            <targetValues>
+                                                                <unit>ug/l</unit>
+                                                                <min>
+                                                                    <standardValue>750</standardValue>
+                                                                </min>
+                                                                <max>
+                                                                    <standardValue>1500</standardValue>
+                                                                </max>
+                                                                <best>
+                                                                    <standardValue>1000</standardValue>
+                                                                </best>
+                                                                <toxicityAlarm>
+                                                                    <standardValue>10000.0</standardValue>
+                                                                </toxicityAlarm>
+                                                                <inefficacyAlarm>
+                                                                    <standardValue>0.0</standardValue>
+                                                                </inefficacyAlarm>
+                                                            </targetValues>
+                                                            <comments>
+                                                                <comment lang='en'>A Toxicity and inefficacyAlarm should be added</comment>
+                                                            </comments>
+                                                        </target>
+                                                    </targets>
+                                                </activeMoiety>
+                                            </activeMoieties>
+                                            <analyteGroups>
+                                                <analyteGroup>
+                                                    <groupId>imatinib</groupId>
+                                                    <pkModelId>linear.1comp.macro</pkModelId>
+                                                    <analytes>
+                                                        <analyte>
+                                                            <analyteId>imatinib</analyteId>
+                                                            <unit>ug/l</unit>
+                                                            <molarMass>
+                                                                <value>493.603</value>
+                                                                <unit>g/mol</unit>
+                                                            </molarMass>
+                                                            <description>
+                                                                <desc lang='en'>There is only a single analyte : imatinib.</desc>
+                                                            </description>
+                                                            <errorModel>
+                                                                <errorModelType>proportional</errorModelType>
+                                                                <sigmas>
+                                                                    <sigma>
+                                                                        <standardValue>0.3138</standardValue>
+                                                                    </sigma>
+                                                                </sigmas>
+                                                                <comments/>
+                                                            </errorModel>
+                                                            <comments/>
+                                                        </analyte>
+                                                    </analytes>
+                                                    <dispositionParameters>
+                                                        <parameters>
+                                                            <parameter>
+                                                                <parameterId>CL</parameterId>
+                                                                <unit>l/h</unit>
+                                                                <parameterValue>
+                                                                    <standardValue>14.3</standardValue>
+                                                                    <aprioriComputation>
+                                                                        <softFormula>
+                                                                            <inputs>
+                                                                                <input>
+                                                                                    <id>CL_population</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>bodyweight</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>age</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>gist</id>
+                                                                                    <type>bool</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>sex</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                            </inputs>
+                                                                            <code>
+                                                                                <![CDATA[
+                                                                                theta1 = CL_population;
+                                                                                theta4 = 5.42;
+                                                                                theta5 = 1.49;
+                                                                                theta6 = -5.81;
+                                                                                theta7 = -0.806;
+
+                                                                                MEANBW = 70;
+                                                                                FBW = (bodyweight - MEANBW) / MEANBW;
+
+                                                                                MEANAG = 50;
+                                                                                FAGE = (age - MEANAG) / MEANAG;
+
+                                                                                if (gist)
+                                                                                  PATH = 1;
+                                                                                else
+                                                                                  PATH = 0;
+
+                                                                                MALE = sex;
+
+                                                                                TVCL = theta1 + theta4 * FBW + theta5 * MALE-theta5 * (1-MALE) + theta6 * FAGE + theta7 * PATH - theta7 * (1 - PATH);
+
+                                                                                return TVCL;
+                                                                                                         ]]>
+                                                                            </code>
+                                                                        </softFormula>
+                                                                        <comments/>
+                                                                    </aprioriComputation>
+                                                                </parameterValue>
+                                                                <bsv>
+                                                                    <bsvType>exponential</bsvType>
+                                                                    <stdDevs>
+                                                                        <stdDev>0.356</stdDev>
+                                                                    </stdDevs>
+                                                                </bsv>
+                                                                <validation>
+                                                                    <errorMessage>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
+                                                                    </errorMessage>
+                                                                    <operation>
+                                                                        <softFormula>
+                                                                            <inputs>
+                                                                                <input>
+                                                                                    <id>CL</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                            </inputs>
+                                                                            <code>
+                                                                                <![CDATA[
+                                                                                return CL < 300.0 and CL > 0.0;
+                                                                                            ]]>
+                                                                                </code>
+                                                                            </softFormula>
+                                                                            <comments/>
+                                                                        </operation>
+                                                                        <comments/>
+                                                                    </validation>
+                                                                    <comments/>
+                                                                </parameter>
+                                                                <parameter>
+                                                                    <parameterId>V</parameterId>
+                                                                    <unit>l</unit>
+                                                                    <parameterValue>
+                                                                        <standardValue>347</standardValue>
+                                                                        <aprioriComputation>
+                                                                            <softFormula>
+                                                                                <inputs>
+                                                                                    <input>
+                                                                                        <id>V_population</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                    <input>
+                                                                                        <id>sex</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                </inputs>
+                                                                                <code>
+                                                                                    <![CDATA[
+                                                                                    theta2 = V_population;
+                                                                                    theta8 = 46.2;
+                                                                                    tvv = theta2 + theta8 * sex - theta8 * (1 - sex);
+                                                                                    return tvv;
+                                                                                                                                ]]>
+                                                                                </code>
+                                                                            </softFormula>
+                                                                            <comments/>
+                                                                        </aprioriComputation>
+                                                                    </parameterValue>
+                                                                    <bsv>
+                                                                        <bsvType>exponential</bsvType>
+                                                                        <stdDevs>
+                                                                            <stdDev>0.629</stdDev>
+                                                                        </stdDevs>
+                                                                    </bsv>
+                                                                    <validation>
+                                                                        <errorMessage>
+                                                                            <text lang='en'>V shall be positive.</text>
+                                                                        </errorMessage>
+                                                                        <operation>
+                                                                            <softFormula>
+                                                                                <inputs>
+                                                                                    <input>
+                                                                                        <id>V</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                </inputs>
+                                                                                <code>
+                                                                                    <![CDATA[
+                                                                                    return V < 300.0 and V > 0.0;
+                                                                                                ]]>
+                                                                                    </code>
+                                                                                </softFormula>
+                                                                                <comments/>
+                                                                            </operation>
+                                                                            <comments/>
+                                                                        </validation>
+                                                                        <comments/>
+                                                                    </parameter>
+                                                                </parameters>
+                                                                <correlations>
+                                                                    <correlation>
+                                                                        <param1>CL</param1>
+                                                                        <param2>V</param2>
+                                                                        <value>0.798</value>
+                                                                        <comments>
+                                                                            <comment lang='fr'>coefficient de correlation correspondant à omega2=0.179</comment>
+                                                                        </comments>
+                                                                    </correlation>
+                                                                </correlations>
+                                                            </dispositionParameters>
+                                                        </analyteGroup>
+                                                    </analyteGroups>
+                                                    <formulationAndRoutes default='id0'>
+                                                        <formulationAndRoute>
+                                                            <formulationAndRouteId>id0</formulationAndRouteId>
+                                                            <formulation>parenteralSolution</formulation>
+                                                            <administrationName>champ libre</administrationName>
+                                                            <administrationRoute>oral</administrationRoute>
+                                                            <absorptionModel>extra</absorptionModel>
+                                                            <dosages>
+                                                                <analyteConversions>
+                                                                    <analyteConversion>
+                                                                        <analyteId>imatinib</analyteId>
+                                                                        <factor>1</factor>
+                                                                    </analyteConversion>
+                                                                </analyteConversions>
+                                                                <availableDoses>
+                                                                    <unit>mg</unit>
+                                                                    <default>
+                                                                        <standardValue>400</standardValue>
+                                                                    </default>
+                                                                    <rangeValues>
+                                                                        <from>
+                                                                            <standardValue>100</standardValue>
+                                                                        </from>
+                                                                        <to>
+                                                                            <standardValue>400</standardValue>
+                                                                        </to>
+                                                                        <step>
+                                                                            <standardValue>100</standardValue>
+                                                                        </step>
+                                                                    </rangeValues>
+                                                                    <fixedValues>
+                                                                        <value>600</value>
+                                                                        <value>800</value>
+                                                                    </fixedValues>
+                                                                </availableDoses>
+                                                                <availableIntervals>
+                                                                    <unit>h</unit>
+                                                                    <default>
+                                                                        <standardValue>24</standardValue>
+                                                                    </default>
+                                                                    <fixedValues>
+                                                                        <value>12</value>
+                                                                        <value>24</value>
+                                                                    </fixedValues>
+                                                                </availableIntervals>
+                                                                <comments/>
+                                                            </dosages>
+                                                            <absorptionParameters>
+                                                                <parameterSetAnalyteGroup>
+                                                                    <analyteGroupId>imatinib</analyteGroupId>
+                                                                    <absorptionModel>extra</absorptionModel>
+                                                                    <parameterSet>
+                                                                        <parameters>
+                                                                            <parameter>
+                                                                                <parameterId>F</parameterId>
+                                                                                <unit>%</unit>
+                                                                                <parameterValue>
+                                                                                    <standardValue>1</standardValue>
+                                                                                </parameterValue>
+                                                                                <bsv>
+                                                                                    <bsvType>none</bsvType>
+                                                                                </bsv>
+                                                                                <validation>
+                                                                                    <errorMessage>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
+                                                                                    </errorMessage>
+                                                                                    <operation>
+                                                                                        <softFormula>
+                                                                                            <inputs>
+                                                                                                <input>
+                                                                                                    <id>F</id>
+                                                                                                    <type>double</type>
+                                                                                                </input>
+                                                                                            </inputs>
+                                                                                            <code>
+                                                                                                <![CDATA[
+                                                                                                return F <= 1.0 and F > 0.0;
+                                                                                                            ]]>
+                                                                                                </code>
+                                                                                            </softFormula>
+                                                                                            <comments/>
+                                                                                        </operation>
+                                                                                        <comments/>
+                                                                                    </validation>
+                                                                                    <comments/>
+                                                                                </parameter>
+                                                                                <parameter>
+                                                                                    <parameterId>Ka</parameterId>
+                                                                                    <unit>h-1</unit>
+                                                                                    <parameterValue>
+                                                                                        <standardValue>0.609</standardValue>
+                                                                                    </parameterValue>
+                                                                                    <bsv>
+                                                                                        <bsvType>none</bsvType>
+                                                                                    </bsv>
+                                                                                    <validation>
+                                                                                        <errorMessage>
+                                                                                            <text lang='en'>No check on Ka now.</text>
+                                                                                        </errorMessage>
+                                                                                        <operation>
+                                                                                            <softFormula>
+                                                                                                <inputs>
+                                                                                                    <input>
+                                                                                                        <id>Ka</id>
+                                                                                                        <type>double</type>
+                                                                                                    </input>
+                                                                                                </inputs>
+                                                                                                <code>
+                                                                                                    <![CDATA[
+                                                                                                    return true;
+                                                                                                    ]]>
+                                                                                                </code>
+                                                                                            </softFormula>
+                                                                                            <comments/>
+                                                                                        </operation>
+                                                                                        <comments/>
+                                                                                    </validation>
+                                                                                    <comments/>
+                                                                                </parameter>
+                                                                            </parameters>
+                                                                            <correlations/>
+                                                                        </parameterSet>
+                                                                    </parameterSetAnalyteGroup>
+                                                                </absorptionParameters>
+                                                            </formulationAndRoute>
+                                                        </formulationAndRoutes>
+                                                        <timeConsiderations>
+                                                            <halfLife>
+                                                                <unit>h</unit>
+                                                                <duration>
+                                                                    <standardValue>12</standardValue>
+                                                                </duration>
+                                                                <multiplier>20</multiplier>
+                                                                <comments>
+                                                                    <comment lang='en'>TODO : Find the half life</comment>
+                                                                </comments>
+                                                            </halfLife>
+                                                            <outdatedMeasure>
+                                                                <unit>d</unit>
+                                                                <duration>
+                                                                    <standardValue>100</standardValue>
+                                                                </duration>
+                                                                <comments>
+                                                                    <comment lang='en'>TODO : This value is not set now</comment>
+                                                                </comments>
+                                                            </outdatedMeasure>
+                                                        </timeConsiderations>
+                                                        <comments/>
+                                                    </drugModel>
+                                                </model>)";
+
+        std::cout << _testName << std::endl;
+
+        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::vector<std::string> models = {modelString0, modelString1, modelString2};
+        setupEnv(queryString, models, query);
+        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+
+        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult0 = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult1 = xpertResult.getXpertRequestResults()[1];
+        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult2 = xpertResult.getXpertRequestResults()[2];
+
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
+        bestDrugModelSelector.getBestDrugModel(xpertRequestResult0);
+        bestDrugModelSelector.getBestDrugModel(xpertRequestResult1);
+        bestDrugModelSelector.getBestDrugModel(xpertRequestResult2);
+
+        fructose_assert_eq(xpertRequestResult0.shouldBeHandled(), false);
+        fructose_assert_eq(xpertRequestResult0.getErrorMessage(), "Best drug model found but covariate definitions dont't support requested language.");
+
+        fructose_assert_eq(xpertRequestResult1.shouldBeHandled(), false);
+        fructose_assert_eq(xpertRequestResult1.getErrorMessage(), "Best drug model found but covariate definitions dont't support requested language.");
+
+        fructose_assert_eq(xpertRequestResult2.shouldBeHandled(), false);
+        fructose_assert_eq(xpertRequestResult2.getErrorMessage(), "Best drug model found but covariate definitions dont't support requested language.");
+    }
+
+    /// \brief Checks that the CovariateResults warning contains the good translations,
+    ///        This test makes 2 request requiring french on 2 different drugs.
+    ///        Once the drug model support french once it only supports english.
+    /// \param _testName Name of the test
+    void getGoodCovariateWarningTranslation(const std::string& _testName)
+    {
+
+        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <query version="1.0"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+
+                                        <queryId>imatinib_2</queryId>
+                                        <clientId>124568</clientId>
+                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <language>en</language>
+
+                                        <drugTreatment>
+                                            <!-- All the information regarding the patient -->
+                                            <patient>
+                                                <covariates>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <date>2017-07-06T08:00:00</date>
+                                                        <value>700</value>
+                                                        <unit>kg</unit>
+                                                          <dataType>double</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                </covariates>
+                                            </patient>
+                                            <!-- List of the drugs informations we have concerning the patient -->
+                                            <drugs>
+                                                <!-- All the information regarding the drug -->
+                                                <drug>
+                                                    <drugId>imatinib0</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <!-- All the information regarding the treatment -->
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                            <dosageTimeRange>
+                                                                <start>2018-07-06T08:00:00</start>
+                                                                <end>2018-07-08T08:00:00</end>
+                                                                <dosage>
+                                                                    <dosageLoop>
+                                                                        <lastingDosage>
+                                                                            <interval>12:00:00</interval>
+                                                                            <dose>
+                                                                                <value>400</value>
+                                                                                <unit>mg</unit>
+                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                                                            </dose>
+                                                                            <formulationAndRoute>
+                                                                                <formulation>parenteralSolution</formulation>
+                                                                                <administrationName>foo bar</administrationName>
+                                                                                <administrationRoute>oral</administrationRoute>
+                                                                                <absorptionModel>extravascular</absorptionModel>
+                                                                            </formulationAndRoute>
+                                                                        </lastingDosage>
+                                                                    </dosageLoop>
+                                                                </dosage>
+                                                            </dosageTimeRange>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <!-- Samples history -->
+                                                    <samples>
+                                                    </samples>
+                                                    <!-- Personalised targets -->
+                                                    <targets>
+                                                    </targets>
+                                                </drug>
+                                                <drug>
+                                                    <drugId>imatinib1</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <!-- All the information regarding the treatment -->
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                            <dosageTimeRange>
+                                                                <start>2018-07-06T08:00:00</start>
+                                                                <end>2018-07-08T08:00:00</end>
+                                                                <dosage>
+                                                                    <dosageLoop>
+                                                                        <lastingDosage>
+                                                                            <interval>12:00:00</interval>
+                                                                            <dose>
+                                                                                <value>400</value>
+                                                                                <unit>mg</unit>
+                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                                                            </dose>
+                                                                            <formulationAndRoute>
+                                                                                <formulation>parenteralSolution</formulation>
+                                                                                <administrationName>foo bar</administrationName>
+                                                                                <administrationRoute>oral</administrationRoute>
+                                                                                <absorptionModel>extravascular</absorptionModel>
+                                                                            </formulationAndRoute>
+                                                                        </lastingDosage>
+                                                                    </dosageLoop>
+                                                                </dosage>
+                                                            </dosageTimeRange>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <!-- Samples history -->
+                                                    <samples>
+                                                    </samples>
+                                                    <!-- Personalised targets -->
+                                                    <targets>
+                                                    </targets>
+                                                </drug>
+                                            </drugs>
+                                        </drugTreatment>
+                                        <!-- List of the requests we want the server to take care of -->
+                                        <requests>
+                                            <requestXpert>
+                                                <drugId>imatinib0</drugId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>fr</language>
+                                                </output>
+                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
+                                                <options>
+                                                    <loadingOption>noLoadingDose</loadingOption>
+                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
+                                                    <targetExtractionOption>populationValues</targetExtractionOption>
+                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
+                                                </options>
+                                            </requestXpert>
+                                            <requestXpert>
+                                                <drugId>imatinib1</drugId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>fr</language>
+                                                </output>
+                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
+                                                <options>
+                                                    <loadingOption>noLoadingDose</loadingOption>
+                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
+                                                    <targetExtractionOption>populationValues</targetExtractionOption>
+                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
+                                                </options>
+                                            </requestXpert>
+                                        </requests>
+                                    </query>)";
+
+        std::string modelString0 = R"(<?xml version="1.0" encoding="UTF-8"?>
+                                    <model version='0.6' xsi:noNamespaceSchemaLocation='drugfile.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+                                        <history>
+                                            <revisions>
+                                                <revision>
+                                                    <revisionAction>creation</revisionAction>
+                                                    <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                                                    <institution>HEIG-VD // REDS</institution>
+                                                    <email>yann.thoma@heig-vd.ch</email>
+                                                    <date>2018-10-30</date>
+                                                    <comments>
+                                                        <comment lang='en'>This file is based on the first version of
+                                                                                                                                    imatinib : ch.heig-vd.ezechiel.imatinib.xml
+                                                                                                                    </comment>
+                                                    </comments>
+                                                </revision>
+                                                <revision>
+                                                    <revisionAction>modification</revisionAction>
+                                                    <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                                                    <institution>HEIG-VD // REDS</institution>
+                                                    <email>yann.thoma@heig-vd.ch</email>
+                                                    <date>2018-11-07</date>
+                                                    <comments>
+                                                        <comment lang='en'>Now the Ka and F parameters are absorption parameters.
+                                                                                                                    </comment>
+                                                    </comments>
+                                                </revision>
+                                            </revisions>
+                                        </history>
+                                        <head>
+                                            <drug>
+                                                <atcs>
+                                                    <atc>L01XE01</atc>
+                                                </atcs>
+                                                <activeSubstances>
+                                                    <activeSubstance>imatinib</activeSubstance>
+                                                </activeSubstances>
+                                                <drugName>
+                                                    <name lang='en'>Imatinib</name>
+                                                    <name lang='fr'>Imatinib</name>
+                                                </drugName>
+                                                <drugDescription>
+                                                    <desc lang='en'>TODO : Add a description here</desc>
+                                                </drugDescription>
+                                                <tdmStrategy>
+                                                    <text lang='en'>TODO : Add a TDM strategy</text>
+                                                </tdmStrategy>
+                                            </drug>
+                                            <study>
+                                                <studyName>
+                                                    <name lang='en'>Therapeutic Drug Monitoring of Imatinib.
+                                    Bayesian and Alternative Methods to Predict Trough Levels</name>
+                                                </studyName>
+                                                <studyAuthors>Verena Gotta, Nicolas Widmer, Michael Montemurro, Serge Leyvraz, Amina Haouala, Laurent A. Decosterd, Chantal Csajka and Thierry Buclin</studyAuthors>
+                                                <description>
+                                                    <desc lang='en'>Based on Widmer et al. Br J Clin Pharmacol 2006, validated by Gotta et al. Clin Pharamcokinet 2012. Adult, (Disease: CML and GIST, Age range: 20-88 yrs, Weight range: 44-110kg, AGP plasma concentration range: 0.4–2.0 g/L)</desc>
+                                                    <desc lang='fr'>Basé sur Widmer et al. Br J Clin Pharmacol 2006, validé par Gotta et al. Clin Pharamcokinet 2012</desc>
+                                                </description>
+                                                <references>
+                                                    <reference type='bibtex'>
+                                                        <![CDATA[@article{Gotta2012,
+                                                        author={Gotta, Verena
+                                                        and Widmer, Nicolas
+                                                        and Montemurro, Michael
+                                                        and Leyvraz, Serge
+                                                        and Haouala, Amina
+                                                        and Decosterd, Laurent A.
+                                                        and Csajka, Chantal
+                                                        and Buclin, Thierry},
+                                                        title={Therapeutic Drug Monitoring of Imatinib},
+                                                        journal={Clinical Pharmacokinetics},
+                                                        year={2012},
+                                                        month={Mar},
+                                                        day={01},
+                                                        volume={51},
+                                                        number={3},
+                                                        pages={187--201},
+                                                        abstract={The imatinib trough plasma concentration (Cmin) correlates with clinical response in cancer patients. Therapeutic drug monitoring (TDM) of plasma Cmin is therefore suggested. In practice, however, blood sampling for TDM is often not performed at trough. The corresponding measurement is thus only remotely informative about Cmin exposure.},
+                                                        issn={1179-1926},
+                                                        doi={10.2165/11596990-000000000-00000},
+                                                        url={https://doi.org/10.2165/11596990-000000000-00000}
+                                                        }
+                                    ]]>
+                                                    </reference>
+                                                </references>
+                                            </study>
+                                            <comments/>
+                                        </head>
+                                        <drugModel>
+                                            <drugId>imatinib0</drugId>
+                                            <drugModelId>ch.tucuxi.imatinib0.gotta2012</drugModelId>
+                                            <domain>
+                                                <description>
+                                                    <desc lang='en'>Adult, (Disease: CML and GIST, Age range: 20-88 yrs, Weight range: 44-110kg, AGP plasma concentration range: 0.4–2.0 g/L)</desc>
+                                                </description>
+                                                <constraints>
+                                                </constraints>
+                                            </domain>
+                                            <covariates>
+                                                <covariate>
+                                                    <covariateId>bodyweight</covariateId>
+                                                    <covariateName>
+                                                        <name lang='fr'>Poids total</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='fr'>Poids total du patient en kilogrammes</desc>
+                                                    </description>
+                                                    <unit>kg</unit>
+                                                    <covariateType>standard</covariateType>
+                                                    <dataType>double</dataType>
+                                                    <interpolationType>linear</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>d</unit>
+                                                      <value>30</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>70</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='fr'>Le poids doit etre dans compris entre [44,100].</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>bodyweight</id>
+                                                                        <type>double</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return ((bodyweight >= 44) && (bodyweight <= 110));
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                                <covariate>
+                                                    <covariateId>gist</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>GIST</name>
+                                                        <name lang='fr'>GIST</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Gastrointestinal stromal tumour</desc>
+                                                        <desc lang='fr'>Tumeur stromale gastro-intestinale</desc>
+                                                    </description>
+                                                    <unit>-</unit>
+                                                    <covariateType>standard</covariateType>
+                                                    <dataType>bool</dataType>
+                                                    <interpolationType>direct</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>y</unit>
+                                                      <value>1</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>0</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>Always correct.</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>gist</id>
+                                                                        <type>bool</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return true;
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                                <covariate>
+                                                    <covariateId>sex</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>Sex</name>
+                                                        <name lang='fr'>Sexe</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Sex of the patient</desc>
+                                                        <desc lang='fr'>Sexe du patient</desc>
+                                                    </description>
+                                                    <unit>-</unit>
+                                                    <covariateType>sex</covariateType>
+                                                    <dataType>double</dataType>
+                                                    <interpolationType>direct</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>y</unit>
+                                                      <value>1</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>0.5</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>sex</id>
+                                                                        <type>double</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return ((sex >= 0.0) && (sex <= 1.0));
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                                <covariate>
+                                                    <covariateId>age</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>Age</name>
+                                                        <name lang='fr'>Age</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Age of the patient, in years</desc>
+                                                        <desc lang='fr'>Âge du patient, en années</desc>
+                                                    </description>
+                                                    <unit>y</unit>
+                                                    <covariateType>ageInYears</covariateType>
+                                                    <dataType>double</dataType>
+                                                    <interpolationType>direct</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>y</unit>
+                                                      <value>1</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>50</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>age</id>
+                                                                        <type>double</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return ((age >= 20) && (age <= 88));
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                            </covariates>
+                                            <activeMoieties>
+                                                <activeMoiety>
+                                                    <activeMoietyId>imatinib</activeMoietyId>
+                                                    <activeMoietyName>
+                                                        <name lang='en'>Imatinib</name>
+                                                    </activeMoietyName>
+                                                    <unit>ug/l</unit>
+                                                    <analyteIdList>
+                                                        <analyteId>imatinib</analyteId>
+                                                    </analyteIdList>
+                                                    <analytesToMoietyFormula>
+                                                        <hardFormula>direct</hardFormula>
+                                                        <comments/>
+                                                    </analytesToMoietyFormula>
+                                                    <targets>
+                                                        <target>
+                                                            <targetType>residual</targetType>
+                                                            <targetValues>
+                                                                <unit>ug/l</unit>
+                                                                <min>
+                                                                    <standardValue>750</standardValue>
+                                                                </min>
+                                                                <max>
+                                                                    <standardValue>1500</standardValue>
+                                                                </max>
+                                                                <best>
+                                                                    <standardValue>1000</standardValue>
+                                                                </best>
+                                                                <toxicityAlarm>
+                                                                    <standardValue>10000.0</standardValue>
+                                                                </toxicityAlarm>
+                                                                <inefficacyAlarm>
+                                                                    <standardValue>0.0</standardValue>
+                                                                </inefficacyAlarm>
+                                                            </targetValues>
+                                                            <comments>
+                                                                <comment lang='en'>A Toxicity and inefficacyAlarm should be added</comment>
+                                                            </comments>
+                                                        </target>
+                                                    </targets>
+                                                </activeMoiety>
+                                            </activeMoieties>
+                                            <analyteGroups>
+                                                <analyteGroup>
+                                                    <groupId>imatinib</groupId>
+                                                    <pkModelId>linear.1comp.macro</pkModelId>
+                                                    <analytes>
+                                                        <analyte>
+                                                            <analyteId>imatinib</analyteId>
+                                                            <unit>ug/l</unit>
+                                                            <molarMass>
+                                                                <value>493.603</value>
+                                                                <unit>g/mol</unit>
+                                                            </molarMass>
+                                                            <description>
+                                                                <desc lang='en'>There is only a single analyte : imatinib.</desc>
+                                                            </description>
+                                                            <errorModel>
+                                                                <errorModelType>proportional</errorModelType>
+                                                                <sigmas>
+                                                                    <sigma>
+                                                                        <standardValue>0.3138</standardValue>
+                                                                    </sigma>
+                                                                </sigmas>
+                                                                <comments/>
+                                                            </errorModel>
+                                                            <comments/>
+                                                        </analyte>
+                                                    </analytes>
+                                                    <dispositionParameters>
+                                                        <parameters>
+                                                            <parameter>
+                                                                <parameterId>CL</parameterId>
+                                                                <unit>l/h</unit>
+                                                                <parameterValue>
+                                                                    <standardValue>14.3</standardValue>
+                                                                    <aprioriComputation>
+                                                                        <softFormula>
+                                                                            <inputs>
+                                                                                <input>
+                                                                                    <id>CL_population</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>bodyweight</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>age</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>gist</id>
+                                                                                    <type>bool</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>sex</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                            </inputs>
+                                                                            <code>
+                                                                                <![CDATA[
+                                                                                theta1 = CL_population;
+                                                                                theta4 = 5.42;
+                                                                                theta5 = 1.49;
+                                                                                theta6 = -5.81;
+                                                                                theta7 = -0.806;
+
+                                                                                MEANBW = 70;
+                                                                                FBW = (bodyweight - MEANBW) / MEANBW;
+
+                                                                                MEANAG = 50;
+                                                                                FAGE = (age - MEANAG) / MEANAG;
+
+                                                                                if (gist)
+                                                                                  PATH = 1;
+                                                                                else
+                                                                                  PATH = 0;
+
+                                                                                MALE = sex;
+
+                                                                                TVCL = theta1 + theta4 * FBW + theta5 * MALE-theta5 * (1-MALE) + theta6 * FAGE + theta7 * PATH - theta7 * (1 - PATH);
+
+                                                                                return TVCL;
+                                                                                                         ]]>
+                                                                            </code>
+                                                                        </softFormula>
+                                                                        <comments/>
+                                                                    </aprioriComputation>
+                                                                </parameterValue>
+                                                                <bsv>
+                                                                    <bsvType>exponential</bsvType>
+                                                                    <stdDevs>
+                                                                        <stdDev>0.356</stdDev>
+                                                                    </stdDevs>
+                                                                </bsv>
+                                                                <validation>
+                                                                    <errorMessage>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
+                                                                    </errorMessage>
+                                                                    <operation>
+                                                                        <softFormula>
+                                                                            <inputs>
+                                                                                <input>
+                                                                                    <id>CL</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                            </inputs>
+                                                                            <code>
+                                                                                <![CDATA[
+                                                                                return CL < 300.0 and CL > 0.0;
+                                                                                            ]]>
+                                                                                </code>
+                                                                            </softFormula>
+                                                                            <comments/>
+                                                                        </operation>
+                                                                        <comments/>
+                                                                    </validation>
+                                                                    <comments/>
+                                                                </parameter>
+                                                                <parameter>
+                                                                    <parameterId>V</parameterId>
+                                                                    <unit>l</unit>
+                                                                    <parameterValue>
+                                                                        <standardValue>347</standardValue>
+                                                                        <aprioriComputation>
+                                                                            <softFormula>
+                                                                                <inputs>
+                                                                                    <input>
+                                                                                        <id>V_population</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                    <input>
+                                                                                        <id>sex</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                </inputs>
+                                                                                <code>
+                                                                                    <![CDATA[
+                                                                                    theta2 = V_population;
+                                                                                    theta8 = 46.2;
+                                                                                    tvv = theta2 + theta8 * sex - theta8 * (1 - sex);
+                                                                                    return tvv;
+                                                                                                                                ]]>
+                                                                                </code>
+                                                                            </softFormula>
+                                                                            <comments/>
+                                                                        </aprioriComputation>
+                                                                    </parameterValue>
+                                                                    <bsv>
+                                                                        <bsvType>exponential</bsvType>
+                                                                        <stdDevs>
+                                                                            <stdDev>0.629</stdDev>
+                                                                        </stdDevs>
+                                                                    </bsv>
+                                                                    <validation>
+                                                                        <errorMessage>
+                                                                            <text lang='en'>V shall be positive.</text>
+                                                                        </errorMessage>
+                                                                        <operation>
+                                                                            <softFormula>
+                                                                                <inputs>
+                                                                                    <input>
+                                                                                        <id>V</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                </inputs>
+                                                                                <code>
+                                                                                    <![CDATA[
+                                                                                    return V < 300.0 and V > 0.0;
+                                                                                                ]]>
+                                                                                    </code>
+                                                                                </softFormula>
+                                                                                <comments/>
+                                                                            </operation>
+                                                                            <comments/>
+                                                                        </validation>
+                                                                        <comments/>
+                                                                    </parameter>
+                                                                </parameters>
+                                                                <correlations>
+                                                                    <correlation>
+                                                                        <param1>CL</param1>
+                                                                        <param2>V</param2>
+                                                                        <value>0.798</value>
+                                                                        <comments>
+                                                                            <comment lang='fr'>coefficient de correlation correspondant à omega2=0.179</comment>
+                                                                        </comments>
+                                                                    </correlation>
+                                                                </correlations>
+                                                            </dispositionParameters>
+                                                        </analyteGroup>
+                                                    </analyteGroups>
+                                                    <formulationAndRoutes default='id0'>
+                                                        <formulationAndRoute>
+                                                            <formulationAndRouteId>id0</formulationAndRouteId>
+                                                            <formulation>parenteralSolution</formulation>
+                                                            <administrationName>champ libre</administrationName>
+                                                            <administrationRoute>oral</administrationRoute>
+                                                            <absorptionModel>extra</absorptionModel>
+                                                            <dosages>
+                                                                <analyteConversions>
+                                                                    <analyteConversion>
+                                                                        <analyteId>imatinib</analyteId>
+                                                                        <factor>1</factor>
+                                                                    </analyteConversion>
+                                                                </analyteConversions>
+                                                                <availableDoses>
+                                                                    <unit>mg</unit>
+                                                                    <default>
+                                                                        <standardValue>400</standardValue>
+                                                                    </default>
+                                                                    <rangeValues>
+                                                                        <from>
+                                                                            <standardValue>100</standardValue>
+                                                                        </from>
+                                                                        <to>
+                                                                            <standardValue>400</standardValue>
+                                                                        </to>
+                                                                        <step>
+                                                                            <standardValue>100</standardValue>
+                                                                        </step>
+                                                                    </rangeValues>
+                                                                    <fixedValues>
+                                                                        <value>600</value>
+                                                                        <value>800</value>
+                                                                    </fixedValues>
+                                                                </availableDoses>
+                                                                <availableIntervals>
+                                                                    <unit>h</unit>
+                                                                    <default>
+                                                                        <standardValue>24</standardValue>
+                                                                    </default>
+                                                                    <fixedValues>
+                                                                        <value>12</value>
+                                                                        <value>24</value>
+                                                                    </fixedValues>
+                                                                </availableIntervals>
+                                                                <comments/>
+                                                            </dosages>
+                                                            <absorptionParameters>
+                                                                <parameterSetAnalyteGroup>
+                                                                    <analyteGroupId>imatinib</analyteGroupId>
+                                                                    <absorptionModel>extra</absorptionModel>
+                                                                    <parameterSet>
+                                                                        <parameters>
+                                                                            <parameter>
+                                                                                <parameterId>F</parameterId>
+                                                                                <unit>%</unit>
+                                                                                <parameterValue>
+                                                                                    <standardValue>1</standardValue>
+                                                                                </parameterValue>
+                                                                                <bsv>
+                                                                                    <bsvType>none</bsvType>
+                                                                                </bsv>
+                                                                                <validation>
+                                                                                    <errorMessage>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
+                                                                                    </errorMessage>
+                                                                                    <operation>
+                                                                                        <softFormula>
+                                                                                            <inputs>
+                                                                                                <input>
+                                                                                                    <id>F</id>
+                                                                                                    <type>double</type>
+                                                                                                </input>
+                                                                                            </inputs>
+                                                                                            <code>
+                                                                                                <![CDATA[
+                                                                                                return F <= 1.0 and F > 0.0;
+                                                                                                            ]]>
+                                                                                                </code>
+                                                                                            </softFormula>
+                                                                                            <comments/>
+                                                                                        </operation>
+                                                                                        <comments/>
+                                                                                    </validation>
+                                                                                    <comments/>
+                                                                                </parameter>
+                                                                                <parameter>
+                                                                                    <parameterId>Ka</parameterId>
+                                                                                    <unit>h-1</unit>
+                                                                                    <parameterValue>
+                                                                                        <standardValue>0.609</standardValue>
+                                                                                    </parameterValue>
+                                                                                    <bsv>
+                                                                                        <bsvType>none</bsvType>
+                                                                                    </bsv>
+                                                                                    <validation>
+                                                                                        <errorMessage>
+                                                                                            <text lang='en'>No check on Ka now.</text>
+                                                                                        </errorMessage>
+                                                                                        <operation>
+                                                                                            <softFormula>
+                                                                                                <inputs>
+                                                                                                    <input>
+                                                                                                        <id>Ka</id>
+                                                                                                        <type>double</type>
+                                                                                                    </input>
+                                                                                                </inputs>
+                                                                                                <code>
+                                                                                                    <![CDATA[
+                                                                                                    return true;
+                                                                                                    ]]>
+                                                                                                </code>
+                                                                                            </softFormula>
+                                                                                            <comments/>
+                                                                                        </operation>
+                                                                                        <comments/>
+                                                                                    </validation>
+                                                                                    <comments/>
+                                                                                </parameter>
+                                                                            </parameters>
+                                                                            <correlations/>
+                                                                        </parameterSet>
+                                                                    </parameterSetAnalyteGroup>
+                                                                </absorptionParameters>
+                                                            </formulationAndRoute>
+                                                        </formulationAndRoutes>
+                                                        <timeConsiderations>
+                                                            <halfLife>
+                                                                <unit>h</unit>
+                                                                <duration>
+                                                                    <standardValue>12</standardValue>
+                                                                </duration>
+                                                                <multiplier>20</multiplier>
+                                                                <comments>
+                                                                    <comment lang='en'>TODO : Find the half life</comment>
+                                                                </comments>
+                                                            </halfLife>
+                                                            <outdatedMeasure>
+                                                                <unit>d</unit>
+                                                                <duration>
+                                                                    <standardValue>100</standardValue>
+                                                                </duration>
+                                                                <comments>
+                                                                    <comment lang='en'>TODO : This value is not set now</comment>
+                                                                </comments>
+                                                            </outdatedMeasure>
+                                                        </timeConsiderations>
+                                                        <comments/>
+                                                    </drugModel>
+                                                </model>)";
+        std::string modelString1 = R"(<?xml version="1.0" encoding="UTF-8"?>
+                                    <model version='0.6' xsi:noNamespaceSchemaLocation='drugfile.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+                                        <history>
+                                            <revisions>
+                                                <revision>
+                                                    <revisionAction>creation</revisionAction>
+                                                    <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                                                    <institution>HEIG-VD // REDS</institution>
+                                                    <email>yann.thoma@heig-vd.ch</email>
+                                                    <date>2018-10-30</date>
+                                                    <comments>
+                                                        <comment lang='en'>This file is based on the first version of
+                                                                                                                                    imatinib : ch.heig-vd.ezechiel.imatinib.xml
+                                                                                                                    </comment>
+                                                    </comments>
+                                                </revision>
+                                                <revision>
+                                                    <revisionAction>modification</revisionAction>
+                                                    <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                                                    <institution>HEIG-VD // REDS</institution>
+                                                    <email>yann.thoma@heig-vd.ch</email>
+                                                    <date>2018-11-07</date>
+                                                    <comments>
+                                                        <comment lang='en'>Now the Ka and F parameters are absorption parameters.
+                                                                                                                    </comment>
+                                                    </comments>
+                                                </revision>
+                                            </revisions>
+                                        </history>
+                                        <head>
+                                            <drug>
+                                                <atcs>
+                                                    <atc>L01XE01</atc>
+                                                </atcs>
+                                                <activeSubstances>
+                                                    <activeSubstance>imatinib</activeSubstance>
+                                                </activeSubstances>
+                                                <drugName>
+                                                    <name lang='en'>Imatinib</name>
+                                                    <name lang='fr'>Imatinib</name>
+                                                </drugName>
+                                                <drugDescription>
+                                                    <desc lang='en'>TODO : Add a description here</desc>
+                                                </drugDescription>
+                                                <tdmStrategy>
+                                                    <text lang='en'>TODO : Add a TDM strategy</text>
+                                                </tdmStrategy>
+                                            </drug>
+                                            <study>
+                                                <studyName>
+                                                    <name lang='en'>Therapeutic Drug Monitoring of Imatinib.
+                                    Bayesian and Alternative Methods to Predict Trough Levels</name>
+                                                </studyName>
+                                                <studyAuthors>Verena Gotta, Nicolas Widmer, Michael Montemurro, Serge Leyvraz, Amina Haouala, Laurent A. Decosterd, Chantal Csajka and Thierry Buclin</studyAuthors>
+                                                <description>
+                                                    <desc lang='en'>Based on Widmer et al. Br J Clin Pharmacol 2006, validated by Gotta et al. Clin Pharamcokinet 2012. Adult, (Disease: CML and GIST, Age range: 20-88 yrs, Weight range: 44-110kg, AGP plasma concentration range: 0.4–2.0 g/L)</desc>
+                                                    <desc lang='fr'>Basé sur Widmer et al. Br J Clin Pharmacol 2006, validé par Gotta et al. Clin Pharamcokinet 2012</desc>
+                                                </description>
+                                                <references>
+                                                    <reference type='bibtex'>
+                                                        <![CDATA[@article{Gotta2012,
+                                                        author={Gotta, Verena
+                                                        and Widmer, Nicolas
+                                                        and Montemurro, Michael
+                                                        and Leyvraz, Serge
+                                                        and Haouala, Amina
+                                                        and Decosterd, Laurent A.
+                                                        and Csajka, Chantal
+                                                        and Buclin, Thierry},
+                                                        title={Therapeutic Drug Monitoring of Imatinib},
+                                                        journal={Clinical Pharmacokinetics},
+                                                        year={2012},
+                                                        month={Mar},
+                                                        day={01},
+                                                        volume={51},
+                                                        number={3},
+                                                        pages={187--201},
+                                                        abstract={The imatinib trough plasma concentration (Cmin) correlates with clinical response in cancer patients. Therapeutic drug monitoring (TDM) of plasma Cmin is therefore suggested. In practice, however, blood sampling for TDM is often not performed at trough. The corresponding measurement is thus only remotely informative about Cmin exposure.},
+                                                        issn={1179-1926},
+                                                        doi={10.2165/11596990-000000000-00000},
+                                                        url={https://doi.org/10.2165/11596990-000000000-00000}
+                                                        }
+                                    ]]>
+                                                    </reference>
+                                                </references>
+                                            </study>
+                                            <comments/>
+                                        </head>
+                                        <drugModel>
+                                            <drugId>imatinib1</drugId>
+                                            <drugModelId>ch.tucuxi.imatinib1.gotta2012</drugModelId>
+                                            <domain>
+                                                <description>
+                                                    <desc lang='en'>Adult, (Disease: CML and GIST, Age range: 20-88 yrs, Weight range: 44-110kg, AGP plasma concentration range: 0.4–2.0 g/L)</desc>
+                                                </description>
+                                                <constraints>
+                                                </constraints>
+                                            </domain>
+                                            <covariates>
+                                                <covariate>
+                                                    <covariateId>bodyweight</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>Total Body Weight</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Total body weight of patient, in kilogramms</desc>
+                                                    </description>
+                                                    <unit>kg</unit>
+                                                    <covariateType>standard</covariateType>
+                                                    <dataType>double</dataType>
+                                                    <interpolationType>linear</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>d</unit>
+                                                      <value>30</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>70</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>bodyweight</id>
+                                                                        <type>double</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return ((bodyweight >= 44) && (bodyweight <= 110));
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                                <covariate>
+                                                    <covariateId>gist</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>GIST</name>
+                                                        <name lang='fr'>GIST</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Gastrointestinal stromal tumour</desc>
+                                                        <desc lang='fr'>Tumeur stromale gastro-intestinale</desc>
+                                                    </description>
+                                                    <unit>-</unit>
+                                                    <covariateType>standard</covariateType>
+                                                    <dataType>bool</dataType>
+                                                    <interpolationType>direct</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>y</unit>
+                                                      <value>1</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>0</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>Always correct.</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>gist</id>
+                                                                        <type>bool</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return true;
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                                <covariate>
+                                                    <covariateId>sex</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>Sex</name>
+                                                        <name lang='fr'>Sexe</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Sex of the patient</desc>
+                                                        <desc lang='fr'>Sexe du patient</desc>
+                                                    </description>
+                                                    <unit>-</unit>
+                                                    <covariateType>sex</covariateType>
+                                                    <dataType>double</dataType>
+                                                    <interpolationType>direct</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>y</unit>
+                                                      <value>1</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>0.5</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>sex</id>
+                                                                        <type>double</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return ((sex >= 0.0) && (sex <= 1.0));
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                                <covariate>
+                                                    <covariateId>age</covariateId>
+                                                    <covariateName>
+                                                        <name lang='en'>Age</name>
+                                                        <name lang='fr'>Age</name>
+                                                    </covariateName>
+                                                    <description>
+                                                        <desc lang='en'>Age of the patient, in years</desc>
+                                                        <desc lang='fr'>Âge du patient, en années</desc>
+                                                    </description>
+                                                    <unit>y</unit>
+                                                    <covariateType>ageInYears</covariateType>
+                                                    <dataType>double</dataType>
+                                                    <interpolationType>direct</interpolationType>
+                                                    <refreshPeriod>
+                                                      <unit>y</unit>
+                                                      <value>1</value>
+                                                    </refreshPeriod>
+                                                    <covariateValue>
+                                                        <standardValue>50</standardValue>
+                                                    </covariateValue>
+                                                    <validation>
+                                                        <errorMessage>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
+                                                        </errorMessage>
+                                                        <operation>
+                                                            <softFormula>
+                                                                <inputs>
+                                                                    <input>
+                                                                        <id>age</id>
+                                                                        <type>double</type>
+                                                                    </input>
+                                                                </inputs>
+                                                                <code>
+                                                                    <![CDATA[return ((age >= 20) && (age <= 88));
+                                                                    ]]>
+                                                                </code>
+                                                            </softFormula>
+                                                            <comments/>
+                                                        </operation>
+                                                        <comments/>
+                                                    </validation>
+                                                    <comments/>
+                                                </covariate>
+                                            </covariates>
+                                            <activeMoieties>
+                                                <activeMoiety>
+                                                    <activeMoietyId>imatinib</activeMoietyId>
+                                                    <activeMoietyName>
+                                                        <name lang='en'>Imatinib</name>
+                                                    </activeMoietyName>
+                                                    <unit>ug/l</unit>
+                                                    <analyteIdList>
+                                                        <analyteId>imatinib</analyteId>
+                                                    </analyteIdList>
+                                                    <analytesToMoietyFormula>
+                                                        <hardFormula>direct</hardFormula>
+                                                        <comments/>
+                                                    </analytesToMoietyFormula>
+                                                    <targets>
+                                                        <target>
+                                                            <targetType>residual</targetType>
+                                                            <targetValues>
+                                                                <unit>ug/l</unit>
+                                                                <min>
+                                                                    <standardValue>750</standardValue>
+                                                                </min>
+                                                                <max>
+                                                                    <standardValue>1500</standardValue>
+                                                                </max>
+                                                                <best>
+                                                                    <standardValue>1000</standardValue>
+                                                                </best>
+                                                                <toxicityAlarm>
+                                                                    <standardValue>10000.0</standardValue>
+                                                                </toxicityAlarm>
+                                                                <inefficacyAlarm>
+                                                                    <standardValue>0.0</standardValue>
+                                                                </inefficacyAlarm>
+                                                            </targetValues>
+                                                            <comments>
+                                                                <comment lang='en'>A Toxicity and inefficacyAlarm should be added</comment>
+                                                            </comments>
+                                                        </target>
+                                                    </targets>
+                                                </activeMoiety>
+                                            </activeMoieties>
+                                            <analyteGroups>
+                                                <analyteGroup>
+                                                    <groupId>imatinib</groupId>
+                                                    <pkModelId>linear.1comp.macro</pkModelId>
+                                                    <analytes>
+                                                        <analyte>
+                                                            <analyteId>imatinib</analyteId>
+                                                            <unit>ug/l</unit>
+                                                            <molarMass>
+                                                                <value>493.603</value>
+                                                                <unit>g/mol</unit>
+                                                            </molarMass>
+                                                            <description>
+                                                                <desc lang='en'>There is only a single analyte : imatinib.</desc>
+                                                            </description>
+                                                            <errorModel>
+                                                                <errorModelType>proportional</errorModelType>
+                                                                <sigmas>
+                                                                    <sigma>
+                                                                        <standardValue>0.3138</standardValue>
+                                                                    </sigma>
+                                                                </sigmas>
+                                                                <comments/>
+                                                            </errorModel>
+                                                            <comments/>
+                                                        </analyte>
+                                                    </analytes>
+                                                    <dispositionParameters>
+                                                        <parameters>
+                                                            <parameter>
+                                                                <parameterId>CL</parameterId>
+                                                                <unit>l/h</unit>
+                                                                <parameterValue>
+                                                                    <standardValue>14.3</standardValue>
+                                                                    <aprioriComputation>
+                                                                        <softFormula>
+                                                                            <inputs>
+                                                                                <input>
+                                                                                    <id>CL_population</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>bodyweight</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>age</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>gist</id>
+                                                                                    <type>bool</type>
+                                                                                </input>
+                                                                                <input>
+                                                                                    <id>sex</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                            </inputs>
+                                                                            <code>
+                                                                                <![CDATA[
+                                                                                theta1 = CL_population;
+                                                                                theta4 = 5.42;
+                                                                                theta5 = 1.49;
+                                                                                theta6 = -5.81;
+                                                                                theta7 = -0.806;
+
+                                                                                MEANBW = 70;
+                                                                                FBW = (bodyweight - MEANBW) / MEANBW;
+
+                                                                                MEANAG = 50;
+                                                                                FAGE = (age - MEANAG) / MEANAG;
+
+                                                                                if (gist)
+                                                                                  PATH = 1;
+                                                                                else
+                                                                                  PATH = 0;
+
+                                                                                MALE = sex;
+
+                                                                                TVCL = theta1 + theta4 * FBW + theta5 * MALE-theta5 * (1-MALE) + theta6 * FAGE + theta7 * PATH - theta7 * (1 - PATH);
+
+                                                                                return TVCL;
+                                                                                                         ]]>
+                                                                            </code>
+                                                                        </softFormula>
+                                                                        <comments/>
+                                                                    </aprioriComputation>
+                                                                </parameterValue>
+                                                                <bsv>
+                                                                    <bsvType>exponential</bsvType>
+                                                                    <stdDevs>
+                                                                        <stdDev>0.356</stdDev>
+                                                                    </stdDevs>
+                                                                </bsv>
+                                                                <validation>
+                                                                    <errorMessage>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
+                                                                    </errorMessage>
+                                                                    <operation>
+                                                                        <softFormula>
+                                                                            <inputs>
+                                                                                <input>
+                                                                                    <id>CL</id>
+                                                                                    <type>double</type>
+                                                                                </input>
+                                                                            </inputs>
+                                                                            <code>
+                                                                                <![CDATA[
+                                                                                return CL < 300.0 and CL > 0.0;
+                                                                                            ]]>
+                                                                                </code>
+                                                                            </softFormula>
+                                                                            <comments/>
+                                                                        </operation>
+                                                                        <comments/>
+                                                                    </validation>
+                                                                    <comments/>
+                                                                </parameter>
+                                                                <parameter>
+                                                                    <parameterId>V</parameterId>
+                                                                    <unit>l</unit>
+                                                                    <parameterValue>
+                                                                        <standardValue>347</standardValue>
+                                                                        <aprioriComputation>
+                                                                            <softFormula>
+                                                                                <inputs>
+                                                                                    <input>
+                                                                                        <id>V_population</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                    <input>
+                                                                                        <id>sex</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                </inputs>
+                                                                                <code>
+                                                                                    <![CDATA[
+                                                                                    theta2 = V_population;
+                                                                                    theta8 = 46.2;
+                                                                                    tvv = theta2 + theta8 * sex - theta8 * (1 - sex);
+                                                                                    return tvv;
+                                                                                                                                ]]>
+                                                                                </code>
+                                                                            </softFormula>
+                                                                            <comments/>
+                                                                        </aprioriComputation>
+                                                                    </parameterValue>
+                                                                    <bsv>
+                                                                        <bsvType>exponential</bsvType>
+                                                                        <stdDevs>
+                                                                            <stdDev>0.629</stdDev>
+                                                                        </stdDevs>
+                                                                    </bsv>
+                                                                    <validation>
+                                                                        <errorMessage>
+                                                                            <text lang='en'>V shall be positive.</text>
+                                                                        </errorMessage>
+                                                                        <operation>
+                                                                            <softFormula>
+                                                                                <inputs>
+                                                                                    <input>
+                                                                                        <id>V</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                </inputs>
+                                                                                <code>
+                                                                                    <![CDATA[
+                                                                                    return V < 300.0 and V > 0.0;
+                                                                                                ]]>
+                                                                                    </code>
+                                                                                </softFormula>
+                                                                                <comments/>
+                                                                            </operation>
+                                                                            <comments/>
+                                                                        </validation>
+                                                                        <comments/>
+                                                                    </parameter>
+                                                                </parameters>
+                                                                <correlations>
+                                                                    <correlation>
+                                                                        <param1>CL</param1>
+                                                                        <param2>V</param2>
+                                                                        <value>0.798</value>
+                                                                        <comments>
+                                                                            <comment lang='fr'>coefficient de correlation correspondant à omega2=0.179</comment>
+                                                                        </comments>
+                                                                    </correlation>
+                                                                </correlations>
+                                                            </dispositionParameters>
+                                                        </analyteGroup>
+                                                    </analyteGroups>
+                                                    <formulationAndRoutes default='id0'>
+                                                        <formulationAndRoute>
+                                                            <formulationAndRouteId>id0</formulationAndRouteId>
+                                                            <formulation>parenteralSolution</formulation>
+                                                            <administrationName>champ libre</administrationName>
+                                                            <administrationRoute>oral</administrationRoute>
+                                                            <absorptionModel>extra</absorptionModel>
+                                                            <dosages>
+                                                                <analyteConversions>
+                                                                    <analyteConversion>
+                                                                        <analyteId>imatinib</analyteId>
+                                                                        <factor>1</factor>
+                                                                    </analyteConversion>
+                                                                </analyteConversions>
+                                                                <availableDoses>
+                                                                    <unit>mg</unit>
+                                                                    <default>
+                                                                        <standardValue>400</standardValue>
+                                                                    </default>
+                                                                    <rangeValues>
+                                                                        <from>
+                                                                            <standardValue>100</standardValue>
+                                                                        </from>
+                                                                        <to>
+                                                                            <standardValue>400</standardValue>
+                                                                        </to>
+                                                                        <step>
+                                                                            <standardValue>100</standardValue>
+                                                                        </step>
+                                                                    </rangeValues>
+                                                                    <fixedValues>
+                                                                        <value>600</value>
+                                                                        <value>800</value>
+                                                                    </fixedValues>
+                                                                </availableDoses>
+                                                                <availableIntervals>
+                                                                    <unit>h</unit>
+                                                                    <default>
+                                                                        <standardValue>24</standardValue>
+                                                                    </default>
+                                                                    <fixedValues>
+                                                                        <value>12</value>
+                                                                        <value>24</value>
+                                                                    </fixedValues>
+                                                                </availableIntervals>
+                                                                <comments/>
+                                                            </dosages>
+                                                            <absorptionParameters>
+                                                                <parameterSetAnalyteGroup>
+                                                                    <analyteGroupId>imatinib</analyteGroupId>
+                                                                    <absorptionModel>extra</absorptionModel>
+                                                                    <parameterSet>
+                                                                        <parameters>
+                                                                            <parameter>
+                                                                                <parameterId>F</parameterId>
+                                                                                <unit>%</unit>
+                                                                                <parameterValue>
+                                                                                    <standardValue>1</standardValue>
+                                                                                </parameterValue>
+                                                                                <bsv>
+                                                                                    <bsvType>none</bsvType>
+                                                                                </bsv>
+                                                                                <validation>
+                                                                                    <errorMessage>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
+                                                                                    </errorMessage>
+                                                                                    <operation>
+                                                                                        <softFormula>
+                                                                                            <inputs>
+                                                                                                <input>
+                                                                                                    <id>F</id>
+                                                                                                    <type>double</type>
+                                                                                                </input>
+                                                                                            </inputs>
+                                                                                            <code>
+                                                                                                <![CDATA[
+                                                                                                return F <= 1.0 and F > 0.0;
+                                                                                                            ]]>
+                                                                                                </code>
+                                                                                            </softFormula>
+                                                                                            <comments/>
+                                                                                        </operation>
+                                                                                        <comments/>
+                                                                                    </validation>
+                                                                                    <comments/>
+                                                                                </parameter>
+                                                                                <parameter>
+                                                                                    <parameterId>Ka</parameterId>
+                                                                                    <unit>h-1</unit>
+                                                                                    <parameterValue>
+                                                                                        <standardValue>0.609</standardValue>
+                                                                                    </parameterValue>
+                                                                                    <bsv>
+                                                                                        <bsvType>none</bsvType>
+                                                                                    </bsv>
+                                                                                    <validation>
+                                                                                        <errorMessage>
+                                                                                            <text lang='en'>No check on Ka now.</text>
+                                                                                        </errorMessage>
+                                                                                        <operation>
+                                                                                            <softFormula>
+                                                                                                <inputs>
+                                                                                                    <input>
+                                                                                                        <id>Ka</id>
+                                                                                                        <type>double</type>
+                                                                                                    </input>
+                                                                                                </inputs>
+                                                                                                <code>
+                                                                                                    <![CDATA[
+                                                                                                    return true;
+                                                                                                    ]]>
+                                                                                                </code>
+                                                                                            </softFormula>
+                                                                                            <comments/>
+                                                                                        </operation>
+                                                                                        <comments/>
+                                                                                    </validation>
+                                                                                    <comments/>
+                                                                                </parameter>
+                                                                            </parameters>
+                                                                            <correlations/>
+                                                                        </parameterSet>
+                                                                    </parameterSetAnalyteGroup>
+                                                                </absorptionParameters>
+                                                            </formulationAndRoute>
+                                                        </formulationAndRoutes>
+                                                        <timeConsiderations>
+                                                            <halfLife>
+                                                                <unit>h</unit>
+                                                                <duration>
+                                                                    <standardValue>12</standardValue>
+                                                                </duration>
+                                                                <multiplier>20</multiplier>
+                                                                <comments>
+                                                                    <comment lang='en'>TODO : Find the half life</comment>
+                                                                </comments>
+                                                            </halfLife>
+                                                            <outdatedMeasure>
+                                                                <unit>d</unit>
+                                                                <duration>
+                                                                    <standardValue>100</standardValue>
+                                                                </duration>
+                                                                <comments>
+                                                                    <comment lang='en'>TODO : This value is not set now</comment>
+                                                                </comments>
+                                                            </outdatedMeasure>
+                                                        </timeConsiderations>
+                                                        <comments/>
+                                                    </drugModel>
+                                                </model>)";
+
+
+        std::cout << _testName << std::endl;
+
+        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::vector<std::string> models = {modelString0, modelString1};
+        setupEnv(queryString, models, query);
+        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+
+        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult0 = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult1 = xpertResult.getXpertRequestResults()[1];
+
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
+        bestDrugModelSelector.getBestDrugModel(xpertRequestResult0);
+        bestDrugModelSelector.getBestDrugModel(xpertRequestResult1);
+
+        fructose_assert_eq(xpertRequestResult0.shouldBeHandled(), true);
+        fructose_assert_eq(xpertRequestResult0.getErrorMessage(), "");
+        fructose_assert_eq(xpertRequestResult0.getCovariateResults()[1].getWarning(), "Le poids doit etre dans compris entre [44,100].");
+
+        fructose_assert_eq(xpertRequestResult1.shouldBeHandled(), true);
+        fructose_assert_eq(xpertRequestResult1.getErrorMessage(), "");
+        fructose_assert_eq(xpertRequestResult1.getCovariateResults()[1].getWarning(), "The body weight shall be in the interval [44,100].");
+
+
+    }
+
 
     /// \brief Check that the CovariateResult are correctly set when a valid model is found.
     ///        Some coariates are multiple times, some other not even once.
@@ -14200,7 +17904,6 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                         <requests>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -14338,7 +18041,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The body weight shall be in the interval [44,100].</text>
+                                                            <text lang='en'>The body weight shall be in the interval [44,100].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -14382,7 +18085,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>Always correct.</text>
+                                                            <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -14426,7 +18129,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                            <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -14470,7 +18173,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
-                                                            <text lang='fr'>The age shall be in the interval [20,88].</text>
+                                                            <text lang='en'>The age shall be in the interval [20,88].</text>
                                                         </errorMessage>
                                                         <operation>
                                                             <softFormula>
@@ -14630,7 +18333,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                 </bsv>
                                                                 <validation>
                                                                     <errorMessage>
-                                                                        <text lang='fr'>Clearance shall be in the range [0, 300].</text>
+                                                                        <text lang='en'>Clearance shall be in the range [0, 300].</text>
                                                                     </errorMessage>
                                                                     <operation>
                                                                         <softFormula>
@@ -14689,7 +18392,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                     </bsv>
                                                                     <validation>
                                                                         <errorMessage>
-                                                                            <text lang='fr'>V shall be positive.</text>
+                                                                            <text lang='en'>V shall be positive.</text>
                                                                         </errorMessage>
                                                                         <operation>
                                                                             <softFormula>
@@ -14789,7 +18492,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                 </bsv>
                                                                                 <validation>
                                                                                     <errorMessage>
-                                                                                        <text lang='fr'>F shall be in the interval [0,1].</text>
+                                                                                        <text lang='en'>F shall be in the interval [0,1].</text>
                                                                                     </errorMessage>
                                                                                     <operation>
                                                                                         <softFormula>
@@ -14822,7 +18525,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                                                                     </bsv>
                                                                                     <validation>
                                                                                         <errorMessage>
-                                                                                            <text lang='fr'>No check on Ka now.</text>
+                                                                                            <text lang='en'>No check on Ka now.</text>
                                                                                         </errorMessage>
                                                                                         <operation>
                                                                                             <softFormula>
@@ -14885,7 +18588,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
+        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
@@ -14911,7 +18614,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         fructose_assert_eq(results[2].getValue(), "150000");
         fructose_assert_eq(results[2].getUnit().toString(), "g");
         fructose_assert_eq(results[2].getType() == Tucuxi::XpertResult::CovariateType::Patient, true);
-        fructose_assert_eq(results[2].getWarning(), "Domain error");
+        fructose_assert_eq(results[2].getWarning(), "The body weight shall be in the interval [44,100].");
 
         fructose_assert_eq(results[3].getSource()->getId(), "gist");
         fructose_assert_eq(results[3].getValue(), "0.000000");

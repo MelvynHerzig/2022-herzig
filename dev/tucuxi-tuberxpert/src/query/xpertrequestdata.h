@@ -88,7 +88,6 @@ public:
 
     /// \brief XpertRequestData constructor.
     /// \param _drugID Drug targeted.
-    /// \param _localComputation Should the computation be executed locally?
     /// \param _outputFormat Output format.
     /// \param _outputLang Output language.
     /// \param _adjustmentTime Time at which the adjustment take place.
@@ -98,7 +97,6 @@ public:
     /// \param _formulationAndRouteSelectionOption Selection of the formulation and route options
     XpertRequestData(
             const std::string& _drugID,
-            bool _localComputation,
             OutputFormat _outputFormat,
             OutputLang _outputLang,
             Common::DateTime _adjustmentTime,
@@ -112,10 +110,6 @@ public:
     /// \brief Gets the drug id to adjust.
     /// \return Drug identifier.
     std::string getDrugID() const;
-
-    /// \brief Gets if computation should be launch locally.
-    /// \return True if computation is local otherwise false.
-    bool getLocalComputation() const;
 
     /// \brief Gets the output format.
     /// \return Output format.
@@ -148,9 +142,6 @@ public:
 protected:
     /// \brief Targeted drug to use tuberXpert.
     std::string m_drugID;
-
-    /// \brief Should we execute the computation locally?
-    bool m_localComputation;
 
     /// \brief Output format.
     OutputFormat m_outputFormat;

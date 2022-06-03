@@ -195,7 +195,6 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
                                         <requests>
                                             <requestXpert>
                                                 <drugId>rifampicin</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -210,7 +209,6 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
                                             </requestXpert>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -422,7 +420,6 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
                                         <requests>
                                             <requestXpert>
                                                 <drugId>rifampicin</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
@@ -437,7 +434,6 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
                                             </requestXpert>
                                             <requestXpert>
                                                 <drugId>imatinib</drugId>
-                                                <localComputation>true</localComputation>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>

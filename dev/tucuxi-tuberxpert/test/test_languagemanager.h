@@ -107,22 +107,6 @@ struct TestLanguageManager : public fructose::test_base<TestLanguageManager>
         fructose_assert_eq(lm.translate("world"), "World");
         fructose_assert_eq(lm.translate("unknown key"), lm.s_defaultTranslation);
     }
-
-    /// \brief Checks the filename returned by computeLanguageFileName
-    /// \param _testName Name of the test
-    void computeLanguageFileName(const std::string& _testName)
-    {
-
-        std::cout << _testName << std::endl;
-
-        Tucuxi::XpertLanguage::LanguageManager& lm = Tucuxi::XpertLanguage::LanguageManager::getInstance();
-
-        // Test translate
-        // world key exists and return World, but "unknown key" is not part of test.xml
-        fructose_assert_eq(lm.computeLanguageFileName(Tucuxi::XpertQuery::OutputLang::ENGLISH), "en.xml");
-        fructose_assert_eq(lm.computeLanguageFileName(Tucuxi::XpertQuery::OutputLang::FRENCH), "fr.xml");
-        fructose_assert_exception(lm.computeLanguageFileName(Tucuxi::XpertQuery::OutputLang(-1)), Tucuxi::XpertLanguage::LanguageException);
-    }
 };
 
 #endif // TEST_LANGUAGEMANAGER_H

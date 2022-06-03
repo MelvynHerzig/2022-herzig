@@ -31,7 +31,7 @@
 			<xs:complexType>
 		        <xs:sequence>
 				  	<xs:element name="requestXpert" type="requestXpertType" minOccurs="1" maxOccurs="unbounded"/>	
-		          	<xs:element name="request" type="requestType" maxOccurs="unbounded" />
+		          	<xs:element name="request" type="requestType" minOccurs="0" maxOccurs="unbounded" />
 		        </xs:sequence>
 			</xs:complexType>
 		</xs:element>
@@ -70,7 +70,15 @@
 		<xs:element name="clinicalData" minOccurs="0">
 			<xs:complexType>
 				<xs:sequence>
-					<xs:any processContents="skip" maxOccurs="unbounded" />
+					<xs:element name="clinicalDataEntry" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="xs:string">
+									<xs:attribute name="key" use="required" type="xs:string"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
 				</xs:sequence>
 			</xs:complexType>
 		</xs:element>
@@ -689,7 +697,6 @@ with the DosageHistory class and AbstractDosage subclasses -->
 <xs:complexType name="requestXpertType">
 	<xs:sequence>
 		<xs:element name="drugId" type="xs:string" />
-		<xs:element name="localComputation" type="xs:boolean"/>
 		<xs:element name="output">
 			<xs:complexType>
 				<xs:sequence>
