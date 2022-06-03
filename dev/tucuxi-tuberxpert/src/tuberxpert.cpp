@@ -182,7 +182,7 @@ int main(int argc, char** argv)
         }
 
         /**************************************************************
-         *                  Load the translation file                 *
+         *                Loading the translation file                *
          * ************************************************************/
 
         logHelper.info("\nLoading translation file...");

@@ -9,3 +9,5 @@ node_modules
 
 *.log
 .qmake.stash
+
+dev/build-tucuxi-tuberxpert-Desktop_Qt_6_2_3_MinGW_64_bit-Debug/
