@@ -215,7 +215,7 @@ int main(int argc, char** argv)
          *                       Model selection                      *
          * ************************************************************/
 
-        logHelper.info("\nSelecting drug model...");
+        logHelper.info("Selecting drug model...");
 
         Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector;
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
@@ -227,11 +227,13 @@ int main(int argc, char** argv)
             continue;
         }
 
+        logHelper.info("Drug model selected: " + xpertRequestResult.getDrugModel()->getDrugModelId());
+
         /**************************************************************
          *                       Dosages checking                     *
          * ************************************************************/
 
-        logHelper.info("\nChecking dosages...");
+        logHelper.info("Checking dosages...");
 
         Tucuxi::XpertResult::DoseValidator doseValidator;
         doseValidator.getDoseValidations(xpertRequestResult);
@@ -242,6 +244,13 @@ int main(int argc, char** argv)
             ++nbUnfulfilledRequest;
             continue;
         }
+
+        logHelper.info("Dosages successfully validated.");
+
+
+        /**************************************************************
+         *                       Samples checking                     *
+         * ************************************************************/
     }
 
     logHelper.info("Tuberxpert console application is exiting...");

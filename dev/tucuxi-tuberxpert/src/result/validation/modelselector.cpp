@@ -191,6 +191,7 @@ unsigned BestDrugModelSelector::computeScore(const Core::PatientVariates& _patie
                    Core::Value newVal = 0;
                    switch (idToDefinitionFiltered["age"]->getType()) {
                    case Core::CovariateType::AgeInDays:
+                       // Date now mettre possiblité de choisir
                        newVal = static_cast<double>(Common::Utils::dateDiffInDays(birthdate, Common::DateTime::now()));
                        break;
                    case Core::CovariateType::AgeInWeeks:

@@ -3,7 +3,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="dictionary.xsd">
     
+    <!-- Dosages -->
     <entry key="maximum_dosage_warning">Dosage maximum recommandé dépassé:</entry>
     <entry key="minimum_dosage_warning">Dosage minimum recommandé dépassé:</entry>
+
+    <!-- Samples -->
+    <entry key="population_below">de la population est en dessous de cette mesure</entry>
+    <entry key="population_above">de la population est en dessus de cette mesure</entry>
 
 </dictionary>
