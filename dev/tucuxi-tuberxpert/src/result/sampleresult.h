@@ -14,13 +14,13 @@ namespace XpertResult {
 class SampleResult : public AbstractResult<Core::Sample>
 {
 public:
-    SampleResult(const Core::Sample* _sample, unsigned _percentile, const std::string& _warning);
+    SampleResult(const Core::Sample* _sample, unsigned _percentile);
 
     WarningLevel getWarningLevel() const;
 
     unsigned getPercentile() const;
 
-    static bool computeWarning(unsigned _percentile);
+    static std::string computeWarning(unsigned _percentile);
 
 protected:
 

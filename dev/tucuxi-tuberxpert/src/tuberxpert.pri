@@ -13,6 +13,7 @@ HEADERS += \
     $$PWD/result/sampleresult.h \
     $$PWD/result/validation/dosevalidator.h \
     $$PWD/result/validation/modelselector.h \
+    $$PWD/result/validation/samplevalidator.h \
     $$PWD/result/xpertrequestresult.h \
     $$PWD/result/xpertresult.h \
     $$PWD/utils/xpertutils.h \
@@ -31,6 +32,7 @@ SOURCES += \
     $$PWD/result/sampleresult.cpp \
     $$PWD/result/validation/dosevalidator.cpp \
     $$PWD/result/validation/modelselector.cpp \
+    $$PWD/result/validation/samplevalidator.cpp \
     $$PWD/result/xpertrequestresult.cpp \
     $$PWD/result/xpertresult.cpp \
     $$PWD/utils/xpertutils.cpp \

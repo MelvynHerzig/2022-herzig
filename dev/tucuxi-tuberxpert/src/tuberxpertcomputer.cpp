@@ -12,6 +12,7 @@
 #include "result/xpertresult.h"
 #include "result/validation/modelselector.h"
 #include "result/validation/dosevalidator.h"
+#include "result/validation/samplevalidator.h"
 
 #include "utils/xpertutils.h"
 
@@ -151,6 +152,20 @@ ComputingStatus TuberXpertComputer::compute(
         /**************************************************************
          *                       Samples checking                     *
          * ************************************************************/
+
+        logHelper.info("Checking samples...");
+
+        XpertResult::SampleValidator sampleValidator;
+        sampleValidator.getSampleValidations(xpertRequestResult);
+
+        // Check if model selection was successfull
+        if (xpertRequestResult.shouldBeHandled() == false) {
+            logHelper.error(xpertRequestResult.getErrorMessage());
+            ++nbUnfulfilledRequest;
+            continue;
+        }
+
+        logHelper.info("Samples successfully validated.");
     }
 
     pCmpMgr->unregisterComponent("DrugModelRepository");
