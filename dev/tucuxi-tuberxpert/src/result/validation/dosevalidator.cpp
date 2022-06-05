@@ -61,8 +61,8 @@ void DoseValidator::checkDoses(const Core::DosageTimeRange& _timeRange,
 }
 
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
-#define TRY_CHECK(Type)                                                                                           \
-    if (dynamic_cast<const Tucuxi::Core::Type*>(&_dosage)) {                                                      \
+#define TRY_CHECK(Type)                                                                                       \
+    if (dynamic_cast<const Tucuxi::Core::Type*>(&_dosage)) {                                                  \
     checkDoses(*dynamic_cast<const Tucuxi::Core::Type*>(&_dosage), _modelFormulationAndRoutes, _doseResults); \
 }
 

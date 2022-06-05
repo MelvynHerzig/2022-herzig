@@ -64,6 +64,11 @@ void XpertRequestResult::setDoseResults(std::map<const Core::SingleDose*, DoseRe
     m_doseResults = _newDoseResults;
 }
 
+void XpertRequestResult::setSampleResults(std::map<const Core::Sample*, SampleResult>&& _newSampleResults)
+{
+    m_sampleResults = _newSampleResults;
+}
+
 bool XpertRequestResult::shouldBeHandled() const
 {
     return m_errorMessage == "";

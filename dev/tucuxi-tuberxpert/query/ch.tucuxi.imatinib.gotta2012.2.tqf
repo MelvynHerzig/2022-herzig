@@ -49,7 +49,7 @@
                                     <lastingDosage>
                                         <interval>12:00:00</interval>
                                         <dose>
-                                            <value>40000</value>
+                                            <value>400</value>
                                             <unit>mg</unit>
                                             <infusionTimeInMinutes>60</infusionTimeInMinutes>
                                         </dose>
@@ -69,7 +69,7 @@
                 <samples>
                     <sample>
                         <sampleId>123456</sampleId>
-                        <sampleDate>2018-07-07T06:00:00</sampleDate>
+                        <sampleDate>2018-07-07T06:00:30</sampleDate>
                         <concentrations>
                             <concentration>
                                 <analyteId>imatinib</analyteId>
@@ -84,7 +84,7 @@
                         <concentrations>
                             <concentration>
                                 <analyteId>imatinib</analyteId>
-                                <value>0.6</value>
+                                <value>10.6</value>
                                 <unit>mg/l</unit>
                             </concentration>
                         </concentrations>

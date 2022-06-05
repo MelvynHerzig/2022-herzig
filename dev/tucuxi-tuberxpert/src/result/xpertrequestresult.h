@@ -77,7 +77,7 @@ public:
     /// \param _newDoseResults DoseResult map to retrieve.
     void setDoseResults(std::map<const Core::SingleDose*, DoseResult>&& _newDoseResults);
 
-    setSampleResults(std::map<const Core::Sample*, SampleResult>&& _newSampleResults);
+    void setSampleResults(std::map<const Core::Sample*, SampleResult>&& _newSampleResults);
 
     /// \brief Checks if the XpertRequestResult should go to next pipeline step.
     /// \return True if no problem was detected until the call otherwise false.
