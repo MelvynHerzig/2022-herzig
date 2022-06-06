@@ -28,6 +28,10 @@
 #include "test_dosevalidator.h"
 #endif
 
+#if defined(test_samplevalidator)
+#include "test_samplevalidator.h"
+#endif
+
 
 using namespace std;
 
@@ -218,6 +222,27 @@ int main(int argc, char** argv)
         exit(1);
     } else {
         std::cout << "Dose validator tests succeeded" << std::endl << std::endl;
+    }
+#endif
+
+    /***********************************************************
+     *                    SampleValidator                      *
+     ***********************************************************/
+
+#if defined(test_samplevalidator)
+    TestSampleValidator sampleValidatorTests;
+
+    sampleValidatorTests.add_test("Get warnings for a given position over 100 percentiles.", &TestSampleValidator::warningForPositionOver100Percentiles);
+    sampleValidatorTests.add_test("Get some positions over 100 percentile groups.", &TestSampleValidator::findTheGoodPosOver100PercentileGroups);
+    sampleValidatorTests.add_test("Get an exception when the sample unit cannot be converted.", &TestSampleValidator::getExceptionUnitConversion);
+    sampleValidatorTests.add_test("Get an exception when the sample date cannot be found.", &TestSampleValidator::getExceptionDateNotFound);
+
+    res = sampleValidatorTests.run(argc, argv);
+    if (res != 0) {
+        std::cout << "Sample validator tests failed" << std::endl << std::endl;
+        exit(1);
+    } else {
+        std::cout << "Sample validator tests succeeded" << std::endl << std::endl;
     }
 #endif
 

@@ -8,7 +8,7 @@
     <entry key="minimum_dosage_warning">Dosage minimum recommandé dépassé:</entry>
 
     <!-- Samples -->
-    <entry key="population_below">de la population est en dessous de cette mesure</entry>
-    <entry key="population_above">de la population est en dessus de cette mesure</entry>
+    <entry key="population_below">% de la population est en dessous de cette mesure</entry>
+    <entry key="population_above">% de la population est en dessus de cette mesure</entry>
 
 </dictionary>

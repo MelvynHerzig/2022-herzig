@@ -3,7 +3,6 @@
 #include <memory>
 #include <vector>
 #include <numeric>
-#include <algorithm>
 #include <chrono>
 #include <map>
 #include <sstream>
@@ -62,12 +61,12 @@ void SampleValidator::getSampleValidations(XpertRequestResult& _xpertRequestResu
 
         unsigned posOver100Percentile = 0;
         try {
-            posOver100Percentile = findPosOver100Percentile(pData, sample);
+            posOver100Percentile = findPosOver100PercentileGroups(pData, sample);
         } catch (const invalid_argument& e) {
             // We catch unit conversion error
             stringstream ss;
             ss << sample->getDate();
-            _xpertRequestResult.setErrorMessage("Error handling samples, sample mesure date: " + ss.str());
+            _xpertRequestResult.setErrorMessage("Error handling sample of " + ss.str() + ", details: " + e.what());
             return;
         }
 
@@ -82,58 +81,74 @@ void SampleValidator::getSampleValidations(XpertRequestResult& _xpertRequestResu
      _xpertRequestResult.setSampleResults(move(sampleResults));
 }
 
-unsigned SampleValidator::findPosOver100Percentile(const Core::PercentilesData* _percentilesData, const std::unique_ptr<Core::Sample>& _sample) const
+unsigned SampleValidator::findPosOver100PercentileGroups(const Core::PercentilesData* _percentilesData, const unique_ptr<Core::Sample>& _sample) const
 {
+    // First find the cycleData that holds the values that surround the sample date
+    // We simple use the first percentile to do that.
+
+    int cycleDataIndex = -1;
+
+    const vector<Core::CycleData> percentileData = _percentilesData->getPercentileData(0);
+    for (size_t cdi = 0; cdi < percentileData.size(); ++cdi){
+
+        // If the sample date is between the cycledata start and end.
+        if (_sample->getDate() >= percentileData[cdi].m_start && _sample->getDate() <= percentileData[cdi].m_end) {
+           cycleDataIndex = cdi;
+           break;
+        }
+    }
+
+    if (cycleDataIndex == -1) {
+        throw invalid_argument("No cycle data contains the sample date.");
+    }
+
+
     // Iterate over percentiles (1-99) to find the first percentile that contains
     // a bigger value than the corresponding sample.
+    size_t saveIndexOfPair = 0;
     for (size_t p = 0; p < 99; ++p) {
 
         const vector<Core::CycleData> percentileData = _percentilesData->getPercentileData(p);
 
-        // Search the cycledata that contains the sample date.
-        for (size_t cd = 0; cd < percentileData.size(); ++cd){
+        const vector<double>& times = percentileData[cycleDataIndex].m_times[0];
+        const vector<double>& concentrations = percentileData[cycleDataIndex].m_concentrations[0];
 
-            // If the sample date is between the cycledata start and end.
-            if (_sample->getDate() >= percentileData[cd].m_start && _sample->getDate() <= percentileData[cd].m_end) {
+        // Iterates through pairs of time offsets and get the closest to the sample date and time.
+        for (size_t i = saveIndexOfPair; i < times.size() - 1; ++i) {
 
-                const vector<double>& times = percentileData[cd].m_times[0];
-                const vector<double>& concentrations = percentileData[cd].m_concentrations[0];
+            // Get bounded date and times
+            Common::DateTime t1 = percentileData[cycleDataIndex].m_start + chrono::minutes(int(times[i] * 60));
+            Common::DateTime t2 = percentileData[cycleDataIndex].m_start + chrono::minutes(int(times[i + 1] * 60));
 
-                // Iterates through pairs of time offsets and get the closest to the sample date and time.
-                for (size_t i = 0; i < times.size() - 1; ++i) {
+            // If the sample time is not bounded, jump to the next pair.
+            if (not(t1 <= _sample->getDate() && _sample->getDate() <= t2)) {
+                continue;
+            }
 
-                    // Get pair of date and times
-                    Common::DateTime t1 = percentileData[cd].m_start + chrono::minutes(int(times[i] * 60));
-                    Common::DateTime t2 = percentileData[cd].m_start + chrono::minutes(int(times[i + 1] * 60));
+            // Convert sample value into cycledata unit
+            double convertedMesure = Common::UnitManager::convertToUnit(
+                        _sample->getValue(),
+                        _sample->getUnit(),
+                        percentileData[cycleDataIndex].m_unit);
 
-                    // If the sample time is not bounded, jump to next pair
-                    if (not(t1 <= _sample->getDate() && _sample->getDate() <= t2)) {
-                        continue;
-                    }
+            // If the mesure is below the interpolated mesure, it belongs to the current percentile
+            // (+1 because we iterate from 0 to 98)
+            // The interpolation goes as follows (assuming that the concentration interpolation is linear):
+            // 1) Compute rp, the "relative" position of the sample date between the pair. 0 being t1 and 1 begin t1.
+            // 2) Compute the the interpolated concentration relatively to p
 
-                    // Convert sample value into cycledata unit
-                    double convertedMesure = Common::UnitManager::convertToUnit(
-                                _sample->getValue(),
-                                _sample->getUnit(),
-                                percentileData[cd].m_unit);
+            // 1) Relative position rp using date as seconds. Admitting t1 <= sample date <= t2
+            //    the interpolation rate is (sample date - t1) / (t2 - t1)
+            double rp = (_sample->getDate().toSeconds() - t1.toSeconds()) / (t2.toSeconds() - t1.toSeconds());
 
-                    // If the mesure is below the interpolated mesure, it belongs to the current percentile
-                    // (+1 because we iterate from 0 to 98)
-                    // The interpolation goes as follows (assuming that the concentration interpolation is linear):
-                    // 1) Compute rp, the "relative" position of the sample date between the pair. 0 being t1 and 1 begin t1.
-                    // 2) Compute the the interpolated concentration relatively to p
+            // 2) Retrieving the interpolated concentration
+            double interpolatedConcentration = concentrations[i] + rp * (concentrations[i + 1] - concentrations[i]);
 
-                    // 1) Relative position rp using date as seconds. Admitting t1 <= sample date <= t2
-                    //    the interpolation rate is (sample date - t1) / (t2 - t1)
-                    double rp = (_sample->getDate().toSeconds() - t1.toSeconds()) / (t2.toSeconds() - t1.toSeconds());
-
-                    // 2) Retrieving the interpolated concentration
-                    double interpolatedConcentration = concentrations[i] + rp * (concentrations[i + 1] - concentrations[i]);
-
-                    if (convertedMesure <= interpolatedConcentration) {
-                        return p + 1;
-                    }
-                }
+            if (convertedMesure <= interpolatedConcentration) {
+                return p + 1;
+            } else {
+                saveIndexOfPair = i; // Next percentile goes directly to the the good pair.
+                break; // Try the next percentile.
             }
         }
     }

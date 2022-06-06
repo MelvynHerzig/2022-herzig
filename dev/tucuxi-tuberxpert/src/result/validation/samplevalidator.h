@@ -7,6 +7,8 @@
 
 #include "../xpertrequestresult.h"
 
+struct TestSampleValidator;
+
 namespace Tucuxi {
 namespace XpertResult {
 
@@ -18,12 +20,13 @@ public:
     void getSampleValidations(XpertRequestResult& _xpertRequestResult) const;
 
     // from 1 to 100
-    // throw invalid_argument if conversion failed
+    // throw invalid_argument if conversion failed or no valid cycle data
     // only works with time[0] and concentrations[0]
-    unsigned findPosOver100Percentile(const Core::PercentilesData* _percentilesData, const std::unique_ptr<Core::Sample>& _sample) const;
+    unsigned findPosOver100PercentileGroups(const Core::PercentilesData* _percentilesData, const std::unique_ptr<Core::Sample>& _sample) const;
+
+    friend TestSampleValidator;
 
 protected:
-
 
     Common::DateTime m_computationDate;
 };
