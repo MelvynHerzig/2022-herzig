@@ -44,6 +44,11 @@ const std::map<const Core::SingleDose*, DoseResult>& XpertRequestResult::getDose
     return m_doseResults;
 }
 
+const std::map<const Core::Sample *, SampleResult> &XpertRequestResult::getSampleResults()
+{
+    return m_sampleResults;
+}
+
 void XpertRequestResult::setErrorMessage(const std::string& _message)
 {
     m_errorMessage = _message;

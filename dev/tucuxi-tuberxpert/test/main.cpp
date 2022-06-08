@@ -93,22 +93,22 @@ int main(int argc, char** argv)
 #if defined(test_query)
     TestXpertQueryImport queryImportTests;
 
-    queryImportTests.add_test("Get complete admin element", &TestXpertQueryImport::retrieveCompleteAdmin);
-    queryImportTests.add_test("Get no admin element", &TestXpertQueryImport::retrieveNoAdmin);
-    queryImportTests.add_test("Get empty admin element", &TestXpertQueryImport::retrieveEmptyAdmin);
-    queryImportTests.add_test("Get minimal persons", &TestXpertQueryImport::retrieveMinimalPerson);
-    queryImportTests.add_test("Get minimal institutes", &TestXpertQueryImport::retrieveMinimalInstitute);
-    queryImportTests.add_test("Get minimal coordinates", &TestXpertQueryImport::retrieveMinimalCoordinates);
-    queryImportTests.add_test("Get an error when missing mandatory values in mandator person", &TestXpertQueryImport::errorWhenMissingMandatoryInMandatorPerson);
-    queryImportTests.add_test("Get an error when missing mandatory values in mandator institute", &TestXpertQueryImport::errorWhenMissingMandatoryInMandatorInstitute);
-    queryImportTests.add_test("Get an error when missing mandatory values in patient person", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientPerson);
-    queryImportTests.add_test("Get an error when missing mandatory values in patient institute", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientInstitute);
-    queryImportTests.add_test("Get complete request xpert element", &TestXpertQueryImport::retrieveCompleteRequestXpert);
-    queryImportTests.add_test("Get default request xpert element", &TestXpertQueryImport::retrieveDefaultRequestXpert);
-    queryImportTests.add_test("Get an error when missing request xpert", &TestXpertQueryImport::errorWhenNoRequestXpert);
-    queryImportTests.add_test("Get an error when missing mandatory values in request xpert", &TestXpertQueryImport::errorWhenMissingMandatoryRequestXpert);
-    queryImportTests.add_test("Get an error when the xml document can't be created from string", &TestXpertQueryImport::errorWhenCreatingXmlDocumentFromString);
-    queryImportTests.add_test("Get an error when the xml document can't be created from file", &TestXpertQueryImport::errorWhenCreatingXmlDocumentFromFile);
+    queryImportTests.add_test("Gets complete admin element", &TestXpertQueryImport::retrieveCompleteAdmin);
+    queryImportTests.add_test("Gets no admin element", &TestXpertQueryImport::retrieveNoAdmin);
+    queryImportTests.add_test("Gets empty admin element", &TestXpertQueryImport::retrieveEmptyAdmin);
+    queryImportTests.add_test("Gets minimal persons", &TestXpertQueryImport::retrieveMinimalPerson);
+    queryImportTests.add_test("Gets minimal institutes", &TestXpertQueryImport::retrieveMinimalInstitute);
+    queryImportTests.add_test("Gets minimal coordinates", &TestXpertQueryImport::retrieveMinimalCoordinates);
+    queryImportTests.add_test("Gets an error when missing mandatory values in mandator person", &TestXpertQueryImport::errorWhenMissingMandatoryInMandatorPerson);
+    queryImportTests.add_test("Gets an error when missing mandatory values in mandator institute", &TestXpertQueryImport::errorWhenMissingMandatoryInMandatorInstitute);
+    queryImportTests.add_test("Gets an error when missing mandatory values in patient person", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientPerson);
+    queryImportTests.add_test("Gets an error when missing mandatory values in patient institute", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientInstitute);
+    queryImportTests.add_test("Gets complete request xpert element", &TestXpertQueryImport::retrieveCompleteRequestXpert);
+    queryImportTests.add_test("Gets default request xpert element", &TestXpertQueryImport::retrieveDefaultRequestXpert);
+    queryImportTests.add_test("Gets an error when missing request xpert", &TestXpertQueryImport::errorWhenNoRequestXpert);
+    queryImportTests.add_test("Gets an error when missing mandatory values in request xpert", &TestXpertQueryImport::errorWhenMissingMandatoryRequestXpert);
+    queryImportTests.add_test("Gets an error when the xml document can't be created from string", &TestXpertQueryImport::errorWhenCreatingXmlDocumentFromString);
+    queryImportTests.add_test("Gets an error when the xml document can't be created from file", &TestXpertQueryImport::errorWhenCreatingXmlDocumentFromFile);
 
     res = queryImportTests.run(argc, argv);
     if (res != 0) {
@@ -128,8 +128,8 @@ int main(int argc, char** argv)
 #if defined(test_xpertquerytocoreextractor)
     TestXpertQueryToCoreExtractor queryToCoreExtractorTests;
 
-    queryToCoreExtractorTests.add_test("Extract good drug treatment", &TestXpertQueryToCoreExtractor::extractGoodDrugTreatment);
-    queryToCoreExtractorTests.add_test("Extract bad drug treatment", &TestXpertQueryToCoreExtractor::extractBadDrugTreatment);
+    queryToCoreExtractorTests.add_test("Extracts good drug treatment", &TestXpertQueryToCoreExtractor::extractGoodDrugTreatment);
+    queryToCoreExtractorTests.add_test("Extracts bad drug treatment", &TestXpertQueryToCoreExtractor::extractBadDrugTreatment);
 
     res = queryToCoreExtractorTests.run(argc, argv);
     if (res != 0) {
@@ -150,9 +150,9 @@ int main(int argc, char** argv)
     TestXpertResultCreation xpertResultCreationTests;
 
     xpertResultCreationTests.add_test("Query pointer invalidation", &TestXpertResultCreation::queryPtrInvalidation);
-    xpertResultCreationTests.add_test("Retrieve administrative data", &TestXpertResultCreation::retrieveAdministrativeData);
-    xpertResultCreationTests.add_test("Retrieve xpert request results", &TestXpertResultCreation::retrieveXpertRequestResult);
-    xpertResultCreationTests.add_test("Retrieve generation date", &TestXpertResultCreation::retrieveDate);
+    xpertResultCreationTests.add_test("Retrieves administrative data", &TestXpertResultCreation::retrieveAdministrativeData);
+    xpertResultCreationTests.add_test("Retrieves xpert request results", &TestXpertResultCreation::retrieveXpertRequestResult);
+    xpertResultCreationTests.add_test("Retrieves generation date", &TestXpertResultCreation::retrieveDate);
 
     res = xpertResultCreationTests.run(argc, argv);
     if (res != 0) {
@@ -174,18 +174,18 @@ int main(int argc, char** argv)
     modelSelectorTests.add_test("No corresponding model for drug id", &TestModelSelector::noCorrespondingModelForDrugId);
     modelSelectorTests.add_test("No result if the query formulations and routes are not equal.", &TestModelSelector::noResultIfQueryFormulationsAndRoutesAreNotEqual);
     modelSelectorTests.add_test("No result if only one model with incompatible formulation and route.", &TestModelSelector::noResultOneModelIncompatibleFormulationAndRoute);
-    modelSelectorTests.add_test("Get one result if there are one model with incompatible formulation and route and a second compatible.", &TestModelSelector::getResultOneModelIncompatibleFormulationAndRouteSecondCompatible);
+    modelSelectorTests.add_test("Gets one result if there are one model with incompatible formulation and route and a second compatible.", &TestModelSelector::getResultOneModelIncompatibleFormulationAndRouteSecondCompatible);
     modelSelectorTests.add_test("No result if one model with incompatible hard constraint.", &TestModelSelector::noResultOneModelIncompatibleConstraint);
-    modelSelectorTests.add_test("Get one result if there are one model with hard constraint not respected and a second compatible.", &TestModelSelector::getResultOneModelIncompatibleConstraintSecondCompatible);
-    modelSelectorTests.add_test("Get one result if one model with partially incompatible soft constraint.", &TestModelSelector::getResultOneModelPartiallyCompatibleSoftConstraint);
+    modelSelectorTests.add_test("Gets one result if there are one model with hard constraint not respected and a second compatible.", &TestModelSelector::getResultOneModelIncompatibleConstraintSecondCompatible);
+    modelSelectorTests.add_test("Gets one result if one model with partially incompatible soft constraint.", &TestModelSelector::getResultOneModelPartiallyCompatibleSoftConstraint);
     modelSelectorTests.add_test("No result when multiple birthdates even with models left.", &TestModelSelector::noResultMultipleBirthdate);
     modelSelectorTests.add_test("No result when birthdate with bad datatype even with models left.", &TestModelSelector::noResultBadDatatypeBirthdate);
     modelSelectorTests.add_test("No result when bodyweight with bad unit even with models left.", &TestModelSelector::noResultBadUnitBodyweight);
-    modelSelectorTests.add_test("Get the best result out of 3 models without tie.", &TestModelSelector::getResultOutofThreeNoTie);
-    modelSelectorTests.add_test("Get the best result out of 2 models with tie.", &TestModelSelector::getResultOutofTwoTie);
+    modelSelectorTests.add_test("Gets the best result out of 3 models without tie.", &TestModelSelector::getResultOutofThreeNoTie);
+    modelSelectorTests.add_test("Gets the best result out of 2 models with tie.", &TestModelSelector::getResultOutofTwoTie);
     modelSelectorTests.add_test("Selection failed when selected model covariates does not support request language without english fallbabk.", &TestModelSelector::requestFailDefinitionsNotSupportingLanguageWithoutEnglishBackup);
     modelSelectorTests.add_test("Checks that the translations match the requests languages.", &TestModelSelector::getGoodCovariateWarningTranslation);
-    modelSelectorTests.add_test("Get and checks the content of the covariate results.", &TestModelSelector::getCovariateResults);
+    modelSelectorTests.add_test("Gets and checks the content of the covariate results.", &TestModelSelector::getCovariateResults);
 
 
     res = modelSelectorTests.run(argc, argv);
@@ -206,13 +206,13 @@ int main(int argc, char** argv)
 #if defined(test_dosevalidator)
     TestDoseValidator doseValidatorTests;
 
-    doseValidatorTests.add_test("Get an error when no treatment.", &TestDoseValidator::errorWhenNoTreatment);
-    doseValidatorTests.add_test("Get an error when no drug model.", &TestDoseValidator::errorWhenNoDrugModel);
+    doseValidatorTests.add_test("Gets an error when no treatment.", &TestDoseValidator::errorWhenNoTreatment);
+    doseValidatorTests.add_test("Gets an error when no drug model.", &TestDoseValidator::errorWhenNoDrugModel);
     doseValidatorTests.add_test("The resulting map is empty when there is no dosage.", &TestDoseValidator::emptyResultWhenNoDosages);
     doseValidatorTests.add_test("The resulting dose result contains a warning when underdosing.", &TestDoseValidator::warningUnderdose);
     doseValidatorTests.add_test("The resulting dose result contains a warning when overdosing.", &TestDoseValidator::warningOverdose);
-    doseValidatorTests.add_test("Get an error when the unit conversion fails.", &TestDoseValidator::errorFailUnitConversion);
-    doseValidatorTests.add_test("Get an error when the formulation and route not supported by model.", &TestDoseValidator::errorFormulationAndRouteNotSupported);
+    doseValidatorTests.add_test("Gets an error when the unit conversion fails.", &TestDoseValidator::errorFailUnitConversion);
+    doseValidatorTests.add_test("Gets an error when the formulation and route not supported by model.", &TestDoseValidator::errorFormulationAndRouteNotSupported);
     doseValidatorTests.add_test("Checks that result is fine with multiple dosage type and timerange.", &TestDoseValidator::multipleDosageTypeAndDosageTimeRange);
 
 
@@ -232,10 +232,11 @@ int main(int argc, char** argv)
 #if defined(test_samplevalidator)
     TestSampleValidator sampleValidatorTests;
 
-    sampleValidatorTests.add_test("Get warnings for a given position over 100 percentiles.", &TestSampleValidator::warningForPositionOver100Percentiles);
-    sampleValidatorTests.add_test("Get some positions over 100 percentile groups.", &TestSampleValidator::findTheGoodPosOver100PercentileGroups);
-    sampleValidatorTests.add_test("Get an exception when the sample unit cannot be converted.", &TestSampleValidator::getExceptionUnitConversion);
-    sampleValidatorTests.add_test("Get an exception when the sample date cannot be found.", &TestSampleValidator::getExceptionDateNotFound);
+    sampleValidatorTests.add_test("Gets warnings for a given group position over 99 percentiles.", &TestSampleValidator::warningForGroupPositionOver99Percentiles);
+    sampleValidatorTests.add_test("Gets some group positions over 99 percentile.", &TestSampleValidator::findGroupPositionOver99Percentiles);
+    sampleValidatorTests.add_test("Gets an exception when the sample unit cannot be converted.", &TestSampleValidator::getExceptionUnitConversion);
+    sampleValidatorTests.add_test("Gets an exception when the sample date cannot be found.", &TestSampleValidator::getExceptionDateNotFound);
+    sampleValidatorTests.add_test("Gets the expected amount of samples results.", &TestSampleValidator::getTheExpectedAmountOfResults);
 
     res = sampleValidatorTests.run(argc, argv);
     if (res != 0) {

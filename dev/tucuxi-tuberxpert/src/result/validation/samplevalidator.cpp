@@ -19,51 +19,52 @@ using namespace std;
 namespace Tucuxi {
 namespace XpertResult {
 
-SampleValidator::SampleValidator(Common::DateTime _computationDate) : m_computationDate(_computationDate)
+SampleValidator::SampleValidator()
 {}
 
 void SampleValidator::getSampleValidations(XpertRequestResult& _xpertRequestResult) const
 {
-    // if no sample skip this validation
+    // if no sample skip this validation.
     if (_xpertRequestResult.getTreatment()->getSamples().size() == 0) {
         return;
     }
 
     map<const Core::Sample*, SampleResult> sampleResults;
 
-    // Getting percentile for each sample
+    // Getting percentiles for each sample
     for(const unique_ptr<Core::Sample>& sample : _xpertRequestResult.getTreatment()->getSamples()) {
 
         // Preparing comuting request for percentile computation.
         string responseId = "";
-        Common::DateTime start = sample->getDate() - chrono::hours(1);
-        Common::DateTime end = sample->getDate() + chrono::hours(1);
+        Common::DateTime start = sample->getDate() - chrono::hours(1);      // Minus/plus 1 hour are just here
+        Common::DateTime end = sample->getDate() + chrono::hours(1);        // "effectless", the core computes other start and end dates.
         Core::PercentileRanks ranks(99);
         iota(ranks.begin(), ranks.end(),1);
         double nbPointsPerHour = 20;
-        Core::ComputingOption co{
-            Core::PredictionParameterType::Apriori,
-                    Core::CompartmentsOption::AllActiveMoieties}; // In a future version where all analytes are in separated
-                                                                  // cycleData, use AllAnalytes.
+        // In a future version where all analytes are in separated
+        // cycleData, use AllAnalytes.
+        Core::ComputingOption co{Core::PredictionParameterType::Apriori, Core::CompartmentsOption::AllActiveMoieties};
 
+        // Percentile trait.
         unique_ptr<Core::ComputingTraitPercentiles> ctp = make_unique<Core::ComputingTraitPercentiles>(responseId, start, end, ranks, nbPointsPerHour, co);
+
+        // Request and response.
         Core::ComputingRequest cReq { "", *_xpertRequestResult.getDrugModel(), *_xpertRequestResult.getTreatment(), move(ctp)};
         std::unique_ptr<Core::ComputingResponse> cRes = std::make_unique<Core::ComputingResponse>("");
 
-        // Starting percentiles computation
-        Core::IComputingService* computingComponent =
-                dynamic_cast<Core::IComputingService*>(Core::ComputingComponent::createComponent());
-
+        // Starting percentiles computation.
+        Core::IComputingService* computingComponent = dynamic_cast<Core::IComputingService*>(Core::ComputingComponent::createComponent());
         Core::ComputingStatus result = computingComponent->compute(cReq, cRes);
 
 
+        // Extracting sample position.
         const Core::PercentilesData* pData = dynamic_cast<const Core::PercentilesData*>(cRes->getData());
 
-        unsigned posOver100Percentile = 0;
+        unsigned groupOver99Percentiles = 0;
         try {
-            posOver100Percentile = findPosOver100PercentileGroups(pData, sample);
+            groupOver99Percentiles = findGroupPositionOver99Percentiles(pData, sample);
         } catch (const invalid_argument& e) {
-            // We catch unit conversion error
+            // We catch unit error or if the sample is not bound by cycledata
             stringstream ss;
             ss << sample->getDate();
             _xpertRequestResult.setErrorMessage("Error handling sample of " + ss.str() + ", details: " + e.what());
@@ -75,13 +76,13 @@ void SampleValidator::getSampleValidations(XpertRequestResult& _xpertRequestResu
             _xpertRequestResult.setErrorMessage("Percentile computation failed.");
         }
 
-        sampleResults.emplace(make_pair(sample.get(), SampleResult(sample.get(), posOver100Percentile)));
+        sampleResults.emplace(make_pair(sample.get(), SampleResult(sample.get(), groupOver99Percentiles)));
     }
 
-     _xpertRequestResult.setSampleResults(move(sampleResults));
+    _xpertRequestResult.setSampleResults(move(sampleResults));
 }
 
-unsigned SampleValidator::findPosOver100PercentileGroups(const Core::PercentilesData* _percentilesData, const unique_ptr<Core::Sample>& _sample) const
+unsigned SampleValidator::findGroupPositionOver99Percentiles(const Core::PercentilesData* _percentilesData, const unique_ptr<Core::Sample>& _sample) const
 {
     // First find the cycleData that holds the values that surround the sample date
     // We simple use the first percentile to do that.
@@ -93,8 +94,8 @@ unsigned SampleValidator::findPosOver100PercentileGroups(const Core::Percentiles
 
         // If the sample date is between the cycledata start and end.
         if (_sample->getDate() >= percentileData[cdi].m_start && _sample->getDate() <= percentileData[cdi].m_end) {
-           cycleDataIndex = cdi;
-           break;
+            cycleDataIndex = cdi;
+            break;
         }
     }
 
@@ -153,8 +154,8 @@ unsigned SampleValidator::findPosOver100PercentileGroups(const Core::Percentiles
         }
     }
 
-    // If the mesure is not in the groups before the 99th percentil, it belongs
-    // to the last group.
+    // If the mesure is not in the groups before the 99th percentile, it belongs
+    // to the last group, the 100th.
     return 100;
 }
 

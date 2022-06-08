@@ -14,7 +14,7 @@ namespace XpertResult {
 ///        a warning message.
 ///
 ///        The warning message tells if the dose is too low or too high
-///        in regards of the recommanded doses from the drug model.
+///        in regards of the recommended doses from the drug model.
 /// \date 01/06/2022
 /// \author Herzig Melvyn
 class DoseResult : public AbstractResult<Core::SingleDose>

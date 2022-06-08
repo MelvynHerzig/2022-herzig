@@ -13,7 +13,7 @@ namespace Tucuxi {
 namespace XpertLanguage {
 
 /// \brief The language manager class is a singleton that loads an xml language
-///        file and allows to get the translated strings with common identifiers.
+///        file and allows to get some translation strings with unique identifiers.
 /// \date 20/04/2022
 /// \author Herzig Melvyn
 class LanguageManager

@@ -61,6 +61,11 @@ public:
     ///         This may be empty if there is no dosage or if the doses validation failed.
     const std::map<const Core::SingleDose*, DoseResult>& getDoseResults();
 
+    /// \brief Gets the samples results.
+    /// \return The vector containing each SampleResult for each sample found in the treatment.
+    ///         This may be empty if there is no sample or if the samples validation failed.
+    const std::map<const Core::Sample*, SampleResult>& getSampleResults();
+
     /// \brief Sets a new error message.
     /// \param _message New message to set.
     void setErrorMessage(const std::string& _message);
@@ -77,6 +82,8 @@ public:
     /// \param _newDoseResults DoseResult map to retrieve.
     void setDoseResults(std::map<const Core::SingleDose*, DoseResult>&& _newDoseResults);
 
+    /// \brief Sets a new SampleRsult map.
+    /// \param _newSampleResults SampleResult map to retrieve.
     void setSampleResults(std::map<const Core::Sample*, SampleResult>&& _newSampleResults);
 
     /// \brief Checks if the XpertRequestResult should go to next pipeline step.
@@ -102,11 +109,14 @@ protected:
     ///        of the selected drug model.
     std::vector<CovariateResult> m_covariateResults;
 
-    /// \brief m_doseResults Result for each dose made during DoseValidator phase.
+    /// \brief Result for each dose made during DoseValidator phase.
     ///        One entry per dose found. The map keys are the same pointers
     ///        stored in each DoseResult.
     std::map<const Core::SingleDose*, DoseResult> m_doseResults;
 
+    /// \brief Result for each sample made during SampleValidator phase.
+    ///        One entry per sample found. The map keys are the same pointers
+    ///        stored in each SampleResult.
     std::map<const Core::Sample*, SampleResult> m_sampleResults;
 
 };

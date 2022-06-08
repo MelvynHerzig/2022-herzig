@@ -8,9 +8,12 @@
 namespace Tucuxi {
 namespace XpertResult {
 
-/// \brief This is a utility class responsible to check each dosage plausability.
+/// \brief This is a utility class responsible to check each dosage plausibility.
 ///        In order to do this, it compares each patient's doses to the recommanded
 ///        doses from the drug model.
+///
+///        The current implementation consider each doses. A futur improvement for specific
+///        drug could be to consider only the doses that are not oldest than X years/months/days...
 /// \date 01/06/2022
 /// \author Herzig Melvyn
 class DoseValidator

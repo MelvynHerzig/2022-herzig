@@ -51,7 +51,8 @@ public:
         return m_warning;
     }
 
-    /// \brief Gets the warning level associated to a warning if not empty.
+    /// \brief Gets the warning level associated to a warning. This
+    ///        doesn't consider if the warning is set or not.
     /// \return Returns WarningLevel::NORMAL. May be overrided.
     WarningLevel getWarningLevel(){
         return WarningLevel::NORMAL;
