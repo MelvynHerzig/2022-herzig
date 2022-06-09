@@ -32,6 +32,10 @@
 #include "test_samplevalidator.h"
 #endif
 
+#if defined(test_targetvalidator)
+#include "test_targetvalidator.h"
+#endif
+
 
 using namespace std;
 
@@ -171,6 +175,7 @@ int main(int argc, char** argv)
 #if defined(test_modelselector)
     TestModelSelector modelSelectorTests;
 
+    modelSelectorTests.add_test("Gets an error when no treatment.", &TestModelSelector::errorWhenNoTreatment);
     modelSelectorTests.add_test("No corresponding model for drug id", &TestModelSelector::noCorrespondingModelForDrugId);
     modelSelectorTests.add_test("No result if the query formulations and routes are not equal.", &TestModelSelector::noResultIfQueryFormulationsAndRoutesAreNotEqual);
     modelSelectorTests.add_test("No result if only one model with incompatible formulation and route.", &TestModelSelector::noResultOneModelIncompatibleFormulationAndRoute);
@@ -232,6 +237,8 @@ int main(int argc, char** argv)
 #if defined(test_samplevalidator)
     TestSampleValidator sampleValidatorTests;
 
+    sampleValidatorTests.add_test("Gets an error when no treatment.", &TestSampleValidator::errorWhenNoTreatment);
+    sampleValidatorTests.add_test("Gets an error when no drug model.", &TestSampleValidator::errorWhenNoDrugModel);
     sampleValidatorTests.add_test("Gets warnings for a given group position over 99 percentiles.", &TestSampleValidator::warningForGroupPositionOver99Percentiles);
     sampleValidatorTests.add_test("Gets some group positions over 99 percentile.", &TestSampleValidator::findGroupPositionOver99Percentiles);
     sampleValidatorTests.add_test("Gets an exception when the sample unit cannot be converted.", &TestSampleValidator::getExceptionUnitConversion);
@@ -244,6 +251,25 @@ int main(int argc, char** argv)
         exit(1);
     } else {
         std::cout << "Sample validator tests succeeded" << std::endl << std::endl;
+    }
+#endif
+
+    /***********************************************************
+     *                    TargetValidator                      *
+     ***********************************************************/
+
+#if defined(test_dosevalidator)
+    TestTargetValidator targetValidatorTests;
+
+    targetValidatorTests.add_test("Gets an error when no treatment.", &TestTargetValidator::errorWhenNoTreatment);
+    targetValidatorTests.add_test("Gets an error when no drug model.", &TestTargetValidator::errorWhenNoDrugModel);
+
+    res = targetValidatorTests.run(argc, argv);
+    if (res != 0) {
+        std::cout << "Target validator tests failed" << std::endl << std::endl;
+        exit(1);
+    } else {
+        std::cout << "Target validator tests succeeded" << std::endl << std::endl;
     }
 #endif
 

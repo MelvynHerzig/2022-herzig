@@ -30,6 +30,12 @@ void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestRe
 {
     Tucuxi::Common::LoggerHelper logHelper;
 
+    // Checks treatment
+    if (_xpertRequestResult.getTreatment() == nullptr) {
+        _xpertRequestResult.setErrorMessage("No treatment set.");
+        return;
+    }
+
     // Checks patient forumulations and routes compatibility.
     bool areFormulationAndRoutesEqual = checkPatientDosageHistoryFormulationAndRoutes(_xpertRequestResult.getTreatment()->getDosageHistory());
     if (areFormulationAndRoutesEqual == false) {

@@ -24,10 +24,10 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 {
 
     /// \brief Sets up environment for clean execution of the dose validator. Loads the query, makes the
-    ///        XpertResult object, loads the model, attribute it to the first XpertRequestResult of the XpertResult
+    ///        XpertResult object, loads the model, attributes it to the first XpertRequestResult of the XpertResult
     ///        and loads an english dictionary.
     /// \param _queryString Query string to load.
-    /// \param _model Model string to put attribute to the XpertRequestResult of the first request.
+    /// \param _model Model string to put as attribute of the XpertRequestResult of the first request.
     /// \param _xpertResult Object that will contain the result of this function execution.
     void setupEnv(const std::string& _queryString,
                   const std::string& _model,

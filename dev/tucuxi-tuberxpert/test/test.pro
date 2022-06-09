@@ -37,12 +37,14 @@ DEFINES+= \
     test_dosevalidator \
     test_xpertutils \
     test_samplevalidator \
+    test_targetvalidator \
 
 HEADERS += \
     test_dosevalidator.h \
     test_languagemanager.h \
     test_modelselector.h \
     test_samplevalidator.h \
+    test_targetvalidator.h \
     test_xpertqueryimport.h \
     test_xpertquerytocoreextractor.h \
     test_xpertresultcreation.h \

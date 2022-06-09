@@ -18,7 +18,7 @@ DoseValidator::DoseValidator()
 
 void DoseValidator::getDoseValidations(XpertRequestResult& _xpertRequestResult) const
 {
-    // Check treatment
+    // Checks treatment
     if (_xpertRequestResult.getTreatment() == nullptr) {
         _xpertRequestResult.setErrorMessage("No treatment set.");
         return;

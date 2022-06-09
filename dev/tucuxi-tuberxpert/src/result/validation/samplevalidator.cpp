@@ -24,6 +24,18 @@ SampleValidator::SampleValidator()
 
 void SampleValidator::getSampleValidations(XpertRequestResult& _xpertRequestResult) const
 {
+    // Checks treatment
+    if (_xpertRequestResult.getTreatment() == nullptr) {
+        _xpertRequestResult.setErrorMessage("No treatment set.");
+        return;
+    }
+
+    // Checks drug model
+    if (_xpertRequestResult.getDrugModel() == nullptr) {
+        _xpertRequestResult.setErrorMessage("No drug model set.");
+        return;
+    }
+
     // if no sample skip this validation.
     if (_xpertRequestResult.getTreatment()->getSamples().size() == 0) {
         return;

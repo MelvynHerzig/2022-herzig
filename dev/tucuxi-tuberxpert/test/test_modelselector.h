@@ -75,6 +75,22 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         }
     }
 
+    /// \brief Checks that there is an error if the treatment of XpertRequestResult is nullptr.
+    /// \param _testName Name of the test
+    void errorWhenNoTreatment(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        Tucuxi::XpertResult::XpertRequestResult xrr{nullptr, nullptr, ""};
+
+        Tucuxi::XpertResult::BestDrugModelSelector bdms;
+        bdms.getBestDrugModel(xrr);
+
+        fructose_assert_eq(xrr.shouldBeHandled(), false);
+        fructose_assert_eq(xrr.getErrorMessage(), "No treatment set.");
+        fructose_assert_eq(xrr.getDrugModel(), nullptr);
+    }
+
     /// \brief Checks that the model selector indicates that the directory does not contain any model
     ///        for the wished drug.
     /// \param _testName Name of the test
