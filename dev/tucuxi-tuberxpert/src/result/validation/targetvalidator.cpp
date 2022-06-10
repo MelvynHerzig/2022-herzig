@@ -33,8 +33,8 @@ void TargetValidator::getTargetValidations(XpertRequestResult& _xpertRequestResu
         return;
     }
 
-    // This map keeps tracks of active moiety seen and for each of them save the related target type.
-    // This allows us to check, when iterating over the target, if a similar target has already
+    // This map keeps track of active moiety seen and for each of them save the related target type.
+    // This allows us to check, when iterating over the targets, if a similar target has already
     // been seen.
     map<Core::ActiveMoietyId, vector<Core::TargetType>> seenActiveMoietyToTargetType;
 

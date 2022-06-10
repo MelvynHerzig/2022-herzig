@@ -9,6 +9,8 @@
 #include "tucucore/drugmodel/drugmodel.h"
 #include "tucucore/drugtreatment/drugtreatment.h"
 #include "tucucore/dosage.h"
+#include "tucucore/computingservice/computingrequest.h"
+#include "tucucore/computingservice/computingtrait.h"
 
 #include "../query/xpertrequestdata.h"
 #include "covariateresult.h"
@@ -66,6 +68,10 @@ public:
     ///         This may be empty if there is no sample or if the samples validation failed.
     const std::map<const Core::Sample*, SampleResult>& getSampleResults();
 
+
+    const std::unique_ptr<Core::ComputingTraitAdjustment>& getAdjustmentTrait();
+
+
     /// \brief Sets a new error message.
     /// \param _message New message to set.
     void setErrorMessage(const std::string& _message);
@@ -85,6 +91,8 @@ public:
     /// \brief Sets a new SampleRsult map.
     /// \param _newSampleResults SampleResult map to retrieve.
     void setSampleResults(std::map<const Core::Sample*, SampleResult>&& _newSampleResults);
+
+    void setAdjustmentTrait(std::unique_ptr<Core::ComputingTraitAdjustment> _adjustmentTrait);
 
     /// \brief Checks if the XpertRequestResult should go to next pipeline step.
     /// \return True if no problem was detected until the call otherwise false.
@@ -118,6 +126,9 @@ protected:
     ///        One entry per sample found. The map keys are the same pointers
     ///        stored in each SampleResult.
     std::map<const Core::Sample*, SampleResult> m_sampleResults;
+
+
+    std::unique_ptr<Core::ComputingTraitAdjustment> m_adjustmentTrait;
 
 };
 

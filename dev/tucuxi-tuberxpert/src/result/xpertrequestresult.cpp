@@ -44,9 +44,14 @@ const std::map<const Core::SingleDose*, DoseResult>& XpertRequestResult::getDose
     return m_doseResults;
 }
 
-const std::map<const Core::Sample *, SampleResult> &XpertRequestResult::getSampleResults()
+const std::map<const Core::Sample *, SampleResult>& XpertRequestResult::getSampleResults()
 {
     return m_sampleResults;
+}
+
+const std::unique_ptr<Core::ComputingTraitAdjustment>& XpertRequestResult::getAdjustmentTrait()
+{
+    return m_adjustmentTrait;
 }
 
 void XpertRequestResult::setErrorMessage(const std::string& _message)
@@ -72,6 +77,11 @@ void XpertRequestResult::setDoseResults(std::map<const Core::SingleDose*, DoseRe
 void XpertRequestResult::setSampleResults(std::map<const Core::Sample*, SampleResult>&& _newSampleResults)
 {
     m_sampleResults = _newSampleResults;
+}
+
+void XpertRequestResult::setAdjustmentTrait(std::unique_ptr<Core::ComputingTraitAdjustment> _adjustmentTrait)
+{
+    m_adjustmentTrait = move(_adjustmentTrait);
 }
 
 bool XpertRequestResult::shouldBeHandled() const

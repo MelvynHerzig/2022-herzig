@@ -30,14 +30,16 @@ void SampleValidator::getSampleValidations(XpertRequestResult& _xpertRequestResu
         return;
     }
 
-    // Checks drug model
-    if (_xpertRequestResult.getDrugModel() == nullptr) {
-        _xpertRequestResult.setErrorMessage("No drug model set.");
+    // Checks that there is a dosage history
+    if (!_xpertRequestResult.getTreatment()->getSamples().empty() &&
+         _xpertRequestResult.getTreatment()->getDosageHistory().isEmpty()) {
+         _xpertRequestResult.setErrorMessage("Samples found but dosage history is empty.");
         return;
     }
 
-    // if no sample skip this validation.
-    if (_xpertRequestResult.getTreatment()->getSamples().size() == 0) {
+    // Checks drug model
+    if (_xpertRequestResult.getDrugModel() == nullptr) {
+        _xpertRequestResult.setErrorMessage("No drug model set.");
         return;
     }
 

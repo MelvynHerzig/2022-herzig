@@ -14,6 +14,7 @@
 #include "result/validation/dosevalidator.h"
 #include "result/validation/samplevalidator.h"
 #include "result/validation/targetvalidator.h"
+#include "result/request/adjustmenttraitcreator.h"
 
 #include "utils/xpertutils.h"
 
@@ -140,7 +141,7 @@ ComputingStatus TuberXpertComputer::compute(
         XpertResult::DoseValidator doseValidator;
         doseValidator.getDoseValidations(xpertRequestResult);
 
-        // Check if model selection was successfull
+        // Check if dosages checking was successfull
         if (xpertRequestResult.shouldBeHandled() == false) {
             logHelper.error(xpertRequestResult.getErrorMessage());
             ++nbUnfulfilledRequest;
@@ -159,7 +160,7 @@ ComputingStatus TuberXpertComputer::compute(
         XpertResult::SampleValidator sampleValidator;
         sampleValidator.getSampleValidations(xpertRequestResult);
 
-        // Check if model selection was successfull
+        // Check if samples checking was successfull
         if (xpertRequestResult.shouldBeHandled() == false) {
             logHelper.error(xpertRequestResult.getErrorMessage());
             ++nbUnfulfilledRequest;
@@ -178,7 +179,7 @@ ComputingStatus TuberXpertComputer::compute(
         XpertResult::TargetValidator targetValidator;
         targetValidator.getTargetValidations(xpertRequestResult);
 
-        // Check if model selection was successfull
+        // Check if targets checking was successfull
         if (xpertRequestResult.shouldBeHandled() == false) {
             logHelper.error(xpertRequestResult.getErrorMessage());
             ++nbUnfulfilledRequest;
@@ -186,6 +187,24 @@ ComputingStatus TuberXpertComputer::compute(
         }
 
         logHelper.info("Targets successfully validated.");
+
+        /**************************************************************
+         *                  Creating adjustment trait                 *
+         * ************************************************************/
+
+        logHelper.info("Creating adjustment trait...");
+
+        XpertResult::AdjustmentTraitCreator adjustmentTraitCreator;
+        adjustmentTraitCreator.createAdjustmentTrait(xpertRequestResult);
+
+        // Check if trait creation was successfull
+        if (xpertRequestResult.shouldBeHandled() == false) {
+            logHelper.error(xpertRequestResult.getErrorMessage());
+            ++nbUnfulfilledRequest;
+            continue;
+        }
+
+        logHelper.info("Adjustment trait successfully created.");
     }
 
     pCmpMgr->unregisterComponent("DrugModelRepository");
@@ -194,11 +213,11 @@ ComputingStatus TuberXpertComputer::compute(
     if (nbUnfulfilledRequest == 0) {
         return ComputingStatus::ALL_REQUESTS_SUCCEEDED;
 
-    // If some failed.
+        // If some failed.
     } else if ( nbUnfulfilledRequest < xpertResult.getXpertRequestResults().size()) {
         return ComputingStatus::SOME_REQUESTS_SUCCEEDED;
 
-    // Otherwise they all failed.
+        // Otherwise they all failed.
     } else {
         return ComputingStatus::NO_REQUESTS_SUCCEEDED;
     }

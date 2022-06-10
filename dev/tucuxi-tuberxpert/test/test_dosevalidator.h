@@ -23,7 +23,7 @@
 struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 {
 
-    /// \brief Sets up environment for clean execution of the dose validator. Loads the query, makes the
+    /// \brief Sets up the environment for clean execution of the dose validator. Loads the query, makes the
     ///        XpertResult object, loads the model, attributes it to the first XpertRequestResult of the XpertResult
     ///        and loads an english dictionary.
     /// \param _queryString Query string to load.

@@ -238,6 +238,7 @@ int main(int argc, char** argv)
     TestSampleValidator sampleValidatorTests;
 
     sampleValidatorTests.add_test("Gets an error when no treatment.", &TestSampleValidator::errorWhenNoTreatment);
+    sampleValidatorTests.add_test("Gets an error when there are samples but no dosage.", &TestSampleValidator::errorWhenSamplesButNoDosage);
     sampleValidatorTests.add_test("Gets an error when no drug model.", &TestSampleValidator::errorWhenNoDrugModel);
     sampleValidatorTests.add_test("Gets warnings for a given group position over 99 percentiles.", &TestSampleValidator::warningForGroupPositionOver99Percentiles);
     sampleValidatorTests.add_test("Gets some group positions over 99 percentile.", &TestSampleValidator::findGroupPositionOver99Percentiles);
@@ -263,6 +264,11 @@ int main(int argc, char** argv)
 
     targetValidatorTests.add_test("Gets an error when no treatment.", &TestTargetValidator::errorWhenNoTreatment);
     targetValidatorTests.add_test("Gets an error when no drug model.", &TestTargetValidator::errorWhenNoDrugModel);
+    targetValidatorTests.add_test("No error when no patient's target.", &TestTargetValidator::noErrorWhenNoTarget);
+    targetValidatorTests.add_test("Gets an error when two patient's targets have the same active moiety and type.", &TestTargetValidator::errorWhenTargetsWithSameActiveMoietyAndType);
+    targetValidatorTests.add_test("No error when two patient's targets have the same active moiety but different type.", &TestTargetValidator::noErrorWhenTargetsWithSameActiveMoietyButDifferentType);
+    targetValidatorTests.add_test("Gets an error when one patient's target have a different active moiety than the ones from drug model.", &TestTargetValidator::errorWhenTargetsWithActiveMoietyNotInDrugModel);
+
 
     res = targetValidatorTests.run(argc, argv);
     if (res != 0) {
