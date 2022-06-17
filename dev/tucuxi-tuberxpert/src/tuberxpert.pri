@@ -1,4 +1,6 @@
 
+INCLUDEPATH += $$PWD/.
+
 HEADERS += \
     $$PWD/query/xpertadministrativedata.h \
     $$PWD/query/xpertquerydata.h \

@@ -2,7 +2,6 @@
 #include "tucucommon/utils.h"
 
 #include "tuberxpertcomputer.h"
-
 #include "cxxopts/include/cxxopts.hpp"
 
 using namespace std;
@@ -133,7 +132,7 @@ int main(int argc, char** argv)
     logHelper.info("Tuberxpert console application is exiting...");
     logHelper.info("********************************************************");
 
-    // Clean looger
+    // Clean logger
     Tucuxi::Common::LoggerHelper::beforeExit();
 
     // Return code handling

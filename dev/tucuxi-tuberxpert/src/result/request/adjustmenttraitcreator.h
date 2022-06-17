@@ -4,6 +4,7 @@
 #include "tucucore/drugmodel/formulationandroute.h"
 #include "tucucore/computingservice/computingtrait.h"
 #include "tucucore/drugtreatment/drugtreatment.h"
+#include "tucucore/drugmodel/drugmodel.h"
 #include "tucucommon/datetime.h"
 #include "tucucore/dosage.h"
 
@@ -24,14 +25,22 @@ protected:
 
     Core::PredictionParameterType getPredictionParamterType(const std::unique_ptr<Core::DrugTreatment>& _drugTreatment) const;
 
-    // xpertRequestResult for accessing dosage history and request.
+    // using xpertRequestResult for accessing dosage history and request.
     //
-    void getPeriod(const Core::FullFormulationAndRoute* _fullFormulationAndRoute, const XpertRequestResult& _xpertRequestResult, Common::DateTime& _start, Common::DateTime& _end) const;
+    void getPeriod(const Core::FullFormulationAndRoute* _fullFormulationAndRoute,
+                   const XpertRequestResult& _xpertRequestResult,
+                   Common::DateTime& _start,
+                   Common::DateTime& _end) const;
 
 
     Common::DateTime getOldestDosageTimeRangeStart(const Core::DosageHistory& _dosageHistory) const;
 
-    Common::DateTime getAdjustmentDate(const XpertQuery::XpertRequestData& _request, const std::unique_ptr<Core::DrugTreatment>& _drugTreatment) const;
+    Common::DateTime getAdjustmentDate(const XpertQuery::XpertRequestData& _request, const std::unique_ptr<Core::DrugTreatment>& _drugTreatment, const Core::DrugModel* _drugModel) const;
+
+    // Smaller than execution time
+    Common::DateTime getLatestDosageTimeRangeStart(const Core::DosageHistory& _dosageHistory) const;
+
+    Common::DateTime getTimeOfNearestFutureOrLatestIntake(Core::IntakeSeries _intakes) const;
 
 protected:
 

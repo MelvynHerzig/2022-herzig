@@ -10,6 +10,8 @@
 #include "tucucore/pkmodel.h"
 #include "tucucore/drugmodelchecker.h"
 
+#include "query/administrativedata.h"
+
 #include "../src/language/languagemanager.h"
 #include "../src/result/validation/dosevalidator.h"
 #include "../src/result/xpertresult.h"

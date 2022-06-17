@@ -1,6 +1,0 @@
-[submodule "dev/tucuxi-drugs"]
-	path = dev/tucuxi-drugs
-	url = git@gitlab.com:reds-tucuxi/tucuxi-drugs.git
-[submodule "dev/tucuxi-core"]
-	path = dev/tucuxi-core
-	url = git@gitlab.com:reds-tucuxi/tucuxi-core.git
