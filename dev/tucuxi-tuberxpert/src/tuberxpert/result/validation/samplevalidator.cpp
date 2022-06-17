@@ -50,17 +50,18 @@ void SampleValidator::getSampleValidations(XpertRequestResult& _xpertRequestResu
 
         // Preparing comuting request for percentile computation.
         string responseId = "";
-        Common::DateTime start = sample->getDate() - chrono::hours(1);      // Minus/plus 1 hour are just here
-        Common::DateTime end = sample->getDate() + chrono::hours(1);        // "effectless", the core computes other start and end dates.
+        Common::DateTime start = sample->getDate() - chrono::hours(1);  // Minus/plus 1 hour are just here
+        Common::DateTime end = sample->getDate() + chrono::hours(1);    // "effectless", the core computes other start and end dates.
         Core::PercentileRanks ranks(99);
         iota(ranks.begin(), ranks.end(),1);
         double nbPointsPerHour = 20;
+
         // In a future version where all analytes are in separated
         // cycleData, use AllAnalytes.
-        Core::ComputingOption co{Core::PredictionParameterType::Apriori, Core::CompartmentsOption::AllActiveMoieties};
+        Core::ComputingOption computingOption{Core::PredictionParameterType::Apriori, Core::CompartmentsOption::AllActiveMoieties};
 
         // Percentile trait.
-        unique_ptr<Core::ComputingTraitPercentiles> ctp = make_unique<Core::ComputingTraitPercentiles>(responseId, start, end, ranks, nbPointsPerHour, co);
+        unique_ptr<Core::ComputingTraitPercentiles> ctp = make_unique<Core::ComputingTraitPercentiles>(responseId, start, end, ranks, nbPointsPerHour, computingOption);
 
         // Request and response.
         Core::ComputingRequest cReq { "", *_xpertRequestResult.getDrugModel(), *_xpertRequestResult.getTreatment(), move(ctp)};

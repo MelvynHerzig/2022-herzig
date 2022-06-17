@@ -25,22 +25,35 @@ protected:
 
     Core::PredictionParameterType getPredictionParamterType(const std::unique_ptr<Core::DrugTreatment>& _drugTreatment) const;
 
-    // using xpertRequestResult for accessing dosage history and request.
-    //
-    void getPeriod(const Core::FullFormulationAndRoute* _fullFormulationAndRoute,
-                   const XpertRequestResult& _xpertRequestResult,
-                   Common::DateTime& _start,
-                   Common::DateTime& _end) const;
-
-
     Common::DateTime getOldestDosageTimeRangeStart(const Core::DosageHistory& _dosageHistory) const;
-
-    Common::DateTime getAdjustmentDate(const XpertQuery::XpertRequestData& _request, const std::unique_ptr<Core::DrugTreatment>& _drugTreatment, const Core::DrugModel* _drugModel) const;
 
     // Smaller than execution time
     Common::DateTime getLatestDosageTimeRangeStart(const Core::DosageHistory& _dosageHistory) const;
 
+    Common::DateTime getAdjustmentTime(const XpertQuery::XpertRequestData& _request,
+                                       const std::unique_ptr<Core::DrugTreatment>& _drugTreatment,
+                                       const Core::DrugModel* _drugModel) const;
+
+    Common::DateTime makeIntakeSeriesAndTryToExtractAdjustmentTime(const std::unique_ptr<Core::DrugTreatment>& _drugTreatment,
+                                                                   const Core::DrugModel* _drugModel) const;
+
     Common::DateTime getTimeOfNearestFutureOrLatestIntake(Core::IntakeSeries _intakes) const;
+
+    // using xpertRequestResult for accessing dosage history and request.
+    //
+    void getPeriod(const Core::FullFormulationAndRoute* _fullFormulationAndRoute,
+                   const XpertRequestResult& _xpertRequestResult,
+                   const Common::DateTime& _adjustmentTime,
+                   Common::DateTime& _start,
+                   Common::DateTime& _end) const;
+
+    Core::LoadingOption getLoadingOption(const XpertQuery::XpertRequestData& _request,
+                                         const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const;
+
+    Core::RestPeriodOption getRestPeriodOption(const XpertQuery::XpertRequestData& _request,
+                                               const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const;
+
+    Core::SteadyStateTargetOption getSteadyStateTargetOption(const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const;
 
 protected:
 

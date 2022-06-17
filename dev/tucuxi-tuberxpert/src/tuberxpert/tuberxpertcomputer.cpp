@@ -196,13 +196,6 @@ ComputingStatus TuberXpertComputer::compute(
         XpertResult::AdjustmentTraitCreator adjustmentTraitCreator;
         adjustmentTraitCreator.createAdjustmentTrait(xpertRequestResult);
 
-        // Check if trait creation was successfull
-        if (xpertRequestResult.shouldBeHandled() == false) {
-            logHelper.error(xpertRequestResult.getErrorMessage());
-            ++nbUnfulfilledRequest;
-            continue;
-        }
-
         logHelper.info("Adjustment trait successfully created.");
     }
 
