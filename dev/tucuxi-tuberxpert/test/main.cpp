@@ -36,6 +36,10 @@
 #include "test_targetvalidator.h"
 #endif
 
+#if defined(test_adjustmenttraitcreator)
+#include "test_adjustmenttraitcreator.h"
+#endif
+
 
 using namespace std;
 
@@ -185,7 +189,7 @@ int main(int argc, char** argv)
     modelSelectorTests.add_test("Gets one result if one model with partially incompatible soft constraint.", &TestModelSelector::getResultOneModelPartiallyCompatibleSoftConstraint);
     modelSelectorTests.add_test("No result when multiple birthdates even with models left.", &TestModelSelector::noResultMultipleBirthdate);
     modelSelectorTests.add_test("No result when birthdate with bad datatype even with models left.", &TestModelSelector::noResultBadDatatypeBirthdate);
-    modelSelectorTests.add_test("No result when bodyweight with bad unit even with models left.", &TestModelSelector::noResultBadUnitBodyweight);
+    modelSelectorTests.add_test("No result when gist with bad unit even with models left.", &TestModelSelector::noResultBadUnitGist);
     modelSelectorTests.add_test("Gets the best result out of 3 models without tie.", &TestModelSelector::getResultOutofThreeNoTie);
     modelSelectorTests.add_test("Gets the best result out of 2 models with tie.", &TestModelSelector::getResultOutofTwoTie);
     modelSelectorTests.add_test("Selection failed when selected model covariates does not support request language without english fallbabk.", &TestModelSelector::requestFailDefinitionsNotSupportingLanguageWithoutEnglishBackup);
@@ -276,6 +280,27 @@ int main(int argc, char** argv)
         exit(1);
     } else {
         std::cout << "Target validator tests succeeded" << std::endl << std::endl;
+    }
+#endif
+
+    /***********************************************************
+     *                 AdjustmentTraitCreator                  *
+     ***********************************************************/
+
+#if defined(test_adjustmenttraitcreator)
+    TestAdjustmentTraitCreator testAdjustmentTraitCreator;
+
+    testAdjustmentTraitCreator.add_test("Get an error when no treatment.", &TestAdjustmentTraitCreator::errorWhenNoTreatment);
+    testAdjustmentTraitCreator.add_test("Get an error when no drug model.", &TestAdjustmentTraitCreator::errorWhenNoDrugModel);
+    testAdjustmentTraitCreator.add_test("Get the correct number of points per hour.", &TestAdjustmentTraitCreator::getTheCorrectPointPerHour);
+    testAdjustmentTraitCreator.add_test("Get the correct computing option.", &TestAdjustmentTraitCreator::getTheCorrectComputingOption);
+
+    res = testAdjustmentTraitCreator.run(argc, argv);
+    if (res != 0) {
+        std::cout << "Adjustment trait creator tests failed" << std::endl << std::endl;
+        exit(1);
+    } else {
+        std::cout << "Adjustment trait creator tests succeeded" << std::endl << std::endl;
     }
 #endif
 

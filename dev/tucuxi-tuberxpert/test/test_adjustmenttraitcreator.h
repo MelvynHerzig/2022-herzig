@@ -1,7 +1,5 @@
-#ifndef TEST_DOSEVALIDATOR_H
-#define TEST_DOSEVALIDATOR_H
-
-#include "fructose/fructose.h"
+#ifndef TEST_ADJUSTMENTTRAITCREATOR_H
+#define TEST_ADJUSTMENTTRAITCREATOR_H
 
 #include <memory>
 
@@ -10,20 +8,21 @@
 #include "tucucore/pkmodel.h"
 #include "tucucore/drugmodelchecker.h"
 
-#include "tuberxpert/language/languagemanager.h"
-#include "tuberxpert/result/validation/dosevalidator.h"
-#include "tuberxpert/result/xpertresult.h"
-#include "tuberxpert/result/xpertrequestresult.h"
+#include "tuberxpert/result/request/adjustmenttraitcreator.h"
 #include "tuberxpert/query/xpertquerydata.h"
 #include "tuberxpert/query/xpertqueryimport.h"
-#include "tuberxpert/utils/xpertutils.h"
+#include "tuberxpert/result/xpertresult.h"
 
-/// \date 21/04/2022
+#include "fructose/fructose.h"
+
+/// \brief Tests for TestAdjustmentTraitCreator. This class performs varius adjustment creation
+///        to check result is what was expected. Each test tests an attribute (or a subset of attributes)
+///        of the adjustment trait returned.
+/// \date 17/06/2022
 /// \author Herzig Melvyn
-struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
+struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTraitCreator>
 {
 
-    /// \brief Drug model string of the imatinib used by the tests as drug model for the queries.
     std::string imatinibModelString = R"(<?xml version="1.0" encoding="UTF-8"?>
                                         <model version='0.6' xsi:noNamespaceSchemaLocation='drugfile.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
                                             <history>
@@ -684,11 +683,569 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                         </drugModel>
                                                     </model>)";
 
-    /// \brief Sets up the environment for clean execution of the dose validator. Loads the query, makes the
-    ///        XpertResult object, loads the model, attributes it to the first XpertRequestResult of the XpertResult
-    ///        and loads an english dictionary.
+    std::string busulfanModelString = R"(<?xml version="1.0" encoding="UTF-8"?>
+                                        <model version='0.6' xsi:noNamespaceSchemaLocation='drugfile.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+                                            <!-- Drug history -->
+                                            <history>
+                                                <revisions>
+                                                    <revision>
+                                                        <revisionAction>creation</revisionAction>
+                                                        <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                                                        <institution>HEIG-VD // REDS</institution>
+                                                        <email>yann.thoma@heig-vd.ch</email>
+                                                        <date>2018-09-14</date>
+                                                        <comments>
+                                                            <comment lang="en">This file is based on the first version of
+                                                                busulfan validated by Sylvain Goutelle : ch.heig-vd.ezechiel.busulfan_children.xml
+                                                            </comment>
+                                                        </comments>
+                                                    </revision>
+                                                    <revision>
+                                                        <revisionAction>modification</revisionAction>
+                                                        <revisionAuthorName>Yann Thoma</revisionAuthorName>
+                                                        <institution>HEIG-VD</institution>
+                                                        <email>yann.thoma@heig-vd.ch</email>
+                                                        <date>2021-01-04</date>
+                                                        <comments>
+                                                            <comment lang='en'>Added the age covariate, for domain checking</comment>
+                                                        </comments>
+                                                    </revision>
+                                                </revisions>
+                                            </history>
+                                            <!-- Drug description -->
+                                            <head>
+                                                <drug>
+                                                    <atcs>
+                                                        <atc>L01AB01</atc>
+                                                    </atcs>
+                                                    <activeSubstances>
+                                                        <activeSubstance>busulfan</activeSubstance>
+                                                    </activeSubstances>
+                                                    <drugName>
+                                                        <name lang="en">Busulfan</name>
+                                                        <name lang="fr">Busulfan</name>
+                                                    </drugName>
+                                                    <drugDescription>
+                                                        <desc lang="en">TODO : Add a description here</desc>
+                                                    </drugDescription>
+                                                    <tdmStrategy>
+                                                        <text lang="en">TODO : Add a TDM strategy</text>
+                                                    </tdmStrategy>
+                                                </drug>
+                                                <study>
+                                                    <studyName>
+                                                        <name lang="en">Pharmacokinetic behavior and appraisal of intravenous busulfan dosing in infants and older children: the results of a population pharmacokinetic study from a large pediatric cohort undergoing hematopoietic stem-cell transplantation</name>
+                                                    </studyName>
+                                                    <studyAuthors>Paci A., Vassal G., Moshous D., Dalle J.H., Bleyzac N., Neven B., Galambrun C., Kemmel V., Abdi Z.D., Broutin S., Pétain A., Nguyen L.</studyAuthors>
+                                                    <description>
+                                                        <desc lang="en">Based on the article byPaci et al. Pharmacokinetic Behavior and Appraisal of Intravenous Busulfan Dosing in Infants and Older Children:
+                                                        The Results of a Population Pharmacokinetic Study From a Large Pediatric Cohort Undergoing Hematopoietic Stem-Cell Transplantation.
+                                                        Ther Drug Monit 2012, 34;:198-208</desc>
+                                                    </description>
+                                                    <references>
+                                                        <reference type="bibtex">TODO : Add bibtex
+                                                        </reference>
+                                                    </references>
+                                                </study>
+                                                <comments/>
+                                            </head>
+
+                                            <!-- Drug data -->
+                                            <drugModel>
+                                                <drugId>busulfan</drugId> <!-- id d'une des substances actives -->
+                                                <drugModelId>ch.tucuxi.busulfan.paci2012</drugModelId>
+
+                                                <domain>
+                                                    <description>
+                                                        <desc lang="en">All children (Age range: 10 days - 15 years, Weight range: 3.5 - 62.5 kg)</desc>
+                                                    </description>
+                                                    <constraints>
+                                                        <constraint>
+                                                            <constraintType>hard</constraintType>
+                                                            <errorMessage>
+                                                                <text lang="en">The age shall be positive</text>
+                                                            </errorMessage>
+                                                            <requiredCovariates>
+                                                                <covariateId>age</covariateId>
+                                                            </requiredCovariates>
+                                                            <checkOperation>
+                                                                <softFormula>
+                                                                    <inputs>
+                                                                        <input>
+                                                                            <id>age</id>
+                                                                            <type>int</type>
+                                                                        </input>
+                                                                    </inputs>
+                                                                    <code><![CDATA[return (age > 0);
+                                                                        ]]>
+                                                                    </code>
+                                                                </softFormula>
+                                                                <comments/>
+                                                            </checkOperation>
+                                                            <comments/>
+                                                        </constraint>
+                                                        <constraint>
+                                                            <constraintType>soft</constraintType>
+                                                            <errorMessage>
+                                                                <text lang="en">The weight should not be too much</text>
+                                                            </errorMessage>
+                                                            <requiredCovariates>
+                                                                <covariateId>bodyweight</covariateId>
+                                                            </requiredCovariates>
+                                                            <checkOperation>
+                                                                <softFormula>
+                                                                    <inputs>
+                                                                        <input>
+                                                                            <id>bodyweight</id>
+                                                                            <type>double</type>
+                                                                        </input>
+                                                                    </inputs>
+                                                                    <code><![CDATA[return (bodyweight < 100);
+                                                                        ]]>
+                                                                    </code>
+                                                                </softFormula>
+                                                                <comments/>
+                                                            </checkOperation>
+                                                            <comments/>
+                                                        </constraint>
+                                                    </constraints>
+                                                </domain>
+
+
+
+                                                <!-- Drug model covariates -->
+                                                <covariates>
+
+                                                    <covariate>
+                                                        <covariateId>age</covariateId>
+                                                        <covariateName>
+                                                            <name lang='en'>Age</name>
+                                                            <name lang='fr'>Age</name>
+                                                        </covariateName>
+                                                        <description>
+                                                            <desc lang='en'>Age of the patient, in years, only used for domain checking</desc>
+                                                            <desc lang='fr'>Âge du patient, en années, utilisé pour valider l'usage du modèle</desc>
+                                                        </description>
+                                                        <unit>y</unit>
+                                                        <covariateType>ageInYears</covariateType>
+                                                        <dataType>double</dataType>
+                                                        <interpolationType>direct</interpolationType>
+                                                        <refreshPeriod>
+                                                          <unit>y</unit>
+                                                          <value>1</value>
+                                                        </refreshPeriod>
+                                                        <covariateValue>
+                                                            <standardValue>10</standardValue>
+                                                        </covariateValue>
+                                                        <validation> <!-- pourrait être une contrainte -->
+                                                            <errorMessage><text lang="fr"></text></errorMessage>
+                                                            <operation>
+                                                                <softFormula>
+                                                                    <inputs>
+                                                                        <input>
+                                                                            <id>age</id>
+                                                                            <type>double</type>
+                                                                        </input>
+                                                                    </inputs>
+                                                                    <code><![CDATA[
+                                                                        return (age  > 0);
+                                                                        ]]>
+                                                                    </code>
+                                                                </softFormula>
+                                                                <comments/>
+                                                            </operation>
+                                                            <comments/>
+                                                        </validation>
+                                                        <comments/>
+                                                    </covariate>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <covariateName>
+                                                            <name lang="en">Total Body Weight</name>
+                                                            <name lang="fr">Poids total</name>
+                                                        </covariateName>
+                                                        <description>
+                                                            <desc lang="en">Total body weight of patient, in kilogramms</desc>
+                                                            <desc lang="fr">Poids total du patient, en kilogramme</desc>
+                                                        </description>
+                                                        <unit>kg</unit>
+                                                        <covariateType>standard</covariateType>
+                                                        <dataType>double</dataType>
+                                                        <interpolationType>linear</interpolationType>
+                                                        <refreshPeriod>
+                                                            <unit>d</unit>
+                                                            <value>30</value>
+                                                        </refreshPeriod>
+                                                        <covariateValue>
+                                                            <standardValue>9</standardValue>
+                                                        </covariateValue>
+                                                        <validation> <!-- pourrait être une contrainte -->
+                                                            <errorMessage><text lang="fr"></text></errorMessage>
+                                                            <operation>
+                                                                <softFormula>
+                                                                    <inputs>
+                                                                        <input>
+                                                                            <id>bodyweight</id>
+                                                                            <type>double</type>
+                                                                        </input>
+                                                                    </inputs>
+                                                                    <code><![CDATA[
+                                                                        return (bodyweight < 300) && (bodyweight > 0);
+                                                                        ]]>
+                                                                    </code>
+                                                                </softFormula>
+                                                                <comments/>
+                                                            </operation>
+                                                            <comments/>
+                                                        </validation>
+                                                        <comments/>
+                                                    </covariate>
+                                                </covariates>
+
+
+                                                <activeMoieties>
+                                                    <activeMoiety>
+                                                        <activeMoietyId>busulfan</activeMoietyId>
+                                                        <activeMoietyName>
+                                                            <name lang="en">Busulfan</name>
+                                                        </activeMoietyName>
+                                                        <unit>mg/l</unit>
+                                                        <analyteIdList>
+                                                            <analyteId>busulfan</analyteId>
+                                                        </analyteIdList>
+                                                        <analytesToMoietyFormula>
+                                                            <hardFormula>direct</hardFormula>
+                                                            <comments/>
+                                                        </analytesToMoietyFormula>
+                                                        <!-- Drug targets -->
+                                                        <targets>
+                                                            <target>
+                                                                <targetType>peak</targetType>
+                                                                <targetValues>
+                                                                <unit>mg/l</unit>
+                                                                    <min>
+                                                                        <standardValue>1.0</standardValue>
+                                                                    </min>
+                                                                    <max>
+                                                                        <standardValue>1.4</standardValue>
+                                                                    </max>
+                                                                    <best>
+                                                                        <standardValue>1.2</standardValue>
+                                                                    </best>
+                                                                    <toxicityAlarm><standardValue>10000.0</standardValue></toxicityAlarm>
+                                                                    <inefficacyAlarm><standardValue>0.0</standardValue></inefficacyAlarm>
+                                                                </targetValues>
+                                                                <times>
+                                                                    <unit>h</unit>
+                                                                    <min>
+                                                                        <standardValue>0.9</standardValue>
+                                                                    </min>
+                                                                    <max>
+                                                                        <standardValue>3</standardValue>
+                                                                    </max>
+                                                                    <best>
+                                                                        <standardValue>2.5</standardValue>
+                                                                    </best>
+                                                                </times>
+                                                                <comments>
+                                                                    <comment lang="en">The time values shall be checked. They initially were not aligned with possible infusion times. A Toxicity and inefficacyAlarm should be added</comment>
+                                                                </comments>
+                                                            </target>
+                                                            <target>
+                                                                <targetType>cumulativeAuc</targetType>
+                                                                <targetValues>
+                                                                    <unit>mg*h/l</unit>
+                                                                    <min>
+                                                                        <standardValue>59.0</standardValue>
+                                                                    </min>
+                                                                    <max>
+                                                                        <standardValue>99.0</standardValue>
+                                                                    </max>
+                                                                    <best>
+                                                                        <standardValue>72.0</standardValue>
+                                                                    </best>
+                                                                    <!-- TODO : Check that -->
+                                                                    <toxicityAlarm><standardValue>10000.0</standardValue></toxicityAlarm>
+                                                                    <inefficacyAlarm><standardValue>0.0</standardValue></inefficacyAlarm>
+                                                                </targetValues>
+                                                                <comments>
+                                                                    <comment lang="en">This is the target cumulative for a regimen with 16 doses over 4 days, i.e. a dose every 6h.</comment>
+                                                                </comments>
+                                                            </target>
+                                                        </targets>
+                                                    </activeMoiety>
+                                                </activeMoieties>
+
+                                                <analyteGroups>
+                                                    <analyteGroup>
+                                                        <groupId>busulfan</groupId>
+                                                        <pkModelId>linear.1comp.macro</pkModelId>
+                                                        <analytes>
+                                                            <analyte>
+                                                                <analyteId>busulfan</analyteId>
+                                                                <unit>mg/l</unit>
+                                                                <molarMass>
+                                                                  <value>246.292</value>
+                                                                    <unit>g/mol</unit>
+                                                                </molarMass>
+                                                                <description>
+                                                                    <desc lang="en"></desc>
+                                                                </description> <!-- peut être vide -->
+
+                                                                <errorModel> <!-- optional -->
+                                                                    <errorModelType>mixed</errorModelType>
+                                                                    <sigmas>
+                                                                        <sigma>
+                                                                            <standardValue>0.057</standardValue>
+                                                                        </sigma>
+                                                                        <sigma>
+                                                                            <standardValue>0.11</standardValue>
+                                                                        </sigma>
+                                                                    </sigmas>
+                                                                    <comments>
+                                                                        <comment lang='fr'>add: en mg/L; prop, en % ie 0.11 = 11.0%</comment>
+                                                                    </comments>
+                                                                </errorModel>
+                                                                <comments/>
+                                                            </analyte>
+                                                        </analytes>
+
+                                                        <!-- Drug parameters -->
+                                                        <dispositionParameters>
+                                                            <parameters>
+                                                                <parameter>
+                                                                    <parameterId>CL</parameterId>
+                                                                    <unit>l/h</unit>
+                                                                    <parameterValue>
+                                                                        <standardValue>2.18</standardValue>
+                                                                        <aprioriComputation>
+
+                                                                            <softFormula>
+                                                                                <inputs>
+                                                                                    <input>
+                                                                                        <id>bodyweight</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                </inputs>
+                                                                                <code><![CDATA[
+                                                                        theta_1 = 2.18;
+
+                                                                        if (bodyweight < 9.0)
+                                                                          theta_2=1.25;
+                                                                        else
+                                                                          theta_2=0.76;
+
+                                                                        return theta_1 * Math.pow((bodyweight/ 9),theta_2);
+
+                                                                 ]]>
+                                                                                </code>
+                                                                            </softFormula>
+                                                                            <comments/>
+                                                                        </aprioriComputation>
+                                                                    </parameterValue>
+                                                                    <bsv>
+                                                                        <bsvType>proportional</bsvType> <!-- même chose que le modèle d'erreur -->
+                                                                        <stdDevs>
+                                                                            <stdDev>0.23</stdDev>
+                                                                        </stdDevs>
+                                                                    </bsv>
+                                                                    <validation>
+                                                                        <errorMessage><text lang="fr"></text></errorMessage>
+                                                                        <operation>
+                                                                            <softFormula>
+                                                                                <inputs>
+                                                                                    <input>
+                                                                                        <id>CL</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                </inputs>
+                                                                                <code><![CDATA[
+                                                                                    return CL < 300.0 and CL > 0.0;
+                                                                                    ]]>
+                                                                                </code>
+                                                                            </softFormula>
+                                                                            <comments/>
+                                                                        </operation>
+                                                                        <comments/>
+                                                                    </validation>
+                                                                    <comments/>
+                                                                </parameter>
+                                                                <parameter>
+                                                                    <parameterId>V</parameterId>
+                                                                    <unit>l</unit>
+                                                                    <parameterValue>
+                                                                        <standardValue>6.6</standardValue>
+                                                                        <aprioriComputation>
+
+                                                                            <softFormula>
+                                                                                <inputs>
+                                                                                    <input>
+                                                                                        <id>bodyweight</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                </inputs>
+                                                                                <code><![CDATA[
+                                                                        theta_3=0.86;
+                                                        return Math.pow(bodyweight,theta_3);
+                                                                                    ]]>
+                                                                                </code>
+                                                                            </softFormula>
+                                                                            <comments/>
+                                                                        </aprioriComputation>
+                                                                    </parameterValue>
+                                                                    <bsv>
+                                                                        <bsvType>proportional</bsvType>
+                                                                        <stdDevs>
+                                                                            <stdDev>0.22</stdDev>
+                                                                        </stdDevs>
+                                                                    </bsv>
+                                                                    <validation>
+                                                                        <errorMessage><text lang="fr"></text></errorMessage>
+                                                                        <operation>
+                                                                            <softFormula>
+                                                                                <inputs>
+                                                                                    <input>
+                                                                                        <id>V</id>
+                                                                                        <type>double</type>
+                                                                                    </input>
+                                                                                </inputs>
+                                                                                <code><![CDATA[
+                                                                                    return V < 300.0 and V > 0.0;
+                                                                                    ]]>
+                                                                                </code>
+                                                                            </softFormula>
+                                                                            <comments/>
+                                                                        </operation>
+                                                                        <comments/>
+                                                                    </validation>
+                                                                    <comments>
+                                                                        <comment lang="en">Typical volume calculated for a patients with weight = 75 kg</comment>
+                                                                    </comments>
+                                                                </parameter>
+                                                            </parameters>
+
+                                                            <!-- elimination parameters correlations -->
+                                                            <correlations />
+                                                        </dispositionParameters>
+                                                    </analyteGroup>
+                                                </analyteGroups>
+
+                                                <!-- We can have various formulation and routes, and for each one a set of absorption parameters and available dosages -->
+
+                                                <formulationAndRoutes default="id0">
+                                                    <formulationAndRoute>
+                                                        <formulationAndRouteId>id0</formulationAndRouteId>
+                                                        <formulation>parenteralSolution</formulation><!-- dictionnaire -->
+                                                        <administrationName>champ libre</administrationName>
+                                                        <administrationRoute>intravenousDrip</administrationRoute> <!-- dictionnaire -->
+                                                        <absorptionModel>infusion</absorptionModel>
+
+
+                                                        <!-- Drug dosages -->
+                                                        <dosages>
+
+
+                                                            <standardTreatment>
+                                                                <isFixedDuration>true</isFixedDuration>
+                                                                <timeValue>
+                                                                    <unit>d</unit>
+                                                                    <value>4</value>
+                                                                </timeValue>
+                                                            </standardTreatment>
+
+                                                            <analyteConversions>
+                                                                <analyteConversion>
+                                                                    <analyteId>busulfan</analyteId>
+                                                                    <factor>1</factor>
+                                                                </analyteConversion>
+                                                            </analyteConversions>
+
+                                                            <availableDoses>
+                                                                <unit>mg</unit>
+                                                                <default>
+                                                                    <standardValue>10</standardValue>
+                                                                </default>
+                                                                <rangeValues>
+                                                                    <from>
+                                                                        <standardValue>1</standardValue>
+                                                                    </from>
+                                                                    <to>
+                                                                        <standardValue>400</standardValue>
+                                                                    </to>
+                                                                    <step>
+                                                                        <standardValue>1</standardValue>
+                                                                    </step>
+                                                                </rangeValues>
+                                                            </availableDoses>
+
+                                                            <availableIntervals>
+                                                                <unit>h</unit>
+                                                                <default>
+                                                                    <standardValue>6</standardValue>
+                                                                </default>
+                                                                <fixedValues>
+                                                                    <value>6</value>
+                                                                    <value>24</value>
+                                                                </fixedValues>
+                                                            </availableIntervals>
+                                                            <availableInfusions>
+                                                                <unit>min</unit>
+                                                                <default>
+                                                                    <standardValue>120</standardValue>
+                                                                </default>
+                                                                <fixedValues>
+                                                                    <value>60</value>
+                                                                    <value>120</value>
+                                                                    <value>180</value>
+                                                                </fixedValues>
+                                                            </availableInfusions>
+                                                            <comments/>
+                                                        </dosages>
+
+                                                        <absorptionParameters/>
+
+                                                    </formulationAndRoute>
+                                                </formulationAndRoutes>
+
+
+
+                                                <timeConsiderations>
+                                                    <!-- Drug half-life -->
+                                                    <halfLife>
+                                                        <unit>h</unit>
+                                                        <duration>
+                                                            <standardValue>12</standardValue>
+                                                        </duration>
+                                                        <multiplier>10</multiplier>
+                                                        <comments>
+                                                            <comment lang="en">TODO : Find the half life</comment>
+                                                        </comments>
+                                                    </halfLife>
+
+
+                                                    <outdatedMeasure>
+                                                        <unit>d</unit>
+                                                        <duration>
+                                                            <standardValue>100</standardValue>
+                                                        </duration>
+                                                        <comments>
+                                                            <comment lang="en">TODO : This value is not set now</comment>
+                                                        </comments>
+                                                    </outdatedMeasure>
+                                                </timeConsiderations>
+
+                                                <!-- Drug general comments -->
+                                                <comments>
+                                                </comments>
+                                            </drugModel>
+                                        </model>
+                                        )";
+
+
+    /// \brief Sets up environment for clean execution of the adjustment trait creator. Loads the query, makes the
+    ///        XpertResult object, loads the model and attributes it to the first XpertRequestResult of the XpertResult.
     /// \param _queryString Query string to load.
-    /// \param _model Model string to put as attribute of the XpertRequestResult of the first request.
+    /// \param _model Model string to put as drug model attribute of the XpertRequestResult of the first request.
     /// \param _xpertResult Object that will contain the result of this function execution.
     void setupEnv(const std::string& _queryString,
                   const std::string& _model,
@@ -736,19 +1293,6 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
         _xpertResult = std::make_unique<Tucuxi::XpertResult::XpertResult>(move(query));
         Tucuxi::XpertResult::XpertRequestResult& xrr =  _xpertResult->getXpertRequestResults()[0];
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
-
-        // Loading the dictionary with keys used by the dose validator.
-        std::string dictionaryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                            <dictionary
-                                                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                                xsi:noNamespaceSchemaLocation="dictionary.xsd">
-
-                                                <entry key="maximum_dosage_warning">Maximum recommended dosage reached</entry>
-                                                <entry key="minimum_dosage_warning">Minimum recommended dosage reached</entry>
-
-                                            </dictionary>)";
-        Tucuxi::XpertLanguage::LanguageManager& languageManager = Tucuxi::XpertLanguage::LanguageManager::getInstance();
-        languageManager.loadDictionary(dictionaryString);
     }
 
     /// \brief Checks that there is an error if the treatment of XpertRequestResult is nullptr.
@@ -759,12 +1303,12 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         Tucuxi::XpertResult::XpertRequestResult xrr{nullptr, nullptr, ""};
 
-        Tucuxi::XpertResult::DoseValidator dv;
-        dv.getDoseValidations(xrr);
+        Tucuxi::XpertResult::AdjustmentTraitCreator atc;
+        atc.createAdjustmentTrait(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "No treatment set.");
-        fructose_assert_eq(xrr.getDoseResults().size(), 0);
+        fructose_assert_eq(xrr.getSampleResults().size(), 0);
     }
 
     /// \brief Checks that there is an error if the drug model of XpertRequestResult is nullptr.
@@ -863,19 +1407,20 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         Tucuxi::XpertResult::XpertResult xr{move(query)};
 
-        Tucuxi::XpertResult::DoseValidator dv;
-        dv.getDoseValidations(xr.getXpertRequestResults()[0]);
+
+        Tucuxi::XpertResult::AdjustmentTraitCreator atc;
+        atc.createAdjustmentTrait(xr.getXpertRequestResults()[0]);
 
         fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
         fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
-        fructose_assert_eq(xr.getXpertRequestResults()[0].getDoseResults().size(), 0);
     }
 
-    /// \brief Checks that DoseResults map of the XpertResquestResult is empty if there is no
-    ///        dosage in the treatment.
+    /// \brief This methods checks that the adjustment trait creator sets the expected number of points
+    ///        per hours (i.e. 20) and that there is no error.
     /// \param _testName Name of the test
-    void emptyResultWhenNoDosages(const std::string& _testName)
+    void getTheCorrectPointPerHour(const std::string& _testName)
     {
+
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -890,381 +1435,30 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                </covariates>
-                                            </patient>
-                                            <!-- List of the drugs informations we have concerning the patient -->
-                                            <drugs>
-                                                <!-- All the information regarding the drug -->
-                                                <drug>
-                                                    <drugId>imatinib</drugId>
-                                                    <activePrinciple>something</activePrinciple>
-                                                    <brandName>somebrand</brandName>
-                                                    <atc>something</atc>
-                                                    <!-- All the information regarding the treatment -->
-                                                    <treatment>
-                                                    </treatment>
-                                                    <!-- Samples history -->
-                                                    <samples>
-                                                    </samples>
-                                                    <!-- Personalised targets -->
-                                                    <targets>
-                                                    </targets>
-                                                </drug>
-                                            </drugs>
-                                        </drugTreatment>
-                                        <!-- List of the requests we want the server to take care of -->
-                                        <requests>
-                                            <requestXpert>
-                                                <drugId>imatinib</drugId>
-                                                <output>
-                                                    <format>xml</format>
-                                                    <language>en</language>
-                                                </output>
-                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
-                                                <options>
-                                                    <loadingOption>noLoadingDose</loadingOption>
-                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
-                                                    <targetExtractionOption>populationValues</targetExtractionOption>
-                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
-                                                </options>
-                                            </requestXpert>
-                                        </requests>
-                                    </query>)";
-
-
-        std::cout << _testName << std::endl;
-
-        std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
-
-        setupEnv(queryString, imatinibModelString, result);
-
-        Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
-
-        Tucuxi::XpertResult::DoseValidator dv;
-
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getDoseResults().size(), 0);
-
-    }
-
-    /// \brief Checks that DoseResults map of the XpertResquestResult is contains
-    ///        a warning message when there is an underdose.
-    /// \param _testName Name of the test
-    void warningUnderdose(const std::string& _testName)
-    {
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                    <query version="1.0"
-                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
-
-                                        <queryId>imatinib_2</queryId>
-                                        <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
-
-                                        <drugTreatment>
-                                            <!-- All the information regarding the patient -->
-                                            <patient>
-                                                <covariates>
-                                                </covariates>
-                                            </patient>
-                                            <!-- List of the drugs informations we have concerning the patient -->
-                                            <drugs>
-                                                <!-- All the information regarding the drug -->
-                                                <drug>
-                                                    <drugId>imatinib</drugId>
-                                                    <activePrinciple>something</activePrinciple>
-                                                    <brandName>somebrand</brandName>
-                                                    <atc>something</atc>
-                                                    <!-- All the information regarding the treatment -->
-                                                    <treatment>
-                                                        <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>1</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
-                                                        </dosageHistory>
-                                                    </treatment>
-                                                    <!-- Samples history -->
-                                                    <samples>
-                                                    </samples>
-                                                    <!-- Personalised targets -->
-                                                    <targets>
-                                                    </targets>
-                                                </drug>
-                                            </drugs>
-                                        </drugTreatment>
-                                        <!-- List of the requests we want the server to take care of -->
-                                        <requests>
-                                            <requestXpert>
-                                                <drugId>imatinib</drugId>
-                                                <output>
-                                                    <format>xml</format>
-                                                    <language>en</language>
-                                                </output>
-                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
-                                                <options>
-                                                    <loadingOption>noLoadingDose</loadingOption>
-                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
-                                                    <targetExtractionOption>populationValues</targetExtractionOption>
-                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
-                                                </options>
-                                            </requestXpert>
-                                        </requests>
-                                    </query>)";
-
-        std::cout << _testName << std::endl;
-
-        std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
-
-        setupEnv(queryString, imatinibModelString, result);
-
-        Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
-
-        Tucuxi::XpertResult::DoseValidator dv;
-        dv.getDoseValidations(xrr);
-
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getDoseResults().size(), 1);
-        fructose_assert_eq(xrr.getDoseResults().begin()->second.getWarning(), "Minimum recommended dosage reached (100.00 mg)");
-    }
-
-    /// \brief Checks that DoseResults map of the XpertResquestResult is contains
-    ///        a warning message when there is an overdose.
-    /// \param _testName Name of the test
-    void warningOverdose(const std::string& _testName)
-    {
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                    <query version="1.0"
-                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
-
-                                        <queryId>imatinib_2</queryId>
-                                        <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
-
-                                        <drugTreatment>
-                                            <!-- All the information regarding the patient -->
-                                            <patient>
-                                                <covariates>
-                                                </covariates>
-                                            </patient>
-                                            <!-- List of the drugs informations we have concerning the patient -->
-                                            <drugs>
-                                                <!-- All the information regarding the drug -->
-                                                <drug>
-                                                    <drugId>imatinib</drugId>
-                                                    <activePrinciple>something</activePrinciple>
-                                                    <brandName>somebrand</brandName>
-                                                    <atc>something</atc>
-                                                    <!-- All the information regarding the treatment -->
-                                                    <treatment>
-                                                        <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>10000000</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
-                                                        </dosageHistory>
-                                                    </treatment>
-                                                    <!-- Samples history -->
-                                                    <samples>
-                                                    </samples>
-                                                    <!-- Personalised targets -->
-                                                    <targets>
-                                                    </targets>
-                                                </drug>
-                                            </drugs>
-                                        </drugTreatment>
-                                        <!-- List of the requests we want the server to take care of -->
-                                        <requests>
-                                            <requestXpert>
-                                                <drugId>imatinib</drugId>
-                                                <output>
-                                                    <format>xml</format>
-                                                    <language>en</language>
-                                                </output>
-                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
-                                                <options>
-                                                    <loadingOption>noLoadingDose</loadingOption>
-                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
-                                                    <targetExtractionOption>populationValues</targetExtractionOption>
-                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
-                                                </options>
-                                            </requestXpert>
-                                        </requests>
-                                    </query>)";
-
-        std::cout << _testName << std::endl;
-
-        std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
-
-        setupEnv(queryString, imatinibModelString, result);
-
-        Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
-
-        Tucuxi::XpertResult::DoseValidator dv;
-        dv.getDoseValidations(xrr);
-
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getDoseResults().size(), 1);
-        fructose_assert_eq(xrr.getDoseResults().begin()->second.getWarning(), "Maximum recommended dosage reached (400.00 mg)");
-    }
-
-    /// \brief Checks that XpertRequestResult gets an error if the unit conversion fails.
-    /// \param _testName Name of the test
-    void errorFailUnitConversion(const std::string& _testName)
-    {
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                    <query version="1.0"
-                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
-
-                                        <queryId>imatinib_2</queryId>
-                                        <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
-
-                                        <drugTreatment>
-                                            <!-- All the information regarding the patient -->
-                                            <patient>
-                                                <covariates>
-                                                </covariates>
-                                            </patient>
-                                            <!-- List of the drugs informations we have concerning the patient -->
-                                            <drugs>
-                                                <!-- All the information regarding the drug -->
-                                                <drug>
-                                                    <drugId>imatinib</drugId>
-                                                    <activePrinciple>something</activePrinciple>
-                                                    <brandName>somebrand</brandName>
-                                                    <atc>something</atc>
-                                                    <!-- All the information regarding the treatment -->
-                                                    <treatment>
-                                                        <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>400</value>
-                                                                                <unit>month</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
-                                                        </dosageHistory>
-                                                    </treatment>
-                                                    <!-- Samples history -->
-                                                    <samples>
-                                                    </samples>
-                                                    <!-- Personalised targets -->
-                                                    <targets>
-                                                    </targets>
-                                                </drug>
-                                            </drugs>
-                                        </drugTreatment>
-                                        <!-- List of the requests we want the server to take care of -->
-                                        <requests>
-                                            <requestXpert>
-                                                <drugId>imatinib</drugId>
-                                                <output>
-                                                    <format>xml</format>
-                                                    <language>en</language>
-                                                </output>
-                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
-                                                <options>
-                                                    <loadingOption>noLoadingDose</loadingOption>
-                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
-                                                    <targetExtractionOption>populationValues</targetExtractionOption>
-                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
-                                                </options>
-                                            </requestXpert>
-                                        </requests>
-                                    </query>)";  
-
-        std::cout << _testName << std::endl;
-
-        std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
-
-        setupEnv(queryString, imatinibModelString, result);
-
-        Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
-
-        Tucuxi::XpertResult::DoseValidator dv;
-        dv.getDoseValidations(xrr);
-
-        fructose_assert_eq(xrr.shouldBeHandled(), false);
-        fructose_assert_eq(xrr.getDoseResults().size(), 0);
-        fructose_assert_eq(xrr.getErrorMessage(), "Patient dosage error found, details: Error in unit conversion");
-    }
-
-    /// \brief Checks that XpertRequestResult gets an error if the formulation and route is not supported.
-    ///        The request requires a nasal route which is not suported by the original imatinib model.
-    /// \param _testName Name of the test
-    void errorFormulationAndRouteNotSupported(const std::string& _testName)
-    {
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                    <query version="1.0"
-                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
-
-                                        <queryId>imatinib_2</queryId>
-                                        <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
-
-                                        <drugTreatment>
-                                            <!-- All the information regarding the patient -->
-                                            <patient>
-                                                <covariates>
+                                                    <covariate>
+                                                        <covariateId>birthdate</covariateId>
+                                                        <date>2018-07-11T10:45:30</date>
+                                                        <value>1990-01-01T00:00:00</value>
+                                                        <unit></unit>
+                                                          <dataType>date</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <date>2017-07-06T08:00:00</date>
+                                                        <value>70</value>
+                                                        <unit>kg</unit>
+                                                          <dataType>double</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <date>2018-07-06T08:00:00</date>
+                                                        <value>150000</value>
+                                                        <unit>g</unit>
+                                                          <dataType>double</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -1293,7 +1487,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                                             <formulationAndRoute>
                                                                                 <formulation>parenteralSolution</formulation>
                                                                                 <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>nasal</administrationRoute>
+                                                                                <administrationRoute>oral</administrationRoute>
                                                                                 <absorptionModel>extravascular</absorptionModel>
                                                                             </formulationAndRoute>
                                                                         </lastingDosage>
@@ -1304,6 +1498,39 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T06:00:30</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>0.7</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T07:00:00</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>10.6</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T13:00:00</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>0.8</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
@@ -1330,6 +1557,8 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         </requests>
                                     </query>)";
 
+
+
         std::cout << _testName << std::endl;
 
         std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
@@ -1338,18 +1567,19 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::DoseValidator dv;
-        dv.getDoseValidations(xrr);
+        Tucuxi::XpertResult::AdjustmentTraitCreator atc;
+        atc.createAdjustmentTrait(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), false);
-        fructose_assert_eq(xrr.getDoseResults().size(), 0);
-        fructose_assert_eq(xrr.getErrorMessage(), "Patient dosage error found, details: no corresponding full formulation and route found for a dosage.");
+        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getNbPointsPerHour(), 20);
     }
 
-    /// \brief Checks that DosageValidator works with every types of dosage and multiple dosageTimeRange.
+    /// \brief This methods checks that the adjustment trait creator sets the expected computing option
+    ///        (i.e. AllActiveMoieties, RetrieveStatistics, RetrieveParameters, RetrieveCovariates) and that there is no error.
     /// \param _testName Name of the test
-    void multipleDosageTypeAndDosageTimeRange(const std::string& _testName)
+    void getTheCorrectComputingOption(const std::string& _testName)
     {
+
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -1364,6 +1594,30 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
+                                                    <covariate>
+                                                        <covariateId>birthdate</covariateId>
+                                                        <date>2018-07-11T10:45:30</date>
+                                                        <value>1990-01-01T00:00:00</value>
+                                                        <unit></unit>
+                                                          <dataType>date</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <date>2017-07-06T08:00:00</date>
+                                                        <value>70</value>
+                                                        <unit>kg</unit>
+                                                          <dataType>double</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <date>2018-07-06T08:00:00</date>
+                                                        <value>150000</value>
+                                                        <unit>g</unit>
+                                                          <dataType>double</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -1385,7 +1639,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                                         <lastingDosage>
                                                                             <interval>12:00:00</interval>
                                                                             <dose>
-                                                                                <value>3000</value>
+                                                                                <value>400</value>
                                                                                 <unit>mg</unit>
                                                                                 <infusionTimeInMinutes>60</infusionTimeInMinutes>
                                                                             </dose>
@@ -1399,76 +1653,43 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                                     </dosageLoop>
                                                                 </dosage>
                                                             </dosageTimeRange>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-09T08:00:00</start>
-                                                                <end>2018-07-10T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageSteadyState>
-                                                                        <lastDoseDate>2018-07-09T20:00:00</lastDoseDate>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>3</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageSteadyState>
-                                                                </dosage>
-                                                            </dosageTimeRange>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-11T08:00:00</start>
-                                                                <end>2018-08-12T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageSequence>
-                                                                        <dosageRepeat>
-                                                                            <iterations>4</iterations>
-                                                                            <dailyDosage>
-                                                                                <time>10:00:00</time>
-                                                                                <dose>
-                                                                                    <value>400</value>
-                                                                                    <unit>mg</unit>
-                                                                                    <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                                </dose>
-                                                                                <formulationAndRoute>
-                                                                                    <formulation>parenteralSolution</formulation>
-                                                                                    <administrationName>foo bar</administrationName>
-                                                                                    <administrationRoute>oral</administrationRoute>
-                                                                                    <absorptionModel>extravascular</absorptionModel>
-                                                                                </formulationAndRoute>
-                                                                            </dailyDosage>
-                                                                        </dosageRepeat>
-                                                                        <dosageRepeat>
-                                                                            <iterations>2</iterations>
-                                                                            <weeklyDosage>
-                                                                                <day>2</day>
-                                                                                <time>11:00:00</time>
-                                                                                <dose>
-                                                                                    <value>0.39</value>
-                                                                                    <unit>g</unit>
-                                                                                    <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                                </dose>
-                                                                                <formulationAndRoute>
-                                                                                    <formulation>parenteralSolution</formulation>
-                                                                                    <administrationName>foo bar</administrationName>
-                                                                                    <administrationRoute>oral</administrationRoute>
-                                                                                    <absorptionModel>extravascular</absorptionModel>
-                                                                                </formulationAndRoute>
-                                                                            </weeklyDosage>
-                                                                        </dosageRepeat>
-                                                                    </dosageSequence>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T06:00:30</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>0.7</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T07:00:00</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>10.6</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T13:00:00</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>0.8</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
@@ -1495,6 +1716,8 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         </requests>
                                     </query>)";
 
+
+
         std::cout << _testName << std::endl;
 
         std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
@@ -1503,61 +1726,17 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::DoseValidator dv;
-        dv.getDoseValidations(xrr);
+        Tucuxi::XpertResult::AdjustmentTraitCreator atc;
+        atc.createAdjustmentTrait(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getDoseResults().size(), 4);
-        fructose_assert_eq(xrr.getErrorMessage(), "");
 
-
-
-        // All dose are diffrent and we are going to use this to get the correct asserts
-        // This is because map are not guaranteed in the same order. This not really elegant but it does
-        // the trick.
-        bool first = false, second = false, third = false, fourth = false;
-        for(auto doseIt = xrr.getDoseResults().begin(); doseIt != xrr.getDoseResults().end(); ++doseIt) {
-             const Tucuxi::Core::SingleDose* psd = doseIt->first;
-
-             // Checking that the key equals to the dose pointer in the DoseResult.
-             // Must be true for all dose.
-             fructose_assert_eq(doseIt->second.getSource(), psd);
-
-             // Now, checking specific elements.
-
-             switch(int(psd->getDose())) {
-                case 3000 :
-                 fructose_assert_eq(Tucuxi::XpertUtils::varToString(psd->getDose()), "3000.00");
-                 fructose_assert_eq(psd->getDoseUnit().toString(), "mg");
-                 fructose_assert_eq(doseIt->second.getWarning(), "Maximum recommended dosage reached (400.00 mg)");
-                 first = true;
-                 break;
-
-                case 3 :
-                 fructose_assert_eq(Tucuxi::XpertUtils::varToString(psd->getDose()), "3.00");
-                 fructose_assert_eq(psd->getDoseUnit().toString(), "mg");
-                 fructose_assert_eq(doseIt->second.getWarning(), "Minimum recommended dosage reached (100.00 mg)");
-                 second = true;
-                 break;
-
-                case 400 :
-                 fructose_assert_eq(Tucuxi::XpertUtils::varToString(psd->getDose()), "400.00");
-                 fructose_assert_eq(psd->getDoseUnit().toString(), "mg");
-                 fructose_assert_eq(doseIt->second.getWarning(), "");
-                 third = true;
-                 break;
-
-                case 0 :
-                 fructose_assert_eq(Tucuxi::XpertUtils::varToString(psd->getDose()), "0.39");
-                 fructose_assert_eq(psd->getDoseUnit().toString(), "g");
-                 fructose_assert_eq(doseIt->second.getWarning(), "");
-                 fourth = true;
-                 break;
-             }
-        }
-
-        fructose_assert_eq(first && second && third && fourth, true);
+        Tucuxi::Core::ComputingOption computingOption = xrr.getAdjustmentTrait()->getComputingOption();
+        fructose_assert_eq(computingOption.getCompartmentsOption() == Tucuxi::Core::CompartmentsOption::AllActiveMoieties, true);
+        fructose_assert_eq(computingOption.retrieveStatistics() == Tucuxi::Core::RetrieveStatisticsOption::RetrieveStatistics, true);
+        fructose_assert_eq(computingOption.retrieveParameters() == Tucuxi::Core::RetrieveParametersOption::RetrieveParameters, true);
+        fructose_assert_eq(computingOption.retrieveCovariates() == Tucuxi::Core::RetrieveCovariatesOption::RetrieveCovariates, true);
     }
 };
 
-#endif // TEST_DOSEVALIDATOR_H
+#endif // TEST_ADJUSTMENTTRAITCREATOR_H

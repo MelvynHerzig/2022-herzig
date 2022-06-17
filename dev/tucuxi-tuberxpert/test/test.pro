@@ -29,17 +29,19 @@ SOURCES += \
 }
 
 DEFINES+= \
+    test_adjustmenttraitcreator \
+    test_dosevalidator \
     test_language \
+    test_modelselector \
+    test_samplevalidator \
+    test_targetvalidator \
     test_query \
     test_xpertquerytocoreextractor \
     test_xpertresultcreation \
-    test_modelselector \
-    test_dosevalidator \
     test_xpertutils \
-    test_samplevalidator \
-    test_targetvalidator \
 
 HEADERS += \
+    test_adjustmenttraitcreator.h \
     test_dosevalidator.h \
     test_languagemanager.h \
     test_modelselector.h \

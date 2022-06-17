@@ -75,7 +75,7 @@ ComputingStatus TuberXpertComputer::compute(
         logHelper.info("\n---------------------------------------");
         logHelper.info("Handling request number: " + to_string(++requestNbBeingHandled));
 
-        // Check if extraction was successfull
+        // Check if extraction was successful
         logHelper.info("\nChecking extraction state...");
         if (xpertRequestResult.shouldBeHandled() == false) {
             logHelper.error(xpertRequestResult.getErrorMessage());
@@ -122,7 +122,7 @@ ComputingStatus TuberXpertComputer::compute(
         XpertResult::BestDrugModelSelector bestDrugModelSelector;
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
-        // Check if model selection was successfull
+        // Check if model selection was successful
         if (xpertRequestResult.shouldBeHandled() == false) {
             logHelper.error(xpertRequestResult.getErrorMessage());
             ++nbUnfulfilledRequest;
@@ -140,7 +140,7 @@ ComputingStatus TuberXpertComputer::compute(
         XpertResult::DoseValidator doseValidator;
         doseValidator.getDoseValidations(xpertRequestResult);
 
-        // Check if dosages checking was successfull
+        // Check if dosages checking was successful
         if (xpertRequestResult.shouldBeHandled() == false) {
             logHelper.error(xpertRequestResult.getErrorMessage());
             ++nbUnfulfilledRequest;
@@ -159,7 +159,7 @@ ComputingStatus TuberXpertComputer::compute(
         XpertResult::SampleValidator sampleValidator;
         sampleValidator.getSampleValidations(xpertRequestResult);
 
-        // Check if samples checking was successfull
+        // Check if samples checking was successful
         if (xpertRequestResult.shouldBeHandled() == false) {
             logHelper.error(xpertRequestResult.getErrorMessage());
             ++nbUnfulfilledRequest;
@@ -178,7 +178,7 @@ ComputingStatus TuberXpertComputer::compute(
         XpertResult::TargetValidator targetValidator;
         targetValidator.getTargetValidations(xpertRequestResult);
 
-        // Check if targets checking was successfull
+        // Check if targets checking was successful
         if (xpertRequestResult.shouldBeHandled() == false) {
             logHelper.error(xpertRequestResult.getErrorMessage());
             ++nbUnfulfilledRequest;
@@ -195,6 +195,13 @@ ComputingStatus TuberXpertComputer::compute(
 
         XpertResult::AdjustmentTraitCreator adjustmentTraitCreator;
         adjustmentTraitCreator.createAdjustmentTrait(xpertRequestResult);
+
+        // Check if adjustment trait creation was successful
+        if (xpertRequestResult.shouldBeHandled() == false) {
+            logHelper.error(xpertRequestResult.getErrorMessage());
+            ++nbUnfulfilledRequest;
+            continue;
+        }
 
         logHelper.info("Adjustment trait successfully created.");
     }
