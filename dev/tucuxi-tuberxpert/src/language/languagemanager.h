@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "../query/xpertrequestdata.h"
-#include "query/administrativedata.h"
 
 namespace Tucuxi {
 namespace XpertLanguage {
