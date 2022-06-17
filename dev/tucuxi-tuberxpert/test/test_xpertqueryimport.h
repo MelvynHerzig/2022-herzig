@@ -1,8 +1,8 @@
 #ifndef TEST_XPERTQUERYIMPORT_H
 #define TEST_XPERTQUERYIMPORT_H
 
-#include "../src/query/xpertqueryimport.h"
-#include "../src/query/xpertrequestdata.h"
+#include "tuberxpert/query/xpertqueryimport.h"
+#include "tuberxpert/query/xpertrequestdata.h"
 
 #include "fructose/fructose.h"
 

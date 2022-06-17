@@ -3,7 +3,7 @@
 
 #include "tucucore/drugmodel/formulationandroute.h"
 
-#include "../xpertrequestresult.h"
+#include "tuberxpert/result/xpertrequestresult.h"
 
 namespace Tucuxi {
 namespace XpertResult {

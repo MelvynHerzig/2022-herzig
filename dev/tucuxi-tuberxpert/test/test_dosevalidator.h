@@ -10,15 +10,13 @@
 #include "tucucore/pkmodel.h"
 #include "tucucore/drugmodelchecker.h"
 
-#include "query/administrativedata.h"
-
-#include "../src/language/languagemanager.h"
-#include "../src/result/validation/dosevalidator.h"
-#include "../src/result/xpertresult.h"
-#include "../src/result/xpertrequestresult.h"
-#include "../src/query/xpertquerydata.h"
-#include "../src/query/xpertqueryimport.h"
-#include "../src/utils/xpertutils.h"
+#include "tuberxpert/language/languagemanager.h"
+#include "tuberxpert/result/validation/dosevalidator.h"
+#include "tuberxpert/result/xpertresult.h"
+#include "tuberxpert/result/xpertrequestresult.h"
+#include "tuberxpert/query/xpertquerydata.h"
+#include "tuberxpert/query/xpertqueryimport.h"
+#include "tuberxpert/utils/xpertutils.h"
 
 /// \date 21/04/2022
 /// \author Herzig Melvyn

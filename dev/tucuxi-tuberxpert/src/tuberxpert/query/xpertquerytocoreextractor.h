@@ -7,8 +7,8 @@
 #include "tucuquery/querytocoreextractor.h"
 #include "tucucore/drugtreatment/drugtreatment.h"
 
-#include "xpertrequestdata.h"
-#include "xpertquerydata.h"
+#include "tuberxpert/query/xpertrequestdata.h"
+#include "tuberxpert/query/xpertquerydata.h"
 
 namespace Tucuxi {
 namespace XpertQuery {

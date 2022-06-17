@@ -16,12 +16,12 @@
 #include "tucucommon/datetime.h"
 #include "tucucommon/unit.h"
 
-#include "../src/result/sampleresult.h"
-#include "../src/result/validation/samplevalidator.h"
-#include "../src/language/languagemanager.h"
-#include "../src/query/xpertquerydata.h"
-#include "../src/query/xpertqueryimport.h"
-#include "../src/result/xpertresult.h"
+#include "tuberxpert/result/sampleresult.h"
+#include "tuberxpert/result/validation/samplevalidator.h"
+#include "tuberxpert/language/languagemanager.h"
+#include "tuberxpert/query/xpertquerydata.h"
+#include "tuberxpert/query/xpertqueryimport.h"
+#include "tuberxpert/result/xpertresult.h"
 
 #include "fructose/fructose.h"
 

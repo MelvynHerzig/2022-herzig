@@ -12,10 +12,10 @@
 #include "tucucore/computingservice/computingrequest.h"
 #include "tucucore/computingservice/computingtrait.h"
 
-#include "../query/xpertrequestdata.h"
-#include "covariateresult.h"
-#include "doseresult.h"
-#include "sampleresult.h"
+#include "tuberxpert/query/xpertrequestdata.h"
+#include "tuberxpert/result/covariateresult.h"
+#include "tuberxpert/result/doseresult.h"
+#include "tuberxpert/result/sampleresult.h"
 
 namespace Tucuxi {
 namespace XpertResult {

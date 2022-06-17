@@ -8,9 +8,9 @@
 #include "tucucore/pkmodel.h"
 #include "tucucore/drugmodelchecker.h"
 
-#include "../src/result/xpertresult.h"
-#include "../src/query/xpertqueryimport.h"
-#include "../src/result/validation/targetvalidator.h"
+#include "tuberxpert/result/xpertresult.h"
+#include "tuberxpert/query/xpertqueryimport.h"
+#include "tuberxpert/result/validation/targetvalidator.h"
 
 #include "fructose/fructose.h"
 

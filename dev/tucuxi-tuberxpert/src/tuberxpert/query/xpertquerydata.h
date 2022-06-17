@@ -4,8 +4,8 @@
 #include "tucuquery/querydata.h"
 #include "tucuquery/parametersdata.h"
 
-#include "xpertrequestdata.h"
-#include "xpertadministrativedata.h"
+#include "tuberxpert/query/xpertrequestdata.h"
+#include "tuberxpert/query/xpertadministrativedata.h"
 
 namespace Tucuxi {
 namespace XpertQuery {

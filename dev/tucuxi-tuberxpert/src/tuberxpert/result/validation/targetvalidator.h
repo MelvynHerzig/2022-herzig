@@ -1,7 +1,7 @@
 #ifndef TARGETVALIDATOR_H
 #define TARGETVALIDATOR_H
 
-#include "../../result/xpertrequestresult.h"
+#include "tuberxpert/result/xpertrequestresult.h"
 
 namespace Tucuxi {
 namespace XpertResult {

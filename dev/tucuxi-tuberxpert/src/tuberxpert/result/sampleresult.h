@@ -5,7 +5,7 @@
 
 #include "tucucore/drugtreatment/sample.h"
 
-#include "abstractresult.h"
+#include "tuberxpert/result/abstractresult.h"
 
 namespace Tucuxi {
 namespace XpertResult {

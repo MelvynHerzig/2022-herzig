@@ -1,6 +1,6 @@
 #include "xpertquerytocoreextractor.h"
 
-#include "../language/languagemanager.h"
+#include "tuberxpert/language/languagemanager.h"
 
 using namespace std;
 

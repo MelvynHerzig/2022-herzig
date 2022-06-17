@@ -1,6 +1,6 @@
 #include "xpertqueryimport.h"
 
-#include "xpertadministrativedata.h"
+#include "tuberxpert/query/xpertadministrativedata.h"
 
 using namespace std;
 

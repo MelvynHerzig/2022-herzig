@@ -1,5 +1,5 @@
 
-INCLUDEPATH += $$PWD/.
+INCLUDEPATH += $$PWD/../../src
 
 HEADERS += \
     $$PWD/query/xpertadministrativedata.h \

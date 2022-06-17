@@ -3,10 +3,10 @@
 
 #include "fructose/fructose.h"
 
-#include "../src/language/languagemanager.h"
-#include "../src/query/xpertquerydata.h"
-#include "../src/query/xpertqueryimport.h"
-#include "../src/result/xpertresult.h"
+#include "tuberxpert/language/languagemanager.h"
+#include "tuberxpert/query/xpertquerydata.h"
+#include "tuberxpert/query/xpertqueryimport.h"
+#include "tuberxpert/result/xpertresult.h"
 
 /// \brief Tests for TestXperResultCreation.
 ///        This struct tests the constructor of XpertResult with various queries and verifies

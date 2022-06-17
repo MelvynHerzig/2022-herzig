@@ -6,7 +6,7 @@
 #include "tucucore/drugmodel/covariatedefinition.h"
 #include "tucuquery/parametersdata.h"
 
-#include "abstractresult.h"
+#include "tuberxpert/result/abstractresult.h"
 
 namespace Tucuxi {
 namespace XpertResult {

@@ -5,7 +5,7 @@
 #include "tucucore/drugtreatment/sample.h"
 #include "tucucore/computingservice/computingresponse.h"
 
-#include "../xpertrequestresult.h"
+#include "tuberxpert/result/xpertrequestresult.h"
 
 struct TestSampleValidator;
 

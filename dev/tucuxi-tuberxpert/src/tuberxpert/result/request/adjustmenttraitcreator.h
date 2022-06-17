@@ -8,8 +8,8 @@
 #include "tucucommon/datetime.h"
 #include "tucucore/dosage.h"
 
-#include "../xpertrequestresult.h"
-#include "../../query/xpertrequestdata.h"
+#include "tuberxpert/result/xpertrequestresult.h"
+#include "tuberxpert/query/xpertrequestdata.h"
 
 namespace Tucuxi {
 namespace XpertResult {

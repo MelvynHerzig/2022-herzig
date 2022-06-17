@@ -7,7 +7,7 @@
 #include <map>
 #include <vector>
 
-#include "../query/xpertrequestdata.h"
+#include "tuberxpert/query/xpertrequestdata.h"
 
 namespace Tucuxi {
 namespace XpertLanguage {

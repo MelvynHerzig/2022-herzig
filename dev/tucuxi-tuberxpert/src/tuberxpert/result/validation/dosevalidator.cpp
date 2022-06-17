@@ -4,9 +4,9 @@
 
 #include "tucucommon/unit.h"
 
-#include "../../utils/xpertutils.h"
-#include "../../language/languagemanager.h"
-#include "../doseresult.h"
+#include "tuberxpert/utils/xpertutils.h"
+#include "tuberxpert/language/languagemanager.h"
+#include "tuberxpert/result/doseresult.h"
 
 using namespace std;
 

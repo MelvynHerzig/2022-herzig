@@ -8,10 +8,10 @@
 
 #include "tucucore/drugtreatment/drugtreatment.h"
 
-#include "../src/query/xpertquerydata.h"
-#include "../src/query/xpertqueryimport.h"
-#include "../src/query/xpertquerytocoreextractor.h"
-#include "../src/language/languagemanager.h"
+#include "tuberxpert/query/xpertquerydata.h"
+#include "tuberxpert/query/xpertqueryimport.h"
+#include "tuberxpert/query/xpertquerytocoreextractor.h"
+#include "tuberxpert/language/languagemanager.h"
 
 /// \brief Tests for XpertQueryToCoreExtractor.
 ///        This struct only tests the methode created by XpertQueryToCoreExtractor.

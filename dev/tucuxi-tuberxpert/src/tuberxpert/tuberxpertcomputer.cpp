@@ -6,17 +6,16 @@
 #include "tucucommon/loggerhelper.h"
 #include "tucucore/drugmodelrepository.h"
 
-#include "language/languagemanager.h"
-#include "query/xpertqueryimport.h"
-#include "query/xpertquerydata.h"
-#include "result/xpertresult.h"
-#include "result/validation/modelselector.h"
-#include "result/validation/dosevalidator.h"
-#include "result/validation/samplevalidator.h"
-#include "result/validation/targetvalidator.h"
-#include "result/request/adjustmenttraitcreator.h"
-
-#include "utils/xpertutils.h"
+#include "tuberxpert/language/languagemanager.h"
+#include "tuberxpert/query/xpertqueryimport.h"
+#include "tuberxpert/query/xpertquerydata.h"
+#include "tuberxpert/result/xpertresult.h"
+#include "tuberxpert/result/validation/modelselector.h"
+#include "tuberxpert/result/validation/dosevalidator.h"
+#include "tuberxpert/result/validation/samplevalidator.h"
+#include "tuberxpert/result/validation/targetvalidator.h"
+#include "tuberxpert/result/request/adjustmenttraitcreator.h"
+#include "tuberxpert/utils/xpertutils.h"
 
 using namespace std;
 

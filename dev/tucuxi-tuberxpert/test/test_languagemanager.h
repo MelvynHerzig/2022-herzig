@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "../src/language/languagemanager.h"
-#include "../src/language/languageexception.h"
+#include "tuberxpert/language/languagemanager.h"
+#include "tuberxpert/language/languageexception.h"
 #include "fructose/fructose.h"
 
 /// \brief Tests for LanguageManager

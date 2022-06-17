@@ -2,7 +2,7 @@
 
 #include <optional>
 
-#include "../query/xpertquerytocoreextractor.h"
+#include "tuberxpert/query/xpertquerytocoreextractor.h"
 
 using namespace std;
 

@@ -15,7 +15,7 @@ include(../../tucuxi-core/make/qtcreator/general.pri)
 include(../../tucuxi-core/make/qtcreator/tucucommon.pri)
 include(../../tucuxi-core/make/qtcreator/tucucore.pri)
 include(../../tucuxi-core/make/qtcreator/tucuquery.pri)
-include(../src/tuberxpert.pri)
+include(../src/tuberxpert/tuberxpert.pri)
 
 SOURCES += \
         main.cpp

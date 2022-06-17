@@ -3,8 +3,8 @@
 
 #include "tucuquery/queryimport.h"
 
-#include "xpertquerydata.h"
-#include "xpertadministrativedata.h"
+#include "tuberxpert/query/xpertquerydata.h"
+#include "tuberxpert/query/xpertadministrativedata.h"
 
 namespace Tucuxi {
 namespace XpertQuery {

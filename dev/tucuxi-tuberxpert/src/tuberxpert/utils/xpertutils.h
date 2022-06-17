@@ -5,7 +5,7 @@
 
 #include "tucucommon/translatablestring.h"
 
-#include "../language/languagemanager.h"
+#include "tuberxpert/language/languagemanager.h"
 
 namespace Tucuxi {
 namespace XpertUtils {

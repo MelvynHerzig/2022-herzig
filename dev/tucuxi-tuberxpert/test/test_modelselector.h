@@ -9,11 +9,11 @@
 #include "tucucore/pkmodel.h"
 #include "tucucore/drugmodelchecker.h"
 
-#include "../src/query/xpertqueryimport.h"
-#include "../src/result/validation/modelselector.h"
-#include "../src/result/xpertrequestresult.h"
-#include "../src/result/xpertresult.h"
-#include "../src/language/languagemanager.h"
+#include "tuberxpert/query/xpertqueryimport.h"
+#include "tuberxpert/result/validation/modelselector.h"
+#include "tuberxpert/result/xpertrequestresult.h"
+#include "tuberxpert/result/xpertresult.h"
+#include "tuberxpert/language/languagemanager.h"
 
 #include "fructose/fructose.h"
 

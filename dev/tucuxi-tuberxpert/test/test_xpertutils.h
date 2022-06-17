@@ -1,8 +1,8 @@
 #ifndef TEST_XPERTUTILS_H
 #define TEST_XPERTUTILS_H
 
-#include "../src/language/languageexception.h"
-#include "../src/utils/xpertutils.h"
+#include "tuberxpert/language/languageexception.h"
+#include "tuberxpert/utils/xpertutils.h"
 
 #include "fructose/fructose.h"
 
