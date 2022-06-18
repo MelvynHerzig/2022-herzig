@@ -3082,7 +3082,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
     ///        Note: Unit has no effect here. The first model is the original imatinib with the age
     ///        as a covariate and the second is a modified version without the age (which could have
     ///        probably worked). We must return an error and stop the execution because the first model
-    ///        may be better than the second when it get corrected.
+    ///        may be better than the second when it gets corrected.
     /// \param _testName Name of the test
     void noResultMultipleBirthdate(const std::string& _testName)
     {
@@ -3840,7 +3840,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
     ///        potentially valid model. The first model is the original imatinib and the second
     ///        is a modified version of the imatinib that doesn't require an age (which could have
     ///        probably worked). We must return an error and stop the execution because the first model
-    ///        may be better than the second when it get corrected.
+    ///        may be better than the second when it gets corrected.
     /// \param _testName Name of the test
     void noResultBadDatatypeBirthdate(const std::string& _testName)
     {
@@ -4590,7 +4590,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
     ///        potentially valid model. The first model is the original imatinib model and the second
     ///        is a modified imatinib model that does not use the gist as covariate (which could have
     ///        probably worked). We must return an error and stop the execution because the first model
-    ///        may be better than the second when it get corrected.
+    ///        may be better than the second when it gets corrected.
     ///        Note: DataType has no influence on covariate other that birthday
     /// \param _testName Name of the test
     void noResultBadUnitGist(const std::string& _testName)
@@ -4682,6 +4682,8 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
                                             </requestXpert>
                                         </requests>
                                     </query>)";
+
+
 
 
 
@@ -5213,8 +5215,9 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
         bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
 
+
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found when handling model ch.tucuxi.imatinib.gotta2012_original, details: Error in unit conversion");
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Covariate extraction failed for drug model: ch.tucuxi.imatinib.gotta2012_original. It may be caused by covariates that could not be converted.");
     }
 
     /// \brief Three versions of imatinib model:

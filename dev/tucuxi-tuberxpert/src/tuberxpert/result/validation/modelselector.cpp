@@ -75,18 +75,24 @@ void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestRe
         }
 
         // Are the drug model constraints respected?
-        if (drugModel->getDomain().getConstraints().size() > 0) {
-            Common::DateTime start = getOldestCovariateDateTime(_xpertRequestResult.getTreatment()->getCovariates());
-            Common::DateTime end = m_computationDate;
-            vector<Core::DrugDomainConstraintsEvaluator::EvaluationResult> results;
-            Core::DrugDomainConstraintsEvaluator ddcEvaluator;
-            Core::DrugDomainConstraintsEvaluator::Result result = ddcEvaluator.evaluate(*drugModel, *_xpertRequestResult.getTreatment(), start, end, results);
+        Common::DateTime start = getOldestCovariateDateTime(_xpertRequestResult.getTreatment()->getCovariates());
+        Common::DateTime end = m_computationDate;
+        vector<Core::DrugDomainConstraintsEvaluator::EvaluationResult> results;
+        Core::DrugDomainConstraintsEvaluator ddcEvaluator;
+        Core::DrugDomainConstraintsEvaluator::Result result = ddcEvaluator.evaluate(*drugModel, *_xpertRequestResult.getTreatment(), start, end, results);
 
-            if(result != Core::DrugDomainConstraintsEvaluator::Result::PartiallyCompatible &&
-                    result != Core::DrugDomainConstraintsEvaluator::Result::Compatible) {
-                logHelper.warn(drugModel->getDrugModelId() + " incompatible: constraints not respected.");
-                continue;
-            }
+        // Incompatibility
+        if(result == Core::DrugDomainConstraintsEvaluator::Result::Incompatible) {
+            logHelper.warn(drugModel->getDrugModelId() + " incompatible: constraints not respected.");
+            continue;
+        }
+
+        // Failed to extract covariates
+        if(result == Core::DrugDomainConstraintsEvaluator::Result::ComputationError) {
+            _xpertRequestResult.setErrorMessage("Covariate extraction failed for drug model: " +
+                                                drugModel->getDrugModelId() +
+                                                ". It may be caused by covariates that could not be converted.");
+            return;
         }
 
         try {
@@ -106,7 +112,7 @@ void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestRe
             }
 
         }  catch (const invalid_argument& e) {
-            // We catch unit conversion error and operation error, then stop drug model search.
+            // We catch operation error, then stop drug model search. (Covariate type compatibility already checked when checking contraints)
             _xpertRequestResult.setErrorMessage("Patient covariate error found when handling model " +
                                                 drugModel->getDrugModelId() +
                                                 ", details: " +

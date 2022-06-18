@@ -1586,7 +1586,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
         tv.getTargetValidations(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
-        fructose_assert_eq(xrr.getErrorMessage(), "A target is related to an active moiety that does not belong to the drug model: ch.tucuxi.imatinib.gotta2012");
+        fructose_assert_eq(xrr.getErrorMessage(), "A target is related to an active moiety that does not belong to the drug model: ch.tucuxi.imatinib.gotta2012_original");
     }
 };
 

@@ -433,6 +433,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
 
     /// \brief This method performs a real sample validation but since the position of the sample is kind of "unpredictable",
     ///        it simply checks that the map of SampleResult has the same size than the number of samples in the treatment.
+    ///        It uses the real imatinib drug model.
     /// \param _testName Name of the test
     void getTheExpectedAmountOfResults(const std::string& _testName)
     {
