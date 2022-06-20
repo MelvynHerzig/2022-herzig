@@ -16,7 +16,7 @@ namespace XpertResult {
 DoseValidator::DoseValidator()
 {}
 
-void DoseValidator::getDoseValidations(XpertRequestResult& _xpertRequestResult) const
+void DoseValidator::perform(XpertRequestResult& _xpertRequestResult) const
 {
     // Checks treatment
     if (_xpertRequestResult.getTreatment() == nullptr) {

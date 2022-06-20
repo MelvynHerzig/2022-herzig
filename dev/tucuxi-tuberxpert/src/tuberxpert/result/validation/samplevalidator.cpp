@@ -22,7 +22,7 @@ namespace XpertResult {
 SampleValidator::SampleValidator()
 {}
 
-void SampleValidator::getSampleValidations(XpertRequestResult& _xpertRequestResult) const
+void SampleValidator::perform(XpertRequestResult& _xpertRequestResult) const
 {
     // Checks treatment
     if (_xpertRequestResult.getTreatment() == nullptr) {

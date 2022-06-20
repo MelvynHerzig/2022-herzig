@@ -760,7 +760,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
         Tucuxi::XpertResult::XpertRequestResult xrr{nullptr, nullptr, ""};
 
         Tucuxi::XpertResult::DoseValidator dv;
-        dv.getDoseValidations(xrr);
+        dv.perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "No treatment set.");
@@ -864,7 +864,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
         Tucuxi::XpertResult::XpertResult xr{move(query)};
 
         Tucuxi::XpertResult::DoseValidator dv;
-        dv.getDoseValidations(xr.getXpertRequestResults()[0]);
+        dv.perform(xr.getXpertRequestResults()[0]);
 
         fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
         fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
@@ -1040,7 +1040,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         Tucuxi::XpertResult::DoseValidator dv;
-        dv.getDoseValidations(xrr);
+        dv.perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getDoseResults().size(), 1);
@@ -1140,7 +1140,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         Tucuxi::XpertResult::DoseValidator dv;
-        dv.getDoseValidations(xrr);
+        dv.perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getDoseResults().size(), 1);
@@ -1239,7 +1239,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         Tucuxi::XpertResult::DoseValidator dv;
-        dv.getDoseValidations(xrr);
+        dv.perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getDoseResults().size(), 0);
@@ -1339,7 +1339,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         Tucuxi::XpertResult::DoseValidator dv;
-        dv.getDoseValidations(xrr);
+        dv.perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getDoseResults().size(), 0);
@@ -1504,7 +1504,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         Tucuxi::XpertResult::DoseValidator dv;
-        dv.getDoseValidations(xrr);
+        dv.perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getDoseResults().size(), 4);

@@ -384,7 +384,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
                                                                             </inefficacyAlarm>
                                                                         </targetValues>
                                                                         <comments>
-                                                                            <comment lang='en'>A Toxicity and inefficacyAlarm should be added</comment>
+                                                                             <comment lang='en'>A Toxicity and inefficacyAlarm should be added</comment>
                                                                         </comments>
                                                                     </target>
                                                                 </targets>
@@ -562,7 +562,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
                                                                                                 </code>
                                                                                             </softFormula>
                                                                                             <comments/>
-                                                                                        </operation>
+                                                                                          </operation>
                                                                                         <comments/>
                                                                                     </validation>
                                                                                     <comments/>
@@ -742,7 +742,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
                   std::unique_ptr<Tucuxi::XpertResult::XpertResult>& _xpertResult) {
 
         // Drug models repository creation
-        Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
+         Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
 
         auto drugModelRepository =
                 dynamic_cast<Tucuxi::Core::DrugModelRepository*>(Tucuxi::Core::DrugModelRepository::createComponent());
@@ -794,7 +794,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
         Tucuxi::XpertResult::XpertRequestResult xrr{nullptr, nullptr, ""};
 
         Tucuxi::XpertResult::TargetValidator tv;
-        tv.getTargetValidations(xrr);
+        tv.perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "No treatment set.");
@@ -898,7 +898,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
         Tucuxi::XpertResult::XpertResult xr{move(query)};
 
         Tucuxi::XpertResult::TargetValidator tv;
-        tv.getTargetValidations(xr.getXpertRequestResults()[0]);
+        tv.perform(xr.getXpertRequestResults()[0]);
 
         fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
         fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
@@ -1056,7 +1056,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         Tucuxi::XpertResult::TargetValidator tv;
-        tv.getTargetValidations(xrr);
+        tv.perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getErrorMessage(), "");
@@ -1234,7 +1234,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         Tucuxi::XpertResult::TargetValidator tv;
-        tv.getTargetValidations(xrr);
+        tv.perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "Two patient's targets with the same active moiety and the same target type detected.");
@@ -1414,7 +1414,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         Tucuxi::XpertResult::TargetValidator tv;
-        tv.getTargetValidations(xrr);
+        tv.perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getErrorMessage(), "");
@@ -1583,7 +1583,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         Tucuxi::XpertResult::TargetValidator tv;
-        tv.getTargetValidations(xrr);
+        tv.perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "A target is related to an active moiety that does not belong to the drug model: ch.tucuxi.imatinib.gotta2012_original");

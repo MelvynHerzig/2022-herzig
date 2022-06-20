@@ -3,6 +3,7 @@
 
 #include "tucucore/drugmodel/formulationandroute.h"
 
+#include "tuberxpert/flow/abstract/abstractxpertflowstep.h"
 #include "tuberxpert/result/xpertrequestresult.h"
 
 namespace Tucuxi {
@@ -16,7 +17,7 @@ namespace XpertResult {
 ///        drug could be to consider only the doses that are not oldest than X years/months/days...
 /// \date 01/06/2022
 /// \author Herzig Melvyn
-class DoseValidator
+class DoseValidator : public XpertFlow::AbstractXpertFlowStep
 {
 public:
 
@@ -28,7 +29,7 @@ public:
     ///        If the evaluation fails (for example: incompatible dose) the XpertRequestResult
     ///        is invalidated (i.e: it gets an error).
     /// \param _xpertRequestResult XpertRequestResult to evaluate.
-    void getDoseValidations(XpertRequestResult& _xpertRequestResult) const;
+    void perform(XpertRequestResult& _xpertRequestResult) const;
 
 protected:
 

@@ -1,5 +1,5 @@
-#ifndef MODELSELECTOR_H
-#define MODELSELECTOR_H
+#ifndef COVARIATEVALIDATORANDMODELSELECTOR_H
+#define COVARIATEVALIDATORANDMODELSELECTOR_H
 
 #include <map>
 
@@ -7,6 +7,7 @@
 #include "tucuquery/parametersdata.h"
 #include "tucucore/dosage.h"
 
+#include "tuberxpert/flow/abstract/abstractxpertflowstep.h"
 #include "tuberxpert/query/xpertrequestdata.h"
 #include "tuberxpert/result/xpertrequestresult.h"
 
@@ -25,20 +26,20 @@ namespace XpertResult {
 ///
 /// \date 18/05/2022
 /// \author Herzig Melvyn
-class BestDrugModelSelector
+class CovariateValidatorAndModelSelector : public XpertFlow::AbstractXpertFlowStep
 {
 public:
     /// \brief Constructor.
     /// \param _computationDate This attribute is used for testing purpose. It specifies "when is
     ///        the selector executed". For example, it allows to get the same age when executed
     ///        at different times.
-    BestDrugModelSelector(Common::DateTime _computationDate = Common::DateTime::now());
+    CovariateValidatorAndModelSelector(Common::DateTime _computationDate = Common::DateTime::now());
 
     /// \brief For a given XpertRequestResult gets the best drug model and sets
     ///        its CovariateResult vector.
     /// \param _xpertRequestResult XpertRequestResult containing the drugTreatment to be used
     ///                            and the CovariateResult vector to be set.
-    void getBestDrugModel(XpertRequestResult& _xpertRequestResult) const;
+    void perform(XpertRequestResult& _xpertRequestResult) const;
 
 protected: 
 
@@ -99,4 +100,4 @@ protected:
 } // namespace XpertResult
 } // namespace Tucuxi
 
-#endif // MODELSELECTOR_H
+#endif // COVARIATEVALIDATORANDMODELSELECTOR_H

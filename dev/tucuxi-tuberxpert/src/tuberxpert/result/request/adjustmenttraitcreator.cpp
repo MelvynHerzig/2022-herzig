@@ -15,7 +15,7 @@ namespace XpertResult {
 AdjustmentTraitCreator::AdjustmentTraitCreator(Common::DateTime _computationTime) : m_computationTime(_computationTime)
 {}
 
-void AdjustmentTraitCreator::createAdjustmentTrait(XpertRequestResult& _xpertRequestResult) const
+void AdjustmentTraitCreator::perform(XpertRequestResult& _xpertRequestResult) const
 {
     // Checks treatment
     if (_xpertRequestResult.getTreatment() == nullptr) {

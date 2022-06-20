@@ -5,6 +5,7 @@
 #include "tucucore/drugtreatment/sample.h"
 #include "tucucore/computingservice/computingresponse.h"
 
+#include "tuberxpert/flow/abstract/abstractxpertflowstep.h"
 #include "tuberxpert/result/xpertrequestresult.h"
 
 struct TestSampleValidator;
@@ -30,7 +31,7 @@ namespace XpertResult {
 ///        Each sample is evaluated. In futur version, maybe consider forgetting too old samples.
 /// \date 08/06/2022
 /// \author Herzig Melvyn
-class SampleValidator
+class SampleValidator : public XpertFlow::AbstractXpertFlowStep
 {
 public:
 
@@ -39,7 +40,7 @@ public:
 
     /// \brief Evaluates each sample in the treatment from the XpertRequestResult.
     /// \param _xpertRequestResult XpertRequestResult containing samples to evaluate.
-    void getSampleValidations(XpertRequestResult& _xpertRequestResult) const;
+    void perform(XpertRequestResult& _xpertRequestResult) const;
 
 protected:
 

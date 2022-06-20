@@ -8,6 +8,7 @@
 #include "tucucommon/datetime.h"
 #include "tucucore/dosage.h"
 
+#include "tuberxpert/flow/abstract/abstractxpertflowstep.h"
 #include "tuberxpert/result/xpertrequestresult.h"
 #include "tuberxpert/query/xpertrequestdata.h"
 
@@ -18,7 +19,7 @@ namespace XpertResult {
 ///        to tucuxi core in a computing request. It uses the whole dosage history.
 /// \date 20/06/2022
 /// \author Herzig Melvyn
-class AdjustmentTraitCreator
+class AdjustmentTraitCreator : public XpertFlow::AbstractXpertFlowStep
 {
 public:
 
@@ -31,7 +32,7 @@ public:
     /// \brief Create the adjustment trait based on the information in the xpertRequestResult.
     /// \param _xpertRequestResult XpertRequestResult containing all the XpertRequest, the treatment,
     ///        the drug model and that will recieve the trait when created.
-    void createAdjustmentTrait(XpertRequestResult& _xpertRequestResult) const;
+    void perform(XpertRequestResult& _xpertRequestResult) const;
 
 protected:
 

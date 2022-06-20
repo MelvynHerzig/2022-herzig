@@ -2,7 +2,8 @@
 INCLUDEPATH += $$PWD/../../src
 
 HEADERS += \
-    $$PWD/flow/abstract/AbstractFlowProviderFactory.h \
+    $$PWD/flow/abstract/abstractxpertflowstep.h \
+    $$PWD/flow/abstract/abstractxpertflowstepprovider.h \
     $$PWD/query/xpertadministrativedata.h \
     $$PWD/query/xpertquerydata.h \
     $$PWD/query/xpertqueryimport.h \
@@ -15,8 +16,8 @@ HEADERS += \
     $$PWD/result/doseresult.h \
     $$PWD/result/request/adjustmenttraitcreator.h \
     $$PWD/result/sampleresult.h \
+    $$PWD/result/validation/covariatevalidatorandmodelselector.h \
     $$PWD/result/validation/dosevalidator.h \
-    $$PWD/result/validation/modelselector.h \
     $$PWD/result/validation/samplevalidator.h \
     $$PWD/result/validation/targetvalidator.h \
     $$PWD/result/xpertrequestresult.h \
@@ -36,8 +37,8 @@ SOURCES += \
     $$PWD/result/doseresult.cpp \
     $$PWD/result/request/adjustmenttraitcreator.cpp \
     $$PWD/result/sampleresult.cpp \
+    $$PWD/result/validation/covariatevalidatorandmodelselector.cpp \
     $$PWD/result/validation/dosevalidator.cpp \
-    $$PWD/result/validation/modelselector.cpp \
     $$PWD/result/validation/samplevalidator.cpp \
     $$PWD/result/validation/targetvalidator.cpp \
     $$PWD/result/xpertrequestresult.cpp \

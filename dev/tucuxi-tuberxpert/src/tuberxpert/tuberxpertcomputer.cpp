@@ -10,7 +10,7 @@
 #include "tuberxpert/query/xpertqueryimport.h"
 #include "tuberxpert/query/xpertquerydata.h"
 #include "tuberxpert/result/xpertresult.h"
-#include "tuberxpert/result/validation/modelselector.h"
+#include "tuberxpert/result/validation/covariatevalidatorandmodelselector.h"
 #include "tuberxpert/result/validation/dosevalidator.h"
 #include "tuberxpert/result/validation/samplevalidator.h"
 #include "tuberxpert/result/validation/targetvalidator.h"
@@ -155,8 +155,8 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
 
     logHelper.info("Validating covariates and selecting drug model...");
 
-    XpertResult::BestDrugModelSelector bestDrugModelSelector;
-    bestDrugModelSelector.getBestDrugModel(_xpertRequestResult);
+    XpertResult::CovariateValidatorAndModelSelector bestDrugModelSelector;
+    bestDrugModelSelector.perform(_xpertRequestResult);
 
     // Check if model selection was successful
     if (_xpertRequestResult.shouldBeHandled() == false) {
@@ -173,7 +173,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
     logHelper.info("Checking dosages...");
 
     XpertResult::DoseValidator doseValidator;
-    doseValidator.getDoseValidations(_xpertRequestResult);
+    doseValidator.perform(_xpertRequestResult);
 
     // Check if dosages checking was successful
     if (_xpertRequestResult.shouldBeHandled() == false) {
@@ -191,7 +191,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
     logHelper.info("Checking samples...");
 
     XpertResult::SampleValidator sampleValidator;
-    sampleValidator.getSampleValidations(_xpertRequestResult);
+    sampleValidator.perform(_xpertRequestResult);
 
     // Check if samples checking was successful
     if (_xpertRequestResult.shouldBeHandled() == false) {
@@ -209,7 +209,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
     logHelper.info("Checking targets...");
 
     XpertResult::TargetValidator targetValidator;
-    targetValidator.getTargetValidations(_xpertRequestResult);
+    targetValidator.perform(_xpertRequestResult);
 
     // Check if targets checking was successful
     if (_xpertRequestResult.shouldBeHandled() == false) {
@@ -226,7 +226,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
     logHelper.info("Creating adjustment trait...");
 
     XpertResult::AdjustmentTraitCreator adjustmentTraitCreator;
-    adjustmentTraitCreator.createAdjustmentTrait(_xpertRequestResult);
+    adjustmentTraitCreator.perform(_xpertRequestResult);
 
     // Check if adjustment trait creation was successful
     if (_xpertRequestResult.shouldBeHandled() == false) {

@@ -93,7 +93,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
         Tucuxi::XpertResult::XpertRequestResult xrr{nullptr, nullptr, ""};
 
         Tucuxi::XpertResult::SampleValidator sv;
-        sv.getSampleValidations(xrr);
+        sv.perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "No treatment set.");
@@ -186,7 +186,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
         Tucuxi::XpertResult::XpertResult xr{move(query)};
 
         Tucuxi::XpertResult::SampleValidator sv;
-        sv.getSampleValidations(xr.getXpertRequestResults()[0]);
+        sv.perform(xr.getXpertRequestResults()[0]);
 
         fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
         fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "Samples found but dosage history is empty.");
@@ -290,7 +290,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
         Tucuxi::XpertResult::XpertResult xr{move(query)};
 
         Tucuxi::XpertResult::SampleValidator sv;
-        sv.getSampleValidations(xr.getXpertRequestResults()[0]);
+        sv.perform(xr.getXpertRequestResults()[0]);
 
         fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
         fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
@@ -1257,7 +1257,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
 
         // Execution
         Tucuxi::XpertResult::SampleValidator sv;
-        sv.getSampleValidations(xrr);
+        sv.perform(xrr);
 
         fructose_assert_eq(xrr.getSampleResults().size(), xrr.getTreatment()->getSamples().size());
     }

@@ -1,4 +1,4 @@
-#include "modelselector.h"
+#include "covariatevalidatorandmodelselector.h"
 
 #include <vector>
 #include <limits>
@@ -23,10 +23,10 @@ using namespace std;
 namespace Tucuxi {
 namespace XpertResult {
 
-BestDrugModelSelector::BestDrugModelSelector(Common::DateTime _computationDate) : m_computationDate(_computationDate)
+CovariateValidatorAndModelSelector::CovariateValidatorAndModelSelector(Common::DateTime _computationDate) : m_computationDate(_computationDate)
 {}
 
-void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestResult) const
+void CovariateValidatorAndModelSelector::perform(XpertRequestResult& _xpertRequestResult) const
 {
     Tucuxi::Common::LoggerHelper logHelper;
 
@@ -137,7 +137,7 @@ void BestDrugModelSelector::getBestDrugModel(XpertRequestResult& _xpertRequestRe
     }
 }
 
-bool BestDrugModelSelector::checkPatientDosageHistoryFormulationAndRoutes(const Core::DosageHistory &_dosageHistory) const
+bool CovariateValidatorAndModelSelector::checkPatientDosageHistoryFormulationAndRoutes(const Core::DosageHistory &_dosageHistory) const
 {
     // Checks that all formulations and routes are the same.
     vector<Core::FormulationAndRoute> queryFormulationsAndRoutes = _dosageHistory.getFormulationAndRouteList();
@@ -151,7 +151,7 @@ bool BestDrugModelSelector::checkPatientDosageHistoryFormulationAndRoutes(const 
     return true;
 }
 
-Common::DateTime BestDrugModelSelector::getOldestCovariateDateTime(const Core::PatientVariates& _patientVariates) const
+Common::DateTime CovariateValidatorAndModelSelector::getOldestCovariateDateTime(const Core::PatientVariates& _patientVariates) const
 {
     Common::DateTime oldestDateTime = m_computationDate;
     for (const unique_ptr<Core::PatientCovariate>& patientVariate: _patientVariates) {
@@ -163,7 +163,7 @@ Common::DateTime BestDrugModelSelector::getOldestCovariateDateTime(const Core::P
     return oldestDateTime;
 }
 
-unsigned BestDrugModelSelector::computeScore(const Core::PatientVariates& _patientVariates,
+unsigned CovariateValidatorAndModelSelector::computeScore(const Core::PatientVariates& _patientVariates,
                                              const Core::CovariateDefinitions& _modelDefinitions,
                                              XpertQuery::OutputLang _lang,
                                              vector<CovariateResult>& _results) const
@@ -262,7 +262,7 @@ unsigned BestDrugModelSelector::computeScore(const Core::PatientVariates& _patie
     return score;
 }
 
-bool BestDrugModelSelector::checkOperation(Core::Operation* _op,
+bool CovariateValidatorAndModelSelector::checkOperation(Core::Operation* _op,
                                            double _val,
                                            const Core::CovariateDefinition* _definition,
                                            const Core::PatientCovariate* _patient,
@@ -287,7 +287,7 @@ bool BestDrugModelSelector::checkOperation(Core::Operation* _op,
     return result == 1;
 }
 
-bool BestDrugModelSelector::checkCovariateDefinitionsLanguage(
+bool CovariateValidatorAndModelSelector::checkCovariateDefinitionsLanguage(
         const Core::CovariateDefinitions& _modelDefinitions,
         XpertQuery::OutputLang _lang) const
 {
