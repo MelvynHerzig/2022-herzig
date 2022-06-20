@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "tuberxpert/result/xpertrequestresult.h"
+
 namespace Tucuxi {
 namespace XpertComputer {
 
@@ -27,7 +29,7 @@ enum class ComputingStatus {
     IMPORT_ERROR
 };
 
-/// \brief Given the required arguments, this class drives the execution of tuberXpert.
+/// \brief Given the required arguments, this class drives the execution flow of tuberXpert.
 /// \date 03/06/2022
 /// \author Herzig Melvyn
 class TuberXpertComputer
@@ -53,6 +55,18 @@ public:
                             const std::string& _inputFileName,
                             const std::string& _outputFileName,
                             const std::string& _languagePath) const;
+
+protected:
+
+    /// \brief For a given xpertRequest in _xpertRequestResult and its treatment, this methods validate the inputs
+    ///        (are the dosages, samples, covariates and targets plausible), selects a drug model and creates the associated
+    ///        adjustment trait.
+    /// \param _xpertRequestResult Object containing the XpertRequest and treatment informations. This object will also
+    ///                            be filled with the various validations of the system.
+    /// \param _languagePath Folder containing the language files.
+    /// \return True if everything went well (i.e. the XpertRequest result is ready to be submitted to the core) or false if the
+    ///         XpertRquest needs to be reviewed (i.e. no language file found for the desired language, no drug model found ...)
+    bool validateAndPrepareXpertRequest(XpertResult::XpertRequestResult& _xpertRequestResult, const std::string& _languagePath) const;
 };
 
 } // namespace XpertComputer

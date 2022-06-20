@@ -44,9 +44,6 @@ ComputingStatus TuberXpertComputer::compute(
 
     drugModelRepository->addFolderPath(_drugPath);
 
-    // Getting language manager
-    Tucuxi::XpertLanguage::LanguageManager& languageManager = XpertLanguage::LanguageManager::getInstance();
-
     /*********************************************************************************
      *                               Query Importation                               *
      * *******************************************************************************/
@@ -72,138 +69,27 @@ ComputingStatus TuberXpertComputer::compute(
     unsigned requestNbBeingHandled = 0;
     for (XpertResult::XpertRequestResult& xpertRequestResult : xpertResult.getXpertRequestResults()) {
 
-        logHelper.info("\n---------------------------------------");
+        logHelper.info("---------------------------------------");
         logHelper.info("Handling request number: " + to_string(++requestNbBeingHandled));
 
-        // Check if extraction was successful
-        logHelper.info("\nChecking extraction state...");
+        // Check if query to core extraction was successful
+        logHelper.info("Checking extraction state...");
         if (xpertRequestResult.shouldBeHandled() == false) {
             logHelper.error(xpertRequestResult.getErrorMessage());
             ++nbUnfulfilledRequest;
             continue;
         }
 
-        /**************************************************************
-         *                Loading the translation file                *
-         * ************************************************************/
-
-        logHelper.info("\nLoading translation file...");
-
-        try {
-            string languageFileName = _languagePath + "/" + XpertUtils::outputLangToString(xpertRequestResult.getXpertRequest().getOutputLang()) + ".xml";
-            ifstream ifs(languageFileName);
-
-            // If language file opening failed.
-            if (ifs.fail()) {
-                throw runtime_error("Could not open the file " + languageFileName);
-            }
-
-            // Try loading the language file, it may throw a LanguageException.
-            string xmlLanguageString((istreambuf_iterator<char>(ifs)), (istreambuf_iterator<char>()));
-            languageManager.loadDictionary(xmlLanguageString);
-
-            logHelper.info("Successfully loaded " + languageFileName);
-
-        } catch (const runtime_error& e) {
-
-            // Somehow, the acquisition of the language file failed.
-            // Leave this requestXpert and try the next one.
-            logHelper.error(e.what());
+        // Validate inputs data and prepare the missing informations (drug model/adjustment trait)
+        if (validateAndPrepareXpertRequest(xpertRequestResult, _languagePath) == false) {
             ++nbUnfulfilledRequest;
             continue;
         }
 
-        /**************************************************************
-         *                       Model selection                      *
-         * ************************************************************/
+        // Execute adjustment request
 
-        logHelper.info("Selecting drug model...");
+        // Genereate final report
 
-        XpertResult::BestDrugModelSelector bestDrugModelSelector;
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
-
-        // Check if model selection was successful
-        if (xpertRequestResult.shouldBeHandled() == false) {
-            logHelper.error(xpertRequestResult.getErrorMessage());
-            ++nbUnfulfilledRequest;
-            continue;
-        }
-
-        logHelper.info("Drug model selected: " + xpertRequestResult.getDrugModel()->getDrugModelId());
-
-        /**************************************************************
-         *                       Dosages checking                     *
-         * ************************************************************/
-
-        logHelper.info("Checking dosages...");
-
-        XpertResult::DoseValidator doseValidator;
-        doseValidator.getDoseValidations(xpertRequestResult);
-
-        // Check if dosages checking was successful
-        if (xpertRequestResult.shouldBeHandled() == false) {
-            logHelper.error(xpertRequestResult.getErrorMessage());
-            ++nbUnfulfilledRequest;
-            continue;
-        }
-
-        logHelper.info("Dosages successfully validated.");
-
-
-        /**************************************************************
-         *                       Samples checking                     *
-         * ************************************************************/
-
-        logHelper.info("Checking samples...");
-
-        XpertResult::SampleValidator sampleValidator;
-        sampleValidator.getSampleValidations(xpertRequestResult);
-
-        // Check if samples checking was successful
-        if (xpertRequestResult.shouldBeHandled() == false) {
-            logHelper.error(xpertRequestResult.getErrorMessage());
-            ++nbUnfulfilledRequest;
-            continue;
-        }
-
-        logHelper.info("Samples successfully validated.");
-
-
-        /**************************************************************
-         *                       Targets checking                     *
-         * ************************************************************/
-
-        logHelper.info("Checking targets...");
-
-        XpertResult::TargetValidator targetValidator;
-        targetValidator.getTargetValidations(xpertRequestResult);
-
-        // Check if targets checking was successful
-        if (xpertRequestResult.shouldBeHandled() == false) {
-            logHelper.error(xpertRequestResult.getErrorMessage());
-            ++nbUnfulfilledRequest;
-            continue;
-        }
-
-        logHelper.info("Targets successfully validated.");
-
-        /**************************************************************
-         *                  Creating adjustment trait                 *
-         * ************************************************************/
-
-        logHelper.info("Creating adjustment trait...");
-
-        XpertResult::AdjustmentTraitCreator adjustmentTraitCreator;
-        adjustmentTraitCreator.createAdjustmentTrait(xpertRequestResult);
-
-        // Check if adjustment trait creation was successful
-        if (xpertRequestResult.shouldBeHandled() == false) {
-            logHelper.error(xpertRequestResult.getErrorMessage());
-            ++nbUnfulfilledRequest;
-            continue;
-        }
-
-        logHelper.info("Adjustment trait successfully created.");
     }
 
     pCmpMgr->unregisterComponent("DrugModelRepository");
@@ -221,6 +107,137 @@ ComputingStatus TuberXpertComputer::compute(
         return ComputingStatus::NO_REQUESTS_SUCCEEDED;
     }
 
+}
+
+bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertRequestResult& _xpertRequestResult, const std::string& _languagePath) const
+{
+
+    Common::LoggerHelper logHelper;
+
+
+
+    /**************************************************************
+     *                Loading the translation file                *
+     * ************************************************************/
+
+    logHelper.info("Loading translation file...");
+
+    // Getting language manager
+    Tucuxi::XpertLanguage::LanguageManager& languageManager = XpertLanguage::LanguageManager::getInstance();
+
+
+    try {
+        string languageFileName = _languagePath + "/" + XpertUtils::outputLangToString(_xpertRequestResult.getXpertRequest().getOutputLang()) + ".xml";
+        ifstream ifs(languageFileName);
+
+        // If language file opening failed.
+        if (ifs.fail()) {
+            throw runtime_error("Could not open the file " + languageFileName);
+        }
+
+        // Try loading the language file, it may throw a LanguageException.
+        string xmlLanguageString((istreambuf_iterator<char>(ifs)), (istreambuf_iterator<char>()));
+        languageManager.loadDictionary(xmlLanguageString);
+
+        logHelper.info("Successfully loaded " + languageFileName);
+
+    } catch (const runtime_error& e) {
+
+        // Somehow, the acquisition of the language file failed.
+        // Leave this requestXpert and try the next one.
+        logHelper.error(e.what());
+        return false;
+    }
+
+    /**************************************************************
+     *                       Model selection                      *
+     * ************************************************************/
+
+    logHelper.info("Validating covariates and selecting drug model...");
+
+    XpertResult::BestDrugModelSelector bestDrugModelSelector;
+    bestDrugModelSelector.getBestDrugModel(_xpertRequestResult);
+
+    // Check if model selection was successful
+    if (_xpertRequestResult.shouldBeHandled() == false) {
+        logHelper.error(_xpertRequestResult.getErrorMessage());
+        return false;
+    }
+
+    logHelper.info("Covariates validated and drug model selected: " + _xpertRequestResult.getDrugModel()->getDrugModelId());
+
+    /**************************************************************
+     *                       Dosages checking                     *
+     * ************************************************************/
+
+    logHelper.info("Checking dosages...");
+
+    XpertResult::DoseValidator doseValidator;
+    doseValidator.getDoseValidations(_xpertRequestResult);
+
+    // Check if dosages checking was successful
+    if (_xpertRequestResult.shouldBeHandled() == false) {
+        logHelper.error(_xpertRequestResult.getErrorMessage());
+        return false;
+    }
+
+    logHelper.info("Dosages successfully validated.");
+
+
+    /**************************************************************
+     *                       Samples checking                     *
+     * ************************************************************/
+
+    logHelper.info("Checking samples...");
+
+    XpertResult::SampleValidator sampleValidator;
+    sampleValidator.getSampleValidations(_xpertRequestResult);
+
+    // Check if samples checking was successful
+    if (_xpertRequestResult.shouldBeHandled() == false) {
+        logHelper.error(_xpertRequestResult.getErrorMessage());
+        return false;
+    }
+
+    logHelper.info("Samples successfully validated.");
+
+
+    /**************************************************************
+     *                       Targets checking                     *
+     * ************************************************************/
+
+    logHelper.info("Checking targets...");
+
+    XpertResult::TargetValidator targetValidator;
+    targetValidator.getTargetValidations(_xpertRequestResult);
+
+    // Check if targets checking was successful
+    if (_xpertRequestResult.shouldBeHandled() == false) {
+        logHelper.error(_xpertRequestResult.getErrorMessage());
+        return false;
+    }
+
+    logHelper.info("Targets successfully validated.");
+
+    /**************************************************************
+     *                  Creating adjustment trait                 *
+     * ************************************************************/
+
+    logHelper.info("Creating adjustment trait...");
+
+    XpertResult::AdjustmentTraitCreator adjustmentTraitCreator;
+    adjustmentTraitCreator.createAdjustmentTrait(_xpertRequestResult);
+
+    // Check if adjustment trait creation was successful
+    if (_xpertRequestResult.shouldBeHandled() == false) {
+        logHelper.error(_xpertRequestResult.getErrorMessage());
+        return false;
+    }
+
+    logHelper.info("Adjustment trait successfully created.");
+
+
+    return true;
 }
 
 } // namespace XpertComputer

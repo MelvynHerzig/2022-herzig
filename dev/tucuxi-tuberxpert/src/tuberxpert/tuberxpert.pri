@@ -2,6 +2,7 @@
 INCLUDEPATH += $$PWD/../../src
 
 HEADERS += \
+    $$PWD/flow/abstract/AbstractFlowProviderFactory.h \
     $$PWD/query/xpertadministrativedata.h \
     $$PWD/query/xpertquerydata.h \
     $$PWD/query/xpertqueryimport.h \

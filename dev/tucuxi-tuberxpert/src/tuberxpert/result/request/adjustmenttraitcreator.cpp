@@ -12,7 +12,7 @@ using namespace std;
 namespace Tucuxi {
 namespace XpertResult {
 
-AdjustmentTraitCreator::AdjustmentTraitCreator(Common::DateTime _computationDate) : m_computationDate(_computationDate)
+AdjustmentTraitCreator::AdjustmentTraitCreator(Common::DateTime _computationTime) : m_computationTime(_computationTime)
 {}
 
 void AdjustmentTraitCreator::createAdjustmentTrait(XpertRequestResult& _xpertRequestResult) const
@@ -49,7 +49,7 @@ void AdjustmentTraitCreator::createAdjustmentTrait(XpertRequestResult& _xpertReq
 
     // Computing options
     Core::ComputingOption computingOption{
-        getPredictionParamterType(_xpertRequestResult.getTreatment()),
+        getPredictionParameterType(_xpertRequestResult.getTreatment()),
         Core::CompartmentsOption::AllActiveMoieties,
         Core::RetrieveStatisticsOption::RetrieveStatistics,
         Core::RetrieveParametersOption::RetrieveParameters,
@@ -94,7 +94,7 @@ void AdjustmentTraitCreator::createAdjustmentTrait(XpertRequestResult& _xpertReq
 
 
     // Creating and setting trait.
-    unique_ptr<Core::ComputingTraitAdjustment> computingTraitAdjustment = make_unique<Core::ComputingTraitAdjustment>(
+    Core::ComputingTraitAdjustment computingTraitAdjustment = Core::ComputingTraitAdjustment(
                 responseId,
                 start,
                 end,
@@ -108,11 +108,11 @@ void AdjustmentTraitCreator::createAdjustmentTrait(XpertRequestResult& _xpertReq
                 targetExtractionOption,
                 formulationAndRouteSelectionOption);
 
-    _xpertRequestResult.setAdjustmentTrait(move(computingTraitAdjustment));
+    _xpertRequestResult.setAdjustmentTrait(computingTraitAdjustment);
 
 }
 
-Core::PredictionParameterType AdjustmentTraitCreator::getPredictionParamterType(const std::unique_ptr<Core::DrugTreatment>& _drugTreatment) const
+Core::PredictionParameterType AdjustmentTraitCreator::getPredictionParameterType(const std::unique_ptr<Core::DrugTreatment>& _drugTreatment) const
 {
     if (!_drugTreatment->getDosageHistory().isEmpty() && !_drugTreatment->getSamples().empty()){
         return Core::PredictionParameterType::Aposteriori;
@@ -124,8 +124,9 @@ Core::PredictionParameterType AdjustmentTraitCreator::getPredictionParamterType(
 Common::DateTime AdjustmentTraitCreator::getOldestDosageTimeRangeStart(const Core::DosageHistory& _dosageHistory) const
 {
     // In case the dosage history is empty. The olest treatment start date is present.
-    Common::DateTime oldestDateKnown = Common::DateTime::now();
+    Common::DateTime oldestDateKnown = m_computationTime;
 
+    // Iterate on the time ranges and find the one that is the oldest.
     for (const unique_ptr<Core::DosageTimeRange>& timeRange : _dosageHistory.getDosageTimeRanges()) {
         if (timeRange->getStartDate() < oldestDateKnown){
             oldestDateKnown = timeRange->getStartDate();
@@ -141,7 +142,7 @@ Common::DateTime AdjustmentTraitCreator::getLatestDosageTimeRangeStart(const Cor
     Common::DateTime latestDateKnown = Common::DateTime::undefinedDateTime();
 
     for (const unique_ptr<Core::DosageTimeRange>& timeRange : _dosageHistory.getDosageTimeRanges()) {
-        if (timeRange->getStartDate() < m_computationDate && (latestDateKnown.isUndefined() || timeRange->getStartDate() < latestDateKnown)){
+        if (timeRange->getStartDate() < m_computationTime && (latestDateKnown.isUndefined() || timeRange->getStartDate() < latestDateKnown)){
             latestDateKnown = timeRange->getStartDate();
         }
     }
@@ -181,7 +182,7 @@ Common::DateTime AdjustmentTraitCreator::getAdjustmentTime(const XpertQuery::Xpe
 
         // 3) There is no dosage history in the past -> The adjustment time can be anytime, arbitrarily start datetime + 1 hour.
         // or fallback from 1 and 2
-        return m_computationDate + Duration(chrono::hours(1));
+        return m_computationTime + Duration(chrono::hours(1));
     }
 }
 
@@ -217,11 +218,11 @@ Common::DateTime AdjustmentTraitCreator::makeIntakeSeriesAndTryToExtractAdjustme
     }
 
     // The extracted intake time is in the past.
-    if (possibleAdjustmentTime < m_computationDate) {
+    if (possibleAdjustmentTime < m_computationTime) {
 
         // Add 2 * helf-life until the computing time is reached, it defines the adjustment time.
         const Core::HalfLife& halfLife = _drugModel->getTimeConsiderations().getHalfLife();
-        while (possibleAdjustmentTime < m_computationDate) {
+        while (possibleAdjustmentTime < m_computationTime) {
             double timeValue = Common::UnitManager::convertToUnit(halfLife.getValue(), halfLife.getUnit(), Common::TucuUnit("h"));
             possibleAdjustmentTime += Common::Duration(chrono::hours(int(2 * timeValue)));
         }
@@ -246,12 +247,12 @@ Common::DateTime AdjustmentTraitCreator::getTimeOfNearestFutureOrLatestIntake(Co
         // Since we iterate from the end, we remember of every future intake
         // that is closest to the execution time.
         if ( savedTime.isUndefined() ||
-             ((*it).getEventTime() < savedTime && (*it).getEventTime() > m_computationDate)) {
+             ((*it).getEventTime() < savedTime && (*it).getEventTime() > m_computationTime)) {
             savedTime = (*it).getEventTime();
         }
 
         // If we are in the past.
-        if ((*it).getEventTime() < m_computationDate) {
+        if ((*it).getEventTime() < m_computationTime) {
 
             // There is a close intake in the future
             if (!savedTime.isUndefined()){
@@ -284,7 +285,7 @@ void AdjustmentTraitCreator::getPeriod(const Core::FullFormulationAndRoute* _ful
         treatmentDuration = Common::UnitManager::convertToUnit(treatmentDuration, _fullFormulationAndRoute->getStandardTreatment()->getUnit(), Common::TucuUnit("d"));
         _end = _start + Common::Duration(Common::days(int(treatmentDuration)));
 
-        if (_end <= m_computationDate) {
+        if (_end <= m_computationTime) {
             throw invalid_argument("Based on the standard treatment in the model:" +
                                    _xpertRequestResult.getDrugModel()->getDrugModelId() +
                                    ", considering the oldest dosage is the treatment start, the treatment is already over.");

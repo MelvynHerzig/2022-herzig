@@ -38,7 +38,7 @@ public:
     SampleValidator();
 
     /// \brief Evaluates each sample in the treatment from the XpertRequestResult.
-    /// \param _xpertRequestResult XpertRequest containing samples to evaluate.
+    /// \param _xpertRequestResult XpertRequestResult containing samples to evaluate.
     void getSampleValidations(XpertRequestResult& _xpertRequestResult) const;
 
 protected:

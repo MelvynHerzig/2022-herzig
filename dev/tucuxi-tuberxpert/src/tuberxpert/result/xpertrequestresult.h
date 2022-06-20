@@ -68,9 +68,10 @@ public:
     ///         This may be empty if there is no sample or if the samples validation failed.
     const std::map<const Core::Sample*, SampleResult>& getSampleResults();
 
-
+    /// \brief Get a unique pointer on the adjustment trait used to make the computing request.
+    ///        May be nullptr.
+    /// \return A constant unique pointer on the adjustment trait.
     const std::unique_ptr<Core::ComputingTraitAdjustment>& getAdjustmentTrait();
-
 
     /// \brief Sets a new error message.
     /// \param _message New message to set.
@@ -92,7 +93,9 @@ public:
     /// \param _newSampleResults SampleResult map to retrieve.
     void setSampleResults(std::map<const Core::Sample*, SampleResult>&& _newSampleResults);
 
-    void setAdjustmentTrait(std::unique_ptr<Core::ComputingTraitAdjustment> _adjustmentTrait);
+    /// \brief Set the adjustment trait to use in order to create a computing request for the core.
+    /// \param _adjustmentTrait Computing adjustment trait to retrieve.
+    void setAdjustmentTrait(const Core::ComputingTraitAdjustment& _adjustmentTrait);
 
     /// \brief Checks if the XpertRequestResult should go to next pipeline step.
     /// \return True if no problem was detected until the call otherwise false.
@@ -127,7 +130,7 @@ protected:
     ///        stored in each SampleResult.
     std::map<const Core::Sample*, SampleResult> m_sampleResults;
 
-
+    /// \brief m_adjustmentTrait Adjustment trait used to make the computing request.
     std::unique_ptr<Core::ComputingTraitAdjustment> m_adjustmentTrait;
 
 };
