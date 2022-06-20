@@ -452,30 +452,6 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                    <covariate>
-                                                        <covariateId>birthdate</covariateId>
-                                                        <date>2018-07-11T10:45:30</date>
-                                                        <value>1990-01-01T00:00:00</value>
-                                                        <unit></unit>
-                                                          <dataType>date</dataType>
-                                                        <nature>discrete</nature>
-                                                    </covariate>
-                                                    <covariate>
-                                                        <covariateId>bodyweight</covariateId>
-                                                        <date>2017-07-06T08:00:00</date>
-                                                        <value>70</value>
-                                                        <unit>kg</unit>
-                                                          <dataType>double</dataType>
-                                                        <nature>discrete</nature>
-                                                    </covariate>
-                                                    <covariate>
-                                                        <covariateId>bodyweight</covariateId>
-                                                        <date>2018-07-06T08:00:00</date>
-                                                        <value>150000</value>
-                                                        <unit>g</unit>
-                                                          <dataType>double</dataType>
-                                                        <nature>discrete</nature>
-                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->

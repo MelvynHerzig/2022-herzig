@@ -60,9 +60,19 @@ void AdjustmentTraitCreator::createAdjustmentTrait(XpertRequestResult& _xpertReq
     Common::DateTime adjustmentTime = getAdjustmentTime(_xpertRequestResult.getXpertRequest(), _xpertRequestResult.getTreatment(), _xpertRequestResult.getDrugModel());
 
     // Period
+
     Common::DateTime start;
     Common::DateTime end;
-    getPeriod(fullFormulationAndRoute, _xpertRequestResult, adjustmentTime, start, end);
+
+    try {
+
+        getPeriod(fullFormulationAndRoute, _xpertRequestResult, adjustmentTime, start, end);
+
+    } catch (const invalid_argument& e) {
+        // We catch the fact the the treatment may already be over
+        _xpertRequestResult.setErrorMessage(string(e.what()));
+        return;
+    }
 
     // Best candidate option
     Core::BestCandidatesOption candidatesOption = Core::BestCandidatesOption::BestDosagePerInterval;
@@ -213,7 +223,7 @@ Common::DateTime AdjustmentTraitCreator::makeIntakeSeriesAndTryToExtractAdjustme
         const Core::HalfLife& halfLife = _drugModel->getTimeConsiderations().getHalfLife();
         while (possibleAdjustmentTime < m_computationDate) {
             double timeValue = Common::UnitManager::convertToUnit(halfLife.getValue(), halfLife.getUnit(), Common::TucuUnit("h"));
-            possibleAdjustmentTime += Common::Duration(chrono::hours(int(timeValue)));
+            possibleAdjustmentTime += Common::Duration(chrono::hours(int(2 * timeValue)));
         }
     }
 
@@ -235,7 +245,8 @@ Common::DateTime AdjustmentTraitCreator::getTimeOfNearestFutureOrLatestIntake(Co
 
         // Since we iterate from the end, we remember of every future intake
         // that is closest to the execution time.
-        if ( savedTime.isUndefined() || (*it).getEventTime() < savedTime) {
+        if ( savedTime.isUndefined() ||
+             ((*it).getEventTime() < savedTime && (*it).getEventTime() > m_computationDate)) {
             savedTime = (*it).getEventTime();
         }
 
@@ -276,7 +287,7 @@ void AdjustmentTraitCreator::getPeriod(const Core::FullFormulationAndRoute* _ful
         if (_end <= m_computationDate) {
             throw invalid_argument("Based on the standard treatment in the model:" +
                                    _xpertRequestResult.getDrugModel()->getDrugModelId() +
-                                   ", considering the the oldest dosage is the treatment start, the treatment is already over.");
+                                   ", considering the oldest dosage is the treatment start, the treatment is already over.");
         }
 
         return;
