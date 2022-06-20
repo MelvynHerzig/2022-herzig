@@ -16,6 +16,7 @@
 #include "tuberxpert/result/validation/targetvalidator.h"
 #include "tuberxpert/result/request/adjustmenttraitcreator.h"
 #include "tuberxpert/utils/xpertutils.h"
+#include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
 
 using namespace std;
 
@@ -149,6 +150,14 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
         return false;
     }
 
+
+
+    /**************************************************************
+     *                Get the flow step provider                  *
+     * ************************************************************/
+    unique_ptr<XpertFlow::AbstractXpertFlowStepProvider> xpertFlowStepProvider(nullptr);
+    getXpertFlowStepProvider(_xpertRequestResult, xpertFlowStepProvider);
+
     /**************************************************************
      *                       Model selection                      *
      * ************************************************************/
@@ -238,6 +247,26 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
 
 
     return true;
+}
+
+void TuberXpertComputer::getXpertFlowStepProvider(XpertResult::XpertRequestResult& _xpertRequestResult, std::unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const
+{
+
+    // The idea is the have this method that return a FlowStepProvider for each
+    // drug. If a drug is not implemented, the general one is returned. For example, like this:
+
+    // if (_xpertRequestResult.getXpertRequest().getDrugID() == "imatinib") {
+    //     _xpertFlowStepProvider = make_unique<XpertFlow::ImatinibXpertFlowStepProvider>();
+    // } else if (_xpertRequestResult.getXpertRequest().getDrugID() == "rifampicin") {
+    //     _xpertFlowStepProvider = make_unique<XpertFlow::RifampicinXpertFlowStepProvider>();
+    // } else {
+    //     _xpertFlowStepProvider = make_unique<XpertFlow::GeneralXpertFlowStepProvider>();
+    // }
+
+
+    // But at the moment, TuberXpert is implemented in a general manner.
+    // In future stages, this line should be removed for the commented ones on top of it.
+     _xpertFlowStepProvider = make_unique<XpertFlow::GeneralXpertFlowStepProvider>();
 }
 
 } // namespace XpertComputer

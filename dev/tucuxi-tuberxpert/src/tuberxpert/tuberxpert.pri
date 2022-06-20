@@ -4,6 +4,7 @@ INCLUDEPATH += $$PWD/../../src
 HEADERS += \
     $$PWD/flow/abstract/abstractxpertflowstep.h \
     $$PWD/flow/abstract/abstractxpertflowstepprovider.h \
+    $$PWD/flow/general/generalxpertflowstepprovider.h \
     $$PWD/query/xpertadministrativedata.h \
     $$PWD/query/xpertquerydata.h \
     $$PWD/query/xpertqueryimport.h \
@@ -26,6 +27,7 @@ HEADERS += \
     $$PWD/tuberxpertcomputer.h
 
 SOURCES += \
+    $$PWD/flow/general/generalxpertflowstepprovider.cpp \
     $$PWD/query/xpertadministrativedata.cpp \
     $$PWD/query/xpertquerydata.cpp \
     $$PWD/query/xpertqueryimport.cpp \

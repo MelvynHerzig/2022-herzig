@@ -30,8 +30,16 @@ class AbstractXpertFlowStepProvider
 
 public:
 
+    AbstractXpertFlowStepProvider() :
+        m_covariateValidatorAndModelSelector(nullptr),
+        m_doseValidator(nullptr),
+        m_sampleValidator(nullptr),
+        m_targetValidator(nullptr),
+        m_adjustmentTraitCreator(nullptr),
+        m_reportPrinter(nullptr){};
+
     /// \brief Destructor.
-    virtual ~AbstractXpertFlowStepProvider(){};
+    virtual ~AbstractXpertFlowStepProvider() {};
 
     /// \brief Get the step responsible to validate the covariates and to select the drug model.
     /// \return Return the corresponding AbstractXpertFlowStep.
@@ -56,6 +64,20 @@ public:
     /// \brief Get the step responsible to print the report.
     /// \return Return the corresponding AbstractXpertFlowStep.
     virtual const std::unique_ptr<AbstractXpertFlowStep>& getReportPrinter() const = 0;
+
+protected:
+
+    std::unique_ptr<AbstractXpertFlowStep> m_covariateValidatorAndModelSelector;
+
+    std::unique_ptr<AbstractXpertFlowStep> m_doseValidator;
+
+    std::unique_ptr<AbstractXpertFlowStep> m_sampleValidator;
+
+    std::unique_ptr<AbstractXpertFlowStep> m_targetValidator;
+
+    std::unique_ptr<AbstractXpertFlowStep> m_adjustmentTraitCreator;
+
+    std::unique_ptr<AbstractXpertFlowStep> m_reportPrinter;
 
 };
 
