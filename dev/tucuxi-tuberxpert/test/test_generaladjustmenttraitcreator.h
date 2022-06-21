@@ -2549,10 +2549,10 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
     }
 
     /// \brief This method checks that the adjustment trait creation fails when there is a standard treatment
-    ///        that is over before the computation time. In this test, the dosage history starts on the
+    ///        that is over before the adjustment time. In this test, the dosage history starts on the
     ///        2018-07-06 8h00 and the standard treatment lasts 4 days. Thus, the start and end date of the adjustment
-    ///        should be 2018-07-06 8h00 - 2018-07-10 8h00. In consequences, the treatment is already over on the computation
-    ///        time ( 2018-07-10 8h00 < 2022-06-20 10h00).
+    ///        should be 2018-07-06 8h00 - 2018-07-10 8h00. In consequences, the treatment is already over at the time of
+    ///        the adjustment time set in the request (2022-06-20 10h00).
     /// \param _testName Name of the test
     void errorWhenStandardTreatmentIsOverBeforeComputationTime(const std::string& _testName)
     {
@@ -2625,6 +2625,7 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
                                                     <format>xml</format>
                                                     <language>en</language>
                                                 </output>
+                                                <adjustmentDate>2022-06-20T10:00:00</adjustmentDate>
                                                 <options>
                                                     <loadingOption>noLoadingDose</loadingOption>
                                                     <restPeriodOption>noRestPeriod</restPeriodOption>
@@ -2646,7 +2647,7 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
         generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
-        fructose_assert_eq(xrr.getErrorMessage(), "Based on the standard treatment in the model:ch.tucuxi.busulfan.paci2012, considering the oldest dosage is the treatment start, the treatment is already over.");
+        fructose_assert_eq(xrr.getErrorMessage(), "Based on the standard treatment in the model:ch.tucuxi.busulfan.paci2012, considering that the oldest dosage is the treatment start, the treatment is already over at the time of the adjustment.");
     }
 
     /// \brief This method checks that start and end date is placed regarding the adjustment time.

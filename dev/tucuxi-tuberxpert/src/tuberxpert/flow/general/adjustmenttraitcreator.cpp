@@ -285,10 +285,10 @@ void AdjustmentTraitCreator::getPeriod(const Core::FullFormulationAndRoute* _ful
         treatmentDuration = Common::UnitManager::convertToUnit(treatmentDuration, _fullFormulationAndRoute->getStandardTreatment()->getUnit(), Common::TucuUnit("d"));
         _end = _start + Common::Duration(Common::days(int(treatmentDuration)));
 
-        if (_end <= m_computationTime) {
+        if (_end <= _adjustmentTime) {
             throw invalid_argument("Based on the standard treatment in the model:" +
                                    _xpertRequestResult.getDrugModel()->getDrugModelId() +
-                                   ", considering the oldest dosage is the treatment start, the treatment is already over.");
+                                   ", considering that the oldest dosage is the treatment start, the treatment is already over at the time of the adjustment.");
         }
 
         return;

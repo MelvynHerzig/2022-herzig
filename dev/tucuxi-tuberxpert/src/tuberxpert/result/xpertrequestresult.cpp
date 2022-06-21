@@ -12,7 +12,8 @@ XpertRequestResult::XpertRequestResult(unique_ptr<XpertQuery::XpertRequestData> 
       m_dTreatment(move(_dTreatment)),
       m_errorMessage(_errorMessage),
       m_drugModel(nullptr),
-      m_adjustmentTrait(nullptr)
+      m_adjustmentTrait(nullptr),
+      m_adjustmentData(nullptr)
 {}
 
 const XpertQuery::XpertRequestData& XpertRequestResult::getXpertRequest() const
@@ -55,6 +56,11 @@ const unique_ptr<Core::ComputingTraitAdjustment>& XpertRequestResult::getAdjustm
     return m_adjustmentTrait;
 }
 
+const std::unique_ptr<Core::AdjustmentData> &XpertRequestResult::getAdjustmentData()
+{
+    return m_adjustmentData;
+}
+
 void XpertRequestResult::setErrorMessage(const string& _message)
 {
     m_errorMessage = _message;
@@ -83,6 +89,11 @@ void XpertRequestResult::setSampleResults(map<const Core::Sample*, SampleResult>
 void XpertRequestResult::setAdjustmentTrait(const Core::ComputingTraitAdjustment& _adjustmentTrait)
 {
     m_adjustmentTrait = make_unique<Core::ComputingTraitAdjustment>(_adjustmentTrait);
+}
+
+void XpertRequestResult::setAdjustmentData(std::unique_ptr<Core::AdjustmentData> _adjustmentData)
+{
+    m_adjustmentData = move(_adjustmentData);
 }
 
 bool XpertRequestResult::shouldBeHandled() const

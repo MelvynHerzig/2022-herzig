@@ -73,7 +73,15 @@ protected:
                                         const std::string& _languagePath,
                                         const std::unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _stepProvider) const;
 
+    /// \brief For a given XpertRequestResult get the XpertFlowStepProvider for the related drug.
+    /// \param _xpertRequestResult XpertRequestResult to get drug id from.
+    /// \param _xpertFlowStepProvider Unique pointer in which create the corresponding XpertFlowStepProvider.
     void getXpertFlowStepProvider(XpertResult::XpertRequestResult& _xpertRequestResult, std::unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const;
+
+    /// \brief Extracts the adjustment trait from the XpertRequestResult, makes the request for the core and submits it.
+    /// \param _xpertRequestResult XpertRequestResult containing the adjustment trait to use.
+    /// \return True if the request execution went well, else false.
+    bool makeAndExecuteAdjustmentRequest(XpertResult::XpertRequestResult& _xpertRequestResult) const;
 };
 
 } // namespace XpertComputer

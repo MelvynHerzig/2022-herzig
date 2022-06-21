@@ -30,6 +30,7 @@ class AbstractXpertFlowStepProvider
 
 public:
 
+    /// \brief Constructor. Simply set attributes to nullptr.
     AbstractXpertFlowStepProvider() :
         m_covariateValidatorAndModelSelector(nullptr),
         m_doseValidator(nullptr),
@@ -67,16 +68,22 @@ public:
 
 protected:
 
+    /// \brief Step responsible to validate covariates and select the best drug model.
     std::unique_ptr<AbstractXpertFlowStep> m_covariateValidatorAndModelSelector;
 
+    /// \brief Step responsible to validate the doses.
     std::unique_ptr<AbstractXpertFlowStep> m_doseValidator;
 
+    /// \brief Step responsible to validate the sampels.
     std::unique_ptr<AbstractXpertFlowStep> m_sampleValidator;
 
+    /// \brief Step responsible to validate the targets.
     std::unique_ptr<AbstractXpertFlowStep> m_targetValidator;
 
+    /// \brief Step responsible to create the adjustment trait to submit.
     std::unique_ptr<AbstractXpertFlowStep> m_adjustmentTraitCreator;
 
+    /// \brief Step responsible to print the final report.
     std::unique_ptr<AbstractXpertFlowStep> m_reportPrinter;
 
 };

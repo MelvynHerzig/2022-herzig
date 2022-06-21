@@ -11,6 +11,7 @@
 #include "tucucore/dosage.h"
 #include "tucucore/computingservice/computingrequest.h"
 #include "tucucore/computingservice/computingtrait.h"
+#include "tucucore/computingservice/computingresponse.h"
 
 #include "tuberxpert/query/xpertrequestdata.h"
 #include "tuberxpert/result/covariateresult.h"
@@ -73,6 +74,12 @@ public:
     /// \return A constant unique pointer on the adjustment trait.
     const std::unique_ptr<Core::ComputingTraitAdjustment>& getAdjustmentTrait();
 
+    /// \brief Get a unique pointer on the adjustment data retrieved by the computation of the adjustment trait.
+    ///        May be nullptr.
+    /// \return A constant unique pointer on the adjustment data.
+    const std::unique_ptr<Core::AdjustmentData>& getAdjustmentData();
+
+
     /// \brief Sets a new error message.
     /// \param _message New message to set.
     void setErrorMessage(const std::string& _message);
@@ -96,6 +103,10 @@ public:
     /// \brief Set the adjustment trait to use in order to create a computing request for the core.
     /// \param _adjustmentTrait Computing adjustment trait to retrieve.
     void setAdjustmentTrait(const Core::ComputingTraitAdjustment& _adjustmentTrait);
+
+    /// \brief Set the adjustment data that has been retrieved after the execution of the adjustment trait.
+    /// \param _adjustmentTrait Computing adjustment trait to retrieve.
+    void setAdjustmentData(std::unique_ptr<Core::AdjustmentData> _adjustmentData);
 
     /// \brief Checks if the XpertRequestResult should go to next pipeline step.
     /// \return True if no problem was detected until the call otherwise false.
@@ -130,8 +141,11 @@ protected:
     ///        stored in each SampleResult.
     std::map<const Core::Sample*, SampleResult> m_sampleResults;
 
-    /// \brief m_adjustmentTrait Adjustment trait used to make the computing request.
+    /// \brief Adjustment trait used to make the computing request.
     std::unique_ptr<Core::ComputingTraitAdjustment> m_adjustmentTrait;
+
+    /// \brief Adjustment data retrieved after submitting the adjustment trait to the core.
+    std::unique_ptr<Core::AdjustmentData> m_adjustmentData;
 
 };
 

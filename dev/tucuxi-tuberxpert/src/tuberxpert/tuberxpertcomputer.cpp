@@ -5,18 +5,15 @@
 
 #include "tucucommon/loggerhelper.h"
 #include "tucucore/drugmodelrepository.h"
+#include "tucucore/computingcomponent.h"
 
 #include "tuberxpert/language/languagemanager.h"
 #include "tuberxpert/query/xpertqueryimport.h"
 #include "tuberxpert/query/xpertquerydata.h"
 #include "tuberxpert/result/xpertresult.h"
-#include "tuberxpert/result/validation/covariatevalidatorandmodelselector.h"
-#include "tuberxpert/result/validation/dosevalidator.h"
-#include "tuberxpert/result/validation/samplevalidator.h"
-#include "tuberxpert/result/validation/targetvalidator.h"
-#include "tuberxpert/result/request/adjustmenttraitcreator.h"
 #include "tuberxpert/utils/xpertutils.h"
 #include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
+
 
 using namespace std;
 
@@ -92,6 +89,9 @@ ComputingStatus TuberXpertComputer::compute(
         }
 
         // Execute adjustment request
+        makeAndExecuteAdjustmentRequest(xpertRequestResult);
+
+        int i = 0;
 
         // Genereate final report
 
@@ -115,7 +115,7 @@ ComputingStatus TuberXpertComputer::compute(
 }
 
 bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertRequestResult& _xpertRequestResult,
-                                                        const std::string& _languagePath,
+                                                        const string& _languagePath,
                                                         const unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _stepProvider) const
 {
 
@@ -240,7 +240,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
     return true;
 }
 
-void TuberXpertComputer::getXpertFlowStepProvider(XpertResult::XpertRequestResult& _xpertRequestResult, std::unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const
+void TuberXpertComputer::getXpertFlowStepProvider(XpertResult::XpertRequestResult& _xpertRequestResult, unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const
 {
 
     // The idea is the have this method that return a FlowStepProvider for each
@@ -258,6 +258,41 @@ void TuberXpertComputer::getXpertFlowStepProvider(XpertResult::XpertRequestResul
     // But at the moment, TuberXpert is implemented in a general manner.
     // In future stages, this line should be removed for the commented ones on top of it.
     _xpertFlowStepProvider = make_unique<XpertFlow::GeneralXpertFlowStepProvider>();
+}
+
+bool TuberXpertComputer::makeAndExecuteAdjustmentRequest(XpertResult::XpertRequestResult& _xpertRequestResult) const
+{
+    // Create a copy of the adjustment trait.
+    unique_ptr<Core::ComputingTraitAdjustment> copyComputingTraitAdjustment = make_unique<Core::ComputingTraitAdjustment>(*_xpertRequestResult.getAdjustmentTrait());
+
+    // Create the computing request.
+    Core::ComputingRequest computingRequest { "", *_xpertRequestResult.getDrugModel(), *_xpertRequestResult.getTreatment(), move(copyComputingTraitAdjustment)};
+
+    // Create the response holder.
+    unique_ptr<Core::ComputingResponse> computingResponse = make_unique<Core::ComputingResponse>("");
+
+    // Starting percentiles computation.
+    Core::IComputingService* computingComponent = dynamic_cast<Core::IComputingService*>(Core::ComputingComponent::createComponent());
+    Core::ComputingStatus result = computingComponent->compute(computingRequest, computingResponse);
+
+    // If request handling failed, return false.
+    if (result != Core::ComputingStatus::Ok){
+        return false;
+
+    // If it went well, set the response in the result and return true.
+    } else {
+
+        // Extracting adjustment data pointer.
+        Core::AdjustmentData* adjustmentData = dynamic_cast<Core::AdjustmentData*>(computingResponse->getUniquePointerData().release());
+
+        // Putting into smart pointer since we released it.
+        unique_ptr<Core::AdjustmentData> upAdjustmentData(adjustmentData);
+
+        // Saving the adjustment data into the request result
+        _xpertRequestResult.setAdjustmentData(move(upAdjustmentData));
+
+        return true;
+    }
 }
 
 } // namespace XpertComputer
