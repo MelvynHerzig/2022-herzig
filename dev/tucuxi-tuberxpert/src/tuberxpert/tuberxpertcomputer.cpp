@@ -57,7 +57,7 @@ ComputingStatus TuberXpertComputer::compute(
         return ComputingStatus::IMPORT_ERROR;
     }
 
-    XpertResult::XpertResult xpertResult(move(query));
+    XpertResult::XpertGlobalResult xpertGlobalResult(move(query));
 
     /*********************************************************************************
      *                             For each xpert resquest                           *
@@ -65,7 +65,7 @@ ComputingStatus TuberXpertComputer::compute(
 
     unsigned nbUnfulfilledRequest = 0;
     unsigned requestNbBeingHandled = 0;
-    for (XpertResult::XpertRequestResult& xpertRequestResult : xpertResult.getXpertRequestResults()) {
+    for (XpertResult::XpertRequestResult& xpertRequestResult : xpertGlobalResult.getXpertRequestResults()) {
 
         logHelper.info("---------------------------------------");
         logHelper.info("Handling request number: " + to_string(++requestNbBeingHandled));
@@ -89,11 +89,13 @@ ComputingStatus TuberXpertComputer::compute(
         }
 
         // Execute adjustment request
-        makeAndExecuteAdjustmentRequest(xpertRequestResult);
-
-        int i = 0;
+        if (makeAndExecuteAdjustmentRequest(xpertRequestResult) == false) {
+            ++nbUnfulfilledRequest;
+            continue;
+        }
 
         // Genereate final report
+        // TODO
 
     }
 
@@ -104,7 +106,7 @@ ComputingStatus TuberXpertComputer::compute(
         return ComputingStatus::ALL_REQUESTS_SUCCEEDED;
 
         // If some failed.
-    } else if ( nbUnfulfilledRequest < xpertResult.getXpertRequestResults().size()) {
+    } else if ( nbUnfulfilledRequest < xpertGlobalResult.getXpertRequestResults().size()) {
         return ComputingStatus::SOME_REQUESTS_SUCCEEDED;
 
         // Otherwise they all failed.
@@ -262,6 +264,9 @@ void TuberXpertComputer::getXpertFlowStepProvider(XpertResult::XpertRequestResul
 
 bool TuberXpertComputer::makeAndExecuteAdjustmentRequest(XpertResult::XpertRequestResult& _xpertRequestResult) const
 {
+    Common::LoggerHelper logHelper;
+    logHelper.info("Submitting adjustment request...");
+
     // Create a copy of the adjustment trait.
     unique_ptr<Core::ComputingTraitAdjustment> copyComputingTraitAdjustment = make_unique<Core::ComputingTraitAdjustment>(*_xpertRequestResult.getAdjustmentTrait());
 
@@ -277,10 +282,14 @@ bool TuberXpertComputer::makeAndExecuteAdjustmentRequest(XpertResult::XpertReque
 
     // If request handling failed, return false.
     if (result != Core::ComputingStatus::Ok){
+
+        logHelper.error("Adjustment request execution failed.");
         return false;
 
     // If it went well, set the response in the result and return true.
     } else {
+
+        logHelper.info("Adjustment request execution success.");
 
         // Extracting adjustment data pointer.
         Core::AdjustmentData* adjustmentData = dynamic_cast<Core::AdjustmentData*>(computingResponse->getUniquePointerData().release());

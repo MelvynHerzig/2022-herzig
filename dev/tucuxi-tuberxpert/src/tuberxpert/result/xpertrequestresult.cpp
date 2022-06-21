@@ -5,10 +5,13 @@ using namespace std;
 namespace Tucuxi {
 namespace XpertResult {
 
-XpertRequestResult::XpertRequestResult(unique_ptr<XpertQuery::XpertRequestData> _xpertRequest,
-                                       unique_ptr<Core::DrugTreatment> _dTreatment,
-                                       const string& _errorMessage)
-    : m_xpertRequest(move(_xpertRequest)),
+XpertRequestResult::XpertRequestResult(
+        const XpertGlobalResult* _xpertGlobalResult,
+        unique_ptr<XpertQuery::XpertRequestData> _xpertRequest,
+        unique_ptr<Core::DrugTreatment> _dTreatment,
+        const string& _errorMessage)
+    : m_xpertGlobalResult(_xpertGlobalResult),
+      m_xpertRequest(move(_xpertRequest)),
       m_dTreatment(move(_dTreatment)),
       m_errorMessage(_errorMessage),
       m_drugModel(nullptr),
@@ -56,9 +59,19 @@ const unique_ptr<Core::ComputingTraitAdjustment>& XpertRequestResult::getAdjustm
     return m_adjustmentTrait;
 }
 
-const std::unique_ptr<Core::AdjustmentData> &XpertRequestResult::getAdjustmentData()
+const std::unique_ptr<Core::AdjustmentData>& XpertRequestResult::getAdjustmentData()
 {
     return m_adjustmentData;
+}
+
+const std::unique_ptr<Core::IntakeEvent>& XpertRequestResult::getLastIntake()
+{
+    return m_lastIntake;
+}
+
+const XpertGlobalResult& XpertRequestResult::getXpertGlobalResult() const
+{
+    return *m_xpertGlobalResult;
 }
 
 void XpertRequestResult::setErrorMessage(const string& _message)

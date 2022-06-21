@@ -12,6 +12,7 @@
 #include "tucucore/computingservice/computingrequest.h"
 #include "tucucore/computingservice/computingtrait.h"
 #include "tucucore/computingservice/computingresponse.h"
+#include "tucucore/intakeevent.h"
 
 #include "tuberxpert/query/xpertrequestdata.h"
 #include "tuberxpert/result/covariateresult.h"
@@ -21,8 +22,10 @@
 namespace Tucuxi {
 namespace XpertResult {
 
+class XpertGlobalResult;
+
 /// \brief This is object stores the results of tuberXpert in regards of
-///        a given requestXpert. This object is filled along the tuberXpert "pipeline".
+///        a given requestXpert. This object is filled along the tuberXpert execution flow.
 /// \date 20/05/2022
 /// \author Herzig Melvyn
 class XpertRequestResult
@@ -30,10 +33,13 @@ class XpertRequestResult
 public:
 
     /// \brief Constructor. Used in XpertResult construction.
+    /// \param _xpertGlobalResult Where to retrieve the computation time and the administrative data.
+    ///                           Must survive as long as this object is alive (reference stored).
     /// \param _xpertRequest Related requestXpert.
     /// \param _dTreatment Associated treatment if extraction was successfull.
     /// \param _errorMessage If the treatment extraction was not successfull, the related error message or empty string.
     XpertRequestResult(
+            const XpertGlobalResult* _xpertGlobalResult,
             std::unique_ptr<XpertQuery::XpertRequestData> _xpertRequest,
             std::unique_ptr<Core::DrugTreatment> _dTreatment,
             const std::string& _errorMessage);
@@ -79,6 +85,15 @@ public:
     /// \return A constant unique pointer on the adjustment data.
     const std::unique_ptr<Core::AdjustmentData>& getAdjustmentData();
 
+    /// \brief Get a unique pointer on the last intake of the patient.
+    ///        May be nullptr since it is possible to not have any last intake.
+    /// \return A constant unique pointer on the intake event.
+    const std::unique_ptr<Core::IntakeEvent>& getLastIntake();
+
+    /// \brief Get a constant reference on the XpertGlobalResult object that contains common information
+    ///        for all the XpertRequestResult as well as all the XpertRequestResult.
+    /// \return Return a constant reference on the XpertResult held by this object.
+    const XpertGlobalResult& getXpertGlobalResult() const;
 
     /// \brief Sets a new error message.
     /// \param _message New message to set.
@@ -114,13 +129,17 @@ public:
 
 protected:
 
+    /// \brief Where to retrieve the computation time and the administrative data
+    ///        /!\ No need to free
+    const XpertGlobalResult* m_xpertGlobalResult;
+
     /// \brief Unique pointer to the related request this object stores results for.
     std::unique_ptr<XpertQuery::XpertRequestData> m_xpertRequest;
 
     /// \brief Treatment related to the request of this object.
     std::unique_ptr<Core::DrugTreatment> m_dTreatment;
 
-    /// \brief Error message possibly set during a step of the pipeline.
+    /// \brief Error message possibly set during a step of the flow.
     std::string m_errorMessage;
 
     /// \brief Drug model chosen during ModelSelector phase.
@@ -146,6 +165,9 @@ protected:
 
     /// \brief Adjustment data retrieved after submitting the adjustment trait to the core.
     std::unique_ptr<Core::AdjustmentData> m_adjustmentData;
+
+    /// \brief Pointer on the last intake of the patient.
+    std::unique_ptr<Core::IntakeEvent> m_lastIntake;
 
 };
 

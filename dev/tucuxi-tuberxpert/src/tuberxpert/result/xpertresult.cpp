@@ -9,8 +9,8 @@ using namespace std;
 namespace Tucuxi {
 namespace XpertResult {
 
-XpertResult::XpertResult(unique_ptr<XpertQuery::XpertQueryData> _xpertQuery) :
-    m_generationDate(Common::DateTime::now()), m_pAdministrative(_xpertQuery->movepAdministrative())
+XpertGlobalResult::XpertGlobalResult(unique_ptr<XpertQuery::XpertQueryData> _xpertQuery) :
+    m_computationTime(_xpertQuery->getpQueryDate()), m_pAdministrative(_xpertQuery->movepAdministrative())
 {
     XpertQuery::XpertQueryToCoreExtractor extractor;
 
@@ -22,21 +22,21 @@ XpertResult::XpertResult(unique_ptr<XpertQuery::XpertQueryData> _xpertQuery) :
                     *_xpertQuery,
                     errorMessage);
 
-        m_xpertRequestResults.emplace_back(_xpertQuery->moveXpertRequest(i), move(drugTreatment), errorMessage);
+        m_xpertRequestResults.emplace_back(this, _xpertQuery->moveXpertRequest(i), move(drugTreatment), errorMessage);
     }
 }
 
-Common::DateTime XpertResult::getGenerationDate()
+Common::DateTime XpertGlobalResult::getComputationTime() const
 {
-    return m_generationDate;
+    return m_computationTime;
 }
 
-const unique_ptr<XpertQuery::AdministrativeData>& XpertResult::getAdministrative() const
+const unique_ptr<XpertQuery::AdministrativeData>& XpertGlobalResult::getAdministrative() const
 {
     return m_pAdministrative;
 }
 
-std::vector<XpertRequestResult>& XpertResult::getXpertRequestResults()
+std::vector<XpertRequestResult>& XpertGlobalResult::getXpertRequestResults()
 {
     return m_xpertRequestResults;
 }
