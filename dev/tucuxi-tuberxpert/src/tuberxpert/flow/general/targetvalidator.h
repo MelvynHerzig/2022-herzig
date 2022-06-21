@@ -5,7 +5,7 @@
 #include "tuberxpert/result/xpertrequestresult.h"
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace XpertFlow {
 
 /// \brief This class is used to check patient's target.
 /// \date 10/06/2022
@@ -25,10 +25,10 @@ public:
     ///        If one of those checks fails, the XpertRequestResult gets an error and
     ///        it is considered as "to not being handled anymore".
     /// \param _xpertRequestResult XpertResultObject containing the treatment and the related drug model.
-    void perform(XpertRequestResult& _xpertRequestResult) const;
+    void perform(XpertResult::XpertRequestResult& _xpertRequestResult) const;
 };
 
-} // namespace XpertResult
+} // namespace XpertFlow
 } // namespace Tucuxi
 
 #endif // TARGETVALIDATOR_H

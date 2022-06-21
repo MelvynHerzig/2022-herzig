@@ -13,12 +13,12 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace XpertFlow {
 
 TargetValidator::TargetValidator()
 {}
 
-void TargetValidator::perform(XpertRequestResult& _xpertRequestResult) const
+void TargetValidator::perform(XpertResult::XpertRequestResult& _xpertRequestResult) const
 {
 
     // Checks treatment
@@ -73,5 +73,5 @@ void TargetValidator::perform(XpertRequestResult& _xpertRequestResult) const
     }
 }
 
-} // namespace XpertResult
+} // namespace XpertFlow
 } // namespace Tucuxi

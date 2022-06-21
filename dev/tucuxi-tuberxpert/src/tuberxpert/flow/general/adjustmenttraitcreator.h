@@ -13,7 +13,7 @@
 #include "tuberxpert/query/xpertrequestdata.h"
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace XpertFlow {
 
 /// \brief This class is responsible to create the adjustment trait the will be submitted
 ///        to tucuxi core in a computing request. It uses the whole dosage history.
@@ -32,7 +32,7 @@ public:
     /// \brief Create the adjustment trait based on the information in the xpertRequestResult.
     /// \param _xpertRequestResult XpertRequestResult containing all the XpertRequest, the treatment,
     ///        the drug model and that will recieve the trait when created.
-    void perform(XpertRequestResult& _xpertRequestResult) const;
+    void perform(XpertResult::XpertRequestResult& _xpertRequestResult) const;
 
 protected:
 
@@ -94,7 +94,7 @@ protected:
     /// \param _start Resulting start time.
     /// \param _end Resulting end time.
     void getPeriod(const Core::FullFormulationAndRoute* _fullFormulationAndRoute,
-                   const XpertRequestResult& _xpertRequestResult,
+                   const XpertResult::XpertRequestResult& _xpertRequestResult,
                    const Common::DateTime& _adjustmentTime,
                    Common::DateTime& _start,
                    Common::DateTime& _end) const;
@@ -134,7 +134,7 @@ protected:
     Common::DateTime m_computationTime;
 };
 
-} // namespace XpertResult
+} // namespace XpertFlow
 } // namespace Tucuxi
 
 #endif // ADJUSTMENTTRAITCREATOR_H

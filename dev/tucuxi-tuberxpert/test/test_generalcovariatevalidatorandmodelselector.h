@@ -1,5 +1,5 @@
-#ifndef TEST_MODELSELECTOR_H
-#define TEST_MODELSELECTOR_H
+#ifndef TEST_COVARIATEVALIDATORANDMODELSELECTOR_H
+#define TEST_COVARIATEVALIDATORANDMODELSELECTOR_H
 
 #include <vector>
 #include <memory>
@@ -10,21 +10,20 @@
 #include "tucucore/drugmodelchecker.h"
 
 #include "tuberxpert/query/xpertqueryimport.h"
-#include "tuberxpert/result/validation/modelselector.h"
+#include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
 #include "tuberxpert/result/xpertrequestresult.h"
 #include "tuberxpert/result/xpertresult.h"
 #include "tuberxpert/language/languagemanager.h"
 
 #include "fructose/fructose.h"
 
-/// \brief Tests for ModelSelector class.
+/// \brief Tests for CovariateValidatorAndModelSelector from the GeneralXpertFlowStepProvider.
 /// \date 27/05/2022
 /// \author Herzig Melvyn
-struct TestModelSelector : public fructose::test_base<TestModelSelector>
+struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_base<TestGeneralCovariateValidatorAndModelSelector>
 {
-
-    /// \brief Testing time to use to get the same result every time.
-    date::year_month_day _testingTimeRef = date::year_month_day(date::year(2022), date::month(06), date::day(03));
+    /// \brief General flow step provider used to get the covariate validator and model selector object to test.
+    Tucuxi::XpertFlow::GeneralXpertFlowStepProvider generalFlowStepProvider{Tucuxi::Common::DateTime("2022-06-20T10:00:00", "%Y-%m-%dT%H:%M:%S")};
 
     /// \brief Drug model string of the imatinib used by some of the tests.
     std::string originalImatinibModelString = R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -795,8 +794,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult xrr{nullptr, nullptr, ""};
 
-        Tucuxi::XpertResult::BestDrugModelSelector bdms;
-        bdms.getBestDrugModel(xrr);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "No treatment set.");
@@ -897,9 +895,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
-
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Directory does not contain drug model for the given drug.");
@@ -1099,9 +1095,8 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult0 = xpertResult.getXpertRequestResults()[0];
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult1 = xpertResult.getXpertRequestResults()[1];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult0);
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult1);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult0);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult1);
 
         fructose_assert_eq(xpertRequestResult0.shouldBeHandled(), false);
         fructose_assert_eq(xpertRequestResult0.getErrorMessage(), "All formulations and routes must be equal.");
@@ -1205,9 +1200,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
-
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "No valid drug model found.");
@@ -2021,9 +2014,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime()};
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
-
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
@@ -2135,8 +2126,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "No valid drug model found.");
@@ -2956,8 +2946,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
@@ -3068,8 +3057,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
@@ -3828,8 +3816,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found when handling model ch.tucuxi.imatinib.gotta2012_original, details: Multiple birthdate not allowed.");
@@ -4578,8 +4565,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found when handling model ch.tucuxi.imatinib.gotta2012_original, details: Invalid data type for birthdate.");
@@ -5212,9 +5198,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
-
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Covariate extraction failed for drug model: ch.tucuxi.imatinib.gotta2012_original. It may be caused by covariates that could not be converted.");
@@ -7595,8 +7579,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
@@ -9161,8 +9144,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
@@ -11380,10 +11362,9 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult1 = xpertResult.getXpertRequestResults()[1];
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult2 = xpertResult.getXpertRequestResults()[2];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult0);
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult1);
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult2);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult0);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult1);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult2);
 
         fructose_assert_eq(xpertRequestResult0.shouldBeHandled(), false);
         fructose_assert_eq(xpertRequestResult0.getErrorMessage(), "Best drug model found but covariate definitions dont't support requested language.");
@@ -12214,9 +12195,8 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult0 = xpertResult.getXpertRequestResults()[0];
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult1 = xpertResult.getXpertRequestResults()[1];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult0);
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult1);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult0);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult1);
 
         fructose_assert_eq(xpertRequestResult0.shouldBeHandled(), true);
         fructose_assert_eq(xpertRequestResult0.getErrorMessage(), "");
@@ -12349,8 +12329,7 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
 
         Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::BestDrugModelSelector bestDrugModelSelector{Tucuxi::Common::DateTime(_testingTimeRef)};
-        bestDrugModelSelector.getBestDrugModel(xpertRequestResult);
+        generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
@@ -12393,4 +12372,4 @@ struct TestModelSelector : public fructose::test_base<TestModelSelector>
     }
 };
 
-#endif // TEST_MODELSELECTOR_H
+#endif // TEST_COVARIATEVALIDATORANDMODELSELECTOR_H

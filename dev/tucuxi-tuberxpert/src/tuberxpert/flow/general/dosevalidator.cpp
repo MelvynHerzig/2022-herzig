@@ -11,12 +11,12 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace XpertFlow {
 
 DoseValidator::DoseValidator()
 {}
 
-void DoseValidator::perform(XpertRequestResult& _xpertRequestResult) const
+void DoseValidator::perform(XpertResult::XpertRequestResult& _xpertRequestResult) const
 {
     // Checks treatment
     if (_xpertRequestResult.getTreatment() == nullptr) {
@@ -34,7 +34,7 @@ void DoseValidator::perform(XpertRequestResult& _xpertRequestResult) const
     const Core::FormulationAndRoutes& modelFormulationAndRoutes = _xpertRequestResult.getDrugModel()->getFormulationAndRoutes();
 
     try {
-        map<const Core::SingleDose *, DoseResult> results;
+        map<const Core::SingleDose *, XpertResult::DoseResult> results;
         checkDoses(dosageHistory, modelFormulationAndRoutes, results);
         _xpertRequestResult.setDoseResults(move(results));
     } catch (invalid_argument& e) {
@@ -44,7 +44,7 @@ void DoseValidator::perform(XpertRequestResult& _xpertRequestResult) const
 
 void DoseValidator::checkDoses(const Core::DosageHistory& _dosageHistory,
                                const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               map<const Core::SingleDose *, DoseResult>& _doseResults) const
+                               map<const Core::SingleDose *, XpertResult::DoseResult>& _doseResults) const
 {
 
     for(const unique_ptr<Core::DosageTimeRange>& timeRange : _dosageHistory.getDosageTimeRanges()){
@@ -55,7 +55,7 @@ void DoseValidator::checkDoses(const Core::DosageHistory& _dosageHistory,
 
 void DoseValidator::checkDoses(const Core::DosageTimeRange& _timeRange,
                                const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               map<const Core::SingleDose*, DoseResult>& _doseResults) const
+                               map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const
 {
     checkDoses(*_timeRange.getDosage(), _modelFormulationAndRoutes, _doseResults);
 }
@@ -68,7 +68,7 @@ void DoseValidator::checkDoses(const Core::DosageTimeRange& _timeRange,
 
 void DoseValidator::checkDoses(const Core::Dosage& _dosage,
                                const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               std::map<const Core::SingleDose*, DoseResult> &_doseResults) const
+                               std::map<const Core::SingleDose*, XpertResult::DoseResult> &_doseResults) const
 {
     // The calls order is important here.
     // First start with the subclasses, else it won't work
@@ -81,35 +81,35 @@ void DoseValidator::checkDoses(const Core::Dosage& _dosage,
 
 void DoseValidator::checkDoses(const Core::DosageLoop& _dosageLoop,
                                const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               map<const Core::SingleDose*, DoseResult>& _doseResults) const
+                               map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const
 {
     checkDoses(*_dosageLoop.getDosage(), _modelFormulationAndRoutes, _doseResults);
 }
 
 void DoseValidator::checkDoses(const Core::DosageRepeat& _dosageRepeat,
                                const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               map<const Core::SingleDose*, DoseResult>& _doseResults) const
+                               map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const
 {
     checkDoses(*_dosageRepeat.getDosage(), _modelFormulationAndRoutes, _doseResults);
 }
 
 void DoseValidator::checkDoses(const Core::DosageSequence& _dosageSequence,
                                const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               map<const Core::SingleDose*, DoseResult>& _doseResults) const
+                               map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const
 {
     checkDosageBoundedList(_dosageSequence.getDosageList(), _modelFormulationAndRoutes, _doseResults);
 }
 
 void DoseValidator::checkDoses(const Core::ParallelDosageSequence& _parallelDosageSequence,
                                const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               map<const Core::SingleDose*, DoseResult>& _doseResults) const
+                               map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const
 {
     checkDosageBoundedList(_parallelDosageSequence.getDosageList(), _modelFormulationAndRoutes, _doseResults);
 }
 
 void DoseValidator::checkDosageBoundedList(const Core::DosageBoundedList& _dosageBoundedList,
                                            const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                                           map<const Core::SingleDose*, DoseResult>& _doseResults) const
+                                           map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const
 {
     for (const std::unique_ptr<Tucuxi::Core::DosageBounded>& dosage : _dosageBoundedList) {
         checkDoses(*dosage, _modelFormulationAndRoutes, _doseResults);
@@ -118,7 +118,7 @@ void DoseValidator::checkDosageBoundedList(const Core::DosageBoundedList& _dosag
 
 void DoseValidator::checkDoses(const Core::SingleDose& _singleDose,
                                const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               map<const Core::SingleDose*, DoseResult>& _doseResults) const
+                               map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const
 {
     // Get drug model dosage that correspond to the formulation and route.
     const std::vector<std::unique_ptr<Core::FullFormulationAndRoute>>& ffrList = _modelFormulationAndRoutes.getList();
@@ -148,7 +148,7 @@ void DoseValidator::checkDoses(const Core::SingleDose& _singleDose,
                     " (" + XpertUtils::varToString(matchingFr->getValidDoses()->getToValue()) + " " +  matchingFr->getValidDoses()->getUnit().toString() + ")";
         }
 
-        _doseResults.emplace(make_pair(&_singleDose, DoseResult(&_singleDose, warning)));
+        _doseResults.emplace(make_pair(&_singleDose, XpertResult::DoseResult(&_singleDose, warning)));
 
     } else {
         throw invalid_argument("no corresponding full formulation and route found for a dosage.");
@@ -156,5 +156,5 @@ void DoseValidator::checkDoses(const Core::SingleDose& _singleDose,
 
 }
 
-} // namespace XpertResult
+} // namespace XpertFlow
 } // namespace Tucuxi

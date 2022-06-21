@@ -7,7 +7,7 @@
 #include "tuberxpert/result/xpertrequestresult.h"
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace XpertFlow {
 
 /// \brief This is a utility class responsible to check each dosage plausibility.
 ///        In order to do this, it compares each patient's doses to the recommanded
@@ -29,7 +29,7 @@ public:
     ///        If the evaluation fails (for example: incompatible dose) the XpertRequestResult
     ///        is invalidated (i.e: it gets an error).
     /// \param _xpertRequestResult XpertRequestResult to evaluate.
-    void perform(XpertRequestResult& _xpertRequestResult) const;
+    void perform(XpertResult::XpertRequestResult& _xpertRequestResult) const;
 
 protected:
 
@@ -41,7 +41,7 @@ protected:
     ///                         conversions of doses failed.
     void checkDoses(const Core::DosageHistory& _dosageHistory,
                     const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                    std::map<const Core::SingleDose*, DoseResult>& _doseResults) const;
+                    std::map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const;
 
     /// \brief Parses a given TimeRange and evaluates the contained doses.
     /// \param _timeRange Time range to parse.
@@ -51,7 +51,7 @@ protected:
     ///                         conversions of doses failed.
     void checkDoses(const Core::DosageTimeRange& _timeRange,
                     const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                    std::map<const Core::SingleDose*, DoseResult>& _doseResults) const;
+                    std::map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const;
 
     /// \brief Converts an abstract dosage to its real type to call the corresponding checDoses method.
     /// \param _dosage Dosage to convert.
@@ -61,7 +61,7 @@ protected:
     ///                         conversions of doses failed.
     void checkDoses(const Core::Dosage& _dosage,
                     const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                    std::map<const Core::SingleDose*, DoseResult>& _doseResults) const;
+                    std::map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const;
 
     /// \brief Parses a dosage loop and evaluates the contained doses.
     /// \param _dosageLoop Dosage loop to parse.
@@ -71,7 +71,7 @@ protected:
     ///                         conversions of doses failed.
     void checkDoses(const Core::DosageLoop& _dosageLoop,
                     const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                    std::map<const Core::SingleDose*, DoseResult>& _doseResults) const;
+                    std::map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const;
 
     /// \brief Parses a dosage repeat and evaluates the contained doses.
     /// \param _dosageRepeat Dosage repeat to parse.
@@ -81,7 +81,7 @@ protected:
     ///                         conversions of doses failed.
     void checkDoses(const Core::DosageRepeat& _dosageRepeat,
                     const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                    std::map<const Core::SingleDose*, DoseResult>& _doseResults) const;
+                    std::map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const;
 
     /// \brief Parses a dosage sequence and evaluates the contained doses.
     /// \param _dosageSequence Dosage sequence to parse.
@@ -91,7 +91,7 @@ protected:
     ///                         conversions of doses failed.
     void checkDoses(const Core::DosageSequence& _dosageSequence,
                     const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                    std::map<const Core::SingleDose*, DoseResult>& _doseResults) const;
+                    std::map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const;
 
     /// \brief Parses a parallel dosage sequence and evaluates the contained doses.
     /// \param _parallelDosageSequence Parallel dosage sequence to parse.
@@ -101,7 +101,7 @@ protected:
     ///                         conversions of doses failed.
     void checkDoses(const Core::ParallelDosageSequence& _parallelDosageSequence,
                     const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                    std::map<const Core::SingleDose*, DoseResult>& _doseResults) const;
+                    std::map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const;
 
     /// \brief Checks all dose from a dosage bounded list. Mainly used by check dose method with
     ///        dosage sequence and parallel dosage sequence.
@@ -112,7 +112,7 @@ protected:
     ///                         conversions of doses failed.
     void checkDosageBoundedList(const Core::DosageBoundedList& _dosageBoundedList,
                                 const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                                std::map<const Core::SingleDose*, DoseResult>& _doseResults) const;
+                                std::map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const;
 
 
 
@@ -126,10 +126,10 @@ protected:
     ///                         conversions of doses failed.
     void checkDoses(const Core::SingleDose& _singleDose,
                     const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                    std::map<const Core::SingleDose*, DoseResult>& _doseResults) const;
+                    std::map<const Core::SingleDose*, XpertResult::DoseResult>& _doseResults) const;
 };
 
-} // namespace XpertResult
+} // namespace XpertFlow
 } // namespace Tucuxi
 
 #endif // DOSEVALIDATOR_H

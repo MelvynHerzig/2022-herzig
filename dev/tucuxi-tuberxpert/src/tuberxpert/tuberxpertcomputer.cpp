@@ -10,12 +10,13 @@
 #include "tuberxpert/query/xpertqueryimport.h"
 #include "tuberxpert/query/xpertquerydata.h"
 #include "tuberxpert/result/xpertresult.h"
-#include "tuberxpert/result/validation/modelselector.h"
+#include "tuberxpert/result/validation/covariatevalidatorandmodelselector.h"
 #include "tuberxpert/result/validation/dosevalidator.h"
 #include "tuberxpert/result/validation/samplevalidator.h"
 #include "tuberxpert/result/validation/targetvalidator.h"
 #include "tuberxpert/result/request/adjustmenttraitcreator.h"
 #include "tuberxpert/utils/xpertutils.h"
+#include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
 
 using namespace std;
 
@@ -80,8 +81,12 @@ ComputingStatus TuberXpertComputer::compute(
             continue;
         }
 
+        // Get the flow step provider for the drug of the request
+        unique_ptr<XpertFlow::AbstractXpertFlowStepProvider> xpertFlowStepProvider(nullptr);
+        getXpertFlowStepProvider(xpertRequestResult, xpertFlowStepProvider);
+
         // Validate inputs data and prepare the missing informations (drug model/adjustment trait)
-        if (validateAndPrepareXpertRequest(xpertRequestResult, _languagePath) == false) {
+        if (validateAndPrepareXpertRequest(xpertRequestResult, _languagePath, xpertFlowStepProvider) == false) {
             ++nbUnfulfilledRequest;
             continue;
         }
@@ -109,12 +114,12 @@ ComputingStatus TuberXpertComputer::compute(
 
 }
 
-bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertRequestResult& _xpertRequestResult, const std::string& _languagePath) const
+bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertRequestResult& _xpertRequestResult,
+                                                        const std::string& _languagePath,
+                                                        const unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _stepProvider) const
 {
 
     Common::LoggerHelper logHelper;
-
-
 
     /**************************************************************
      *                Loading the translation file                *
@@ -155,8 +160,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
 
     logHelper.info("Validating covariates and selecting drug model...");
 
-    XpertResult::BestDrugModelSelector bestDrugModelSelector;
-    bestDrugModelSelector.getBestDrugModel(_xpertRequestResult);
+    _stepProvider->getCovariateValidatorAndModelSelector()->perform(_xpertRequestResult);
 
     // Check if model selection was successful
     if (_xpertRequestResult.shouldBeHandled() == false) {
@@ -172,8 +176,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
 
     logHelper.info("Checking dosages...");
 
-    XpertResult::DoseValidator doseValidator;
-    doseValidator.getDoseValidations(_xpertRequestResult);
+    _stepProvider->getDoseValidator()->perform(_xpertRequestResult);
 
     // Check if dosages checking was successful
     if (_xpertRequestResult.shouldBeHandled() == false) {
@@ -190,8 +193,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
 
     logHelper.info("Checking samples...");
 
-    XpertResult::SampleValidator sampleValidator;
-    sampleValidator.getSampleValidations(_xpertRequestResult);
+    _stepProvider->getSampleValidator()->perform(_xpertRequestResult);
 
     // Check if samples checking was successful
     if (_xpertRequestResult.shouldBeHandled() == false) {
@@ -208,8 +210,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
 
     logHelper.info("Checking targets...");
 
-    XpertResult::TargetValidator targetValidator;
-    targetValidator.getTargetValidations(_xpertRequestResult);
+    _stepProvider->getTargetValidator()->perform(_xpertRequestResult);
 
     // Check if targets checking was successful
     if (_xpertRequestResult.shouldBeHandled() == false) {
@@ -225,8 +226,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
 
     logHelper.info("Creating adjustment trait...");
 
-    XpertResult::AdjustmentTraitCreator adjustmentTraitCreator;
-    adjustmentTraitCreator.createAdjustmentTrait(_xpertRequestResult);
+    _stepProvider->getAdjustmentTraitCreator()->perform(_xpertRequestResult);
 
     // Check if adjustment trait creation was successful
     if (_xpertRequestResult.shouldBeHandled() == false) {
@@ -238,6 +238,26 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
 
 
     return true;
+}
+
+void TuberXpertComputer::getXpertFlowStepProvider(XpertResult::XpertRequestResult& _xpertRequestResult, std::unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const
+{
+
+    // The idea is the have this method that return a FlowStepProvider for each
+    // drug. If a drug is not implemented, the general one is returned. For example, like this:
+
+    // if (_xpertRequestResult.getXpertRequest().getDrugID() == "imatinib") {
+    //     _xpertFlowStepProvider = make_unique<XpertFlow::ImatinibXpertFlowStepProvider>();
+    // } else if (_xpertRequestResult.getXpertRequest().getDrugID() == "rifampicin") {
+    //     _xpertFlowStepProvider = make_unique<XpertFlow::RifampicinXpertFlowStepProvider>();
+    // } else {
+    //     _xpertFlowStepProvider = make_unique<XpertFlow::GeneralXpertFlowStepProvider>();
+    // }
+
+
+    // But at the moment, TuberXpert is implemented in a general manner.
+    // In future stages, this line should be removed for the commented ones on top of it.
+    _xpertFlowStepProvider = make_unique<XpertFlow::GeneralXpertFlowStepProvider>();
 }
 
 } // namespace XpertComputer

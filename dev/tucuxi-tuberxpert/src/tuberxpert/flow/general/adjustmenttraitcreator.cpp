@@ -10,12 +10,12 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace XpertFlow {
 
 AdjustmentTraitCreator::AdjustmentTraitCreator(Common::DateTime _computationTime) : m_computationTime(_computationTime)
 {}
 
-void AdjustmentTraitCreator::perform(XpertRequestResult& _xpertRequestResult) const
+void AdjustmentTraitCreator::perform(XpertResult::XpertRequestResult& _xpertRequestResult) const
 {
     // Checks treatment
     if (_xpertRequestResult.getTreatment() == nullptr) {
@@ -269,7 +269,7 @@ Common::DateTime AdjustmentTraitCreator::getTimeOfNearestFutureOrLatestIntake(Co
 }
 
 void AdjustmentTraitCreator::getPeriod(const Core::FullFormulationAndRoute* _fullFormulationAndRoute,
-                                       const XpertRequestResult& _xpertRequestResult,
+                                       const XpertResult::XpertRequestResult& _xpertRequestResult,
                                        const Common::DateTime& _adjustmentTime,
                                        Common::DateTime& _start,
                                        Common::DateTime& _end) const
@@ -332,5 +332,5 @@ Core::SteadyStateTargetOption AdjustmentTraitCreator::getSteadyStateTargetOption
     }
 }
 
-} // namespace XpertResult
+} // namespace XpertFlow
 } // namespace Tucuxi

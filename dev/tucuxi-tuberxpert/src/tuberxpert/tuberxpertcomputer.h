@@ -1,9 +1,11 @@
 #ifndef TUBERXPERTCOMPUTER_H
 #define TUBERXPERTCOMPUTER_H
 
+#include <memory>
 #include <string>
 
 #include "tuberxpert/result/xpertrequestresult.h"
+#include "tuberxpert/flow/abstract/abstractxpertflowstepprovider.h"
 
 namespace Tucuxi {
 namespace XpertComputer {
@@ -11,12 +13,12 @@ namespace XpertComputer {
 /// \brief Enum whose values are used as the return value of TuberXpertComputer.
 ///        The values are:
 ///
-///        ALL_REQUESTS_SUCCEEDED: Every xpert request could be fully handled until
+///        ALL_REQUESTS_SUCCEEDED: Every XpertRequest could be fully handled until
 ///        the report printing.
 ///
-///        SOME_REQUESTS_SUCCEEDED: Some xpert request failed during a step of the process.
+///        SOME_REQUESTS_SUCCEEDED: Some XpertRequest failed during a step of the process.
 ///
-///        NO_REQUESTS_SUCCEEDED: No xpert request could be fully handled.
+///        NO_REQUESTS_SUCCEEDED: No XpertRequest could be fully handled.
 ///
 ///        IMPORT_ERROR: The query file could not be loaded.
 /// \date 03/06/2022
@@ -64,9 +66,14 @@ protected:
     /// \param _xpertRequestResult Object containing the XpertRequest and treatment informations. This object will also
     ///                            be filled with the various validations of the system.
     /// \param _languagePath Folder containing the language files.
+    /// \param _stepProvider Flow step provider responsible to give the each step for a given drug.
     /// \return True if everything went well (i.e. the XpertRequest result is ready to be submitted to the core) or false if the
     ///         XpertRquest needs to be reviewed (i.e. no language file found for the desired language, no drug model found ...)
-    bool validateAndPrepareXpertRequest(XpertResult::XpertRequestResult& _xpertRequestResult, const std::string& _languagePath) const;
+    bool validateAndPrepareXpertRequest(XpertResult::XpertRequestResult& _xpertRequestResult,
+                                        const std::string& _languagePath,
+                                        const std::unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _stepProvider) const;
+
+    void getXpertFlowStepProvider(XpertResult::XpertRequestResult& _xpertRequestResult, std::unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const;
 };
 
 } // namespace XpertComputer
