@@ -39,7 +39,7 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
     const Tucuxi::Common::TucuUnit UNIT{"ug/l"};
 
     /// \brief General flow step provider used to get the sample validator object to test.
-    Tucuxi::XpertFlow::GeneralXpertFlowStepProvider generalFlowStepProvider;
+    Tucuxi::Xpert::GeneralXpertFlowStepProvider generalFlowStepProvider;
 
     /// \brief Creates some percentiles data and insert them into pData.
     /// \param pData PercentilesData object that gets the preparation.
@@ -94,7 +94,7 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
     {
         std::cout << _testName << std::endl;
 
-        Tucuxi::XpertResult::XpertRequestResult xrr{nullptr, nullptr, ""};
+        Tucuxi::Xpert::XpertRequestResult xrr{nullptr, nullptr, nullptr, ""};
 
         generalFlowStepProvider.getSampleValidator()->perform(xrr);
 
@@ -177,16 +177,16 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
 
-        Tucuxi::XpertQuery::XpertQueryImport importer;
-        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
 
-        if (importResult != Tucuxi::XpertQuery::XpertQueryImport::Status::Ok) {
+        if (importResult != Tucuxi::Xpert::XpertQueryImport::Status::Ok) {
             throw std::runtime_error("import failded.");
         }
 
-        Tucuxi::XpertResult::XpertResult xr{move(query)};
+        Tucuxi::Xpert::XpertGlobalResult xr{move(query)};
 
         generalFlowStepProvider.getSampleValidator()->perform(xr.getXpertRequestResults()[0]);
 
@@ -280,16 +280,16 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
 
-        Tucuxi::XpertQuery::XpertQueryImport importer;
-        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
 
-        if (importResult != Tucuxi::XpertQuery::XpertQueryImport::Status::Ok) {
+        if (importResult != Tucuxi::Xpert::XpertQueryImport::Status::Ok) {
             throw std::runtime_error("import failded.");
         }
 
-        Tucuxi::XpertResult::XpertResult xr{move(query)};
+        Tucuxi::Xpert::XpertGlobalResult xr{move(query)};
 
         generalFlowStepProvider.getSampleValidator()->perform(xr.getXpertRequestResults()[0]);
 
@@ -316,17 +316,17 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
 
         std::cout << _testName << std::endl;
 
-        Tucuxi::XpertLanguage::LanguageManager& lm = Tucuxi::XpertLanguage::LanguageManager::getInstance();
+        Tucuxi::Xpert::LanguageManager& lm = Tucuxi::Xpert::LanguageManager::getInstance();
         lm.loadDictionary(dictionary);
 
         // Creating SampleResult objects that are located in a different group. There are
         // 100 groups that are implicitly formed by the 99 percentiles.
-        Tucuxi::XpertResult::SampleResult sr1 = Tucuxi::XpertResult::SampleResult(nullptr, 1);
-        Tucuxi::XpertResult::SampleResult sr10 = Tucuxi::XpertResult::SampleResult(nullptr, 10);
-        Tucuxi::XpertResult::SampleResult sr11 = Tucuxi::XpertResult::SampleResult(nullptr, 11);
-        Tucuxi::XpertResult::SampleResult sr90 = Tucuxi::XpertResult::SampleResult(nullptr, 90);
-        Tucuxi::XpertResult::SampleResult sr91 = Tucuxi::XpertResult::SampleResult(nullptr, 91);
-        Tucuxi::XpertResult::SampleResult sr100 = Tucuxi::XpertResult::SampleResult(nullptr, 100);
+        Tucuxi::Xpert::SampleResult sr1 = Tucuxi::Xpert::SampleResult(nullptr, 1);
+        Tucuxi::Xpert::SampleResult sr10 = Tucuxi::Xpert::SampleResult(nullptr, 10);
+        Tucuxi::Xpert::SampleResult sr11 = Tucuxi::Xpert::SampleResult(nullptr, 11);
+        Tucuxi::Xpert::SampleResult sr90 = Tucuxi::Xpert::SampleResult(nullptr, 90);
+        Tucuxi::Xpert::SampleResult sr91 = Tucuxi::Xpert::SampleResult(nullptr, 91);
+        Tucuxi::Xpert::SampleResult sr100 = Tucuxi::Xpert::SampleResult(nullptr, 100);
 
         fructose_assert_eq(sr1.getWarning(), "99% of the population is above this measure");
         fructose_assert_eq(sr10.getWarning(), "90% of the population is above this measure");
@@ -369,7 +369,7 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
             Tucuxi::Common::DateTime{"2022-01-01T12:00:00", DATE_FORMAT},
         };
 
-        Tucuxi::XpertFlow::SampleValidator sv;
+        Tucuxi::Xpert::SampleValidator sv;
         // For each percentile
         for (size_t pi = 1; pi <= 99 ; ++pi){
             for (size_t ti = 0; ti < 9; ++ti) {
@@ -398,7 +398,7 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
         Tucuxi::Core::PercentilesData pData{""};
         createPercentilesData(pData);
 
-        Tucuxi::XpertFlow::SampleValidator sv;
+        Tucuxi::Xpert::SampleValidator sv;
 
         // We set the unit to kg to get the exception.
         std::unique_ptr<Tucuxi::Core::Sample> sample = std::make_unique<Tucuxi::Core::Sample>(
@@ -420,7 +420,7 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
         Tucuxi::Core::PercentilesData pData{""};
         createPercentilesData(pData);
 
-        Tucuxi::XpertFlow::SampleValidator sv;
+        Tucuxi::Xpert::SampleValidator sv;
 
         // We set the date to 2023 to be out of bound of the cycleData objects
         std::unique_ptr<Tucuxi::Core::Sample> sample = std::make_unique<Tucuxi::Core::Sample>(
@@ -1244,16 +1244,16 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
         drugModel.release();
 
         // Query import
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
-        Tucuxi::XpertQuery::XpertQueryImport importer;
-        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
 
-        if (importResult != Tucuxi::XpertQuery::XpertQueryImport::Status::Ok) {
+        if (importResult != Tucuxi::Xpert::XpertQueryImport::Status::Ok) {
             throw std::runtime_error("Setup failed");
         }
 
-        Tucuxi::XpertResult::XpertResult xpertResult{move(query)};
-        Tucuxi::XpertResult::XpertRequestResult& xrr =  xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertGlobalResult xpertResult{move(query)};
+        Tucuxi::Xpert::XpertRequestResult& xrr =  xpertResult.getXpertRequestResults()[0];
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
 
         // Execution

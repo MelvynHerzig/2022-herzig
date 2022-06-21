@@ -10,7 +10,7 @@
 #include "tuberxpert/query/xpertrequestdata.h"
 
 namespace Tucuxi {
-namespace XpertLanguage {
+namespace Xpert {
 
 /// \brief The language manager class is a singleton that loads an xml language
 ///        file and allows to get some translation strings with unique identifiers.
@@ -64,7 +64,7 @@ public:
     friend std::unique_ptr<LanguageManager> std::make_unique<LanguageManager>();
 };
 
-} // namespace Language
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // LANGUAGEMANAGER_H

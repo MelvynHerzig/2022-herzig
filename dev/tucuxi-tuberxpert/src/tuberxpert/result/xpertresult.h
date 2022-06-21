@@ -10,7 +10,7 @@
 #include "tuberxpert/result/xpertrequestresult.h"
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace Xpert {
 
 /// \brief This is a wrapper class that contains the analysis for TuberXpert request.
 ///
@@ -28,7 +28,7 @@ public:
     /// \brief Constructor. Moves the AdministrativeData unique pointer
     ///        from _xpertQuery and moves each XpertRequest unique pointer
     ///        into XpertRequestResult.
-    XpertGlobalResult(std::unique_ptr<XpertQuery::XpertQueryData> _xpertQuery);
+    XpertGlobalResult(std::unique_ptr<XpertQueryData> _xpertQuery);
 
     /// \brief Copy constructor is not supported.
     ///        The copy constructor is not supported because of the use of
@@ -42,7 +42,7 @@ public:
 
     /// \brief Gets a reference on the administrative data.
     /// \return A reference on the administrative data.
-    const std::unique_ptr<XpertQuery::AdministrativeData>& getAdministrative() const;
+    const std::unique_ptr<AdministrativeData>& getAdministrative() const;
 
     /// \brief Gets a reference on the vector of XpertRequestResult objects.
     ///        This is non const because the objects must be editable by the
@@ -58,13 +58,13 @@ protected:
     Common::DateTime m_computationTime;
 
     /// \brief Administrative information moved from query.
-    std::unique_ptr<XpertQuery::AdministrativeData> m_pAdministrative;
+    std::unique_ptr<AdministrativeData> m_pAdministrative;
 
     /// \brief Vector of XpertRequestResults edited along the TuberXpert "pipeline".
     std::vector<XpertRequestResult> m_xpertRequestResults;
 };
 
-} // namespace XpertResult
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // XPERTRESULT_H

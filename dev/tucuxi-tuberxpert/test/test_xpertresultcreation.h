@@ -220,14 +220,14 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
 
-        Tucuxi::XpertQuery::XpertQueryImport importer;
-        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
+        fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
         fructose_assert_eq(query.get(), nullptr);
     }
 
@@ -546,32 +546,32 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> queryEmptyAdmin = nullptr;
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> queryCompleteAdmin = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> queryEmptyAdmin = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> queryCompleteAdmin = nullptr;
 
-        Tucuxi::XpertQuery::XpertQueryImport importer;
-        Tucuxi::XpertQuery::XpertQueryImport::Status importResultEmptyAdmin = importer.importFromString(queryEmptyAdmin, emptyAdminString);
-        Tucuxi::XpertQuery::XpertQueryImport::Status importResultCompleteAdmin = importer.importFromString(queryCompleteAdmin, completeAdminString);
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResultEmptyAdmin = importer.importFromString(queryEmptyAdmin, emptyAdminString);
+        Tucuxi::Xpert::XpertQueryImport::Status importResultCompleteAdmin = importer.importFromString(queryCompleteAdmin, completeAdminString);
 
-        Tucuxi::XpertResult::XpertResult xpertResultEmptyAdmin(std::move(queryEmptyAdmin));
-        Tucuxi::XpertResult::XpertResult xpertResultCompleteAdmin(std::move(queryCompleteAdmin));
+        Tucuxi::Xpert::XpertGlobalResult xpertResultEmptyAdmin(std::move(queryEmptyAdmin));
+        Tucuxi::Xpert::XpertGlobalResult xpertResultCompleteAdmin(std::move(queryCompleteAdmin));
 
-        fructose_assert_eq(importResultEmptyAdmin, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(importResultCompleteAdmin, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
+        fructose_assert_eq(importResultEmptyAdmin, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
+        fructose_assert_eq(importResultCompleteAdmin, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
         fructose_assert_eq(queryEmptyAdmin.get(), nullptr);
         fructose_assert_eq(queryCompleteAdmin.get(), nullptr);
 
         fructose_assert_eq(xpertResultEmptyAdmin.getAdministrative().get(), nullptr);
         fructose_assert_ne(xpertResultCompleteAdmin.getAdministrative().get(), nullptr);
 
-        const Tucuxi::XpertQuery::PersonalContact& mandator = xpertResultCompleteAdmin.getAdministrative()->getpMandator()->getpPerson();
-        const Tucuxi::XpertQuery::Address& mandatorAddress = *mandator.getpAddress();
-        const Tucuxi::XpertQuery::Phone& mandatorPhone = *mandator.getpPhone();
-        const Tucuxi::XpertQuery::Email& mandatorEmail = *mandator.getpEmail();
-        const Tucuxi::XpertQuery::InstituteContact& mandatorInstitute = *xpertResultCompleteAdmin.getAdministrative()->getpMandator()->getpInstitute();
-        const Tucuxi::XpertQuery::Address& mandatorInstituteAddress = *mandatorInstitute.getpAddress();
-        const Tucuxi::XpertQuery::Phone& mandatorInstitutePhone = *mandatorInstitute.getpPhone();
-        const Tucuxi::XpertQuery::Email& mandatorInstituteEmail = *mandatorInstitute.getpEmail();
+        const Tucuxi::Xpert::PersonalContact& mandator = xpertResultCompleteAdmin.getAdministrative()->getpMandator()->getpPerson();
+        const Tucuxi::Xpert::Address& mandatorAddress = *mandator.getpAddress();
+        const Tucuxi::Xpert::Phone& mandatorPhone = *mandator.getpPhone();
+        const Tucuxi::Xpert::Email& mandatorEmail = *mandator.getpEmail();
+        const Tucuxi::Xpert::InstituteContact& mandatorInstitute = *xpertResultCompleteAdmin.getAdministrative()->getpMandator()->getpInstitute();
+        const Tucuxi::Xpert::Address& mandatorInstituteAddress = *mandatorInstitute.getpAddress();
+        const Tucuxi::Xpert::Phone& mandatorInstitutePhone = *mandatorInstitute.getpPhone();
+        const Tucuxi::Xpert::Email& mandatorInstituteEmail = *mandatorInstitute.getpEmail();
 
         fructose_assert_eq(mandator.getId(), "asdf");
         fructose_assert_eq(mandator.getTitle(), "Dr.");
@@ -598,14 +598,14 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
         fructose_assert_eq(mandatorInstituteEmail.getAddress(), "info@chuv.com");
         fructose_assert_eq(mandatorInstituteEmail.getType(), "professional");
 
-        const Tucuxi::XpertQuery::PersonalContact& patient =  xpertResultCompleteAdmin.getAdministrative()->getpPatient()->getpPerson();
-        const Tucuxi::XpertQuery::Address& patientAddress = *patient.getpAddress();
-        const Tucuxi::XpertQuery::Phone& patientPhone = *patient.getpPhone();
-        const Tucuxi::XpertQuery::Email& patientEmail = *patient.getpEmail();
-        const Tucuxi::XpertQuery::InstituteContact& patientInstitute = *xpertResultCompleteAdmin.getAdministrative()->getpPatient()->getpInstitute();
-        const Tucuxi::XpertQuery::Address& patientInstituteAddress = *patientInstitute.getpAddress();
-        const Tucuxi::XpertQuery::Phone& patientInstitutePhone = *patientInstitute.getpPhone();
-        const Tucuxi::XpertQuery::Email& patientInstituteEmail = *patientInstitute.getpEmail();
+        const Tucuxi::Xpert::PersonalContact& patient =  xpertResultCompleteAdmin.getAdministrative()->getpPatient()->getpPerson();
+        const Tucuxi::Xpert::Address& patientAddress = *patient.getpAddress();
+        const Tucuxi::Xpert::Phone& patientPhone = *patient.getpPhone();
+        const Tucuxi::Xpert::Email& patientEmail = *patient.getpEmail();
+        const Tucuxi::Xpert::InstituteContact& patientInstitute = *xpertResultCompleteAdmin.getAdministrative()->getpPatient()->getpInstitute();
+        const Tucuxi::Xpert::Address& patientInstituteAddress = *patientInstitute.getpAddress();
+        const Tucuxi::Xpert::Phone& patientInstitutePhone = *patientInstitute.getpPhone();
+        const Tucuxi::Xpert::Email& patientInstituteEmail = *patientInstitute.getpEmail();
 
         fructose_assert_eq(patient.getId(), "123456");
         fructose_assert_eq(patient.getFirstName(), "Alice");
@@ -765,14 +765,14 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
 
-        Tucuxi::XpertQuery::XpertQueryImport importer;
-        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
 
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
+        fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
 
         fructose_assert_eq(xpertResult.getXpertRequestResults().size(), 2);
 
@@ -789,10 +789,9 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].shouldBeHandled(), false);
     }
 
-    /// \brief Checks that date of the XpertResult is between the time before its creation and
-    ///        the time after its creation.
+    /// \brief Checks that computation time of the XpertGlobalResult is well retrieved from the query.
     /// \param _testName Name of the test
-    void retrieveDate(const std::string& _testName)
+    void retrieveComputationTime(const std::string& _testName)
     {
 
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -920,20 +919,16 @@ struct TestXpertResultCreation : public fructose::test_base<TestXpertResultCreat
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
 
-        Tucuxi::XpertQuery::XpertQueryImport importer;
-        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
 
-        Tucuxi::Common::DateTime preDateTime = Tucuxi::Common::DateTime::now();
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
-        Tucuxi::Common::DateTime postDateTime = Tucuxi::Common::DateTime::now();
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
+        fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
+        fructose_assert_eq(xpertResult.getComputationTime(), Tucuxi::Common::DateTime("2018-07-11T13:45:30", "%Y-%m-%dT%H:%M:%S"));
 
-        fructose_assert_eq(xpertResult.getGenerationDate() >= preDateTime, true);
-        fructose_assert_eq(xpertResult.getGenerationDate() <= postDateTime, true);
-        fructose_assert_eq(xpertResult.getGenerationDate().isUndefined(), false);
     }
 
 };

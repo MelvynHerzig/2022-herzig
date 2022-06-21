@@ -4,7 +4,7 @@
 #include <string>
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace Xpert {
 
 /// \brief Enums that sets the "level" of the warning
 ///        returned by an AbstractResult class.
@@ -67,7 +67,7 @@ protected:
     std::string m_warning;
 };
 
-} // namespace XpertResult
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // ABSTRACTRESULT_H

@@ -10,12 +10,12 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertFlow {
+namespace Xpert {
 
 AdjustmentTraitCreator::AdjustmentTraitCreator(Common::DateTime _computationTime) : m_computationTime(_computationTime)
 {}
 
-void AdjustmentTraitCreator::perform(XpertResult::XpertRequestResult& _xpertRequestResult) const
+void AdjustmentTraitCreator::perform(XpertRequestResult& _xpertRequestResult) const
 {
     // Checks treatment
     if (_xpertRequestResult.getTreatment() == nullptr) {
@@ -150,7 +150,7 @@ Common::DateTime AdjustmentTraitCreator::getLatestDosageTimeRangeStart(const Cor
     return latestDateKnown;
 }
 
-Common::DateTime AdjustmentTraitCreator::getAdjustmentTime(const XpertQuery::XpertRequestData& _request,
+Common::DateTime AdjustmentTraitCreator::getAdjustmentTime(const XpertRequestData& _request,
                                                            const std::unique_ptr<Core::DrugTreatment>& _drugTreatment,
                                                            const Core::DrugModel* _drugModel) const
 {
@@ -269,7 +269,7 @@ Common::DateTime AdjustmentTraitCreator::getTimeOfNearestFutureOrLatestIntake(Co
 }
 
 void AdjustmentTraitCreator::getPeriod(const Core::FullFormulationAndRoute* _fullFormulationAndRoute,
-                                       const XpertResult::XpertRequestResult& _xpertRequestResult,
+                                       const XpertRequestResult& _xpertRequestResult,
                                        const Common::DateTime& _adjustmentTime,
                                        Common::DateTime& _start,
                                        Common::DateTime& _end) const
@@ -300,24 +300,24 @@ void AdjustmentTraitCreator::getPeriod(const Core::FullFormulationAndRoute* _ful
     }
 }
 
-Core::LoadingOption AdjustmentTraitCreator::getLoadingOption(const XpertQuery::XpertRequestData& _request,
+Core::LoadingOption AdjustmentTraitCreator::getLoadingOption(const XpertRequestData& _request,
                                                              const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const
 {
     switch (_request.getLoadingOption()) {
-    case XpertQuery::LoadingOption::LoadingDoseAllowed : return Core::LoadingOption::LoadingDoseAllowed;
-    case XpertQuery::LoadingOption::NoLoadingDose : return Core::LoadingOption::NoLoadingDose;
-    case XpertQuery::LoadingOption::Unspecified :
+    case LoadingOption::LoadingDoseAllowed : return Core::LoadingOption::LoadingDoseAllowed;
+    case LoadingOption::NoLoadingDose : return Core::LoadingOption::NoLoadingDose;
+    case LoadingOption::Unspecified :
         return _fullFormulationAndRoute->isLoadingDoseRecommended() ? Core::LoadingOption::LoadingDoseAllowed : Core::LoadingOption::NoLoadingDose;
     }
 }
 
-Core::RestPeriodOption AdjustmentTraitCreator::getRestPeriodOption(const XpertQuery::XpertRequestData& _request,
+Core::RestPeriodOption AdjustmentTraitCreator::getRestPeriodOption(const XpertRequestData& _request,
                                                                    const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const
 {
     switch (_request.getRestPeriodOption()) {
-    case XpertQuery::RestPeriodOption::RestPeriodAllowed : return Core::RestPeriodOption::RestPeriodAllowed;
-    case XpertQuery::RestPeriodOption::NoRestPeriod : return Core::RestPeriodOption::NoRestPeriod;
-    case XpertQuery::RestPeriodOption::Unspecified :
+    case RestPeriodOption::RestPeriodAllowed : return Core::RestPeriodOption::RestPeriodAllowed;
+    case RestPeriodOption::NoRestPeriod : return Core::RestPeriodOption::NoRestPeriod;
+    case RestPeriodOption::Unspecified :
         return _fullFormulationAndRoute->isRestPeriodRecommended() ? Core::RestPeriodOption::RestPeriodAllowed : Core::RestPeriodOption::NoRestPeriod;
     }
 }
@@ -332,5 +332,5 @@ Core::SteadyStateTargetOption AdjustmentTraitCreator::getSteadyStateTargetOption
     }
 }
 
-} // namespace XpertFlow
+} // namespace Xpert
 } // namespace Tucuxi

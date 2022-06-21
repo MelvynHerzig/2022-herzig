@@ -21,7 +21,7 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
 {
 
     /// \brief General flow step provider used to get the target validator object to test.
-    Tucuxi::XpertFlow::GeneralXpertFlowStepProvider generalFlowStepProvider;
+    Tucuxi::Xpert::GeneralXpertFlowStepProvider generalFlowStepProvider;
 
     /// \brief Drug model string of the imatinib used by the tests.
     std::string originalImatinibModelString = R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -742,7 +742,7 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
     /// \param _xpertResult Object that will contain the result of this function execution.
     void setupEnv(const std::string& _queryString,
                   const std::string& _model,
-                  std::unique_ptr<Tucuxi::XpertResult::XpertResult>& _xpertResult) {
+                  std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult>& _xpertResult) {
 
         // Drug models repository creation
          Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
@@ -775,16 +775,16 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
         drugModel.release();
 
         // Query import
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
-        Tucuxi::XpertQuery::XpertQueryImport importer;
-        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, _queryString);
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, _queryString);
 
-        if (importResult != Tucuxi::XpertQuery::XpertQueryImport::Status::Ok) {
+        if (importResult != Tucuxi::Xpert::XpertQueryImport::Status::Ok) {
             throw std::runtime_error("Setup failed");
         }
 
-        _xpertResult = std::make_unique<Tucuxi::XpertResult::XpertResult>(move(query));
-        Tucuxi::XpertResult::XpertRequestResult& xrr =  _xpertResult->getXpertRequestResults()[0];
+        _xpertResult = std::make_unique<Tucuxi::Xpert::XpertGlobalResult>(move(query));
+        Tucuxi::Xpert::XpertRequestResult& xrr =  _xpertResult->getXpertRequestResults()[0];
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
     }
 
@@ -794,7 +794,7 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
     {
         std::cout << _testName << std::endl;
 
-        Tucuxi::XpertResult::XpertRequestResult xrr{nullptr, nullptr, ""};
+        Tucuxi::Xpert::XpertRequestResult xrr{nullptr, nullptr, nullptr, ""};
 
         generalFlowStepProvider.getTargetValidator()->perform(xrr);
 
@@ -888,16 +888,16 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
 
-        Tucuxi::XpertQuery::XpertQueryImport importer;
-        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
 
-        if (importResult != Tucuxi::XpertQuery::XpertQueryImport::Status::Ok) {
+        if (importResult != Tucuxi::Xpert::XpertQueryImport::Status::Ok) {
             throw std::runtime_error("import failded.");
         }
 
-        Tucuxi::XpertResult::XpertResult xr{move(query)};
+        Tucuxi::Xpert::XpertGlobalResult xr{move(query)};
 
         generalFlowStepProvider.getTargetValidator()->perform(xr.getXpertRequestResults()[0]);
 
@@ -1050,11 +1050,11 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
 
         setupEnv(queryString, originalImatinibModelString, result);
 
-        Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         generalFlowStepProvider.getTargetValidator()->perform(xrr);
 
@@ -1227,11 +1227,11 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
 
         setupEnv(queryString, originalImatinibModelString, result);
 
-        Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         generalFlowStepProvider.getTargetValidator()->perform(xrr);
 
@@ -1406,11 +1406,11 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
 
         setupEnv(queryString, originalImatinibModelString, result);
 
-        Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         generalFlowStepProvider.getTargetValidator()->perform(xrr);
 
@@ -1574,11 +1574,11 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
 
         setupEnv(queryString, originalImatinibModelString, result);
 
-        Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         generalFlowStepProvider.getTargetValidator()->perform(xrr);
 

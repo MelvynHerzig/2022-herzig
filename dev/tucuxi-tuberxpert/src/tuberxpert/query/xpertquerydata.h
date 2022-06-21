@@ -8,7 +8,7 @@
 #include "tuberxpert/query/xpertadministrativedata.h"
 
 namespace Tucuxi {
-namespace XpertQuery {
+namespace Xpert {
 
 /// \brief This class extends the core queryData to include AdministrativeData class and
 /// the custom request "requestXpert" as XpertRequestData class.
@@ -73,7 +73,7 @@ protected:
     std::vector<std::unique_ptr<XpertRequestData>> m_xpertRequests;
 };
 
-} // namespace XpertQuery
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // XPERTQUERYDATA_H

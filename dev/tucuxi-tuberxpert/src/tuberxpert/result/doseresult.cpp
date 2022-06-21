@@ -3,11 +3,11 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace Xpert {
 
 
 DoseResult::DoseResult(const Core::SingleDose* _dose, const std::string& _warning) : AbstractResult<Core::SingleDose>(_dose, _warning)
 {}
 
-} // namespace XpertResult
+} // namespace Xpert
 } // namespace Tucuxi

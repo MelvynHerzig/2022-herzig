@@ -17,12 +17,12 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertFlow {
+namespace Xpert {
 
 SampleValidator::SampleValidator()
 {}
 
-void SampleValidator::perform(XpertResult::XpertRequestResult& _xpertRequestResult) const
+void SampleValidator::perform(XpertRequestResult& _xpertRequestResult) const
 {
     // Checks treatment
     if (_xpertRequestResult.getTreatment() == nullptr) {
@@ -43,7 +43,7 @@ void SampleValidator::perform(XpertResult::XpertRequestResult& _xpertRequestResu
         return;
     }
 
-    map<const Core::Sample*, XpertResult::SampleResult> sampleResults;
+    map<const Core::Sample*, SampleResult> sampleResults;
 
     // Getting percentiles for each sample
     for(const unique_ptr<Core::Sample>& sample : _xpertRequestResult.getTreatment()->getSamples()) {
@@ -91,7 +91,7 @@ void SampleValidator::perform(XpertResult::XpertRequestResult& _xpertRequestResu
             _xpertRequestResult.setErrorMessage("Percentile computation failed.");
         }
 
-        sampleResults.emplace(make_pair(sample.get(), XpertResult::SampleResult(sample.get(), groupOver99Percentiles)));
+        sampleResults.emplace(make_pair(sample.get(), SampleResult(sample.get(), groupOver99Percentiles)));
     }
 
     _xpertRequestResult.setSampleResults(move(sampleResults));
@@ -174,5 +174,5 @@ unsigned SampleValidator::findGroupPositionOver99Percentiles(const Core::Percent
     return 100;
 }
 
-} // namespace XpertFlow
+} // namespace Xpert
 } // namespace Tucuxi

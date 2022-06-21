@@ -20,9 +20,9 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         std::cout << _testName << std::endl;
 
-        fructose_assert_eq(Tucuxi::XpertUtils::outputLangToString(Tucuxi::XpertQuery::OutputLang::ENGLISH), "en");
-        fructose_assert_eq(Tucuxi::XpertUtils::outputLangToString(Tucuxi::XpertQuery::OutputLang::FRENCH), "fr");
-        fructose_assert_exception(Tucuxi::XpertUtils::outputLangToString(Tucuxi::XpertQuery::OutputLang(-1)), Tucuxi::XpertLanguage::LanguageException);
+        fructose_assert_eq(Tucuxi::Xpert::outputLangToString(Tucuxi::Xpert::OutputLang::ENGLISH), "en");
+        fructose_assert_eq(Tucuxi::Xpert::outputLangToString(Tucuxi::Xpert::OutputLang::FRENCH), "fr");
+        fructose_assert_exception(Tucuxi::Xpert::outputLangToString(Tucuxi::Xpert::OutputLang(-1)), Tucuxi::Xpert::LanguageException);
     }
 
 
@@ -32,8 +32,8 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
     {
         std::cout << _testName << std::endl;
 
-        fructose_assert_eq(Tucuxi::XpertUtils::varToString(5.411111), "5.41");
-        fructose_assert_eq(Tucuxi::XpertUtils::varToString(6), "6.00");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(5.411111), "5.41");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(6), "6.00");
     }
 
     /// \brief Tests that the getStringWithEnglishFallback returns the targeted language or
@@ -49,8 +49,8 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
         Tucuxi::Common::TranslatableString ts2("translatable string in en");
 
 
-        fructose_assert_eq(Tucuxi::XpertUtils::getStringWithEnglishFallback(ts1, Tucuxi::XpertQuery::OutputLang::FRENCH), "chaine de caractere traductible en fr");
-        fructose_assert_eq(Tucuxi::XpertUtils::getStringWithEnglishFallback(ts2, Tucuxi::XpertQuery::OutputLang::FRENCH), "translatable string in en");
+        fructose_assert_eq(Tucuxi::Xpert::getStringWithEnglishFallback(ts1, Tucuxi::Xpert::OutputLang::FRENCH), "chaine de caractere traductible en fr");
+        fructose_assert_eq(Tucuxi::Xpert::getStringWithEnglishFallback(ts2, Tucuxi::Xpert::OutputLang::FRENCH), "translatable string in en");
     }
 };
 

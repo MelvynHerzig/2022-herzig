@@ -6,7 +6,7 @@
 #include "tuberxpert/flow/abstract/abstractxpertflowstepprovider.h"
 
 namespace Tucuxi {
-namespace XpertFlow {
+namespace Xpert {
 
 class GeneralXpertFlowStepProvider : public AbstractXpertFlowStepProvider
 {
@@ -42,11 +42,9 @@ public:
     /// \return Return the corresponding AbstractXpertFlowStep.
     const std::unique_ptr<AbstractXpertFlowStep>& getReportPrinter() const override;
 
-
-
 };
 
-} // namespace XpertFlow
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // GENERALXPERTFLOWSTEPPROVIDER_H

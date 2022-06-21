@@ -72,13 +72,13 @@ struct TestLanguageManager : public fructose::test_base<TestLanguageManager>
 
         std::cout << _testName << std::endl;
 
-        Tucuxi::XpertLanguage::LanguageManager& lm = Tucuxi::XpertLanguage::LanguageManager::getInstance();
+        Tucuxi::Xpert::LanguageManager& lm = Tucuxi::Xpert::LanguageManager::getInstance();
 
-        fructose_assert_exception(lm.loadDictionary(""), Tucuxi::XpertLanguage::LanguageException);
-        fructose_assert_exception(lm.loadDictionary(missSpelledEntryString), Tucuxi::XpertLanguage::LanguageException);
-        fructose_assert_exception(lm.loadDictionary(noAttributeString), Tucuxi::XpertLanguage::LanguageException);
-        fructose_assert_exception(lm.loadDictionary(badAttributeString), Tucuxi::XpertLanguage::LanguageException);
-        fructose_assert_exception(lm.loadDictionary(nestedElement), Tucuxi::XpertLanguage::LanguageException);
+        fructose_assert_exception(lm.loadDictionary(""), Tucuxi::Xpert::LanguageException);
+        fructose_assert_exception(lm.loadDictionary(missSpelledEntryString), Tucuxi::Xpert::LanguageException);
+        fructose_assert_exception(lm.loadDictionary(noAttributeString), Tucuxi::Xpert::LanguageException);
+        fructose_assert_exception(lm.loadDictionary(badAttributeString), Tucuxi::Xpert::LanguageException);
+        fructose_assert_exception(lm.loadDictionary(nestedElement), Tucuxi::Xpert::LanguageException);
         fructose_assert_no_exception(lm.loadDictionary(goodString));
     }
 
@@ -99,7 +99,7 @@ struct TestLanguageManager : public fructose::test_base<TestLanguageManager>
 
         std::cout << _testName << std::endl;
 
-        Tucuxi::XpertLanguage::LanguageManager& lm = Tucuxi::XpertLanguage::LanguageManager::getInstance();
+        Tucuxi::Xpert::LanguageManager& lm = Tucuxi::Xpert::LanguageManager::getInstance();
         lm.loadDictionary(goodString);
 
         // Test translate

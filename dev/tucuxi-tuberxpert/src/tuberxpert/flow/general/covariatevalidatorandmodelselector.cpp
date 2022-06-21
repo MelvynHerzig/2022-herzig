@@ -21,12 +21,12 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertFlow {
+namespace Xpert {
 
 CovariateValidatorAndModelSelector::CovariateValidatorAndModelSelector(Common::DateTime _computationTime) : m_computationTime(_computationTime)
 {}
 
-void CovariateValidatorAndModelSelector::perform(XpertResult::XpertRequestResult& _xpertRequestResult) const
+void CovariateValidatorAndModelSelector::perform(XpertRequestResult& _xpertRequestResult) const
 {
     Tucuxi::Common::LoggerHelper logHelper;
 
@@ -62,7 +62,7 @@ void CovariateValidatorAndModelSelector::perform(XpertResult::XpertRequestResult
     // Remembers the best.
     unsigned bestScore = numeric_limits<unsigned>::max();
     const Core::DrugModel* bestDrugModel = nullptr;
-    vector<XpertResult::CovariateResult> bestCovariateResults;
+    vector<CovariateResult> bestCovariateResults;
 
     Core::TreatmentDrugModelCompatibilityChecker checker;
 
@@ -97,7 +97,7 @@ void CovariateValidatorAndModelSelector::perform(XpertResult::XpertRequestResult
 
         try {
             // Individually, are the covariates respecting their validation?
-            vector<XpertResult::CovariateResult> covariateResults;
+            vector<CovariateResult> covariateResults;
             unsigned score = computeScore(
                         _xpertRequestResult.getTreatment()->getCovariates(),
                         drugModel->getCovariates(),
@@ -165,8 +165,8 @@ Common::DateTime CovariateValidatorAndModelSelector::getOldestCovariateDateTime(
 
 unsigned CovariateValidatorAndModelSelector::computeScore(const Core::PatientVariates& _patientVariates,
                                              const Core::CovariateDefinitions& _modelDefinitions,
-                                             XpertQuery::OutputLang _lang,
-                                             vector<XpertResult::CovariateResult>& _results) const
+                                             OutputLang _lang,
+                                             vector<CovariateResult>& _results) const
 {
     unsigned score = 0;
 
@@ -266,8 +266,8 @@ bool CovariateValidatorAndModelSelector::checkOperation(Core::Operation* _op,
                                            double _val,
                                            const Core::CovariateDefinition* _definition,
                                            const Core::PatientCovariate* _patient,
-                                           XpertQuery::OutputLang _lang,
-                                           std::vector<XpertResult::CovariateResult>& _results) const
+                                           OutputLang _lang,
+                                           std::vector<CovariateResult>& _results) const
 {
     Core::OperationInputList defInputList = _op->getInputs();
     Core::OperationInputList inputList;
@@ -279,7 +279,7 @@ bool CovariateValidatorAndModelSelector::checkOperation(Core::Operation* _op,
         throw invalid_argument("Evaluation failed for covariate " + _patient->getId());
     }
 
-    string warning = (result == 0 ? XpertUtils::getStringWithEnglishFallback(_definition->getValidationErrorMessage(), _lang) : "");
+    string warning = (result == 0 ? getStringWithEnglishFallback(_definition->getValidationErrorMessage(), _lang) : "");
 
     _results.emplace_back(_definition, _patient, warning);
 
@@ -289,25 +289,25 @@ bool CovariateValidatorAndModelSelector::checkOperation(Core::Operation* _op,
 
 bool CovariateValidatorAndModelSelector::checkCovariateDefinitionsLanguage(
         const Core::CovariateDefinitions& _modelDefinitions,
-        XpertQuery::OutputLang _lang) const
+        OutputLang _lang) const
 {
     for (const unique_ptr<Core::CovariateDefinition>& cd : _modelDefinitions) {
 
         // Checking name translation.
-        if( cd->getName().getString(XpertUtils::outputLangToString(XpertQuery::OutputLang::ENGLISH)) == "" &&
-                cd->getName().getString(XpertUtils::outputLangToString(_lang)) == "") {
+        if( cd->getName().getString(outputLangToString(OutputLang::ENGLISH)) == "" &&
+                cd->getName().getString(outputLangToString(_lang)) == "") {
             return false;
         }
 
         // Checking description translation.
-        if( cd->getDescription().getString(XpertUtils::outputLangToString(XpertQuery::OutputLang::ENGLISH)) == "" &&
-                cd->getDescription().getString(XpertUtils::outputLangToString(_lang)) == "") {
+        if( cd->getDescription().getString(outputLangToString(OutputLang::ENGLISH)) == "" &&
+                cd->getDescription().getString(outputLangToString(_lang)) == "") {
             return false;
         }
 
         // Checking validation error message translation.
-        if( cd->getValidationErrorMessage().getString(XpertUtils::outputLangToString(XpertQuery::OutputLang::ENGLISH)) == "" &&
-                cd->getValidationErrorMessage().getString(XpertUtils::outputLangToString(_lang)) == "") {
+        if( cd->getValidationErrorMessage().getString(outputLangToString(OutputLang::ENGLISH)) == "" &&
+                cd->getValidationErrorMessage().getString(outputLangToString(_lang)) == "") {
             return false;
         }
     }
@@ -315,5 +315,5 @@ bool CovariateValidatorAndModelSelector::checkCovariateDefinitionsLanguage(
     return true;
 }
 
-} // namespace XpertFlow
+} // namespace Xpert
 } // namespace Tucuxi

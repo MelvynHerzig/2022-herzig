@@ -4,7 +4,7 @@
 #include <stdexcept>
 
 namespace Tucuxi {
-namespace XpertLanguage {
+namespace Xpert {
 
 /// \brief Custom exception used for language problems.
 /// \date 21/04/2022
@@ -21,7 +21,7 @@ public:
     explicit LanguageException(const char* _msg);
 };
 
-} // namespace Language
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // LANGUAGEEXCEPTION_H

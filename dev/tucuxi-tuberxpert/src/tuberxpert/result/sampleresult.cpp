@@ -5,7 +5,7 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace Xpert {
 
 SampleResult::SampleResult(const Core::Sample* _sample, unsigned _groupNumberOver99Percentile)
     : AbstractResult<Core::Sample>(_sample, computeWarning(_groupNumberOver99Percentile)), m_groupNumberOver99Percentile(_groupNumberOver99Percentile)
@@ -29,7 +29,7 @@ string SampleResult::computeWarning(unsigned _groupNumberOver99Percentile)
 {
     // if the percentile is in the warning limits.
     if (_groupNumberOver99Percentile <= 10 || _groupNumberOver99Percentile > 90) {
-        XpertLanguage::LanguageManager& lm = XpertLanguage::LanguageManager::getInstance();
+        LanguageManager& lm = LanguageManager::getInstance();
 
         // Get base of message and % of population that is below or above the patient.
         string baseWarning = _groupNumberOver99Percentile <= 50 ? lm.translate("population_above") : lm.translate("population_below");
@@ -41,5 +41,5 @@ string SampleResult::computeWarning(unsigned _groupNumberOver99Percentile)
     return "";
 }
 
-} // namespace XpertResult
+} // namespace Xpert
 } // namespace Tucuxi

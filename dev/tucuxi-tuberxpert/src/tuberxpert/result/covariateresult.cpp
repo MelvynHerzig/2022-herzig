@@ -5,7 +5,7 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace Xpert {
 
 CovariateResult::CovariateResult(const Core::CovariateDefinition* _definition,
                                  const Core::PatientCovariate* _patient,
@@ -46,5 +46,5 @@ const Core::PatientCovariate *CovariateResult::getPatient() const
     return m_patient;
 }
 
-} // namespace XpertResult
+} // namespace Xpert
 } // namespace Tucuxi

@@ -4,7 +4,7 @@ using namespace std;
 using namespace Tucuxi;
 
 namespace Tucuxi {
-namespace XpertQuery {
+namespace Xpert {
 
 /**************************************************
  |                    Address                     |
@@ -221,5 +221,5 @@ const unique_ptr<ClinicalData>& AdministrativeData::getpClinicalData() const
     return m_pClinicalData;
 }
 
-} // namespace XpertQuery
+} // namespace Xpert
 } // namespace Tucuxi

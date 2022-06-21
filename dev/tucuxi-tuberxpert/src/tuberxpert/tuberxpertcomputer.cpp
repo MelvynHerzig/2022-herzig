@@ -18,7 +18,7 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertComputer {
+namespace Xpert {
 
 TuberXpertComputer::TuberXpertComputer()
 {}
@@ -46,18 +46,18 @@ ComputingStatus TuberXpertComputer::compute(
      *                               Query Importation                               *
      * *******************************************************************************/
 
-    unique_ptr<XpertQuery::XpertQueryData> query = nullptr;
+    unique_ptr<XpertQueryData> query = nullptr;
 
-    XpertQuery::XpertQueryImport importer;
-    XpertQuery::XpertQueryImport::Status importResult = importer.importFromFile(query, _inputFileName);
+    XpertQueryImport importer;
+    XpertQueryImport::Status importResult = importer.importFromFile(query, _inputFileName);
 
-    if (importResult != XpertQuery::XpertQueryImport::Status::Ok) {
+    if (importResult != XpertQueryImport::Status::Ok) {
 
         logHelper.error("Query import error, see details : {}", importer.getErrorMessage());
         return ComputingStatus::IMPORT_ERROR;
     }
 
-    XpertResult::XpertGlobalResult xpertGlobalResult(move(query));
+    XpertGlobalResult xpertGlobalResult(move(query));
 
     /*********************************************************************************
      *                             For each xpert resquest                           *
@@ -65,7 +65,7 @@ ComputingStatus TuberXpertComputer::compute(
 
     unsigned nbUnfulfilledRequest = 0;
     unsigned requestNbBeingHandled = 0;
-    for (XpertResult::XpertRequestResult& xpertRequestResult : xpertGlobalResult.getXpertRequestResults()) {
+    for (XpertRequestResult& xpertRequestResult : xpertGlobalResult.getXpertRequestResults()) {
 
         logHelper.info("---------------------------------------");
         logHelper.info("Handling request number: " + to_string(++requestNbBeingHandled));
@@ -79,7 +79,7 @@ ComputingStatus TuberXpertComputer::compute(
         }
 
         // Get the flow step provider for the drug of the request
-        unique_ptr<XpertFlow::AbstractXpertFlowStepProvider> xpertFlowStepProvider(nullptr);
+        unique_ptr<AbstractXpertFlowStepProvider> xpertFlowStepProvider(nullptr);
         getXpertFlowStepProvider(xpertRequestResult, xpertFlowStepProvider);
 
         // Validate inputs data and prepare the missing informations (drug model/adjustment trait)
@@ -116,9 +116,9 @@ ComputingStatus TuberXpertComputer::compute(
 
 }
 
-bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertRequestResult& _xpertRequestResult,
+bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertRequestResult& _xpertRequestResult,
                                                         const string& _languagePath,
-                                                        const unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _stepProvider) const
+                                                        const unique_ptr<AbstractXpertFlowStepProvider>& _stepProvider) const
 {
 
     Common::LoggerHelper logHelper;
@@ -130,11 +130,11 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
     logHelper.info("Loading translation file...");
 
     // Getting language manager
-    Tucuxi::XpertLanguage::LanguageManager& languageManager = XpertLanguage::LanguageManager::getInstance();
+    LanguageManager& languageManager = LanguageManager::getInstance();
 
 
     try {
-        string languageFileName = _languagePath + "/" + XpertUtils::outputLangToString(_xpertRequestResult.getXpertRequest().getOutputLang()) + ".xml";
+        string languageFileName = _languagePath + "/" + outputLangToString(_xpertRequestResult.getXpertRequest().getOutputLang()) + ".xml";
         ifstream ifs(languageFileName);
 
         // If language file opening failed.
@@ -242,7 +242,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(XpertResult::XpertReques
     return true;
 }
 
-void TuberXpertComputer::getXpertFlowStepProvider(XpertResult::XpertRequestResult& _xpertRequestResult, unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const
+void TuberXpertComputer::getXpertFlowStepProvider(XpertRequestResult& _xpertRequestResult, unique_ptr<Xpert::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const
 {
 
     // The idea is the have this method that return a FlowStepProvider for each
@@ -259,10 +259,10 @@ void TuberXpertComputer::getXpertFlowStepProvider(XpertResult::XpertRequestResul
 
     // But at the moment, TuberXpert is implemented in a general manner.
     // In future stages, this line should be removed for the commented ones on top of it.
-    _xpertFlowStepProvider = make_unique<XpertFlow::GeneralXpertFlowStepProvider>();
+    _xpertFlowStepProvider = make_unique<GeneralXpertFlowStepProvider>();
 }
 
-bool TuberXpertComputer::makeAndExecuteAdjustmentRequest(XpertResult::XpertRequestResult& _xpertRequestResult) const
+bool TuberXpertComputer::makeAndExecuteAdjustmentRequest(XpertRequestResult& _xpertRequestResult) const
 {
     Common::LoggerHelper logHelper;
     logHelper.info("Submitting adjustment request...");
@@ -304,5 +304,5 @@ bool TuberXpertComputer::makeAndExecuteAdjustmentRequest(XpertResult::XpertReque
     }
 }
 
-} // namespace XpertComputer
+} // namespace Xpert
 } // namespace Tucuxi

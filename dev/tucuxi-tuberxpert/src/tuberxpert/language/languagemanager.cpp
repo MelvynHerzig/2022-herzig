@@ -13,7 +13,7 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertLanguage {
+namespace Xpert {
 
 unique_ptr<LanguageManager> LanguageManager::s_upInstance{nullptr};
 
@@ -47,7 +47,7 @@ string LanguageManager::translate(const string &key) const
 void LanguageManager::loadDictionary(const string& _xmlString)
 {
     m_keyToEntry.clear();
-    Tucuxi::Common::XmlDocument document;
+    Common::XmlDocument document;
 
     if (_xmlString == "" || !document.fromString(_xmlString)) {
         throw LanguageException("Error importing language file. It may be badly formatted.");
@@ -85,5 +85,5 @@ void LanguageManager::loadDictionary(const string& _xmlString)
 }
 
 
-} // namespace Language
+} // namespace Xpert
 } // namespace Tucuxi

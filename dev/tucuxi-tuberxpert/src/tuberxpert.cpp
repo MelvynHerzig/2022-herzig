@@ -126,8 +126,8 @@ int main(int argc, char** argv)
     logHelper.info("Tuberxpert console application is starting up...");
 
     // Computation start
-    Tucuxi::XpertComputer::TuberXpertComputer txc;
-    Tucuxi::XpertComputer::ComputingStatus result = txc.compute(drugPath, inputFileName, outputFileName, languagePath);
+    Tucuxi::Xpert::TuberXpertComputer txc;
+    Tucuxi::Xpert::ComputingStatus result = txc.compute(drugPath, inputFileName, outputFileName, languagePath);
 
     logHelper.info("Tuberxpert console application is exiting...");
     logHelper.info("********************************************************");
@@ -137,13 +137,13 @@ int main(int argc, char** argv)
 
     // Return code handling
     switch (result) {
-        case Tucuxi::XpertComputer::ComputingStatus::IMPORT_ERROR:
+        case Tucuxi::Xpert::ComputingStatus::IMPORT_ERROR:
             return CODE_IMPORT_ERROR;
-        case Tucuxi::XpertComputer::ComputingStatus::ALL_REQUESTS_SUCCEEDED:
+        case Tucuxi::Xpert::ComputingStatus::ALL_REQUESTS_SUCCEEDED:
             return CODE_ALL_REQUESTS_SUCCEEDED;
-        case Tucuxi::XpertComputer::ComputingStatus::SOME_REQUESTS_SUCCEEDED:
+        case Tucuxi::Xpert::ComputingStatus::SOME_REQUESTS_SUCCEEDED:
             return CODE_SOME_REQUESTS_SUCCEEDED;
-        case Tucuxi::XpertComputer::ComputingStatus::NO_REQUESTS_SUCCEEDED:
+        case Tucuxi::Xpert::ComputingStatus::NO_REQUESTS_SUCCEEDED:
             return CODE_NO_REQUESTS_SUCCEEDED;
     }
 }

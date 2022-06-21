@@ -5,9 +5,9 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertQuery {
+namespace Xpert {
 
-unique_ptr<Core::DrugTreatment> XpertQuery::XpertQueryToCoreExtractor::extractDrugTreatment(
+unique_ptr<Core::DrugTreatment> XpertQueryToCoreExtractor::extractDrugTreatment(
         const unique_ptr<XpertRequestData>& _xpertRequest,
         const XpertQueryData& _xpertQuery,
         string& _errorMessage) const
@@ -45,5 +45,5 @@ unique_ptr<Core::DrugTreatment> XpertQuery::XpertQueryToCoreExtractor::extractDr
     return QueryToCoreExtractor::extractDrugTreatment(_xpertQuery, rd);
 }
 
-} // namespace XpertQuery
+} // namespace Xpert
 } // namespace Tucuxi

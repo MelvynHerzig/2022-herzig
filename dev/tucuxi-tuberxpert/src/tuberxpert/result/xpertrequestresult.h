@@ -20,7 +20,7 @@
 #include "tuberxpert/result/sampleresult.h"
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace Xpert {
 
 class XpertGlobalResult;
 
@@ -40,13 +40,13 @@ public:
     /// \param _errorMessage If the treatment extraction was not successfull, the related error message or empty string.
     XpertRequestResult(
             const XpertGlobalResult* _xpertGlobalResult,
-            std::unique_ptr<XpertQuery::XpertRequestData> _xpertRequest,
+            std::unique_ptr<XpertRequestData> _xpertRequest,
             std::unique_ptr<Core::DrugTreatment> _dTreatment,
             const std::string& _errorMessage);
 
     /// \brief Gets the related XpertRequestData.
     /// \return A reference on the XpertRequestData.
-    const XpertQuery::XpertRequestData& getXpertRequest() const;
+    const XpertRequestData& getXpertRequest() const;
 
     /// \brief Gets the related treatment.
     /// \return The related treatment. May be nullptr if extraction failed.
@@ -134,7 +134,7 @@ protected:
     const XpertGlobalResult* m_xpertGlobalResult;
 
     /// \brief Unique pointer to the related request this object stores results for.
-    std::unique_ptr<XpertQuery::XpertRequestData> m_xpertRequest;
+    std::unique_ptr<XpertRequestData> m_xpertRequest;
 
     /// \brief Treatment related to the request of this object.
     std::unique_ptr<Core::DrugTreatment> m_dTreatment;
@@ -171,7 +171,7 @@ protected:
 
 };
 
-} // namespace XpertResult
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // XPERTREQUESTRESULT_H

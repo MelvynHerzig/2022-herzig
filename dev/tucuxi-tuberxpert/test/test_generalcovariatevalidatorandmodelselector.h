@@ -23,7 +23,7 @@
 struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_base<TestGeneralCovariateValidatorAndModelSelector>
 {
     /// \brief General flow step provider used to get the covariate validator and model selector object to test.
-    Tucuxi::XpertFlow::GeneralXpertFlowStepProvider generalFlowStepProvider{Tucuxi::Common::DateTime("2022-06-20T10:00:00", "%Y-%m-%dT%H:%M:%S")};
+    Tucuxi::Xpert::GeneralXpertFlowStepProvider generalFlowStepProvider{Tucuxi::Common::DateTime("2022-06-20T10:00:00", "%Y-%m-%dT%H:%M:%S")};
 
     /// \brief Drug model string of the imatinib used by some of the tests.
     std::string originalImatinibModelString = R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -743,7 +743,7 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
     /// \param _queryString Query string to load.
     /// \param _models Drug models to load.
     /// \param _query Query pointer that will recieve the query string importation result.
-    void setupEnv(const std::string& _queryString, const std::vector<std::string>& _models, std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData>& _query) {
+    void setupEnv(const std::string& _queryString, const std::vector<std::string>& _models, std::unique_ptr<Tucuxi::Xpert::XpertQueryData>& _query) {
 
         // Drug models repository creation
         Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
@@ -778,10 +778,10 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
         }
 
         // Query import
-        Tucuxi::XpertQuery::XpertQueryImport importer;
-        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(_query, _queryString);
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(_query, _queryString);
 
-        if (importResult != Tucuxi::XpertQuery::XpertQueryImport::Status::Ok) {
+        if (importResult != Tucuxi::Xpert::XpertQueryImport::Status::Ok) {
             throw std::runtime_error("Setup failed");
         }
     }
@@ -792,7 +792,7 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
     {
         std::cout << _testName << std::endl;
 
-        Tucuxi::XpertResult::XpertRequestResult xrr{nullptr, nullptr, ""};
+        Tucuxi::Xpert::XpertRequestResult xrr{nullptr, nullptr, nullptr, ""};
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xrr);
 
@@ -888,12 +888,12 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
         std::vector<std::string> models;
         setupEnv(queryString, models, query);
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
@@ -1087,13 +1087,13 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
         std::vector<std::string> models;
         setupEnv(queryString, models, query);
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult0 = xpertResult.getXpertRequestResults()[0];
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult1 = xpertResult.getXpertRequestResults()[1];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult0 = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult1 = xpertResult.getXpertRequestResults()[1];
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult0);
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult1);
@@ -1193,12 +1193,12 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
         std::vector<std::string> models = {originalImatinibModelString};
         setupEnv(queryString, models, query);
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
@@ -2007,12 +2007,12 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
         std::vector<std::string> models = {incompatibleImatinibModelString, originalImatinibModelString};
         setupEnv(queryString, models, query);
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
@@ -2119,12 +2119,12 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
         std::vector<std::string> models = {originalImatinibModelString};
         setupEnv(queryString, models, query);
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
@@ -2939,12 +2939,12 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
         std::vector<std::string> models = {modifiedImatinibModelString, originalImatinibModelString};
         setupEnv(queryString, models, query);
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
@@ -3050,12 +3050,12 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
         std::vector<std::string> models = {originalImatinibModelString};
         setupEnv(queryString, models, query);
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
@@ -3809,12 +3809,12 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
         std::vector<std::string> models = {originalImatinibModelString, noAgeImatinibModel1String};
         setupEnv(queryString, models, query);
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
@@ -4558,12 +4558,12 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
         std::vector<std::string> models = {originalImatinibModelString, noAgeImatinibModelString};
         setupEnv(queryString, models, query);
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
@@ -5191,12 +5191,12 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
         std::vector<std::string> models = {originalImatinibModelString, noGistImatinibModelString};
         setupEnv(queryString, models, query);
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
@@ -7572,12 +7572,12 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
         std::vector<std::string> models = {model0String, model1String, model2String};
         setupEnv(queryString, models, query);
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
@@ -9137,12 +9137,12 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
         std::vector<std::string> models = {model0String, model1String};
         setupEnv(queryString, models, query);
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
@@ -11353,14 +11353,14 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
         std::vector<std::string> models = {modelString0, modelString1, modelString2};
         setupEnv(queryString, models, query);
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult0 = xpertResult.getXpertRequestResults()[0];
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult1 = xpertResult.getXpertRequestResults()[1];
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult2 = xpertResult.getXpertRequestResults()[2];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult0 = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult1 = xpertResult.getXpertRequestResults()[1];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult2 = xpertResult.getXpertRequestResults()[2];
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult0);
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult1);
@@ -12187,13 +12187,13 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
         std::vector<std::string> models = {originalImatinibModelString, onlyEnglishImatinibModelString};
         setupEnv(queryString, models, query);
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult0 = xpertResult.getXpertRequestResults()[0];
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult1 = xpertResult.getXpertRequestResults()[1];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult0 = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult1 = xpertResult.getXpertRequestResults()[1];
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult0);
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult1);
@@ -12322,12 +12322,12 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
         std::vector<std::string> models = {originalImatinibModelString};
         setupEnv(queryString, models, query);
-        Tucuxi::XpertResult::XpertResult xpertResult(std::move(query));
+        Tucuxi::Xpert::XpertGlobalResult xpertResult(std::move(query));
 
-        Tucuxi::XpertResult::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertResult.getXpertRequestResults()[0];
 
         generalFlowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
@@ -12335,37 +12335,37 @@ struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_bas
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
         fructose_assert_eq(xpertRequestResult.getDrugModel()->getDrugModelId() ,"ch.tucuxi.imatinib.gotta2012_original");
 
-        const std::vector<Tucuxi::XpertResult::CovariateResult>& results = xpertRequestResult.getCovariateResults();
+        const std::vector<Tucuxi::Xpert::CovariateResult>& results = xpertRequestResult.getCovariateResults();
         fructose_assert_eq(results.size(), 5); // 3 covariates ( 2 weights + 1 birthdate) + Gist definition + Sex definition
 
         fructose_assert_eq(results[0].getSource()->getId(), "age");
         fructose_assert_eq(results[0].getValue(), "1990-01-01 00:00:00");
         fructose_assert_eq(results[0].getUnit().toString(), "");
-        fructose_assert_eq(results[0].getType() == Tucuxi::XpertResult::CovariateType::Patient, true);
+        fructose_assert_eq(results[0].getType() == Tucuxi::Xpert::CovariateType::Patient, true);
         fructose_assert_eq(results[0].getWarning(), "");
 
         fructose_assert_eq(results[1].getSource()->getId(), "bodyweight");
         fructose_assert_eq(results[1].getValue(), "70");
         fructose_assert_eq(results[1].getUnit().toString(), "kg");
-        fructose_assert_eq(results[1].getType() == Tucuxi::XpertResult::CovariateType::Patient, true);
+        fructose_assert_eq(results[1].getType() == Tucuxi::Xpert::CovariateType::Patient, true);
         fructose_assert_eq(results[1].getWarning(), "");
 
         fructose_assert_eq(results[2].getSource()->getId(), "bodyweight");
         fructose_assert_eq(results[2].getValue(), "150000");
         fructose_assert_eq(results[2].getUnit().toString(), "g");
-        fructose_assert_eq(results[2].getType() == Tucuxi::XpertResult::CovariateType::Patient, true);
+        fructose_assert_eq(results[2].getType() == Tucuxi::Xpert::CovariateType::Patient, true);
         fructose_assert_eq(results[2].getWarning(), "The body weight shall be in the interval [44,100].");
 
         fructose_assert_eq(results[3].getSource()->getId(), "gist");
         fructose_assert_eq(results[3].getValue(), "0.000000");
         fructose_assert_eq(results[3].getUnit().toString(), "-");
-        fructose_assert_eq(results[3].getType() == Tucuxi::XpertResult::CovariateType::Model, true);
+        fructose_assert_eq(results[3].getType() == Tucuxi::Xpert::CovariateType::Model, true);
         fructose_assert_eq(results[3].getWarning(), "");
 
         fructose_assert_eq(results[4].getSource()->getId(), "sex");
         fructose_assert_eq(results[4].getValue(), "0.500000");
         fructose_assert_eq(results[4].getUnit().toString(), "-");
-        fructose_assert_eq(results[4].getType() == Tucuxi::XpertResult::CovariateType::Model, true);
+        fructose_assert_eq(results[4].getType() == Tucuxi::Xpert::CovariateType::Model, true);
         fructose_assert_eq(results[4].getWarning(), "");
 
 

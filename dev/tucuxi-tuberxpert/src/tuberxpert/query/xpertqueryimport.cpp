@@ -5,7 +5,7 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertQuery {
+namespace Xpert {
 
 XpertQueryImport::XpertQueryImport() = default;
 
@@ -485,5 +485,5 @@ Common::DateTime XpertQueryImport::getChildDateTime(Common::XmlNodeIterator _roo
     return extractDateTime(child);
 }
 
-} // namespace XpertQuery
+} // namespace Xpert
 } // namespace Tucuxi
