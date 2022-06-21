@@ -8,23 +8,27 @@
 #include "tucucore/pkmodel.h"
 #include "tucucore/drugmodelchecker.h"
 
-#include "tuberxpert/result/request/adjustmenttraitcreator.h"
+#include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
 #include "tuberxpert/query/xpertquerydata.h"
 #include "tuberxpert/query/xpertqueryimport.h"
 #include "tuberxpert/result/xpertresult.h"
 
 #include "fructose/fructose.h"
 
-/// \brief Tests for TestAdjustmentTraitCreator. This class performs varius adjustment creation
-///        to check result is what was expected. Each test tests an attribute (or a subset of attributes)
+/// \brief Tests for AdjustmentTraitCreator from the GeneralXpertFlowStepProvider.
+///        This class performs varius adjustment creations
+///        to check if the result is what was expected. Each test tests an attribute (or a subset of attributes)
 ///        of the adjustment trait returned.
 /// \date 17/06/2022
 /// \author Herzig Melvyn
-struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTraitCreator>
+struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGeneralAdjustmentTraitCreator>
 {
 
     /// \brief Format used to create date and time during test.
     const std::string DATE_FORMAT = "%Y-%m-%dT%H:%M:%S";
+
+    /// \brief General flow step provider used to get the adjustment trait creator object to test.
+    Tucuxi::XpertFlow::GeneralXpertFlowStepProvider generalFlowStepProvider;
 
     /// \brief Imatinib model string used during tests when a drug without a standard treatment is needed.
     std::string imatinibModelString = R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -1308,8 +1312,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult xrr{nullptr, nullptr, ""};
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc;
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "No treatment set.");
@@ -1412,9 +1415,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertResult xr{move(query)};
 
-
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc;
-        atc.perform(xr.getXpertRequestResults()[0]);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xr.getXpertRequestResults()[0]);
 
         fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
         fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
@@ -1515,8 +1516,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc;
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getNbPointsPerHour(), 20);
@@ -1617,8 +1617,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc;
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
 
@@ -1702,8 +1701,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc;
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getComputingOption().getParametersType() == Tucuxi::Core::PredictionParameterType::Apriori, true);
@@ -1782,8 +1780,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc;
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getComputingOption().getParametersType() == Tucuxi::Core::PredictionParameterType::Apriori, true);
@@ -1884,8 +1881,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc;
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
 
@@ -1990,8 +1986,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2022-01-01T10:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2018-07-06T08:00:00", DATE_FORMAT));
@@ -2067,8 +2062,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2022-01-01T10:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-01-01T11:00:00", DATE_FORMAT));
@@ -2166,8 +2160,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2022-01-01T10:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-01-01T11:00:00", DATE_FORMAT));
@@ -2265,8 +2258,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2018-07-07T06:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2018-07-07T08:00:00", DATE_FORMAT));
@@ -2368,8 +2360,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2022-06-20T10:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T21:00:00", DATE_FORMAT));
@@ -2470,8 +2461,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2018-07-07T08:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2018-07-06T08:00:00", DATE_FORMAT));
@@ -2550,8 +2540,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2018-07-07T08:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2018-07-06T08:00:00", DATE_FORMAT));
@@ -2653,8 +2642,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2022-06-20T10:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "Based on the standard treatment in the model:ch.tucuxi.busulfan.paci2012, considering the oldest dosage is the treatment start, the treatment is already over.");
@@ -2755,8 +2743,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2018-07-07T06:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2018-07-07T07:00:00", DATE_FORMAT));
@@ -2854,8 +2841,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2018-07-07T06:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getBestCandidatesOption() == Tucuxi::Core::BestCandidatesOption::BestDosagePerInterval, true);
@@ -2953,8 +2939,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2018-07-07T06:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getLoadingOption() == Tucuxi::Core::LoadingOption::NoLoadingDose, true);
@@ -3056,8 +3041,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2018-07-07T06:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getLoadingOption() == Tucuxi::Core::LoadingOption::LoadingDoseAllowed, true);
@@ -3155,8 +3139,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2018-07-07T06:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getRestPeriodOption() == Tucuxi::Core::RestPeriodOption::NoRestPeriod, true);
@@ -3258,8 +3241,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2018-07-07T06:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getRestPeriodOption() == Tucuxi::Core::RestPeriodOption::RestPeriodAllowed, true);
@@ -3358,8 +3340,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2018-07-07T06:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getSteadyStateTargetOption() == Tucuxi::Core::SteadyStateTargetOption::WithinTreatmentTimeRange, true);
@@ -3457,8 +3438,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2018-07-07T06:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getSteadyStateTargetOption() == Tucuxi::Core::SteadyStateTargetOption::AtSteadyState, true);
@@ -3556,8 +3536,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2018-07-07T06:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::AprioriValues, true);
@@ -3655,8 +3634,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2018-07-07T06:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::DefinitionIfNoIndividualTarget, true);
@@ -3754,8 +3732,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2018-07-07T06:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::AllFormulationAndRoutes, true);
@@ -3853,8 +3830,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::AdjustmentTraitCreator atc(Tucuxi::Common::DateTime("2018-07-07T06:00:00", DATE_FORMAT));
-        atc.perform(xrr);
+        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute, true);

@@ -31,8 +31,8 @@ SOURCES += \
 DEFINES+= \
     test_dosevalidator \
     test_generaladjustmenttraitcreator \
+    test_generalcovariatevalidatorandmodelselector \
     test_language \
-    test_modelselector \
     test_samplevalidator \
     test_targetvalidator \
     test_query \
@@ -43,8 +43,8 @@ DEFINES+= \
 HEADERS += \
     test_dosevalidator.h \
     test_generaladjustmenttraitcreator.h \
+    test_generalcovariatevalidatorandmodelselector.h \
     test_languagemanager.h \
-    test_modelselector.h \
     test_samplevalidator.h \
     test_targetvalidator.h \
     test_xpertqueryimport.h \
