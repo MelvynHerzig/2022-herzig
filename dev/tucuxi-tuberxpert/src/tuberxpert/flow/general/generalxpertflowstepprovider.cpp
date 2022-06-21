@@ -1,10 +1,10 @@
 #include "generalxpertflowstepprovider.h"
 
-#include "tuberxpert/result/validation/covariatevalidatorandmodelselector.h"
-#include "tuberxpert/result/validation/dosevalidator.h"
-#include "tuberxpert/result/validation/samplevalidator.h"
-#include "tuberxpert/result/validation/targetvalidator.h"
-#include "tuberxpert/result/request/adjustmenttraitcreator.h"
+#include "tuberxpert/flow/general/covariatevalidatorandmodelselector.h"
+#include "tuberxpert/flow/general/dosevalidator.h"
+#include "tuberxpert/flow/general/samplevalidator.h"
+#include "tuberxpert/flow/general/targetvalidator.h"
+#include "tuberxpert/flow/general/adjustmenttraitcreator.h"
 
 using namespace std;
 
@@ -13,11 +13,11 @@ namespace XpertFlow {
 
 GeneralXpertFlowStepProvider::GeneralXpertFlowStepProvider()
 {
-    m_covariateValidatorAndModelSelector = make_unique<XpertResult::CovariateValidatorAndModelSelector>();
-    m_doseValidator = make_unique<XpertResult::DoseValidator>();
-    m_sampleValidator = make_unique<XpertResult::SampleValidator>();
-    m_targetValidator = make_unique<XpertResult::TargetValidator>();
-    m_adjustmentTraitCreator = make_unique<XpertResult::AdjustmentTraitCreator>();
+    m_covariateValidatorAndModelSelector = make_unique<CovariateValidatorAndModelSelector>();
+    m_doseValidator = make_unique<DoseValidator>();
+    m_sampleValidator = make_unique<SampleValidator>();
+    m_targetValidator = make_unique<TargetValidator>();
+    m_adjustmentTraitCreator = make_unique<AdjustmentTraitCreator>();
 }
 
 const std::unique_ptr<AbstractXpertFlowStep>& GeneralXpertFlowStepProvider::getCovariateValidatorAndModelSelector() const

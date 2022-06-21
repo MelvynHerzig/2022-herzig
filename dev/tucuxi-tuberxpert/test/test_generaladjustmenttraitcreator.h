@@ -1,5 +1,5 @@
-#ifndef TEST_ADJUSTMENTTRAITCREATOR_H
-#define TEST_ADJUSTMENTTRAITCREATOR_H
+#ifndef TEST_GENERALADJUSTMENTTRAITCREATOR_H
+#define TEST_GENERALADJUSTMENTTRAITCREATOR_H
 
 #include <memory>
 
@@ -3861,4 +3861,4 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
     }
 };
 
-#endif // TEST_ADJUSTMENTTRAITCREATOR_H
+#endif // TEST_GENERALADJUSTMENTTRAITCREATOR_H

@@ -29,8 +29,8 @@ SOURCES += \
 }
 
 DEFINES+= \
-    test_adjustmenttraitcreator \
     test_dosevalidator \
+    test_generaladjustmenttraitcreator \
     test_language \
     test_modelselector \
     test_samplevalidator \
@@ -41,8 +41,8 @@ DEFINES+= \
     test_xpertutils \
 
 HEADERS += \
-    test_adjustmenttraitcreator.h \
     test_dosevalidator.h \
+    test_generaladjustmenttraitcreator.h \
     test_languagemanager.h \
     test_modelselector.h \
     test_samplevalidator.h \

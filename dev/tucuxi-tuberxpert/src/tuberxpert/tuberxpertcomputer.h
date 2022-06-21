@@ -66,9 +66,12 @@ protected:
     /// \param _xpertRequestResult Object containing the XpertRequest and treatment informations. This object will also
     ///                            be filled with the various validations of the system.
     /// \param _languagePath Folder containing the language files.
+    /// \param _stepProvider Flow step provider responsible to give the each step for a given drug.
     /// \return True if everything went well (i.e. the XpertRequest result is ready to be submitted to the core) or false if the
     ///         XpertRquest needs to be reviewed (i.e. no language file found for the desired language, no drug model found ...)
-    bool validateAndPrepareXpertRequest(XpertResult::XpertRequestResult& _xpertRequestResult, const std::string& _languagePath) const;
+    bool validateAndPrepareXpertRequest(XpertResult::XpertRequestResult& _xpertRequestResult,
+                                        const std::string& _languagePath,
+                                        const std::unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _stepProvider) const;
 
     void getXpertFlowStepProvider(XpertResult::XpertRequestResult& _xpertRequestResult, std::unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const;
 };
