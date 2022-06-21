@@ -8,7 +8,7 @@
 #include "tuberxpert/flow/abstract/abstractxpertflowstep.h"
 #include "tuberxpert/result/xpertrequestresult.h"
 
-struct TestSampleValidator;
+struct TestGeneralSampleValidator;
 
 namespace Tucuxi {
 namespace XpertFlow {
@@ -54,9 +54,9 @@ protected:
     ///        sample date is not bound by any cycleData.
     unsigned findGroupPositionOver99Percentiles(const Core::PercentilesData* _percentilesData, const std::unique_ptr<Core::Sample>& _sample) const;
 
-    // For testing purpose. the tests works with findGroupPositionOver99Percentiles and not with getSampleValidations. It is simpler
+    // For testing purpose. the tests works with findGroupPositionOver99Percentiles and not with getSampleValidations. It is easier
     // because it allows us to forge our own percentiles data and to be able to predict the location of some predetermined samples.
-    friend TestSampleValidator;
+    friend TestGeneralSampleValidator;
 };
 
 } // namespace XpertFlow

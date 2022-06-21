@@ -10,15 +10,18 @@
 
 #include "tuberxpert/result/xpertresult.h"
 #include "tuberxpert/query/xpertqueryimport.h"
-#include "tuberxpert/result/validation/targetvalidator.h"
+#include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
 
 #include "fructose/fructose.h"
 
-/// \brief Tests for TargetValidator.
+/// \brief Tests for TargetValidator from the GeneralXpertFlowStepProvider.
 /// \date 09/06/2022
 /// \author Herzig Melvyn
-struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
+struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTargetValidator>
 {
+
+    /// \brief General flow step provider used to get the target validator object to test.
+    Tucuxi::XpertFlow::GeneralXpertFlowStepProvider generalFlowStepProvider;
 
     /// \brief Drug model string of the imatinib used by the tests.
     std::string originalImatinibModelString = R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -793,8 +796,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         Tucuxi::XpertResult::XpertRequestResult xrr{nullptr, nullptr, ""};
 
-        Tucuxi::XpertResult::TargetValidator tv;
-        tv.perform(xrr);
+        generalFlowStepProvider.getTargetValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "No treatment set.");
@@ -897,8 +899,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         Tucuxi::XpertResult::XpertResult xr{move(query)};
 
-        Tucuxi::XpertResult::TargetValidator tv;
-        tv.perform(xr.getXpertRequestResults()[0]);
+        generalFlowStepProvider.getTargetValidator()->perform(xr.getXpertRequestResults()[0]);
 
         fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
         fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
@@ -1055,8 +1056,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::TargetValidator tv;
-        tv.perform(xrr);
+        generalFlowStepProvider.getTargetValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getErrorMessage(), "");
@@ -1233,8 +1233,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::TargetValidator tv;
-        tv.perform(xrr);
+        generalFlowStepProvider.getTargetValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "Two patient's targets with the same active moiety and the same target type detected.");
@@ -1413,8 +1412,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::TargetValidator tv;
-        tv.perform(xrr);
+        generalFlowStepProvider.getTargetValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getErrorMessage(), "");
@@ -1582,8 +1580,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::TargetValidator tv;
-        tv.perform(xrr);
+        generalFlowStepProvider.getTargetValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "A target is related to an active moiety that does not belong to the drug model: ch.tucuxi.imatinib.gotta2012_original");

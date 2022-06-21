@@ -15,6 +15,7 @@ namespace Tucuxi {
 namespace XpertFlow {
 
 /// \brief This is a utility class responsible to get the best drug model for a given drug.
+///        and to validate the relvance of the covariates.
 ///
 /// For each available model of a given drug that corresponds to the formulation and route
 /// of the dosages, we calculate a dissimilarity score S based on the covariates of the model.
@@ -30,10 +31,10 @@ class CovariateValidatorAndModelSelector : public XpertFlow::AbstractXpertFlowSt
 {
 public:
     /// \brief Constructor.
-    /// \param _computationDate This attribute is used for testing purpose. It specifies "when is
+    /// \param _computationTime This attribute is used for testing purpose. It specifies "when is
     ///        the selector executed". For example, it allows to get the same age when executed
     ///        at different times.
-    CovariateValidatorAndModelSelector(Common::DateTime _computationDate = Common::DateTime::now());
+    CovariateValidatorAndModelSelector(Common::DateTime _computationTime = Common::DateTime::now());
 
     /// \brief For a given XpertRequestResult gets the best drug model and sets
     ///        its CovariateResult vector.
@@ -92,9 +93,9 @@ protected:
 
 protected:
 
-    /// \brief Fixes the computation date to get the same values when testing
+    /// \brief Fixes the computation time to get the same values when testing
     ///        at different times.
-    Common::DateTime m_computationDate;
+    Common::DateTime m_computationTime;
 };
 
 } // namespace XpertFlow

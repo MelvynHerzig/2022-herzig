@@ -11,17 +11,21 @@
 #include "tucucore/drugmodelchecker.h"
 
 #include "tuberxpert/language/languagemanager.h"
-#include "tuberxpert/result/validation/dosevalidator.h"
+#include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
 #include "tuberxpert/result/xpertresult.h"
 #include "tuberxpert/result/xpertrequestresult.h"
 #include "tuberxpert/query/xpertquerydata.h"
 #include "tuberxpert/query/xpertqueryimport.h"
 #include "tuberxpert/utils/xpertutils.h"
 
+/// \brief Tests for DoseValidator from the GeneralXpertFlowStepProvider.
 /// \date 21/04/2022
 /// \author Herzig Melvyn
-struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
+struct TestGeneralDoseValidator : public fructose::test_base<TestGeneralDoseValidator>
 {
+
+    /// \brief General flow step provider used to get the dose validator object to test.
+    Tucuxi::XpertFlow::GeneralXpertFlowStepProvider generalFlowStepProvider;
 
     /// \brief Drug model string of the imatinib used by the tests as drug model for the queries.
     std::string imatinibModelString = R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -759,8 +763,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         Tucuxi::XpertResult::XpertRequestResult xrr{nullptr, nullptr, ""};
 
-        Tucuxi::XpertResult::DoseValidator dv;
-        dv.perform(xrr);
+        generalFlowStepProvider.getDoseValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "No treatment set.");
@@ -863,8 +866,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         Tucuxi::XpertResult::XpertResult xr{move(query)};
 
-        Tucuxi::XpertResult::DoseValidator dv;
-        dv.perform(xr.getXpertRequestResults()[0]);
+        generalFlowStepProvider.getDoseValidator()->perform(xr.getXpertRequestResults()[0]);
 
         fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
         fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
@@ -940,7 +942,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::DoseValidator dv;
+        generalFlowStepProvider.getDoseValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getDoseResults().size(), 0);
@@ -1039,8 +1041,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::DoseValidator dv;
-        dv.perform(xrr);
+        generalFlowStepProvider.getDoseValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getDoseResults().size(), 1);
@@ -1139,8 +1140,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::DoseValidator dv;
-        dv.perform(xrr);
+        generalFlowStepProvider.getDoseValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getDoseResults().size(), 1);
@@ -1238,8 +1238,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::DoseValidator dv;
-        dv.perform(xrr);
+        generalFlowStepProvider.getDoseValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getDoseResults().size(), 0);
@@ -1338,8 +1337,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::DoseValidator dv;
-        dv.perform(xrr);
+        generalFlowStepProvider.getDoseValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getDoseResults().size(), 0);
@@ -1503,8 +1501,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        Tucuxi::XpertResult::DoseValidator dv;
-        dv.perform(xrr);
+        generalFlowStepProvider.getDoseValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getDoseResults().size(), 4);

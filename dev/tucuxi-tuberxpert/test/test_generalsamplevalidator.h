@@ -17,7 +17,8 @@
 #include "tucucommon/unit.h"
 
 #include "tuberxpert/result/sampleresult.h"
-#include "tuberxpert/result/validation/samplevalidator.h"
+#include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
+#include "tuberxpert/flow/general/samplevalidator.h"
 #include "tuberxpert/language/languagemanager.h"
 #include "tuberxpert/query/xpertquerydata.h"
 #include "tuberxpert/query/xpertqueryimport.h"
@@ -25,10 +26,10 @@
 
 #include "fructose/fructose.h"
 
-/// \brief Tests for SampleValidator and SampleResult.
+/// \brief Tests for SampleValidator from the GeneralXpertFlowStepProvider.
 /// \date 06/06/2022
 /// \author Herzig Melvyn
-struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
+struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSampleValidator>
 {
 
     /// \brief Format used to create date and time during test.
@@ -36,6 +37,9 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
 
     /// \brief Unit used to create the percentiles data.
     const Tucuxi::Common::TucuUnit UNIT{"ug/l"};
+
+    /// \brief General flow step provider used to get the sample validator object to test.
+    Tucuxi::XpertFlow::GeneralXpertFlowStepProvider generalFlowStepProvider;
 
     /// \brief Creates some percentiles data and insert them into pData.
     /// \param pData PercentilesData object that gets the preparation.
@@ -92,8 +96,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
 
         Tucuxi::XpertResult::XpertRequestResult xrr{nullptr, nullptr, ""};
 
-        Tucuxi::XpertResult::SampleValidator sv;
-        sv.perform(xrr);
+        generalFlowStepProvider.getSampleValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "No treatment set.");
@@ -185,8 +188,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
 
         Tucuxi::XpertResult::XpertResult xr{move(query)};
 
-        Tucuxi::XpertResult::SampleValidator sv;
-        sv.perform(xr.getXpertRequestResults()[0]);
+        generalFlowStepProvider.getSampleValidator()->perform(xr.getXpertRequestResults()[0]);
 
         fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
         fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "Samples found but dosage history is empty.");
@@ -289,8 +291,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
 
         Tucuxi::XpertResult::XpertResult xr{move(query)};
 
-        Tucuxi::XpertResult::SampleValidator sv;
-        sv.perform(xr.getXpertRequestResults()[0]);
+        generalFlowStepProvider.getSampleValidator()->perform(xr.getXpertRequestResults()[0]);
 
         fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
         fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
@@ -368,7 +369,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
             Tucuxi::Common::DateTime{"2022-01-01T12:00:00", DATE_FORMAT},
         };
 
-        Tucuxi::XpertResult::SampleValidator sv;
+        Tucuxi::XpertFlow::SampleValidator sv;
         // For each percentile
         for (size_t pi = 1; pi <= 99 ; ++pi){
             for (size_t ti = 0; ti < 9; ++ti) {
@@ -397,7 +398,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
         Tucuxi::Core::PercentilesData pData{""};
         createPercentilesData(pData);
 
-        Tucuxi::XpertResult::SampleValidator sv;
+        Tucuxi::XpertFlow::SampleValidator sv;
 
         // We set the unit to kg to get the exception.
         std::unique_ptr<Tucuxi::Core::Sample> sample = std::make_unique<Tucuxi::Core::Sample>(
@@ -419,7 +420,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
         Tucuxi::Core::PercentilesData pData{""};
         createPercentilesData(pData);
 
-        Tucuxi::XpertResult::SampleValidator sv;
+        Tucuxi::XpertFlow::SampleValidator sv;
 
         // We set the date to 2023 to be out of bound of the cycleData objects
         std::unique_ptr<Tucuxi::Core::Sample> sample = std::make_unique<Tucuxi::Core::Sample>(
@@ -1256,8 +1257,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
 
         // Execution
-        Tucuxi::XpertResult::SampleValidator sv;
-        sv.perform(xrr);
+        generalFlowStepProvider.getSampleValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.getSampleResults().size(), xrr.getTreatment()->getSamples().size());
     }

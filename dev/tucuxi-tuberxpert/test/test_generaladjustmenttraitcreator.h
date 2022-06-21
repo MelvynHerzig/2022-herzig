@@ -28,7 +28,8 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
     const std::string DATE_FORMAT = "%Y-%m-%dT%H:%M:%S";
 
     /// \brief General flow step provider used to get the adjustment trait creator object to test.
-    Tucuxi::XpertFlow::GeneralXpertFlowStepProvider generalFlowStepProvider;
+    ///        We set the adjustment trait creator exectuion time to 2022-06-20 10h00.
+    Tucuxi::XpertFlow::GeneralXpertFlowStepProvider generalFlowStepProvider{Tucuxi::Common::DateTime("2022-06-20T10:00:00", DATE_FORMAT)};
 
     /// \brief Imatinib model string used during tests when a drug without a standard treatment is needed.
     std::string imatinibModelString = R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -1992,7 +1993,7 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
         fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2018-07-06T08:00:00", DATE_FORMAT));
     }
 
-    /// \brief This method checks that the adjustment time is set to the computing time plus one hour when there
+    /// \brief This method checks that the adjustment time is set to the computing time (2022-06-20 10h) plus one hour when there
     ///        is no dosage history.
     /// \param _testName Name of the test
     void adjustmentTimeIsComputingTimePlusOneHourWithoutDosageHistoryAndNotManuallySet(const std::string& _testName)
@@ -2065,10 +2066,10 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
         generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-01-01T11:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T11:00:00", DATE_FORMAT));
     }
 
-    /// \brief This method checks that the adjustment time is set to the computing time plus one hour when there
+    /// \brief This method checks that the adjustment time is set to the computing time (2022-06-20 10h00) plus one hour when there
     ///        is a dosage history but in the future and the adjustment time is not set in the request.
     /// \param _testName Name of the test
     void adjustmentTimeIsComputingTimePlusOneHourWithFutureDosageHistoryAndNotManuallySet(const std::string& _testName)
@@ -2163,11 +2164,11 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
         generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-01-01T11:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T11:00:00", DATE_FORMAT));
     }
 
     /// \brief This method checks that the adjustment time is set to the next intake time when there
-    ///        is an ongoing dosage history and not manually set.
+    ///        is an ongoing dosage history and not manually set in the request.
     /// \param _testName Name of the test
     void adjustmentTimeIsNextIntakeTimeWhenOngoingDosageHistoryAndNotManuallySet(const std::string& _testName)
     {
@@ -2179,7 +2180,7 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2200,8 +2201,8 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
                                                     <treatment>
                                                         <dosageHistory>
                                                             <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
+                                                                <start>2022-06-19T08:00:00</start>
+                                                                <end>2022-06-20T08:00:00</end>
                                                                 <dosage>
                                                                     <dosageLoop>
                                                                         <lastingDosage>
@@ -2261,7 +2262,7 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
         generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2018-07-07T08:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T20:00:00", DATE_FORMAT));
     }
 
     /// \brief This method checks that the adjustment time is the resulting time of the half life (x2) added
@@ -2369,8 +2370,8 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
     /// \brief This method checks that start and end date times of the adjustment are the starting time plus
     ///        the standard treatment duration when there is a standard treatment and a dosage history.
-    ///        In that case, the dosage history starts on 2018-07-06 8h00 and the standard treatment lasts
-    ///        4 days. So, start and end date times should be 2018-07-06 8h00 and 2018-07-10 8h00.
+    ///        In that case, the dosage history starts on 2022-06-19 8h00 and the standard treatment lasts
+    ///        4 days. So, start and end date times should be 2022-06-23 8h00 and 2018-07-10 8h00.
     /// \param _testName Name of the test
     void startEndDatesAreDosageHistoryStartPlusStandardTreatmentDurationWhenOngoingStandardTreatmentAndDosageHistory(const std::string& _testName)
     {
@@ -2382,7 +2383,7 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
                                         <queryId>busulfan</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T13:45:30</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2403,8 +2404,8 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
                                                     <treatment>
                                                         <dosageHistory>
                                                             <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
+                                                                <start>2022-06-19T08:00:00</start>
+                                                                <end>2022-06-21T08:00:00</end>
                                                                 <dosage>
                                                                     <dosageLoop>
                                                                         <lastingDosage>
@@ -2464,14 +2465,14 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
         generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2018-07-06T08:00:00", DATE_FORMAT));
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2018-07-10T08:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2022-06-19T08:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2022-06-23T08:00:00", DATE_FORMAT));
     }
 
     /// \brief This method checks that start and end date times of the adjustment are the computation time plus
     ///        the standard treatment duration when there is a standard treatment but no dosage history.
-    ///        In that case, the computation time is on 2018-07-07 8h00 and the standard treatment lasts
-    ///        4 days. So, start and end date times should be 2018-07-07 8h00 and 2018-07-11 8h00.
+    ///        In that case, the computation time is on 2022-06-20 10h00 and the standard treatment lasts
+    ///        4 days. So, start and end date times should be 2022-06-20 10h00 and 2022-06-24 10h00.
     /// \param _testName Name of the test
     void startEndDatesAreComputationTimePlusStandardTreatmentDurationWhenStandardTreatmentButNoDosageHistory(const std::string& _testName)
     {
@@ -2483,7 +2484,7 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
                                         <queryId>busulfan</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T13:45:30</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2543,8 +2544,8 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
         generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2018-07-06T08:00:00", DATE_FORMAT));
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2018-07-10T08:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2022-06-20T10:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2022-06-24T10:00:00", DATE_FORMAT));
     }
 
     /// \brief This method checks that the adjustment trait creation fails when there is a standard treatment
@@ -2651,8 +2652,8 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
     /// \brief This method checks that start and end date is placed regarding the adjustment time.
     ///        Start should be adjustment time minus one hour.
     ///        End should be start plus seven days.
-    ///        In this test, the adjustment time is 2018-07-07 8h00. Therefore, the start should be 2018-07-07 7h00
-    ///        and the end should be 2018-07-14 7h00.
+    ///        In this test, the adjustment time is 2022-06-20 20h00. Therefore, the start should be 2022-06-20 19h00
+    ///        and the end should be 2022-06-27 19h00.
     ///
     /// \param _testName Name of the test
     void startEndDatesAreDefinedOnAdjustmentTimeWhenNoStandardTreatment(const std::string& _testName)
@@ -2664,7 +2665,7 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T13:45:30</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2685,8 +2686,8 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
                                                     <treatment>
                                                         <dosageHistory>
                                                             <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
+                                                                <start>2022-06-19T08:00:00</start>
+                                                                <end>2022-06-21T08:00:00</end>
                                                                 <dosage>
                                                                     <dosageLoop>
                                                                         <lastingDosage>
@@ -2746,8 +2747,8 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
         generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2018-07-07T07:00:00", DATE_FORMAT));
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2018-07-14T07:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2022-06-20T19:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2022-06-27T19:00:00", DATE_FORMAT));
     }
 
     /// \brief This method checks that best candidates option is best dosage per interval.
@@ -3260,7 +3261,7 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
                                         <queryId>busulfan</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T13:45:30</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -3281,8 +3282,8 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
                                                     <treatment>
                                                         <dosageHistory>
                                                             <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
+                                                                <start>2022-06-19T08:00:00</start>
+                                                                <end>2022-06-21T08:00:00</end>
                                                                 <dosage>
                                                                     <dosageLoop>
                                                                         <lastingDosage>
@@ -3751,7 +3752,7 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-07-11T13:45:30</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -3772,8 +3773,8 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
                                                     <treatment>
                                                         <dosageHistory>
                                                             <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
+                                                                <start>2022-06-19T08:00:00</start>
+                                                                <end>2022-06-21T08:00:00</end>
                                                                 <dosage>
                                                                     <dosageLoop>
                                                                         <lastingDosage>

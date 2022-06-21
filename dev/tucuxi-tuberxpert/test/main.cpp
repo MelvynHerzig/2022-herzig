@@ -24,16 +24,16 @@
 #include "test_generalcovariatevalidatorandmodelselector.h"
 #endif
 
-#if defined(test_dosevalidator)
-#include "test_dosevalidator.h"
+#if defined(test_generaldosevalidator)
+#include "test_generaldosevalidator.h"
 #endif
 
-#if defined(test_samplevalidator)
-#include "test_samplevalidator.h"
+#if defined(test_generalsamplevalidator)
+#include "test_generalsamplevalidator.h"
 #endif
 
-#if defined(test_targetvalidator)
-#include "test_targetvalidator.h"
+#if defined(test_generaltargetvalidator)
+#include "test_generaltargetvalidator.h"
 #endif
 
 #if defined(test_generaladjustmenttraitcreator)
@@ -209,23 +209,23 @@ int main(int argc, char** argv)
 
 
     /***********************************************************
-     *                     DoseValidator                       *
+     *                  GeneralDoseValidator                   *
      ***********************************************************/
 
-#if defined(test_dosevalidator)
-    TestDoseValidator doseValidatorTests;
+#if defined(test_generaldosevalidator)
+    TestGeneralDoseValidator testGeneralDoseValidator;
 
-    doseValidatorTests.add_test("Gets an error when no treatment.", &TestDoseValidator::errorWhenNoTreatment);
-    doseValidatorTests.add_test("Gets an error when no drug model.", &TestDoseValidator::errorWhenNoDrugModel);
-    doseValidatorTests.add_test("The resulting map is empty when there is no dosage.", &TestDoseValidator::emptyResultWhenNoDosages);
-    doseValidatorTests.add_test("The resulting dose result contains a warning when underdosing.", &TestDoseValidator::warningUnderdose);
-    doseValidatorTests.add_test("The resulting dose result contains a warning when overdosing.", &TestDoseValidator::warningOverdose);
-    doseValidatorTests.add_test("Gets an error when the unit conversion fails.", &TestDoseValidator::errorFailUnitConversion);
-    doseValidatorTests.add_test("Gets an error when the formulation and route not supported by model.", &TestDoseValidator::errorFormulationAndRouteNotSupported);
-    doseValidatorTests.add_test("Checks that result is fine with multiple dosage type and timerange.", &TestDoseValidator::multipleDosageTypeAndDosageTimeRange);
+    testGeneralDoseValidator.add_test("Gets an error when no treatment.", &TestGeneralDoseValidator::errorWhenNoTreatment);
+    testGeneralDoseValidator.add_test("Gets an error when no drug model.", &TestGeneralDoseValidator::errorWhenNoDrugModel);
+    testGeneralDoseValidator.add_test("The resulting map is empty when there is no dosage.", &TestGeneralDoseValidator::emptyResultWhenNoDosages);
+    testGeneralDoseValidator.add_test("The resulting dose result contains a warning when underdosing.", &TestGeneralDoseValidator::warningUnderdose);
+    testGeneralDoseValidator.add_test("The resulting dose result contains a warning when overdosing.", &TestGeneralDoseValidator::warningOverdose);
+    testGeneralDoseValidator.add_test("Gets an error when the unit conversion fails.", &TestGeneralDoseValidator::errorFailUnitConversion);
+    testGeneralDoseValidator.add_test("Gets an error when the formulation and route not supported by model.", &TestGeneralDoseValidator::errorFormulationAndRouteNotSupported);
+    testGeneralDoseValidator.add_test("Checks that result is fine with multiple dosage type and timerange.", &TestGeneralDoseValidator::multipleDosageTypeAndDosageTimeRange);
 
 
-    res = doseValidatorTests.run(argc, argv);
+    res = testGeneralDoseValidator.run(argc, argv);
     if (res != 0) {
         std::cout << "Dose validator tests failed" << std::endl << std::endl;
         exit(1);
@@ -235,22 +235,22 @@ int main(int argc, char** argv)
 #endif
 
     /***********************************************************
-     *                    SampleValidator                      *
+     *                 GeneralSampleValidator                  *
      ***********************************************************/
 
-#if defined(test_samplevalidator)
-    TestSampleValidator sampleValidatorTests;
+#if defined(test_generalsamplevalidator)
+    TestGeneralSampleValidator testGeneralSampleValidator;
 
-    sampleValidatorTests.add_test("Gets an error when no treatment.", &TestSampleValidator::errorWhenNoTreatment);
-    sampleValidatorTests.add_test("Gets an error when there are samples but no dosage.", &TestSampleValidator::errorWhenSamplesButNoDosage);
-    sampleValidatorTests.add_test("Gets an error when no drug model.", &TestSampleValidator::errorWhenNoDrugModel);
-    sampleValidatorTests.add_test("Gets warnings for a given group position over 99 percentiles.", &TestSampleValidator::warningForGroupPositionOver99Percentiles);
-    sampleValidatorTests.add_test("Gets some group positions over 99 percentile.", &TestSampleValidator::findGroupPositionOver99Percentiles);
-    sampleValidatorTests.add_test("Gets an exception when the sample unit cannot be converted.", &TestSampleValidator::getExceptionUnitConversion);
-    sampleValidatorTests.add_test("Gets an exception when the sample date cannot be found.", &TestSampleValidator::getExceptionDateNotFound);
-    sampleValidatorTests.add_test("Gets the expected amount of samples results.", &TestSampleValidator::getTheExpectedAmountOfResults);
+    testGeneralSampleValidator.add_test("Gets an error when no treatment.", &TestGeneralSampleValidator::errorWhenNoTreatment);
+    testGeneralSampleValidator.add_test("Gets an error when there are samples but no dosage.", &TestGeneralSampleValidator::errorWhenSamplesButNoDosage);
+    testGeneralSampleValidator.add_test("Gets an error when no drug model.", &TestGeneralSampleValidator::errorWhenNoDrugModel);
+    testGeneralSampleValidator.add_test("Gets warnings for a given group position over 99 percentiles.", &TestGeneralSampleValidator::warningForGroupPositionOver99Percentiles);
+    testGeneralSampleValidator.add_test("Gets some group positions over 99 percentile.", &TestGeneralSampleValidator::findGroupPositionOver99Percentiles);
+    testGeneralSampleValidator.add_test("Gets an exception when the sample unit cannot be converted.", &TestGeneralSampleValidator::getExceptionUnitConversion);
+    testGeneralSampleValidator.add_test("Gets an exception when the sample date cannot be found.", &TestGeneralSampleValidator::getExceptionDateNotFound);
+    testGeneralSampleValidator.add_test("Gets the expected amount of samples results.", &TestGeneralSampleValidator::getTheExpectedAmountOfResults);
 
-    res = sampleValidatorTests.run(argc, argv);
+    res = testGeneralSampleValidator.run(argc, argv);
     if (res != 0) {
         std::cout << "Sample validator tests failed" << std::endl << std::endl;
         exit(1);
@@ -260,21 +260,21 @@ int main(int argc, char** argv)
 #endif
 
     /***********************************************************
-     *                    TargetValidator                      *
+     *                 GeneralTargetValidator                  *
      ***********************************************************/
 
-#if defined(test_dosevalidator)
-    TestTargetValidator targetValidatorTests;
+#if defined(test_generaltargetvalidator)
+    TestGeneralTargetValidator testTargetValidator;
 
-    targetValidatorTests.add_test("Gets an error when no treatment.", &TestTargetValidator::errorWhenNoTreatment);
-    targetValidatorTests.add_test("Gets an error when no drug model.", &TestTargetValidator::errorWhenNoDrugModel);
-    targetValidatorTests.add_test("No error when no patient's target.", &TestTargetValidator::noErrorWhenNoTarget);
-    targetValidatorTests.add_test("Gets an error when two patient's targets have the same active moiety and type.", &TestTargetValidator::errorWhenTargetsWithSameActiveMoietyAndType);
-    targetValidatorTests.add_test("No error when two patient's targets have the same active moiety but different type.", &TestTargetValidator::noErrorWhenTargetsWithSameActiveMoietyButDifferentType);
-    targetValidatorTests.add_test("Gets an error when one patient's target have a different active moiety than the ones from drug model.", &TestTargetValidator::errorWhenTargetsWithActiveMoietyNotInDrugModel);
+    testTargetValidator.add_test("Gets an error when no treatment.", &TestGeneralTargetValidator::errorWhenNoTreatment);
+    testTargetValidator.add_test("Gets an error when no drug model.", &TestGeneralTargetValidator::errorWhenNoDrugModel);
+    testTargetValidator.add_test("No error when no patient's target.", &TestGeneralTargetValidator::noErrorWhenNoTarget);
+    testTargetValidator.add_test("Gets an error when two patient's targets have the same active moiety and type.", &TestGeneralTargetValidator::errorWhenTargetsWithSameActiveMoietyAndType);
+    testTargetValidator.add_test("No error when two patient's targets have the same active moiety but different type.", &TestGeneralTargetValidator::noErrorWhenTargetsWithSameActiveMoietyButDifferentType);
+    testTargetValidator.add_test("Gets an error when one patient's target have a different active moiety than the ones from drug model.", &TestGeneralTargetValidator::errorWhenTargetsWithActiveMoietyNotInDrugModel);
 
 
-    res = targetValidatorTests.run(argc, argv);
+    res = testTargetValidator.run(argc, argv);
     if (res != 0) {
         std::cout << "Target validator tests failed" << std::endl << std::endl;
         exit(1);

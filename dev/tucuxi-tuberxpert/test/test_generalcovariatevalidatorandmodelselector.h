@@ -17,17 +17,13 @@
 
 #include "fructose/fructose.h"
 
-/// \brief Tests for ModelSelector class.
+/// \brief Tests for CovariateValidatorAndModelSelector from the GeneralXpertFlowStepProvider.
 /// \date 27/05/2022
 /// \author Herzig Melvyn
 struct TestGeneralCovariateValidatorAndModelSelector : public fructose::test_base<TestGeneralCovariateValidatorAndModelSelector>
 {
-
-    /// \brief Testing time to use to get the same result every time.
-    date::year_month_day _testingTimeRef = date::year_month_day(date::year(2022), date::month(06), date::day(03));
-
     /// \brief General flow step provider used to get the covariate validator and model selector object to test.
-    Tucuxi::XpertFlow::GeneralXpertFlowStepProvider generalFlowStepProvider;
+    Tucuxi::XpertFlow::GeneralXpertFlowStepProvider generalFlowStepProvider{Tucuxi::Common::DateTime("2022-06-20T10:00:00", "%Y-%m-%dT%H:%M:%S")};
 
     /// \brief Drug model string of the imatinib used by some of the tests.
     std::string originalImatinibModelString = R"(<?xml version="1.0" encoding="UTF-8"?>

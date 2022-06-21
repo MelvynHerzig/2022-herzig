@@ -23,7 +23,7 @@ using namespace std;
 namespace Tucuxi {
 namespace XpertFlow {
 
-CovariateValidatorAndModelSelector::CovariateValidatorAndModelSelector(Common::DateTime _computationDate) : m_computationDate(_computationDate)
+CovariateValidatorAndModelSelector::CovariateValidatorAndModelSelector(Common::DateTime _computationTime) : m_computationTime(_computationTime)
 {}
 
 void CovariateValidatorAndModelSelector::perform(XpertResult::XpertRequestResult& _xpertRequestResult) const
@@ -76,7 +76,7 @@ void CovariateValidatorAndModelSelector::perform(XpertResult::XpertRequestResult
 
         // Are the drug model constraints respected?
         Common::DateTime start = getOldestCovariateDateTime(_xpertRequestResult.getTreatment()->getCovariates());
-        Common::DateTime end = m_computationDate;
+        Common::DateTime end = m_computationTime;
         vector<Core::DrugDomainConstraintsEvaluator::EvaluationResult> results;
         Core::DrugDomainConstraintsEvaluator ddcEvaluator;
         Core::DrugDomainConstraintsEvaluator::Result result = ddcEvaluator.evaluate(*drugModel, *_xpertRequestResult.getTreatment(), start, end, results);
@@ -153,7 +153,7 @@ bool CovariateValidatorAndModelSelector::checkPatientDosageHistoryFormulationAnd
 
 Common::DateTime CovariateValidatorAndModelSelector::getOldestCovariateDateTime(const Core::PatientVariates& _patientVariates) const
 {
-    Common::DateTime oldestDateTime = m_computationDate;
+    Common::DateTime oldestDateTime = m_computationTime;
     for (const unique_ptr<Core::PatientCovariate>& patientVariate: _patientVariates) {
         if (patientVariate->getEventTime() < oldestDateTime) {
             oldestDateTime = patientVariate->getEventTime();
@@ -217,16 +217,16 @@ unsigned CovariateValidatorAndModelSelector::computeScore(const Core::PatientVar
                     Core::Value newVal = 0;
                     switch (idToDefinitionFiltered["age"]->getType()) {
                     case Core::CovariateType::AgeInDays:
-                        newVal = static_cast<double>(Common::Utils::dateDiffInDays(birthdate, m_computationDate));
+                        newVal = static_cast<double>(Common::Utils::dateDiffInDays(birthdate, m_computationTime));
                         break;
                     case Core::CovariateType::AgeInWeeks:
-                        newVal = static_cast<double>(Common::Utils::dateDiffInWeeks(birthdate,  m_computationDate));
+                        newVal = static_cast<double>(Common::Utils::dateDiffInWeeks(birthdate,  m_computationTime));
                         break;
                     case Core::CovariateType::AgeInMonths:
-                        newVal = static_cast<double>(Common::Utils::dateDiffInMonths(birthdate,  m_computationDate));
+                        newVal = static_cast<double>(Common::Utils::dateDiffInMonths(birthdate,  m_computationTime));
                         break;
                     case Core::CovariateType::AgeInYears:
-                        newVal = static_cast<double>(Common::Utils::dateDiffInYears(birthdate,  m_computationDate));
+                        newVal = static_cast<double>(Common::Utils::dateDiffInYears(birthdate,  m_computationTime));
                         break;
                     default: break; // Unreachable
                     }

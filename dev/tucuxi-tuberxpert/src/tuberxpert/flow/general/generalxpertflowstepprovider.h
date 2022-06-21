@@ -13,7 +13,10 @@ class GeneralXpertFlowStepProvider : public AbstractXpertFlowStepProvider
 public:
 
     /// \brief Constructor. Set general steps (that are not specific to a drug).
-    GeneralXpertFlowStepProvider();
+    /// \param _computationTime This attribute is used for testing purpose. It specifies "when is
+    ///        the class executed". It allows to get the same timings when executed
+    ///        at different times.
+    GeneralXpertFlowStepProvider(Common::DateTime _computationTime = Common::DateTime::now());
 
     /// \brief Get the step responsible to validate the covariates and to select the drug model.
     /// \return Return the corresponding AbstractXpertFlowStep.
