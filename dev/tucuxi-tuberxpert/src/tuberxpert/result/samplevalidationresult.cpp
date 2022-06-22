@@ -1,4 +1,4 @@
-#include "sampleresult.h"
+#include "samplevalidationresult.h"
 
 #include "tuberxpert/language/languagemanager.h"
 
@@ -7,11 +7,11 @@ using namespace std;
 namespace Tucuxi {
 namespace Xpert {
 
-SampleResult::SampleResult(const Core::Sample* _sample, unsigned _groupNumberOver99Percentile)
-    : AbstractResult<Core::Sample>(_sample, computeWarning(_groupNumberOver99Percentile)), m_groupNumberOver99Percentile(_groupNumberOver99Percentile)
+SampleValidationResult::SampleValidationResult(const Core::Sample* _sample, unsigned _groupNumberOver99Percentile)
+    : AbstractValidationResult<Core::Sample>(_sample, computeWarning(_groupNumberOver99Percentile)), m_groupNumberOver99Percentile(_groupNumberOver99Percentile)
 {}
 
-WarningLevel SampleResult::getWarningLevel() const
+WarningLevel SampleValidationResult::getWarningLevel() const
 {
     if (m_groupNumberOver99Percentile <= 5 || m_groupNumberOver99Percentile > 95) {
         return WarningLevel::CRITICAL;
@@ -20,12 +20,12 @@ WarningLevel SampleResult::getWarningLevel() const
     return WarningLevel::NORMAL;
 }
 
-unsigned SampleResult::getGroupNumberOver99Percentile() const
+unsigned SampleValidationResult::getGroupNumberOver99Percentile() const
 {
     return m_groupNumberOver99Percentile;
 }
 
-string SampleResult::computeWarning(unsigned _groupNumberOver99Percentile)
+string SampleValidationResult::computeWarning(unsigned _groupNumberOver99Percentile)
 {
     // if the percentile is in the warning limits.
     if (_groupNumberOver99Percentile <= 10 || _groupNumberOver99Percentile > 90) {

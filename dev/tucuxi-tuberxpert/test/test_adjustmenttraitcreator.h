@@ -1,5 +1,5 @@
-#ifndef TEST_GENERALADJUSTMENTTRAITCREATOR_H
-#define TEST_GENERALADJUSTMENTTRAITCREATOR_H
+#ifndef TEST_ADJUSTMENTTRAITCREATOR_H
+#define TEST_ADJUSTMENTTRAITCREATOR_H
 
 #include <memory>
 
@@ -11,25 +11,25 @@
 #include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
 #include "tuberxpert/query/xpertquerydata.h"
 #include "tuberxpert/query/xpertqueryimport.h"
-#include "tuberxpert/result/xpertresult.h"
+#include "tuberxpert/result/globalresult.h"
 
 #include "fructose/fructose.h"
 
-/// \brief Tests for AdjustmentTraitCreator from the GeneralXpertFlowStepProvider.
+/// \brief Tests for AdjustmentTraitCreator from the XpertFlowStepProvider.
 ///        This class performs varius adjustment creations
 ///        to check if the result is what was expected. Each test tests an attribute (or a subset of attributes)
 ///        of the adjustment trait returned.
 /// \date 17/06/2022
 /// \author Herzig Melvyn
-struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGeneralAdjustmentTraitCreator>
+struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTraitCreator>
 {
 
     /// \brief Format used to create date and time during test.
-    const std::string DATE_FORMAT = "%Y-%m-%dT%H:%M:%S";
+    const std::string date_format = "%Y-%m-%dT%H:%M:%S";
 
     /// \brief General flow step provider used to get the adjustment trait creator object to test.
-    ///        We set the adjustment trait creator exectuion time to 2022-06-20 10h00.
-    Tucuxi::Xpert::GeneralXpertFlowStepProvider generalFlowStepProvider{Tucuxi::Common::DateTime("2022-06-20T10:00:00", DATE_FORMAT)};
+    ///        We set the adjustment trait creator execution time to 2022-06-20 10h00.
+    const Tucuxi::Xpert::GeneralXpertFlowStepProvider flowStepProvider{Tucuxi::Common::DateTime("2022-06-20T10:00:00", date_format)};
 
     /// \brief Imatinib model string used during tests when a drug without a standard treatment is needed.
     std::string imatinibModelString = R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -1259,7 +1259,7 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
     /// \param _xpertResult Object that will contain the result of this function execution.
     void setupEnv(const std::string& _queryString,
                   const std::string& _model,
-                  std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult>& _xpertResult) {
+                  std::unique_ptr<Tucuxi::Xpert::GlobalResult>& _xpertResult) {
 
         // Drug models repository creation
         Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
@@ -1300,7 +1300,7 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
             throw std::runtime_error("Setup failed");
         }
 
-        _xpertResult = std::make_unique<Tucuxi::Xpert::XpertGlobalResult>(move(query));
+        _xpertResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query));
         Tucuxi::Xpert::XpertRequestResult& xrr =  _xpertResult->getXpertRequestResults()[0];
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
     }
@@ -1313,7 +1313,7 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         Tucuxi::Xpert::XpertRequestResult xrr{nullptr, nullptr, nullptr, ""};
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "No treatment set.");
@@ -1414,9 +1414,9 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
             throw std::runtime_error("import failded.");
         }
 
-        Tucuxi::Xpert::XpertGlobalResult xpertGlobalResult{move(query)};
+        Tucuxi::Xpert::GlobalResult xpertGlobalResult{move(query)};
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xpertGlobalResult.getXpertRequestResults()[0]);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xpertGlobalResult.getXpertRequestResults()[0]);
 
         fructose_assert_eq(xpertGlobalResult.getXpertRequestResults()[0].shouldBeHandled(), false);
         fructose_assert_eq(xpertGlobalResult.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
@@ -1511,13 +1511,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> xpertGlobalResult = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> xpertGlobalResult = nullptr;
 
         setupEnv(queryString, imatinibModelString, xpertGlobalResult);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = xpertGlobalResult->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getNbPointsPerHour(), 20);
@@ -1612,13 +1612,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> xpertGlobalResult = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> xpertGlobalResult = nullptr;
 
         setupEnv(queryString, imatinibModelString, xpertGlobalResult);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = xpertGlobalResult->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
 
@@ -1696,13 +1696,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> xpertGlobalResult = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> xpertGlobalResult = nullptr;
 
         setupEnv(queryString, imatinibModelString, xpertGlobalResult);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = xpertGlobalResult->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getComputingOption().getParametersType() == Tucuxi::Core::PredictionParameterType::Apriori, true);
@@ -1775,13 +1775,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> xpertGlobalResult = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> xpertGlobalResult = nullptr;
 
         setupEnv(queryString, imatinibModelString, xpertGlobalResult);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = xpertGlobalResult->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getComputingOption().getParametersType() == Tucuxi::Core::PredictionParameterType::Apriori, true);
@@ -1876,13 +1876,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> xpertGlobalResult = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> xpertGlobalResult = nullptr;
 
         setupEnv(queryString, imatinibModelString, xpertGlobalResult);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = xpertGlobalResult->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
 
@@ -1981,16 +1981,16 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> xpertGlobalResult = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> xpertGlobalResult = nullptr;
 
         setupEnv(queryString, imatinibModelString, xpertGlobalResult);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = xpertGlobalResult->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2018-07-06T08:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2018-07-06T08:00:00", date_format));
     }
 
     /// \brief This method checks that the adjustment time is set to the computing time (2022-06-20 10h) plus one hour when there
@@ -2057,16 +2057,16 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> xpertGlobalResult = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> xpertGlobalResult = nullptr;
 
         setupEnv(queryString, imatinibModelString, xpertGlobalResult);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = xpertGlobalResult->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T11:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T11:00:00", date_format));
     }
 
     /// \brief This method checks that the adjustment time is set to the computing time (2022-06-20 10h00) plus one hour when there
@@ -2155,16 +2155,16 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> xpertGlobalResult = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> xpertGlobalResult = nullptr;
 
         setupEnv(queryString, imatinibModelString, xpertGlobalResult);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = xpertGlobalResult->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T11:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T11:00:00", date_format));
     }
 
     /// \brief This method checks that the adjustment time is set to the next intake time when there
@@ -2253,16 +2253,16 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> xpertGlobalResult = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> xpertGlobalResult = nullptr;
 
         setupEnv(queryString, imatinibModelString, xpertGlobalResult);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = xpertGlobalResult->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T20:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T20:00:00", date_format));
     }
 
     /// \brief This method checks that the adjustment time is the resulting time of the half life (x2) added
@@ -2355,16 +2355,16 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T21:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T21:00:00", date_format));
     }
 
 
@@ -2456,17 +2456,17 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, busulfanModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2022-06-19T08:00:00", DATE_FORMAT));
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2022-06-23T08:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2022-06-19T08:00:00", date_format));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2022-06-23T08:00:00", date_format));
     }
 
     /// \brief This method checks that start and end date times of the adjustment are the computation time plus
@@ -2535,17 +2535,17 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, busulfanModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2022-06-20T10:00:00", DATE_FORMAT));
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2022-06-24T10:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2022-06-20T10:00:00", date_format));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2022-06-24T10:00:00", date_format));
     }
 
     /// \brief This method checks that the adjustment trait creation fails when there is a standard treatment
@@ -2638,13 +2638,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, busulfanModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "Based on the standard treatment in the model:ch.tucuxi.busulfan.paci2012, considering that the oldest dosage is the treatment start, the treatment is already over at the time of the adjustment.");
@@ -2739,17 +2739,17 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2022-06-20T19:00:00", DATE_FORMAT));
-        fructose_assert_eq(xrr.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2022-06-27T19:00:00", DATE_FORMAT));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2022-06-20T19:00:00", date_format));
+        fructose_assert_eq(xrr.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2022-06-27T19:00:00", date_format));
     }
 
     /// \brief This method checks that best candidates option is best dosage per interval.
@@ -2837,13 +2837,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getBestCandidatesOption() == Tucuxi::Core::BestCandidatesOption::BestDosagePerInterval, true);
@@ -2935,13 +2935,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getLoadingOption() == Tucuxi::Core::LoadingOption::NoLoadingDose, true);
@@ -3037,13 +3037,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getLoadingOption() == Tucuxi::Core::LoadingOption::LoadingDoseAllowed, true);
@@ -3135,13 +3135,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getRestPeriodOption() == Tucuxi::Core::RestPeriodOption::NoRestPeriod, true);
@@ -3237,13 +3237,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getRestPeriodOption() == Tucuxi::Core::RestPeriodOption::RestPeriodAllowed, true);
@@ -3336,13 +3336,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, busulfanModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getSteadyStateTargetOption() == Tucuxi::Core::SteadyStateTargetOption::WithinTreatmentTimeRange, true);
@@ -3434,13 +3434,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getSteadyStateTargetOption() == Tucuxi::Core::SteadyStateTargetOption::AtSteadyState, true);
@@ -3532,13 +3532,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::AprioriValues, true);
@@ -3630,13 +3630,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::DefinitionIfNoIndividualTarget, true);
@@ -3728,13 +3728,13 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::AllFormulationAndRoutes, true);
@@ -3826,17 +3826,17 @@ struct TestGeneralAdjustmentTraitCreator : public fructose::test_base<TestGenera
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
         Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute, true);
     }
 };
 
-#endif // TEST_GENERALADJUSTMENTTRAITCREATOR_H
+#endif // TEST_ADJUSTMENTTRAITCREATOR_H

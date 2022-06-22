@@ -1,6 +1,6 @@
 #include "xpertqueryimport.h"
 
-#include "tuberxpert/query/xpertadministrativedata.h"
+#include "tuberxpert/query/admindata.h"
 
 using namespace std;
 
@@ -70,7 +70,7 @@ Common::IImport::Status XpertQueryImport::importDocument(unique_ptr<XpertQueryDa
 
     string language = root.getChildren(LANGUAGE_NODE_NAME)->getValue();
 
-    unique_ptr<AdministrativeData> pAdministrativeData = createAdministrativeData(_document);
+    unique_ptr<AdminData> pAdministrativeData = createAdministrativeData(_document);
 
     unique_ptr<Query::DrugTreatmentData> pParametersData = createDrugTreatmentData(_document);
 
@@ -99,7 +99,7 @@ Common::IImport::Status XpertQueryImport::importDocument(unique_ptr<XpertQueryDa
     return getStatus();
 }
 
-unique_ptr<AdministrativeData> XpertQueryImport::createAdministrativeData(Common::XmlDocument& _document)
+unique_ptr<AdminData> XpertQueryImport::createAdministrativeData(Common::XmlDocument& _document)
 {
     static const string ADMIN_NODE_NAME = "admin";
     static const string MANDATOR_NODE_NAME = "mandator";
@@ -118,18 +118,18 @@ unique_ptr<AdministrativeData> XpertQueryImport::createAdministrativeData(Common
     Common::XmlNodeIterator patientRootIterator  = adminRootIterator->getChildren(PATIENT_NODE_NAME);
     Common::XmlNodeIterator clinicalDataRootIterator  = adminRootIterator->getChildren(CLINICALDATA_NODE_NAME);
 
-    unique_ptr<Person> pMandator = createPerson(mandatorRootIterator);
-    unique_ptr<Person> pPatient = createPerson(patientRootIterator);
+    unique_ptr<FullPersonData> pMandator = createPerson(mandatorRootIterator);
+    unique_ptr<FullPersonData> pPatient = createPerson(patientRootIterator);
     unique_ptr<ClinicalData> pClinicalData = createClinicalData(clinicalDataRootIterator);
 
-    return make_unique<AdministrativeData>(
+    return make_unique<AdminData>(
                 move(pMandator),
                 move(pPatient),
                 move(pClinicalData)
                 );
 }
 
-unique_ptr<Person> XpertQueryImport::createPerson(Common::XmlNodeIterator& _personRootIterator)
+unique_ptr<FullPersonData> XpertQueryImport::createPerson(Common::XmlNodeIterator& _personRootIterator)
 {
     if (!_personRootIterator->isValid()) {
         return nullptr;
@@ -139,17 +139,17 @@ unique_ptr<Person> XpertQueryImport::createPerson(Common::XmlNodeIterator& _pers
     static const string INSTITUTE_NODE_NAME = "institute";
 
     Common::XmlNodeIterator iterator = _personRootIterator->getChildren(PERSON_NODE_NAME);
-    unique_ptr<PersonalContact> pPersonalContact = createPersonalContact(iterator);
+    unique_ptr<PersonData> pPersonalContact = createPersonalContact(iterator);
     iterator = _personRootIterator->getChildren(INSTITUTE_NODE_NAME);
-    unique_ptr<InstituteContact> pInstituteContact = createInstituteContact(iterator);
+    unique_ptr<InstituteData> pInstituteContact = createInstituteContact(iterator);
 
-    return make_unique<Person>(
+    return make_unique<FullPersonData>(
                 move(pPersonalContact),
                 move(pInstituteContact)
                 );
 }
 
-unique_ptr<PersonalContact> XpertQueryImport::createPersonalContact(Common::XmlNodeIterator& _personalContactRootIterator)
+unique_ptr<PersonData> XpertQueryImport::createPersonalContact(Common::XmlNodeIterator& _personalContactRootIterator)
 {
     if (!_personalContactRootIterator->isValid()) {
         return nullptr;
@@ -168,13 +168,13 @@ unique_ptr<PersonalContact> XpertQueryImport::createPersonalContact(Common::XmlN
     string firstname = getChildString(_personalContactRootIterator, FIRSTNAME_NODE_NAME);
     string lastname = getChildString(_personalContactRootIterator, LASTNAME_NODE_NAME);
     Common::XmlNodeIterator iterator = _personalContactRootIterator->getChildren(ADDRESS_NODE_NAME);
-    unique_ptr<Address> pAddress = createAddress(iterator);
+    unique_ptr<AddressData> pAddress = createAddress(iterator);
     iterator = _personalContactRootIterator->getChildren(PHONE_NODE_NAME);
-    unique_ptr<Phone> pPhone = createPhone(iterator);
+    unique_ptr<PhoneData> pPhone = createPhone(iterator);
     iterator = _personalContactRootIterator->getChildren(EMAIL_NODE_NAME);
-    unique_ptr<Email> pEmail = createEmail(iterator);
+    unique_ptr<EmailData> pEmail = createEmail(iterator);
 
-    return make_unique<PersonalContact>(
+    return make_unique<PersonData>(
                 id,
                 title,
                 firstname,
@@ -185,7 +185,7 @@ unique_ptr<PersonalContact> XpertQueryImport::createPersonalContact(Common::XmlN
                 );
 }
 
-unique_ptr<InstituteContact> XpertQueryImport::createInstituteContact(Common::XmlNodeIterator& _instituteContactRootIterator)
+unique_ptr<InstituteData> XpertQueryImport::createInstituteContact(Common::XmlNodeIterator& _instituteContactRootIterator)
 {
     if (!_instituteContactRootIterator->isValid()) {
         return nullptr;
@@ -200,13 +200,13 @@ unique_ptr<InstituteContact> XpertQueryImport::createInstituteContact(Common::Xm
     string id = getChildStringOptional(_instituteContactRootIterator, ID_NODE_NAME, "");
     string name = getChildString(_instituteContactRootIterator, NAME_NODE_NAME);
     Common::XmlNodeIterator iterator = _instituteContactRootIterator->getChildren(ADDRESS_NODE_NAME);
-    unique_ptr<Address> pAddress = createAddress(iterator);
+    unique_ptr<AddressData> pAddress = createAddress(iterator);
     iterator = _instituteContactRootIterator->getChildren(PHONE_NODE_NAME);
-    unique_ptr<Phone> pPhone = createPhone(iterator);
+    unique_ptr<PhoneData> pPhone = createPhone(iterator);
     iterator = _instituteContactRootIterator->getChildren(EMAIL_NODE_NAME);
-    unique_ptr<Email> pEmail = createEmail(iterator);
+    unique_ptr<EmailData> pEmail = createEmail(iterator);
 
-    return make_unique<InstituteContact>(
+    return make_unique<InstituteData>(
                 id,
                 name,
                 move(pAddress),
@@ -215,7 +215,7 @@ unique_ptr<InstituteContact> XpertQueryImport::createInstituteContact(Common::Xm
                 );
 }
 
-unique_ptr<Address> XpertQueryImport::createAddress(Common::XmlNodeIterator& _addressRootIterator)
+unique_ptr<AddressData> XpertQueryImport::createAddress(Common::XmlNodeIterator& _addressRootIterator)
 {
     if (!_addressRootIterator->isValid()) {
         return nullptr;
@@ -233,7 +233,7 @@ unique_ptr<Address> XpertQueryImport::createAddress(Common::XmlNodeIterator& _ad
     string state = getChildStringOptional(_addressRootIterator, STATE_NODE_NAME, "");
     string country = getChildStringOptional(_addressRootIterator, COUNTRY_NODE_NAME, "");
 
-    return make_unique<Address>(
+    return make_unique<AddressData>(
                 street,
                 postalCode,
                 city,
@@ -242,7 +242,7 @@ unique_ptr<Address> XpertQueryImport::createAddress(Common::XmlNodeIterator& _ad
                 );
 }
 
-unique_ptr<Phone> XpertQueryImport::createPhone(Common::XmlNodeIterator& _phoneRootIterator)
+unique_ptr<PhoneData> XpertQueryImport::createPhone(Common::XmlNodeIterator& _phoneRootIterator)
 {
     if (!_phoneRootIterator->isValid()) {
         return nullptr;
@@ -254,9 +254,9 @@ unique_ptr<Phone> XpertQueryImport::createPhone(Common::XmlNodeIterator& _phoneR
     string number = getChildString(_phoneRootIterator, NUMBER_NODE_NAME);
     string type = getChildStringOptional(_phoneRootIterator, TYPE_NODE_NAME, "");
 
-    return make_unique<Phone>(number, type);
+    return make_unique<PhoneData>(number, type);
 }
-unique_ptr<Email> XpertQueryImport::createEmail(Common::XmlNodeIterator& _emailRootIterator)
+unique_ptr<EmailData> XpertQueryImport::createEmail(Common::XmlNodeIterator& _emailRootIterator)
 {
     if (!_emailRootIterator->isValid()) {
         return nullptr;
@@ -268,7 +268,7 @@ unique_ptr<Email> XpertQueryImport::createEmail(Common::XmlNodeIterator& _emailR
     string address = getChildString(_emailRootIterator, ADDRESS_NODE_NAME);
     string type = getChildStringOptional(_emailRootIterator, TYPE_NODE_NAME, "");
 
-    return make_unique<Email>(address, type);
+    return make_unique<EmailData>(address, type);
 }
 
 unique_ptr<ClinicalData> XpertQueryImport::createClinicalData(Common::XmlNodeIterator& _clinicalDataRootIterator)

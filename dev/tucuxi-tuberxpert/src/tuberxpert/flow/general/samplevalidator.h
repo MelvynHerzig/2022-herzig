@@ -8,7 +8,7 @@
 #include "tuberxpert/flow/abstract/abstractxpertflowstep.h"
 #include "tuberxpert/result/xpertrequestresult.h"
 
-struct TestGeneralSampleValidator;
+struct TestSampleValidator;
 
 namespace Tucuxi {
 namespace Xpert {
@@ -56,7 +56,7 @@ protected:
 
     // For testing purpose. the tests works with findGroupPositionOver99Percentiles and not with getSampleValidations. It is easier
     // because it allows us to forge our own percentiles data and to be able to predict the location of some predetermined samples.
-    friend TestGeneralSampleValidator;
+    friend TestSampleValidator;
 };
 
 } // namespace Xpert

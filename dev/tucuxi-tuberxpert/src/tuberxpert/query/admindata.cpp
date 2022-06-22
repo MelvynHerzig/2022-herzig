@@ -1,0 +1,224 @@
+#include "tuberxpert/query/admindata.h"
+
+using namespace std;
+
+namespace Tucuxi {
+namespace Xpert {
+
+/**************************************************
+ |                   AddressData                  |
+ **************************************************/
+
+AddressData::AddressData(const string& _street, int _postCode, const string& _city, const string& _state, const string& _country)
+    : m_street(std::move(_street)), m_postCode(_postCode), m_city(std::move(_city)), m_state(std::move(_state)),
+      m_country(std::move(_country))
+{
+}
+
+const string& AddressData::getStreet() const
+{
+    return m_street;
+}
+
+int AddressData::getPostCode() const
+{
+    return m_postCode;
+}
+
+const string& AddressData::getCity() const
+{
+    return m_city;
+}
+
+const string& AddressData::getState() const
+{
+    return m_state;
+}
+
+const string& AddressData::getCountry() const
+{
+    return m_country;
+}
+
+/**************************************************
+ |                    PhoneData                   |
+ **************************************************/
+
+PhoneData::PhoneData(const string& _number, const string& _type) : m_number(_number), m_type(_type) {}
+
+const string& PhoneData::getNumber() const
+{
+    return m_number;
+}
+
+const string& PhoneData::getType() const
+{
+    return m_type;
+}
+
+/**************************************************
+ |                   EmailData                    |
+ **************************************************/
+
+EmailData::EmailData(const string& _address, const string& _type) : m_address(_address), m_type(_type) {}
+
+const string& EmailData::getAddress() const
+{
+    return m_address;
+}
+
+const string& EmailData::getType() const
+{
+    return m_type;
+}
+
+/**************************************************
+ |                  PersonData                    |
+ **************************************************/
+
+PersonData::PersonData(
+        const string& _id,
+        const string& _title,
+        const string& _firstName,
+        const string& _lastName,
+        unique_ptr<AddressData> _address,
+        unique_ptr<PhoneData> _phone,
+        unique_ptr<EmailData> _email)
+    : m_id(_id), m_title(_title), m_firstName(_firstName), m_lastName(_lastName), m_address(move(_address)),
+      m_phone(move(_phone)), m_email(move(_email))
+{
+}
+
+const string& PersonData::getId() const
+{
+    return m_id;
+}
+
+const string& PersonData::getTitle() const
+{
+    return m_title;
+}
+
+const string& PersonData::getFirstName() const
+{
+    return m_firstName;
+}
+
+const string& PersonData::getLastName() const
+{
+    return m_lastName;
+}
+
+const unique_ptr<AddressData>& PersonData::getAddress() const
+{
+    return m_address;
+}
+
+const unique_ptr<PhoneData>& PersonData::getPhone() const
+{
+    return m_phone;
+}
+
+const unique_ptr<EmailData>& PersonData::getEmail() const
+{
+    return m_email;
+}
+
+/**************************************************
+ |                InstituteData                   |
+ **************************************************/
+
+InstituteData::InstituteData(
+        const string& _id,
+        const string& _name,
+        unique_ptr<AddressData> _address,
+        unique_ptr<PhoneData> _phone,
+        unique_ptr<EmailData> _email)
+    : m_id(_id), m_name(_name), m_address(move(_address)), m_phone(move(_phone)), m_email(move(_email))
+{
+}
+
+const string& InstituteData::getId() const
+{
+    return m_id;
+}
+
+const std::string& InstituteData::getName() const
+{
+    return m_name;
+}
+
+const unique_ptr<AddressData>& InstituteData::getAddress() const
+{
+    return m_address;
+}
+
+const unique_ptr<PhoneData>& InstituteData::getPhone() const
+{
+    return m_phone;
+}
+
+const unique_ptr<EmailData>& InstituteData::getEmail() const
+{
+    return m_email;
+}
+
+/**************************************************
+ |                   FullPersonData               |
+ **************************************************/
+
+FullPersonData::FullPersonData(std::unique_ptr<PersonData> _person, std::unique_ptr<InstituteData> _institute)
+    : m_person(move(_person)), m_institute(move(_institute))
+{
+}
+
+const PersonData& FullPersonData::getPerson() const
+{
+    return *m_person;
+}
+
+const unique_ptr<InstituteData>& FullPersonData::getInstitute() const
+{
+    return m_institute;
+}
+
+/**************************************************
+ |                 ClinicalData                   |
+ **************************************************/
+
+ClinicalData::ClinicalData(const std::map<std::string, std::string>& _data) : m_data(_data) {}
+
+const std::map<std::string, std::string>& ClinicalData::getData() const
+{
+    return m_data;
+}
+
+/**************************************************
+ |                   AdminData                    |
+ **************************************************/
+
+AdminData::AdminData(
+        unique_ptr<FullPersonData> _mandator,
+        unique_ptr<FullPersonData> _patient,
+        unique_ptr<ClinicalData> _clinicalData)
+    : m_mandator(move(_mandator)), m_patient(move(_patient)), m_clinicalData(move(_clinicalData))
+{
+}
+
+const unique_ptr<FullPersonData>& AdminData::getMandator() const
+{
+    return m_mandator;
+}
+
+const unique_ptr<FullPersonData>& AdminData::getPatient() const
+{
+    return m_patient;
+}
+
+const unique_ptr<ClinicalData>& AdminData::getClinicalData() const
+{
+    return m_clinicalData;
+}
+
+} // namespace Xpert
+} // namespace Tucuxi

@@ -15,14 +15,14 @@
 #include "tucucore/intakeevent.h"
 
 #include "tuberxpert/query/xpertrequestdata.h"
-#include "tuberxpert/result/covariateresult.h"
-#include "tuberxpert/result/doseresult.h"
-#include "tuberxpert/result/sampleresult.h"
+#include "tuberxpert/result/covariatevalidationresult.h"
+#include "tuberxpert/result/dosevalidationresult.h"
+#include "tuberxpert/result/samplevalidationresult.h"
 
 namespace Tucuxi {
 namespace Xpert {
 
-class XpertGlobalResult;
+class GlobalResult;
 
 /// \brief This is object stores the results of tuberXpert in regards of
 ///        a given requestXpert. This object is filled along the tuberXpert execution flow.
@@ -39,7 +39,7 @@ public:
     /// \param _dTreatment Associated treatment if extraction was successfull.
     /// \param _errorMessage If the treatment extraction was not successfull, the related error message or empty string.
     XpertRequestResult(
-            const XpertGlobalResult* _xpertGlobalResult,
+            const GlobalResult* _xpertGlobalResult,
             std::unique_ptr<XpertRequestData> _xpertRequest,
             std::unique_ptr<Core::DrugTreatment> _dTreatment,
             const std::string& _errorMessage);
@@ -63,17 +63,17 @@ public:
     /// \brief Gets the covariates results.
     /// \return The vector containing each CovariateResult for each covariates. May be empty if
     ///         model selection failed.
-    const std::vector<CovariateResult>& getCovariateResults();
+    const std::vector<CovariateValidationResult>& getCovariateResults();
 
     /// \brief Gets the doses results.
     /// \return The vector containing each DoseResult for each dose found in the treatment.
     ///         This may be empty if there is no dosage or if the doses validation failed.
-    const std::map<const Core::SingleDose*, DoseResult>& getDoseResults();
+    const std::map<const Core::SingleDose*, DoseValidationResult>& getDoseResults();
 
     /// \brief Gets the samples results.
     /// \return The vector containing each SampleResult for each sample found in the treatment.
     ///         This may be empty if there is no sample or if the samples validation failed.
-    const std::map<const Core::Sample*, SampleResult>& getSampleResults();
+    const std::map<const Core::Sample*, SampleValidationResult>& getSampleResults();
 
     /// \brief Get a unique pointer on the adjustment trait used to make the computing request.
     ///        May be nullptr.
@@ -93,7 +93,7 @@ public:
     /// \brief Get a constant reference on the XpertGlobalResult object that contains common information
     ///        for all the XpertRequestResult as well as all the XpertRequestResult.
     /// \return Return a constant reference on the XpertResult held by this object.
-    const XpertGlobalResult& getXpertGlobalResult() const;
+    const GlobalResult& getXpertGlobalResult() const;
 
     /// \brief Sets a new error message.
     /// \param _message New message to set.
@@ -105,15 +105,15 @@ public:
 
     /// \brief Sets a new CovariateResult vector.
     /// \param _newCovariateResults CovariateResult vector to retrieve.
-    void setCovariateResults(std::vector<CovariateResult>&& _newCovariateResults);
+    void setCovariateResults(std::vector<CovariateValidationResult>&& _newCovariateResults);
 
     /// \brief Sets a new DoseRsult map.
     /// \param _newDoseResults DoseResult map to retrieve.
-    void setDoseResults(std::map<const Core::SingleDose*, DoseResult>&& _newDoseResults);
+    void setDoseResults(std::map<const Core::SingleDose*, DoseValidationResult>&& _newDoseResults);
 
     /// \brief Sets a new SampleRsult map.
     /// \param _newSampleResults SampleResult map to retrieve.
-    void setSampleResults(std::map<const Core::Sample*, SampleResult>&& _newSampleResults);
+    void setSampleResults(std::map<const Core::Sample*, SampleValidationResult>&& _newSampleResults);
 
     /// \brief Set the adjustment trait to use in order to create a computing request for the core.
     /// \param _adjustmentTrait Computing adjustment trait to retrieve.
@@ -131,7 +131,7 @@ protected:
 
     /// \brief Where to retrieve the computation time and the administrative data
     ///        /!\ No need to free
-    const XpertGlobalResult* m_xpertGlobalResult;
+    const GlobalResult* m_xpertGlobalResult;
 
     /// \brief Unique pointer to the related request this object stores results for.
     std::unique_ptr<XpertRequestData> m_xpertRequest;
@@ -148,17 +148,17 @@ protected:
     /// \brief Result for each covariate made during ModelSelector phase.
     ///        One entry per covariate present and per definition missing in regards
     ///        of the selected drug model.
-    std::vector<CovariateResult> m_covariateResults;
+    std::vector<CovariateValidationResult> m_covariateResults;
 
     /// \brief Result for each dose made during DoseValidator phase.
     ///        One entry per dose found. The map keys are the same pointers
     ///        stored in each DoseResult.
-    std::map<const Core::SingleDose*, DoseResult> m_doseResults;
+    std::map<const Core::SingleDose*, DoseValidationResult> m_doseResults;
 
     /// \brief Result for each sample made during SampleValidator phase.
     ///        One entry per sample found. The map keys are the same pointers
     ///        stored in each SampleResult.
-    std::map<const Core::Sample*, SampleResult> m_sampleResults;
+    std::map<const Core::Sample*, SampleValidationResult> m_sampleResults;
 
     /// \brief Adjustment trait used to make the computing request.
     std::unique_ptr<Core::ComputingTraitAdjustment> m_adjustmentTrait;

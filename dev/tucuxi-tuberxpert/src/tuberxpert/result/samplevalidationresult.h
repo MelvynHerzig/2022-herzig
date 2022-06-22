@@ -1,11 +1,11 @@
-#ifndef SAMPLERESULT_H
-#define SAMPLERESULT_H
+#ifndef SAMPLEVALIDATIONRESULT_H
+#define SAMPLEVALIDATIONRESULT_H
 
 #include <string>
 
 #include "tucucore/drugtreatment/sample.h"
 
-#include "tuberxpert/result/abstractresult.h"
+#include "tuberxpert/result/abstractvalidationresult.h"
 
 namespace Tucuxi {
 namespace Xpert {
@@ -31,7 +31,7 @@ namespace Xpert {
 ///        retrieved by an "a priori" percentile computation.
 /// \date 08/06/2022
 /// \author Herzig Melvyn
-class SampleResult : public AbstractResult<Core::Sample>
+class SampleValidationResult : public AbstractValidationResult<Core::Sample>
 {
 
 public:
@@ -39,7 +39,7 @@ public:
     /// \brief Constructor of SampleResult.
     /// \param _sample Sample targeted by this result.
     /// \param _posOver100Percentile Group position over the
-    SampleResult(const Core::Sample* _sample, unsigned _groupNumberOver99Percentile);
+    SampleValidationResult(const Core::Sample* _sample, unsigned _groupNumberOver99Percentile);
 
     /// \brief Gets the warning level for the current sample. This
     ///        doesn't consider if the warning is set or not.
@@ -69,4 +69,4 @@ protected:
 } // namespace Xpert
 } // namespace Tucuxi
 
-#endif // SAMPLERESULT_H
+#endif // SAMPLEVALIDATIONRESULT_H

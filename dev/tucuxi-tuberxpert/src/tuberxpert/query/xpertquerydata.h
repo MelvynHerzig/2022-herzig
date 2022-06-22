@@ -5,7 +5,7 @@
 #include "tucuquery/parametersdata.h"
 
 #include "tuberxpert/query/xpertrequestdata.h"
-#include "tuberxpert/query/xpertadministrativedata.h"
+#include "tuberxpert/query/admindata.h"
 
 namespace Tucuxi {
 namespace Xpert {
@@ -26,34 +26,34 @@ public:
     /// \brief Constructor of a query.
     /// \param _queryID ID of the query.
     /// \param _clientID ID of the client.
-    /// \param _pQueryDate A pointer to the date at which the query is sent.
+    /// \param _queryDate A pointer to the date at which the query is sent.
     /// \param _language The language supported by the client.
-    /// \param _pAdministrative A pointer to the administrative data.
-    /// \param _pParameters A pointer to the medical data used for computation.
+    /// \param _admin A pointer to the administrative data.
+    /// \param _parameters A pointer to the medical data used for computation.
     /// \param _requests The requests that the server must process.
     /// \param _xpertRequests The requests for tuberXpert.
     XpertQueryData(
             const std::string& _queryID,
             const std::string& _clientID,
-            const Common::DateTime& _pQueryDate,
+            const Common::DateTime& _queryDate,
             const std::string& _language,
-            std::unique_ptr<AdministrativeData> _pAdministrative,
-            std::unique_ptr<Query::DrugTreatmentData> _pParameters,
+            std::unique_ptr<AdminData> _admin,
+            std::unique_ptr<Query::DrugTreatmentData> _parameters,
             std::vector<std::unique_ptr<Query::RequestData>>& _requests,
             std::vector<std::unique_ptr<XpertRequestData>>& _xpertRequests);
 
     /// \brief Copy constructor is not supported.
     ///        The copy constructor is not supported because of the use of
     ///        unique_ptr wich can't be copied.
-    XpertQueryData(const QueryData& _other) = delete;    
+    XpertQueryData(const XpertQueryData& _other) = delete;
 
     /// \brief Gets administrative information.
     /// \return The administrative information.
-    const std::unique_ptr<AdministrativeData>& getpAdministrative() const;
+    const std::unique_ptr<AdminData>& getAmin() const;
 
     /// \brief Moves the administrative data unique pointer ownership.
     /// \return Returns a right value on the administrative data unique pointer.
-    std::unique_ptr<AdministrativeData>&& movepAdministrative();
+    std::unique_ptr<AdminData>&& moveAdmin();
 
     /// \brief Get the custom requests for tuberXpert
     /// \return A vector of custom requests.
@@ -67,7 +67,7 @@ public:
 
 protected:
     /// \brief Administrative information.
-    std::unique_ptr<AdministrativeData> m_pAdministrative;
+    std::unique_ptr<AdminData> m_admin;
 
     /// \brief Custom requests for tuberXpert.
     std::vector<std::unique_ptr<XpertRequestData>> m_xpertRequests;

@@ -16,30 +16,30 @@
 #include "tucucommon/datetime.h"
 #include "tucucommon/unit.h"
 
-#include "tuberxpert/result/sampleresult.h"
+#include "tuberxpert/result/samplevalidationresult.h"
 #include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
 #include "tuberxpert/flow/general/samplevalidator.h"
 #include "tuberxpert/language/languagemanager.h"
 #include "tuberxpert/query/xpertquerydata.h"
 #include "tuberxpert/query/xpertqueryimport.h"
-#include "tuberxpert/result/xpertresult.h"
+#include "tuberxpert/result/globalresult.h"
 
 #include "fructose/fructose.h"
 
-/// \brief Tests for SampleValidator from the GeneralXpertFlowStepProvider.
+/// \brief Tests for SampleValidator from the XpertFlowStepProvider.
 /// \date 06/06/2022
 /// \author Herzig Melvyn
-struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSampleValidator>
+struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
 {
 
     /// \brief Format used to create date and time during test.
-    const std::string DATE_FORMAT = "%Y-%m-%dT%H:%M:%S";
+    const std::string date_format = "%Y-%m-%dT%H:%M:%S";
 
     /// \brief Unit used to create the percentiles data.
-    const Tucuxi::Common::TucuUnit UNIT{"ug/l"};
+    const Tucuxi::Common::TucuUnit unit{"ug/l"};
 
     /// \brief General flow step provider used to get the sample validator object to test.
-    Tucuxi::Xpert::GeneralXpertFlowStepProvider generalFlowStepProvider;
+    const Tucuxi::Xpert::GeneralXpertFlowStepProvider flowStepProvider;
 
     /// \brief Creates some percentiles data and insert them into pData.
     /// \param pData PercentilesData object that gets the preparation.
@@ -47,9 +47,9 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
         // Preparing the percentilesData
         // There are going to be 99 percentiles (1-99) with 2 CycleDatas:
         // 1.1.2022 10:00:00 - 1.1.2022 11:00:00, 1.1.2022 11:00:00 - 1.1.2022 12:00:00
-        Tucuxi::Common::DateTime d1{"2022-01-01T10:00:00", DATE_FORMAT};
-        Tucuxi::Common::DateTime d2{"2022-01-01T11:00:00", DATE_FORMAT};
-        Tucuxi::Common::DateTime d3{"2022-01-01T12:00:00", DATE_FORMAT};
+        Tucuxi::Common::DateTime d1{"2022-01-01T10:00:00", date_format};
+        Tucuxi::Common::DateTime d2{"2022-01-01T11:00:00", date_format};
+        Tucuxi::Common::DateTime d3{"2022-01-01T12:00:00", date_format};
 
         std::vector<Tucuxi::Common::DateTime> cyclesStarts{d1, d2};
         std::vector<Tucuxi::Common::DateTime> cyclesEnds{d2, d3};
@@ -73,7 +73,7 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
             std::vector<Tucuxi::Core::CycleData> cycles;
             for (size_t cdi = 0; cdi < 2; ++cdi ){
 
-                cycles.emplace_back(cyclesStarts[cdi], cyclesEnds[cdi], UNIT);
+                cycles.emplace_back(cyclesStarts[cdi], cyclesEnds[cdi], unit);
 
                 // Preparing concentrations
                 Tucuxi::Core::Concentrations concentrations;
@@ -96,7 +96,7 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
 
         Tucuxi::Xpert::XpertRequestResult xrr{nullptr, nullptr, nullptr, ""};
 
-        generalFlowStepProvider.getSampleValidator()->perform(xrr);
+        flowStepProvider.getSampleValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "No treatment set.");
@@ -186,9 +186,9 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
             throw std::runtime_error("import failded.");
         }
 
-        Tucuxi::Xpert::XpertGlobalResult xr{move(query)};
+        Tucuxi::Xpert::GlobalResult xr{move(query)};
 
-        generalFlowStepProvider.getSampleValidator()->perform(xr.getXpertRequestResults()[0]);
+        flowStepProvider.getSampleValidator()->perform(xr.getXpertRequestResults()[0]);
 
         fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
         fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "Samples found but dosage history is empty.");
@@ -289,9 +289,9 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
             throw std::runtime_error("import failded.");
         }
 
-        Tucuxi::Xpert::XpertGlobalResult xr{move(query)};
+        Tucuxi::Xpert::GlobalResult xr{move(query)};
 
-        generalFlowStepProvider.getSampleValidator()->perform(xr.getXpertRequestResults()[0]);
+        flowStepProvider.getSampleValidator()->perform(xr.getXpertRequestResults()[0]);
 
         fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
         fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
@@ -321,12 +321,12 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
 
         // Creating SampleResult objects that are located in a different group. There are
         // 100 groups that are implicitly formed by the 99 percentiles.
-        Tucuxi::Xpert::SampleResult sr1 = Tucuxi::Xpert::SampleResult(nullptr, 1);
-        Tucuxi::Xpert::SampleResult sr10 = Tucuxi::Xpert::SampleResult(nullptr, 10);
-        Tucuxi::Xpert::SampleResult sr11 = Tucuxi::Xpert::SampleResult(nullptr, 11);
-        Tucuxi::Xpert::SampleResult sr90 = Tucuxi::Xpert::SampleResult(nullptr, 90);
-        Tucuxi::Xpert::SampleResult sr91 = Tucuxi::Xpert::SampleResult(nullptr, 91);
-        Tucuxi::Xpert::SampleResult sr100 = Tucuxi::Xpert::SampleResult(nullptr, 100);
+        Tucuxi::Xpert::SampleValidationResult sr1 = Tucuxi::Xpert::SampleValidationResult(nullptr, 1);
+        Tucuxi::Xpert::SampleValidationResult sr10 = Tucuxi::Xpert::SampleValidationResult(nullptr, 10);
+        Tucuxi::Xpert::SampleValidationResult sr11 = Tucuxi::Xpert::SampleValidationResult(nullptr, 11);
+        Tucuxi::Xpert::SampleValidationResult sr90 = Tucuxi::Xpert::SampleValidationResult(nullptr, 90);
+        Tucuxi::Xpert::SampleValidationResult sr91 = Tucuxi::Xpert::SampleValidationResult(nullptr, 91);
+        Tucuxi::Xpert::SampleValidationResult sr100 = Tucuxi::Xpert::SampleValidationResult(nullptr, 100);
 
         fructose_assert_eq(sr1.getWarning(), "99% of the population is above this measure");
         fructose_assert_eq(sr10.getWarning(), "90% of the population is above this measure");
@@ -358,15 +358,15 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
         // 18 concentrations are tested, 2 at each time: one slightly below the percentile
         //                                               one slightly above the percentile
         std::vector<Tucuxi::Common::DateTime> testDates{
-            Tucuxi::Common::DateTime{"2022-01-01T10:00:00", DATE_FORMAT},
-            Tucuxi::Common::DateTime{"2022-01-01T10:15:00", DATE_FORMAT},
-            Tucuxi::Common::DateTime{"2022-01-01T10:30:00", DATE_FORMAT},
-            Tucuxi::Common::DateTime{"2022-01-01T10:45:00", DATE_FORMAT},
-            Tucuxi::Common::DateTime{"2022-01-01T11:00:00", DATE_FORMAT},
-            Tucuxi::Common::DateTime{"2022-01-01T11:15:00", DATE_FORMAT},
-            Tucuxi::Common::DateTime{"2022-01-01T11:30:00", DATE_FORMAT},
-            Tucuxi::Common::DateTime{"2022-01-01T11:45:00", DATE_FORMAT},
-            Tucuxi::Common::DateTime{"2022-01-01T12:00:00", DATE_FORMAT},
+            Tucuxi::Common::DateTime{"2022-01-01T10:00:00", date_format},
+            Tucuxi::Common::DateTime{"2022-01-01T10:15:00", date_format},
+            Tucuxi::Common::DateTime{"2022-01-01T10:30:00", date_format},
+            Tucuxi::Common::DateTime{"2022-01-01T10:45:00", date_format},
+            Tucuxi::Common::DateTime{"2022-01-01T11:00:00", date_format},
+            Tucuxi::Common::DateTime{"2022-01-01T11:15:00", date_format},
+            Tucuxi::Common::DateTime{"2022-01-01T11:30:00", date_format},
+            Tucuxi::Common::DateTime{"2022-01-01T11:45:00", date_format},
+            Tucuxi::Common::DateTime{"2022-01-01T12:00:00", date_format},
         };
 
         Tucuxi::Xpert::SampleValidator sv;
@@ -374,8 +374,8 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
         for (size_t pi = 1; pi <= 99 ; ++pi){
             for (size_t ti = 0; ti < 9; ++ti) {
                 double percentileValue = pi * 10 + ti * 0.25;
-                std::unique_ptr<Tucuxi::Core::Sample> slightlyAbove = std::make_unique<Tucuxi::Core::Sample>(testDates[ti], Tucuxi::Core::AnalyteId{""}, percentileValue + 0.01 , UNIT);
-                std::unique_ptr<Tucuxi::Core::Sample> slightlyBelow = std::make_unique<Tucuxi::Core::Sample>(testDates[ti], Tucuxi::Core::AnalyteId{""}, percentileValue - 0.01 , UNIT);
+                std::unique_ptr<Tucuxi::Core::Sample> slightlyAbove = std::make_unique<Tucuxi::Core::Sample>(testDates[ti], Tucuxi::Core::AnalyteId{""}, percentileValue + 0.01 , unit);
+                std::unique_ptr<Tucuxi::Core::Sample> slightlyBelow = std::make_unique<Tucuxi::Core::Sample>(testDates[ti], Tucuxi::Core::AnalyteId{""}, percentileValue - 0.01 , unit);
 
                 unsigned groupSlightlyAbove = sv.findGroupPositionOver99Percentiles(&pData, slightlyAbove);
                 unsigned groupSlightlyBelow = sv.findGroupPositionOver99Percentiles(&pData, slightlyBelow);
@@ -402,7 +402,7 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
 
         // We set the unit to kg to get the exception.
         std::unique_ptr<Tucuxi::Core::Sample> sample = std::make_unique<Tucuxi::Core::Sample>(
-                    Tucuxi::Common::DateTime{"2022-01-01T11:30:00", DATE_FORMAT},
+                    Tucuxi::Common::DateTime{"2022-01-01T11:30:00", date_format},
                     Tucuxi::Core::AnalyteId{""},
                     1,
                     Tucuxi::Common::TucuUnit{"kg"});
@@ -424,10 +424,10 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
 
         // We set the date to 2023 to be out of bound of the cycleData objects
         std::unique_ptr<Tucuxi::Core::Sample> sample = std::make_unique<Tucuxi::Core::Sample>(
-                    Tucuxi::Common::DateTime{"2023-01-01T11:30:00", DATE_FORMAT},
+                    Tucuxi::Common::DateTime{"2023-01-01T11:30:00", date_format},
                     Tucuxi::Core::AnalyteId{""},
                     1,
-                    UNIT);
+                    unit);
 
         fructose_assert_exception(sv.findGroupPositionOver99Percentiles(&pData, sample), std::invalid_argument);
     }
@@ -1252,12 +1252,12 @@ struct TestGeneralSampleValidator : public fructose::test_base<TestGeneralSample
             throw std::runtime_error("Setup failed");
         }
 
-        Tucuxi::Xpert::XpertGlobalResult xpertResult{move(query)};
+        Tucuxi::Xpert::GlobalResult xpertResult{move(query)};
         Tucuxi::Xpert::XpertRequestResult& xrr =  xpertResult.getXpertRequestResults()[0];
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
 
         // Execution
-        generalFlowStepProvider.getSampleValidator()->perform(xrr);
+        flowStepProvider.getSampleValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.getSampleResults().size(), xrr.getTreatment()->getSamples().size());
     }

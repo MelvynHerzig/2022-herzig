@@ -62,7 +62,7 @@ void CovariateValidatorAndModelSelector::perform(XpertRequestResult& _xpertReque
     // Remembers the best.
     unsigned bestScore = numeric_limits<unsigned>::max();
     const Core::DrugModel* bestDrugModel = nullptr;
-    vector<CovariateResult> bestCovariateResults;
+    vector<CovariateValidationResult> bestCovariateResults;
 
     Core::TreatmentDrugModelCompatibilityChecker checker;
 
@@ -97,7 +97,7 @@ void CovariateValidatorAndModelSelector::perform(XpertRequestResult& _xpertReque
 
         try {
             // Individually, are the covariates respecting their validation?
-            vector<CovariateResult> covariateResults;
+            vector<CovariateValidationResult> covariateResults;
             unsigned score = computeScore(
                         _xpertRequestResult.getTreatment()->getCovariates(),
                         drugModel->getCovariates(),
@@ -166,7 +166,7 @@ Common::DateTime CovariateValidatorAndModelSelector::getOldestCovariateDateTime(
 unsigned CovariateValidatorAndModelSelector::computeScore(const Core::PatientVariates& _patientVariates,
                                              const Core::CovariateDefinitions& _modelDefinitions,
                                              OutputLang _lang,
-                                             vector<CovariateResult>& _results) const
+                                             vector<CovariateValidationResult>& _results) const
 {
     unsigned score = 0;
 
@@ -267,7 +267,7 @@ bool CovariateValidatorAndModelSelector::checkOperation(Core::Operation* _op,
                                            const Core::CovariateDefinition* _definition,
                                            const Core::PatientCovariate* _patient,
                                            OutputLang _lang,
-                                           std::vector<CovariateResult>& _results) const
+                                           std::vector<CovariateValidationResult>& _results) const
 {
     Core::OperationInputList defInputList = _op->getInputs();
     Core::OperationInputList inputList;

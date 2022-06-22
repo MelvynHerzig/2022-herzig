@@ -223,18 +223,18 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        const Tucuxi::Xpert::AdministrativeData& pAdmin = *query->getpAdministrative();
+        const Tucuxi::Xpert::AdminData& pAdmin = *query->getAmin();
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
 
-        const Tucuxi::Xpert::PersonalContact& mandator = pAdmin.getpMandator()->getpPerson();
-        const Tucuxi::Xpert::Address& mandatorAddress = *mandator.getpAddress();
-        const Tucuxi::Xpert::Phone& mandatorPhone = *mandator.getpPhone();
-        const Tucuxi::Xpert::Email& mandatorEmail = *mandator.getpEmail();
-        const Tucuxi::Xpert::InstituteContact& mandatorInstitute = *pAdmin.getpMandator()->getpInstitute();
-        const Tucuxi::Xpert::Address& mandatorInstituteAddress = *mandatorInstitute.getpAddress();
-        const Tucuxi::Xpert::Phone& mandatorInstitutePhone = *mandatorInstitute.getpPhone();
-        const Tucuxi::Xpert::Email& mandatorInstituteEmail = *mandatorInstitute.getpEmail();
+        const Tucuxi::Xpert::PersonData& mandator = pAdmin.getMandator()->getPerson();
+        const Tucuxi::Xpert::AddressData& mandatorAddress = *mandator.getAddress();
+        const Tucuxi::Xpert::PhoneData& mandatorPhone = *mandator.getPhone();
+        const Tucuxi::Xpert::EmailData& mandatorEmail = *mandator.getEmail();
+        const Tucuxi::Xpert::InstituteData& mandatorInstitute = *pAdmin.getMandator()->getInstitute();
+        const Tucuxi::Xpert::AddressData& mandatorInstituteAddress = *mandatorInstitute.getAddress();
+        const Tucuxi::Xpert::PhoneData& mandatorInstitutePhone = *mandatorInstitute.getPhone();
+        const Tucuxi::Xpert::EmailData& mandatorInstituteEmail = *mandatorInstitute.getEmail();
 
         fructose_assert_eq(mandator.getId(), "asdf");
         fructose_assert_eq(mandator.getTitle(), "Dr.");
@@ -261,14 +261,14 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(mandatorInstituteEmail.getAddress(), "info@chuv.com");
         fructose_assert_eq(mandatorInstituteEmail.getType(), "professional");
 
-        const Tucuxi::Xpert::PersonalContact& patient = pAdmin.getpPatient()->getpPerson();
-        const Tucuxi::Xpert::Address& patientAddress = *patient.getpAddress();
-        const Tucuxi::Xpert::Phone& patientPhone = *patient.getpPhone();
-        const Tucuxi::Xpert::Email& patientEmail = *patient.getpEmail();
-        const Tucuxi::Xpert::InstituteContact& patientInstitute = *pAdmin.getpPatient()->getpInstitute();
-        const Tucuxi::Xpert::Address& patientInstituteAddress = *patientInstitute.getpAddress();
-        const Tucuxi::Xpert::Phone& patientInstitutePhone = *patientInstitute.getpPhone();
-        const Tucuxi::Xpert::Email& patientInstituteEmail = *patientInstitute.getpEmail();
+        const Tucuxi::Xpert::PersonData& patient = pAdmin.getPatient()->getPerson();
+        const Tucuxi::Xpert::AddressData& patientAddress = *patient.getAddress();
+        const Tucuxi::Xpert::PhoneData& patientPhone = *patient.getPhone();
+        const Tucuxi::Xpert::EmailData& patientEmail = *patient.getEmail();
+        const Tucuxi::Xpert::InstituteData& patientInstitute = *pAdmin.getPatient()->getInstitute();
+        const Tucuxi::Xpert::AddressData& patientInstituteAddress = *patientInstitute.getAddress();
+        const Tucuxi::Xpert::PhoneData& patientInstitutePhone = *patientInstitute.getPhone();
+        const Tucuxi::Xpert::EmailData& patientInstituteEmail = *patientInstitute.getEmail();
 
         fructose_assert_eq(patient.getId(), "123456");
         fructose_assert_eq(patient.getFirstName(), "Alice");
@@ -294,8 +294,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(patientInstituteEmail.getAddress(), "info@ehnv.com");
         fructose_assert_eq(patientInstituteEmail.getType(), "professional");
 
-        fructose_assert_eq(pAdmin.getpClinicalData()->getData().find("goodNote")->second, " nice ");
-        fructose_assert_eq(pAdmin.getpClinicalData()->getData().find("badNote")->second, "");
+        fructose_assert_eq(pAdmin.getClinicalData()->getData().find("goodNote")->second, " nice ");
+        fructose_assert_eq(pAdmin.getClinicalData()->getData().find("badNote")->second, "");
     }
 
     /// \brief Load an xml file with no admin element
@@ -420,7 +420,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
 
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(query->getpAdministrative().get(), nullptr);
+        fructose_assert_eq(query->getAmin().get(), nullptr);
     }
 
     /// \brief Load an xml file with admin but no mandator, no patient and no clinical data.
@@ -546,11 +546,11 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
-        fructose_assert_ne(query->getpAdministrative().get(), nullptr);
+        fructose_assert_ne(query->getAmin().get(), nullptr);
 
-        fructose_assert_eq(query->getpAdministrative()->getpMandator().get(), nullptr);
-        fructose_assert_eq(query->getpAdministrative()->getpPatient().get(), nullptr);
-        fructose_assert_eq(query->getpAdministrative()->getpClinicalData().get(), nullptr);
+        fructose_assert_eq(query->getAmin()->getMandator().get(), nullptr);
+        fructose_assert_eq(query->getAmin()->getPatient().get(), nullptr);
+        fructose_assert_eq(query->getAmin()->getClinicalData().get(), nullptr);
     }
 
     /// \brief Load an xml file with admin and minimal persons element
@@ -688,28 +688,28 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        const std::unique_ptr<Tucuxi::Xpert::AdministrativeData>& admin = query->getpAdministrative();
+        const std::unique_ptr<Tucuxi::Xpert::AdminData>& admin = query->getAmin();
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
         fructose_assert_ne(admin.get(), nullptr);
 
-        const Tucuxi::Xpert::PersonalContact& mandator = admin->getpMandator()->getpPerson();
-        const Tucuxi::Xpert::PersonalContact& patient = admin->getpPatient()->getpPerson();
+        const Tucuxi::Xpert::PersonData& mandator = admin->getMandator()->getPerson();
+        const Tucuxi::Xpert::PersonData& patient = admin->getPatient()->getPerson();
 
 
         fructose_assert_eq(mandator.getId(), "");
         fructose_assert_eq(mandator.getTitle(), "");
-        fructose_assert_eq(mandator.getpAddress().get(), nullptr);
-        fructose_assert_eq(mandator.getpPhone().get(), nullptr);
-        fructose_assert_eq(mandator.getpEmail().get(), nullptr);
-        fructose_assert_eq(admin->getpMandator()->getpInstitute().get(), nullptr);
+        fructose_assert_eq(mandator.getAddress().get(), nullptr);
+        fructose_assert_eq(mandator.getPhone().get(), nullptr);
+        fructose_assert_eq(mandator.getEmail().get(), nullptr);
+        fructose_assert_eq(admin->getMandator()->getInstitute().get(), nullptr);
 
         fructose_assert_eq(patient.getId(), "");
         fructose_assert_eq(patient.getTitle(), "");
-        fructose_assert_eq(patient.getpAddress().get(), nullptr);
-        fructose_assert_eq(patient.getpPhone().get(), nullptr);
-        fructose_assert_eq(patient.getpEmail().get(), nullptr);
-        fructose_assert_eq(admin->getpPatient()->getpInstitute().get(), nullptr);
+        fructose_assert_eq(patient.getAddress().get(), nullptr);
+        fructose_assert_eq(patient.getPhone().get(), nullptr);
+        fructose_assert_eq(patient.getEmail().get(), nullptr);
+        fructose_assert_eq(admin->getPatient()->getInstitute().get(), nullptr);
     }
 
     /// \brief Load an xml file with admin and minimal institutes elements
@@ -853,24 +853,24 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-         const std::unique_ptr<Tucuxi::Xpert::AdministrativeData>& admin = query->getpAdministrative();
+         const std::unique_ptr<Tucuxi::Xpert::AdminData>& admin = query->getAmin();
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
         fructose_assert_ne(admin.get(), nullptr);
 
-        const std::unique_ptr<Tucuxi::Xpert::InstituteContact>& mandatorInstitute = admin->getpMandator()->getpInstitute();
-        const std::unique_ptr<Tucuxi::Xpert::InstituteContact>& patientInstitute = admin->getpPatient()->getpInstitute();
+        const std::unique_ptr<Tucuxi::Xpert::InstituteData>& mandatorInstitute = admin->getMandator()->getInstitute();
+        const std::unique_ptr<Tucuxi::Xpert::InstituteData>& patientInstitute = admin->getPatient()->getInstitute();
 
 
         fructose_assert_eq(mandatorInstitute->getId(), "");
-        fructose_assert_eq(mandatorInstitute->getpAddress().get(), nullptr);
-        fructose_assert_eq(mandatorInstitute->getpPhone().get(), nullptr);
-        fructose_assert_eq(mandatorInstitute->getpEmail().get(), nullptr);
+        fructose_assert_eq(mandatorInstitute->getAddress().get(), nullptr);
+        fructose_assert_eq(mandatorInstitute->getPhone().get(), nullptr);
+        fructose_assert_eq(mandatorInstitute->getEmail().get(), nullptr);
 
         fructose_assert_eq(patientInstitute->getId(), "");
-        fructose_assert_eq(patientInstitute->getpAddress().get(), nullptr);
-        fructose_assert_eq(patientInstitute->getpPhone().get(), nullptr);
-        fructose_assert_eq(patientInstitute->getpEmail().get(), nullptr);
+        fructose_assert_eq(patientInstitute->getAddress().get(), nullptr);
+        fructose_assert_eq(patientInstitute->getPhone().get(), nullptr);
+        fructose_assert_eq(patientInstitute->getEmail().get(), nullptr);
     }
 
     /// \brief Load an xml file with admin and minimal coordinates elements (address, phone and email)
@@ -1059,27 +1059,27 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        const std::unique_ptr<Tucuxi::Xpert::AdministrativeData>& pAdmin = query->getpAdministrative();
+        const std::unique_ptr<Tucuxi::Xpert::AdminData>& pAdmin = query->getAmin();
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
 
-        const Tucuxi::Xpert::PersonalContact& mandator = pAdmin->getpMandator()->getpPerson();
-        const Tucuxi::Xpert::Address& mandatorAddress = *mandator.getpAddress();
-        const Tucuxi::Xpert::Phone& mandatorPhone = *mandator.getpPhone();
-        const Tucuxi::Xpert::Email& mandatorEmail = *mandator.getpEmail();
-        const Tucuxi::Xpert::InstituteContact& mandatorInstitute = *pAdmin->getpMandator()->getpInstitute();
-        const Tucuxi::Xpert::Address& mandatorInstituteAddress = *mandatorInstitute.getpAddress();
-        const Tucuxi::Xpert::Phone& mandatorInstitutePhone = *mandatorInstitute.getpPhone();
-        const Tucuxi::Xpert::Email& mandatorInstituteEmail = *mandatorInstitute.getpEmail();
+        const Tucuxi::Xpert::PersonData& mandator = pAdmin->getMandator()->getPerson();
+        const Tucuxi::Xpert::AddressData& mandatorAddress = *mandator.getAddress();
+        const Tucuxi::Xpert::PhoneData& mandatorPhone = *mandator.getPhone();
+        const Tucuxi::Xpert::EmailData& mandatorEmail = *mandator.getEmail();
+        const Tucuxi::Xpert::InstituteData& mandatorInstitute = *pAdmin->getMandator()->getInstitute();
+        const Tucuxi::Xpert::AddressData& mandatorInstituteAddress = *mandatorInstitute.getAddress();
+        const Tucuxi::Xpert::PhoneData& mandatorInstitutePhone = *mandatorInstitute.getPhone();
+        const Tucuxi::Xpert::EmailData& mandatorInstituteEmail = *mandatorInstitute.getEmail();
 
-        const Tucuxi::Xpert::PersonalContact& patient = pAdmin->getpPatient()->getpPerson();
-        const Tucuxi::Xpert::Address& patientAddress = *patient.getpAddress();
-        const Tucuxi::Xpert::Phone& patientPhone = *patient.getpPhone();
-        const Tucuxi::Xpert::Email& patientEmail = *patient.getpEmail();
-        const Tucuxi::Xpert::InstituteContact& patientInstitute = *pAdmin->getpPatient()->getpInstitute();
-        const Tucuxi::Xpert::Address& patientInstituteAddress = *patientInstitute.getpAddress();
-        const Tucuxi::Xpert::Phone& patientInstitutePhone = *patientInstitute.getpPhone();
-        const Tucuxi::Xpert::Email& patientInstituteEmail = *patientInstitute.getpEmail();
+        const Tucuxi::Xpert::PersonData& patient = pAdmin->getPatient()->getPerson();
+        const Tucuxi::Xpert::AddressData& patientAddress = *patient.getAddress();
+        const Tucuxi::Xpert::PhoneData& patientPhone = *patient.getPhone();
+        const Tucuxi::Xpert::EmailData& patientEmail = *patient.getEmail();
+        const Tucuxi::Xpert::InstituteData& patientInstitute = *pAdmin->getPatient()->getInstitute();
+        const Tucuxi::Xpert::AddressData& patientInstituteAddress = *patientInstitute.getAddress();
+        const Tucuxi::Xpert::PhoneData& patientInstitutePhone = *patientInstitute.getPhone();
+        const Tucuxi::Xpert::EmailData& patientInstituteEmail = *patientInstitute.getEmail();
 
         fructose_assert_eq(mandatorAddress.getState(), "");
         fructose_assert_eq(mandatorInstituteAddress.getState(), "");

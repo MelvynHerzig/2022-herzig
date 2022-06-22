@@ -8,20 +8,20 @@
 #include "tucucore/pkmodel.h"
 #include "tucucore/drugmodelchecker.h"
 
-#include "tuberxpert/result/xpertresult.h"
+#include "tuberxpert/result/globalresult.h"
 #include "tuberxpert/query/xpertqueryimport.h"
 #include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
 
 #include "fructose/fructose.h"
 
-/// \brief Tests for TargetValidator from the GeneralXpertFlowStepProvider.
+/// \brief Tests for TargetValidator from the XpertFlowStepProvider.
 /// \date 09/06/2022
 /// \author Herzig Melvyn
-struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTargetValidator>
+struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 {
 
     /// \brief General flow step provider used to get the target validator object to test.
-    Tucuxi::Xpert::GeneralXpertFlowStepProvider generalFlowStepProvider;
+    const Tucuxi::Xpert::GeneralXpertFlowStepProvider flowStepProvider;
 
     /// \brief Drug model string of the imatinib used by the tests.
     std::string originalImatinibModelString = R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -216,7 +216,7 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
                                                                     </operation>
                                                                     <comments/>
                                                                 </validation>
-                                                                <comments/>
+                                       XpertQueryData           <comments/>
                                                             </covariate>
                                                             <covariate>
                                                                 <covariateId>gist</covariateId>
@@ -225,7 +225,7 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
                                                                     <name lang='fr'>GIST</name>
                                                                 </covariateName>
                                                                 <description>
-                                                                    <desc lang='en'>Gastrointestinal stromal tumour</desc>
+                       GlobalResult                            <desc lang='en'>Gastrointestinal stromal tumour</desc>
                                                                     <desc lang='fr'>Tumeur stromale gastro-intestinale</desc>
                                                                 </description>
                                                                 <unit>-</unit>
@@ -378,7 +378,7 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
                                                                             </max>
                                                                             <best>
                                                                                 <standardValue>1000</standardValue>
-                                                                            </best>
+                                       GlobalResult                    </best>
                                                                             <toxicityAlarm>
                                                                                 <standardValue>10000.0</standardValue>
                                                                             </toxicityAlarm>
@@ -555,7 +555,7 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
                                                                                             <inputs>
                                                                                                 <input>
                                                                                                     <id>V</id>
-                                                                                                    <type>double</type>
+                                       GlobalResult                                            <type>double</type>
                                                                                                 </input>
                                                                                             </inputs>
                                                                                             <code>
@@ -735,14 +735,14 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
                                                                 </drugModel>
                                                         </model>)";
 
-    /// \brief Sets up environment for clean execution of the target validator. Loads the query, makes the
+    /// \brief Sets up environment forGlobalResultof the target validator. Loads the query, makes the
     ///        XpertResult object, loads the model and attributes it to the first XpertRequestResult of the XpertResult.
     /// \param _queryString Query string to load.
     /// \param _model Model string to put as drug model attribute of the XpertRequestResult of the first request.
-    /// \param _xpertResult Object that will contain the result of this function execution.
+    /// \param _globalResult Object that will contain the result of this function execution.
     void setupEnv(const std::string& _queryString,
                   const std::string& _model,
-                  std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult>& _xpertResult) {
+                  std::unique_ptr<Tucuxi::Xpert::GlobalResult>& _globalResult) {
 
         // Drug models repository creation
          Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
@@ -783,8 +783,8 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
             throw std::runtime_error("Setup failed");
         }
 
-        _xpertResult = std::make_unique<Tucuxi::Xpert::XpertGlobalResult>(move(query));
-        Tucuxi::Xpert::XpertRequestResult& xrr =  _xpertResult->getXpertRequestResults()[0];
+        _globalResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query));
+        Tucuxi::Xpert::XpertRequestResult& xrr =  _globalResult->getXpertRequestResults()[0];
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
     }
 
@@ -796,7 +796,7 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
 
         Tucuxi::Xpert::XpertRequestResult xrr{nullptr, nullptr, nullptr, ""};
 
-        generalFlowStepProvider.getTargetValidator()->perform(xrr);
+        flowStepProvider.getTargetValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "No treatment set.");
@@ -897,12 +897,12 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
             throw std::runtime_error("import failded.");
         }
 
-        Tucuxi::Xpert::XpertGlobalResult xr{move(query)};
+        Tucuxi::Xpert::GlobalResult globalResult{move(query)};
 
-        generalFlowStepProvider.getTargetValidator()->perform(xr.getXpertRequestResults()[0]);
+        flowStepProvider.getTargetValidator()->perform(globalResult.getXpertRequestResults()[0]);
 
-        fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
-        fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
+        fructose_assert_eq(globalResult.getXpertRequestResults()[0].shouldBeHandled(), false);
+        fructose_assert_eq(globalResult.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
     }
 
     /// \brief This method performs a target validation with a treatment that does not specify custom targets.
@@ -1050,13 +1050,13 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> globalResult = nullptr;
 
-        setupEnv(queryString, originalImatinibModelString, result);
+        setupEnv(queryString, originalImatinibModelString, globalResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = globalResult->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getTargetValidator()->perform(xrr);
+        flowStepProvider.getTargetValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getErrorMessage(), "");
@@ -1227,13 +1227,13 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> globalResult = nullptr;
 
-        setupEnv(queryString, originalImatinibModelString, result);
+        setupEnv(queryString, originalImatinibModelString, globalResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = globalResult->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getTargetValidator()->perform(xrr);
+        flowStepProvider.getTargetValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "Two patient's targets with the same active moiety and the same target type detected.");
@@ -1406,13 +1406,13 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> globalResult = nullptr;
 
-        setupEnv(queryString, originalImatinibModelString, result);
+        setupEnv(queryString, originalImatinibModelString, globalResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = globalResult->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getTargetValidator()->perform(xrr);
+        flowStepProvider.getTargetValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getErrorMessage(), "");
@@ -1574,13 +1574,13 @@ struct TestGeneralTargetValidator : public fructose::test_base<TestGeneralTarget
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> globalResult = nullptr;
 
-        setupEnv(queryString, originalImatinibModelString, result);
+        setupEnv(queryString, originalImatinibModelString, globalResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = globalResult->getXpertRequestResults()[0];
 
-        generalFlowStepProvider.getTargetValidator()->perform(xrr);
+        flowStepProvider.getTargetValidator()->perform(xrr);
 
         fructose_assert_eq(xrr.shouldBeHandled(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "A target is related to an active moiety that does not belong to the drug model: ch.tucuxi.imatinib.gotta2012_original");

@@ -1,4 +1,4 @@
-#include "xpertresult.h"
+#include "globalresult.h"
 
 #include <optional>
 
@@ -9,8 +9,8 @@ using namespace std;
 namespace Tucuxi {
 namespace Xpert {
 
-XpertGlobalResult::XpertGlobalResult(unique_ptr<XpertQueryData> _xpertQuery) :
-    m_computationTime(_xpertQuery->getpQueryDate()), m_pAdministrative(_xpertQuery->movepAdministrative())
+GlobalResult::GlobalResult(unique_ptr<XpertQueryData> _xpertQuery) :
+    m_computationTime(_xpertQuery->getpQueryDate()), m_pAdministrative(_xpertQuery->moveAdmin())
 {
     XpertQueryToCoreExtractor extractor;
 
@@ -26,17 +26,17 @@ XpertGlobalResult::XpertGlobalResult(unique_ptr<XpertQueryData> _xpertQuery) :
     }
 }
 
-Common::DateTime XpertGlobalResult::getComputationTime() const
+Common::DateTime GlobalResult::getComputationTime() const
 {
     return m_computationTime;
 }
 
-const unique_ptr<AdministrativeData>& XpertGlobalResult::getAdministrative() const
+const unique_ptr<AdminData>& GlobalResult::getAdministrative() const
 {
     return m_pAdministrative;
 }
 
-std::vector<XpertRequestResult>& XpertGlobalResult::getXpertRequestResults()
+std::vector<XpertRequestResult>& GlobalResult::getXpertRequestResults()
 {
     return m_xpertRequestResults;
 }

@@ -8,6 +8,17 @@
 namespace Tucuxi {
 namespace Xpert {
 
+/// \brief General xpert flow step providers (in a generic manner for the drug)
+///        It provides instances of:
+///        1) CovariateValidatorAndModelSelector
+///        2) DosageValidator
+///        3) SampleValidator
+///        4) TargetValidator
+///        5) AdjustmentTraitCreator
+///        6) ReportPrinter
+///
+/// \date 20/06/2022
+/// \author Herzig Melvyn
 class GeneralXpertFlowStepProvider : public AbstractXpertFlowStepProvider
 {
 public:

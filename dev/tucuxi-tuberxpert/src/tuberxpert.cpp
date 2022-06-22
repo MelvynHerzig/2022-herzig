@@ -1,7 +1,7 @@
 #include "tucucommon/loggerhelper.h"
 #include "tucucommon/utils.h"
 
-#include "tuberxpert/tuberxpertcomputer.h"
+#include "tuberxpertcomputer.h"
 #include "cxxopts/include/cxxopts.hpp"
 
 using namespace std;
@@ -126,8 +126,8 @@ int main(int argc, char** argv)
     logHelper.info("Tuberxpert console application is starting up...");
 
     // Computation start
-    Tucuxi::Xpert::TuberXpertComputer txc;
-    Tucuxi::Xpert::ComputingStatus result = txc.compute(drugPath, inputFileName, outputFileName, languagePath);
+    TuberXpertComputer txc;
+    ComputingStatus result = txc.compute(drugPath, inputFileName, outputFileName, languagePath);
 
     logHelper.info("Tuberxpert console application is exiting...");
     logHelper.info("********************************************************");
@@ -137,13 +137,13 @@ int main(int argc, char** argv)
 
     // Return code handling
     switch (result) {
-        case Tucuxi::Xpert::ComputingStatus::IMPORT_ERROR:
+        case ComputingStatus::IMPORT_ERROR:
             return CODE_IMPORT_ERROR;
-        case Tucuxi::Xpert::ComputingStatus::ALL_REQUESTS_SUCCEEDED:
+        case ComputingStatus::ALL_REQUESTS_SUCCEEDED:
             return CODE_ALL_REQUESTS_SUCCEEDED;
-        case Tucuxi::Xpert::ComputingStatus::SOME_REQUESTS_SUCCEEDED:
+        case ComputingStatus::SOME_REQUESTS_SUCCEEDED:
             return CODE_SOME_REQUESTS_SUCCEEDED;
-        case Tucuxi::Xpert::ComputingStatus::NO_REQUESTS_SUCCEEDED:
+        case ComputingStatus::NO_REQUESTS_SUCCEEDED:
             return CODE_NO_REQUESTS_SUCCEEDED;
     }
 }
