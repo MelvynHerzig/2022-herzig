@@ -62,6 +62,8 @@ int main(int argc, char** argv)
     xpertUtilsTests.add_test("Converts output lang to string", &TestXpertUtils::convertOutputLangToString);
     xpertUtilsTests.add_test("Converts double to string", &TestXpertUtils::convertDoubleToString);
     xpertUtilsTests.add_test("Get a translatable string with english fallback.", &TestXpertUtils::getStringFromTranslatableWithFallback);
+    xpertUtilsTests.add_test("The values returned by getOldestTimeRangeStart are correct.", &TestXpertUtils::getOldestDosageTimeRangeStartReturnsCorrrectValues);
+    xpertUtilsTests.add_test("The values returned by getLatestTimeRangeStart are correct.", &TestXpertUtils::getLatestDosageTimeRangeStartReturnsCorrrectValues);
 
     res = xpertUtilsTests.run(argc, argv);
     if (res != 0) {
@@ -317,6 +319,8 @@ int main(int argc, char** argv)
     testAdjustmentTraitCreator.add_test("The target extraction option is population values when not set.", &TestAdjustmentTraitCreator::targetExtractionOptionIsDefinitionIfNoIndividualTargetWhenNotSet);
     testAdjustmentTraitCreator.add_test("The formulation and route selection option is retrieved from request when set.", &TestAdjustmentTraitCreator::formulationAndRouteSelectionOptionIsRetrievedFromRequestWhenSet);
     testAdjustmentTraitCreator.add_test("The formulation and route selection option is last formulation and route when not set.", &TestAdjustmentTraitCreator::formulationAndRouteSelectionOptionIsLastFormulationAndRouteWhenNotSet);
+    testAdjustmentTraitCreator.add_test("The last intake is correctly set in the XpertRequestResult when there is a treatment.", &TestAdjustmentTraitCreator::lastIntakeIsCorrectlySetWithTreatment);
+    testAdjustmentTraitCreator.add_test("The last intake is nullptr in the XpertRequestResult when there is no treatment.", &TestAdjustmentTraitCreator::lastIntakeIsNullptrWithoutTreatment);
 
 
     res = testAdjustmentTraitCreator.run(argc, argv);

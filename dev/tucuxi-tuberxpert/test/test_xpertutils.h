@@ -1,6 +1,8 @@
 #ifndef TEST_XPERTUTILS_H
 #define TEST_XPERTUTILS_H
 
+#include "tucucore/dosage.h"
+
 #include "tuberxpert/language/languageexception.h"
 #include "tuberxpert/utils/xpertutils.h"
 
@@ -11,6 +13,9 @@
 /// \author Herzig Melvyn
 struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 {
+
+    /// \brief Format used to create date and time during test.
+    const std::string date_format = "%Y-%m-%dT%H:%M:%S";
 
     /// \brief Converts output lang to string. Checks that the requested language get its corresponding
     ///        string or an exception if it is not supported.
@@ -51,6 +56,104 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         fructose_assert_eq(Tucuxi::Xpert::getStringWithEnglishFallback(ts1, Tucuxi::Xpert::OutputLang::FRENCH), "chaine de caractere traductible en fr");
         fructose_assert_eq(Tucuxi::Xpert::getStringWithEnglishFallback(ts2, Tucuxi::Xpert::OutputLang::FRENCH), "translatable string in en");
+    }
+
+    /// \brief Tests that the getOldestDosageTimeRangeStart works as expected.
+    ///        This test forms a dosage history with two time ranges:
+    ///         1) 2022-01-01 10h00 - 2022-01-02 13h00
+    ///         2) 2022-01-03 14h00 - 2022-01-04 16h00
+    ///
+    ///        Once it requieres the oldest start time with a reference time of 2022-01-01 14h00
+    ///        (just after the first time range) which should return 2022-01-01 10h00
+    ///
+    ///        Once it requieres the oldest start time with a reference time of 2022-01-01 09h00
+    ///        (before both time ranges) which should return the reference time itself.
+    ///
+    /// \param _testName Name of the test.
+    void getOldestDosageTimeRangeStartReturnsCorrrectValues(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        // Common elements
+        Tucuxi::Core::Unit unit{"mg"};
+        Tucuxi::Core::FormulationAndRoute formulationAndRoute{Tucuxi::Core::AbsorptionModel::Extravascular};
+        Tucuxi::Common::Duration duration, interval{std::chrono::hours(1)};
+
+        // Making first time range "2022-01-01 10h00 - 2022-01-02 13h00"
+        Tucuxi::Core::LastingDose lastingDose1{1, unit, formulationAndRoute, duration, interval};
+        Tucuxi::Core::DosageTimeRange timeRange1{
+            Tucuxi::Common::DateTime("2022-01-01T10:00:00", date_format),
+            Tucuxi::Common::DateTime("2022-01-02T13:00:00", date_format),
+            lastingDose1
+        };
+
+        // Making second time range "2022-01-03 14h00 - 2022-01-04 16h00"
+        Tucuxi::Core::LastingDose lastingDose2{1, unit, formulationAndRoute, duration, interval};
+        Tucuxi::Core::DosageTimeRange timeRange2{
+            Tucuxi::Common::DateTime("2022-01-03T14:00:00", date_format),
+            Tucuxi::Common::DateTime("2022-01-04T16:00:00", date_format),
+            lastingDose1
+        };
+
+        // Making dsage history
+        Tucuxi::Core::DosageHistory dosageHistory;
+        dosageHistory.addTimeRange(timeRange1);
+        dosageHistory.addTimeRange(timeRange2);
+
+        fructose_assert_eq(Tucuxi::Xpert::getOldestDosageTimeRangeStart(dosageHistory, Tucuxi::Common::DateTime("2022-01-01T14:00:00", date_format)),
+                           Tucuxi::Common::DateTime("2022-01-01T10:00:00", date_format));
+
+        fructose_assert_eq(Tucuxi::Xpert::getOldestDosageTimeRangeStart(dosageHistory, Tucuxi::Common::DateTime("2022-01-01T09:00:00", date_format)),
+                           Tucuxi::Common::DateTime("2022-01-01T09:00:00", date_format));
+    }
+
+    /// \brief Tests that the getLatestDosageTimeRangeStart works as expected.
+    ///        This test forms a dosage history with two time ranges:
+    ///         1) 2022-01-01 10h00 - 2022-01-02 13h00
+    ///         2) 2022-01-03 14h00 - 2022-01-04 16h00
+    ///
+    ///        Once it requieres the latest start time with a reference time of 2022-01-07 15h00
+    ///        (before both time ranges) which should return 2022-01-03 14h00
+    ///
+    ///        Once it requieres the oldest start time with a reference time of 2022-01-01 09h00
+    ///        (before both time ranges) which should return an undefined date time.
+    ///
+    /// \param _testName Name of the test.
+    void getLatestDosageTimeRangeStartReturnsCorrrectValues(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        // Common elements
+        Tucuxi::Core::Unit unit{"mg"};
+        Tucuxi::Core::FormulationAndRoute formulationAndRoute{Tucuxi::Core::AbsorptionModel::Extravascular};
+        Tucuxi::Common::Duration duration, interval{std::chrono::hours(1)};
+
+        // Making first time range "2022-01-01 10h00 - 2022-01-02 13h00"
+        Tucuxi::Core::LastingDose lastingDose1{1, unit, formulationAndRoute, duration, interval};
+        Tucuxi::Core::DosageTimeRange timeRange1{
+            Tucuxi::Common::DateTime("2022-01-01T10:00:00", date_format),
+            Tucuxi::Common::DateTime("2022-01-02T13:00:00", date_format),
+            lastingDose1
+        };
+
+        // Making second time range "2022-01-03 14h00 - 2022-01-04 16h00"
+        Tucuxi::Core::LastingDose lastingDose2{1, unit, formulationAndRoute, duration, interval};
+        Tucuxi::Core::DosageTimeRange timeRange2{
+            Tucuxi::Common::DateTime("2022-01-03T14:00:00", date_format),
+            Tucuxi::Common::DateTime("2022-01-04T16:00:00", date_format),
+            lastingDose1
+        };
+
+        // Making dsage history
+        Tucuxi::Core::DosageHistory dosageHistory;
+        dosageHistory.addTimeRange(timeRange1);
+        dosageHistory.addTimeRange(timeRange2);
+
+        fructose_assert_eq(Tucuxi::Xpert::getLatestDosageTimeRangeStart(dosageHistory, Tucuxi::Common::DateTime("2022-01-07T15:00:00", date_format)),
+                           Tucuxi::Common::DateTime("2022-01-03T14:00:00", date_format));
+
+        fructose_assert_eq(Tucuxi::Xpert::getLatestDosageTimeRangeStart(dosageHistory, Tucuxi::Common::DateTime("2022-01-01T09:00:00", date_format)).isUndefined(),
+                           true);
     }
 };
 

@@ -3,7 +3,6 @@
 
 #include <string>
 #include <vector>
-#include <optional>
 
 #include "tucucore/drugmodel/covariatedefinition.h"
 #include "tucucore/drugmodel/drugmodel.h"
@@ -36,12 +35,12 @@ public:
     /// \param _xpertGlobalResult Where to retrieve the computation time and the administrative data.
     ///                           Must survive as long as this object is alive (reference stored).
     /// \param _xpertRequest Related requestXpert.
-    /// \param _dTreatment Associated treatment if extraction was successfull.
+    /// \param _drugTreatment Associated treatment if extraction was successfull.
     /// \param _errorMessage If the treatment extraction was not successfull, the related error message or empty string.
     XpertRequestResult(
             const GlobalResult* _xpertGlobalResult,
             std::unique_ptr<XpertRequestData> _xpertRequest,
-            std::unique_ptr<Core::DrugTreatment> _dTreatment,
+            std::unique_ptr<Core::DrugTreatment> _drugTreatment,
             const std::string& _errorMessage);
 
     /// \brief Gets the related XpertRequestData.
@@ -125,6 +124,10 @@ public:
     /// \param _adjustmentTrait Computing adjustment trait to retrieve.
     void setAdjustmentData(std::unique_ptr<Core::AdjustmentData> _adjustmentData);
 
+    /// \brief Set the last intake of the patient.
+    /// \param _lastIntake Last intake to save.
+    void setLastIntake(std::unique_ptr<Core::IntakeEvent> _lastIntake);
+
     /// \brief Checks if the XpertRequestResult should go to next pipeline step.
     /// \return True if no problem was detected until the call otherwise false.
     bool shouldBeHandled() const;
@@ -139,7 +142,7 @@ protected:
     std::unique_ptr<XpertRequestData> m_xpertRequest;
 
     /// \brief Treatment related to the request of this object.
-    std::unique_ptr<Core::DrugTreatment> m_dTreatment;
+    std::unique_ptr<Core::DrugTreatment> m_drugTreatment;
 
     /// \brief Error message possibly set during a step of the flow.
     std::string m_errorMessage;
@@ -170,7 +173,6 @@ protected:
 
     /// \brief Pointer on the last intake of the patient.
     std::unique_ptr<Core::IntakeEvent> m_lastIntake;
-
 };
 
 } // namespace Xpert

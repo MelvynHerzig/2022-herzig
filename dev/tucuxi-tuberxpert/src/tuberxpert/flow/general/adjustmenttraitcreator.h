@@ -27,7 +27,7 @@ public:
     AdjustmentTraitCreator();
 
     /// \brief Create the adjustment trait based on the information in the xpertRequestResult.
-    /// \param _xpertRequestResult XpertRequestResult containing all the XpertRequest, the treatment,
+    /// \param _xpertRequestResult XpertRequestResult containing the XpertRequest, the treatment,
     ///        the drug model and that will recieve the trait when created.
     void perform(XpertRequestResult& _xpertRequestResult);
 
@@ -38,16 +38,6 @@ protected:
     /// \return Aposteriori if there are dosages and samples in the treatment otherwise Apriori.
     Core::PredictionParameterType getPredictionParameterType(const std::unique_ptr<Core::DrugTreatment>& _drugTreatment) const;
 
-    /// \brief Extract the dosage time range starting time that is the oldest of the dosage history.
-    /// \param _dosageHistory Dosage history to extract the oldest time range starting time.
-    /// \return Return the oldest starting time found or the computation date if the dosage history is empty.
-    Common::DateTime getOldestDosageTimeRangeStart(const Core::DosageHistory& _dosageHistory) const;
-
-    /// \brief Extract the latest (the last in the past / youngest) dosage time range start.
-    /// \param _dosageHistory Dosage history to extract the latest time range starting time.
-    /// \return Return the latest starting time found or an undefined date if the dosage history is empty or in the future.
-    Common::DateTime getLatestDosageTimeRangeStart(const Core::DosageHistory& _dosageHistory) const;
-
     /// \brief Get the adjustment time.
     ///        - If the adjustment time is set in the XpertRequest, it returns it.
     ///        - Otherwise:
@@ -55,27 +45,31 @@ protected:
     ///            - If there is an over treatment, its adds 2*half life of the drug until the computation
     ///              time is reached. The resulting time is returned.
     ///            - If there is no treatment, it returns the computing time plus 1 hour.
-    /// \param _request XpertRequestData that may old an adjustment time set by the user.
-    /// \param _drugTreatment Treatment followed by the patient.
-    /// \param _drugModel Drug model associated to the treatment to get the half life.
+    /// \param _xpertRequestResult XpertRequestResult containing the treatment and the drug model to extract intakes
+    ///        and the request.
+    /// \param _fullFormulationAndRoute Full formulation and route associated to the treatment.
     /// \return Returns the adjustment time extracted.
-    Common::DateTime getAdjustmentTime(const XpertRequestData& _request,
-                                       const std::unique_ptr<Core::DrugTreatment>& _drugTreatment,
-                                       const Core::DrugModel* _drugModel) const;
+    Common::DateTime getAdjustmentTime(XpertRequestResult& _xpertRequestResult, const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const;
 
     /// \brief Try to extract the intake series from the first intake until computation time in order to extract
-    ///        the adjustment time out of it. This function is called by "getAdjustmentTime".
-    /// \param _drugTreatment Drug treatment to extract intakes.
-    /// \param _drugModel Drug model associated to the treatment.
+    ///        the adjustment time out of it. This function is called by "getAdjustmentTime". Additionaly, set the last
+    ///        intake of the patient in the XpertRequestResult if there is one.
+    /// \param _xpertRequestResult XpertRequestResult containing the treatment and the drug model to extract intakes.
+    ///        Get his last intake set.
+    /// \param _fullFormulationAndRoute Full formulation and route associated to the treatment.
     /// \return Returns the adjustment time if found one otherwise an undefined time.
-    Common::DateTime makeIntakeSeriesAndTryToExtractAdjustmentTime(const std::unique_ptr<Core::DrugTreatment>& _drugTreatment,
-                                                                   const Core::DrugModel* _drugModel) const;
+    Common::DateTime makeIntakeSeriesTryExtractAdjustmentTimeAndLastIntake(XpertRequestResult& _xpertRequestResult, const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const;
 
     /// \brief Given an intake series, try to extract the closest intake in the future. If none is found,
     ///        extract the closed in the past. By closest, we mean "the closest to the computation time".
     /// \param _intakes Intake series to work with.
     /// \return Returns the time found otherwise an undefined time if the series is empty.
     Common::DateTime getTimeOfNearestFutureOrLatestIntake(Core::IntakeSeries _intakes) const;
+
+    /// \brief Get a pointer on the last intake of the intake series that is before the computation time.
+    /// \param _intakes Intakes series to parse.
+    /// \param _lastIntake Unique pointer to store the result.
+    void getLatestIntake(Core::IntakeSeries _intakes, std::unique_ptr<Core::IntakeEvent>& _lastIntake) const;
 
     /// \brief Extract the starting and ending time of the adjustment.
     ///        If the treatment is not related to a standard treatment:

@@ -16,9 +16,8 @@
 #include "fructose/fructose.h"
 
 /// \brief Tests for AdjustmentTraitCreator from the XpertFlowStepProvider.
-///        This class performs varius adjustment creations
-///        to check if the result is what was expected. Each test tests an attribute (or a subset of attributes)
-///        of the adjustment trait returned.
+///        This class performs varius adjustment creations to check if the result is what was expected.
+///        Each test tests an attribute (or a subset of attributes) of the adjustment trait returned.
 /// \date 17/06/2022
 /// \author Herzig Melvyn
 struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTraitCreator>
@@ -3835,6 +3834,201 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute, true);
+    }
+
+    /// \brief This method checks that the last intake is correctly set in the
+    ///        XpertRequestResult. The test make a request on imatinib with a treatment
+    ///        The last intake should be 2022-05-19 20h00 400mg
+    /// \param _testName Name of the test
+    void lastIntakeIsCorrectlySetWithTreatment(const std::string& _testName)
+    {
+        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <query version="1.0"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+
+                                        <queryId>imatinib</queryId>
+                                        <clientId>124568</clientId>
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
+                                        <language>en</language>
+
+                                        <drugTreatment>
+                                            <!-- All the information regarding the patient -->
+                                            <patient>
+                                                <covariates>
+                                                </covariates>
+                                            </patient>
+                                            <!-- List of the drugs informations we have concerning the patient -->
+                                            <drugs>
+                                                <!-- All the information regarding the drug -->
+                                                <drug>
+                                                    <drugId>imatinib</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <!-- All the information regarding the treatment -->
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                            <dosageTimeRange>
+                                                                <start>2022-05-19T08:00:00</start>
+                                                                <end>2022-05-21T08:00:00</end>
+                                                                <dosage>
+                                                                    <dosageLoop>
+                                                                        <lastingDosage>
+                                                                            <interval>12:00:00</interval>
+                                                                            <dose>
+                                                                                <value>400</value>
+                                                                                <unit>mg</unit>
+                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                                                            </dose>
+                                                                            <formulationAndRoute>
+                                                                                <formulation>parenteralSolution</formulation>
+                                                                                <administrationName>foo bar</administrationName>
+                                                                                <administrationRoute>oral</administrationRoute>
+                                                                                <absorptionModel>extravascular</absorptionModel>
+                                                                            </formulationAndRoute>
+                                                                        </lastingDosage>
+                                                                    </dosageLoop>
+                                                                </dosage>
+                                                            </dosageTimeRange>
+                                                            <dosageTimeRange>
+                                                                <start>2022-04-19T08:00:00</start>
+                                                                <end>2022-04-21T08:00:00</end>
+                                                                <dosage>
+                                                                    <dosageLoop>
+                                                                        <lastingDosage>
+                                                                            <interval>12:00:00</interval>
+                                                                            <dose>
+                                                                                <value>200</value>
+                                                                                <unit>mg</unit>
+                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                                                            </dose>
+                                                                            <formulationAndRoute>
+                                                                                <formulation>parenteralSolution</formulation>
+                                                                                <administrationName>foo bar</administrationName>
+                                                                                <administrationRoute>oral</administrationRoute>
+                                                                                <absorptionModel>extravascular</absorptionModel>
+                                                                            </formulationAndRoute>
+                                                                        </lastingDosage>
+                                                                    </dosageLoop>
+                                                                </dosage>
+                                                            </dosageTimeRange>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <!-- Samples history -->
+                                                    <samples>
+                                                    </samples>
+                                                    <!-- Personalised targets -->
+                                                    <targets>
+                                                    </targets>
+                                                </drug>
+                                            </drugs>
+                                        </drugTreatment>
+                                        <!-- List of the requests we want the server to take care of -->
+                                        <requests>
+                                            <requestXpert>
+                                                <drugId>imatinib</drugId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>en</language>
+                                                </output>
+                                                <options>
+                                                    <loadingOption>noLoadingDose</loadingOption>
+                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
+                                                    <targetExtractionOption>aprioriValues</targetExtractionOption>
+                                                    <!-- formulation and route selection option not set -->
+                                                </options>
+                                            </requestXpert>
+                                        </requests>
+                                    </query>)";
+
+        std::cout << _testName << std::endl;
+
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
+
+        setupEnv(queryString, imatinibModelString, result);
+
+        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+
+        fructose_assert_eq(xrr.getLastIntake()->getEventTime(), Tucuxi::Common::DateTime("2022-05-20T20:00:00", date_format));
+        fructose_assert_eq(xrr.getLastIntake()->getDose(), 400);
+        fructose_assert_eq(xrr.getLastIntake()->getUnit().toString(), "mg");
+    }
+
+    /// \brief This method checks that the last intake is nullptr in the
+    ///        XpertRequestResult. The test make a request on imatinib without a treatment.
+    /// \param _testName Name of the test
+    void lastIntakeIsNullptrWithoutTreatment(const std::string& _testName)
+    {
+        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <query version="1.0"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+
+                                        <queryId>imatinib</queryId>
+                                        <clientId>124568</clientId>
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
+                                        <language>en</language>
+
+                                        <drugTreatment>
+                                            <!-- All the information regarding the patient -->
+                                            <patient>
+                                                <covariates>
+                                                </covariates>
+                                            </patient>
+                                            <!-- List of the drugs informations we have concerning the patient -->
+                                            <drugs>
+                                                <!-- All the information regarding the drug -->
+                                                <drug>
+                                                    <drugId>imatinib</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <!-- All the information regarding the treatment -->
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <!-- Samples history -->
+                                                    <samples>
+                                                    </samples>
+                                                    <!-- Personalised targets -->
+                                                    <targets>
+                                                    </targets>
+                                                </drug>
+                                            </drugs>
+                                        </drugTreatment>
+                                        <!-- List of the requests we want the server to take care of -->
+                                        <requests>
+                                            <requestXpert>
+                                                <drugId>imatinib</drugId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>en</language>
+                                                </output>
+                                                <options>
+                                                    <loadingOption>noLoadingDose</loadingOption>
+                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
+                                                    <targetExtractionOption>aprioriValues</targetExtractionOption>
+                                                    <!-- formulation and route selection option not set -->
+                                                </options>
+                                            </requestXpert>
+                                        </requests>
+                                    </query>)";
+
+        std::cout << _testName << std::endl;
+
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
+
+        setupEnv(queryString, imatinibModelString, result);
+
+        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+
+        fructose_assert_eq(xrr.getLastIntake().get(), nullptr);
     }
 };
 

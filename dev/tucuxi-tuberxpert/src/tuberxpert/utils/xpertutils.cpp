@@ -37,5 +37,35 @@ string getStringWithEnglishFallback(const Common::TranslatableString& _ts, Outpu
     }
 }
 
+Common::DateTime getOldestDosageTimeRangeStart(const Core::DosageHistory &_dosageHistory, const Common::DateTime& _referenceTime)
+{
+    // In case the dosage history is empty. The olest treatment start date is reference time.
+    Common::DateTime oldestDateKnown = _referenceTime;
+
+    // Iterate on the time ranges and find the one that is the oldest.
+    for (const unique_ptr<Core::DosageTimeRange>& timeRange : _dosageHistory.getDosageTimeRanges()) {
+        if (timeRange->getStartDate() < oldestDateKnown){
+            oldestDateKnown = timeRange->getStartDate();
+        }
+    }
+
+    return oldestDateKnown;
+}
+
+Common::DateTime getLatestDosageTimeRangeStart(const Core::DosageHistory &_dosageHistory, const Common::DateTime& _referenceTime)
+{
+    // In case the dosage history is empty. The latest start time is undefined.
+    Common::DateTime latestDateKnown = Common::DateTime::undefinedDateTime();
+
+    // Iterate on the time ranges and find the one that is the latest.
+    for (const unique_ptr<Core::DosageTimeRange>& timeRange : _dosageHistory.getDosageTimeRanges()) {
+        if (timeRange->getStartDate() < _referenceTime && (latestDateKnown.isUndefined() || timeRange->getStartDate() > latestDateKnown)){
+            latestDateKnown = timeRange->getStartDate();
+        }
+    }
+
+    return latestDateKnown;
+}
+
 } // namespace XpertUtils
 } // namespace Tucuxi

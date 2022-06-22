@@ -2,12 +2,16 @@
 INCLUDEPATH += $$PWD/../../src
 
 HEADERS += \
+    $$PWD/exporter/xpertrequestresulthtmlexport.h \
+    $$PWD/exporter/xpertrequestresultpdfexport.h \
+    $$PWD/exporter/xpertrequestresultxmlexport.h \
     $$PWD/flow/abstract/abstractxpertflowstep.h \
     $$PWD/flow/abstract/abstractxpertflowstepprovider.h \
     $$PWD/flow/general/covariatevalidatorandmodelselector.h \
     $$PWD/flow/general/adjustmenttraitcreator.h \
     $$PWD/flow/general/dosevalidator.h \
     $$PWD/flow/general/generalxpertflowstepprovider.h \
+    $$PWD/flow/general/reportprinter.h \
     $$PWD/flow/general/samplevalidator.h \
     $$PWD/flow/general/targetvalidator.h \
     $$PWD/query/admindata.h \
@@ -26,10 +30,14 @@ HEADERS += \
     $$PWD/utils/xpertutils.h
 
 SOURCES += \
+    $$PWD/exporter/xpertrequestresulthtmlexport.cpp \
+    $$PWD/exporter/xpertrequestresultpdfexport.cpp \
+    $$PWD/exporter/xpertrequestresultxmlexport.cpp \
     $$PWD/flow/general/covariatevalidatorandmodelselector.cpp \
     $$PWD/flow/general/adjustmenttraitcreator.cpp \
     $$PWD/flow/general/dosevalidator.cpp \
     $$PWD/flow/general/generalxpertflowstepprovider.cpp \
+    $$PWD/flow/general/reportprinter.cpp \
     $$PWD/flow/general/samplevalidator.cpp \
     $$PWD/flow/general/targetvalidator.cpp \
     $$PWD/query/admindata.cpp \

@@ -8,6 +8,7 @@
 #include "tucucore/computingservice/computingresult.h"
 
 #include "tuberxpert/result/globalresult.h"
+#include "tuberxpert/utils/xpertutils.h"
 
 using namespace std;
 
@@ -63,7 +64,7 @@ void AdjustmentTraitCreator::perform(XpertRequestResult& _xpertRequestResult)
     };
 
     // Adjustment date
-    Common::DateTime adjustmentTime = getAdjustmentTime(_xpertRequestResult.getXpertRequest(), _xpertRequestResult.getTreatment(), _xpertRequestResult.getDrugModel());
+    Common::DateTime adjustmentTime = getAdjustmentTime(_xpertRequestResult, fullFormulationAndRoute);
 
     // Period
 
@@ -127,42 +128,11 @@ Core::PredictionParameterType AdjustmentTraitCreator::getPredictionParameterType
     }
 }
 
-Common::DateTime AdjustmentTraitCreator::getOldestDosageTimeRangeStart(const Core::DosageHistory& _dosageHistory) const
-{
-    // In case the dosage history is empty. The olest treatment start date is present.
-    Common::DateTime oldestDateKnown = m_computationTime;
-
-    // Iterate on the time ranges and find the one that is the oldest.
-    for (const unique_ptr<Core::DosageTimeRange>& timeRange : _dosageHistory.getDosageTimeRanges()) {
-        if (timeRange->getStartDate() < oldestDateKnown){
-            oldestDateKnown = timeRange->getStartDate();
-        }
-    }
-
-    return oldestDateKnown;
-}
-
-Common::DateTime AdjustmentTraitCreator::getLatestDosageTimeRangeStart(const Core::DosageHistory &_dosageHistory) const
-{
-    // In case the dosage history is empty. The latest start time is undefined.
-    Common::DateTime latestDateKnown = Common::DateTime::undefinedDateTime();
-
-    for (const unique_ptr<Core::DosageTimeRange>& timeRange : _dosageHistory.getDosageTimeRanges()) {
-        if (timeRange->getStartDate() < m_computationTime && (latestDateKnown.isUndefined() || timeRange->getStartDate() < latestDateKnown)){
-            latestDateKnown = timeRange->getStartDate();
-        }
-    }
-
-    return latestDateKnown;
-}
-
-Common::DateTime AdjustmentTraitCreator::getAdjustmentTime(const XpertRequestData& _request,
-                                                           const std::unique_ptr<Core::DrugTreatment>& _drugTreatment,
-                                                           const Core::DrugModel* _drugModel) const
+Common::DateTime AdjustmentTraitCreator::getAdjustmentTime(XpertRequestResult& _xpertRequestResult, const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const
 {
     // If an adjustment time has been manually set in the request, the use it.
-    if (!_request.getAdjustmentTime().isUndefined()){
-        return _request.getAdjustmentTime();
+    if (!_xpertRequestResult.getXpertRequest().getAdjustmentTime().isUndefined()){
+        return _xpertRequestResult.getXpertRequest().getAdjustmentTime();
 
     // Otherwise
     } else {    
@@ -177,8 +147,8 @@ Common::DateTime AdjustmentTraitCreator::getAdjustmentTime(const XpertRequestDat
         // in that case we fallback into 3.
 
         // If the dosage history is not empty we might be in 1 and 2.
-        if (!_drugTreatment->getDosageHistory().isEmpty()){
-            Common::DateTime adjustmentBasedOnIntakes = makeIntakeSeriesAndTryToExtractAdjustmentTime(_drugTreatment, _drugModel);
+        if (!_xpertRequestResult.getTreatment()->getDosageHistory().isEmpty()){
+            Common::DateTime adjustmentBasedOnIntakes = makeIntakeSeriesTryExtractAdjustmentTimeAndLastIntake(_xpertRequestResult, _fullFormulationAndRoute);
 
             // We check 1 or 2 succeed.
             if(!adjustmentBasedOnIntakes.isUndefined()) {
@@ -192,11 +162,10 @@ Common::DateTime AdjustmentTraitCreator::getAdjustmentTime(const XpertRequestDat
     }
 }
 
-Common::DateTime AdjustmentTraitCreator::makeIntakeSeriesAndTryToExtractAdjustmentTime(const std::unique_ptr<Core::DrugTreatment>& _drugTreatment,
-                                                                                       const Core::DrugModel* _drugModel) const
+Common::DateTime AdjustmentTraitCreator::makeIntakeSeriesTryExtractAdjustmentTimeAndLastIntake(XpertRequestResult& _xpertRequestResult, const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const
 {
     // get the latest (in the past) dosage time range start as the extraction starting time.
-    Common::DateTime startTimeOfTheLatestDosage = getLatestDosageTimeRangeStart(_drugTreatment->getDosageHistory());
+    Common::DateTime startTimeOfTheLatestDosage = getLatestDosageTimeRangeStart(_xpertRequestResult.getTreatment()->getDosageHistory(), m_computationTime);
 
     // If time is not undefined. We check that because we look for the latest time from the dosage history before the the computation time.
     // I imagine that it is possible to have dosage history only in the future which would lead to an undefined latest dosage time range start.
@@ -208,12 +177,17 @@ Common::DateTime AdjustmentTraitCreator::makeIntakeSeriesAndTryToExtractAdjustme
     // To define the adjustment time based on the intakes, we need to extract the intakes.
     Core::IntakeExtractor intakeExtractor;
     Core::IntakeSeries intakes;
-    Core::ComputingStatus cs = intakeExtractor.extract(_drugTreatment->getDosageHistory(),
+    Core::ComputingStatus cs = intakeExtractor.extract(_xpertRequestResult.getTreatment()->getDosageHistory(),
                                                        startTimeOfTheLatestDosage,
                                                        Common::DateTime::undefinedDateTime(),
                                                        1,
-                                                       Common::TucuUnit("mg"),
+                                                       _fullFormulationAndRoute->getValidDoses()->getUnit(),
                                                        intakes);
+
+    // Set the last intake in the XpertRequestResult
+    unique_ptr<Core::IntakeEvent> lastIntake;
+    getLatestIntake(intakes, lastIntake);
+    _xpertRequestResult.setLastIntake(move(lastIntake));
 
     // Now, we look for the closest intake in the future. If there is none, for the last in the past.
     Common::DateTime possibleAdjustmentTime = getTimeOfNearestFutureOrLatestIntake(intakes);
@@ -227,7 +201,7 @@ Common::DateTime AdjustmentTraitCreator::makeIntakeSeriesAndTryToExtractAdjustme
     if (possibleAdjustmentTime < m_computationTime) {
 
         // Add 2 * helf-life until the computing time is reached, it defines the adjustment time.
-        const Core::HalfLife& halfLife = _drugModel->getTimeConsiderations().getHalfLife();
+        const Core::HalfLife& halfLife = _xpertRequestResult.getDrugModel()->getTimeConsiderations().getHalfLife();
         while (possibleAdjustmentTime < m_computationTime) {
             double timeValue = Common::UnitManager::convertToUnit(halfLife.getValue(), halfLife.getUnit(), Common::TucuUnit("h"));
             possibleAdjustmentTime += Common::Duration(chrono::hours(int(2 * timeValue)));
@@ -274,6 +248,30 @@ Common::DateTime AdjustmentTraitCreator::getTimeOfNearestFutureOrLatestIntake(Co
     return savedTime; // undefined date.
 }
 
+void AdjustmentTraitCreator::getLatestIntake(Core::IntakeSeries _intakes, unique_ptr<Core::IntakeEvent>& _lastIntake) const
+{
+    Core::IntakeEvent* latestIntake = nullptr;
+
+    // For each intake
+    for(Core::IntakeEvent& intake : _intakes) {
+
+        // If the intake is saved if:
+        //  - the saved one is nullptr and the intake is before the computation
+        //  or
+        //  - the saved one is oldest and the intake is before the computation
+        if (intake.getEventTime() < m_computationTime && (latestIntake == nullptr || latestIntake->getEventTime() < intake.getEventTime())) {
+            latestIntake = &intake;
+        }
+
+        // If all the intakes in the past have been parsed.
+        if (intake.getEventTime() > m_computationTime) {
+            break;
+        }
+    }
+
+    _lastIntake = latestIntake == nullptr ? nullptr : make_unique<Core::IntakeEvent>(*latestIntake);
+}
+
 void AdjustmentTraitCreator::getPeriod(const Core::FullFormulationAndRoute* _fullFormulationAndRoute,
                                        const XpertRequestResult& _xpertRequestResult,
                                        const Common::DateTime& _adjustmentTime,
@@ -284,7 +282,7 @@ void AdjustmentTraitCreator::getPeriod(const Core::FullFormulationAndRoute* _ful
     if (_fullFormulationAndRoute->getStandardTreatment() != nullptr && _fullFormulationAndRoute->getStandardTreatment()->getIsFixedDuration()) {
 
         // Getting treatment start
-        _start = getOldestDosageTimeRangeStart(_xpertRequestResult.getTreatment()->getDosageHistory());
+        _start = getOldestDosageTimeRangeStart(_xpertRequestResult.getTreatment()->getDosageHistory(), m_computationTime);
 
         // Getting treatment end ( start + standard treatment duration )
         double treatmentDuration = _fullFormulationAndRoute->getStandardTreatment()->getDuration();

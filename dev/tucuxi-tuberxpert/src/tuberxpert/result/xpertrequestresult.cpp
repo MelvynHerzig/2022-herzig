@@ -1,5 +1,8 @@
 #include "xpertrequestresult.h"
 
+#include "tuberxpert/utils/xpertutils.h"
+#include "tuberxpert/result/globalresult.h"
+
 using namespace std;
 
 namespace Tucuxi {
@@ -8,15 +11,16 @@ namespace Xpert {
 XpertRequestResult::XpertRequestResult(
         const GlobalResult* _xpertGlobalResult,
         unique_ptr<XpertRequestData> _xpertRequest,
-        unique_ptr<Core::DrugTreatment> _dTreatment,
+        unique_ptr<Core::DrugTreatment> _drugTreatment,
         const string& _errorMessage)
     : m_xpertGlobalResult(_xpertGlobalResult),
       m_xpertRequest(move(_xpertRequest)),
-      m_dTreatment(move(_dTreatment)),
+      m_drugTreatment(move(_drugTreatment)),
       m_errorMessage(_errorMessage),
       m_drugModel(nullptr),
       m_adjustmentTrait(nullptr),
-      m_adjustmentData(nullptr)
+      m_adjustmentData(nullptr),
+      m_lastIntake(nullptr)
 {}
 
 const XpertRequestData& XpertRequestResult::getXpertRequest() const
@@ -26,7 +30,7 @@ const XpertRequestData& XpertRequestResult::getXpertRequest() const
 
 const  unique_ptr<Core::DrugTreatment>& XpertRequestResult::getTreatment() const
 {
-    return m_dTreatment;
+    return m_drugTreatment;
 }
 
 const string& XpertRequestResult::getErrorMessage() const
@@ -104,9 +108,14 @@ void XpertRequestResult::setAdjustmentTrait(const Core::ComputingTraitAdjustment
     m_adjustmentTrait = make_unique<Core::ComputingTraitAdjustment>(_adjustmentTrait);
 }
 
-void XpertRequestResult::setAdjustmentData(std::unique_ptr<Core::AdjustmentData> _adjustmentData)
+void XpertRequestResult::setAdjustmentData(unique_ptr<Core::AdjustmentData> _adjustmentData)
 {
     m_adjustmentData = move(_adjustmentData);
+}
+
+void XpertRequestResult::setLastIntake(unique_ptr<Core::IntakeEvent> _lastIntake)
+{
+    m_lastIntake = move(_lastIntake);
 }
 
 bool XpertRequestResult::shouldBeHandled() const
