@@ -9,7 +9,7 @@
 #include "tuberxpert/result/abstractresult.h"
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace Xpert {
 
 /// \brief Enum used to specify the source of a covariate
 enum class CovariateType {
@@ -72,7 +72,7 @@ protected:
 
 };
 
-} // namespace XpertResult
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // COVARIATERESULT_H

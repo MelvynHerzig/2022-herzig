@@ -160,7 +160,7 @@ int main(int argc, char** argv)
     testXpertResultCreation.add_test("Query pointer invalidation", &TestXpertResultCreation::queryPtrInvalidation);
     testXpertResultCreation.add_test("Retrieves administrative data", &TestXpertResultCreation::retrieveAdministrativeData);
     testXpertResultCreation.add_test("Retrieves xpert request results", &TestXpertResultCreation::retrieveXpertRequestResult);
-    testXpertResultCreation.add_test("Retrieves generation date", &TestXpertResultCreation::retrieveDate);
+    testXpertResultCreation.add_test("Retrieves generation date", &TestXpertResultCreation::retrieveComputationTime);
 
     res = testXpertResultCreation.run(argc, argv);
     if (res != 0) {

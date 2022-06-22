@@ -8,7 +8,7 @@
 #include "tuberxpert/language/languagemanager.h"
 
 namespace Tucuxi {
-namespace XpertUtils {
+namespace Xpert {
 
 /// \brief Convert a floating point variable to a string with two decimals.
 /// \param _value Variable to convert to a string.
@@ -20,7 +20,7 @@ std::string varToString(const double& _value);
 /// \param lang OutputLang to "translate" into string.
 /// \return Returns a string corresponding to OutputLang requested.
 /// \throw LanguageException If the OutputLang is not supported.
-std::string outputLangToString(XpertQuery::OutputLang _lang);
+std::string outputLangToString(OutputLang _lang);
 
 
 /// \brief Extracts a string from a translatable string in regard of a given language. If
@@ -28,10 +28,10 @@ std::string outputLangToString(XpertQuery::OutputLang _lang);
 /// \param _ts Translatable string.
 /// \param _lang Lang to extract.
 /// \return The translation if present, else the english translation else empty string.
-std::string getStringWithEnglishFallback(const Common::TranslatableString& _ts, XpertQuery::OutputLang _lang);
+std::string getStringWithEnglishFallback(const Common::TranslatableString& _ts, OutputLang _lang);
 
 
-} // namespace XpertUtils
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // TUCUXI_XPERTUTILS_H

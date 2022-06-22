@@ -6,7 +6,7 @@
 #include "tuberxpert/flow/abstract/abstractxpertflowstep.h"
 
 namespace Tucuxi {
-namespace XpertFlow {
+namespace Xpert {
 
 /// \brief Abstract class that must be implemented by drug xpert flow step providers.
 ///        A drug xpert is an object responsible to provide the execution steps
@@ -88,7 +88,7 @@ protected:
 
 };
 
-} // namespace XpertFlow
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // ABSTRACTXPERTFLOWSTEPPROVIDER_H

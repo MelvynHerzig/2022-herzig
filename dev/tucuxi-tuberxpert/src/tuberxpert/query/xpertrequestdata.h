@@ -9,7 +9,7 @@
 #include <string>
 
 namespace Tucuxi {
-namespace XpertQuery {
+namespace Xpert {
 
 /// \brief List of the supported languages
 ///        It can be:
@@ -165,7 +165,7 @@ protected:
     Core::FormulationAndRouteSelectionOption m_formulationAndRouteSelectionOption;
 };
 
-} // namespace XpertQuery
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // XPERTREQUESTDATA_H

@@ -1,7 +1,7 @@
 #include "xpertrequestdata.h"
 
 namespace Tucuxi {
-namespace XpertQuery {
+namespace Xpert {
 
 XpertRequestData::XpertRequestData(
         const std::string& _drugID,
@@ -22,45 +22,45 @@ XpertRequestData::XpertRequestData(
         m_formulationAndRouteSelectionOption(_formulationAndRouteSelectionOption)
 {}
 
-std::string XpertQuery::XpertRequestData::getDrugID() const
+std::string XpertRequestData::getDrugID() const
 {
     return m_drugID;
 }
 
-XpertQuery::OutputFormat XpertQuery::XpertRequestData::getOutputFormat() const
+OutputFormat XpertRequestData::getOutputFormat() const
 {
     return m_outputFormat;
 }
 
-XpertQuery::OutputLang XpertQuery::XpertRequestData::getOutputLang() const
+OutputLang XpertRequestData::getOutputLang() const
 {
     return m_outputLang;
 }
 
-DateTime XpertQuery::XpertRequestData::getAdjustmentTime() const
+DateTime XpertRequestData::getAdjustmentTime() const
 {
     return m_adjustmentTime;
 }
 
-LoadingOption XpertQuery::XpertRequestData::getLoadingOption() const
+LoadingOption XpertRequestData::getLoadingOption() const
 {
     return m_loadingOption;
 }
 
-RestPeriodOption XpertQuery::XpertRequestData::getRestPeriodOption() const
+RestPeriodOption XpertRequestData::getRestPeriodOption() const
 {
     return m_restPeriodOption;
 }
 
-Core::TargetExtractionOption XpertQuery::XpertRequestData::getTargetExtractionOption() const
+Core::TargetExtractionOption XpertRequestData::getTargetExtractionOption() const
 {
     return m_targetExtractionOption;
 }
 
-Core::FormulationAndRouteSelectionOption XpertQuery::XpertRequestData::getFormulationAndRouteSelectionOption() const
+Core::FormulationAndRouteSelectionOption XpertRequestData::getFormulationAndRouteSelectionOption() const
 {
     return m_formulationAndRouteSelectionOption;
 }
 
-} // namespace XpertQuery
+} // namespace Xpert
 } // namespace Tucuxi

@@ -13,13 +13,13 @@
 #include "tuberxpert/query/xpertrequestdata.h"
 
 namespace Tucuxi {
-namespace XpertFlow {
+namespace Xpert {
 
 /// \brief This class is responsible to create the adjustment trait the will be submitted
 ///        to tucuxi core in a computing request. It uses the whole dosage history.
 /// \date 20/06/2022
 /// \author Herzig Melvyn
-class AdjustmentTraitCreator : public XpertFlow::AbstractXpertFlowStep
+class AdjustmentTraitCreator : public AbstractXpertFlowStep
 {
 public:
 
@@ -32,7 +32,7 @@ public:
     /// \brief Create the adjustment trait based on the information in the xpertRequestResult.
     /// \param _xpertRequestResult XpertRequestResult containing all the XpertRequest, the treatment,
     ///        the drug model and that will recieve the trait when created.
-    void perform(XpertResult::XpertRequestResult& _xpertRequestResult) const;
+    void perform(XpertRequestResult& _xpertRequestResult) const;
 
 protected:
 
@@ -62,7 +62,7 @@ protected:
     /// \param _drugTreatment Treatment followed by the patient.
     /// \param _drugModel Drug model associated to the treatment to get the half life.
     /// \return Returns the adjustment time extracted.
-    Common::DateTime getAdjustmentTime(const XpertQuery::XpertRequestData& _request,
+    Common::DateTime getAdjustmentTime(const XpertRequestData& _request,
                                        const std::unique_ptr<Core::DrugTreatment>& _drugTreatment,
                                        const Core::DrugModel* _drugModel) const;
 
@@ -94,7 +94,7 @@ protected:
     /// \param _start Resulting start time.
     /// \param _end Resulting end time.
     void getPeriod(const Core::FullFormulationAndRoute* _fullFormulationAndRoute,
-                   const XpertResult::XpertRequestResult& _xpertRequestResult,
+                   const XpertRequestResult& _xpertRequestResult,
                    const Common::DateTime& _adjustmentTime,
                    Common::DateTime& _start,
                    Common::DateTime& _end) const;
@@ -105,7 +105,7 @@ protected:
     /// \param _fullFormulationAndRoute Full formulation and route from which use "isLoadingDoseRecommended"
     ///        if the XpertRequest does not specify a choice.
     /// \return Return the resulting loading option.
-    Core::LoadingOption getLoadingOption(const XpertQuery::XpertRequestData& _request,
+    Core::LoadingOption getLoadingOption(const XpertRequestData& _request,
                                          const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const;
 
     /// \brief Retrieve the rest period option of the XpertRequest or from the full
@@ -114,7 +114,7 @@ protected:
     /// \param _fullFormulationAndRoute Full formulation and route from which use "isRestPeriodRecommended"
     ///        if the XpertRequest does not specify a choice.
     /// \return Return the resulting rest period option.
-    Core::RestPeriodOption getRestPeriodOption(const XpertQuery::XpertRequestData& _request,
+    Core::RestPeriodOption getRestPeriodOption(const XpertRequestData& _request,
                                                const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const;
 
     /// \brief Defines the steady state target option to use.
@@ -134,7 +134,7 @@ protected:
     Common::DateTime m_computationTime;
 };
 
-} // namespace XpertFlow
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // ADJUSTMENTTRAITCREATOR_H

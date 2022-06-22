@@ -8,7 +8,7 @@
 #include "tuberxpert/flow/abstract/abstractxpertflowstepprovider.h"
 
 namespace Tucuxi {
-namespace XpertComputer {
+namespace Xpert {
 
 /// \brief Enum whose values are used as the return value of TuberXpertComputer.
 ///        The values are:
@@ -69,22 +69,22 @@ protected:
     /// \param _stepProvider Flow step provider responsible to give the each step for a given drug.
     /// \return True if everything went well (i.e. the XpertRequest result is ready to be submitted to the core) or false if the
     ///         XpertRquest needs to be reviewed (i.e. no language file found for the desired language, no drug model found ...)
-    bool validateAndPrepareXpertRequest(XpertResult::XpertRequestResult& _xpertRequestResult,
+    bool validateAndPrepareXpertRequest(XpertRequestResult& _xpertRequestResult,
                                         const std::string& _languagePath,
-                                        const std::unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _stepProvider) const;
+                                        const std::unique_ptr<AbstractXpertFlowStepProvider>& _stepProvider) const;
 
     /// \brief For a given XpertRequestResult get the XpertFlowStepProvider for the related drug.
     /// \param _xpertRequestResult XpertRequestResult to get drug id from.
     /// \param _xpertFlowStepProvider Unique pointer in which create the corresponding XpertFlowStepProvider.
-    void getXpertFlowStepProvider(XpertResult::XpertRequestResult& _xpertRequestResult, std::unique_ptr<XpertFlow::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const;
+    void getXpertFlowStepProvider(XpertRequestResult& _xpertRequestResult, std::unique_ptr<AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const;
 
     /// \brief Extracts the adjustment trait from the XpertRequestResult, makes the request for the core and submits it.
     /// \param _xpertRequestResult XpertRequestResult containing the adjustment trait to use.
     /// \return True if the request execution went well, else false.
-    bool makeAndExecuteAdjustmentRequest(XpertResult::XpertRequestResult& _xpertRequestResult) const;
+    bool makeAndExecuteAdjustmentRequest(XpertRequestResult& _xpertRequestResult) const;
 };
 
-} // namespace XpertComputer
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // TUBERXPERTCOMPUTER_H

@@ -12,7 +12,7 @@
 #include "tuberxpert/result/xpertrequestresult.h"
 
 namespace Tucuxi {
-namespace XpertFlow {
+namespace Xpert {
 
 /// \brief This is a utility class responsible to get the best drug model for a given drug.
 ///        and to validate the relvance of the covariates.
@@ -27,7 +27,7 @@ namespace XpertFlow {
 ///
 /// \date 18/05/2022
 /// \author Herzig Melvyn
-class CovariateValidatorAndModelSelector : public XpertFlow::AbstractXpertFlowStep
+class CovariateValidatorAndModelSelector : public AbstractXpertFlowStep
 {
 public:
     /// \brief Constructor.
@@ -40,7 +40,7 @@ public:
     ///        its CovariateResult vector.
     /// \param _xpertRequestResult XpertRequestResult containing the drugTreatment to be used
     ///                            and the CovariateResult vector to be set.
-    void perform(XpertResult::XpertRequestResult& _xpertRequestResult) const;
+    void perform(XpertRequestResult& _xpertRequestResult) const;
 
 protected: 
 
@@ -65,8 +65,8 @@ protected:
     ///        definition fails or if a definition does not support english nor the requested language.
     unsigned computeScore(const Core::PatientVariates& _patientVariates,
                           const Core::CovariateDefinitions& _modelDefinitions,
-                          XpertQuery::OutputLang _lang,
-                          std::vector<XpertResult::CovariateResult>& _results) const;
+                          OutputLang _lang,
+                          std::vector<CovariateResult>& _results) const;
 
     /// \brief For a given operation and a value check if valid. In case of success push the given
     ///        patient covariate and definition into the results.
@@ -81,15 +81,15 @@ protected:
                         double _val,
                         const Core::CovariateDefinition* _definition,
                         const Core::PatientCovariate* _patient,
-                        XpertQuery::OutputLang _lang,
-                        std::vector<XpertResult::CovariateResult>& _results) const;
+                        OutputLang _lang,
+                        std::vector<CovariateResult>& _results) const;
 
     /// \brief For a given series of covariate definitions. This method checks that they
     ///        all support the requested output lang or at least english.
     /// \param _modelDefinitions List of covariate definition to check.
     /// \param _lang Output lang desired.
     /// \return Return true if english or _lang is supported otherwise false.
-    bool checkCovariateDefinitionsLanguage(const Core::CovariateDefinitions& _modelDefinitions, XpertQuery::OutputLang _lang) const;
+    bool checkCovariateDefinitionsLanguage(const Core::CovariateDefinitions& _modelDefinitions, OutputLang _lang) const;
 
 protected:
 
@@ -98,7 +98,7 @@ protected:
     Common::DateTime m_computationTime;
 };
 
-} // namespace XpertFlow
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // COVARIATEVALIDATORANDMODELSELECTOR_H

@@ -8,7 +8,7 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertUtils {
+namespace Xpert {
 
 string varToString(const double& _value)
 {
@@ -17,16 +17,16 @@ string varToString(const double& _value)
     return stream.str();
 }
 
-string outputLangToString(XpertQuery::OutputLang _lang)
+string outputLangToString(OutputLang _lang)
 {
     switch (_lang) {
-    case Tucuxi::XpertQuery::OutputLang::ENGLISH : return "en";
-    case Tucuxi::XpertQuery::OutputLang::FRENCH  : return "fr";
-    default : throw XpertLanguage::LanguageException("Unknown language"); // If well maintained, should never be returned.
+    case OutputLang::ENGLISH : return "en";
+    case OutputLang::FRENCH  : return "fr";
+    default : throw LanguageException("Unknown language"); // If well maintained, should never be returned.
     }
 }
 
-string getStringWithEnglishFallback(const Common::TranslatableString& _ts, XpertQuery::OutputLang _lang)
+string getStringWithEnglishFallback(const Common::TranslatableString& _ts, OutputLang _lang)
 {
     string target = _ts.getString(outputLangToString(_lang));
 

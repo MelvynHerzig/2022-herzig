@@ -13,7 +13,7 @@
 #include <map>
 
 namespace Tucuxi {
-namespace XpertQuery {
+namespace Xpert {
 
 /// \brief Class representing an address of an institute or a person.
 /// \date 28/04/2022
@@ -379,7 +379,7 @@ protected:
     std::unique_ptr<ClinicalData> m_pClinicalData;
 };
 
-} // namespace XpertQuery
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // XPERTADMINISTRATIVEDATA_H

@@ -4,7 +4,7 @@
 #include "tuberxpert/result/xpertrequestresult.h"
 
 namespace Tucuxi {
-namespace XpertFlow {
+namespace Xpert {
 
 /// \brief Abstract class that must be implemented by objects that will
 ///        be returned by concrete xpert flow step provider.
@@ -22,11 +22,11 @@ public:
     /// \brief Method to be called in order to perform the step.
     /// \param _xpertRequestResult XpertRequestResult object that will hold the step result and
     ///        that hold the information needed for the step.
-    virtual void perform(XpertResult::XpertRequestResult& _xpertRequestResult) const = 0;
+    virtual void perform(XpertRequestResult& _xpertRequestResult) const = 0;
 
 };
 
-} // namespace XpertFlow
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // ABSTRACTXPERTFLOWSTEP_H

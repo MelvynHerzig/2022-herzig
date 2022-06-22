@@ -8,7 +8,7 @@
 #include "tuberxpert/result/abstractresult.h"
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace Xpert {
 
 /// \brief This class stores results for a patient samples.
 ///
@@ -66,7 +66,7 @@ protected:
     unsigned m_groupNumberOver99Percentile;
 };
 
-} // namespace XpertResult
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // SAMPLERESULT_H

@@ -25,7 +25,7 @@ struct TestGeneralDoseValidator : public fructose::test_base<TestGeneralDoseVali
 {
 
     /// \brief General flow step provider used to get the dose validator object to test.
-    Tucuxi::XpertFlow::GeneralXpertFlowStepProvider generalFlowStepProvider;
+    Tucuxi::Xpert::GeneralXpertFlowStepProvider generalFlowStepProvider;
 
     /// \brief Drug model string of the imatinib used by the tests as drug model for the queries.
     std::string imatinibModelString = R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -696,7 +696,7 @@ struct TestGeneralDoseValidator : public fructose::test_base<TestGeneralDoseVali
     /// \param _xpertResult Object that will contain the result of this function execution.
     void setupEnv(const std::string& _queryString,
                   const std::string& _model,
-                  std::unique_ptr<Tucuxi::XpertResult::XpertResult>& _xpertResult) {
+                  std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult>& _xpertResult) {
 
         // Drug models repository creation
         Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
@@ -729,16 +729,16 @@ struct TestGeneralDoseValidator : public fructose::test_base<TestGeneralDoseVali
         drugModel.release();
 
         // Query import
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
-        Tucuxi::XpertQuery::XpertQueryImport importer;
-        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, _queryString);
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, _queryString);
 
-        if (importResult != Tucuxi::XpertQuery::XpertQueryImport::Status::Ok) {
+        if (importResult != Tucuxi::Xpert::XpertQueryImport::Status::Ok) {
             throw std::runtime_error("Setup failed");
         }
 
-        _xpertResult = std::make_unique<Tucuxi::XpertResult::XpertResult>(move(query));
-        Tucuxi::XpertResult::XpertRequestResult& xrr =  _xpertResult->getXpertRequestResults()[0];
+        _xpertResult = std::make_unique<Tucuxi::Xpert::XpertGlobalResult>(move(query));
+        Tucuxi::Xpert::XpertRequestResult& xrr =  _xpertResult->getXpertRequestResults()[0];
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
 
         // Loading the dictionary with keys used by the dose validator.
@@ -751,7 +751,7 @@ struct TestGeneralDoseValidator : public fructose::test_base<TestGeneralDoseVali
                                                 <entry key="minimum_dosage_warning">Minimum recommended dosage reached</entry>
 
                                             </dictionary>)";
-        Tucuxi::XpertLanguage::LanguageManager& languageManager = Tucuxi::XpertLanguage::LanguageManager::getInstance();
+        Tucuxi::Xpert::LanguageManager& languageManager = Tucuxi::Xpert::LanguageManager::getInstance();
         languageManager.loadDictionary(dictionaryString);
     }
 
@@ -761,7 +761,7 @@ struct TestGeneralDoseValidator : public fructose::test_base<TestGeneralDoseVali
     {
         std::cout << _testName << std::endl;
 
-        Tucuxi::XpertResult::XpertRequestResult xrr{nullptr, nullptr, ""};
+        Tucuxi::Xpert::XpertRequestResult xrr{nullptr, nullptr, nullptr, ""};
 
         generalFlowStepProvider.getDoseValidator()->perform(xrr);
 
@@ -855,16 +855,16 @@ struct TestGeneralDoseValidator : public fructose::test_base<TestGeneralDoseVali
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
 
-        Tucuxi::XpertQuery::XpertQueryImport importer;
-        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
 
-        if (importResult != Tucuxi::XpertQuery::XpertQueryImport::Status::Ok) {
+        if (importResult != Tucuxi::Xpert::XpertQueryImport::Status::Ok) {
             throw std::runtime_error("import failded.");
         }
 
-        Tucuxi::XpertResult::XpertResult xr{move(query)};
+        Tucuxi::Xpert::XpertGlobalResult xr{move(query)};
 
         generalFlowStepProvider.getDoseValidator()->perform(xr.getXpertRequestResults()[0]);
 
@@ -936,11 +936,11 @@ struct TestGeneralDoseValidator : public fructose::test_base<TestGeneralDoseVali
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
-        Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         generalFlowStepProvider.getDoseValidator()->perform(xrr);
 
@@ -1035,11 +1035,11 @@ struct TestGeneralDoseValidator : public fructose::test_base<TestGeneralDoseVali
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
-        Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         generalFlowStepProvider.getDoseValidator()->perform(xrr);
 
@@ -1134,11 +1134,11 @@ struct TestGeneralDoseValidator : public fructose::test_base<TestGeneralDoseVali
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
-        Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         generalFlowStepProvider.getDoseValidator()->perform(xrr);
 
@@ -1232,11 +1232,11 @@ struct TestGeneralDoseValidator : public fructose::test_base<TestGeneralDoseVali
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
-        Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         generalFlowStepProvider.getDoseValidator()->perform(xrr);
 
@@ -1331,11 +1331,11 @@ struct TestGeneralDoseValidator : public fructose::test_base<TestGeneralDoseVali
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
-        Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         generalFlowStepProvider.getDoseValidator()->perform(xrr);
 
@@ -1495,11 +1495,11 @@ struct TestGeneralDoseValidator : public fructose::test_base<TestGeneralDoseVali
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertResult::XpertResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertGlobalResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 
-        Tucuxi::XpertResult::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
 
         generalFlowStepProvider.getDoseValidator()->perform(xrr);
 
@@ -1524,28 +1524,28 @@ struct TestGeneralDoseValidator : public fructose::test_base<TestGeneralDoseVali
 
              switch(int(psd->getDose())) {
                 case 3000 :
-                 fructose_assert_eq(Tucuxi::XpertUtils::varToString(psd->getDose()), "3000.00");
+                 fructose_assert_eq(Tucuxi::Xpert::varToString(psd->getDose()), "3000.00");
                  fructose_assert_eq(psd->getDoseUnit().toString(), "mg");
                  fructose_assert_eq(doseIt->second.getWarning(), "Maximum recommended dosage reached (400.00 mg)");
                  first = true;
                  break;
 
                 case 3 :
-                 fructose_assert_eq(Tucuxi::XpertUtils::varToString(psd->getDose()), "3.00");
+                 fructose_assert_eq(Tucuxi::Xpert::varToString(psd->getDose()), "3.00");
                  fructose_assert_eq(psd->getDoseUnit().toString(), "mg");
                  fructose_assert_eq(doseIt->second.getWarning(), "Minimum recommended dosage reached (100.00 mg)");
                  second = true;
                  break;
 
                 case 400 :
-                 fructose_assert_eq(Tucuxi::XpertUtils::varToString(psd->getDose()), "400.00");
+                 fructose_assert_eq(Tucuxi::Xpert::varToString(psd->getDose()), "400.00");
                  fructose_assert_eq(psd->getDoseUnit().toString(), "mg");
                  fructose_assert_eq(doseIt->second.getWarning(), "");
                  third = true;
                  break;
 
                 case 0 :
-                 fructose_assert_eq(Tucuxi::XpertUtils::varToString(psd->getDose()), "0.39");
+                 fructose_assert_eq(Tucuxi::Xpert::varToString(psd->getDose()), "0.39");
                  fructose_assert_eq(psd->getDoseUnit().toString(), "g");
                  fructose_assert_eq(doseIt->second.getWarning(), "");
                  fourth = true;

@@ -3,7 +3,7 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertQuery {
+namespace Xpert {
 
 XpertQueryData::XpertQueryData(
         const string& _queryID,
@@ -43,5 +43,5 @@ unique_ptr<XpertRequestData>&& XpertQueryData::moveXpertRequest(size_t _i)
 }
 
 
-} // namespace XpertQuery
+} // namespace Xpert
 } // namespace Tucuxi

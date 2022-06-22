@@ -3,11 +3,11 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace Xpert {
 
 XpertRequestResult::XpertRequestResult(
         const XpertGlobalResult* _xpertGlobalResult,
-        unique_ptr<XpertQuery::XpertRequestData> _xpertRequest,
+        unique_ptr<XpertRequestData> _xpertRequest,
         unique_ptr<Core::DrugTreatment> _dTreatment,
         const string& _errorMessage)
     : m_xpertGlobalResult(_xpertGlobalResult),
@@ -19,7 +19,7 @@ XpertRequestResult::XpertRequestResult(
       m_adjustmentData(nullptr)
 {}
 
-const XpertQuery::XpertRequestData& XpertRequestResult::getXpertRequest() const
+const XpertRequestData& XpertRequestResult::getXpertRequest() const
 {
     return *m_xpertRequest;
 }
@@ -114,5 +114,5 @@ bool XpertRequestResult::shouldBeHandled() const
     return m_errorMessage == "";
 }
 
-} // namespace XpertResult
+} // namespace Xpert
 } // namespace Tucuxi

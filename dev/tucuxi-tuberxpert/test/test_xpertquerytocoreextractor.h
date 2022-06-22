@@ -227,12 +227,12 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
 
-        Tucuxi::XpertQuery::XpertQueryImport importer;
-        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        Tucuxi::XpertQuery::XpertQueryToCoreExtractor extractor;
+        Tucuxi::Xpert::XpertQueryToCoreExtractor extractor;
 
         std::string errorMessage0;
         std::unique_ptr<Tucuxi::Core::DrugTreatment> drugTreatment0 = extractor.extractDrugTreatment(
@@ -247,7 +247,7 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
                             errorMessage1);
 
 
-        fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
+        fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
         fructose_assert_eq(errorMessage0, "");
         fructose_assert_eq(errorMessage1, "");
         fructose_assert_ne(drugTreatment0.get(), nullptr);
@@ -452,12 +452,12 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::XpertQuery::XpertQueryData> query = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
 
-        Tucuxi::XpertQuery::XpertQueryImport importer;
-        Tucuxi::XpertQuery::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        Tucuxi::XpertQuery::XpertQueryToCoreExtractor extractor;
+        Tucuxi::Xpert::XpertQueryToCoreExtractor extractor;
 
         std::string errorMessage0;
         std::unique_ptr<Tucuxi::Core::DrugTreatment> drugTreatment0 = extractor.extractDrugTreatment(
@@ -472,7 +472,7 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
                             errorMessage1);
 
 
-        fructose_assert_eq(importResult, Tucuxi::XpertQuery::XpertQueryImport::Status::Ok);
+        fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
         fructose_assert_eq(errorMessage0, "Too many drugs matching. Could not extract drug treatment.");
         fructose_assert_eq(errorMessage1, "No drug matching. Could not extract drug treatment.");
         fructose_assert_eq(drugTreatment0.get(), nullptr);

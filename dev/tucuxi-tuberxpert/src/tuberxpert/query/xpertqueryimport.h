@@ -7,7 +7,7 @@
 #include "tuberxpert/query/xpertadministrativedata.h"
 
 namespace Tucuxi {
-namespace XpertQuery {
+namespace Xpert {
 
 /// \brief This class extends the tucucore queryimporter in order to import administrative data
 ///         and the custom requests "requestXpert" when loading an xml query.
@@ -132,7 +132,7 @@ protected:
     Common::DateTime getChildDateTime(Common::XmlNodeIterator _rootIterator, const std::string& _childName);
 };
 
-} // namespace XpertQuery
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // XPERTQUERYIMPORT_H

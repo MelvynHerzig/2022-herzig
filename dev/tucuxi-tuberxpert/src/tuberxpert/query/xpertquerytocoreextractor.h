@@ -11,7 +11,7 @@
 #include "tuberxpert/query/xpertquerydata.h"
 
 namespace Tucuxi {
-namespace XpertQuery {
+namespace Xpert {
 
 /// \brief This class extends the tucuquery QueryToCoreExtractor.
 ///        The main point of this class is to provide a method
@@ -37,7 +37,7 @@ public:
             std::string& _errorMessage) const;
 };
 
-} // namespace XpertQuery
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // XPERTQUERYTOCOREEXTRACTOR_H

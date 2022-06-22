@@ -11,7 +11,7 @@
 struct TestGeneralSampleValidator;
 
 namespace Tucuxi {
-namespace XpertFlow {
+namespace Xpert {
 
 
 /// \brief This class evaluates patient's samples.
@@ -31,7 +31,7 @@ namespace XpertFlow {
 ///        Each sample is evaluated. In futur version, maybe consider forgetting too old samples.
 /// \date 08/06/2022
 /// \author Herzig Melvyn
-class SampleValidator : public XpertFlow::AbstractXpertFlowStep
+class SampleValidator : public AbstractXpertFlowStep
 {
 public:
 
@@ -40,7 +40,7 @@ public:
 
     /// \brief Evaluates each sample in the treatment from the XpertRequestResult.
     /// \param _xpertRequestResult XpertRequestResult containing samples to evaluate.
-    void perform(XpertResult::XpertRequestResult& _xpertRequestResult) const;
+    void perform(XpertRequestResult& _xpertRequestResult) const;
 
 protected:
 
@@ -59,7 +59,7 @@ protected:
     friend TestGeneralSampleValidator;
 };
 
-} // namespace XpertFlow
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // SAMPLEVALIDATOR_H

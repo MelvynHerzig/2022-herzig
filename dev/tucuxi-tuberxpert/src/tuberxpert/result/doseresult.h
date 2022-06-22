@@ -6,7 +6,7 @@
 #include "tuberxpert/result/abstractresult.h"
 
 namespace Tucuxi {
-namespace XpertResult {
+namespace Xpert {
 
 /// \brief This class stores results for a patient doses.
 ///
@@ -28,7 +28,7 @@ public:
 
 };
 
-} // namespace XpertResult
+} // namespace Xpert
 } // namespace Tucuxi
 
 #endif // DOSERESULT_H

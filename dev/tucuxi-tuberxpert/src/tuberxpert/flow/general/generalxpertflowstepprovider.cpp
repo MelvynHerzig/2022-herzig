@@ -9,7 +9,7 @@
 using namespace std;
 
 namespace Tucuxi {
-namespace XpertFlow {
+namespace Xpert {
 
 GeneralXpertFlowStepProvider::GeneralXpertFlowStepProvider(Common::DateTime _computationTime)
 {
@@ -50,5 +50,5 @@ const std::unique_ptr<AbstractXpertFlowStep>& GeneralXpertFlowStepProvider::getR
     return m_reportPrinter;
 }
 
-} // namespace XpertFlow
+} // namespace Xpert
 } // namespace Tucuxi
