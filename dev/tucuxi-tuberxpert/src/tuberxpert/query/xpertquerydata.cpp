@@ -8,24 +8,24 @@ namespace Xpert {
 XpertQueryData::XpertQueryData(
         const string& _queryID,
         const string& _clientID,
-        const Common::DateTime& _pQueryDate,
+        const Common::DateTime& _queryDate,
         const string& _language,
-        unique_ptr<AdministrativeData> _pAdministrative,
-        unique_ptr<Query::DrugTreatmentData> _pParameters,
+        unique_ptr<AdminData> _admin,
+        unique_ptr<Query::DrugTreatmentData> _parameters,
         vector<unique_ptr<Query::RequestData>>& _requests,
         vector<unique_ptr<XpertRequestData>>& _xpertRequests) :
-        Query::QueryData(_queryID, _clientID, _pQueryDate, _language, move(_pParameters), _requests),
-        m_pAdministrative(move(_pAdministrative)), m_xpertRequests(move(_xpertRequests))
+        Query::QueryData(_queryID, _clientID, _queryDate, _language, move(_parameters), _requests),
+        m_admin(move(_admin)), m_xpertRequests(move(_xpertRequests))
 {}
 
-const unique_ptr<AdministrativeData>& XpertQueryData::getpAdministrative() const
+const unique_ptr<AdminData>& XpertQueryData::getAmin() const
 {
-    return m_pAdministrative;
+    return m_admin;
 }
 
-unique_ptr<AdministrativeData>&& XpertQueryData::movepAdministrative()
+unique_ptr<AdminData>&& XpertQueryData::moveAdmin()
 {
-    return move(m_pAdministrative);
+    return move(m_admin);
 }
 
 const std::vector<std::unique_ptr<XpertRequestData>>& XpertQueryData::getXpertRequests() const

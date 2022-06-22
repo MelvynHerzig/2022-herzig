@@ -66,7 +66,7 @@ protected:
     unsigned computeScore(const Core::PatientVariates& _patientVariates,
                           const Core::CovariateDefinitions& _modelDefinitions,
                           OutputLang _lang,
-                          std::vector<CovariateResult>& _results) const;
+                          std::vector<CovariateValidationResult>& _results) const;
 
     /// \brief For a given operation and a value check if valid. In case of success push the given
     ///        patient covariate and definition into the results.
@@ -82,7 +82,7 @@ protected:
                         const Core::CovariateDefinition* _definition,
                         const Core::PatientCovariate* _patient,
                         OutputLang _lang,
-                        std::vector<CovariateResult>& _results) const;
+                        std::vector<CovariateValidationResult>& _results) const;
 
     /// \brief For a given series of covariate definitions. This method checks that they
     ///        all support the requested output lang or at least english.

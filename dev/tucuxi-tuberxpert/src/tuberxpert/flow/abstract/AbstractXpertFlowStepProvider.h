@@ -8,7 +8,7 @@
 namespace Tucuxi {
 namespace Xpert {
 
-/// \brief Abstract class that must be implemented by drug xpert flow step providers.
+/// \brief Abstract class that must be implemented by xpert flow step providers.
 ///        A drug xpert is an object responsible to provide the execution steps
 ///        for a given drug. An execution step is:
 ///        1) Validate covariates and select drug model

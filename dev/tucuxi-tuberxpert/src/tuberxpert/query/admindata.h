@@ -1,10 +1,11 @@
-#ifndef XPERTADMINISTRATIVEDATA_H
-#define XPERTADMINISTRATIVEDATA_H
+#ifndef ADMINDATA_H
+#define ADMINDATA_H
 
 /**************************************************
  |      Basically this class is a copypasta       |
  |    of Tucuquery::Query::AdministrativeData,    |
  |       but with const refs, and comments.       |
+ |            and more consistant naming          |
  **************************************************/
 
 #include <string>
@@ -17,13 +18,13 @@ namespace Xpert {
 
 /// \brief Class representing an address of an institute or a person.
 /// \date 28/04/2022
-class Address
+class AddressData
 {
 public:
     // Constructors
 
     /// \brief Default constructor is not supported.
-    Address() = delete;
+    AddressData() = delete;
 
     /// \brief Address constructor.
     /// \param _street Street name.
@@ -31,7 +32,7 @@ public:
     /// \param _city City of the address.
     /// \param _state State of the address.
     /// \param _country Country of the address.
-    Address(const std::string& _street, int _postCode, const std::string& _city, const std::string& _state, const std::string& _country);
+    AddressData(const std::string& _street, int _postCode, const std::string& _city, const std::string& _state, const std::string& _country);
 
     // Getters
     /// \brief Gets the street.
@@ -73,17 +74,17 @@ protected:
 
 /// \brief Class represent a phone number of an institute or a person.
 /// \date 28/04/2022
-class Phone
+class PhoneData
 {
 public:
     // Constructors
     /// \brief Default constructor is not supported.
-    Phone() = delete;
+    PhoneData() = delete;
 
     /// \brief Phone constructor.
     /// \param _number Phone number.
     /// \param _type Phone type.
-    Phone(const std::string& _number, const std::string& _type);
+    PhoneData(const std::string& _number, const std::string& _type);
 
     // Getters
     /// \brief Gets the phone number.
@@ -102,19 +103,19 @@ protected:
     const std::string m_type;
 };
 
-/// \brief Class represent a email address of an institute or a person.
+/// \brief Class represent an email address of an institute or a person.
 /// \date 28/04/2022
-class Email
+class EmailData
 {
 public:
     // Constructors
     /// \brief Default constructor is not supported.
-    Email() = delete;
+    EmailData() = delete;
 
     /// \brief Email constructor.
     /// \param _address Email address.
     /// \param _type Email type.
-    Email(const std::string& _address, const std::string& _type);
+    EmailData(const std::string& _address, const std::string& _type);
 
     // Getters;
     /// \brief Gets the email address.
@@ -135,32 +136,32 @@ protected:
 
 /// \brief Class representing a person and his contact coordinates.
 /// \date 28/04/2022
-class PersonalContact
+class PersonData
 {
 public:
     // Constructors
     /// \brief Default constructor is not supported.
-    PersonalContact() = delete;
+    PersonData() = delete;
 
     /// \brief Personal contact constructor.
     /// \param _id Person's identifier.
     /// \param _title Person's title.
     /// \param _firstName Perosn's firstname.
     /// \param _lastName Person's lastname.
-    /// \param _pAddress Person's address.
-    /// \param _pPhone Person's phone.
-    /// \param _pEmail Person's email.
-    PersonalContact(
+    /// \param _address Person's address.
+    /// \param _phone Person's phone.
+    /// \param _email Person's email.
+    PersonData(
             const std::string& _id,
             const std::string& _title,
             const std::string& _firstName,
             const std::string& _lastName,
-            std::unique_ptr<Address> _pAddress,
-            std::unique_ptr<Phone> _pPhone,
-            std::unique_ptr<Email> _pEmail);
+            std::unique_ptr<AddressData> _address,
+            std::unique_ptr<PhoneData> _phone,
+            std::unique_ptr<EmailData> _email);
 
     /// \brief Copy constructor is not supported because of unique pointers.
-    PersonalContact(PersonalContact& _other) = delete;
+    PersonData(PersonData& _other) = delete;
 
     // Getters
     /// \brief Gets the person's identifier.
@@ -181,15 +182,15 @@ public:
 
     /// \brief Gets the person's address.
     /// \return Person's address optional. May be nullptr.
-    const std::unique_ptr<Address>& getpAddress() const;
+    const std::unique_ptr<AddressData>& getAddress() const;
 
     /// \brief Gets the person's phone number.
     /// \return Person's phone number optional. May be nullptr.
-    const std::unique_ptr<Phone>& getpPhone() const;
+    const std::unique_ptr<PhoneData>& getPhone() const;
 
     /// \brief Gets the person's email.
     /// \return Person's email optional. May be nullptr.
-    const std::unique_ptr<Email>& getpEmail() const;
+    const std::unique_ptr<EmailData>& getEmail() const;
 
 protected:
     /// \brief Perosn's identifier.
@@ -205,39 +206,39 @@ protected:
     const std::string m_lastName;
 
     /// \brief Person's address. May be nullptr.
-    std::unique_ptr<Address> m_pAddress;
+    std::unique_ptr<AddressData> m_address;
 
     /// \brief Person's phone number. May be nullptr.
-    std::unique_ptr<Phone> m_pPhone;
+    std::unique_ptr<PhoneData> m_phone;
 
     /// \brief Person's email. May be nullptr.
-    std::unique_ptr<Email> m_pEmail;
+    std::unique_ptr<EmailData> m_email;
 };
 
 /// \brief Class representing an institute and its contact coordinates.
 /// \date 28/04/2022
-class InstituteContact
+class InstituteData
 {
 public:
     // Constructors
     /// \brief Default constructor is not supported.
-    InstituteContact() = delete;
+    InstituteData() = delete;
 
     /// \brief Institute contact constructor.
     /// \param _id Identifier of the institute.
     /// \param _name Name of the institute.
-    /// \param _pAddress Address of the institute.
-    /// \param _pPhone Phone of the institute.
-    /// \param _pEmail Email of the institute.
-    InstituteContact(
+    /// \param _address Address of the institute.
+    /// \param _phone Phone of the institute.
+    /// \param _email Email of the institute.
+    InstituteData(
             const std::string& _id,
             const std::string& _name,
-            std::unique_ptr<Address> _pAddress,
-            std::unique_ptr<Phone> _pPhone,
-            std::unique_ptr<Email> _pEmail);
+            std::unique_ptr<AddressData> _address,
+            std::unique_ptr<PhoneData> _phone,
+            std::unique_ptr<EmailData> _email);
 
     /// \brief Copy constructor is not supported because of unique pointers.
-    InstituteContact(InstituteContact& _other) = delete;
+    InstituteData(InstituteData& _other) = delete;
 
     // Getters
     /// \brief Gets the identifier of the institute.
@@ -250,15 +251,15 @@ public:
 
     /// \brief Gets the address of the institute.
     /// \return Optional address of the institute. May be nullptr.
-    const std::unique_ptr<Address>& getpAddress() const;
+    const std::unique_ptr<AddressData>& getAddress() const;
 
     /// \brief Gets the phone of the institute.
     /// \return Optional phone of the institute. May be nullptr.
-    const std::unique_ptr<Phone>& getpPhone() const;
+    const std::unique_ptr<PhoneData>& getPhone() const;
 
     /// \brief Gets the email of the institute.
     /// \return Optional email of the institute. May be nullptr.
-    const std::unique_ptr<Email>& getpEmail() const;
+    const std::unique_ptr<EmailData>& getEmail() const;
 
 protected:
     /// \brief Identifier of the institute.
@@ -268,47 +269,47 @@ protected:
     const std::string m_name;
 
     /// \brief Address of the institute. May be nullptr.
-    std::unique_ptr<Address> m_pAddress;
+    std::unique_ptr<AddressData> m_address;
 
     /// \brief Phone of the institute. May be nullptr.
-    std::unique_ptr<Phone> m_pPhone;
+    std::unique_ptr<PhoneData> m_phone;
 
     /// \brief Email of the institute. May be nullptr.
-    std::unique_ptr<Email> m_pEmail;
+    std::unique_ptr<EmailData> m_email;
 };
 
-/// \brief A person (mandator or patient) has contact coordinates and may be affiliated to an institute.
+/// \brief A person (mandator or patient) that has contact coordinates and may be affiliated to an institute.
 /// \date 28/04/2022
-class Person
+class FullPersonData
 {
 public:
     // Constructors
     /// \brief Default constructor is not supported.
-    Person() = delete;
+    FullPersonData() = delete;
 
     /// \brief Person constructor.
-    /// \param _pPerson Person coordinates.
-    /// \param _pInstitute Institute coordinates
-    Person(std::unique_ptr<PersonalContact> _pPerson, std::unique_ptr<InstituteContact> _pInstitute);
+    /// \param _person Person coordinates.
+    /// \param _institute Institute coordinates
+    FullPersonData(std::unique_ptr<PersonData> _person, std::unique_ptr<InstituteData> _institute);
 
     /// \brief Copy constructor is not supported because of unique pointers.
-    Person(Person& _other) = delete;
+    FullPersonData(FullPersonData& _other) = delete;
 
     // Getters
     /// \brief Gets the person's coordinates.
     /// \return Person's coordinates reference.
-    const PersonalContact& getpPerson() const;
+    const PersonData& getPerson() const;
 
     /// \brief Gets the person's institute.
     /// \return Person's optional institute.
-    const std::unique_ptr<InstituteContact>& getpInstitute() const;
+    const std::unique_ptr<InstituteData>& getInstitute() const;
 
 protected:
     /// \brief Person's coordinates.
-    std::unique_ptr<PersonalContact> m_pPerson;
+    std::unique_ptr<PersonData> m_person;
 
     /// \brief Peson's institute.
-    std::unique_ptr<InstituteContact> m_pInstitute;
+    std::unique_ptr<InstituteData> m_institute;
 };
 
 /// \brief Class for storing any information about a patient.
@@ -334,52 +335,52 @@ protected:
     std::map<std::string, std::string> m_data;
 };
 
-/// \brief Wrapper for all administrative data of TuberXpert query.
+/// \brief Wrapper for all admin data of TuberXpert query.
 /// \date 28/04/2022
-class AdministrativeData
+class AdminData
 {
 public:
     // Constructors
     /// \brief Default constructor is not supported.
-    AdministrativeData() = delete;
+    AdminData() = delete;
 
     /// \brief Constructor of administrative data.
-    /// \param _pMandator Mandator information pointer. May be nullptr.
-    /// \param _pPatient Client information pointer. May be nullptr.
-    /// \param _pClinicalData Client clinical data information pointer. May be nullptr.
-    AdministrativeData(
-            std::unique_ptr<Person> _pMandator,
-            std::unique_ptr<Person> _pPatient,
-            std::unique_ptr<ClinicalData> _pClinicalData);
+    /// \param _mandator Mandator information pointer. May be nullptr.
+    /// \param _patient Client information pointer. May be nullptr.
+    /// \param _clinicalData Client clinical data information pointer. May be nullptr.
+    AdminData(
+            std::unique_ptr<FullPersonData> _mandator,
+            std::unique_ptr<FullPersonData> _patient,
+            std::unique_ptr<ClinicalData> _clinicalData);
 
     /// \brief Copy constructor is not supported because of unique pointers.
-    AdministrativeData(AdministrativeData& _other) = delete;
+    AdminData(AdminData& _other) = delete;
 
     // Getters
-    /// \brief Gets the mandator person.
+    /// \brief Gets the mandator full person.
     /// \return Optional mandator person. may be nullptr.
-    const std::unique_ptr<Person>& getpMandator() const;
+    const std::unique_ptr<FullPersonData>& getMandator() const;
 
-    /// \brief Gets the patient person.
+    /// \brief Gets the patient full person.
     /// \return Optional patient person. May be nullptr.
-    const std::unique_ptr<Person>& getpPatient() const;
+    const std::unique_ptr<FullPersonData>& getPatient() const;
 
     /// \brief Gets the clinical data.
     /// \return Optional clinical data. May be nullptr.
-    const std::unique_ptr<ClinicalData>& getpClinicalData() const;
+    const std::unique_ptr<ClinicalData>& getClinicalData() const;
 
 protected:
     /// \brief Mandator. May be nullptr.
-    std::unique_ptr<Person> m_pMandator;
+    std::unique_ptr<FullPersonData> m_mandator;
 
     /// \brief Patient. May be nullptr.
-    std::unique_ptr<Person> m_pPatient;
+    std::unique_ptr<FullPersonData> m_patient;
 
     /// \brief Clinical data. May be nullptr.
-    std::unique_ptr<ClinicalData> m_pClinicalData;
+    std::unique_ptr<ClinicalData> m_clinicalData;
 };
 
 } // namespace Xpert
 } // namespace Tucuxi
 
-#endif // XPERTADMINISTRATIVEDATA_H
+#endif // ADMINDATA_H

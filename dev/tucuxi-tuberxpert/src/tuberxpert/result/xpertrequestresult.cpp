@@ -6,7 +6,7 @@ namespace Tucuxi {
 namespace Xpert {
 
 XpertRequestResult::XpertRequestResult(
-        const XpertGlobalResult* _xpertGlobalResult,
+        const GlobalResult* _xpertGlobalResult,
         unique_ptr<XpertRequestData> _xpertRequest,
         unique_ptr<Core::DrugTreatment> _dTreatment,
         const string& _errorMessage)
@@ -39,17 +39,17 @@ const Core::DrugModel* XpertRequestResult::getDrugModel() const
     return m_drugModel;
 }
 
-const vector<CovariateResult>& XpertRequestResult::getCovariateResults()
+const vector<CovariateValidationResult>& XpertRequestResult::getCovariateResults()
 {
     return m_covariateResults;
 }
 
-const map<const Core::SingleDose*, DoseResult>& XpertRequestResult::getDoseResults()
+const map<const Core::SingleDose*, DoseValidationResult>& XpertRequestResult::getDoseResults()
 {
     return m_doseResults;
 }
 
-const map<const Core::Sample*, SampleResult>& XpertRequestResult::getSampleResults()
+const map<const Core::Sample*, SampleValidationResult>& XpertRequestResult::getSampleResults()
 {
     return m_sampleResults;
 }
@@ -69,7 +69,7 @@ const std::unique_ptr<Core::IntakeEvent>& XpertRequestResult::getLastIntake()
     return m_lastIntake;
 }
 
-const XpertGlobalResult& XpertRequestResult::getXpertGlobalResult() const
+const GlobalResult& XpertRequestResult::getXpertGlobalResult() const
 {
     return *m_xpertGlobalResult;
 }
@@ -84,17 +84,17 @@ void XpertRequestResult::setDrugModel(const Core::DrugModel* _newDrugModel)
     m_drugModel = _newDrugModel;
 }
 
-void XpertRequestResult::setCovariateResults(vector<CovariateResult>&& _newCovariateResults)
+void XpertRequestResult::setCovariateResults(vector<CovariateValidationResult>&& _newCovariateResults)
 {
     m_covariateResults = _newCovariateResults;
 }
 
-void XpertRequestResult::setDoseResults(map<const Core::SingleDose*, DoseResult>&& _newDoseResults)
+void XpertRequestResult::setDoseResults(map<const Core::SingleDose*, DoseValidationResult>&& _newDoseResults)
 {
     m_doseResults = _newDoseResults;
 }
 
-void XpertRequestResult::setSampleResults(map<const Core::Sample*, SampleResult>&& _newSampleResults)
+void XpertRequestResult::setSampleResults(map<const Core::Sample*, SampleValidationResult>&& _newSampleResults)
 {
     m_sampleResults = _newSampleResults;
 }

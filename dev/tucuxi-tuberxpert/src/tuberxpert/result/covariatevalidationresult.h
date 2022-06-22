@@ -1,12 +1,12 @@
-#ifndef COVARIATERESULT_H
-#define COVARIATERESULT_H
+#ifndef COVARIATEVALIDATIONRESULT_H
+#define COVARIATEVALIDATIONRESULT_H
 
 #include <string>
 
 #include "tucucore/drugmodel/covariatedefinition.h"
 #include "tucuquery/parametersdata.h"
 
-#include "tuberxpert/result/abstractresult.h"
+#include "tuberxpert/result/abstractvalidationresult.h"
 
 namespace Tucuxi {
 namespace Xpert {
@@ -30,7 +30,7 @@ enum class CovariateType {
 ///         warning if the covariateDefinition validation is not respected.
 /// \date 20/05/2022
 /// \author Herzig Melvyn
-class CovariateResult : public AbstractResult<Core::CovariateDefinition>
+class CovariateValidationResult : public AbstractValidationResult<Core::CovariateDefinition>
 {
 public:
 
@@ -38,7 +38,7 @@ public:
     /// \param _definition. Associated drug model definition.
     /// \param _patient Related patient covariate if present.
     /// \param _warning Warning noticed.
-    CovariateResult(const Core::CovariateDefinition* _definition,
+    CovariateValidationResult(const Core::CovariateDefinition* _definition,
                     const Core::PatientCovariate* _patient,
                     const std::string& _warning);
 
@@ -75,4 +75,4 @@ protected:
 } // namespace Xpert
 } // namespace Tucuxi
 
-#endif // COVARIATERESULT_H
+#endif // COVARIATEVALIDATIONRESULT_H

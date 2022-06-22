@@ -43,7 +43,7 @@ void SampleValidator::perform(XpertRequestResult& _xpertRequestResult) const
         return;
     }
 
-    map<const Core::Sample*, SampleResult> sampleResults;
+    map<const Core::Sample*, SampleValidationResult> sampleResults;
 
     // Getting percentiles for each sample
     for(const unique_ptr<Core::Sample>& sample : _xpertRequestResult.getTreatment()->getSamples()) {
@@ -91,7 +91,7 @@ void SampleValidator::perform(XpertRequestResult& _xpertRequestResult) const
             _xpertRequestResult.setErrorMessage("Percentile computation failed.");
         }
 
-        sampleResults.emplace(make_pair(sample.get(), SampleResult(sample.get(), groupOver99Percentiles)));
+        sampleResults.emplace(make_pair(sample.get(), SampleValidationResult(sample.get(), groupOver99Percentiles)));
     }
 
     _xpertRequestResult.setSampleResults(move(sampleResults));

@@ -1,4 +1,4 @@
-#include "covariateresult.h"
+#include "covariatevalidationresult.h"
 
 #include "tucucommon/utils.h"
 
@@ -7,13 +7,13 @@ using namespace std;
 namespace Tucuxi {
 namespace Xpert {
 
-CovariateResult::CovariateResult(const Core::CovariateDefinition* _definition,
+CovariateValidationResult::CovariateValidationResult(const Core::CovariateDefinition* _definition,
                                  const Core::PatientCovariate* _patient,
                                  const string& _warning):
-    AbstractResult<Core::CovariateDefinition>(_definition, _warning), m_patient(_patient)
+    AbstractValidationResult<Core::CovariateDefinition>(_definition, _warning), m_patient(_patient)
 {}
 
-std::string CovariateResult::getValue() const
+std::string CovariateValidationResult::getValue() const
 {
     if (m_patient != nullptr) {
         return m_patient->getValue();
@@ -22,7 +22,7 @@ std::string CovariateResult::getValue() const
     return Common::Utils::varToString(m_source->getValue());
 }
 
-Common::TucuUnit CovariateResult::getUnit() const
+Common::TucuUnit CovariateValidationResult::getUnit() const
 {
     if (m_patient != nullptr) {
         return m_patient->getUnit();
@@ -31,7 +31,7 @@ Common::TucuUnit CovariateResult::getUnit() const
     return m_source->getUnit();
 }
 
-CovariateType CovariateResult::getType() const
+CovariateType CovariateValidationResult::getType() const
 {
     if (m_patient != nullptr) {
         return CovariateType::Patient;
@@ -41,7 +41,7 @@ CovariateType CovariateResult::getType() const
 }
 
 
-const Core::PatientCovariate *CovariateResult::getPatient() const
+const Core::PatientCovariate *CovariateValidationResult::getPatient() const
 {
     return m_patient;
 }

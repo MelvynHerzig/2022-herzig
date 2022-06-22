@@ -29,27 +29,27 @@ SOURCES += \
 }
 
 DEFINES+= \
-    test_generaladjustmenttraitcreator \
-    test_generalcovariatevalidatorandmodelselector \
-    test_generaldosevalidator \
-    test_generalsamplevalidator \
-    test_generaltargetvalidator \
+    test_adjustmenttraitcreator \
+    test_covariatevalidatorandmodelselector \
+    test_dosevalidator \
+    test_globalresultcreation \
     test_language \
     test_query \
+    test_samplevalidator \
+    test_targetvalidator \
     test_xpertquerytocoreextractor \
-    test_xpertresultcreation \
     test_xpertutils \
 
 HEADERS += \
-    test_generaladjustmenttraitcreator.h \
-    test_generalcovariatevalidatorandmodelselector.h \
-    test_generaldosevalidator.h \
-    test_generalsamplevalidator.h \
-    test_generaltargetvalidator.h \
+    test_adjustmenttraitcreator.h \
+    test_covariatevalidatorandmodelselector.h \
+    test_dosevalidator.h \
+    test_globalresultcreation.h \
     test_languagemanager.h \
+    test_samplevalidator.h \
+    test_targetvalidator.h \
     test_xpertqueryimport.h \
     test_xpertquerytocoreextractor.h \
-    test_xpertresultcreation.h \
     test_xpertutils.h
 
 OTHER_FILES += \

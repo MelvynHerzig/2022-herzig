@@ -1,5 +1,5 @@
-#ifndef ABSTRACTRESULT_H
-#define ABSTRACTRESULT_H
+#ifndef ABSTRACTVALIDATIONRESULT_H
+#define ABSTRACTVALIDATIONRESULT_H
 
 #include <string>
 
@@ -20,24 +20,24 @@ enum class WarningLevel
     CRITICAL
 };
 
-/// \brief This class is the base class for all result classes.
+/// \brief This class is the base class for all result classes except Global and Request.
 ///        A result class is always linked to a "source" pointer and
 ///        associates to it a warning (message) with a WarningLevel.
 /// \date 02/06/2022
 /// \author Herzig Melvyn
 template <typename T>
-class AbstractResult
+class AbstractValidationResult
 {
 public:
 
     /// \brief Constructor.
     /// \param _source Pointer to the source object concerned by the result.
     /// \param _warning Warning message associated.
-    AbstractResult(const T* _source, const std::string& _warning) :
+    AbstractValidationResult(const T* _source, const std::string& _warning) :
     m_source(_source), m_warning(_warning){}
 
     /// \brief Abstract destructor.
-    virtual ~AbstractResult(){};
+    virtual ~AbstractValidationResult(){};
 
     /// \brief Gets the source object of the result.
     /// \return A constant pointer to the source object.
@@ -70,4 +70,4 @@ protected:
 } // namespace Xpert
 } // namespace Tucuxi
 
-#endif // ABSTRACTRESULT_H
+#endif // ABSTRACTVALIDATIONRESULT_H

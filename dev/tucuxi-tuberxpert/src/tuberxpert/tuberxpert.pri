@@ -10,21 +10,20 @@ HEADERS += \
     $$PWD/flow/general/generalxpertflowstepprovider.h \
     $$PWD/flow/general/samplevalidator.h \
     $$PWD/flow/general/targetvalidator.h \
-    $$PWD/query/xpertadministrativedata.h \
+    $$PWD/query/admindata.h \
     $$PWD/query/xpertquerydata.h \
     $$PWD/query/xpertqueryimport.h \
     $$PWD/query/xpertquerytocoreextractor.h \
     $$PWD/query/xpertrequestdata.h \
     $$PWD/language/languageexception.h \
     $$PWD/language/languagemanager.h \
-    $$PWD/result/abstractresult.h \
-    $$PWD/result/covariateresult.h \
-    $$PWD/result/doseresult.h \
-    $$PWD/result/sampleresult.h \
+    $$PWD/result/abstractvalidationresult.h \
+    $$PWD/result/covariatevalidationresult.h \
+    $$PWD/result/dosevalidationresult.h \
+    $$PWD/result/globalresult.h \
+    $$PWD/result/samplevalidationresult.h \
     $$PWD/result/xpertrequestresult.h \
-    $$PWD/result/xpertresult.h \
-    $$PWD/utils/xpertutils.h \
-    $$PWD/tuberxpertcomputer.h
+    $$PWD/utils/xpertutils.h
 
 SOURCES += \
     $$PWD/flow/general/covariatevalidatorandmodelselector.cpp \
@@ -33,17 +32,16 @@ SOURCES += \
     $$PWD/flow/general/generalxpertflowstepprovider.cpp \
     $$PWD/flow/general/samplevalidator.cpp \
     $$PWD/flow/general/targetvalidator.cpp \
-    $$PWD/query/xpertadministrativedata.cpp \
+    $$PWD/query/admindata.cpp \
     $$PWD/query/xpertquerydata.cpp \
     $$PWD/query/xpertqueryimport.cpp \
     $$PWD/language/languageexception.cpp \
     $$PWD/language/languagemanager.cpp \
     $$PWD/query/xpertquerytocoreextractor.cpp \
     $$PWD/query/xpertrequestdata.cpp \
-    $$PWD/result/covariateresult.cpp \
-    $$PWD/result/doseresult.cpp \
-    $$PWD/result/sampleresult.cpp \
+    $$PWD/result/covariatevalidationresult.cpp \
+    $$PWD/result/dosevalidationresult.cpp \
+    $$PWD/result/globalresult.cpp \
+    $$PWD/result/samplevalidationresult.cpp \
     $$PWD/result/xpertrequestresult.cpp \
-    $$PWD/result/xpertresult.cpp \
-    $$PWD/utils/xpertutils.cpp \
-    $$PWD/tuberxpertcomputer.cpp
+    $$PWD/utils/xpertutils.cpp
