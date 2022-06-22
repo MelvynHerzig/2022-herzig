@@ -24,15 +24,12 @@ class AdjustmentTraitCreator : public AbstractXpertFlowStep
 public:
 
     /// \brief Constructor.
-    /// \param _computationTime This attribute is used for testing purpose. It specifies "when is
-    ///        the class executed". For example, it allows to get the start/end time when executed
-    ///        at different times.
-    AdjustmentTraitCreator(Common::DateTime _computationTime = Common::DateTime::now());
+    AdjustmentTraitCreator();
 
     /// \brief Create the adjustment trait based on the information in the xpertRequestResult.
     /// \param _xpertRequestResult XpertRequestResult containing all the XpertRequest, the treatment,
     ///        the drug model and that will recieve the trait when created.
-    void perform(XpertRequestResult& _xpertRequestResult) const;
+    void perform(XpertRequestResult& _xpertRequestResult);
 
 protected:
 
@@ -130,7 +127,7 @@ protected:
 protected:
 
     /// \brief Fix the computation time to get the same values when testing
-    ///        at different times.
+    ///        at different times. Retrieved from the xpertRequestResult from perform.
     Common::DateTime m_computationTime;
 };
 

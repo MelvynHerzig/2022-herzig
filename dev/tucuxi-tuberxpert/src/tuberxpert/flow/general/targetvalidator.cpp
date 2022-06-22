@@ -18,7 +18,7 @@ namespace Xpert {
 TargetValidator::TargetValidator()
 {}
 
-void TargetValidator::perform(XpertRequestResult& _xpertRequestResult) const
+void TargetValidator::perform(XpertRequestResult& _xpertRequestResult)
 {
 
     // Checks treatment

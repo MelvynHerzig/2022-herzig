@@ -23,7 +23,7 @@
 struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestCovariateValidatorAndModelSelector>
 {
     /// \brief General flow step provider used to get the covariate validator and model selector object to test.
-    const Tucuxi::Xpert::GeneralXpertFlowStepProvider flowStepProvider{Tucuxi::Common::DateTime("2022-06-20T10:00:00", "%Y-%m-%dT%H:%M:%S")};
+    const Tucuxi::Xpert::GeneralXpertFlowStepProvider flowStepProvider;
 
     /// \brief Drug model string of the imatinib used by some of the tests.
     std::string originalImatinibModelString = R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -814,7 +814,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
                                         <queryId>imatinib_2</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -916,7 +916,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
                                         <queryId>imatinib_2</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -1119,7 +1119,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
                                         <queryId>imatinib_2</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -1221,7 +1221,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
                                         <queryId>imatinib_2</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2035,7 +2035,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
                                         <queryId>imatinib_2</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2147,7 +2147,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
                                         <queryId>imatinib_2</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2968,7 +2968,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
                                         <queryId>imatinib_2</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -3082,7 +3082,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
                                         <queryId>imatinib_2</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -3839,7 +3839,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
                                         <queryId>imatinib_2</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -4589,7 +4589,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
                                         <queryId>imatinib_2</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -5222,7 +5222,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
                                         <queryId>imatinib_2</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -7603,7 +7603,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
                                         <queryId>imatinib_2</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -9171,7 +9171,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
                                         <queryId>imatinib_2</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -11392,7 +11392,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
                                         <queryId>imatinib_2</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>

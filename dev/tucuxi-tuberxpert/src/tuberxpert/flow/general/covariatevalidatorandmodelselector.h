@@ -31,16 +31,13 @@ class CovariateValidatorAndModelSelector : public AbstractXpertFlowStep
 {
 public:
     /// \brief Constructor.
-    /// \param _computationTime This attribute is used for testing purpose. It specifies "when is
-    ///        the selector executed". For example, it allows to get the same age when executed
-    ///        at different times.
-    CovariateValidatorAndModelSelector(Common::DateTime _computationTime = Common::DateTime::now());
+    CovariateValidatorAndModelSelector();
 
     /// \brief For a given XpertRequestResult gets the best drug model and sets
     ///        its CovariateResult vector.
     /// \param _xpertRequestResult XpertRequestResult containing the drugTreatment to be used
     ///                            and the CovariateResult vector to be set.
-    void perform(XpertRequestResult& _xpertRequestResult) const;
+    void perform(XpertRequestResult& _xpertRequestResult);
 
 protected: 
 
@@ -93,8 +90,8 @@ protected:
 
 protected:
 
-    /// \brief Fixes the computation time to get the same values when testing
-    ///        at different times.
+    /// \brief Fix the computation time to get the same values when testing
+    ///        at different times. Retrieved from the xpertRequestResult from perform.
     Common::DateTime m_computationTime;
 };
 

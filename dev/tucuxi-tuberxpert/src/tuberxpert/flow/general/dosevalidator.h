@@ -29,7 +29,7 @@ public:
     ///        If the evaluation fails (for example: incompatible dose) the XpertRequestResult
     ///        is invalidated (i.e: it gets an error).
     /// \param _xpertRequestResult XpertRequestResult to evaluate.
-    void perform(XpertRequestResult& _xpertRequestResult) const;
+    void perform(XpertRequestResult& _xpertRequestResult);
 
 protected:
 

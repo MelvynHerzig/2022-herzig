@@ -40,7 +40,7 @@ public:
 
     /// \brief Evaluates each sample in the treatment from the XpertRequestResult.
     /// \param _xpertRequestResult XpertRequestResult containing samples to evaluate.
-    void perform(XpertRequestResult& _xpertRequestResult) const;
+    void perform(XpertRequestResult& _xpertRequestResult);
 
 protected:
 

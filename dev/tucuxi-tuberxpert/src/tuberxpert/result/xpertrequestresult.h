@@ -90,10 +90,12 @@ public:
     /// \return A constant unique pointer on the intake event.
     const std::unique_ptr<Core::IntakeEvent>& getLastIntake();
 
-    /// \brief Get a constant reference on the XpertGlobalResult object that contains common information
-    ///        for all the XpertRequestResult as well as all the XpertRequestResult.
-    /// \return Return a constant reference on the XpertResult held by this object.
-    const GlobalResult& getXpertGlobalResult() const;
+    /// \brief Get a constant pointer on the GlobalResult object that contains common information
+    ///        for all the XpertRequestResult as well as all the XpertRequestResult. This pointer
+    ///        is not to be deleted.
+    /// \return Return a constant pointer on the XpertResult held by this object.
+    ///         May be nullptr.
+    const GlobalResult* getGlobalResult() const;
 
     /// \brief Sets a new error message.
     /// \param _message New message to set.

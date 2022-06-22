@@ -11,13 +11,13 @@ using namespace std;
 namespace Tucuxi {
 namespace Xpert {
 
-GeneralXpertFlowStepProvider::GeneralXpertFlowStepProvider(Common::DateTime _computationTime)
+GeneralXpertFlowStepProvider::GeneralXpertFlowStepProvider()
 {
-    m_covariateValidatorAndModelSelector = make_unique<CovariateValidatorAndModelSelector>(_computationTime);
+    m_covariateValidatorAndModelSelector = make_unique<CovariateValidatorAndModelSelector>();
     m_doseValidator = make_unique<DoseValidator>();
     m_sampleValidator = make_unique<SampleValidator>();
     m_targetValidator = make_unique<TargetValidator>();
-    m_adjustmentTraitCreator = make_unique<AdjustmentTraitCreator>(_computationTime);
+    m_adjustmentTraitCreator = make_unique<AdjustmentTraitCreator>();
 }
 
 const std::unique_ptr<AbstractXpertFlowStep>& GeneralXpertFlowStepProvider::getCovariateValidatorAndModelSelector() const

@@ -17,17 +17,22 @@
 #include "tucucommon/unit.h"
 
 #include "tuberxpert/utils/xpertutils.h"
+#include "tuberxpert/result/globalresult.h"
 
 using namespace std;
 
 namespace Tucuxi {
 namespace Xpert {
 
-CovariateValidatorAndModelSelector::CovariateValidatorAndModelSelector(Common::DateTime _computationTime) : m_computationTime(_computationTime)
+CovariateValidatorAndModelSelector::CovariateValidatorAndModelSelector()
 {}
 
-void CovariateValidatorAndModelSelector::perform(XpertRequestResult& _xpertRequestResult) const
+void CovariateValidatorAndModelSelector::perform(XpertRequestResult& _xpertRequestResult)
 {
+    // Fixing computation time to compute age covariate.
+    const GlobalResult* globalResult = _xpertRequestResult.getGlobalResult();
+    m_computationTime = globalResult == nullptr ? Common::DateTime::now() : globalResult->getComputationTime();
+
     Tucuxi::Common::LoggerHelper logHelper;
 
     // Checks treatment

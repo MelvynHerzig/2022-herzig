@@ -7,16 +7,22 @@
 #include "tucucore/intakeextractor.h"
 #include "tucucore/computingservice/computingresult.h"
 
+#include "tuberxpert/result/globalresult.h"
+
 using namespace std;
 
 namespace Tucuxi {
 namespace Xpert {
 
-AdjustmentTraitCreator::AdjustmentTraitCreator(Common::DateTime _computationTime) : m_computationTime(_computationTime)
+AdjustmentTraitCreator::AdjustmentTraitCreator()
 {}
 
-void AdjustmentTraitCreator::perform(XpertRequestResult& _xpertRequestResult) const
+void AdjustmentTraitCreator::perform(XpertRequestResult& _xpertRequestResult)
 {
+    // Fixing computation time to compute adjustment / start / end times...
+    const GlobalResult* globalResult = _xpertRequestResult.getGlobalResult();
+    m_computationTime = globalResult == nullptr ? Common::DateTime::now() : globalResult->getComputationTime();
+
     // Checks treatment
     if (_xpertRequestResult.getTreatment() == nullptr) {
         _xpertRequestResult.setErrorMessage("No treatment set.");

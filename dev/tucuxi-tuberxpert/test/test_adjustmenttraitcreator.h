@@ -28,8 +28,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
     const std::string date_format = "%Y-%m-%dT%H:%M:%S";
 
     /// \brief General flow step provider used to get the adjustment trait creator object to test.
-    ///        We set the adjustment trait creator execution time to 2022-06-20 10h00.
-    const Tucuxi::Xpert::GeneralXpertFlowStepProvider flowStepProvider{Tucuxi::Common::DateTime("2022-06-20T10:00:00", date_format)};
+    const Tucuxi::Xpert::GeneralXpertFlowStepProvider flowStepProvider;
 
     /// \brief Imatinib model string used during tests when a drug without a standard treatment is needed.
     std::string imatinibModelString = R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -1331,7 +1330,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -1435,7 +1434,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -1536,7 +1535,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -1642,7 +1641,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -1721,7 +1720,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -1800,7 +1799,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -1905,7 +1904,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2006,7 +2005,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2082,7 +2081,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2282,7 +2281,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2383,7 +2382,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>busulfan</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2022-06-20T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2484,7 +2483,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>busulfan</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2022-06-20T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2564,7 +2563,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>busulfan</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2666,7 +2665,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2022-06-20T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2764,7 +2763,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2862,7 +2861,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -2964,7 +2963,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -3062,7 +3061,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -3164,7 +3163,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -3262,7 +3261,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>busulfan</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2022-06-20T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -3361,7 +3360,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -3459,7 +3458,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -3557,7 +3556,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -3655,7 +3654,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -3753,7 +3752,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2022-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>

@@ -69,9 +69,9 @@ const std::unique_ptr<Core::IntakeEvent>& XpertRequestResult::getLastIntake()
     return m_lastIntake;
 }
 
-const GlobalResult& XpertRequestResult::getXpertGlobalResult() const
+const GlobalResult* XpertRequestResult::getGlobalResult() const
 {
-    return *m_xpertGlobalResult;
+    return m_xpertGlobalResult;
 }
 
 void XpertRequestResult::setErrorMessage(const string& _message)

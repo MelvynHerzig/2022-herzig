@@ -22,7 +22,7 @@ public:
     /// \brief Method to call in order to perform the step.
     /// \param _xpertRequestResult XpertRequestResult object that will hold the step result and
     ///        that hold the information needed for the step be performed.
-    virtual void perform(XpertRequestResult& _xpertRequestResult) const = 0;
+    virtual void perform(XpertRequestResult& _xpertRequestResult) = 0;
 
 };
 
