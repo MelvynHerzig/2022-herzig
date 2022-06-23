@@ -2,6 +2,7 @@
 INCLUDEPATH += $$PWD/../../src
 
 HEADERS += \
+    $$PWD/exporter/abstractxpertrequestresultexport.h \
     $$PWD/exporter/xpertrequestresulthtmlexport.h \
     $$PWD/exporter/xpertrequestresultpdfexport.h \
     $$PWD/exporter/xpertrequestresultxmlexport.h \

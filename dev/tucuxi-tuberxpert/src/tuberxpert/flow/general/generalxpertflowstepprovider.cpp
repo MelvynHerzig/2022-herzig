@@ -5,6 +5,7 @@
 #include "tuberxpert/flow/general/samplevalidator.h"
 #include "tuberxpert/flow/general/targetvalidator.h"
 #include "tuberxpert/flow/general/adjustmenttraitcreator.h"
+#include "tuberxpert/flow/general/reportprinter.h"
 
 using namespace std;
 
@@ -18,6 +19,7 @@ GeneralXpertFlowStepProvider::GeneralXpertFlowStepProvider()
     m_sampleValidator = make_unique<SampleValidator>();
     m_targetValidator = make_unique<TargetValidator>();
     m_adjustmentTraitCreator = make_unique<AdjustmentTraitCreator>();
+    m_reportPrinter = make_unique<ReportPrinter>();
 }
 
 const std::unique_ptr<AbstractXpertFlowStep>& GeneralXpertFlowStepProvider::getCovariateValidatorAndModelSelector() const
