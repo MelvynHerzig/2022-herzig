@@ -2,7 +2,15 @@
 #define TEST_XPERTUTILS_H
 
 #include "tucucore/dosage.h"
+#include "tucucore/drugmodelchecker.h"
+#include "tucucore/pkmodel.h"
+#include "tucucore/drugmodelimport.h"
+#include "tucucore/drugmodelrepository.h"
+#include "tucucore/computingservice/computingresponse.h"
 
+#include "tuberxpert/query/xpertquerydata.h"
+#include "tuberxpert/query/xpertqueryimport.h"
+#include "tuberxpert/result/globalresult.h"
 #include "tuberxpert/language/languageexception.h"
 #include "tuberxpert/utils/xpertutils.h"
 
@@ -70,7 +78,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
     ///        (before both time ranges) which should return the reference time itself.
     ///
     /// \param _testName Name of the test.
-    void getOldestDosageTimeRangeStartReturnsCorrrectValues(const std::string& _testName)
+    void getOldestDosageTimeRangeStartReturnsCorrectValues(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -119,7 +127,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
     ///        (before both time ranges) which should return an undefined date time.
     ///
     /// \param _testName Name of the test.
-    void getLatestDosageTimeRangeStartReturnsCorrrectValues(const std::string& _testName)
+    void getLatestDosageTimeRangeStartReturnsCorrectValues(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -154,6 +162,143 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         fructose_assert_eq(Tucuxi::Xpert::getLatestDosageTimeRangeStart(dosageHistory, Tucuxi::Common::DateTime("2022-01-01T09:00:00", date_format)).isUndefined(),
                            true);
+    }
+
+    /// \brief This method tests the computeFileName method.
+    ///        It computes a XpertRequestResult and check that the file name recieved is expected.
+    /// \param _testName Name of the test
+    void computeFileNameReturnsCorrectValues(const std::string& _testName)
+    {
+
+        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <query version="1.0"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+
+                                        <queryId>imatinib_2</queryId>
+                                        <clientId>124568</clientId>
+                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <language>en</language>
+
+                                        <drugTreatment>
+                                            <!-- All the information regarding the patient -->
+                                            <patient>
+                                                <covariates>
+                                                </covariates>
+                                            </patient>
+                                            <!-- List of the drugs informations we have concerning the patient -->
+                                            <drugs>
+                                                <!-- All the information regarding the drug -->
+                                                <drug>
+                                                    <drugId>imatinib</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <!-- All the information regarding the treatment -->
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                            <dosageTimeRange>
+                                                                <start>2018-07-06T08:00:00</start>
+                                                                <end>2018-07-08T08:00:00</end>
+                                                                <dosage>
+                                                                    <dosageLoop>
+                                                                        <lastingDosage>
+                                                                            <interval>12:00:00</interval>
+                                                                            <dose>
+                                                                                <value>400</value>
+                                                                                <unit>mg</unit>
+                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                                                            </dose>
+                                                                            <formulationAndRoute>
+                                                                                <formulation>parenteralSolution</formulation>
+                                                                                <administrationName>foo bar</administrationName>
+                                                                                <administrationRoute>oral</administrationRoute>
+                                                                                <absorptionModel>extravascular</absorptionModel>
+                                                                            </formulationAndRoute>
+                                                                        </lastingDosage>
+                                                                    </dosageLoop>
+                                                                </dosage>
+                                                            </dosageTimeRange>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <!-- Samples history -->
+                                                    <samples>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T06:00:30</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>0.7</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T07:00:00</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>10.6</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T13:00:00</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>0.8</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
+                                                    </samples>
+                                                    <!-- Personalised targets -->
+                                                    <targets>
+                                                    </targets>
+                                                </drug>
+                                            </drugs>
+                                        </drugTreatment>
+                                        <!-- List of the requests we want the server to take care of -->
+                                        <requests>
+                                            <requestXpert>
+                                                <drugId>imatinib</drugId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>en</language>
+                                                </output>
+                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
+                                                <options>
+                                                    <loadingOption>noLoadingDose</loadingOption>
+                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
+                                                    <targetExtractionOption>populationValues</targetExtractionOption>
+                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
+                                                </options>
+                                            </requestXpert>
+                                        </requests>
+                                    </query>)";
+
+        std::cout << _testName << std::endl;
+
+        // Query import
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
+
+        if (importResult != Tucuxi::Xpert::XpertQueryImport::Status::Ok) {
+            throw std::runtime_error("Setup failed");
+        }
+
+        Tucuxi::Xpert::GlobalResult globalResult{move(query), "random\\path"};
+        globalResult.incrementRequestIndexBeingHandled();
+        Tucuxi::Xpert::XpertRequestResult& xrr =  globalResult.getXpertRequestResults()[0];
+
+
+        fructose_assert_eq(Tucuxi::Xpert::computeFileName(xrr), "random\\path\\imatinib_1_11-7-2018_13h45m30s.xml");
     }
 };
 

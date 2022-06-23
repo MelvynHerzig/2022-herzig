@@ -62,8 +62,9 @@ int main(int argc, char** argv)
     xpertUtilsTests.add_test("Converts output lang to string", &TestXpertUtils::convertOutputLangToString);
     xpertUtilsTests.add_test("Converts double to string", &TestXpertUtils::convertDoubleToString);
     xpertUtilsTests.add_test("Get a translatable string with english fallback.", &TestXpertUtils::getStringFromTranslatableWithFallback);
-    xpertUtilsTests.add_test("The values returned by getOldestTimeRangeStart are correct.", &TestXpertUtils::getOldestDosageTimeRangeStartReturnsCorrrectValues);
-    xpertUtilsTests.add_test("The values returned by getLatestTimeRangeStart are correct.", &TestXpertUtils::getLatestDosageTimeRangeStartReturnsCorrrectValues);
+    xpertUtilsTests.add_test("The values returned by getOldestTimeRangeStart are correct.", &TestXpertUtils::getOldestDosageTimeRangeStartReturnsCorrectValues);
+    xpertUtilsTests.add_test("The values returned by getLatestTimeRangeStart are correct.", &TestXpertUtils::getLatestDosageTimeRangeStartReturnsCorrectValues);
+    xpertUtilsTests.add_test("The value returned by computeFileName is correct.", &TestXpertUtils::computeFileNameReturnsCorrectValues);
 
     res = xpertUtilsTests.run(argc, argv);
     if (res != 0) {

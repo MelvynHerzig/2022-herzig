@@ -18,13 +18,9 @@ public:
     /// \brief Constructor.
     XpertRequestResultPdfExport();
 
-    /// \brief Does nothing, sets the error message of the xpert request result.
-    /// \param _xpertRequestResult Xpert request result to export.
-    void exportToString(XpertRequestResult& _xpertRequestResult) const override;
-
     /// \brief Export the xpert request result to a file.
     /// \param _xpertRequestResult Xpert request result to export.
-    void exportToFile(XpertRequestResult& _xpertRequestResult) const override;
+    void exportToFile(XpertRequestResult& _xpertRequestResult) override;
 };
 
 } // namespace Xpert

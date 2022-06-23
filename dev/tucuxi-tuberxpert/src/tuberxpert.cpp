@@ -74,11 +74,11 @@ bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, stri
             return false;
         }
 
-        if (result.count("output") > 0) {
-            outputPath = result["output"].as<string>();
+        if (result.count("outputpath") > 0) {
+            outputPath = result["outputpath"].as<string>();
         }
         else {
-            cout << "The output file is mandatory" << endl << endl;
+            cout << "The output directory is mandatory" << endl << endl;
             cout << options.help({"", "Group"}) << endl;
             return false;
         }

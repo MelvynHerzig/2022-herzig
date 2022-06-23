@@ -73,6 +73,7 @@ protected:
                                   std::unique_ptr<Tucuxi::Xpert::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const;
 
     /// \brief Extracts the adjustment trait from the XpertRequestResult, makes the request for the core and submits it.
+    ///        If something fails, the error message of the xpert request result is set and it should not be handled anymore.
     /// \param _xpertRequestResult XpertRequestResult containing the adjustment trait to use.
     void makeAndExecuteAdjustmentRequest(Tucuxi::Xpert::XpertRequestResult& _xpertRequestResult) const;
 };

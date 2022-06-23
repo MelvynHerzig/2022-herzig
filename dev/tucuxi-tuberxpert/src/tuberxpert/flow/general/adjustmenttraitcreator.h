@@ -38,7 +38,8 @@ protected:
     /// \return Aposteriori if there are dosages and samples in the treatment otherwise Apriori.
     Core::PredictionParameterType getPredictionParameterType(const std::unique_ptr<Core::DrugTreatment>& _drugTreatment) const;
 
-    /// \brief Get the adjustment time.
+    /// \brief Get the adjustment time. Additionaly, set the last
+    ///        intake of the patient in the XpertRequestResult if there is one.
     ///        - If the adjustment time is set in the XpertRequest, it returns it.
     ///        - Otherwise:
     ///            - If there is an ongoing treatment, it returns the next intake time.
@@ -49,16 +50,14 @@ protected:
     ///        and the request.
     /// \param _fullFormulationAndRoute Full formulation and route associated to the treatment.
     /// \return Returns the adjustment time extracted.
-    Common::DateTime getAdjustmentTime(XpertRequestResult& _xpertRequestResult, const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const;
+    Common::DateTime getAdjustmentTimeAndLastIntake(XpertRequestResult& _xpertRequestResult, const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const;
 
-    /// \brief Try to extract the intake series from the first intake until computation time in order to extract
-    ///        the adjustment time out of it. This function is called by "getAdjustmentTime". Additionaly, set the last
-    ///        intake of the patient in the XpertRequestResult if there is one.
-    /// \param _xpertRequestResult XpertRequestResult containing the treatment and the drug model to extract intakes.
-    ///        Get his last intake set.
-    /// \param _fullFormulationAndRoute Full formulation and route associated to the treatment.
+    /// \brief Apprixmate the adjustment time from the given intake series.
+    ///        This function is called by "getAdjustmentTimeAndLastIntake".
+    /// \param _xpertRequestResult XpertRequestResult to use drug moodel in order to get the half life.
+    /// \param _intakes Intake series used for approximation.
     /// \return Returns the adjustment time if found one otherwise an undefined time.
-    Common::DateTime makeIntakeSeriesTryExtractAdjustmentTimeAndLastIntake(XpertRequestResult& _xpertRequestResult, const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const;
+    Common::DateTime approximateAdjustmentTimeFromIntakes(XpertRequestResult& _xpertRequestResult, Core::IntakeSeries _intakes) const;
 
     /// \brief Given an intake series, try to extract the closest intake in the future. If none is found,
     ///        extract the closed in the past. By closest, we mean "the closest to the computation time".

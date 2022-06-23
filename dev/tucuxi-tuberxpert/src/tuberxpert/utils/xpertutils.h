@@ -8,6 +8,7 @@
 #include "tucucore/drugtreatment/drugtreatment.h"
 
 #include "tuberxpert/language/languagemanager.h"
+#include "tuberxpert/result/xpertrequestresult.h"
 
 namespace Tucuxi {
 namespace Xpert {
@@ -45,6 +46,12 @@ Common::DateTime getOldestDosageTimeRangeStart(const Core::DosageHistory& _dosag
 /// \param _referenceTime Reference time. The resulting time must be before this time.
 /// \return Return the latest starting time found or an undefined date if the dosage history is empty or in the future.
 Common::DateTime getLatestDosageTimeRangeStart(const Core::DosageHistory& _dosageHistory, const Common::DateTime& _referenceTime);
+
+/// \brief Compute the final file name considering the path and the desired format.
+///        The final file name is <drugId>_<request number>_<computation time>.<file format>
+/// \param _xpertRequestResult To get the directory path, the drug id and the file format.
+/// \return Return the final file name.
+std::string computeFileName(const XpertRequestResult& _xpertRequestResult);
 
 
 } // namespace Xpert
