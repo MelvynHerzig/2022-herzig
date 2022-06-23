@@ -783,7 +783,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
             throw std::runtime_error("Setup failed");
         }
 
-        _globalResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query));
+        _globalResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query), "");
         Tucuxi::Xpert::XpertRequestResult& xrr =  _globalResult->getXpertRequestResults()[0];
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
     }
@@ -897,7 +897,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
             throw std::runtime_error("import failded.");
         }
 
-        Tucuxi::Xpert::GlobalResult globalResult{move(query)};
+        Tucuxi::Xpert::GlobalResult globalResult{move(query), ""};
 
         flowStepProvider.getTargetValidator()->perform(globalResult.getXpertRequestResults()[0]);
 

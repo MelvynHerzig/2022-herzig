@@ -1298,7 +1298,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
             throw std::runtime_error("Setup failed");
         }
 
-        _xpertResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query));
+        _xpertResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query), "");
         Tucuxi::Xpert::XpertRequestResult& xrr =  _xpertResult->getXpertRequestResults()[0];
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
     }
@@ -1412,7 +1412,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
             throw std::runtime_error("import failded.");
         }
 
-        Tucuxi::Xpert::GlobalResult xpertGlobalResult{move(query)};
+        Tucuxi::Xpert::GlobalResult xpertGlobalResult{move(query), ""};
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xpertGlobalResult.getXpertRequestResults()[0]);
 

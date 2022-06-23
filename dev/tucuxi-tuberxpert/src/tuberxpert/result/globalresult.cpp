@@ -9,8 +9,12 @@ using namespace std;
 namespace Tucuxi {
 namespace Xpert {
 
-GlobalResult::GlobalResult(unique_ptr<XpertQueryData> _xpertQuery) :
-    m_computationTime(_xpertQuery->getpQueryDate()), m_pAdministrative(_xpertQuery->moveAdmin())
+GlobalResult::GlobalResult(unique_ptr<XpertQueryData> _xpertQuery, const string& _outputPath) :
+    m_computationTime(_xpertQuery->getpQueryDate()),
+    m_adminData(_xpertQuery->moveAdmin()),
+    m_outputPath(_outputPath),
+    m_requestIndexBeingHandled(-1)
+
 {
     XpertQueryToCoreExtractor extractor;
 
@@ -31,14 +35,29 @@ Common::DateTime GlobalResult::getComputationTime() const
     return m_computationTime;
 }
 
-const unique_ptr<AdminData>& GlobalResult::getAdministrative() const
+const unique_ptr<AdminData>& GlobalResult::getAdminData() const
 {
-    return m_pAdministrative;
+    return m_adminData;
 }
 
 std::vector<XpertRequestResult>& GlobalResult::getXpertRequestResults()
 {
     return m_xpertRequestResults;
+}
+
+string GlobalResult::getOutputPath() const
+{
+    return m_outputPath;
+}
+
+int GlobalResult::getRequestIndexBeingHandled() const
+{
+    return m_requestIndexBeingHandled;
+}
+
+int GlobalResult::incrementRequestIndexBeingHandled()
+{
+    return ++m_requestIndexBeingHandled;
 }
 
 } // namespace Xpert

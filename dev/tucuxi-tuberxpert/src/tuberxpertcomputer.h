@@ -43,16 +43,13 @@ public:
     ///        print the report of the requests handled successfully.
     /// \param _drugPath Folder containing the drug models.
     /// \param _inputFileName Path to the query file.
-    /// \param _outputFileName Output file name. One file per successful request is created.
-    ///                        Therefore, the resulting file is suffixed by '_<number>'. The number
-    ///                        represent the position of the requestXpert in the query file, the first beeing
-    ///                        number 1.
+    /// \param _outputPath Output directory path. One file per successful request is created.
     /// \param _languagePath Path to the folder containing the translation files.
     /// \return A computingStatus the depends on the fact that the query could be loaded and the amount
     ///         of requestXpert handled successfully.
     ComputingStatus compute(const std::string& _drugPath,
                             const std::string& _inputFileName,
-                            const std::string& _outputFileName,
+                            const std::string& _outputPath,
                             const std::string& _languagePath) const;
 
 protected:
@@ -73,7 +70,8 @@ protected:
     /// \brief For a given XpertRequestResult get the XpertFlowStepProvider for the related drug.
     /// \param _xpertRequestResult XpertRequestResult to get drug id from.
     /// \param _xpertFlowStepProvider Unique pointer in which create the corresponding XpertFlowStepProvider.
-    void getXpertFlowStepProvider(Tucuxi::Xpert::XpertRequestResult& _xpertRequestResult, std::unique_ptr<Tucuxi::Xpert::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const;
+    void getXpertFlowStepProvider(Tucuxi::Xpert::XpertRequestResult& _xpertRequestResult,
+                                  std::unique_ptr<Tucuxi::Xpert::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const;
 
     /// \brief Extracts the adjustment trait from the XpertRequestResult, makes the request for the core and submits it.
     /// \param _xpertRequestResult XpertRequestResult containing the adjustment trait to use.

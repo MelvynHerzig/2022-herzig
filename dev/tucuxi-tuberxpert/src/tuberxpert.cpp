@@ -30,9 +30,10 @@ const int CODE_NO_REQUESTS_SUCCEEDED = 2;
 /// \param argv Program arguments.
 /// \param drugPath String value to store parsed drug files directory.
 /// \param inputFileName String value to store parsed input file path.
-/// \param outputFileName String value to store parsed output file path.
+/// \param outputPath String value to store parsed output file path.
+/// \param languagePath String value to store the location of the folder containing the translation files.
 /// \return true if parsing went ok otherwise false.
-bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, string& outputFileName, string& languagePath)
+bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, string& outputPath, string& languagePath)
 {
     Tucuxi::Common::LoggerHelper logHelper;
 
@@ -44,7 +45,7 @@ bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, stri
         options.allow_unrecognised_options().add_options()
                 ("d,drugpath", "Drug files directory path", cxxopts::value<string>())
                 ("i,input", "Input request file path", cxxopts::value<string>())
-                ("o,output", "Output response file path", cxxopts::value<string>())
+                ("o,outputpath", "Output response directory path", cxxopts::value<string>())
                 ("l,languagepath", "Language files directory path", cxxopts::value<string>())
                 ("help", "Print help");
 
@@ -74,7 +75,7 @@ bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, stri
         }
 
         if (result.count("output") > 0) {
-            outputFileName = result["output"].as<string>();
+            outputPath = result["output"].as<string>();
         }
         else {
             cout << "The output file is mandatory" << endl << endl;
@@ -89,7 +90,7 @@ bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, stri
 
         logHelper.info("Drugs directory : {}", drugPath);
         logHelper.info("Input file : {}", inputFileName);
-        logHelper.info("Output file name : {}", outputFileName);
+        logHelper.info("Output directory : {}", outputPath);
         logHelper.info("Language directory : {}", languagePath);
 
         return true;
@@ -107,9 +108,9 @@ bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, stri
 int main(int argc, char** argv)
 {
     // Parsing program arguments
-    string drugPath, inputFileName, outputFileName;
+    string drugPath, inputFileName, outputPath;
     string languagePath = "../language";
-    bool allGood = parse(argc, argv, drugPath, inputFileName, outputFileName, languagePath);
+    bool allGood = parse(argc, argv, drugPath, inputFileName, outputPath, languagePath);
     if(not allGood){
         return CODE_BAD_ARGUMENTS_ERROR;
     }
@@ -127,7 +128,7 @@ int main(int argc, char** argv)
 
     // Computation start
     TuberXpertComputer txc;
-    ComputingStatus result = txc.compute(drugPath, inputFileName, outputFileName, languagePath);
+    ComputingStatus result = txc.compute(drugPath, inputFileName, outputPath, languagePath);
 
     logHelper.info("Tuberxpert console application is exiting...");
     logHelper.info("********************************************************");

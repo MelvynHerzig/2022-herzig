@@ -24,7 +24,7 @@ TuberXpertComputer::TuberXpertComputer()
 ComputingStatus TuberXpertComputer::compute(
         const string& _drugPath,
         const string& _inputFileName,
-        const string& _outputFileName,
+        const string& _outputPath,
         const string& _languagePath) const
 {
 
@@ -55,18 +55,17 @@ ComputingStatus TuberXpertComputer::compute(
         return ComputingStatus::IMPORT_ERROR;
     }
 
-    Xpert::GlobalResult globalResult(move(query));
+    Xpert::GlobalResult globalResult(move(query), _outputPath);
 
     /*********************************************************************************
      *                             For each xpert resquest                           *
      * *******************************************************************************/
 
     unsigned nbUnfulfilledRequest = 0;
-    unsigned requestNbBeingHandled = 0;
     for (Xpert::XpertRequestResult& xpertRequestResult : globalResult.getXpertRequestResults()) {
 
         logHelper.info("---------------------------------------");
-        logHelper.info("Handling request number: " + to_string(++requestNbBeingHandled));
+        logHelper.info("Handling request number: " + to_string(globalResult.incrementRequestIndexBeingHandled()));
 
         // Check if query to core extraction was successful
         logHelper.info("Checking extraction state...");
@@ -284,7 +283,7 @@ bool TuberXpertComputer::makeAndExecuteAdjustmentRequest(Xpert::XpertRequestResu
         logHelper.error("Adjustment request execution failed.");
         return false;
 
-    // If it went well, set the response in the result and return true.
+    // If it went well, set the response in the request result and return true.
     } else {
 
         logHelper.info("Adjustment request execution success.");

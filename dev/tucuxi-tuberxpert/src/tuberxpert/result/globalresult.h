@@ -28,7 +28,9 @@ public:
     /// \brief Constructor. Moves the AdministrativeData unique pointer
     ///        from _xpertQuery and moves each XpertRequest unique pointer
     ///        into XpertRequestResult.
-    GlobalResult(std::unique_ptr<XpertQueryData> _xpertQuery);
+    /// \param _xpertQuery Xpert Query data where to extract the admin data, drug treatment and xpert requests.
+    /// \param _outputPath Path where to export the reports.
+    GlobalResult(std::unique_ptr<XpertQueryData> _xpertQuery, const std::string& _outputPath);
 
     /// \brief Copy constructor is not supported.
     ///        The copy constructor is not supported because of the use of
@@ -42,13 +44,27 @@ public:
 
     /// \brief Gets a reference on the administrative data.
     /// \return A reference on the administrative data.
-    const std::unique_ptr<AdminData>& getAdministrative() const;
+    const std::unique_ptr<AdminData>& getAdminData() const;
 
     /// \brief Gets a reference on the vector of XpertRequestResult objects.
     ///        This is non const because the objects must be editable by the
     ///        TuberXpert flow steps.
     /// \return A reference one the vector of XpertRequestResult objects.
     std::vector<XpertRequestResult>& getXpertRequestResults();
+
+    /// \brief Get the output directory path.
+    /// \return Return the path string.
+    std::string getOutputPath() const;
+
+    /// \brief Get the request index being handled.
+    /// \return Return the index of the request (from the internal vector).
+    ///         If no index is handled (not called once incrementRequestIndexBeingHandled),
+    ///         then it returns -1.
+    int getRequestIndexBeingHandled() const;
+
+    /// \brief Increment the request index being handled and get the incremented number.
+    /// \return Return the incremented number.
+    int incrementRequestIndexBeingHandled();
 
 protected:
 
@@ -58,10 +74,17 @@ protected:
     Common::DateTime m_computationTime;
 
     /// \brief Administrative information moved from query.
-    std::unique_ptr<AdminData> m_pAdministrative;
+    std::unique_ptr<AdminData> m_adminData;
 
     /// \brief Vector of XpertRequestResults edited along the TuberXpert "pipeline".
     std::vector<XpertRequestResult> m_xpertRequestResults;
+
+    /// \brief Directory in which to generate the reports.
+    std::string m_outputPath;
+
+    /// \brief Index of the xpertRequestResult being handled. Only used for
+    ///        logging and report naming purpose.
+    int m_requestIndexBeingHandled;
 };
 
 } // namespace Xpert

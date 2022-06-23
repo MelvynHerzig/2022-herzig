@@ -186,7 +186,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
             throw std::runtime_error("import failded.");
         }
 
-        Tucuxi::Xpert::GlobalResult xr{move(query)};
+        Tucuxi::Xpert::GlobalResult xr{move(query), ""};
 
         flowStepProvider.getSampleValidator()->perform(xr.getXpertRequestResults()[0]);
 
@@ -289,7 +289,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
             throw std::runtime_error("import failded.");
         }
 
-        Tucuxi::Xpert::GlobalResult xr{move(query)};
+        Tucuxi::Xpert::GlobalResult xr{move(query), ""};
 
         flowStepProvider.getSampleValidator()->perform(xr.getXpertRequestResults()[0]);
 
@@ -1252,7 +1252,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
             throw std::runtime_error("Setup failed");
         }
 
-        Tucuxi::Xpert::GlobalResult xpertResult{move(query)};
+        Tucuxi::Xpert::GlobalResult xpertResult{move(query), ""};
         Tucuxi::Xpert::XpertRequestResult& xrr =  xpertResult.getXpertRequestResults()[0];
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
 
