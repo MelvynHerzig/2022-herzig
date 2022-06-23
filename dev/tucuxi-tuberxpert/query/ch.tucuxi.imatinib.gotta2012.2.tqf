@@ -8,6 +8,76 @@
     <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
     <language>en</language>
 
+    <admin>
+		<mandator>
+			<person>
+			    <id>asdf</id>
+				<title>Dr.</title>
+				<firstName>John</firstName>
+				<lastName>Doe</lastName>
+				<address>
+					<street>Av. de l'Ours 2</street>
+					<postCode>1010</postCode>
+					<city>Lausanne</city>
+					<state>Vaud</state>
+					<country>Suisse</country>
+				</address>
+				<phone>
+					<number>0213140002</number>
+					<type>professional</type>
+				</phone>
+				<email>
+					<address>john.doe@chuv.com</address>
+					<type>professional</type>
+				</email>
+			</person>
+			<institute>
+				<id>456789</id>
+				<name>CHUV</name>
+				<address>
+					<street>Av. de l'Ours 1</street>
+					<postCode>1010</postCode>
+					<city>Lausanne</city>
+					<state>Vaud</state>
+					<country>Suisse</country>
+				</address>
+				<phone>
+					<number>0213140001</number>
+					<type>private</type>
+				</phone>
+				<email>
+					<address>info@chuv.com</address>
+					<type>professional</type>
+				</email>
+			</institute>
+		</mandator>
+		<patient>
+			<person>
+				<id>123456</id>
+				<firstName>Alice</firstName>
+				<lastName>Aupaysdesmerveilles</lastName>
+				<address>
+					<street>Av. d'Ouchy 27</street>
+					<postCode>1006</postCode>
+					<city>Lausanne</city>
+					<state>Vaud</state>
+					<country>Suisse</country>
+				</address>
+				<phone>
+					<number>0216170002</number>
+					<type>professional</type>
+				</phone>
+				<email>
+					<address>alice.apdm@gmail.com</address>
+					<type>private</type>
+				</email>
+			</person>
+		</patient>
+		<clinicalData>
+			<clinicalDataEntry key="note">random note</clinicalDataEntry>
+		</clinicalData>
+	</admin>
+
     <drugTreatment>
         <!-- All the information regarding the patient -->
         <patient>

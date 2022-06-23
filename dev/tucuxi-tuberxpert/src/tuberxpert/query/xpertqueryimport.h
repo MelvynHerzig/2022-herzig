@@ -47,37 +47,37 @@ protected:
     // Benallal TB from 2018.
     /// \brief Creates administrative data from the xml document.
     /// \return Unique pointer on administrative data. Nullpointer if node doesn't exists.
-    std::unique_ptr<AdminData> createAdministrativeData(Common::XmlDocument& _document);
+    std::unique_ptr<AdminData> createAdminData(Common::XmlDocument& _document);
 
-    /// \brief Creates a person from a mandator/patient node.
+    /// \brief Creates a full person data from a mandator/patient node.
     /// \param _personRootIterator Mendator/patient node to start from.
     /// \return Unique pointer on person data. Nullpointer if node doesn't exists.
-    std::unique_ptr<FullPersonData> createPerson(Common::XmlNodeIterator& _personRootIterator);
+    std::unique_ptr<FullPersonData> createFullPersonData(Common::XmlNodeIterator& _personRootIterator);
 
-    /// \brief Creates a person contact object.
+    /// \brief Creates a person data object.
     /// \param _personalContactRootIterator Person node iterator to start from.
     /// \return Unique pointer on person contact. Nullpointer if node doesn't exists.
-    std::unique_ptr<PersonData> createPersonalContact(Common::XmlNodeIterator& _personalContactRootIterator);
+    std::unique_ptr<PersonData> createPersonData(Common::XmlNodeIterator& _personalContactRootIterator);
 
-    /// \brief Creates an institut contact object.
+    /// \brief Creates an institut data object.
     /// \param _instituteContactRootIterator Institut node iterator to start from.
     /// \return Unique pointer on institut contact. Nullpointer if node doesn't exists.
-    std::unique_ptr<InstituteData> createInstituteContact(Common::XmlNodeIterator& _instituteContactRootIterator);
+    std::unique_ptr<InstituteData> createInstituteData(Common::XmlNodeIterator& _instituteContactRootIterator);
 
-    /// \brief Creates an address object.
+    /// \brief Creates an address data object.
     /// \param _addressRootIterator Addresse node iterator to start from.
     /// \return Unique pointer on address. Nullpointer if node doesn't exists.
-    std::unique_ptr<AddressData> createAddress(Common::XmlNodeIterator& _addressRootIterator);
+    std::unique_ptr<AddressData> createAddressData(Common::XmlNodeIterator& _addressRootIterator);
 
-    /// \brief Creates a phone number object.
+    /// \brief Creates a phone data object.
     /// \param _phoneRootIterator Phone node iterator to start from.
     /// \return Unique pointer on phone number. Nullpointer if node doesn't exists.
-    std::unique_ptr<PhoneData> createPhone(Common::XmlNodeIterator& _phoneRootIterator);
+    std::unique_ptr<PhoneData> createPhoneData(Common::XmlNodeIterator& _phoneRootIterator);
 
-    /// \brief Creates an email object.
+    /// \brief Creates an email data object.
     /// \param _emailRootIterator Email node iterator to start from.
     /// \return Unique pointer on email. Nullpointer if node doesn't exists.
-    std::unique_ptr<EmailData> createEmail(Common::XmlNodeIterator& _emailRootIterator);
+    std::unique_ptr<EmailData> createEmailData(Common::XmlNodeIterator& _emailRootIterator);
 
     /// \brief Creates clinical data from ClinicalData node.
     /// \param _clinicalDataRootIterator ClinicalData node to start from.
@@ -88,7 +88,7 @@ protected:
     /// \brief Extracts a custom Xpert Request from the xml.
     /// \param _requestXpertRootIterator XpertRequest node to start from.
     /// \return Unique pointer on request xpert data.
-    std::unique_ptr<XpertRequestData> createRequestXpert(Common::XmlNodeIterator& _requestXpertRootIterator);
+    std::unique_ptr<XpertRequestData> createRequestXpertData(Common::XmlNodeIterator& _requestXpertRootIterator);
 
     /// \brief Extracts a child string value with optionnal value if not present. Does not set any import error.
     /// \param _rootIterator XpertRequest root iterator.

@@ -5,6 +5,7 @@
 #include "tucucommon/xmldocument.h"
 #include "tucucommon/xmlnode.h"
 
+#include "tuberxpert/query/admindata.h"
 #include "tuberxpert/exporter/abstractxpertrequestresultexport.h"
 
 namespace Tucuxi {
@@ -30,6 +31,22 @@ protected:
     bool makeXmlString(XpertRequestResult& _xpertRequestResult, std::string& _xmlString);
 
     void exportDrugIntro(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
+
+    void exportAdminData(const std::unique_ptr<AdminData>& _admin, Common::XmlNode& _rootNode);
+
+    void exportFullPersonData(const std::unique_ptr<FullPersonData>& _fullPerson, Common::XmlNode& _adminNode, const std::string& _nodeName);
+
+    void exportPersonData(const PersonData& _person, Common::XmlNode& _patientMandatorNode);
+
+    void exportInstituteData(const std::unique_ptr<InstituteData>& _institute, Common::XmlNode& _patientMandatorNode);
+
+    void exportAddressData(const std::unique_ptr<AddressData>& _address, Common::XmlNode& _personInstitutNode);
+
+    void exportPhoneData(const std::unique_ptr<PhoneData>& _phone, Common::XmlNode& _personInstitutNode);
+
+    void exportEmailData(const std::unique_ptr<EmailData>& _email, Common::XmlNode& _personInstitutNode);
+
+    void exportClinicalData(const std::unique_ptr<ClinicalData>& _clinicalData, Common::XmlNode& _adminNode);
 
     std::string dateTimeToXmlString(const Common::DateTime& _dateTime) const;
 
