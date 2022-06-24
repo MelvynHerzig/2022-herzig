@@ -23,6 +23,11 @@ XpertRequestResultXmlExport::XpertRequestResultXmlExport()
 
 void XpertRequestResultXmlExport::exportToFile(XpertRequestResult& _xpertRequestResult)
 {
+    // Saving the reference on the xpertRequestResult to be able to retrieve
+    // it anywhere anytime. For example, when exporting the
+    // single doses.
+    m_xpertRequestResultInUse = &_xpertRequestResult;
+
     // Get the xml string
     string xmlString;
     if (!makeXmlString(_xpertRequestResult, xmlString)) {
@@ -60,10 +65,7 @@ bool XpertRequestResultXmlExport::makeXmlString(XpertRequestResult& _xpertReques
     m_xmlDocument.setRoot(root);
 
     // Date of generation
-    Tucuxi::Common::XmlNode generationDate =
-            m_xmlDocument.createNode(Tucuxi::Common::EXmlNodeType::Element, "computationTime",
-                                     dateTimeToXmlString(_xpertRequestResult.getGlobalResult()->getComputationTime()));
-    root.addChild(generationDate);
+    addNode(root, "computationTime", dateTimeToXmlString(_xpertRequestResult.getGlobalResult()->getComputationTime()));
 
     // Add the intro drugId, modelId, lastDose
     exportDrugIntro(_xpertRequestResult, root);
@@ -74,6 +76,9 @@ bool XpertRequestResultXmlExport::makeXmlString(XpertRequestResult& _xpertReques
     // Add the covariates
     exportCovariateResults(_xpertRequestResult.getCovariateResults(), root, _xpertRequestResult.getXpertRequest().getOutputLang());
 
+    // Add the dosage history (treatment)
+    exportTreatment(_xpertRequestResult.getTreatment(), root);
+
     m_xmlDocument.toString(_xmlString, true);
     return true;
 }
@@ -82,35 +87,27 @@ void XpertRequestResultXmlExport::exportDrugIntro(XpertRequestResult& _xpertRequ
 {
     // <drug>
     Common::XmlNode drugNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "drug", "");
+            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "drug");
     _rootNode.addChild(drugNode);
 
     //  <drugId>
-    Common::XmlNode drugIdNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "drugId", _xpertRequestResult.getXpertRequest().getDrugID());
-    drugNode.addChild(drugIdNode);
+    addNode(drugNode, "drugId", _xpertRequestResult.getXpertRequest().getDrugID());
 
     //      <lastDose>
     Common::XmlNode lastDoseNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "lastDose", "");
+            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "lastDose");
     drugNode.addChild(lastDoseNode);
 
     if (_xpertRequestResult.getLastIntake() != nullptr) {
         //              <value>
-        Common::XmlNode valueNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "value", varToString(_xpertRequestResult.getLastIntake()->getDose()));
-        lastDoseNode.addChild(valueNode);
+        addNode(lastDoseNode, "value", varToString(_xpertRequestResult.getLastIntake()->getDose()));
 
         //              <unit>
-        Common::XmlNode unitNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "unit", _xpertRequestResult.getLastIntake()->getUnit().toString());
-        lastDoseNode.addChild(unitNode);
+        addNode(lastDoseNode, "unit", _xpertRequestResult.getLastIntake()->getUnit().toString());
     }
 
     //  <drugModelId>
-    Common::XmlNode drugModelIdNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "drugModelId", _xpertRequestResult.getDrugModel()->getDrugModelId());
-    drugNode.addChild(drugModelIdNode);
+    addNode(drugNode, "drugModelId", _xpertRequestResult.getDrugModel()->getDrugModelId());
 }
 
 void XpertRequestResultXmlExport::exportAdminData(const unique_ptr<AdminData>& _admin, Common::XmlNode& _rootNode)
@@ -122,7 +119,7 @@ void XpertRequestResultXmlExport::exportAdminData(const unique_ptr<AdminData>& _
 
     // <admin>
     Common::XmlNode adminNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "admin", "");
+            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "admin");
     _rootNode.addChild(adminNode);
 
     //   <mandator>
@@ -145,7 +142,7 @@ void XpertRequestResultXmlExport::exportFullPersonData(const unique_ptr<FullPers
 
     // <mandator> or <patient>
     Common::XmlNode patientMandatorNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, _nodeName, "");
+            m_xmlDocument.createNode(Common::EXmlNodeType::Element, _nodeName);
     _adminNode.addChild(patientMandatorNode);
 
     //   <person>
@@ -160,36 +157,24 @@ void XpertRequestResultXmlExport::exportPersonData(const PersonData& _person, Co
 {
     // <person>
     Common::XmlNode personNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "person", "");
+            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "person");
     _patientMandatorNode.addChild(personNode);
 
     //   <id>
     if (_person.getId() != "") {
-
-        Common::XmlNode idNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "id", _person.getId());
-        personNode.addChild(idNode);
-
+        addNode(personNode, "id", _person.getId());
     }
 
     //   <title>
     if (_person.getTitle() != "") {
-
-        Common::XmlNode titleNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "title", _person.getTitle());
-        personNode.addChild(titleNode);
-
+        addNode(personNode, "title", _person.getTitle());
     }
 
     //   <firstName>
-    Common::XmlNode firstNameNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "firstName", _person.getFirstName());
-    personNode.addChild(firstNameNode);
+    addNode(personNode, "firstName", _person.getFirstName());
 
     //   <lastName>
-    Common::XmlNode lastNameNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "lastName", _person.getLastName());
-    personNode.addChild(lastNameNode);
+    addNode(personNode, "lastName", _person.getLastName());
 
     //   <address>
     exportAddressData(_person.getAddress(), personNode);
@@ -210,23 +195,17 @@ void XpertRequestResultXmlExport::exportInstituteData(const unique_ptr<Institute
 
     // <institute>
     Common::XmlNode instituteNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "institute", "");
+            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "institute");
     _patientMandatorNode.addChild(instituteNode);
 
 
     //   <id>
     if (_institute->getId() != "") {
-
-        Common::XmlNode idNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "id", _institute->getId());
-        instituteNode.addChild(idNode);
-
+        addNode(instituteNode, "id",  _institute->getId());
     }
 
     //   <name>
-    Common::XmlNode nameNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "name", _institute->getName());
-    instituteNode.addChild(nameNode);
+    addNode(instituteNode, "name", _institute->getName());
 
     //   <address>
     exportAddressData(_institute->getAddress(), instituteNode);
@@ -246,40 +225,26 @@ void XpertRequestResultXmlExport::exportAddressData(const unique_ptr<AddressData
 
     // <address>
     Common::XmlNode addressNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "address", "");
+            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "address");
     _personInstitutNode.addChild(addressNode);
 
     //   <street>
-    Common::XmlNode streetNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "street", _address->getStreet());
-    addressNode.addChild(streetNode);
+    addNode(addressNode, "street", _address->getStreet());
 
     //   <postCode>
-    Common::XmlNode postCodeNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "postCode", Common::Utils::varToString(_address->getPostCode()));
-    addressNode.addChild(postCodeNode);
+    addNode(addressNode, "postCode", Common::Utils::varToString(_address->getPostCode()));
 
     //   <city>
-    Common::XmlNode cityNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "city", _address->getCity());
-    addressNode.addChild(cityNode);
+    addNode(addressNode, "city", _address->getCity());
 
     //   <state>
     if (_address->getState() != "") {
-
-        Common::XmlNode stateNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "state", _address->getState());
-        addressNode.addChild(stateNode);
-
+        addNode(addressNode, "state", _address->getState());
     }
 
     //   <country>
     if (_address->getCountry() != "") {
-
-        Common::XmlNode countryNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "country", _address->getCountry());
-        addressNode.addChild(countryNode);
-
+        addNode(addressNode, "country", _address->getCountry());
     }
 }
 
@@ -291,21 +256,15 @@ void XpertRequestResultXmlExport::exportPhoneData(const unique_ptr<PhoneData>& _
 
     // <phone>
     Common::XmlNode phoneNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "phone", "");
+            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "phone");
     _personInstitutNode.addChild(phoneNode);
 
     //   <number>
-    Common::XmlNode numberNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "number", _phone->getNumber());
-    phoneNode.addChild(numberNode);
+    addNode(phoneNode, "number", _phone->getNumber());
 
     //   <type>
     if (_phone->getType() != "") {
-
-        Common::XmlNode typeNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "type", _phone->getType());
-        phoneNode.addChild(typeNode);
-
+         addNode(phoneNode, "type", _phone->getType());
     }
 }
 
@@ -317,21 +276,15 @@ void XpertRequestResultXmlExport::exportEmailData(const unique_ptr<EmailData>& _
 
     // <phone>
     Common::XmlNode emailNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "email", "");
+            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "email");
     _personInstitutNode.addChild(emailNode);
 
     //   <number>
-    Common::XmlNode addressNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "address", _email->getAddress());
-    emailNode.addChild(addressNode);
+    addNode(emailNode, "address", _email->getAddress());
 
     //   <type>
     if (_email->getType() != "") {
-
-        Common::XmlNode typeNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "type", _email->getType());
-        emailNode.addChild(typeNode);
-
+        addNode(emailNode, "type", _email->getType());
     }
 }
 
@@ -343,7 +296,7 @@ void XpertRequestResultXmlExport::exportClinicalData(const unique_ptr<ClinicalDa
 
     // <clinicalData>
     Common::XmlNode clinicalDataNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "clinicalData", "");
+            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "clinicalData");
     _adminNode.addChild(clinicalDataNode);
 
     for (auto entryIt = _clinicalData->getData().begin(); entryIt != _clinicalData->getData().end(); ++entryIt){
@@ -360,58 +313,70 @@ void XpertRequestResultXmlExport::exportCovariateResults(const vector<CovariateV
 {
     // <covariates>
     Common::XmlNode covariatesNode =
-            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "covariates", "");
+            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "covariates");
     _rootNode.addChild(covariatesNode);
 
     // For each covariate validation result
     for (const CovariateValidationResult& covariateValidationResult : _covariateResults) {
         //   <covariate>
         Common::XmlNode covariateNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "covariate", "");
+                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "covariate");
         covariatesNode.addChild(covariateNode);
 
         //       <covariateId>
-        Common::XmlNode covariateIdNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "covariateId", covariateValidationResult.getSource()->getId());
-        covariateNode.addChild(covariateIdNode);
+        addNode(covariateNode, "covariateId", covariateValidationResult.getSource()->getId());
+
 
         //       <name>
-        Common::XmlNode nameNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "name",
-                                         getStringWithEnglishFallback(covariateValidationResult.getSource()->getName().getString(), _outputLang));
-        covariateNode.addChild(nameNode);
+        addNode(covariateNode, "name", getStringWithEnglishFallback(covariateValidationResult.getSource()->getName().getString(), _outputLang));
 
         //       <value>
-        Common::XmlNode valueNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "value", covariateValidationResult.getValue());
-        covariateNode.addChild(valueNode);
+        addNode(covariateNode, "value", covariateValidationResult.getValue());
 
         //       <unit>
-        Common::XmlNode unitNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "unit", covariateValidationResult.getUnit().toString());
-        covariateNode.addChild(unitNode);
+        addNode(covariateNode, "unit", covariateValidationResult.getUnit().toString());
 
         //       <desc>
-        Common::XmlNode descNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "desc",
-                                         getStringWithEnglishFallback(covariateValidationResult.getSource()->getDescription(), _outputLang));
-        covariateNode.addChild(descNode);
+        addNode(covariateNode, "desc", getStringWithEnglishFallback(covariateValidationResult.getSource()->getDescription(), _outputLang));
 
         //       <source>
-        Common::XmlNode sourceNode =
-                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "source", varToString(covariateValidationResult.getType()));
-        covariateNode.addChild(sourceNode);
+        addNode(covariateNode, "source", varToString(covariateValidationResult.getType()));
 
         //       <warning>
-        if (!covariateValidationResult.getWarning().empty()) {
-            Common::XmlNode warningNode =
-                    m_xmlDocument.createNode(Common::EXmlNodeType::Element, "warning", covariateValidationResult.getWarning());
-            auto levelAttribute = m_xmlDocument.createAttribute("level", varToString(covariateValidationResult.getWarningLevel()));
-            warningNode.addAttribute(levelAttribute);
-            covariateNode.addChild(warningNode);
-        }
+        exportWarning(covariateValidationResult, covariateNode);
     }
 }
+
+void XpertRequestResultXmlExport::exportTreatment(const std::unique_ptr<Core::DrugTreatment>& _treatment, Common::XmlNode& _rootNode)
+{
+    if (_treatment == nullptr) {
+        return;
+    }
+
+    // <treatment>
+    Common::XmlNode treatmentNode =
+            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "treatment");
+    _rootNode.addChild(treatmentNode);
+
+    //   <dosageHistory>
+    exportDosageHistory(_treatment->getDosageHistory(), treatmentNode);
+}
+
+void XpertRequestResultXmlExport::exportSingleDose(const Core::SingleDose& _dosage, Common::XmlNode& _rootNode)
+{
+    // <dose>
+    exportDose(_dosage, _rootNode);
+
+    // <warning>
+    auto singleDoseIt = m_xpertRequestResultInUse->getDoseResults().find(&_dosage);
+    if (singleDoseIt !=  m_xpertRequestResultInUse->getDoseResults().end()){
+        exportWarning(singleDoseIt->second, _rootNode);
+    }
+
+    // <formulationAndRoute>
+    exportFormulationAndRoute(_dosage, _rootNode);
+}
+
 
 string XpertRequestResultXmlExport::dateTimeToXmlString(const Tucuxi::Common::DateTime& _dateTime) const
 {

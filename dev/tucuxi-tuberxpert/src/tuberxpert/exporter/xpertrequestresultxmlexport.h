@@ -4,6 +4,7 @@
 #include "tucucommon/xmlattribute.h"
 #include "tucucommon/xmldocument.h"
 #include "tucucommon/xmlnode.h"
+#include "tucuquery/computingqueryresponsexmlexport.h"
 
 #include "tuberxpert/query/admindata.h"
 #include "tuberxpert/exporter/abstractxpertrequestresultexport.h"
@@ -15,7 +16,7 @@ namespace Xpert {
 ///        It can be in a file or a string.
 /// \date 23/06/2022
 /// \author Herzig Melvyn
-class XpertRequestResultXmlExport : public AbstractXpertRequestResultExport
+class XpertRequestResultXmlExport : public AbstractXpertRequestResultExport, protected Query::ComputingQueryResponseXmlExport
 {
 public:
 
@@ -50,11 +51,29 @@ protected:
 
     void exportCovariateResults(const std::vector<CovariateValidationResult>& _covariateResults, Common::XmlNode& _rootNodem, OutputLang _outputLang);
 
+    void exportTreatment(const std::unique_ptr<Core::DrugTreatment>& _treatment, Tucuxi::Common::XmlNode& _rootNode);
+
+    void exportSingleDose(const Tucuxi::Core::SingleDose& _dosage, Tucuxi::Common::XmlNode& _rootNode) override;
+
+    template<typename T>
+    void exportWarning(const AbstractValidationResult<T>& _validationResult, Tucuxi::Common::XmlNode& _parentNode) {
+
+        if (!_validationResult.getWarning().empty()) {
+            Common::XmlNode warningNode =
+                    m_xmlDocument.createNode(Common::EXmlNodeType::Element, "warning", _validationResult.getWarning());
+            auto levelAttribute = m_xmlDocument.createAttribute("level", varToString(_validationResult.getWarningLevel()));
+            warningNode.addAttribute(levelAttribute);
+            _parentNode.addChild(warningNode);
+        }
+    }
+
     std::string dateTimeToXmlString(const Common::DateTime& _dateTime) const;
 
 protected:
 
     Common::XmlDocument m_xmlDocument;
+
+    XpertRequestResult* m_xpertRequestResultInUse;
 };
 
 } // namespace Xpert
