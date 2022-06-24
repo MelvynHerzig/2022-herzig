@@ -54,7 +54,7 @@ public:
     /// \brief Gets the warning level associated to a warning. This
     ///        doesn't consider if the warning is set or not.
     /// \return Returns WarningLevel::NORMAL. May be overrided.
-    WarningLevel getWarningLevel() const{
+    virtual WarningLevel getWarningLevel() const{
         return WarningLevel::NORMAL;
     }
 

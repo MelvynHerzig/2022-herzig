@@ -79,6 +79,9 @@ bool XpertRequestResultXmlExport::makeXmlString(XpertRequestResult& _xpertReques
     // Add the dosage history (treatment)
     exportTreatment(_xpertRequestResult.getTreatment(), root);
 
+    // Add the samples
+    exportSampleResults(_xpertRequestResult.getSampleResults(), root);
+
     m_xmlDocument.toString(_xmlString, true);
     return true;
 }
@@ -375,6 +378,56 @@ void XpertRequestResultXmlExport::exportSingleDose(const Core::SingleDose& _dosa
 
     // <formulationAndRoute>
     exportFormulationAndRoute(_dosage, _rootNode);
+}
+
+void XpertRequestResultXmlExport::exportSampleResults(const map<const Core::Sample*, SampleValidationResult>& _sampleResults, Common::XmlNode& _rootNode)
+{
+    // <samples>
+    Common::XmlNode samplesNode =
+            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "samples");
+    _rootNode.addChild(samplesNode);
+
+    // For each sample validation result
+    for (auto sampleResultIt : _sampleResults) {
+        //   <sample>
+        Common::XmlNode sampleNode =
+                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "sample");
+        samplesNode.addChild(sampleNode);
+
+        //       <sampleId>
+        // addNode(sampleNode, "sampleId", sampleValidationResult.getSource().getSampleId());
+
+
+        //       <sampleDate>
+        addNode(sampleNode, "sampleDate", dateTimeToXmlString(sampleResultIt.first->getDate()));
+
+        //       <concentrations>
+        Common::XmlNode concentrationsNode =
+                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "concentrations");
+        sampleNode.addChild(concentrationsNode);
+
+        // One day when the samples will contain multiple concentrations, use a for loop on them.
+
+        //          <concentration>
+        Common::XmlNode concentrationNode =
+                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "concentration");
+        concentrationsNode.addChild(concentrationNode);
+
+        //              <analyteId>
+        addNode(concentrationNode, "analyteId", sampleResultIt.first->getAnalyteID().toString());
+
+        //              <percentile>
+        addNode(concentrationNode, "percentile", sampleResultIt.second.getGroupNumberOver99Percentile());
+
+        //              <value>
+        addNode(concentrationNode, "value", sampleResultIt.first->getValue());
+
+        //              <unit>
+        addNode(concentrationNode, "unit", sampleResultIt.first->getUnit().toString());
+
+        //              <warning>
+        exportWarning(sampleResultIt.second, concentrationNode);
+    }
 }
 
 
