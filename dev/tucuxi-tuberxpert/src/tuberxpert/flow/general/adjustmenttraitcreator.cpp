@@ -99,7 +99,6 @@ void AdjustmentTraitCreator::perform(XpertRequestResult& _xpertRequestResult)
     // Formulation and route selection option
     Core::FormulationAndRouteSelectionOption formulationAndRouteSelectionOption = _xpertRequestResult.getXpertRequest().getFormulationAndRouteSelectionOption();
 
-
     // Creating and setting trait.
     Core::ComputingTraitAdjustment computingTraitAdjustment = Core::ComputingTraitAdjustment(
                 responseId,

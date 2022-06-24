@@ -57,6 +57,8 @@ protected:
 
     void exportSampleResults(const std::map<const Core::Sample*, SampleValidationResult>& _sampleResults, Common::XmlNode& _rootNode);
 
+    void exportAdjustmentData(const std::unique_ptr<Core::AdjustmentData>& _adjustmentData, Tucuxi::Common::XmlNode& _rootNode);
+
     template<typename T>
     void exportWarning(const AbstractValidationResult<T>& _validationResult, Tucuxi::Common::XmlNode& _parentNode) {
 

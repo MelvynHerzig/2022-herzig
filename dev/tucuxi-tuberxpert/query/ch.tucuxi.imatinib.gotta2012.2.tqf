@@ -3,9 +3,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="computing_query.xsd">
 
-    <queryId>imatinib_2</queryId>
+    <queryId>imatinib</queryId>
     <clientId>124568</clientId>
-    <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+    <date>2022-06-24T13:45:30</date> <!-- Date the xml has been sent -->
     <language>en</language>
 
     <admin>
@@ -113,7 +113,7 @@
                     <dosageHistory>
                         <dosageTimeRange>
                             <start>2018-07-06T08:00:00</start>
-                            <end>2018-07-08T08:00:00</end>
+                            <end>2023-07-08T08:00:00</end>
                             <dosage>
                                 <dosageLoop>
                                     <lastingDosage>
@@ -177,12 +177,12 @@
                     <target>
                         <activeMoietyId>imatinib</activeMoietyId>
                         <targetType>residual</targetType>
-                        <unit>mg/l</unit>
-                        <min>20</min>
-                        <best>25</best>
-                        <max>30</max>
-                        <inefficacyAlarm>15</inefficacyAlarm>
-                        <toxicityAlarm>50</toxicityAlarm>
+                        <unit>ug/l</unit>
+                        <min>800</min>
+                        <best>1050</best>
+                        <max>1550</max>
+                        <inefficacyAlarm>600</inefficacyAlarm>
+                        <toxicityAlarm>20000</toxicityAlarm>
                     </target>
                 </targets>
             </drug>
@@ -196,12 +196,12 @@
                 <format>xml</format>
                 <language>fr</language>
             </output>
-            <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
+            <adjustmentDate>2022-07-06T08:00:00</adjustmentDate>
             <options>
                 <loadingOption>noLoadingDose</loadingOption>
                 <restPeriodOption>noRestPeriod</restPeriodOption>
-                <targetExtractionOption>populationValues</targetExtractionOption>
-                <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
+                <targetExtractionOption>definitionIfNoIndividualTarget</targetExtractionOption>
+                <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
             </options>
         </requestXpert>
     </requests>

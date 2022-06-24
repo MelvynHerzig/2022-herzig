@@ -277,15 +277,15 @@ void TuberXpertComputer::getXpertFlowStepProvider(Xpert::XpertRequestResult& _xp
 void TuberXpertComputer::makeAndExecuteAdjustmentRequest(Xpert::XpertRequestResult& _xpertRequestResult) const
 {
     // Create a copy of the adjustment trait.
-    unique_ptr<Core::ComputingTraitAdjustment> copyComputingTraitAdjustment = make_unique<Core::ComputingTraitAdjustment>(*_xpertRequestResult.getAdjustmentTrait());
+    unique_ptr<Core::ComputingTraitAdjustment> baseAdjustmentTrait = make_unique<Core::ComputingTraitAdjustment>(*_xpertRequestResult.getAdjustmentTrait());
 
-    // Create the computing request.
-    Core::ComputingRequest computingRequest { "", *_xpertRequestResult.getDrugModel(), *_xpertRequestResult.getTreatment(), move(copyComputingTraitAdjustment)};
+    // Create the computing request using the trait.
+    Core::ComputingRequest computingRequest { "", *_xpertRequestResult.getDrugModel(), *_xpertRequestResult.getTreatment(), move(baseAdjustmentTrait)};
 
     // Create the response holder.
     unique_ptr<Core::ComputingResponse> computingResponse = make_unique<Core::ComputingResponse>("");
 
-    // Starting percentiles computation.
+    // Starting computation.
     Core::IComputingService* computingComponent = dynamic_cast<Core::IComputingService*>(Core::ComputingComponent::createComponent());
     Core::ComputingStatus result = computingComponent->compute(computingRequest, computingResponse);
 
@@ -304,9 +304,160 @@ void TuberXpertComputer::makeAndExecuteAdjustmentRequest(Xpert::XpertRequestResu
         // Putting into smart pointer since we released it.
         unique_ptr<Core::AdjustmentData> upAdjustmentData(adjustmentData);
 
+        if (upAdjustmentData->getAdjustments().empty()) {
+            _xpertRequestResult.setErrorMessage("No adjustment found.");
+            return;
+        }
+
+        // Saving parameters
+        _xpertRequestResult.addParameters(upAdjustmentData->getAdjustments().front().getData().front().m_parameters);
+
         // Saving the adjustment data into the request result
         _xpertRequestResult.setAdjustmentData(move(upAdjustmentData));
 
         return;
     }
+}
+
+void TuberXpertComputer::gatherAdditionalData(Tucuxi::Xpert::XpertRequestResult& _xpertRequestResult) const
+{
+    unique_ptr<Core::ComputingTraitAdjustment> baseAdjustmentTrait = make_unique<Core::ComputingTraitAdjustment>(*_xpertRequestResult.getAdjustmentTrait());
+    Core::IComputingService* computingComponent = dynamic_cast<Core::IComputingService*>(Core::ComputingComponent::createComponent());
+
+    // ------- statistics at steady state ---------
+
+    // We update the end time to approximate a steady state in order to extract staistics at steady state.
+    // It would have been ideal to do it with in one unique request but it is not possible to remove
+    // the additional cycleData in the current state of the core.
+    const Core::HalfLife& halfLife = _xpertRequestResult.getDrugModel()->getTimeConsiderations().getHalfLife();
+    double hoursToAdd = Common::UnitManager::convertToUnit(halfLife.getValue(), halfLife.getUnit(), Common::TucuUnit("h"));
+    Common::DateTime staeadyEndTime = baseAdjustmentTrait->getAdjustmentTime() + Duration(chrono::hours(int(halfLife.getMultiplier() * hoursToAdd)));
+
+    // Create a computing trait that goes to steady state.
+    unique_ptr<Core::ComputingTraitAdjustment> steadyAdustmentTrait = nullptr;
+    tweakComputingTraitAdjustment(baseAdjustmentTrait,
+                                  staeadyEndTime,
+                                  1,
+                                  baseAdjustmentTrait->getComputingOption().getParametersType(),
+                                  steadyAdustmentTrait);
+
+    // Create the computing request using the trait.
+    Core::ComputingRequest computingRequestSteadyState { "", *_xpertRequestResult.getDrugModel(), *_xpertRequestResult.getTreatment(), move(steadyAdustmentTrait)};
+
+    // Create the response holder.
+    unique_ptr<Core::ComputingResponse> computingResponseSteadyState = make_unique<Core::ComputingResponse>("");
+
+    // Starting computation.
+    Core::ComputingStatus resultSteadyState = computingComponent->compute(computingRequestSteadyState, computingResponseSteadyState);
+
+    if (resultSteadyState != Core::ComputingStatus::Ok){
+        _xpertRequestResult.setErrorMessage("Failed to extract statistics at steady state.");
+        return;
+    } else {
+
+        // Extracting adjustment data pointer.
+        const Core::AdjustmentData* adjustmentData = dynamic_cast<const Core::AdjustmentData*>(computingResponseSteadyState->getData());
+
+        // Extracting the statistics at steady state for the best adjustment.
+        _xpertRequestResult.setCycleStats(adjustmentData->getAdjustments().front().getData().back().m_statistics);
+    }
+
+    // ------- Parameters "A priori" ---------
+
+    // We don't want to extract them once again, so we check the base prediction type.
+    if (baseAdjustmentTrait->getComputingOption().getParametersType() == Core::PredictionParameterType::Aposteriori) {
+
+        // Create a computing trait a priori
+        unique_ptr<Core::ComputingTraitAdjustment> aprioriAdustmentTrait = nullptr;
+        tweakComputingTraitAdjustment(baseAdjustmentTrait,
+                                      baseAdjustmentTrait->getEnd(),
+                                      1,
+                                      Core::PredictionParameterType::Apriori,
+                                      aprioriAdustmentTrait);
+
+        // Create the computing request using the trait.
+        Core::ComputingRequest computingRequestApriori { "", *_xpertRequestResult.getDrugModel(), *_xpertRequestResult.getTreatment(), move(aprioriAdustmentTrait)};
+
+        // Create the response holder.
+        unique_ptr<Core::ComputingResponse> computingResponseApriori = make_unique<Core::ComputingResponse>("");
+
+        // Starting computation.
+        Core::ComputingStatus resultApriori = computingComponent->compute(computingRequestApriori, computingResponseApriori);
+
+        if (resultApriori != Core::ComputingStatus::Ok){
+            _xpertRequestResult.setErrorMessage("Failed to extract apriori parameters.");
+            return;
+        } else {
+
+            // Extracting adjustment data pointer.
+            const Core::AdjustmentData* adjustmentData = dynamic_cast<const Core::AdjustmentData*>(computingResponseApriori->getData());
+
+            // Saving parameters
+            _xpertRequestResult.addParameters(adjustmentData->getAdjustments().front().getData().front().m_parameters);
+        }
+    }
+
+    // ------- Parameters "Typical patient" ---------
+
+    // Create a computing trait for population
+    unique_ptr<Core::ComputingTraitAdjustment> populationAdustmentTrait = nullptr;
+    tweakComputingTraitAdjustment(baseAdjustmentTrait,
+                                  baseAdjustmentTrait->getEnd(),
+                                  1,
+                                  Core::PredictionParameterType::Population,
+                                  populationAdustmentTrait);
+
+    // Create the computing request using the trait.
+    Core::ComputingRequest computingRequestPopulation { "", *_xpertRequestResult.getDrugModel(), *_xpertRequestResult.getTreatment(), move(populationAdustmentTrait)};
+
+    // Create the response holder.
+    unique_ptr<Core::ComputingResponse> computingResponsePopulation = make_unique<Core::ComputingResponse>("");
+
+    // Starting computation.
+    Core::ComputingStatus resultPopulation = computingComponent->compute(computingRequestPopulation, computingResponsePopulation);
+
+    if (resultPopulation != Core::ComputingStatus::Ok){
+        _xpertRequestResult.setErrorMessage("Failed to extract population parameters.");
+        return;
+    } else {
+
+        // Extracting adjustment data pointer.
+        const Core::AdjustmentData* adjustmentData = dynamic_cast<const Core::AdjustmentData*>(computingResponsePopulation->getData());
+
+        // Saving parameters
+        _xpertRequestResult.addParameters(adjustmentData->getAdjustments().front().getData().front().m_parameters);
+    }
+
+
+}
+
+void TuberXpertComputer::tweakComputingTraitAdjustment(const unique_ptr<Core::ComputingTraitAdjustment>& _toCopy,
+                                                          const Common::DateTime& _end,
+                                                          double _nbPointsPerHour,
+                                                          Core::PredictionParameterType _predictionType,
+                                                          std::unique_ptr<Core::ComputingTraitAdjustment>& _newAdjustment) const
+{
+
+    Core::ComputingOption newOptions{
+        _predictionType,
+        _toCopy->getComputingOption().getCompartmentsOption(),
+        _toCopy->getComputingOption().retrieveStatistics(),
+        _toCopy->getComputingOption().retrieveParameters(),
+        _toCopy->getComputingOption().retrieveCovariates()
+    };
+
+    _newAdjustment = make_unique<Core::ComputingTraitAdjustment>(
+                "",
+                _toCopy->getStart(),
+                _end,
+                _nbPointsPerHour,
+                newOptions,
+                _toCopy->getAdjustmentTime(),
+                Core::BestCandidatesOption::BestDosage,
+                _toCopy->getLoadingOption(),
+                _toCopy->getRestPeriodOption(),
+                _toCopy->getSteadyStateTargetOption(),
+                _toCopy->getTargetExtractionOption(),
+                _toCopy->getFormulationAndRouteSelectionOption()
+                );
 }

@@ -25,7 +25,7 @@ void XpertRequestResultXmlExport::exportToFile(XpertRequestResult& _xpertRequest
 {
     // Saving the reference on the xpertRequestResult to be able to retrieve
     // it anywhere anytime. For example, when exporting the
-    // single doses.
+    // single doses and being able to retrieve the associated validation result.
     m_xpertRequestResultInUse = &_xpertRequestResult;
 
     // Get the xml string
@@ -81,6 +81,8 @@ bool XpertRequestResultXmlExport::makeXmlString(XpertRequestResult& _xpertReques
 
     // Add the samples
     exportSampleResults(_xpertRequestResult.getSampleResults(), root);
+
+    exportAdjustmentData(_xpertRequestResult.getAdjustmentData(), root);
 
     m_xmlDocument.toString(_xmlString, true);
     return true;
@@ -427,6 +429,85 @@ void XpertRequestResultXmlExport::exportSampleResults(const map<const Core::Samp
 
         //              <warning>
         exportWarning(sampleResultIt.second, concentrationNode);
+    }
+}
+
+void XpertRequestResultXmlExport::exportAdjustmentData(const unique_ptr<Core::AdjustmentData>& _adjustmentData, Common::XmlNode& _rootNode)
+{
+    // <dataAdjustment>
+    Tucuxi::Common::XmlNode dataAdjustmentNode =
+            m_doc.createNode(Tucuxi::Common::EXmlNodeType::Element, "dataAdjustment");
+    _rootNode.addChild(dataAdjustmentNode);
+
+    //   <analyteIds>
+    Tucuxi::Common::XmlNode analyteIdsNode = m_doc.createNode(Tucuxi::Common::EXmlNodeType::Element, "analyteIds");
+    dataAdjustmentNode.addChild(analyteIdsNode);
+    for (const auto& comp : _adjustmentData->getCompartmentInfos()) {
+
+        //      <analyteId>
+        addNode(analyteIdsNode, "analyteId", comp.getId());
+    }
+
+    //   <adjustments>
+    Tucuxi::Common::XmlNode adjustmentsNode = m_doc.createNode(Tucuxi::Common::EXmlNodeType::Element, "adjustments");
+    dataAdjustmentNode.addChild(adjustmentsNode);
+
+    // For each adjustment
+    for (const auto& adj : _adjustmentData->getAdjustments()) {
+
+        //      <adjustment>
+        Tucuxi::Common::XmlNode adjustmentNode = m_doc.createNode(Tucuxi::Common::EXmlNodeType::Element, "adjustment");
+        adjustmentsNode.addChild(adjustmentNode);
+
+        //          <score>
+        addNode(adjustmentNode, "score", adj.getGlobalScore());
+
+        //          <targetEvaluations>
+        Tucuxi::Common::XmlNode targetEvaluationsNode =
+                m_doc.createNode(Tucuxi::Common::EXmlNodeType::Element, "targetEvaluations");
+        adjustmentNode.addChild(targetEvaluationsNode);
+
+        // For each target evaluation
+        for (const auto& target : adj.m_targetsEvaluation) {
+
+            //              <targetEvaluation>
+            Tucuxi::Common::XmlNode targetEvaluationNode =
+                    m_doc.createNode(Tucuxi::Common::EXmlNodeType::Element, "targetEvaluation");
+            targetEvaluationsNode.addChild(targetEvaluationNode);
+
+            //                  <targetType>
+            addNode(targetEvaluationNode, "targetType", toString(target.getTargetType()));
+
+            //                  <unit>
+            addNode(targetEvaluationNode, "unit", target.getUnit().toString());
+
+            //                  <value>
+            addNode(targetEvaluationNode, "value", target.getValue());
+
+            //                  <score>
+            addNode(targetEvaluationNode, "score", target.getScore());
+
+            //                  <min>
+            addNode(targetEvaluationNode, "min", target.getTarget().getValueMin());
+
+            //                  <best>
+            addNode(targetEvaluationNode, "best", target.getTarget().getValueBest());
+
+            //                  <max>
+            addNode(targetEvaluationNode, "max", target.getTarget().getValueMax());
+
+            //                  <inefficacyAlarm>
+            addNode(targetEvaluationNode, "inefficacyAlarm", target.getTarget().getInefficacyAlarm());
+
+            //                  <toxicityAlarm>
+            addNode(targetEvaluationNode, "toxicityAlarm", target.getTarget().getToxicityAlarm());
+        }
+
+        //          <dosageHistory>
+        exportDosageHistory(adj.m_history, adjustmentNode);
+
+        //          <cycleDatas>
+        exportCycleDatas(adj.getData(), adjustmentNode);
     }
 }
 

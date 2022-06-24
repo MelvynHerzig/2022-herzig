@@ -4,6 +4,8 @@
 #include <memory>
 #include <string>
 
+#include "tucucore/computingservice/computingtrait.h"
+
 #include "tuberxpert/result/xpertrequestresult.h"
 #include "tuberxpert/flow/abstract/abstractxpertflowstepprovider.h"
 
@@ -76,6 +78,26 @@ protected:
     ///        If something fails, the error message of the xpert request result is set and it should not be handled anymore.
     /// \param _xpertRequestResult XpertRequestResult containing the adjustment trait to use.
     void makeAndExecuteAdjustmentRequest(Tucuxi::Xpert::XpertRequestResult& _xpertRequestResult) const;
+
+    /// \brief This methods is called after the first request to the core succeed.
+    ///        It collects the statistics at steady state and the parameters for prior prediction types.
+    /// \param _xpertRequestResult XpertRequestResult to set the additional data.
+    void gatherAdditionalData(Tucuxi::Xpert::XpertRequestResult& _xpertRequestResult) const;
+
+    /// \brief Copy a computing adjustment trait from a base but with a different end time,
+    ///        points per hour and prediction paramter type. Set the best candidate option to BestDosage,
+    ///        since it is the only one we are interested in.
+    /// \param _toCopy Base adjustment trait to copy.
+    /// \param _end New end time to use.
+    /// \param _nbPointsPerHour New number of points to use.
+    /// \param _predictionType New prediction paramters type to use.
+    /// \param _newAdjustment Resulting new adjustment.
+    void tweakComputingTraitAdjustment(const std::unique_ptr<Tucuxi::Core::ComputingTraitAdjustment>& _toCopy,
+                                       const Tucuxi::Common::DateTime& _newEnd,
+                                       double _nbPointsPerHour,
+                                       Tucuxi::Core::PredictionParameterType _predictionType,
+                                       std::unique_ptr<Tucuxi::Core::ComputingTraitAdjustment>& _newAdjustment) const;
+
 };
 
 #endif // TUBERXPERTCOMPUTER_H

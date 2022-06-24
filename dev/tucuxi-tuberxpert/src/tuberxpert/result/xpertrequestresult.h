@@ -96,6 +96,16 @@ public:
     ///         May be nullptr.
     const GlobalResult* getGlobalResult() const;
 
+    /// \brief Get the parameters groups. Index 2 might not exist.
+    /// \return In index 0, the typical patient.
+    ///         In index 1, the a priori values.
+    ///         In index 2, the a posteriori values.
+    const std::vector<std::vector<Core::ParameterValue>>& getParameters() const;
+
+    /// \brief Get the statistics of the steady state approximation.
+    /// \return A reference on the cycle stats at steady state.
+    const Core::CycleStats& getCycleStats() const;
+
     /// \brief Sets a new error message.
     /// \param _message New message to set.
     void setErrorMessage(const std::string& _message);
@@ -127,6 +137,14 @@ public:
     /// \brief Set the last intake of the patient.
     /// \param _lastIntake Last intake to save.
     void setLastIntake(std::unique_ptr<Core::IntakeEvent> _lastIntake);
+
+    /// \brief Emplace front a group of parameters.
+    /// \param _paramters Group of parameters to emplace.
+    void addParameters(const std::vector<Core::ParameterValue>& _parameters);
+
+    /// \brief Set the cycle stats for the steady state approximation.
+    /// \param _cycleStats Cycle stats to set.
+    void setCycleStats(const Core::CycleStats _cycleStats);
 
     /// \brief Checks if the XpertRequestResult should go to next pipeline step.
     /// \return True if no problem was detected until the call otherwise false.
@@ -173,6 +191,16 @@ protected:
 
     /// \brief Pointer on the last intake of the patient.
     std::unique_ptr<Core::IntakeEvent> m_lastIntake;
+
+    /// \brief Vector of parameters. The parameters type is
+    ///        induced by the position in the vector.
+    ///        - 0: Typical patient
+    ///        - 1: A priori
+    ///        - 2: A posteriori
+    std::vector<std::vector<Core::ParameterValue>> m_parameters;
+
+    /// \brief Statistics approximated at steady state for this adjustment.
+    Core::CycleStats m_cycleStats;
 };
 
 } // namespace Xpert
