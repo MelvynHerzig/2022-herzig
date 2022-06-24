@@ -18,13 +18,23 @@ namespace Xpert {
 /// \return String describing the variable.
 std::string varToString(const double& _value);
 
+/// \brief Convert a covariate type to a string.
+/// \param _value Covariate type to convert to a string.
+/// \return String describing the covariate type.
+/// \throw Invalid argument if the CovariateType is not supported.
+std::string varToString(CovariateType _value);
 
 /// \brief Computes the corresponding string out of an OutputLang.
 /// \param lang OutputLang to "translate" into string.
 /// \return Returns a string corresponding to OutputLang requested.
 /// \throw LanguageException If the OutputLang is not supported.
-std::string outputLangToString(OutputLang _lang);
+std::string varToString(OutputLang _lang);
 
+/// \brief Convert a warning level to a string.
+/// \param _value Warning level to convert to a string.
+/// \return String describing the warning level.
+/// \throw Invalid argument if the CovariateType is not supported.
+std::string varToString(WarningLevel _lang);
 
 /// \brief Extracts a string from a translatable string in regard of a given language. If
 ///        the language is not extractable, it tries to fallback with english.

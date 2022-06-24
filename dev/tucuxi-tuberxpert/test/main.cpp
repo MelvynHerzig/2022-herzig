@@ -59,8 +59,10 @@ int main(int argc, char** argv)
 #if defined(test_xpertutils)
     TestXpertUtils xpertUtilsTests;
 
-    xpertUtilsTests.add_test("Converts output lang to string", &TestXpertUtils::convertOutputLangToString);
-    xpertUtilsTests.add_test("Converts double to string", &TestXpertUtils::convertDoubleToString);
+    xpertUtilsTests.add_test("Convert output lang to string", &TestXpertUtils::convertOutputLangToString);
+    xpertUtilsTests.add_test("Convert double to string", &TestXpertUtils::convertDoubleToString);
+    xpertUtilsTests.add_test("Convert covariate type to string", &TestXpertUtils::convertCovariateTypeToString);
+    xpertUtilsTests.add_test("Convert warning level to string", &TestXpertUtils::convertWarningLevelToString);
     xpertUtilsTests.add_test("Get a translatable string with english fallback.", &TestXpertUtils::getStringFromTranslatableWithFallback);
     xpertUtilsTests.add_test("The values returned by getOldestTimeRangeStart are correct.", &TestXpertUtils::getOldestDosageTimeRangeStartReturnsCorrectValues);
     xpertUtilsTests.add_test("The values returned by getLatestTimeRangeStart are correct.", &TestXpertUtils::getLatestDosageTimeRangeStartReturnsCorrectValues);

@@ -153,7 +153,7 @@ void TuberXpertComputer::validateAndPrepareXpertRequest(Xpert::XpertRequestResul
 
 
     try {
-        string languageFileName = _languagePath + "/" + outputLangToString(_xpertRequestResult.getXpertRequest().getOutputLang()) + ".xml";
+        string languageFileName = _languagePath + "/" + varToString(_xpertRequestResult.getXpertRequest().getOutputLang()) + ".xml";
         ifstream ifs(languageFileName);
 
         // If language file opening failed.

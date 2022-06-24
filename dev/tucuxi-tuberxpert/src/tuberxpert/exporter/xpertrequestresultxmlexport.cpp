@@ -71,6 +71,9 @@ bool XpertRequestResultXmlExport::makeXmlString(XpertRequestResult& _xpertReques
     // Add the admin
     exportAdminData(_xpertRequestResult.getGlobalResult()->getAdminData(), root);
 
+    // Add the covariates
+    exportCovariateResults(_xpertRequestResult.getCovariateResults(), root, _xpertRequestResult.getXpertRequest().getOutputLang());
+
     m_xmlDocument.toString(_xmlString, true);
     return true;
 }
@@ -110,7 +113,7 @@ void XpertRequestResultXmlExport::exportDrugIntro(XpertRequestResult& _xpertRequ
     drugNode.addChild(drugModelIdNode);
 }
 
-void XpertRequestResultXmlExport::exportAdminData(const std::unique_ptr<AdminData>& _admin, Common::XmlNode& _rootNode)
+void XpertRequestResultXmlExport::exportAdminData(const unique_ptr<AdminData>& _admin, Common::XmlNode& _rootNode)
 {
     // We export the admin if contains at least one of his elements.
     if (_admin->getMandator() == nullptr && _admin->getPatient() == nullptr && _admin->getClinicalData() == nullptr) {
@@ -132,7 +135,7 @@ void XpertRequestResultXmlExport::exportAdminData(const std::unique_ptr<AdminDat
     exportClinicalData(_admin->getClinicalData(), adminNode);
 }
 
-void XpertRequestResultXmlExport::exportFullPersonData(const std::unique_ptr<FullPersonData>& _fullPerson, Common::XmlNode& _adminNode, const std::string& _nodeName)
+void XpertRequestResultXmlExport::exportFullPersonData(const unique_ptr<FullPersonData>& _fullPerson, Common::XmlNode& _adminNode, const string& _nodeName)
 {
     // If the requiered person to export is not present, just leave
     if ( (_nodeName == "mandator" && _fullPerson == nullptr) ||
@@ -198,7 +201,7 @@ void XpertRequestResultXmlExport::exportPersonData(const PersonData& _person, Co
     exportEmailData(_person.getEmail(), personNode);
 }
 
-void XpertRequestResultXmlExport::exportInstituteData(const std::unique_ptr<InstituteData>& _institute, Common::XmlNode& _patientMandatorNode)
+void XpertRequestResultXmlExport::exportInstituteData(const unique_ptr<InstituteData>& _institute, Common::XmlNode& _patientMandatorNode)
 {
     // If no institute, just leave
     if (_institute == nullptr) {
@@ -235,7 +238,7 @@ void XpertRequestResultXmlExport::exportInstituteData(const std::unique_ptr<Inst
     exportEmailData(_institute->getEmail(), instituteNode);
 }
 
-void XpertRequestResultXmlExport::exportAddressData(const std::unique_ptr<AddressData>& _address, Common::XmlNode& _personInstitutNode)
+void XpertRequestResultXmlExport::exportAddressData(const unique_ptr<AddressData>& _address, Common::XmlNode& _personInstitutNode)
 {
     if (_address == nullptr) {
         return;
@@ -280,7 +283,7 @@ void XpertRequestResultXmlExport::exportAddressData(const std::unique_ptr<Addres
     }
 }
 
-void XpertRequestResultXmlExport::exportPhoneData(const std::unique_ptr<PhoneData>& _phone, Common::XmlNode& _personInstitutNode)
+void XpertRequestResultXmlExport::exportPhoneData(const unique_ptr<PhoneData>& _phone, Common::XmlNode& _personInstitutNode)
 {
     if (_phone == nullptr) {
         return;
@@ -306,7 +309,7 @@ void XpertRequestResultXmlExport::exportPhoneData(const std::unique_ptr<PhoneDat
     }
 }
 
-void XpertRequestResultXmlExport::exportEmailData(const std::unique_ptr<EmailData>& _email, Common::XmlNode& _personInstitutNode)
+void XpertRequestResultXmlExport::exportEmailData(const unique_ptr<EmailData>& _email, Common::XmlNode& _personInstitutNode)
 {
     if (_email == nullptr) {
         return;
@@ -332,7 +335,7 @@ void XpertRequestResultXmlExport::exportEmailData(const std::unique_ptr<EmailDat
     }
 }
 
-void XpertRequestResultXmlExport::exportClinicalData(const std::unique_ptr<ClinicalData>& _clinicalData, Common::XmlNode& _adminNode)
+void XpertRequestResultXmlExport::exportClinicalData(const unique_ptr<ClinicalData>& _clinicalData, Common::XmlNode& _adminNode)
 {
     if (_clinicalData == nullptr) {
         return;
@@ -353,16 +356,73 @@ void XpertRequestResultXmlExport::exportClinicalData(const std::unique_ptr<Clini
     }
 }
 
-std::string XpertRequestResultXmlExport::dateTimeToXmlString(const Tucuxi::Common::DateTime& _dateTime) const
+void XpertRequestResultXmlExport::exportCovariateResults(const vector<CovariateValidationResult>& _covariateResults, Common::XmlNode& _rootNode, OutputLang _outputLang)
+{
+    // <covariates>
+    Common::XmlNode covariatesNode =
+            m_xmlDocument.createNode(Common::EXmlNodeType::Element, "covariates", "");
+    _rootNode.addChild(covariatesNode);
+
+    // For each covariate validation result
+    for (const CovariateValidationResult& covariateValidationResult : _covariateResults) {
+        //   <covariate>
+        Common::XmlNode covariateNode =
+                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "covariate", "");
+        covariatesNode.addChild(covariateNode);
+
+        //       <covariateId>
+        Common::XmlNode covariateIdNode =
+                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "covariateId", covariateValidationResult.getSource()->getId());
+        covariateNode.addChild(covariateIdNode);
+
+        //       <name>
+        Common::XmlNode nameNode =
+                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "name",
+                                         getStringWithEnglishFallback(covariateValidationResult.getSource()->getName().getString(), _outputLang));
+        covariateNode.addChild(nameNode);
+
+        //       <value>
+        Common::XmlNode valueNode =
+                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "value", covariateValidationResult.getValue());
+        covariateNode.addChild(valueNode);
+
+        //       <unit>
+        Common::XmlNode unitNode =
+                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "unit", covariateValidationResult.getUnit().toString());
+        covariateNode.addChild(unitNode);
+
+        //       <desc>
+        Common::XmlNode descNode =
+                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "desc",
+                                         getStringWithEnglishFallback(covariateValidationResult.getSource()->getDescription(), _outputLang));
+        covariateNode.addChild(descNode);
+
+        //       <source>
+        Common::XmlNode sourceNode =
+                m_xmlDocument.createNode(Common::EXmlNodeType::Element, "source", varToString(covariateValidationResult.getType()));
+        covariateNode.addChild(sourceNode);
+
+        //       <warning>
+        if (!covariateValidationResult.getWarning().empty()) {
+            Common::XmlNode warningNode =
+                    m_xmlDocument.createNode(Common::EXmlNodeType::Element, "warning", covariateValidationResult.getWarning());
+            auto levelAttribute = m_xmlDocument.createAttribute("level", varToString(covariateValidationResult.getWarningLevel()));
+            warningNode.addAttribute(levelAttribute);
+            covariateNode.addChild(warningNode);
+        }
+    }
+}
+
+string XpertRequestResultXmlExport::dateTimeToXmlString(const Tucuxi::Common::DateTime& _dateTime) const
 {
     if (_dateTime.isUndefined()) {
         return "";
     }
 
-    std::string result;
-    result = std::to_string(_dateTime.year()) + "." + std::to_string(_dateTime.month()) + "."
-             + std::to_string(_dateTime.day()) + "T" + std::to_string(_dateTime.hour()) + ":"
-             + std::to_string(_dateTime.minute()) + ":" + std::to_string(_dateTime.second());
+    string result;
+    result = to_string(_dateTime.year()) + "." + to_string(_dateTime.month()) + "."
+             + to_string(_dateTime.day()) + "T" + to_string(_dateTime.hour()) + ":"
+             + to_string(_dateTime.minute()) + ":" + to_string(_dateTime.second());
 
     char str[20];
     snprintf(

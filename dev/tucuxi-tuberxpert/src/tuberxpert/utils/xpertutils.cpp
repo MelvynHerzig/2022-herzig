@@ -18,7 +18,16 @@ string varToString(const double& _value)
     return stream.str();
 }
 
-string outputLangToString(OutputLang _lang)
+string varToString(CovariateType _value)
+{
+    switch (_value) {
+    case CovariateType::Model : return "default";
+    case CovariateType::Patient  : return "patient";
+    default : throw invalid_argument("Unknown covariate type"); // If well maintained, should never be returned.
+    }
+}
+
+string varToString(OutputLang _lang)
 {
     switch (_lang) {
     case OutputLang::ENGLISH : return "en";
@@ -27,9 +36,18 @@ string outputLangToString(OutputLang _lang)
     }
 }
 
+string varToString(WarningLevel _value)
+{
+    switch (_value) {
+    case WarningLevel::NORMAL : return "normal";
+    case WarningLevel::CRITICAL  : return "critical";
+    default : throw invalid_argument("Unknown warning level"); // If well maintained, should never be returned.
+    }
+}
+
 string getStringWithEnglishFallback(const Common::TranslatableString& _ts, OutputLang _lang)
 {
-    string target = _ts.getString(outputLangToString(_lang));
+    string target = _ts.getString(varToString(_lang));
 
     if (target != ""){
         return target;

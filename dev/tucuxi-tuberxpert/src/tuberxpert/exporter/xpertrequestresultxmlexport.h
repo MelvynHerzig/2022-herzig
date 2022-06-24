@@ -48,6 +48,8 @@ protected:
 
     void exportClinicalData(const std::unique_ptr<ClinicalData>& _clinicalData, Common::XmlNode& _adminNode);
 
+    void exportCovariateResults(const std::vector<CovariateValidationResult>& _covariateResults, Common::XmlNode& _rootNodem, OutputLang _outputLang);
+
     std::string dateTimeToXmlString(const Common::DateTime& _dateTime) const;
 
 protected:

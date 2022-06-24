@@ -33,9 +33,9 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         std::cout << _testName << std::endl;
 
-        fructose_assert_eq(Tucuxi::Xpert::outputLangToString(Tucuxi::Xpert::OutputLang::ENGLISH), "en");
-        fructose_assert_eq(Tucuxi::Xpert::outputLangToString(Tucuxi::Xpert::OutputLang::FRENCH), "fr");
-        fructose_assert_exception(Tucuxi::Xpert::outputLangToString(Tucuxi::Xpert::OutputLang(-1)), Tucuxi::Xpert::LanguageException);
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::OutputLang::ENGLISH), "en");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::OutputLang::FRENCH), "fr");
+        fructose_assert_exception(Tucuxi::Xpert::varToString(Tucuxi::Xpert::OutputLang(-1)), Tucuxi::Xpert::LanguageException);
     }
 
 
@@ -47,6 +47,17 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         fructose_assert_eq(Tucuxi::Xpert::varToString(5.411111), "5.41");
         fructose_assert_eq(Tucuxi::Xpert::varToString(6), "6.00");
+    }
+
+    /// \brief Converts covariate type to string.
+    /// \param _testName Name of the test.
+    void convertCovariateTypeToString(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::CovariateType::Model), "default");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::CovariateType::Patient), "patient");
+        fructose_assert_exception(Tucuxi::Xpert::varToString(Tucuxi::Xpert::CovariateType(-1)), std::invalid_argument);
     }
 
     /// \brief Tests that the getStringWithEnglishFallback returns the targeted language or
@@ -64,6 +75,17 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         fructose_assert_eq(Tucuxi::Xpert::getStringWithEnglishFallback(ts1, Tucuxi::Xpert::OutputLang::FRENCH), "chaine de caractere traductible en fr");
         fructose_assert_eq(Tucuxi::Xpert::getStringWithEnglishFallback(ts2, Tucuxi::Xpert::OutputLang::FRENCH), "translatable string in en");
+    }
+
+    /// \brief Converts warning level to string.
+    /// \param _testName Name of the test.
+    void convertWarningLevelToString(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::WarningLevel::CRITICAL), "critical");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::WarningLevel::NORMAL), "normal");
+        fructose_assert_exception(Tucuxi::Xpert::varToString(Tucuxi::Xpert::WarningLevel(-1)), std::invalid_argument);
     }
 
     /// \brief Tests that the getOldestDosageTimeRangeStart works as expected.
