@@ -45,7 +45,7 @@ public:
     ///        doesn't consider if the warning is set or not.
     /// \return Returns "critical" if the sample is <=5 or >95 else "normal".
     ///         This function does not mean that a warning is set.
-    WarningLevel getWarningLevel() const;
+    WarningLevel getWarningLevel() const override;
 
     /// \brief Gets the group number of the current sample in which it is located.
     ///        The group is between 1 and 100. These group are the group formed by

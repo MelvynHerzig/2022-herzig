@@ -1,0 +1,52 @@
+#ifndef REQUESTEXECUTOR_H
+#define REQUESTEXECUTOR_H
+
+#include "tuberxpert/flow/abstract/abstractxpertflowstep.h"
+#include "tuberxpert/result/xpertrequestresult.h"
+
+namespace Tucuxi {
+namespace Xpert {
+
+/// \brief This step takes the adjustment trait in the xpertRequestResul
+///        and executes it, then makes a new request to extract statistics
+///        at steady states and requests to get parameters at prior types.
+/// \date 25/06/2022
+/// \author Herzig Melvyn
+class RequestExecutor : public AbstractXpertFlowStep
+{
+public:
+
+    /// \brief Constructor.
+    RequestExecutor();
+
+    /// \brief Extracts the adjustment trait from the XpertRequestResult, makes the request for the core and submits it.
+    ///        If something fails, the error message of the xpert request result is set and it should not be handled anymore.
+    /// \param _xpertRequestResult XpertRequestResult containing the adjustment trait to use.
+    void perform(XpertRequestResult& _xpertRequestResult) override;
+
+protected:
+
+    /// \brief This methods is called after the first request to the core succeed (in perform).
+    ///        It collects the statistics at steady state and the parameters for prior prediction types.
+    /// \param _xpertRequestResult XpertRequestResult to set the additional data.
+    void gatherAdditionalData(XpertRequestResult& _xpertRequestResult) const;
+
+    /// \brief Copy a computing adjustment trait but with a different end time,
+    ///        points per hour and prediction paramter type. Set the best candidate option to BestDosage,
+    ///        since it is the only one we are interested in.
+    /// \param _toCopy Base adjustment trait to copy.
+    /// \param _newEnd New end time to use.
+    /// \param _newNbPointsPerHour New number of points to use.
+    /// \param _newPredictionType New prediction paramters type to use.
+    /// \param _resultingAdjustment Resulting new adjustment.
+    void tweakComputingTraitAdjustment(const std::unique_ptr<Core::ComputingTraitAdjustment>& _toCopy,
+                                       const Common::DateTime& _newEnd,
+                                       double _newNbPointsPerHour,
+                                       Core::PredictionParameterType _newPredictionType,
+                                       std::unique_ptr<Core::ComputingTraitAdjustment>& _resultingAdjustment) const;
+};
+
+} // namespace Xpert
+} // namespace Tucuxi
+
+#endif // REQUESTEXECUTOR_H

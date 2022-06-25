@@ -16,7 +16,8 @@ namespace Xpert {
 ///        3) Validate samples
 ///        4) Validate targets
 ///        5) Create adjustment trait
-///        6) Print the final report
+///        6) Execute the requests
+///        7) Print the final report
 ///
 ///        An execution step is an implementation of the abstract xpert flow step class.
 ///
@@ -37,6 +38,7 @@ public:
         m_sampleValidator(nullptr),
         m_targetValidator(nullptr),
         m_adjustmentTraitCreator(nullptr),
+        m_requestExecutor(nullptr),
         m_reportPrinter(nullptr){};
 
     /// \brief Destructor.
@@ -62,6 +64,10 @@ public:
     /// \return Return the corresponding AbstractXpertFlowStep.
     virtual const std::unique_ptr<AbstractXpertFlowStep>& getAdjustmentTraitCreator() const = 0;
 
+    /// \brief Get the step responsible to execute the requests.
+    /// \return Return the corresponding AbstractXpertFlowStep.
+    virtual const std::unique_ptr<AbstractXpertFlowStep>& getRequestExecutor() const = 0;
+
     /// \brief Get the step responsible to print the report.
     /// \return Return the corresponding AbstractXpertFlowStep.
     virtual const std::unique_ptr<AbstractXpertFlowStep>& getReportPrinter() const = 0;
@@ -82,6 +88,9 @@ protected:
 
     /// \brief Step responsible to create the adjustment trait to submit.
     std::unique_ptr<AbstractXpertFlowStep> m_adjustmentTraitCreator;
+
+    /// \brief Step responsible to submit the requests to the core.
+    std::unique_ptr<AbstractXpertFlowStep> m_requestExecutor;;
 
     /// \brief Step responsible to print the final report.
     std::unique_ptr<AbstractXpertFlowStep> m_reportPrinter;

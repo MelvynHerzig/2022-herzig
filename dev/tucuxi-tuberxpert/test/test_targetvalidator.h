@@ -736,7 +736,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
                                                         </model>)";
 
     /// \brief Sets up environment forGlobalResultof the target validator. Loads the query, makes the
-    ///        XpertResult object, loads the model and attributes it to the first XpertRequestResult of the XpertResult.
+    ///        GlobalResult object, loads the model and attributes it to the first XpertRequestResult of the GlobalResult.
     /// \param _queryString Query string to load.
     /// \param _model Model string to put as drug model attribute of the XpertRequestResult of the first request.
     /// \param _globalResult Object that will contain the result of this function execution.

@@ -1251,13 +1251,13 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
 
     /// \brief Sets up environment for clean execution of the adjustment trait creator. Loads the query, makes the
-    ///        XpertResult object, loads the model and attributes it to the first XpertRequestResult of the XpertResult.
+    ///        GlobalResult object, loads the model and attributes it to the first XpertRequestResult of the GlobalResult.
     /// \param _queryString Query string to load.
     /// \param _model Model string to put as drug model attribute of the XpertRequestResult of the first request.
-    /// \param _xpertResult Object that will contain the result of this function execution.
+    /// \param _globalResult Object that will contain the result of this function execution.
     void setupEnv(const std::string& _queryString,
                   const std::string& _model,
-                  std::unique_ptr<Tucuxi::Xpert::GlobalResult>& _xpertResult) {
+                  std::unique_ptr<Tucuxi::Xpert::GlobalResult>& _globalResult) {
 
         // Drug models repository creation
         Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
@@ -1298,8 +1298,8 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
             throw std::runtime_error("Setup failed");
         }
 
-        _xpertResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query), "");
-        Tucuxi::Xpert::XpertRequestResult& xrr =  _xpertResult->getXpertRequestResults()[0];
+        _globalResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query), "");
+        Tucuxi::Xpert::XpertRequestResult& xrr =  _globalResult->getXpertRequestResults()[0];
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
     }
 

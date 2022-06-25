@@ -34,6 +34,7 @@ DEFINES+= \
     test_dosevalidator \
     test_globalresultcreation \
     test_language \
+    test_requestexecutor \
     test_query \
     test_samplevalidator \
     test_targetvalidator \
@@ -46,14 +47,10 @@ HEADERS += \
     test_dosevalidator.h \
     test_globalresultcreation.h \
     test_languagemanager.h \
+    test_requestexecutor.h \
     test_samplevalidator.h \
     test_targetvalidator.h \
     test_xpertqueryimport.h \
     test_xpertquerytocoreextractor.h \
     test_xpertutils.h
 
-OTHER_FILES += \
-    query/complete_admin.tqf
-
-DISTFILES += \
-    query/no_admin.tqf

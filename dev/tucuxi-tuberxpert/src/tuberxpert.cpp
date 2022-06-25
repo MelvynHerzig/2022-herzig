@@ -1,7 +1,7 @@
 #include "tucucommon/loggerhelper.h"
 #include "tucucommon/utils.h"
 
-#include "tuberxpertcomputer.h"
+#include "tuberxpert/computer.h"
 #include "cxxopts/include/cxxopts.hpp"
 
 using namespace std;
@@ -74,11 +74,11 @@ bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, stri
             return false;
         }
 
-        if (result.count("output") > 0) {
-            outputPath = result["output"].as<string>();
+        if (result.count("outputpath") > 0) {
+            outputPath = result["outputpath"].as<string>();
         }
         else {
-            cout << "The output file is mandatory" << endl << endl;
+            cout << "The output directory is mandatory" << endl << endl;
             cout << options.help({"", "Group"}) << endl;
             return false;
         }
@@ -127,8 +127,8 @@ int main(int argc, char** argv)
     logHelper.info("Tuberxpert console application is starting up...");
 
     // Computation start
-    TuberXpertComputer txc;
-    ComputingStatus result = txc.compute(drugPath, inputFileName, outputPath, languagePath);
+    Tucuxi::Xpert::Computer txc;
+    Tucuxi::Xpert::ComputingStatus result = txc.compute(drugPath, inputFileName, outputPath, languagePath);
 
     logHelper.info("Tuberxpert console application is exiting...");
     logHelper.info("********************************************************");
@@ -138,13 +138,13 @@ int main(int argc, char** argv)
 
     // Return code handling
     switch (result) {
-        case ComputingStatus::IMPORT_ERROR:
+        case Tucuxi::Xpert::ComputingStatus::IMPORT_ERROR:
             return CODE_IMPORT_ERROR;
-        case ComputingStatus::ALL_REQUESTS_SUCCEEDED:
+        case Tucuxi::Xpert::ComputingStatus::ALL_REQUESTS_SUCCEEDED:
             return CODE_ALL_REQUESTS_SUCCEEDED;
-        case ComputingStatus::SOME_REQUESTS_SUCCEEDED:
+        case Tucuxi::Xpert::ComputingStatus::SOME_REQUESTS_SUCCEEDED:
             return CODE_SOME_REQUESTS_SUCCEEDED;
-        case ComputingStatus::NO_REQUESTS_SUCCEEDED:
+        case Tucuxi::Xpert::ComputingStatus::NO_REQUESTS_SUCCEEDED:
             return CODE_NO_REQUESTS_SUCCEEDED;
     }
 }

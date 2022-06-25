@@ -299,20 +299,20 @@ bool CovariateValidatorAndModelSelector::checkCovariateDefinitionsLanguage(
     for (const unique_ptr<Core::CovariateDefinition>& cd : _modelDefinitions) {
 
         // Checking name translation.
-        if( cd->getName().getString(outputLangToString(OutputLang::ENGLISH)) == "" &&
-                cd->getName().getString(outputLangToString(_lang)) == "") {
+        if( cd->getName().getString(varToString(OutputLang::ENGLISH)) == "" &&
+                cd->getName().getString(varToString(_lang)) == "") {
             return false;
         }
 
         // Checking description translation.
-        if( cd->getDescription().getString(outputLangToString(OutputLang::ENGLISH)) == "" &&
-                cd->getDescription().getString(outputLangToString(_lang)) == "") {
+        if( cd->getDescription().getString(varToString(OutputLang::ENGLISH)) == "" &&
+                cd->getDescription().getString(varToString(_lang)) == "") {
             return false;
         }
 
         // Checking validation error message translation.
-        if( cd->getValidationErrorMessage().getString(outputLangToString(OutputLang::ENGLISH)) == "" &&
-                cd->getValidationErrorMessage().getString(outputLangToString(_lang)) == "") {
+        if( cd->getValidationErrorMessage().getString(varToString(OutputLang::ENGLISH)) == "" &&
+                cd->getValidationErrorMessage().getString(varToString(_lang)) == "") {
             return false;
         }
     }

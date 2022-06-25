@@ -14,6 +14,8 @@
 #include "tucucore/computingservice/computingtrait.h"
 #include "tucucore/definitions.h"
 
+#include "tuberxpert/utils/xpertutils.h"
+
 using namespace std;
 
 namespace Tucuxi {
@@ -48,7 +50,7 @@ void SampleValidator::perform(XpertRequestResult& _xpertRequestResult)
     // Getting percentiles for each sample
     for(const unique_ptr<Core::Sample>& sample : _xpertRequestResult.getTreatment()->getSamples()) {
 
-        // Preparing comuting request for percentile computation.
+        // Preparing computing request for percentile computation.
         string responseId = "";
         Common::DateTime start = sample->getDate() - chrono::hours(1);  // Minus/plus 1 hour are just here
         Common::DateTime end = sample->getDate() + chrono::hours(1);    // "effectless", the core computes other start and end dates.
@@ -60,35 +62,28 @@ void SampleValidator::perform(XpertRequestResult& _xpertRequestResult)
         // cycleData, use AllAnalytes.
         Core::ComputingOption computingOption{Core::PredictionParameterType::Apriori, Core::CompartmentsOption::AllActiveMoieties};
 
-        // Percentile trait.
-        unique_ptr<Core::ComputingTraitPercentiles> ctp = make_unique<Core::ComputingTraitPercentiles>(responseId, start, end, ranks, nbPointsPerHour, computingOption);
+        // Percentile trait and response
+        unique_ptr<Core::ComputingTraitPercentiles> percentileTrait =
+                make_unique<Core::ComputingTraitPercentiles>(responseId, start, end, ranks, nbPointsPerHour, computingOption);
+        unique_ptr<Core::PercentilesData> percentilesResult = nullptr;
 
-        // Request and response.
-        Core::ComputingRequest cReq { "", *_xpertRequestResult.getDrugModel(), *_xpertRequestResult.getTreatment(), move(ctp)};
-        std::unique_ptr<Core::ComputingResponse> cRes = std::make_unique<Core::ComputingResponse>("");
+        // Execute request
+        executeRequestAndGetResult<Core::ComputingTraitPercentiles, Core::PercentilesData>(move(percentileTrait), _xpertRequestResult, percentilesResult);
 
-        // Starting percentiles computation.
-        Core::IComputingService* computingComponent = dynamic_cast<Core::IComputingService*>(Core::ComputingComponent::createComponent());
-        Core::ComputingStatus result = computingComponent->compute(cReq, cRes);
-
-
-        // Extracting sample position.
-        const Core::PercentilesData* pData = dynamic_cast<const Core::PercentilesData*>(cRes->getData());
+        // If computation failed, abort xpert request handling.
+        if (percentilesResult == nullptr) {
+            _xpertRequestResult.setErrorMessage("Percentiles computation failed.");
+        }
 
         unsigned groupOver99Percentiles = 0;
         try {
-            groupOver99Percentiles = findGroupPositionOver99Percentiles(pData, sample);
+            groupOver99Percentiles = findGroupPositionOver99Percentiles(percentilesResult.get(), sample);
         } catch (const invalid_argument& e) {
             // We catch unit error or if the sample is not bound by cycledata
             stringstream ss;
             ss << sample->getDate();
             _xpertRequestResult.setErrorMessage("Error handling sample of " + ss.str() + ", details: " + e.what());
             return;
-        }
-
-        // If computation failed, abort xpert request handling.
-        if (result != Core::ComputingStatus::Ok) {
-            _xpertRequestResult.setErrorMessage("Percentile computation failed.");
         }
 
         sampleResults.emplace(make_pair(sample.get(), SampleValidationResult(sample.get(), groupOver99Percentiles)));

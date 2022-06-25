@@ -12367,8 +12367,6 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
         fructose_assert_eq(results[4].getUnit().toString(), "-");
         fructose_assert_eq(results[4].getType() == Tucuxi::Xpert::CovariateType::Model, true);
         fructose_assert_eq(results[4].getWarning(), "");
-
-
     }
 };
 

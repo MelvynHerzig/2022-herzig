@@ -64,7 +64,7 @@ void AdjustmentTraitCreator::perform(XpertRequestResult& _xpertRequestResult)
     };
 
     // Adjustment date
-    Common::DateTime adjustmentTime = getAdjustmentTime(_xpertRequestResult, fullFormulationAndRoute);
+    Common::DateTime adjustmentTime = getAdjustmentTimeAndLastIntake(_xpertRequestResult, fullFormulationAndRoute);
 
     // Period
 
@@ -99,7 +99,6 @@ void AdjustmentTraitCreator::perform(XpertRequestResult& _xpertRequestResult)
     // Formulation and route selection option
     Core::FormulationAndRouteSelectionOption formulationAndRouteSelectionOption = _xpertRequestResult.getXpertRequest().getFormulationAndRouteSelectionOption();
 
-
     // Creating and setting trait.
     Core::ComputingTraitAdjustment computingTraitAdjustment = Core::ComputingTraitAdjustment(
                 responseId,
@@ -128,53 +127,12 @@ Core::PredictionParameterType AdjustmentTraitCreator::getPredictionParameterType
     }
 }
 
-Common::DateTime AdjustmentTraitCreator::getAdjustmentTime(XpertRequestResult& _xpertRequestResult, const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const
+Common::DateTime AdjustmentTraitCreator::getAdjustmentTimeAndLastIntake(XpertRequestResult& _xpertRequestResult, const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const
 {
-    // If an adjustment time has been manually set in the request, the use it.
-    if (!_xpertRequestResult.getXpertRequest().getAdjustmentTime().isUndefined()){
-        return _xpertRequestResult.getXpertRequest().getAdjustmentTime();
-
-    // Otherwise
-    } else {    
-
-        // There are 3 possible scenarios left:
-        // 1) There is an ongoing treatment -> The next intake after computation time is the adjustment time.
-        // 2) There was a treatment (that is over by now) -> Take the latest intake and add as many times as necessary 2*half-life to reach _start.
-        //    The resulting time is the adjustment time.
-        // 3) There is no dosage history in the past -> The adjustment time can be anytime, arbitrarily computation time + 1 hour.
-
-        // We handle 1 and 2 (in makeIntakeSeriesAndTryToExtractAdjustmentTime) before 3, because there are some computations that could "fail",
-        // in that case we fallback into 3.
-
-        // If the dosage history is not empty we might be in 1 and 2.
-        if (!_xpertRequestResult.getTreatment()->getDosageHistory().isEmpty()){
-            Common::DateTime adjustmentBasedOnIntakes = makeIntakeSeriesTryExtractAdjustmentTimeAndLastIntake(_xpertRequestResult, _fullFormulationAndRoute);
-
-            // We check 1 or 2 succeed.
-            if(!adjustmentBasedOnIntakes.isUndefined()) {
-                return adjustmentBasedOnIntakes;
-            }
-        }
-
-        // 3) There is no dosage history in the past -> The adjustment time can be anytime, arbitrarily start datetime + 1 hour.
-        // or fallback from 1 and 2
-        return m_computationTime + Duration(chrono::hours(1));
-    }
-}
-
-Common::DateTime AdjustmentTraitCreator::makeIntakeSeriesTryExtractAdjustmentTimeAndLastIntake(XpertRequestResult& _xpertRequestResult, const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const
-{
-    // get the latest (in the past) dosage time range start as the extraction starting time.
+    // In any case we need the intake series so we prepare it now. With it, we can extract the last intake.
+    // Get the latest (in the past) dosage time range start as the extraction starting time.
     Common::DateTime startTimeOfTheLatestDosage = getLatestDosageTimeRangeStart(_xpertRequestResult.getTreatment()->getDosageHistory(), m_computationTime);
 
-    // If time is not undefined. We check that because we look for the latest time from the dosage history before the the computation time.
-    // I imagine that it is possible to have dosage history only in the future which would lead to an undefined latest dosage time range start.
-    // In that case, just return undefined date time because the next steps have no sense.
-    if (startTimeOfTheLatestDosage.isUndefined()) {
-        return Common::DateTime::undefinedDateTime();
-    }
-
-    // To define the adjustment time based on the intakes, we need to extract the intakes.
     Core::IntakeExtractor intakeExtractor;
     Core::IntakeSeries intakes;
     Core::ComputingStatus cs = intakeExtractor.extract(_xpertRequestResult.getTreatment()->getDosageHistory(),
@@ -184,16 +142,53 @@ Common::DateTime AdjustmentTraitCreator::makeIntakeSeriesTryExtractAdjustmentTim
                                                        _fullFormulationAndRoute->getValidDoses()->getUnit(),
                                                        intakes);
 
-    // Set the last intake in the XpertRequestResult
-    unique_ptr<Core::IntakeEvent> lastIntake;
-    getLatestIntake(intakes, lastIntake);
-    _xpertRequestResult.setLastIntake(move(lastIntake));
+    // If time is not undefined and the computing result is ok, then get the last intake.
+    if (!startTimeOfTheLatestDosage.isUndefined() && cs == Core::ComputingStatus::Ok) {
+
+        // Set the last intake in the XpertRequestResult
+        unique_ptr<Core::IntakeEvent> lastIntake;
+        getLatestIntake(intakes, lastIntake);
+        _xpertRequestResult.setLastIntake(move(lastIntake));
+    }
+
+    // If an adjustment time has been manually set in the request, the use it.
+    if (!_xpertRequestResult.getXpertRequest().getAdjustmentTime().isUndefined()){
+        return _xpertRequestResult.getXpertRequest().getAdjustmentTime();
+
+    // If series extraction is successfull
+    } else if (!startTimeOfTheLatestDosage.isUndefined() && cs == Core::ComputingStatus::Ok){
+
+        // There are 3 possible scenarios left:
+        // 1) There is an ongoing treatment -> The next intake after computation time is the adjustment time.
+        // 2) There was a treatment (that is over by now) -> Take the latest intake and add as many times as necessary 2*half-life to reach _start.
+        //    The resulting time is the adjustment time.
+        // 3) There is no dosage history in the past -> The adjustment time can be anytime, arbitrarily computation time + 1 hour.
+
+        // We handle 1 and 2 (in approximateAdjustmentTimeFromIntakes) before 3, because there are some computations that could "fail",
+        // in that case we fallback into 3.
+
+        // If the dosage history is not empty we might be in 1 and 2.
+        Common::DateTime adjustmentBasedOnIntakes = approximateAdjustmentTimeFromIntakes(_xpertRequestResult, intakes);
+
+        // We check 1 or 2 succeed.
+        if(!adjustmentBasedOnIntakes.isUndefined()) {
+            return adjustmentBasedOnIntakes;
+        }
+    }
+
+    // 3) There is no dosage history in the past -> The adjustment time can be anytime, arbitrarily start datetime + 1 hour.
+    // or fallback from 1 and 2
+    return m_computationTime + Duration(chrono::hours(1));
+}
+
+Common::DateTime AdjustmentTraitCreator::approximateAdjustmentTimeFromIntakes(XpertRequestResult& _xpertRequestResult, Core::IntakeSeries _intakes) const
+{
 
     // Now, we look for the closest intake in the future. If there is none, for the last in the past.
-    Common::DateTime possibleAdjustmentTime = getTimeOfNearestFutureOrLatestIntake(intakes);
+    Common::DateTime possibleAdjustmentTime = getTimeOfNearestFutureOrLatestIntake(_intakes);
 
     // For some reasons, the intakes series could be empty. In that case just return undefined datetime.
-    if (cs != Core::ComputingStatus::Ok || possibleAdjustmentTime.isUndefined()) {
+    if (possibleAdjustmentTime.isUndefined()) {
         return Common::DateTime::undefinedDateTime();
     }
 

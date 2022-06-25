@@ -689,14 +689,14 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                     </model>)";
 
     /// \brief Sets up the environment for clean execution of the dose validator. Loads the query, makes the
-    ///        XpertResult object, loads the model, attributes it to the first XpertRequestResult of the XpertResult
+    ///        GlobalResult object, loads the model, attributes it to the first XpertRequestResult of the GlobalResult
     ///        and loads an english dictionary.
     /// \param _queryString Query string to load.
     /// \param _model Model string to put as attribute of the XpertRequestResult of the first request.
-    /// \param _xpertResult Object that will contain the result of this function execution.
+    /// \param _globalResult Object that will contain the result of this function execution.
     void setupEnv(const std::string& _queryString,
                   const std::string& _model,
-                  std::unique_ptr<Tucuxi::Xpert::GlobalResult>& _xpertResult) {
+                  std::unique_ptr<Tucuxi::Xpert::GlobalResult>& _globalResult) {
 
         // Drug models repository creation
         Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
@@ -737,8 +737,8 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
             throw std::runtime_error("Setup failed");
         }
 
-        _xpertResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query), "");
-        Tucuxi::Xpert::XpertRequestResult& xrr =  _xpertResult->getXpertRequestResults()[0];
+        _globalResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query), "");
+        Tucuxi::Xpert::XpertRequestResult& xrr =  _globalResult->getXpertRequestResults()[0];
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
 
         // Loading the dictionary with keys used by the dose validator.
@@ -1506,8 +1506,6 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
         fructose_assert_eq(xrr.shouldBeHandled(), true);
         fructose_assert_eq(xrr.getDoseResults().size(), 4);
         fructose_assert_eq(xrr.getErrorMessage(), "");
-
-
 
         // All dose are diffrent and we are going to use this to get the correct asserts
         // This is because map are not guaranteed in the same order. This not really elegant but it does

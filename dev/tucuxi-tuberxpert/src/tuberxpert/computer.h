@@ -1,11 +1,16 @@
-#ifndef TUBERXPERTCOMPUTER_H
-#define TUBERXPERTCOMPUTER_H
+#ifndef COMPUTER_H
+#define COMPUTER_H
 
 #include <memory>
 #include <string>
 
+#include "tucucore/computingservice/computingtrait.h"
+
 #include "tuberxpert/result/xpertrequestresult.h"
 #include "tuberxpert/flow/abstract/abstractxpertflowstepprovider.h"
+
+namespace Tucuxi {
+namespace Xpert {
 
 /// \brief Enum whose values are used as the return value of TuberXpertComputer.
 ///        The values are:
@@ -31,12 +36,12 @@ enum class ComputingStatus {
 /// \brief Given the required arguments, this class drives the execution flow of tuberXpert.
 /// \date 03/06/2022
 /// \author Herzig Melvyn
-class TuberXpertComputer
+class Computer
 {
 public:
 
     /// \brief Constructor.
-    TuberXpertComputer();
+    Computer();
 
     /// \brief Entry point of the TuberXpert command Line Interface. This method imports
     ///        the query, loaded the translation file, and handle each XpertRequest to finally
@@ -56,27 +61,24 @@ protected:
 
     /// \brief For a given xpertRequest in _xpertRequestResult and its treatment, this methods validate the inputs
     ///        (are the dosages, samples, covariates and targets plausible), selects a drug model and creates the associated
-    ///        adjustment trait.
+    ///        adjustment trait. If something fails, the error message of the xpert request result is set and it
+    ///        should not be handled anymore.
     /// \param _xpertRequestResult Object containing the XpertRequest and treatment informations. This object will also
     ///                            be filled with the various validations of the system.
     /// \param _languagePath Folder containing the language files.
     /// \param _stepProvider Flow step provider responsible to give the each step for a given drug.
-    /// \return True if everything went well (i.e. the XpertRequest result is ready to be submitted to the core) or false if the
-    ///         XpertRquest needs to be reviewed (i.e. no language file found for the desired language, no drug model found ...)
-    bool validateAndPrepareXpertRequest(Tucuxi::Xpert::XpertRequestResult& _xpertRequestResult,
+    void validateAndPrepareXpertRequest(XpertRequestResult& _xpertRequestResult,
                                         const std::string& _languagePath,
-                                        const std::unique_ptr<Tucuxi::Xpert::AbstractXpertFlowStepProvider>& _stepProvider) const;
+                                        const std::unique_ptr<AbstractXpertFlowStepProvider>& _stepProvider) const;
 
     /// \brief For a given XpertRequestResult get the XpertFlowStepProvider for the related drug.
     /// \param _xpertRequestResult XpertRequestResult to get drug id from.
     /// \param _xpertFlowStepProvider Unique pointer in which create the corresponding XpertFlowStepProvider.
-    void getXpertFlowStepProvider(Tucuxi::Xpert::XpertRequestResult& _xpertRequestResult,
-                                  std::unique_ptr<Tucuxi::Xpert::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const;
-
-    /// \brief Extracts the adjustment trait from the XpertRequestResult, makes the request for the core and submits it.
-    /// \param _xpertRequestResult XpertRequestResult containing the adjustment trait to use.
-    /// \return True if the request execution went well, else false.
-    bool makeAndExecuteAdjustmentRequest(Tucuxi::Xpert::XpertRequestResult& _xpertRequestResult) const;
+    void getXpertFlowStepProvider(XpertRequestResult& _xpertRequestResult,
+                                  std::unique_ptr<AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const;
 };
 
-#endif // TUBERXPERTCOMPUTER_H
+} // namespace Xpert
+} // namespace Tucuxi
+
+#endif // COMPUTER_H

@@ -1,4 +1,4 @@
-#include "tuberxpertcomputer.h"
+#include "computer.h"
 
 #include <memory>
 #include <fstream>
@@ -16,12 +16,14 @@
 
 
 using namespace std;
-using namespace Tucuxi;
 
-TuberXpertComputer::TuberXpertComputer()
+namespace Tucuxi {
+namespace Xpert {
+
+Computer::Computer()
 {}
 
-ComputingStatus TuberXpertComputer::compute(
+ComputingStatus Computer::compute(
         const string& _drugPath,
         const string& _inputFileName,
         const string& _outputPath,
@@ -44,28 +46,28 @@ ComputingStatus TuberXpertComputer::compute(
      *                               Query Importation                               *
      * *******************************************************************************/
 
-    unique_ptr<Xpert::XpertQueryData> query = nullptr;
+    unique_ptr<XpertQueryData> query = nullptr;
 
-    Xpert::XpertQueryImport importer;
-    Xpert::XpertQueryImport::Status importResult = importer.importFromFile(query, _inputFileName);
+    XpertQueryImport importer;
+    XpertQueryImport::Status importResult = importer.importFromFile(query, _inputFileName);
 
-    if (importResult != Xpert::XpertQueryImport::Status::Ok) {
+    if (importResult != XpertQueryImport::Status::Ok) {
 
         logHelper.error("Query import error, see details : {}", importer.getErrorMessage());
         return ComputingStatus::IMPORT_ERROR;
     }
 
-    Xpert::GlobalResult globalResult(move(query), _outputPath);
+    GlobalResult globalResult(move(query), _outputPath);
 
     /*********************************************************************************
      *                             For each xpert resquest                           *
      * *******************************************************************************/
 
     unsigned nbUnfulfilledRequest = 0;
-    for (Xpert::XpertRequestResult& xpertRequestResult : globalResult.getXpertRequestResults()) {
+    for (XpertRequestResult& xpertRequestResult : globalResult.getXpertRequestResults()) {
 
         logHelper.info("---------------------------------------");
-        logHelper.info("Handling request number: " + to_string(globalResult.incrementRequestIndexBeingHandled()));
+        logHelper.info("Handling request number: " + to_string(globalResult.incrementRequestIndexBeingHandled() + 1)); // +1 because it starts from 0.
 
         // Check if query to core extraction was successful
         logHelper.info("Checking extraction state...");
@@ -74,26 +76,48 @@ ComputingStatus TuberXpertComputer::compute(
             ++nbUnfulfilledRequest;
             continue;
         }
+        logHelper.info("Extraction succeed.");
 
         // Get the flow step provider for the drug of the request
-        unique_ptr<Xpert::AbstractXpertFlowStepProvider> xpertFlowStepProvider(nullptr);
+        unique_ptr<AbstractXpertFlowStepProvider> xpertFlowStepProvider(nullptr);
         getXpertFlowStepProvider(xpertRequestResult, xpertFlowStepProvider);
 
         // Validate inputs data and prepare the missing informations (drug model/adjustment trait)
-        if (validateAndPrepareXpertRequest(xpertRequestResult, _languagePath, xpertFlowStepProvider) == false) {
+        logHelper.info("Validating query and preparing necessary information...");
+        validateAndPrepareXpertRequest(xpertRequestResult, _languagePath, xpertFlowStepProvider);
+        if (xpertRequestResult.shouldBeHandled() == false) {
+            logHelper.error(xpertRequestResult.getErrorMessage());
             ++nbUnfulfilledRequest;
             continue;
         }
+
+        logHelper.info("Query validation and information preparation succeed.");
 
         // Execute adjustment request
-        if (makeAndExecuteAdjustmentRequest(xpertRequestResult) == false) {
+        logHelper.info("Submitting adjustment request...");
+
+        xpertFlowStepProvider->getRequestExecutor()->perform(xpertRequestResult);
+        if (xpertRequestResult.shouldBeHandled() == false) {
+            logHelper.error(xpertRequestResult.getErrorMessage());
             ++nbUnfulfilledRequest;
             continue;
         }
 
-        // Genereate final report
-        // TODO
+        logHelper.info("Adjustment request execution succeed.");
 
+        // Genereate final report
+        logHelper.info("Generating report...");
+
+        xpertFlowStepProvider->getReportPrinter()->perform(xpertRequestResult);
+        if (xpertRequestResult.shouldBeHandled() == false) {
+            logHelper.error(xpertRequestResult.getErrorMessage());
+            ++nbUnfulfilledRequest;
+            continue;
+        }
+
+        logHelper.info("Report generation succeed.");
+
+        // Here the request has been fully handled without problem
     }
 
     pCmpMgr->unregisterComponent("DrugModelRepository");
@@ -113,9 +137,9 @@ ComputingStatus TuberXpertComputer::compute(
 
 }
 
-bool TuberXpertComputer::validateAndPrepareXpertRequest(Xpert::XpertRequestResult& _xpertRequestResult,
+void Computer::validateAndPrepareXpertRequest(XpertRequestResult& _xpertRequestResult,
                                                         const string& _languagePath,
-                                                        const unique_ptr<Xpert::AbstractXpertFlowStepProvider>& _stepProvider) const
+                                                        const unique_ptr<AbstractXpertFlowStepProvider>& _stepProvider) const
 {
 
     Common::LoggerHelper logHelper;
@@ -127,11 +151,11 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(Xpert::XpertRequestResul
     logHelper.info("Loading translation file...");
 
     // Getting language manager
-    Xpert::LanguageManager& languageManager = Xpert::LanguageManager::getInstance();
+    LanguageManager& languageManager = LanguageManager::getInstance();
 
 
     try {
-        string languageFileName = _languagePath + "/" + outputLangToString(_xpertRequestResult.getXpertRequest().getOutputLang()) + ".xml";
+        string languageFileName = _languagePath + "/" + varToString(_xpertRequestResult.getXpertRequest().getOutputLang()) + ".xml";
         ifstream ifs(languageFileName);
 
         // If language file opening failed.
@@ -149,8 +173,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(Xpert::XpertRequestResul
 
         // Somehow, the acquisition of the language file failed.
         // Leave this requestXpert and try the next one.
-        logHelper.error(e.what());
-        return false;
+        return;
     }
 
     /**************************************************************
@@ -163,8 +186,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(Xpert::XpertRequestResul
 
     // Check if model selection was successful
     if (_xpertRequestResult.shouldBeHandled() == false) {
-        logHelper.error(_xpertRequestResult.getErrorMessage());
-        return false;
+        return;
     }
 
     logHelper.info("Covariates validated and drug model selected: " + _xpertRequestResult.getDrugModel()->getDrugModelId());
@@ -179,8 +201,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(Xpert::XpertRequestResul
 
     // Check if dosages checking was successful
     if (_xpertRequestResult.shouldBeHandled() == false) {
-        logHelper.error(_xpertRequestResult.getErrorMessage());
-        return false;
+        return;
     }
 
     logHelper.info("Dosages successfully validated.");
@@ -196,8 +217,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(Xpert::XpertRequestResul
 
     // Check if samples checking was successful
     if (_xpertRequestResult.shouldBeHandled() == false) {
-        logHelper.error(_xpertRequestResult.getErrorMessage());
-        return false;
+        return;
     }
 
     logHelper.info("Samples successfully validated.");
@@ -213,8 +233,7 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(Xpert::XpertRequestResul
 
     // Check if targets checking was successful
     if (_xpertRequestResult.shouldBeHandled() == false) {
-        logHelper.error(_xpertRequestResult.getErrorMessage());
-        return false;
+        return;
     }
 
     logHelper.info("Targets successfully validated.");
@@ -229,17 +248,15 @@ bool TuberXpertComputer::validateAndPrepareXpertRequest(Xpert::XpertRequestResul
 
     // Check if adjustment trait creation was successful
     if (_xpertRequestResult.shouldBeHandled() == false) {
-        logHelper.error(_xpertRequestResult.getErrorMessage());
-        return false;
+        return;
     }
 
     logHelper.info("Adjustment trait successfully created.");
 
-
-    return true;
+    // At that point the xpertRequestResult is still handleable (got no error).
 }
 
-void TuberXpertComputer::getXpertFlowStepProvider(Xpert::XpertRequestResult& _xpertRequestResult, unique_ptr<Xpert::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const
+void Computer::getXpertFlowStepProvider(XpertRequestResult& _xpertRequestResult, unique_ptr<AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const
 {
 
     // The idea is the have this method that return a FlowStepProvider for each
@@ -256,47 +273,8 @@ void TuberXpertComputer::getXpertFlowStepProvider(Xpert::XpertRequestResult& _xp
 
     // But at the moment, TuberXpert is implemented in a general manner.
     // In future stages, this line should be removed for the commented ones on top of it.
-    _xpertFlowStepProvider = make_unique<Xpert::GeneralXpertFlowStepProvider>();
+    _xpertFlowStepProvider = make_unique<GeneralXpertFlowStepProvider>();
 }
 
-bool TuberXpertComputer::makeAndExecuteAdjustmentRequest(Xpert::XpertRequestResult& _xpertRequestResult) const
-{
-    Common::LoggerHelper logHelper;
-    logHelper.info("Submitting adjustment request...");
-
-    // Create a copy of the adjustment trait.
-    unique_ptr<Core::ComputingTraitAdjustment> copyComputingTraitAdjustment = make_unique<Core::ComputingTraitAdjustment>(*_xpertRequestResult.getAdjustmentTrait());
-
-    // Create the computing request.
-    Core::ComputingRequest computingRequest { "", *_xpertRequestResult.getDrugModel(), *_xpertRequestResult.getTreatment(), move(copyComputingTraitAdjustment)};
-
-    // Create the response holder.
-    unique_ptr<Core::ComputingResponse> computingResponse = make_unique<Core::ComputingResponse>("");
-
-    // Starting percentiles computation.
-    Core::IComputingService* computingComponent = dynamic_cast<Core::IComputingService*>(Core::ComputingComponent::createComponent());
-    Core::ComputingStatus result = computingComponent->compute(computingRequest, computingResponse);
-
-    // If request handling failed, return false.
-    if (result != Core::ComputingStatus::Ok){
-
-        logHelper.error("Adjustment request execution failed.");
-        return false;
-
-    // If it went well, set the response in the request result and return true.
-    } else {
-
-        logHelper.info("Adjustment request execution success.");
-
-        // Extracting adjustment data pointer.
-        Core::AdjustmentData* adjustmentData = dynamic_cast<Core::AdjustmentData*>(computingResponse->getUniquePointerData().release());
-
-        // Putting into smart pointer since we released it.
-        unique_ptr<Core::AdjustmentData> upAdjustmentData(adjustmentData);
-
-        // Saving the adjustment data into the request result
-        _xpertRequestResult.setAdjustmentData(move(upAdjustmentData));
-
-        return true;
-    }
-}
+} // namespace Xpert
+} // namespace Tucuxi

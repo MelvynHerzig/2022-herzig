@@ -4,6 +4,7 @@
 #include <iomanip>
 
 #include "tuberxpert/language/languageexception.h"
+#include "tuberxpert/result/globalresult.h"
 
 using namespace std;
 
@@ -13,11 +14,20 @@ namespace Xpert {
 string varToString(const double& _value)
 {
     stringstream stream;
-    stream << std::fixed << setprecision(2) << _value;
+    stream << fixed << setprecision(2) << _value;
     return stream.str();
 }
 
-string outputLangToString(OutputLang _lang)
+string varToString(CovariateType _value)
+{
+    switch (_value) {
+    case CovariateType::Model : return "default";
+    case CovariateType::Patient  : return "patient";
+    default : throw invalid_argument("Unknown covariate type"); // If well maintained, should never be returned.
+    }
+}
+
+string varToString(OutputLang _lang)
 {
     switch (_lang) {
     case OutputLang::ENGLISH : return "en";
@@ -26,9 +36,18 @@ string outputLangToString(OutputLang _lang)
     }
 }
 
+string varToString(WarningLevel _value)
+{
+    switch (_value) {
+    case WarningLevel::NORMAL : return "normal";
+    case WarningLevel::CRITICAL  : return "critical";
+    default : throw invalid_argument("Unknown warning level"); // If well maintained, should never be returned.
+    }
+}
+
 string getStringWithEnglishFallback(const Common::TranslatableString& _ts, OutputLang _lang)
 {
-    string target = _ts.getString(outputLangToString(_lang));
+    string target = _ts.getString(varToString(_lang));
 
     if (target != ""){
         return target;
@@ -65,6 +84,28 @@ Common::DateTime getLatestDosageTimeRangeStart(const Core::DosageHistory &_dosag
     }
 
     return latestDateKnown;
+}
+
+string computeFileName(const XpertRequestResult& _xpertRequestResult)
+{
+    string extension = "";
+
+    switch(_xpertRequestResult.getXpertRequest().getOutputFormat()) {
+    case OutputFormat::XML  : extension = "xml"; break;
+    case OutputFormat::HTML : extension = "html"; break;
+    case OutputFormat::PDF  : extension = "pdf"; break;
+    }
+
+    stringstream ss;
+    Common::DateTime dtComputation = _xpertRequestResult.getGlobalResult()->getComputationTime();
+    ss << _xpertRequestResult.getGlobalResult()->getOutputPath() << "\\" <<
+          _xpertRequestResult.getXpertRequest().getDrugID() << "_" <<
+          _xpertRequestResult.getGlobalResult()->getRequestIndexBeingHandled() + 1 << "_" <<
+          dtComputation.day() << "-" << dtComputation.month() << "-" << dtComputation.year() << "_" <<
+          dtComputation.hour() << "h" << dtComputation.minute() << "m" << dtComputation.second() << "s" <<
+          "." << extension;
+
+    return ss.str();
 }
 
 } // namespace XpertUtils

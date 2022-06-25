@@ -78,6 +78,16 @@ const GlobalResult* XpertRequestResult::getGlobalResult() const
     return m_xpertGlobalResult;
 }
 
+const std::vector<std::vector<Core::ParameterValue> > &XpertRequestResult::getParameters() const
+{
+    return m_parameters;
+}
+
+const Core::CycleStats &XpertRequestResult::getCycleStats() const
+{
+    return m_cycleStats;
+}
+
 void XpertRequestResult::setErrorMessage(const string& _message)
 {
     m_errorMessage = _message;
@@ -116,6 +126,17 @@ void XpertRequestResult::setAdjustmentData(unique_ptr<Core::AdjustmentData> _adj
 void XpertRequestResult::setLastIntake(unique_ptr<Core::IntakeEvent> _lastIntake)
 {
     m_lastIntake = move(_lastIntake);
+}
+
+void XpertRequestResult::addParameters(const std::vector<Core::ParameterValue>& _parameters)
+{
+    auto it = m_parameters.begin();
+    m_parameters.emplace(it, _parameters);
+}
+
+void XpertRequestResult::setCycleStats(const Core::CycleStats _cycleStats)
+{
+    m_cycleStats = _cycleStats;
 }
 
 bool XpertRequestResult::shouldBeHandled() const

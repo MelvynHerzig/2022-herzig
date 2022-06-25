@@ -1,31 +1,34 @@
-#ifndef TEST_XPERTUTILS_H
-#define TEST_XPERTUTILS_H
+#ifndef TEST_REQUESTEXECUTOR_H
+#define TEST_REQUESTEXECUTOR_H
 
-#include "tucucore/dosage.h"
 #include "tucucore/drugmodelchecker.h"
 #include "tucucore/pkmodel.h"
 #include "tucucore/drugmodelimport.h"
 #include "tucucore/drugmodelrepository.h"
-#include "tucucore/computingservice/computingresponse.h"
-#include "tucucore/definitions.h"
 
 #include "tuberxpert/query/xpertquerydata.h"
+#include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
+#include "tuberxpert/flow/general/requestexecutor.h"
 #include "tuberxpert/query/xpertqueryimport.h"
 #include "tuberxpert/result/globalresult.h"
-#include "tuberxpert/language/languageexception.h"
-#include "tuberxpert/utils/xpertutils.h"
 
 #include "fructose/fructose.h"
 
-/// \brief Tests for utility methods of TuberXpert.
-/// \date 03/06/2022
+/// \brief Tests for RequestExecutor from the XpertFlowStepProvider.
+///        The tests use the AdjustmentTraitCreator object and assume
+///        that this object works as intended.
+/// \date 25/06/2022
 /// \author Herzig Melvyn
-struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
+struct TestRequestExecutor : public fructose::test_base<TestRequestExecutor>
 {
+
+    /// \brief General flow step provider used to get the requestExecutor object to test.
+    const Tucuxi::Xpert::GeneralXpertFlowStepProvider flowStepProvider;
+
     /// \brief Format used to create date and time during tests.
     const std::string date_format = "%Y-%m-%dT%H:%M:%S";
 
-    /// \brief Drug model string of the imatinib used by some tests.
+    /// \brief Drug model string of the imatinib used by the tests.
     std::string imatinibModelString = R"(<?xml version="1.0" encoding="UTF-8"?>
                                         <model version='0.6' xsi:noNamespaceSchemaLocation='drugfile.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
                                             <history>
@@ -687,7 +690,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
                                                     </model>)";
 
     /// \brief Sets up the environment for clean execution of some tests. Loads the query, makes the
-    ///        GlobalResult object, loads the model, attributes it to the first XpertRequestResult of the GlobalResult.
+    ///        GlobalResult object, loads the model, attributes it to the first XpertRequestResult of the XpertResult.
     /// \param _queryString Query string to load.
     /// \param _model Model string to put as attribute of the XpertRequestResult of the first request.
     /// \param _globalResult Object that will contain the result of this function execution.
@@ -739,171 +742,10 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
     }
 
-    /// \brief Converts output lang to string. Checks that the requested language get its corresponding
-    ///        string or an exception if it is not supported.
-    /// \param _testName Name of the test.
-    void convertOutputLangToString(const std::string& _testName)
-    {
-
-        std::cout << _testName << std::endl;
-
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::OutputLang::ENGLISH), "en");
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::OutputLang::FRENCH), "fr");
-        fructose_assert_exception(Tucuxi::Xpert::varToString(Tucuxi::Xpert::OutputLang(-1)), Tucuxi::Xpert::LanguageException);
-    }
-
-
-    /// \brief Converts double to string. Checks that the string contains two decimals.
-    /// \param _testName Name of the test.
-    void convertDoubleToString(const std::string& _testName)
-    {
-        std::cout << _testName << std::endl;
-
-        fructose_assert_eq(Tucuxi::Xpert::varToString(5.411111), "5.41");
-        fructose_assert_eq(Tucuxi::Xpert::varToString(6), "6.00");
-    }
-
-    /// \brief Converts covariate type to string.
-    /// \param _testName Name of the test.
-    void convertCovariateTypeToString(const std::string& _testName)
-    {
-        std::cout << _testName << std::endl;
-
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::CovariateType::Model), "default");
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::CovariateType::Patient), "patient");
-        fructose_assert_exception(Tucuxi::Xpert::varToString(Tucuxi::Xpert::CovariateType(-1)), std::invalid_argument);
-    }
-
-    /// \brief Tests that the getStringWithEnglishFallback returns the targeted language or
-    ///        the default language (en) or empty string.
-    /// \param _testName Name of the test.
-    void getStringFromTranslatableWithFallback(const std::string& _testName)
-    {
-        std::cout << _testName << std::endl;
-
-        Tucuxi::Common::TranslatableString ts1("translatable string in en");
-        ts1.setString("chaine de caractere traductible en fr", "fr");
-
-        Tucuxi::Common::TranslatableString ts2("translatable string in en");
-
-
-        fructose_assert_eq(Tucuxi::Xpert::getStringWithEnglishFallback(ts1, Tucuxi::Xpert::OutputLang::FRENCH), "chaine de caractere traductible en fr");
-        fructose_assert_eq(Tucuxi::Xpert::getStringWithEnglishFallback(ts2, Tucuxi::Xpert::OutputLang::FRENCH), "translatable string in en");
-    }
-
-    /// \brief Converts warning level to string.
-    /// \param _testName Name of the test.
-    void convertWarningLevelToString(const std::string& _testName)
-    {
-        std::cout << _testName << std::endl;
-
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::WarningLevel::CRITICAL), "critical");
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::WarningLevel::NORMAL), "normal");
-        fructose_assert_exception(Tucuxi::Xpert::varToString(Tucuxi::Xpert::WarningLevel(-1)), std::invalid_argument);
-    }
-
-    /// \brief Tests that the getOldestDosageTimeRangeStart works as expected.
-    ///        This test forms a dosage history with two time ranges:
-    ///         1) 2022-01-01 10h00 - 2022-01-02 13h00
-    ///         2) 2022-01-03 14h00 - 2022-01-04 16h00
-    ///
-    ///        Once it requieres the oldest start time with a reference time of 2022-01-01 14h00
-    ///        (just after the first time range) which should return 2022-01-01 10h00
-    ///
-    ///        Once it requieres the oldest start time with a reference time of 2022-01-01 09h00
-    ///        (before both time ranges) which should return the reference time itself.
-    ///
-    /// \param _testName Name of the test.
-    void getOldestDosageTimeRangeStartReturnsCorrectValues(const std::string& _testName)
-    {
-        std::cout << _testName << std::endl;
-
-        // Common elements
-        Tucuxi::Core::Unit unit{"mg"};
-        Tucuxi::Core::FormulationAndRoute formulationAndRoute{Tucuxi::Core::AbsorptionModel::Extravascular};
-        Tucuxi::Common::Duration duration, interval{std::chrono::hours(1)};
-
-        // Making first time range "2022-01-01 10h00 - 2022-01-02 13h00"
-        Tucuxi::Core::LastingDose lastingDose1{1, unit, formulationAndRoute, duration, interval};
-        Tucuxi::Core::DosageTimeRange timeRange1{
-            Tucuxi::Common::DateTime("2022-01-01T10:00:00", date_format),
-            Tucuxi::Common::DateTime("2022-01-02T13:00:00", date_format),
-            lastingDose1
-        };
-
-        // Making second time range "2022-01-03 14h00 - 2022-01-04 16h00"
-        Tucuxi::Core::LastingDose lastingDose2{1, unit, formulationAndRoute, duration, interval};
-        Tucuxi::Core::DosageTimeRange timeRange2{
-            Tucuxi::Common::DateTime("2022-01-03T14:00:00", date_format),
-            Tucuxi::Common::DateTime("2022-01-04T16:00:00", date_format),
-            lastingDose1
-        };
-
-        // Making dsage history
-        Tucuxi::Core::DosageHistory dosageHistory;
-        dosageHistory.addTimeRange(timeRange1);
-        dosageHistory.addTimeRange(timeRange2);
-
-        fructose_assert_eq(Tucuxi::Xpert::getOldestDosageTimeRangeStart(dosageHistory, Tucuxi::Common::DateTime("2022-01-01T14:00:00", date_format)),
-                           Tucuxi::Common::DateTime("2022-01-01T10:00:00", date_format));
-
-        fructose_assert_eq(Tucuxi::Xpert::getOldestDosageTimeRangeStart(dosageHistory, Tucuxi::Common::DateTime("2022-01-01T09:00:00", date_format)),
-                           Tucuxi::Common::DateTime("2022-01-01T09:00:00", date_format));
-    }
-
-    /// \brief Tests that the getLatestDosageTimeRangeStart works as expected.
-    ///        This test forms a dosage history with two time ranges:
-    ///         1) 2022-01-01 10h00 - 2022-01-02 13h00
-    ///         2) 2022-01-03 14h00 - 2022-01-04 16h00
-    ///
-    ///        Once it requieres the latest start time with a reference time of 2022-01-07 15h00
-    ///        (before both time ranges) which should return 2022-01-03 14h00
-    ///
-    ///        Once it requieres the oldest start time with a reference time of 2022-01-01 09h00
-    ///        (before both time ranges) which should return an undefined date time.
-    ///
-    /// \param _testName Name of the test.
-    void getLatestDosageTimeRangeStartReturnsCorrectValues(const std::string& _testName)
-    {
-        std::cout << _testName << std::endl;
-
-        // Common elements
-        Tucuxi::Core::Unit unit{"mg"};
-        Tucuxi::Core::FormulationAndRoute formulationAndRoute{Tucuxi::Core::AbsorptionModel::Extravascular};
-        Tucuxi::Common::Duration duration, interval{std::chrono::hours(1)};
-
-        // Making first time range "2022-01-01 10h00 - 2022-01-02 13h00"
-        Tucuxi::Core::LastingDose lastingDose1{1, unit, formulationAndRoute, duration, interval};
-        Tucuxi::Core::DosageTimeRange timeRange1{
-            Tucuxi::Common::DateTime("2022-01-01T10:00:00", date_format),
-            Tucuxi::Common::DateTime("2022-01-02T13:00:00", date_format),
-            lastingDose1
-        };
-
-        // Making second time range "2022-01-03 14h00 - 2022-01-04 16h00"
-        Tucuxi::Core::LastingDose lastingDose2{1, unit, formulationAndRoute, duration, interval};
-        Tucuxi::Core::DosageTimeRange timeRange2{
-            Tucuxi::Common::DateTime("2022-01-03T14:00:00", date_format),
-            Tucuxi::Common::DateTime("2022-01-04T16:00:00", date_format),
-            lastingDose1
-        };
-
-        // Making dsage history
-        Tucuxi::Core::DosageHistory dosageHistory;
-        dosageHistory.addTimeRange(timeRange1);
-        dosageHistory.addTimeRange(timeRange2);
-
-        fructose_assert_eq(Tucuxi::Xpert::getLatestDosageTimeRangeStart(dosageHistory, Tucuxi::Common::DateTime("2022-01-07T15:00:00", date_format)),
-                           Tucuxi::Common::DateTime("2022-01-03T14:00:00", date_format));
-
-        fructose_assert_eq(Tucuxi::Xpert::getLatestDosageTimeRangeStart(dosageHistory, Tucuxi::Common::DateTime("2022-01-01T09:00:00", date_format)).isUndefined(),
-                           true);
-    }
-
-    /// \brief This method tests the computeFileName method.
-    ///        It computes a XpertRequestResult and check that the file name recieved is expected.
+    /// \brief This method changes the trait of the xpert request result in order to fail.
+    ///        The adjustmentData should be nullptr and the xpertRequestResult gets an error message.
     /// \param _testName Name of the test
-    void computeFileNameReturnsCorrectValues(const std::string& _testName)
+    void errorWhenRequestFailed(const std::string& _testName)
     {
 
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -911,15 +753,39 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="computing_query.xsd">
 
-                                        <queryId>imatinib_2</queryId>
+                                        <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2018-07-07T13:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
+                                                    <covariate>
+                                                        <covariateId>birthdate</covariateId>
+                                                        <date>2018-07-11T10:45:30</date>
+                                                        <value>1990-01-01T00:00:00</value>
+                                                        <unit></unit>
+                                                          <dataType>date</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <date>2017-07-06T08:00:00</date>
+                                                        <value>70</value>
+                                                        <unit>kg</unit>
+                                                          <dataType>double</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <date>2018-07-06T08:00:00</date>
+                                                        <value>150000</value>
+                                                        <unit>g</unit>
+                                                          <dataType>double</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -995,6 +861,16 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
+                                                        <target>
+                                                            <activeMoietyId>randomactivemoiety</activeMoietyId>
+                                                            <targetType>mean</targetType>
+                                                            <unit>mg/l</unit>
+                                                            <min>20</min>
+                                                            <best>25</best>
+                                                            <max>30</max>
+                                                            <inefficacyAlarm>15</inefficacyAlarm>
+                                                            <toxicityAlarm>50</toxicityAlarm>
+                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -1020,30 +896,47 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         std::cout << _testName << std::endl;
 
-        // Query import
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
-        Tucuxi::Xpert::XpertQueryImport importer;
-        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> globalResult = nullptr;
 
-        if (importResult != Tucuxi::Xpert::XpertQueryImport::Status::Ok) {
-            throw std::runtime_error("Setup failed");
-        }
+        setupEnv(queryString, imatinibModelString, globalResult);
 
-        Tucuxi::Xpert::GlobalResult globalResult{move(query), "random\\path"};
-        globalResult.incrementRequestIndexBeingHandled();
-        Tucuxi::Xpert::XpertRequestResult& xrr =  globalResult.getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = globalResult->getXpertRequestResults()[0];
 
+        // Preparing new trait that is invalid by inverting start and end.
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+        std::unique_ptr<Tucuxi::Core::ComputingTraitAdjustment> baseTrait = std::make_unique<Tucuxi::Core::ComputingTraitAdjustment>(*xrr.getAdjustmentTrait());
 
-        fructose_assert_eq(Tucuxi::Xpert::computeFileName(xrr), "random\\path\\imatinib_1_11-7-2018_13h45m30s.xml");
+        std::unique_ptr<Tucuxi::Core::ComputingTraitAdjustment> newInvalidTrait = nullptr;
+        newInvalidTrait = std::make_unique<Tucuxi::Core::ComputingTraitAdjustment>(
+                    "",
+                    baseTrait->getEnd(),
+                    baseTrait->getStart(),
+                    baseTrait->getNbPointsPerHour(),
+                    baseTrait->getComputingOption(),
+                    baseTrait->getAdjustmentTime(),
+                    Tucuxi::Core::BestCandidatesOption::BestDosage,
+                    baseTrait->getLoadingOption(),
+                    baseTrait->getRestPeriodOption(),
+                    baseTrait->getSteadyStateTargetOption(),
+                    baseTrait->getTargetExtractionOption(),
+                    baseTrait->getFormulationAndRouteSelectionOption()
+                    );
+
+        xrr.setAdjustmentTrait(*newInvalidTrait);
+
+        // Execution
+        flowStepProvider.getRequestExecutor()->perform(xrr);
+
+        fructose_assert_eq(xrr.shouldBeHandled(), false);
+        fructose_assert_eq(xrr.getErrorMessage(), "Adjustment request execution failed.");
+        fructose_assert_eq(xrr.getAdjustmentData().get(), nullptr);
     }
 
-    /// \brief Check that the method executeRequestAndGetResult set the result to nullptr when
-    ///        the execution fails or that the resulting pointer is correctly retrieved. The test
-    ///        prepares two percentile traits one that must fail and one that must succeed.
-    ///        One trait is prepared with a too large period which will fail.
-    ///        The other just set a valid trait like the one used in samplevalidator.cpp.
+    /// \brief This method checks that when a valid adjustment request is performed,
+    ///        the adjustmentData is not null, no error message in the XpertRequestResult and
+    ///        their is an adjustment in the adjustmentData.
     /// \param _testName Name of the test
-    void executeRequestAndGetResultReturnsCorrectValues(const std::string& _testName)
+    void getCorrectAdjustmentDataWhenRequestSucceed(const std::string& _testName)
     {
 
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -1053,7 +946,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
                                         <queryId>imatinib</queryId>
                                         <clientId>124568</clientId>
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <date>2018-07-07T13:00:00</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
                                         <drugTreatment>
@@ -1125,6 +1018,28 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
                                                     <samples>
                                                         <sample>
                                                             <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T06:00:30</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>0.7</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T07:00:00</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>10.6</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
                                                             <sampleDate>2018-07-07T13:00:00</sampleDate>
                                                             <concentrations>
                                                                 <concentration>
@@ -1137,6 +1052,16 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
+                                                        <target>
+                                                            <activeMoietyId>randomactivemoiety</activeMoietyId>
+                                                            <targetType>mean</targetType>
+                                                            <unit>mg/l</unit>
+                                                            <min>20</min>
+                                                            <best>25</best>
+                                                            <max>30</max>
+                                                            <inefficacyAlarm>15</inefficacyAlarm>
+                                                            <toxicityAlarm>50</toxicityAlarm>
+                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -1162,45 +1087,485 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> globalResult = nullptr;
 
-        setupEnv(queryString, imatinibModelString, result);
+        setupEnv(queryString, imatinibModelString, globalResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xrr = result->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = globalResult->getXpertRequestResults()[0];
 
-        // Preparing common values for the traits
-        std::string responseId = "";
-        Tucuxi::Core::PercentileRanks ranks = {1.0, 2.0, 3.0};
-        double nbPointsPerHour = 1;
-        Tucuxi::Core::ComputingOption computingOption{Tucuxi::Core::PredictionParameterType::Apriori, Tucuxi::Core::CompartmentsOption::AllActiveMoieties};
-        Tucuxi::Common::DateTime start = Tucuxi::Common::DateTime("2018-07-07T13:00:00", date_format);
-
-        // Normal end
-        Tucuxi::Common::DateTime normalEnd = start + std::chrono::hours(1);
-
-        // Too long start/end (+ 1'000'000 hours)
-        Tucuxi::Common::DateTime tooFarEnd = start + std::chrono::hours(1000000);
-
-        // Making traits and response pointers
-        std::unique_ptr<Tucuxi::Core::ComputingTraitPercentiles> goodTrait =
-                std::make_unique<Tucuxi::Core::ComputingTraitPercentiles>(responseId, start, normalEnd, ranks, nbPointsPerHour, computingOption);
-
-        std::unique_ptr<Tucuxi::Core::PercentilesData> goodResult = nullptr;
-
-        std::unique_ptr<Tucuxi::Core::ComputingTraitPercentiles> failTrait =
-                std::make_unique<Tucuxi::Core::ComputingTraitPercentiles>(responseId, start, tooFarEnd, ranks, nbPointsPerHour, computingOption);
-
-        std::unique_ptr<Tucuxi::Core::PercentilesData> failResult = nullptr;
+        // Preparing the trait.
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
         // Execution
-        Tucuxi::Xpert::executeRequestAndGetResult(std::move(goodTrait), xrr, goodResult);
-        Tucuxi::Xpert::executeRequestAndGetResult(std::move(failTrait), xrr, failResult);
+        flowStepProvider.getRequestExecutor()->perform(xrr);
 
-        fructose_assert_eq(failResult.get(), nullptr);
+        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_ne(xrr.getAdjustmentData().get(), nullptr);
+        fructose_assert_eq(xrr.getAdjustmentData()->getAdjustments().empty(), false);
+    }
 
-        fructose_assert_ne(goodResult.get(), nullptr);
-        fructose_assert_eq(goodResult->getNbRanks(), 3);
+    /// \brief This method checks that when a valid adjustment request is performed,
+    ///        the statistics at steady state are not null.
+    /// \param _testName Name of the test
+    void getCorrectStatisticsWhenRequestSucceed(const std::string& _testName)
+    {
+
+        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <query version="1.0"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+
+                                        <queryId>imatinib</queryId>
+                                        <clientId>124568</clientId>
+                                        <date>2018-07-07T13:00:00</date> <!-- Date the xml has been sent -->
+                                        <language>en</language>
+
+                                        <drugTreatment>
+                                            <!-- All the information regarding the patient -->
+                                            <patient>
+                                                <covariates>
+                                                    <covariate>
+                                                        <covariateId>birthdate</covariateId>
+                                                        <date>2018-07-11T10:45:30</date>
+                                                        <value>1990-01-01T00:00:00</value>
+                                                        <unit></unit>
+                                                          <dataType>date</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <date>2017-07-06T08:00:00</date>
+                                                        <value>70</value>
+                                                        <unit>kg</unit>
+                                                          <dataType>double</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <date>2018-07-06T08:00:00</date>
+                                                        <value>150000</value>
+                                                        <unit>g</unit>
+                                                          <dataType>double</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                </covariates>
+                                            </patient>
+                                            <!-- List of the drugs informations we have concerning the patient -->
+                                            <drugs>
+                                                <!-- All the information regarding the drug -->
+                                                <drug>
+                                                    <drugId>imatinib</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <!-- All the information regarding the treatment -->
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                            <dosageTimeRange>
+                                                                <start>2018-07-06T08:00:00</start>
+                                                                <end>2018-07-08T08:00:00</end>
+                                                                <dosage>
+                                                                    <dosageLoop>
+                                                                        <lastingDosage>
+                                                                            <interval>12:00:00</interval>
+                                                                            <dose>
+                                                                                <value>400</value>
+                                                                                <unit>mg</unit>
+                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                                                            </dose>
+                                                                            <formulationAndRoute>
+                                                                                <formulation>parenteralSolution</formulation>
+                                                                                <administrationName>foo bar</administrationName>
+                                                                                <administrationRoute>oral</administrationRoute>
+                                                                                <absorptionModel>extravascular</absorptionModel>
+                                                                            </formulationAndRoute>
+                                                                        </lastingDosage>
+                                                                    </dosageLoop>
+                                                                </dosage>
+                                                            </dosageTimeRange>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <!-- Samples history -->
+                                                    <samples>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T06:00:30</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>0.7</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T07:00:00</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>10.6</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T13:00:00</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>0.8</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
+                                                    </samples>
+                                                    <!-- Personalised targets -->
+                                                    <targets>
+                                                        <target>
+                                                            <activeMoietyId>randomactivemoiety</activeMoietyId>
+                                                            <targetType>mean</targetType>
+                                                            <unit>mg/l</unit>
+                                                            <min>20</min>
+                                                            <best>25</best>
+                                                            <max>30</max>
+                                                            <inefficacyAlarm>15</inefficacyAlarm>
+                                                            <toxicityAlarm>50</toxicityAlarm>
+                                                        </target>
+                                                    </targets>
+                                                </drug>
+                                            </drugs>
+                                        </drugTreatment>
+                                        <!-- List of the requests we want the server to take care of -->
+                                        <requests>
+                                            <requestXpert>
+                                                <drugId>imatinib</drugId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>en</language>
+                                                </output>
+                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
+                                                <options>
+                                                    <loadingOption>noLoadingDose</loadingOption>
+                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
+                                                    <targetExtractionOption>populationValues</targetExtractionOption>
+                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
+                                                </options>
+                                            </requestXpert>
+                                        </requests>
+                                    </query>)";
+
+        std::cout << _testName << std::endl;
+
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> globalResult = nullptr;
+
+        setupEnv(queryString, imatinibModelString, globalResult);
+
+        Tucuxi::Xpert::XpertRequestResult& xrr = globalResult->getXpertRequestResults()[0];
+
+        // Preparing the trait.
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+
+        // Execution
+        flowStepProvider.getRequestExecutor()->perform(xrr);
+
+        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.getCycleStats().getStats().empty(), false);
+        fructose_assert_eq(xrr.getCycleStats().getStats()[0].size(), 9);
+    }
+
+    /// \brief This method checks that the typical, apriori and aposteriori parameters are
+    ///        set when the base trait of the XpertRequestResult is aposteriori. The parameters
+    ///        groups are not empty and they have the same size.
+    /// \param _testName Name of the test
+    void getTypicalAprioriAposterioriParametersWhenAposterioriTrait(const std::string& _testName)
+    {
+
+        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <query version="1.0"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+
+                                        <queryId>imatinib</queryId>
+                                        <clientId>124568</clientId>
+                                        <date>2018-07-07T13:00:00</date> <!-- Date the xml has been sent -->
+                                        <language>en</language>
+
+                                        <drugTreatment>
+                                            <!-- All the information regarding the patient -->
+                                            <patient>
+                                                <covariates>
+                                                    <covariate>
+                                                        <covariateId>birthdate</covariateId>
+                                                        <date>2018-07-11T10:45:30</date>
+                                                        <value>1990-01-01T00:00:00</value>
+                                                        <unit></unit>
+                                                          <dataType>date</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <date>2017-07-06T08:00:00</date>
+                                                        <value>70</value>
+                                                        <unit>kg</unit>
+                                                          <dataType>double</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <date>2018-07-06T08:00:00</date>
+                                                        <value>150000</value>
+                                                        <unit>g</unit>
+                                                          <dataType>double</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                </covariates>
+                                            </patient>
+                                            <!-- List of the drugs informations we have concerning the patient -->
+                                            <drugs>
+                                                <!-- All the information regarding the drug -->
+                                                <drug>
+                                                    <drugId>imatinib</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <!-- All the information regarding the treatment -->
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                            <dosageTimeRange>
+                                                                <start>2018-07-06T08:00:00</start>
+                                                                <end>2018-07-08T08:00:00</end>
+                                                                <dosage>
+                                                                    <dosageLoop>
+                                                                        <lastingDosage>
+                                                                            <interval>12:00:00</interval>
+                                                                            <dose>
+                                                                                <value>400</value>
+                                                                                <unit>mg</unit>
+                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                                                            </dose>
+                                                                            <formulationAndRoute>
+                                                                                <formulation>parenteralSolution</formulation>
+                                                                                <administrationName>foo bar</administrationName>
+                                                                                <administrationRoute>oral</administrationRoute>
+                                                                                <absorptionModel>extravascular</absorptionModel>
+                                                                            </formulationAndRoute>
+                                                                        </lastingDosage>
+                                                                    </dosageLoop>
+                                                                </dosage>
+                                                            </dosageTimeRange>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <!-- Samples history -->
+                                                    <samples>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T06:00:30</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>0.7</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T07:00:00</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>10.6</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
+                                                        <sample>
+                                                            <sampleId>123456</sampleId>
+                                                            <sampleDate>2018-07-07T13:00:00</sampleDate>
+                                                            <concentrations>
+                                                                <concentration>
+                                                                    <analyteId>imatinib</analyteId>
+                                                                    <value>0.8</value>
+                                                                    <unit>mg/l</unit>
+                                                                </concentration>
+                                                            </concentrations>
+                                                        </sample>
+                                                    </samples>
+                                                    <!-- Personalised targets -->
+                                                    <targets>
+                                                        <target>
+                                                            <activeMoietyId>randomactivemoiety</activeMoietyId>
+                                                            <targetType>mean</targetType>
+                                                            <unit>mg/l</unit>
+                                                            <min>20</min>
+                                                            <best>25</best>
+                                                            <max>30</max>
+                                                            <inefficacyAlarm>15</inefficacyAlarm>
+                                                            <toxicityAlarm>50</toxicityAlarm>
+                                                        </target>
+                                                    </targets>
+                                                </drug>
+                                            </drugs>
+                                        </drugTreatment>
+                                        <!-- List of the requests we want the server to take care of -->
+                                        <requests>
+                                            <requestXpert>
+                                                <drugId>imatinib</drugId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>en</language>
+                                                </output>
+                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
+                                                <options>
+                                                    <loadingOption>noLoadingDose</loadingOption>
+                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
+                                                    <targetExtractionOption>populationValues</targetExtractionOption>
+                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
+                                                </options>
+                                            </requestXpert>
+                                        </requests>
+                                    </query>)";
+
+        std::cout << _testName << std::endl;
+
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> globalResult = nullptr;
+
+        setupEnv(queryString, imatinibModelString, globalResult);
+
+        Tucuxi::Xpert::XpertRequestResult& xrr = globalResult->getXpertRequestResults()[0];
+
+        // Preparing the trait.
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+
+        // Execution
+        flowStepProvider.getRequestExecutor()->perform(xrr);
+
+        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.getParameters().size(), 3);
+        fructose_assert_eq(xrr.getParameters()[0].empty(), false);
+        fructose_assert_eq(xrr.getParameters()[0].size(), xrr.getParameters()[1].size());
+        fructose_assert_eq(xrr.getParameters()[1].size(), xrr.getParameters()[2].size());
+    }
+
+    /// \brief This method checks that the typical and apriori parameters are
+    ///        set when the base trait of the XpertRequestResult is apriori. The parameters
+    ///        groups are not empty and they have the same size.
+    /// \param _testName Name of the test
+    void getTypicalAprioriParametersWhenAprioriTrait(const std::string& _testName)
+    {
+
+        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <query version="1.0"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+
+                                        <queryId>imatinib</queryId>
+                                        <clientId>124568</clientId>
+                                        <date>2018-07-07T13:00:00</date> <!-- Date the xml has been sent -->
+                                        <language>en</language>
+
+                                        <drugTreatment>
+                                            <!-- All the information regarding the patient -->
+                                            <patient>
+                                                <covariates>
+                                                    <covariate>
+                                                        <covariateId>birthdate</covariateId>
+                                                        <date>2018-07-11T10:45:30</date>
+                                                        <value>1990-01-01T00:00:00</value>
+                                                        <unit></unit>
+                                                          <dataType>date</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <date>2017-07-06T08:00:00</date>
+                                                        <value>70</value>
+                                                        <unit>kg</unit>
+                                                          <dataType>double</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                    <covariate>
+                                                        <covariateId>bodyweight</covariateId>
+                                                        <date>2018-07-06T08:00:00</date>
+                                                        <value>150000</value>
+                                                        <unit>g</unit>
+                                                          <dataType>double</dataType>
+                                                        <nature>discrete</nature>
+                                                    </covariate>
+                                                </covariates>
+                                            </patient>
+                                            <!-- List of the drugs informations we have concerning the patient -->
+                                            <drugs>
+                                                <!-- All the information regarding the drug -->
+                                                <drug>
+                                                    <drugId>imatinib</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <!-- All the information regarding the treatment -->
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <!-- Samples history -->
+                                                    <samples>
+                                                    </samples>
+                                                    <!-- Personalised targets -->
+                                                    <targets>
+                                                        <target>
+                                                            <activeMoietyId>randomactivemoiety</activeMoietyId>
+                                                            <targetType>mean</targetType>
+                                                            <unit>mg/l</unit>
+                                                            <min>20</min>
+                                                            <best>25</best>
+                                                            <max>30</max>
+                                                            <inefficacyAlarm>15</inefficacyAlarm>
+                                                            <toxicityAlarm>50</toxicityAlarm>
+                                                        </target>
+                                                    </targets>
+                                                </drug>
+                                            </drugs>
+                                        </drugTreatment>
+                                        <!-- List of the requests we want the server to take care of -->
+                                        <requests>
+                                            <requestXpert>
+                                                <drugId>imatinib</drugId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>en</language>
+                                                </output>
+                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
+                                                <options>
+                                                    <loadingOption>noLoadingDose</loadingOption>
+                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
+                                                    <targetExtractionOption>populationValues</targetExtractionOption>
+                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
+                                                </options>
+                                            </requestXpert>
+                                        </requests>
+                                    </query>)";
+
+        std::cout << _testName << std::endl;
+
+        std::unique_ptr<Tucuxi::Xpert::GlobalResult> globalResult = nullptr;
+
+        setupEnv(queryString, imatinibModelString, globalResult);
+
+        Tucuxi::Xpert::XpertRequestResult& xrr = globalResult->getXpertRequestResults()[0];
+
+        // Preparing the trait.
+        flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
+
+        // Execution
+        flowStepProvider.getRequestExecutor()->perform(xrr);
+
+        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.getParameters().size(), 2);
+        fructose_assert_eq(xrr.getParameters()[0].empty(), false);
+        fructose_assert_eq(xrr.getParameters()[0].size(), xrr.getParameters()[1].size());;
     }
 };
 
-#endif // TEST_XPERTUTILS_H
+#endif // TEST_REQUESTEXECUTOR_H
