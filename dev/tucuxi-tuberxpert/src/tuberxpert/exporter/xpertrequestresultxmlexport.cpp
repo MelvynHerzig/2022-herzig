@@ -30,9 +30,7 @@ void XpertRequestResultXmlExport::exportToFile(XpertRequestResult& _xpertRequest
 
     // Get the xml string
     string xmlString;
-    if (!makeXmlString(_xpertRequestResult, xmlString)) {
-        _xpertRequestResult.setErrorMessage("Failed to create the XML content.");
-    }
+    makeXmlString(_xpertRequestResult, xmlString)
 
     // Get the filename <drugId>_<requestNumber>_<current time to evit conflict naming>
     string fileName = computeFileName(_xpertRequestResult);
@@ -53,7 +51,7 @@ void XpertRequestResultXmlExport::exportToFile(XpertRequestResult& _xpertRequest
     return;
 }
 
-bool XpertRequestResultXmlExport::makeXmlString(XpertRequestResult& _xpertRequestResult, string& _xmlString)
+void XpertRequestResultXmlExport::makeXmlString(XpertRequestResult& _xpertRequestResult, string& _xmlString)
 {
     // Making root
     Tucuxi::Common::XmlNode root = m_xmlDocument.createNode(Tucuxi::Common::EXmlNodeType::Element, "tuberxpertResult");

@@ -315,8 +315,6 @@ void TuberXpertComputer::makeAndExecuteAdjustmentRequest(Xpert::XpertRequestResu
         // Saving the adjustment data into the request result
         _xpertRequestResult.setAdjustmentData(move(upAdjustmentData));
 
-        gatherAdditionalData(_xpertRequestResult);
-
         return;
     }
 }
