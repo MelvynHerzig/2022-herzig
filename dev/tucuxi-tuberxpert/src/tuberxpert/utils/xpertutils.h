@@ -6,6 +6,9 @@
 #include "tucucommon/datetime.h"
 #include "tucucommon/translatablestring.h"
 #include "tucucore/drugtreatment/drugtreatment.h"
+#include "tucucore/computingcomponent.h"
+#include "tucucore/computingservice/computingrequest.h"
+#include "tucucore/computingservice/computingtrait.h"
 
 #include "tuberxpert/language/languagemanager.h"
 #include "tuberxpert/result/xpertrequestresult.h"
@@ -62,6 +65,28 @@ Common::DateTime getLatestDosageTimeRangeStart(const Core::DosageHistory& _dosag
 /// \param _xpertRequestResult To get the directory path, the drug id and the file format.
 /// \return Return the final file name.
 std::string computeFileName(const XpertRequestResult& _xpertRequestResult);
+
+template<typename T, typename U>
+void executeRequestAndGetResult(std::unique_ptr<T> _trait, const XpertRequestResult& _xpertRequestResult, std::unique_ptr<U>& _responsePointer)
+{
+    // Make computig request and computing response
+    Core::ComputingRequest computingRequest { "", *_xpertRequestResult.getDrugModel(), *_xpertRequestResult.getTreatment(), move(_trait)};
+    std::unique_ptr<Core::ComputingResponse> computingResponse = std::make_unique<Core::ComputingResponse>("");
+
+    // Start the core computation
+    Core::IComputingService* computingComponent = dynamic_cast<Core::IComputingService*>(Core::ComputingComponent::createComponent());
+    Core::ComputingStatus result = computingComponent->compute(computingRequest, computingResponse);
+
+    // If computation failed, just set to nullptr and leave
+    if (result != Core::ComputingStatus::Ok) {
+        _responsePointer = nullptr;
+        return;
+    }
+
+    // Acquire the data and put them in the unique pointer as response
+    U* dataPointer = dynamic_cast<U*>(computingResponse->getUniquePointerData().release());
+    _responsePointer = std::unique_ptr<U>(dataPointer);
+}
 
 
 } // namespace Xpert

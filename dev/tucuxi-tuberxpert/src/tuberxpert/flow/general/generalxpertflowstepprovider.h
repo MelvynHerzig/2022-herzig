@@ -15,7 +15,8 @@ namespace Xpert {
 ///        3) SampleValidator
 ///        4) TargetValidator
 ///        5) AdjustmentTraitCreator
-///        6) ReportPrinter
+///        6) Execute the requests
+///        7) Print the final report
 ///
 /// \date 20/06/2022
 /// \author Herzig Melvyn
@@ -45,6 +46,10 @@ public:
     /// \brief Get the step responsible to create the adjustment trait.
     /// \return Return the corresponding AbstractXpertFlowStep.
     const std::unique_ptr<AbstractXpertFlowStep>& getAdjustmentTraitCreator() const override;
+
+    /// \brief Get the step responsible to execute the requests.
+    /// \return Return the corresponding AbstractXpertFlowStep.
+    virtual const std::unique_ptr<AbstractXpertFlowStep>& getRequestExecutor() const override;
 
     /// \brief Get the step responsible to print the report.
     /// \return Return the corresponding AbstractXpertFlowStep.

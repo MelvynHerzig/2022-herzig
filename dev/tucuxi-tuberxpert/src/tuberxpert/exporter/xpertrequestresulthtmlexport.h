@@ -7,7 +7,6 @@ namespace Tucuxi {
 namespace Xpert {
 
 /// \brief This class exports an XpertRequestResult into html.
-///         It can be in a file or a string.
 /// \date 23/06/2022
 /// \author Herzig Melvyn
 class XpertRequestResultHtmlExport : public AbstractXpertRequestResultExport

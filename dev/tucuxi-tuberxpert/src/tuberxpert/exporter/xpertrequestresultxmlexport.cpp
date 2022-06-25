@@ -30,7 +30,7 @@ void XpertRequestResultXmlExport::exportToFile(XpertRequestResult& _xpertRequest
 
     // Get the xml string
     string xmlString;
-    makeXmlString(_xpertRequestResult, xmlString)
+    makeXmlString(_xpertRequestResult, xmlString);
 
     // Get the filename <drugId>_<requestNumber>_<current time to evit conflict naming>
     string fileName = computeFileName(_xpertRequestResult);
@@ -93,7 +93,6 @@ void XpertRequestResultXmlExport::makeXmlString(XpertRequestResult& _xpertReques
     exportComputationCovariates(_xpertRequestResult, root);
 
     m_xmlDocument.toString(_xmlString, true);
-    return true;
 }
 
 void XpertRequestResultXmlExport::exportDrugIntro(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode)
@@ -375,19 +374,19 @@ void XpertRequestResultXmlExport::exportTreatment(const std::unique_ptr<Core::Dr
     exportDosageHistory(_treatment->getDosageHistory(), treatmentNode);
 }
 
-void XpertRequestResultXmlExport::exportSingleDose(const Core::SingleDose& _dosage, Common::XmlNode& _rootNode)
+void XpertRequestResultXmlExport::exportSingleDose(const Core::SingleDose& _dosage, Common::XmlNode& _parentNode)
 {
     // <dose>
-    exportDose(_dosage, _rootNode);
+    exportDose(_dosage, _parentNode);
 
     // <warning>
     auto singleDoseIt = m_xpertRequestResultInUse->getDoseResults().find(&_dosage);
     if (singleDoseIt !=  m_xpertRequestResultInUse->getDoseResults().end()){
-        exportWarning(singleDoseIt->second, _rootNode);
+        exportWarning(singleDoseIt->second, _parentNode);
     }
 
     // <formulationAndRoute>
-    exportFormulationAndRoute(_dosage, _rootNode);
+    exportFormulationAndRoute(_dosage, _parentNode);
 }
 
 void XpertRequestResultXmlExport::exportSampleResults(const map<const Core::Sample*, SampleValidationResult>& _sampleResults, Common::XmlNode& _rootNode)

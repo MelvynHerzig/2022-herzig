@@ -40,6 +40,10 @@
 #include "test_adjustmenttraitcreator.h"
 #endif
 
+#if defined(test_requestexecutor)
+#include "test_requestexecutor.h"
+#endif
+
 
 using namespace std;
 
@@ -67,6 +71,7 @@ int main(int argc, char** argv)
     xpertUtilsTests.add_test("The values returned by getOldestTimeRangeStart are correct.", &TestXpertUtils::getOldestDosageTimeRangeStartReturnsCorrectValues);
     xpertUtilsTests.add_test("The values returned by getLatestTimeRangeStart are correct.", &TestXpertUtils::getLatestDosageTimeRangeStartReturnsCorrectValues);
     xpertUtilsTests.add_test("The value returned by computeFileName is correct.", &TestXpertUtils::computeFileNameReturnsCorrectValues);
+    xpertUtilsTests.add_test("The values returned by executeRequestAndGetResult are correct.", &TestXpertUtils::executeRequestAndGetResultReturnsCorrectValues);
 
     res = xpertUtilsTests.run(argc, argv);
     if (res != 0) {
@@ -332,6 +337,28 @@ int main(int argc, char** argv)
         exit(1);
     } else {
         std::cout << "Adjustment trait creator tests succeeded" << std::endl << std::endl;
+    }
+#endif
+
+    /***********************************************************
+     *                      RequestExecutor                    *
+     ***********************************************************/
+
+#if defined(test_requestexecutor)
+    TestRequestExecutor testRequestExecutor;
+
+    testRequestExecutor.add_test("Get an error when request failed.", &TestRequestExecutor::errorWhenRequestFailed);
+    testRequestExecutor.add_test("Get correct adjustment data when request succeed.", &TestRequestExecutor::getCorrectAdjustmentDataWhenRequestSucceed);
+    testRequestExecutor.add_test("Get correct statistics when request succeed.", &TestRequestExecutor::getCorrectStatisticsWhenRequestSucceed);
+    testRequestExecutor.add_test("Get the typical, apriori and aposteriori parameters when the adjustment trait is aposteriori.", &TestRequestExecutor::getTypicalAprioriAposterioriParametersWhenAposterioriTrait);
+    testRequestExecutor.add_test("Get the typical and apriori parameters when the adjustment trait is apriori.", &TestRequestExecutor::getTypicalAprioriParametersWhenAprioriTrait);
+
+    res = testRequestExecutor.run(argc, argv);
+    if (res != 0) {
+        std::cout << "Request executor tests failed" << std::endl << std::endl;
+        exit(1);
+    } else {
+        std::cout << "Request executor tests succeeded" << std::endl << std::endl;
     }
 #endif
 

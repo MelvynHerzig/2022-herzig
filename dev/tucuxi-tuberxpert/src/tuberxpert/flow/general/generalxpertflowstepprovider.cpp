@@ -5,6 +5,7 @@
 #include "tuberxpert/flow/general/samplevalidator.h"
 #include "tuberxpert/flow/general/targetvalidator.h"
 #include "tuberxpert/flow/general/adjustmenttraitcreator.h"
+#include "tuberxpert/flow/general/requestexecutor.h"
 #include "tuberxpert/flow/general/reportprinter.h"
 
 using namespace std;
@@ -19,6 +20,7 @@ GeneralXpertFlowStepProvider::GeneralXpertFlowStepProvider()
     m_sampleValidator = make_unique<SampleValidator>();
     m_targetValidator = make_unique<TargetValidator>();
     m_adjustmentTraitCreator = make_unique<AdjustmentTraitCreator>();
+    m_requestExecutor = make_unique<RequestExecutor>();
     m_reportPrinter = make_unique<ReportPrinter>();
 }
 
@@ -45,6 +47,11 @@ const std::unique_ptr<AbstractXpertFlowStep>& GeneralXpertFlowStepProvider::getT
 const std::unique_ptr<AbstractXpertFlowStep>& GeneralXpertFlowStepProvider::getAdjustmentTraitCreator() const
 {
     return m_adjustmentTraitCreator;
+}
+
+const std::unique_ptr<AbstractXpertFlowStep> &GeneralXpertFlowStepProvider::getRequestExecutor() const
+{
+    return m_requestExecutor;
 }
 
 const std::unique_ptr<AbstractXpertFlowStep>& GeneralXpertFlowStepProvider::getReportPrinter() const

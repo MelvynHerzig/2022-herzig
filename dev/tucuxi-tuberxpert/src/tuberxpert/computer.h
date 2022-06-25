@@ -1,5 +1,5 @@
-#ifndef TUBERXPERTCOMPUTER_H
-#define TUBERXPERTCOMPUTER_H
+#ifndef COMPUTER_H
+#define COMPUTER_H
 
 #include <memory>
 #include <string>
@@ -8,6 +8,9 @@
 
 #include "tuberxpert/result/xpertrequestresult.h"
 #include "tuberxpert/flow/abstract/abstractxpertflowstepprovider.h"
+
+namespace Tucuxi {
+namespace Xpert {
 
 /// \brief Enum whose values are used as the return value of TuberXpertComputer.
 ///        The values are:
@@ -33,12 +36,12 @@ enum class ComputingStatus {
 /// \brief Given the required arguments, this class drives the execution flow of tuberXpert.
 /// \date 03/06/2022
 /// \author Herzig Melvyn
-class TuberXpertComputer
+class Computer
 {
 public:
 
     /// \brief Constructor.
-    TuberXpertComputer();
+    Computer();
 
     /// \brief Entry point of the TuberXpert command Line Interface. This method imports
     ///        the query, loaded the translation file, and handle each XpertRequest to finally
@@ -64,40 +67,18 @@ protected:
     ///                            be filled with the various validations of the system.
     /// \param _languagePath Folder containing the language files.
     /// \param _stepProvider Flow step provider responsible to give the each step for a given drug.
-    void validateAndPrepareXpertRequest(Tucuxi::Xpert::XpertRequestResult& _xpertRequestResult,
+    void validateAndPrepareXpertRequest(XpertRequestResult& _xpertRequestResult,
                                         const std::string& _languagePath,
-                                        const std::unique_ptr<Tucuxi::Xpert::AbstractXpertFlowStepProvider>& _stepProvider) const;
+                                        const std::unique_ptr<AbstractXpertFlowStepProvider>& _stepProvider) const;
 
     /// \brief For a given XpertRequestResult get the XpertFlowStepProvider for the related drug.
     /// \param _xpertRequestResult XpertRequestResult to get drug id from.
     /// \param _xpertFlowStepProvider Unique pointer in which create the corresponding XpertFlowStepProvider.
-    void getXpertFlowStepProvider(Tucuxi::Xpert::XpertRequestResult& _xpertRequestResult,
-                                  std::unique_ptr<Tucuxi::Xpert::AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const;
-
-    /// \brief Extracts the adjustment trait from the XpertRequestResult, makes the request for the core and submits it.
-    ///        If something fails, the error message of the xpert request result is set and it should not be handled anymore.
-    /// \param _xpertRequestResult XpertRequestResult containing the adjustment trait to use.
-    void makeAndExecuteAdjustmentRequest(Tucuxi::Xpert::XpertRequestResult& _xpertRequestResult) const;
-
-    /// \brief This methods is called after the first request to the core succeed.
-    ///        It collects the statistics at steady state and the parameters for prior prediction types.
-    /// \param _xpertRequestResult XpertRequestResult to set the additional data.
-    void gatherAdditionalData(Tucuxi::Xpert::XpertRequestResult& _xpertRequestResult) const;
-
-    /// \brief Copy a computing adjustment trait from a base but with a different end time,
-    ///        points per hour and prediction paramter type. Set the best candidate option to BestDosage,
-    ///        since it is the only one we are interested in.
-    /// \param _toCopy Base adjustment trait to copy.
-    /// \param _end New end time to use.
-    /// \param _nbPointsPerHour New number of points to use.
-    /// \param _predictionType New prediction paramters type to use.
-    /// \param _newAdjustment Resulting new adjustment.
-    void tweakComputingTraitAdjustment(const std::unique_ptr<Tucuxi::Core::ComputingTraitAdjustment>& _toCopy,
-                                       const Tucuxi::Common::DateTime& _newEnd,
-                                       double _nbPointsPerHour,
-                                       Tucuxi::Core::PredictionParameterType _predictionType,
-                                       std::unique_ptr<Tucuxi::Core::ComputingTraitAdjustment>& _newAdjustment) const;
-
+    void getXpertFlowStepProvider(XpertRequestResult& _xpertRequestResult,
+                                  std::unique_ptr<AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const;
 };
 
-#endif // TUBERXPERTCOMPUTER_H
+} // namespace Xpert
+} // namespace Tucuxi
+
+#endif // COMPUTER_H

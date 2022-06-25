@@ -7,7 +7,6 @@
 namespace Tucuxi {
 namespace Xpert {
 
-
 /// \brief This step chooses the exporter that correspond to the
 ///        XpertRequest output desired format.
 ///        In other words, it selects between the xml, html or pdf exported

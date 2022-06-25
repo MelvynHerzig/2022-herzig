@@ -7,8 +7,6 @@ namespace Tucuxi {
 namespace Xpert {
 
 /// \brief This class exports an XpertRequestResult into pdf.
-///        It can only be in a file. The inherited exportToString
-///        does nothing.
 /// \date 23/06/2022
 /// \author Herzig Melvyn
 class XpertRequestResultPdfExport : public AbstractXpertRequestResultExport

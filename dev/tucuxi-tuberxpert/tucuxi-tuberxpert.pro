@@ -18,11 +18,9 @@ include(../tucuxi-core/make/qtcreator/tucuquery.pri)
 include(./src/tuberxpert/tuberxpert.pri)
 
 HEADERS += \
-    src/tuberxpertcomputer.h \
 
 SOURCES += \
     src/tuberxpert.cpp \
-    src/tuberxpertcomputer.cpp \
 
 !win32 {
     # Because of Eigen:
