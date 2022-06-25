@@ -82,7 +82,17 @@ bool XpertRequestResultXmlExport::makeXmlString(XpertRequestResult& _xpertReques
     // Add the samples
     exportSampleResults(_xpertRequestResult.getSampleResults(), root);
 
+    // Add the adjustments
     exportAdjustmentData(_xpertRequestResult.getAdjustmentData(), root);
+
+    // Add the parameters
+    exportParameters(_xpertRequestResult, root);
+
+    // Add statistics
+    exportStatistics(_xpertRequestResult, root);
+
+    // Add computationCovariates
+    exportComputationCovariates(_xpertRequestResult, root);
 
     m_xmlDocument.toString(_xmlString, true);
     return true;
@@ -390,7 +400,7 @@ void XpertRequestResultXmlExport::exportSampleResults(const map<const Core::Samp
     _rootNode.addChild(samplesNode);
 
     // For each sample validation result
-    for (auto sampleResultIt : _sampleResults) {
+    for (const auto& sampleResultIt : _sampleResults) {
         //   <sample>
         Common::XmlNode sampleNode =
                 m_xmlDocument.createNode(Common::EXmlNodeType::Element, "sample");
@@ -508,6 +518,125 @@ void XpertRequestResultXmlExport::exportAdjustmentData(const unique_ptr<Core::Ad
 
         //          <cycleDatas>
         exportCycleDatas(adj.getData(), adjustmentNode);
+    }
+}
+
+bool XpertRequestResultXmlExport::exportCycleData(const Core::CycleData &_cycleData, Common::XmlNode &_cycleDatasNode)
+{
+    Tucuxi::Common::XmlNode cycleData = m_doc.createNode(Tucuxi::Common::EXmlNodeType::Element, "cycleData");
+    _cycleDatasNode.addChild(cycleData);
+
+    addNode(cycleData, "start", dateTimeToXmlString(_cycleData.m_start));
+    addNode(cycleData, "end", dateTimeToXmlString(_cycleData.m_end));
+    addNode(cycleData, "unit", _cycleData.m_unit.toString());
+
+    // Concatenate the times
+    std::string timesString;
+    for (size_t i = 0; i < _cycleData.m_times[0].size(); i++) {
+        timesString += std::to_string(_cycleData.m_times[0][i]);
+        if (i != _cycleData.m_times[0].size() - 1) {
+            timesString += ',';
+        }
+    }
+    addNode(cycleData, "times", timesString);
+
+    // Concatenate the points
+    std::string pointsString;
+    for (size_t i = 0; i < _cycleData.m_concentrations[0].size(); i++) {
+        pointsString += std::to_string(_cycleData.m_concentrations[0][i]);
+        if (i != _cycleData.m_concentrations[0].size() - 1) {
+            pointsString += ',';
+        }
+    }
+    addNode(cycleData, "values", pointsString);
+
+    return true;
+}
+
+void XpertRequestResultXmlExport::exportParameters(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode)
+{
+    // <parameters>
+    Tucuxi::Common::XmlNode parametersNode =
+            m_doc.createNode(Tucuxi::Common::EXmlNodeType::Element, "parameters");
+    _rootNode.addChild(parametersNode);
+
+    // We always have typical[0] and apriori[1]. But aposteriori[2] is not sure.
+    vector<string> parametersTypeNodeName{"typical", "apriori", "aposteriori"};
+
+    // For each parameters type we have
+    for (size_t i = 0; i < _xpertRequestResult.getParameters().size(); ++i){
+
+        //   <typical> / <apriori> / <aposteriori>
+        Tucuxi::Common::XmlNode parametersTypeNode =
+                m_doc.createNode(Tucuxi::Common::EXmlNodeType::Element, parametersTypeNodeName[i]);
+        parametersNode.addChild(parametersTypeNode);
+
+        // For each parameter of the given parameters set
+        for (const Core::ParameterValue& parameter : _xpertRequestResult.getParameters()[i]) {
+
+            //      <parameter>
+            Tucuxi::Common::XmlNode parameterNode =
+                    m_doc.createNode(Tucuxi::Common::EXmlNodeType::Element, "parameter");
+            parametersTypeNode.addChild(parameterNode);
+
+            //                  <id>
+            addNode(parameterNode, "id", parameter.m_parameterId);
+
+            //                  <value>
+            addNode(parameterNode, "valude", parameter.m_value);
+        }
+    }
+}
+
+void XpertRequestResultXmlExport::exportStatistics(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode)
+{
+    // <statistics>
+    Tucuxi::Common::XmlNode statisticsNode =
+            m_doc.createNode(Tucuxi::Common::EXmlNodeType::Element, "statistics");
+    _rootNode.addChild(statisticsNode);
+
+    // Extract statistics
+    double auc24 = -1.0;
+    double peak = -1.0;
+    double residual = -1.0;
+    Tucuxi::Common::DateTime date;
+
+    _xpertRequestResult.getCycleStats().getStatistic(0, Tucuxi::Core::CycleStatisticType::AUC24).getValue(date, auc24);
+    _xpertRequestResult.getCycleStats().getStatistic(0, Tucuxi::Core::CycleStatisticType::Peak).getValue(date, peak);
+    _xpertRequestResult.getCycleStats().getStatistic(0, Tucuxi::Core::CycleStatisticType::Residual).getValue(date, residual);
+
+    //   <auc24>
+    addNode(statisticsNode, "auc24", Common::Utils::varToString(auc24));
+
+    //   <peak>
+    addNode(statisticsNode, "peak", Common::Utils::varToString(peak));
+
+    //   <residual>
+    addNode(statisticsNode, "residual", Common::Utils::varToString(residual));
+}
+
+void XpertRequestResultXmlExport::exportComputationCovariates(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode)
+{
+    // <computationCovariates>
+    Tucuxi::Common::XmlNode computationCovariatesNode =
+            m_doc.createNode(Tucuxi::Common::EXmlNodeType::Element, "computationCovariates");
+    _rootNode.addChild(computationCovariatesNode);
+
+    // Get the covariates from the first adjsutment and its first cycle data.
+    const vector<Core::CovariateValue>& computationCovariates = _xpertRequestResult.getAdjustmentData()->getAdjustments().front().getData().front().m_covariates;
+
+    // Extract the covariates
+    for(const Core::CovariateValue& covariateValue : computationCovariates) {
+
+        //      <computationCovariate>
+        Tucuxi::Common::XmlNode computationCovariateNode = m_doc.createNode(Tucuxi::Common::EXmlNodeType::Element, "computationCovariate");
+        computationCovariatesNode.addChild(computationCovariateNode);
+
+        //          <id>
+        addNode(computationCovariateNode, "id", covariateValue.m_covariateId);
+
+        //          <value>
+        addNode(computationCovariateNode, "value", std::to_string(covariateValue.m_value));
     }
 }
 

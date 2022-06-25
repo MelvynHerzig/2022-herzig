@@ -59,6 +59,14 @@ protected:
 
     void exportAdjustmentData(const std::unique_ptr<Core::AdjustmentData>& _adjustmentData, Tucuxi::Common::XmlNode& _rootNode);
 
+    bool exportCycleData(const Tucuxi::Core::CycleData& _cycleData, Tucuxi::Common::XmlNode& _cycleDatasNode) override;
+
+    void exportParameters(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
+
+    void exportStatistics(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
+
+    void exportComputationCovariates(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
+
     template<typename T>
     void exportWarning(const AbstractValidationResult<T>& _validationResult, Tucuxi::Common::XmlNode& _parentNode) {
 
