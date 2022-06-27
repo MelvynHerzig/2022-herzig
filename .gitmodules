@@ -1,6 +1,3 @@
-[submodule "dev/tucuxi-core"]
-	path = dev/tucuxi-core
-	url = https://reds-gitlab.heig-vd.ch/reds-tucuxi/tucuxi-core.git
 [submodule "dev/tucuxi-drugs"]
 	path = dev/tucuxi-drugs
 	url = https://reds-gitlab.heig-vd.ch/reds-tucuxi/tucuxi-drugs.git
