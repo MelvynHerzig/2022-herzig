@@ -1,6 +1,7 @@
 
 INCLUDEPATH += $$PWD/../../src \
                $$PWD/../../libs \
+               $$PWD/../../libs/wkhtmltox
 
 HEADERS += \
     $$PWD/computer.h \
