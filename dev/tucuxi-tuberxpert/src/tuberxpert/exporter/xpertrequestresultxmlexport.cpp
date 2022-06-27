@@ -59,8 +59,8 @@ void XpertRequestResultXmlExport::makeXmlString(XpertRequestResult& _xpertReques
     Tucuxi::Common::XmlNode root = m_xmlDocument.createNode(Tucuxi::Common::EXmlNodeType::Element, "tuberxpertResult");
     auto attribute1 = m_xmlDocument.createAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
     root.addAttribute(attribute1);
-    //auto attribute2 = m_xmlDocument.createAttribute("xsi:noNamespaceSchemaLocation", "computing_response.xsd");
-    //root.addAttribute(attribute2);
+    auto attribute2 = m_xmlDocument.createAttribute("xsi:noNamespaceSchemaLocation", "tuberxpert_computing_response.xsd");
+    root.addAttribute(attribute2);
 
     m_xmlDocument.setRoot(root);
 

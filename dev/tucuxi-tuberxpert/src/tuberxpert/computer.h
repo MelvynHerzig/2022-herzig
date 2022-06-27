@@ -59,17 +59,15 @@ public:
 
 protected:
 
-    /// \brief For a given xpertRequest in _xpertRequestResult and its treatment, this methods validate the inputs
-    ///        (are the dosages, samples, covariates and targets plausible), selects a drug model and creates the associated
-    ///        adjustment trait. If something fails, the error message of the xpert request result is set and it
-    ///        should not be handled anymore.
+    /// \brief For a given xpertRequest in _xpertRequestResult, this method executes the flow provided by the given
+    ///        XpertFlowStepProvider.
     /// \param _xpertRequestResult Object containing the XpertRequest and treatment informations. This object will also
     ///                            be filled with the various validations of the system.
     /// \param _languagePath Folder containing the language files.
-    /// \param _stepProvider Flow step provider responsible to give the each step for a given drug.
-    void validateAndPrepareXpertRequest(XpertRequestResult& _xpertRequestResult,
-                                        const std::string& _languagePath,
-                                        const std::unique_ptr<AbstractXpertFlowStepProvider>& _stepProvider) const;
+    /// \param _stepProvider Flow step provider responsible to give the each flow step for a given drug.
+    void executeFlow(XpertRequestResult& _xpertRequestResult,
+                     const std::string& _languagePath,
+                     const std::unique_ptr<AbstractXpertFlowStepProvider>& _stepProvider) const;
 
     /// \brief For a given XpertRequestResult get the XpertFlowStepProvider for the related drug.
     /// \param _xpertRequestResult XpertRequestResult to get drug id from.

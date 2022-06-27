@@ -69,55 +69,19 @@ ComputingStatus Computer::compute(
         logHelper.info("---------------------------------------");
         logHelper.info("Handling request number: " + to_string(globalResult.incrementRequestIndexBeingHandled() + 1)); // +1 because it starts from 0.
 
-        // Check if query to core extraction was successful
-        logHelper.info("Checking extraction state...");
-        if (xpertRequestResult.shouldBeHandled() == false) {
-            logHelper.error(xpertRequestResult.getErrorMessage());
-            ++nbUnfulfilledRequest;
-            continue;
-        }
-        logHelper.info("Extraction succeed.");
-
-        // Get the flow step provider for the drug of the request
+        // Get the flow step provider for the drug of the request.
         unique_ptr<AbstractXpertFlowStepProvider> xpertFlowStepProvider(nullptr);
         getXpertFlowStepProvider(xpertRequestResult, xpertFlowStepProvider);
 
-        // Validate inputs data and prepare the missing informations (drug model/adjustment trait)
-        logHelper.info("Validating query and preparing necessary information...");
-        validateAndPrepareXpertRequest(xpertRequestResult, _languagePath, xpertFlowStepProvider);
+        // Executes each step provided by the selected flow step provider.
+        executeFlow(xpertRequestResult, _languagePath, xpertFlowStepProvider);
         if (xpertRequestResult.shouldBeHandled() == false) {
             logHelper.error(xpertRequestResult.getErrorMessage());
             ++nbUnfulfilledRequest;
             continue;
         }
 
-        logHelper.info("Query validation and information preparation succeed.");
-
-        // Execute adjustment request
-        logHelper.info("Submitting adjustment request...");
-
-        xpertFlowStepProvider->getRequestExecutor()->perform(xpertRequestResult);
-        if (xpertRequestResult.shouldBeHandled() == false) {
-            logHelper.error(xpertRequestResult.getErrorMessage());
-            ++nbUnfulfilledRequest;
-            continue;
-        }
-
-        logHelper.info("Adjustment request execution succeed.");
-
-        // Genereate final report
-        logHelper.info("Generating report...");
-
-        xpertFlowStepProvider->getReportPrinter()->perform(xpertRequestResult);
-        if (xpertRequestResult.shouldBeHandled() == false) {
-            logHelper.error(xpertRequestResult.getErrorMessage());
-            ++nbUnfulfilledRequest;
-            continue;
-        }
-
-        logHelper.info("Report generation succeed.");
-
-        // Here the request has been fully handled without problem
+        // Here the request has been fully handled without any problem.
     }
 
     pCmpMgr->unregisterComponent("DrugModelRepository");
@@ -137,12 +101,21 @@ ComputingStatus Computer::compute(
 
 }
 
-void Computer::validateAndPrepareXpertRequest(XpertRequestResult& _xpertRequestResult,
-                                                        const string& _languagePath,
-                                                        const unique_ptr<AbstractXpertFlowStepProvider>& _stepProvider) const
+void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
+                           const string& _languagePath,
+                           const unique_ptr<AbstractXpertFlowStepProvider>& _stepProvider) const
 {
 
     Common::LoggerHelper logHelper;
+
+    /**************************************************************
+     *                      Check extraction                      *
+     * ************************************************************/
+    logHelper.info("Checking extraction state...");
+    if (_xpertRequestResult.shouldBeHandled() == false) {
+        return;
+    }
+    logHelper.info("Extraction succeed.");
 
     /**************************************************************
      *                Loading the translation file                *
@@ -252,6 +225,30 @@ void Computer::validateAndPrepareXpertRequest(XpertRequestResult& _xpertRequestR
     }
 
     logHelper.info("Adjustment trait successfully created.");
+
+    /**************************************************************
+     *                     Requests execution                     *
+     * ************************************************************/
+    logHelper.info("Submitting adjustment request...");
+
+    _stepProvider->getRequestExecutor()->perform(_xpertRequestResult);
+    if (_xpertRequestResult.shouldBeHandled() == false) {
+        return;
+    }
+
+    logHelper.info("Adjustment request execution succeed.");
+
+    /**************************************************************
+     *                      Report generation                     *
+     * ************************************************************/
+    logHelper.info("Generating report...");
+
+    _stepProvider->getReportPrinter()->perform(_xpertRequestResult);
+    if (_xpertRequestResult.shouldBeHandled() == false) {
+        return;
+    }
+
+    logHelper.info("Report generation succeed.");
 
     // At that point the xpertRequestResult is still handleable (got no error).
 }
