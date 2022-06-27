@@ -340,6 +340,10 @@ void XpertRequestResultXmlExport::exportCovariateResults(const vector<CovariateV
         //       <covariateId>
         addNode(covariateNode, "covariateId", covariateValidationResult.getSource()->getId());
 
+        //       <date>
+        if (covariateValidationResult.getPatient() != nullptr) {
+            addNode(covariateNode, "date", dateTimeToXmlString(covariateValidationResult.getPatient()->getEventTime()));
+        }
 
         //       <name>
         addNode(covariateNode, "name", getStringWithEnglishFallback(covariateValidationResult.getSource()->getName().getString(), _outputLang));
@@ -376,19 +380,26 @@ void XpertRequestResultXmlExport::exportTreatment(const std::unique_ptr<Core::Dr
     exportDosageHistory(_treatment->getDosageHistory(), treatmentNode);
 }
 
-void XpertRequestResultXmlExport::exportSingleDose(const Core::SingleDose& _dosage, Common::XmlNode& _parentNode)
+void XpertRequestResultXmlExport::exportDose(
+        const Tucuxi::Core::SingleDose& _dosage, Tucuxi::Common::XmlNode& _parentNode)
 {
-    // <dose>
-    exportDose(_dosage, _parentNode);
+    Tucuxi::Common::XmlNode doseNode = m_doc.createNode(Tucuxi::Common::EXmlNodeType::Element, "dose");
+    _parentNode.addChild(doseNode);
+
+    // <warning>
+    addNode(doseNode, "value", double(_dosage.getDose()));
+
+    // <unit>
+    addNode(doseNode, "unit", _dosage.getDoseUnit().toString());
+
+    // <infusionTimeInMinutes>
+    addNode(doseNode, "infusionTimeInMinutes", _dosage.getInfusionTime().toMinutes());
 
     // <warning>
     auto singleDoseIt = m_xpertRequestResultInUse->getDoseResults().find(&_dosage);
     if (singleDoseIt !=  m_xpertRequestResultInUse->getDoseResults().end()){
-        exportWarning(singleDoseIt->second, _parentNode);
+        exportWarning(singleDoseIt->second, doseNode);
     }
-
-    // <formulationAndRoute>
-    exportFormulationAndRoute(_dosage, _parentNode);
 }
 
 void XpertRequestResultXmlExport::exportSampleResults(const map<const Core::Sample*, SampleValidationResult>& _sampleResults, Common::XmlNode& _rootNode)
@@ -582,7 +593,7 @@ void XpertRequestResultXmlExport::exportParameters(XpertRequestResult& _xpertReq
             addNode(parameterNode, "id", parameter.m_parameterId);
 
             //                  <value>
-            addNode(parameterNode, "valude", parameter.m_value);
+            addNode(parameterNode, "value", parameter.m_value);
         }
     }
 }

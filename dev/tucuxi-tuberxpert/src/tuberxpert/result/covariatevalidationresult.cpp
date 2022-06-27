@@ -41,7 +41,7 @@ CovariateType CovariateValidationResult::getType() const
 }
 
 
-const Core::PatientCovariate *CovariateValidationResult::getPatient() const
+const Core::PatientCovariate* CovariateValidationResult::getPatient() const
 {
     return m_patient;
 }

@@ -93,10 +93,10 @@ protected:
     void exportTreatment(const std::unique_ptr<Core::DrugTreatment>& _treatment, Tucuxi::Common::XmlNode& _rootNode);
 
     /// \brief Override of the inherited method in order to include the warning related to a single dose.
-    ///        Creat and append a single dose to a parent node.
+    ///        Create and append a dose to a parent node.
     /// \param _dosage Single dose to export.
     /// \param _parentNode Node where to append the single dose.
-    void exportSingleDose(const Tucuxi::Core::SingleDose& _dosage, Tucuxi::Common::XmlNode& _parentNode) override;
+    void exportDose(const Tucuxi::Core::SingleDose& _dosage, Tucuxi::Common::XmlNode& _parentNode) override;
 
     /// \brief Create and append the sample results to the root node.
     /// \param _sampleResults Sample results to export.

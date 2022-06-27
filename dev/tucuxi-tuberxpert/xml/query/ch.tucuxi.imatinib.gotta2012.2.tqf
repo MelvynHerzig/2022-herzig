@@ -93,7 +93,7 @@
                 <covariate>
                     <covariateId>bodyweight</covariateId>
                     <date>2018-07-06T08:00:00</date>
-                    <value>70</value>
+                    <value>200</value>
                     <unit>kg</unit>
                       <dataType>double</dataType>
                     <nature>discrete</nature>
@@ -138,7 +138,7 @@
                 <!-- Samples history -->
                 <samples>
                     <sample>
-                        <sampleId>a1</sampleId>
+                        <sampleId>10</sampleId>
                         <sampleDate>2018-07-07T06:00:30</sampleDate>
                         <concentrations>
                             <concentration>
@@ -149,7 +149,7 @@
                         </concentrations>
                     </sample>
                     <sample>
-                        <sampleId>b2</sampleId>
+                        <sampleId>11</sampleId>
                         <sampleDate>2018-07-07T07:00:00</sampleDate>
                         <concentrations>
                             <concentration>
@@ -160,7 +160,7 @@
                         </concentrations>
                     </sample>
                     <sample>
-                        <sampleId>123456</sampleId>
+                        <sampleId>12</sampleId>
                         <sampleDate>2018-07-07T13:00:00</sampleDate>
                         <concentrations>
                             <concentration>

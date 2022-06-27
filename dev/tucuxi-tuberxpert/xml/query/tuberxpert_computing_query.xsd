@@ -23,7 +23,7 @@
 				</xs:simpleType>
 			</xs:element>
 
-			<!-- Admin element from Benallal Bachelor thesis 2018 -->
+			<!-- Inspired by admin element from Benallal's Bachelor thesis 2018 -->
 			<xs:element name="admin" type="adminType" minOccurs="0" />
 
 			<xs:element name="drugTreatment" type="parametersType" />
@@ -48,7 +48,10 @@
 	</xs:complexType>
 </xs:element>
 
-<!-- Everything is optional in this type -->
+<!-- ##################################################################### -->
+<!-- Administrative -->
+<!-- ##################################################################### -->
+
 <xs:complexType name="adminType">
 	<xs:sequence>
 		<xs:element name="mandator" minOccurs="0">
@@ -147,10 +150,6 @@
 		<xs:enumeration value="professional" />
 	</xs:restriction>
 </xs:simpleType>
-
-<!-- ##################################################################### -->
-<!-- Global groups for administrative informations -->
-<!-- ##################################################################### -->
 
 <xs:group name="contactGroup">
 	<xs:sequence>
