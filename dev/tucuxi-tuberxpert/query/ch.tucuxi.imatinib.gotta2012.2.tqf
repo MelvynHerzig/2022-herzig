@@ -138,7 +138,7 @@
                 <!-- Samples history -->
                 <samples>
                     <sample>
-                        <sampleId>123456</sampleId>
+                        <sampleId>a1</sampleId>
                         <sampleDate>2018-07-07T06:00:30</sampleDate>
                         <concentrations>
                             <concentration>
@@ -149,7 +149,7 @@
                         </concentrations>
                     </sample>
                     <sample>
-                        <sampleId>123456</sampleId>
+                        <sampleId>b2</sampleId>
                         <sampleDate>2018-07-07T07:00:00</sampleDate>
                         <concentrations>
                             <concentration>

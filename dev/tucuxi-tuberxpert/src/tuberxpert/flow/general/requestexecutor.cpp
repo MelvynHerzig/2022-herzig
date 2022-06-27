@@ -67,7 +67,7 @@ void RequestExecutor::gatherAdditionalData(XpertRequestResult& _xpertRequestResu
     unique_ptr<Core::ComputingTraitAdjustment> steadyAdustmentTrait = nullptr;
     tweakComputingTraitAdjustment(baseAdjustmentTrait,
                                   staeadyEndTime,
-                                  1,
+                                  20,
                                   baseAdjustmentTrait->getComputingOption().getParametersType(),
                                   steadyAdustmentTrait);
     unique_ptr<Core::AdjustmentData> steadyAdjustmentResult = nullptr;

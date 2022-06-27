@@ -10,6 +10,8 @@
 #include "tucucommon/xmlnode.h"
 #include "tucucommon/utils.h"
 
+#include "tucuquery/fullsample.h"
+
 #include "tuberxpert/result/globalresult.h"
 #include "tuberxpert/utils/xpertutils.h"
 
@@ -404,8 +406,8 @@ void XpertRequestResultXmlExport::exportSampleResults(const map<const Core::Samp
         samplesNode.addChild(sampleNode);
 
         //       <sampleId>
-        // addNode(sampleNode, "sampleId", sampleValidationResult.getSource().getSampleId());
-
+        const Query::FullSample* fullSample = static_cast<const Query::FullSample*>(sampleResultIt.first);
+        addNode(sampleNode, "sampleId", fullSample->getSampleId());
 
         //       <sampleDate>
         addNode(sampleNode, "sampleDate", dateTimeToXmlString(sampleResultIt.first->getDate()));
