@@ -1,5 +1,6 @@
 
-INCLUDEPATH += $$PWD/../../src
+INCLUDEPATH += $$PWD/../../src \
+               $$PWD/../../libs \
 
 HEADERS += \
     $$PWD/computer.h \

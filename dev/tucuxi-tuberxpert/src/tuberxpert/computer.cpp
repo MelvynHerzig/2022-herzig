@@ -14,7 +14,6 @@
 #include "tuberxpert/utils/xpertutils.h"
 #include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
 
-
 using namespace std;
 
 namespace Tucuxi {
