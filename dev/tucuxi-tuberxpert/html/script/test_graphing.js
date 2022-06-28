@@ -1,10 +1,11 @@
-"use strict";
+
+
 
 function createPredictionData(cdata, offset) {
-    var data = new GraphPredictionData([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    for (var i = 0; i < 10; i++) {
-        data.time[i] *= 3600;
-        data.time[i] += cdata.date.getTime() / 1000 - 24 * 3600;
+    data = new GraphPredictionData([0, 1, 2,3,4,5,6,7,8,9],[0,1,2,3,4,5,6,7,8,9]);
+    for(i = 0; i < 10; i++) {
+        data.time[i] *=3600;
+        data.time[i] += cdata.date.getTime()/1000 - 24 * 3600;
         data.value[i] += offset;
     }
     data.isValid = true;
@@ -12,14 +13,14 @@ function createPredictionData(cdata, offset) {
 }
 
 function populatePercentiles(cdata, perc, rank, offset) {
-    var data = new GraphPredictionData([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    for (var i = 0; i < 10; i++) {
-        data.time[i] *= 3600;
-        data.time[i] += cdata.date.getTime() / 1000 - 24 * 3600;
+    data = new GraphPredictionData([0, 1, 2,3,4,5,6,7,8,9],[0,1,2,3,4,5,6,7,8,9]);
+    for(i = 0; i < 10; i++) {
+        data.time[i] *=3600;
+        data.time[i] += cdata.date.getTime()/1000 - 24 * 3600;
         data.value[i] += offset;
     }
     data.isValid = true;
-    var p = new GraphPercentileData();
+    p = new GraphPercentileData();
     p.percentile = rank;
     p.predictionData = data;
     p.isValid = true;
@@ -29,28 +30,28 @@ function populatePercentiles(cdata, perc, rank, offset) {
 function test1() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
-
-    // var's add dosages
+    
+    // Let's add dosages
     obj.dosages.push(new GraphDosage());
-
+    
     obj.currentDosage = obj.dosages[0];
-
-    // var's add covariates
+    
+    // Let's add covariates
     obj.pvars.push(new GraphCovariate(new Date(Date.now() - 12 * 3600 * 1000)));
     obj.pvars.push(new GraphCovariate(new Date(Date.now() - 8 * 3600 * 1000)));
-
-    // var's add measures
+    
+    // Let's add measures
     obj.measures.push(new GraphMeasure(new Date(Date.now() - 8 * 3600 * 1000), 15, 1, "ug/l"));
     obj.measures.push(new GraphMeasure(new Date(Date.now() - 4 * 3600 * 1000), 12, 1, "ug/l"));
     obj.measures.push(new GraphMeasure(new Date(Date.now() - 12 * 3600 * 1000), 18, 1, "ug/l"));
-
-    // var's add targets
+    
+    // Let's add targets
     obj.targets.push(new GraphTarget(0, 2, 4, 6));
     obj.targets.push(new GraphTarget(0, 12, 14, 18));
-
+    
     obj.popP.predictive.predictionData = createPredictionData(obj, 1);
     preparePrediction(obj.popP);
-
+    
     populatePercentiles(obj, obj.popercsP, 5, 1);
     populatePercentiles(obj, obj.popercsP, 10, 2);
     populatePercentiles(obj, obj.popercsP, 25, 3);
@@ -59,11 +60,11 @@ function test1() {
     populatePercentiles(obj, obj.popercsP, 90, 6);
     populatePercentiles(obj, obj.popercsP, 95, 17);
     obj.popercsP.isValid = true;
-
+    
     preparePercs(obj.popercsP);
 
     obj.revP = new GraphAdjustments();
-    var adj = new GraphAdjustment();
+    adj = new GraphAdjustment();
     adj.predictionData = createPredictionData(obj, 15);
     obj.revP.append(adj);
     adj = new GraphAdjustment();
@@ -75,6 +76,7 @@ function test1() {
     obj.revP.append(adj);
     obj.revP.isValid = true;
 
+
     obj.mArea = new GraphMouseArea();
     obj.mArea.mouseX = 300 * obj.scale;
     obj.mArea.mouseY = 200 * obj.scale;
@@ -83,35 +85,36 @@ function test1() {
     obj.mArea.tooltipX = 300 * obj.scale;
     obj.mArea.tooltipY = 200 * obj.scale;
 
-    var expected = "We shall see a lot of things here";
-    return { obj: obj, expected: expected };
+    expected = "We shall see a lot of things here";
+    return {obj, expected};
 }
+
 
 function test2() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
 
-    // var's add dosages
+    // Let's add dosages
     obj.dosages.push(new GraphDosage());
-
+    
     obj.currentDosage = obj.dosages[0];
-
-    // var's add covariates
+    
+    // Let's add covariates
     obj.pvars.push(new GraphCovariate(new Date(Date.now() - 12 * 3600 * 1000)));
     obj.pvars.push(new GraphCovariate(new Date(Date.now() - 8 * 3600 * 1000)));
-
-    // var's add measures
+    
+    // Let's add measures
     obj.measures.push(new GraphMeasure(new Date(Date.now() - 8 * 3600 * 1000), 15, 1, "ug/l"));
     //obj.measures.push(new GraphMeasure(new Date(Date.now() - 4 * 3600 * 1000), 12, 1, "ug/l"));
     //obj.measures.push(new GraphMeasure(new Date(Date.now() - 12 * 3600 * 1000), 18, 1, "ug/l"));
-
-    // var's add targets
+    
+    // Let's add targets
     obj.targets.push(new GraphTarget(0, 2, 4, 6));
     obj.targets.push(new GraphTarget(0, 12, 14, 18));
-
+    
     obj.popP.predictive.predictionData = createPredictionData(obj, 1);
     preparePrediction(obj.popP);
-
+    
     populatePercentiles(obj, obj.popercsP, 5, 1);
     populatePercentiles(obj, obj.popercsP, 10, 2);
     populatePercentiles(obj, obj.popercsP, 25, 3);
@@ -120,11 +123,11 @@ function test2() {
     populatePercentiles(obj, obj.popercsP, 90, 6);
     populatePercentiles(obj, obj.popercsP, 95, 17);
     obj.popercsP.isValid = true;
-
+    
     preparePercs(obj.popercsP);
 
     obj.revP = new GraphAdjustments();
-    var adj = new GraphAdjustment();
+    adj = new GraphAdjustment();
     adj.predictionData = createPredictionData(obj, 15);
     obj.revP.append(adj);
     adj = new GraphAdjustment();
@@ -136,6 +139,7 @@ function test2() {
     obj.revP.append(adj);
     obj.revP.isValid = true;
 
+
     obj.mArea = new GraphMouseArea();
     obj.mArea.mouseX = 300 * obj.scale;
     obj.mArea.mouseY = 200 * obj.scale;
@@ -144,224 +148,232 @@ function test2() {
     obj.mArea.tooltipX = 300 * obj.scale;
     obj.mArea.tooltipY = 200 * obj.scale;
 
-    var expected = "We shall see a lot of things here";
-    return { obj: obj, expected: expected };
+    expected = "We shall see a lot of things here";
+    return {obj, expected};    
 }
+
 
 function testtarget0() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
-
-    // var's add dosages
+    
+    // Let's add dosages
     obj.dosages.push(new GraphDosage());
-
-    // var's add targets
+    
+    // Let's add targets
     obj.targets.push(new GraphTarget(0, 2, 4, 6));
     obj.targets.push(new GraphTarget(0, 12, 14, 18));
-
+    
     obj.popP.predictive.predictionData = createPredictionData(obj, 1);
     preparePrediction(obj.popP);
 
-    var expected = "Test of Residual target. We shall see the prediction and the residual targets";
-    return { obj: obj, expected: expected };
+    expected = "Test of Residual target. We shall see the prediction and the residual targets";
+    return {obj, expected};    
 }
+
 
 function testtarget1() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
-
-    // var's add dosages
+    
+    // Let's add dosages
     obj.dosages.push(new GraphDosage());
-
-    // var's add targets
+    
+    // Let's add targets
     obj.targets.push(new GraphTarget(1, 2, 4, 6));
     obj.targets.push(new GraphTarget(1, 12, 14, 18));
-
+    
     obj.popP.predictive.predictionData = createPredictionData(obj, 1);
     preparePrediction(obj.popP);
 
-    var expected = "Test of Peak target. We shall see the prediction and the peak targets";
-    return { obj: obj, expected: expected };
+    expected = "Test of Peak target. We shall see the prediction and the peak targets";
+    return {obj, expected};    
 }
 
 function testtarget2() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
-
-    // var's add dosages
+    
+    // Let's add dosages
     obj.dosages.push(new GraphDosage());
-
-    // var's add targets
+    
+    // Let's add targets
     obj.targets.push(new GraphTarget(2, 2, 4, 6));
     obj.targets.push(new GraphTarget(2, 12, 14, 18));
-
+    
     obj.popP.predictive.predictionData = createPredictionData(obj, 1);
     preparePrediction(obj.popP);
 
-    var expected = "Test of Mean target. We shall see the prediction and the mean targets";
-    return { obj: obj, expected: expected };
+    expected = "Test of Mean target. We shall see the prediction and the mean targets";
+    return {obj, expected};    
 }
+
 
 function testtarget3() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
-
-    // var's add dosages
+    
+    // Let's add dosages
     obj.dosages.push(new GraphDosage());
-
-    // var's add targets
+    
+    // Let's add targets
     obj.targets.push(new GraphTarget(3, 2, 4, 6));
     obj.targets.push(new GraphTarget(3, 12, 14, 18));
-
+    
     obj.popP.predictive.predictionData = createPredictionData(obj, 1);
     preparePrediction(obj.popP);
 
-    var expected = "Test of AUC target. We shall only see the prediction";
-    return { obj: obj, expected: expected };
+    expected = "Test of AUC target. We shall only see the prediction";
+    return {obj, expected};    
 }
+
 
 function testtarget4() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
-
-    // var's add dosages
+    
+    // Let's add dosages
     obj.dosages.push(new GraphDosage());
-
-    // var's add targets
+    
+    // Let's add targets
     obj.targets.push(new GraphTarget(4, 2, 4, 6));
     obj.targets.push(new GraphTarget(4, 12, 14, 18));
-
+    
     obj.popP.predictive.predictionData = createPredictionData(obj, 1);
     preparePrediction(obj.popP);
 
     expected = "Test of AUC24 target. We shall only see the prediction";
-    return { obj: obj, expected: expected };
+    return {obj, expected};    
 }
+
 
 function testtarget5() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
 
-    // var's add dosages
+    // Let's add dosages
     obj.dosages.push(new GraphDosage());
-    // var's add targets
+    // Let's add targets
     obj.targets.push(new GraphTarget(5, 2, 4, 6));
     obj.targets.push(new GraphTarget(5, 12, 14, 18));
     obj.popP.predictive.predictionData = createPredictionData(obj, 1);
     preparePrediction(obj.popP);
-    var expected = "Test of CumulativeAUC target. We shall only see the prediction";
-    return { obj: obj, expected: expected };
+    expected = "Test of CumulativeAUC target. We shall only see the prediction";
+    return {obj, expected};    
 }
 
 function testtarget6() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
 
-    // var's add dosages
+    // Let's add dosages
     obj.dosages.push(new GraphDosage());
-    // var's add targets
+    // Let's add targets
     obj.targets.push(new GraphTarget(6, 2, 4, 6));
     obj.targets.push(new GraphTarget(6, 12, 14, 18));
     obj.popP.predictive.predictionData = createPredictionData(obj, 1);
     preparePrediction(obj.popP);
-    var expected = "Test of AUCDividedByMic target. We shall only see the prediction";
-    return { obj: obj, expected: expected };
+    expected = "Test of AUCDividedByMic target. We shall only see the prediction";
+    return {obj, expected};    
 }
 
 function testtarget7() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
 
-    // var's add dosages
+    // Let's add dosages
     obj.dosages.push(new GraphDosage());
-    // var's add targets
+    // Let's add targets
     obj.targets.push(new GraphTarget(7, 2, 4, 6));
     obj.targets.push(new GraphTarget(7, 12, 14, 18));
     obj.popP.predictive.predictionData = createPredictionData(obj, 1);
     preparePrediction(obj.popP);
-    var expected = "Test of AUC24DividedByMic target. We shall only see the prediction";
-    return { obj: obj, expected: expected };
+    expected = "Test of AUC24DividedByMic target. We shall only see the prediction";
+    return {obj, expected};    
 }
 
 function testtarget8() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
 
-    // var's add dosages
+    // Let's add dosages
     obj.dosages.push(new GraphDosage());
-    // var's add targets
+    // Let's add targets
     obj.targets.push(new GraphTarget(8, 2, 4, 6));
     obj.targets.push(new GraphTarget(8, 12, 14, 18));
     obj.popP.predictive.predictionData = createPredictionData(obj, 1);
     preparePrediction(obj.popP);
-    var expected = "Test of AUCOverMic target. We shall only see the prediction";
-    return { obj: obj, expected: expected };
+    expected = "Test of AUCOverMic target. We shall only see the prediction";
+    return {obj, expected};    
 }
 
 function testtarget9() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
 
-    // var's add dosages
+    // Let's add dosages
     obj.dosages.push(new GraphDosage());
-    // var's add targets
+    // Let's add targets
     obj.targets.push(new GraphTarget(9, 2, 4, 6));
     obj.targets.push(new GraphTarget(9, 12, 14, 18));
     obj.popP.predictive.predictionData = createPredictionData(obj, 1);
     preparePrediction(obj.popP);
-    var expected = "Test of AUC24OverMic target. We shall only see the prediction";
-    return { obj: obj, expected: expected };
+    expected = "Test of AUC24OverMic target. We shall only see the prediction";
+    return {obj, expected};    
 }
 
 function testtarget10() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
 
-    // var's add dosages
+    // Let's add dosages
     obj.dosages.push(new GraphDosage());
-    // var's add targets
+    // Let's add targets
     obj.targets.push(new GraphTarget(10, 2, 4, 6));
     obj.targets.push(new GraphTarget(10, 12, 14, 18));
     obj.popP.predictive.predictionData = createPredictionData(obj, 1);
     preparePrediction(obj.popP);
-    var expected = "Test of PeakDividedByMic target. We shall only see the prediction";
-    return { obj: obj, expected: expected };
+    expected = "Test of PeakDividedByMic target. We shall only see the prediction";
+    return {obj, expected};    
 }
 
 function testtarget11() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
 
-    // var's add dosages
+    // Let's add dosages
     obj.dosages.push(new GraphDosage());
-    // var's add targets
+    // Let's add targets
     obj.targets.push(new GraphTarget(11, 2, 4, 6));
     obj.targets.push(new GraphTarget(11, 12, 14, 18));
     obj.popP.predictive.predictionData = createPredictionData(obj, 1);
     preparePrediction(obj.popP);
-    var expected = "Test of TimeOverMic target. We shall only see the prediction";
-    return { obj: obj, expected: expected };
+    expected = "Test of TimeOverMic target. We shall only see the prediction";
+    return {obj, expected};    
 }
 
 function testtarget12() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
 
-    // var's add dosages
+    // Let's add dosages
     obj.dosages.push(new GraphDosage());
-    // var's add targets
+    // Let's add targets
     obj.targets.push(new GraphTarget(12, 2, 4, 6));
     obj.targets.push(new GraphTarget(12, 12, 14, 18));
     obj.popP.predictive.predictionData = createPredictionData(obj, 1);
     preparePrediction(obj.popP);
-    var expected = "Test of ResidualDividedByMic target. We shall only see the prediction";
-    return { obj: obj, expected: expected };
+    expected = "Test of ResidualDividedByMic target. We shall only see the prediction";
+    return {obj, expected};    
 }
+
 
 function testempty() {
     // Creation of all the data necessary for a drawing
     var obj = new GraphFullData();
 
-    var expected = "Test of an empty GraphFullData. The graph shall be empty, with NaN on the Y-axis.";
-    return { obj: obj, expected: expected };
+
+    
+    expected = "Test of an empty GraphFullData. The graph shall be empty, with NaN on the Y-axis.";
+    return {obj, expected};    
 }
