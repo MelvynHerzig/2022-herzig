@@ -30,11 +30,11 @@ h1, h2, h3, h4, h5 {
 h3 {
   text-decoration: underline;
   margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 hr {
   margin-top: 0.5cm;
-  margin-bottom: 0.5cm;
   border: 1px solid black;
 }
 
@@ -49,6 +49,7 @@ body {
 table {
   column-gap: 0.5cm;
   table-layout: fixed;
+  border-collapse: collapse;
 }
 
 table, th, td {
@@ -112,6 +113,83 @@ hr {
 
 .drug-intro tr td:nth-child(3) {
   width: 55%;
+}
+
+/**
+  =======================================================
+  TuberXpert contacts
+  =======================================================
+*/
+
+.contacts-header {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.contacts-header tr th:nth-child(1) {
+  width: 24%;
+}
+
+.contacts-header tr th:nth-child(2), .contacts-header tr th:nth-child(3) {
+  width: 38%;
+}
+
+.contacts {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.contacts tr td:nth-child(1) {
+  width: 6%;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.contacts tr th {
+  width: 17%;
+  text-align: right;
+  border-right: 1px solid black;
+  padding-right: 4px;
+}
+
+.contacts tr td:nth-child(2), .contacts tr td:nth-child(3) {
+  width: 38%;
+  padding-left: 4px;
+}
+
+.contacts tr th, .contacts tr td{
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+/**
+  =======================================================
+  TuberXpert clinical data
+  =======================================================
+*/
+
+.clinical-data {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.clinical-data tr th {
+  width: 25%;
+  text-align: right;
+}
+
+.clinical-data tr td {
+  width: 75%;
+  vertical-align: top;
+  text-align: left;
+  padding-left: 8px;
+}
+
+.clinical-data tr + tr {
+  border-top: 4px solid white;
 }
 
 /**
