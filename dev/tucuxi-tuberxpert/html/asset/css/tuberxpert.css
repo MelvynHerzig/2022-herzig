@@ -193,7 +193,7 @@ hr {
 
 /**
   =======================================================
-  TuberXpert clinical data
+  TuberXpert covariates
   =======================================================
 */
 
@@ -201,23 +201,30 @@ hr {
   text-align: left;
 }
 
-.covariates tr:nth-of-type(4n) {
+.covariates > tbody > tr:nth-of-type(4n) {
   border-top: 4px solid white;
 }
 
 /**
   =======================================================
-  TuberXpert clinical data
+  TuberXpert treatment
   =======================================================
 */
 
-.treatment tr:nth-of-type(3n) {
+.treatment > tbody > tr:nth-of-type(3n) {
   border-top: 4px solid white;
 }
 
-.treatment table tr:nth-of-type(3n) {
-  border-top: 0px;
+/**
+  =======================================================
+  TuberXpert samples
+  =======================================================
+*/
+
+.samples > tbody > tr:nth-of-type(2n + 3) {
+  border-top: 4px solid white;
 }
+
 
 /**
   =======================================================
