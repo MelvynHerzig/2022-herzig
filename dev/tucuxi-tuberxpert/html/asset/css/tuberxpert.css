@@ -8,9 +8,13 @@
 .page-A4 {
   width: 21cm;
   margin: auto;
-  margin-top: 2rem;
-  padding: 1cm;
+  padding: 0 1cm 0 1cm;
   background-color: white;
+}
+
+.page-A4 > table > tbody > tr {
+  page-break-inside: avoid;
+  
 }
 
 .newpage {
@@ -31,6 +35,26 @@ h3 {
   text-decoration: underline;
   margin-bottom: 1.5rem;
   margin-top: 1.5rem;
+}
+
+h4 {
+  text-decoration: underline;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+h5 {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.page-A4 > div {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 hr {
@@ -215,6 +239,14 @@ hr {
   border-top: 4px solid white;
 }
 
+.treatment img[src="asset/img/dot.png"] {
+  margin-top: 3px;
+}
+
+.treatment table tr td:nth-child(1) {
+  text-align: center;
+}
+
 /**
   =======================================================
   TuberXpert samples
@@ -223,6 +255,132 @@ hr {
 
 .samples > tbody > tr:nth-of-type(2n + 3) {
   border-top: 4px solid white;
+}
+
+/**
+  =======================================================
+  TuberXpert Adjustments
+  =======================================================
+*/
+
+.adjustments > tbody > tr:nth-child(1) {
+  background-color: white;
+}
+
+.adjustments th {
+  text-align: left;
+}
+
+.adjustments tr > td:nth-child(1) {
+  text-align: center;
+}
+
+.adjustments tr > td:nth-child(1) > img {
+  padding-top: 2px;
+}
+
+.adjustments th:nth-child(1) {
+  width: 5%;
+}
+
+.adjustments th:nth-child(2), .adjustments th:nth-child(3)  {
+  width: 20%;
+}
+
+.adjustments tr[class="loading-dose"] {
+  margin-right: 1cm;
+  padding-right: 1cm;
+}
+
+.adjustments div {
+  text-align: left;
+  background-color: silver;
+  margin-left: 1cm;
+  margin-right: 3px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+/**
+  =======================================================
+  TuberXpert Targets
+  =======================================================
+*/
+
+.targets > tbody > tr:nth-child(1) {
+  background-color: white;
+}
+
+.targets th {
+  text-align: left;
+}
+
+.targets tr > td:nth-child(1) {
+  text-align: center;
+}
+
+.targets tr > td:nth-child(1) > img {
+  padding-top: 2px;
+}
+
+.adjustments th:nth-child(1) {
+  width: 5%;
+}
+
+.targets th:nth-child(2)  {
+  width: 20%;
+}
+
+.targets th:nth-child(3)  {
+  width: 60%;
+}
+
+.targets th:nth-child(4)  {
+  width: 15%;
+}
+
+.targets tr[class="target-values"] {
+  margin-right: 1cm;
+  padding-right: 1cm;
+}
+
+.targets div {
+  text-align: left;
+  background-color: silver;
+  margin-left: 1cm;
+  margin-right: 3px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+/**
+  =======================================================
+  Pharmacokinetic parameters
+  =======================================================
+*/
+
+.pks tr > td:nth-child(1) {
+  text-align: center;
+}
+
+.pks tr > td:nth-child(1) > img {
+  padding-top: 2px;
+}
+
+.pks th:nth-child(1) {
+  width: 5%;
+}
+
+.pks th:nth-child(2)  {
+  width: 20%;
+}
+
+.pks th:nth-child(3), .pks th:nth-child(4), .pks th:nth-child(5)  {
+  width: 25%;
+}
+
+.pks th {
+  text-align: left;
 }
 
 
