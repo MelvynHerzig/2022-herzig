@@ -46,10 +46,22 @@ body {
   background-color: #F1F1F1;
 }
 
+.bg-warning-normal {  
+  background-color: #E8C882;
+}
+
+
+.bg-warning-critical {
+  background-color: #E5807F;
+}
+
 table {
   column-gap: 0.5cm;
   table-layout: fixed;
   border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
 table, th, td {
@@ -59,6 +71,7 @@ table, th, td {
 td, th {
   vertical-align: top;
   word-wrap: break-word;
+  padding: 3px;
 }
 
 /**
@@ -66,12 +79,6 @@ td, th {
   TuberXpert header
   =======================================================
 */
-
-.header {
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-}
 
 .header tr td {
   width: 33%;
@@ -97,12 +104,6 @@ hr {
   =======================================================
 */
 
-.drug-intro {
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-}
-
 .drug-intro tr td:nth-child(1), .drug-intro tr td:nth-child(2) {
   width: 25%;
 }
@@ -120,12 +121,6 @@ hr {
   TuberXpert contacts
   =======================================================
 */
-
-.contacts-header {
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-}
 
 .contacts-header tr th:nth-child(1) {
   width: 24%;
@@ -159,22 +154,11 @@ hr {
   padding-left: 4px;
 }
 
-.contacts tr th, .contacts tr td{
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
-
 /**
   =======================================================
   TuberXpert clinical data
   =======================================================
 */
-
-.clinical-data {
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-}
 
 .clinical-data tr th {
   width: 25%;
@@ -191,6 +175,36 @@ hr {
 .clinical-data tr + tr {
   border-top: 4px solid white;
 }
+
+/**
+  =======================================================
+  TuberXpert clinical data
+  =======================================================
+*/
+
+.covariates th {
+  text-align: left;
+}
+
+.covariates tr:nth-of-type(4n) {
+  border-top: 4px solid white;
+}
+
+.covariates tr:nth-of-type(3n) table {
+  width: 99%;
+  margin: auto;
+  margin-bottom: 3px;
+}
+
+.covariates tr:nth-of-type(3n) table td {
+  vertical-align: middle;
+}
+
+.covariates tr:nth-of-type(3n) table td:nth-child(1) {
+  width: 6%;
+  padding: 5px;
+}
+
 
 /**
   =======================================================
