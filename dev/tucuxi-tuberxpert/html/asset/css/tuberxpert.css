@@ -263,6 +263,10 @@ hr {
   =======================================================
 */
 
+.adjustments > tbody > tr:nth-of-type(2n + 4) {
+  border-top: 4px solid white;
+}
+
 .adjustments > tbody > tr:nth-child(1) {
   background-color: white;
 }
@@ -307,6 +311,10 @@ hr {
   =======================================================
 */
 
+.targets > tbody > tr:nth-of-type(2n + 4) {
+  border-top: 4px solid white;
+}
+
 .targets > tbody > tr:nth-child(1) {
   background-color: white;
 }
@@ -323,7 +331,7 @@ hr {
   padding-top: 2px;
 }
 
-.adjustments th:nth-child(1) {
+.targets th:nth-child(1) {
   width: 5%;
 }
 
@@ -358,6 +366,14 @@ hr {
   Pharmacokinetic parameters
   =======================================================
 */
+
+.pks > tbody > tr:nth-of-type(1n + 3) {
+  border-top: 4px solid white;
+}
+
+.pks > tbody > tr:nth-child(1) {
+  background-color: white;
+}
 
 .pks tr > td:nth-child(1) {
   text-align: center;
@@ -401,6 +417,43 @@ hr {
   padding-left: 6px;
 }
 
+/**
+  =======================================================
+  Computation covariates
+  =======================================================
+*/
+
+.computation-covariates > tbody > tr:nth-of-type(1n + 3) {
+  border-top: 4px solid white;
+}
+
+.computation-covariates > tbody > tr:nth-child(1) {
+  background-color: white;
+}
+
+.computation-covariates th {
+  text-align: left;
+}
+
+.computation-covariates tr > td:nth-child(1) {
+  text-align: center;
+}
+
+.computation-covariates tr > td:nth-child(1) > img {
+  padding-top: 2px;
+}
+
+.computation-covariates th:nth-child(1) {
+  width: 5%;
+}
+
+.computation-covariates th:nth-child(2) {
+  width: 40%;
+}
+
+.computation-covariates th:nth-child(2) {
+  width: 45%;
+}
 
 /**
   =======================================================
