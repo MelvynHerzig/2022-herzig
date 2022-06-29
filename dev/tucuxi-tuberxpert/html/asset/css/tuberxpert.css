@@ -383,6 +383,24 @@ hr {
   text-align: left;
 }
 
+/**
+  =======================================================
+  Pharmacokinetic parameters
+  =======================================================
+*/
+
+.predictions th {
+  width: 40%;
+  text-align: end;
+  background-color: white;
+  padding-right: 6px;
+}
+
+.predictions td  {
+  width: 60%;
+  padding-left: 6px;
+}
+
 
 /**
   =======================================================
