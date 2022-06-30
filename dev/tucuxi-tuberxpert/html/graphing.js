@@ -89,7 +89,7 @@ function drawGraph(cdata)   //eslint-disable-line @typescript-eslint/no-unused-v
     }
 
     if (cdata.adjP) {
-        if (cdata.gInformationSelection.displaySelectedAdjustment) {
+        if (cdata.gInformationSelection.displaySelectedAdjustments) {
 
             if (cdata.adjpercsP.isValid) {
 
@@ -102,10 +102,10 @@ function drawGraph(cdata)   //eslint-disable-line @typescript-eslint/no-unused-v
             }
 
             if ((cdata.apoP) && (cdata.apoP.predictive.predictionData.isValid)) {
-                drawAdjustment(cdata, ctx, cdata.colors[4]);
+                // drawAdjustment(cdata, ctx, cdata.colors[5]);
             }
             else {
-                drawAdjustment(cdata, ctx, cdata.colors[2]);
+                // drawAdjustment(cdata, ctx, cdata.colors[5]);
 
             }
         }
@@ -136,9 +136,9 @@ function drawGraph(cdata)   //eslint-disable-line @typescript-eslint/no-unused-v
         } else if (cdata.adjP && cdata.adjP.predictive.predictionData.isValid) {
             drawTargets(cdata, ctx, cdata.adjP.X, cdata.adjP.predictive.predictionData);
         } else if (cdata.revP && cdata.revP.size()>0) {
-            var predData = cdata.revP.objat(0);
-            if (predData.predictionData.isValid) {
-                drawTargets(cdata, ctx, predData.X, predData.predictionData);
+            var predData = cdata.revP.alist[0].predictionData;
+            if (predData.isValid) {
+                drawTargets(cdata, ctx, predData.times(), predData);
             }
         }
         else {
@@ -460,8 +460,13 @@ function extents(cdata)
         if (!cdata.revP.isEmpty()) {
             for (i = 0; i < cdata.revP.size(); ++i) {
                 if (cdata.revP.size()<=5 || cdata.revP.objat(i).predictionData.selected) {
-                    reversepercmax = Math.max(reversepercmax, Math.max.apply(Math, cdata.revP.objat(i).Y));
-                    reversepercmin = Math.min(reversepercmin, Math.min.apply(Math, cdata.revP.objat(i).Y));
+                    reversepercmax = Math.max(reversepercmax, Math.max.apply(Math, cdata.revP.alist[i].predictionData.value));
+
+                    if(i == 0) {
+                        reversepercmin = reversepercmax;
+                    }
+
+                    reversepercmin = Math.min(reversepercmin, Math.min.apply(Math, cdata.revP.alist[i].predictionData.value));
                 }
             }
         }
@@ -1305,7 +1310,7 @@ function drawLegends(cdata, ctx)
         }
     }
     if (cdata.adjP) {
-        if (cdata.adjP.predictive.predictionData.isValid && cdata.gInformationSelection.displaySelectedAdjustment) {
+        if (cdata.adjP.predictive.predictionData.isValid && cdata.gInformationSelection.displaySelectedAdjustments) {
             legends.push( {text: adjustmentText, color: cdata.colors[9]} );
             legendsWidth.push(ctx.measureText(adjustmentText).width);
         }

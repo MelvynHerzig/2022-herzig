@@ -17,6 +17,11 @@
   
 }
 
+.page-A4 > table > tbody > div[class="canvasAdjustments"] {
+  page-break-inside: avoid;
+  
+}
+
 .newpage {
   page-break-before: always;
 }
@@ -453,6 +458,22 @@ hr {
 
 .computation-covariates th:nth-child(2) {
   width: 45%;
+}
+
+/**
+  =======================================================
+  TuberXpert canvas
+  =======================================================
+*/
+
+.canvasAdjustments {
+  width: 19cm;
+  height: 12.6cm;
+}
+
+.canvasAdjustments > canvas {
+  height:12.6cm;
+  width:19cm;
 }
 
 /**

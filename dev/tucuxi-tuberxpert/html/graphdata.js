@@ -71,9 +71,9 @@ class GraphPredictionData {
         this.time = time;
         this.value = value;
         // The indexes at which there are trough concentrations
-        this.troughs = [6];
+        this.troughs = [0];
         // The indexes at which there are peaks
-        this.peaks = [1, 4];
+        this.peaks = [];
         this.isValid = false;
         this.selected = false;
     }
@@ -267,7 +267,7 @@ class GraphTarget {
 // It shall just embed a GraphPredictioData
 class GraphAdjustment {
     constructor() {
-        this.predictionData = new GraphPredictionData();
+        this.predictionData = new GraphPredictionData([], []);
     }
 
 }
@@ -427,7 +427,8 @@ class GraphFullData {
 
         this.gInformationSelection = new GraphInformationSelection();
 
-        this.timestart = Date.now();
+        this.timestart;
+        this.timeend;
 
         //Canvas margins
         this.leftMargin =   75 * this.scale;
@@ -442,9 +443,9 @@ class GraphFullData {
     }
 
 
-	getViewRangeMin() {var newdate = new Date(); return newdate.getTime() / 1000 - 24 * 3600;}
+	getViewRangeMin() {return this.timestart.getTime() / 1000;}
 	
-    getViewRangeMax() {var newdate = new Date(); return newdate.getTime() / 1000;}
+    getViewRangeMax() {return this.timeend.getTime() / 1000;}
 
     // This function shall be called before printing the graph,
     // to precalculate values.

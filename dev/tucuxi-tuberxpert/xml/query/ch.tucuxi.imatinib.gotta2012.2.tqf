@@ -177,12 +177,12 @@
                     <target>
                         <activeMoietyId>imatinib</activeMoietyId>
                         <targetType>residual</targetType>
-                        <unit>ug/l</unit>
-                        <min>800</min>
-                        <best>1050</best>
-                        <max>1550</max>
-                        <inefficacyAlarm>600</inefficacyAlarm>
-                        <toxicityAlarm>20000</toxicityAlarm>
+                        <unit>mg/l</unit>
+                        <min>0.8</min>
+                        <best>1.05</best>
+                        <max>1.550</max>
+                        <inefficacyAlarm>0.6</inefficacyAlarm>
+                        <toxicityAlarm>20</toxicityAlarm>
                     </target>
                 </targets>
             </drug>
