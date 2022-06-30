@@ -11,9 +11,9 @@
 
     <!-- JS -->
     <!-- Will be injected by the template engine for "all-in-one" file. -->
-    <script type="text/javascript" src="asset/js/graphing.js"></script>
-    <script type="text/javascript" src="asset/js/graphdata.js"></script>
-    <script type="text/javascript" src="asset/js/tuberxpert-graphs.js"></script>
+    <script type="text/javascript" src="../build/asset/js/graphing.js"></script>
+    <script type="text/javascript" src="../build/asset/js/graphdata.js"></script>
+    <script type="text/javascript" src="../build/asset/js/tuberxpert-graphs.js"></script>
     
 </head>
 <body class="bg-secondary">
@@ -270,7 +270,7 @@
         </table>
 
         <!-- Adjustments -->
-        <div class="avoid-break">
+        <div class="newpage">
             <h3>Adjustments</h3>
             <div>Based on the above information, the following adjustments are relevant to achieve the targets.</div>
     
@@ -317,33 +317,35 @@
             <tr></tr>
         </table>
 
-        <h4>Suggestion</h4>
-        <div>Considering the above information, TuberXpert recommends the following adjustment:</div>
+        <div class="newpage">
+            <h4>Suggestion</h4>
+            <div>Considering the above information, TuberXpert recommends the following adjustment:</div>
 
-        <table class="adjustments bg-light-grey">
-            <tr>
-                <th></th>
-                <th>From</th>
-                <th>To</th>
-                <th>Dose</th>
-                <th>Interval</th>
-                <th>Duration</th>
-                <th>Score</th>
-            </tr>
-            <tr>
-                <td><img src="asset/img/dot.png" alt="Dot icon"></td>
-                <td>01.05.2022 16:25</td>
-                <td>06.05.2022 16:25</td>
-                <td>600 mg</td>
-                <td>24 hours</td>
-                <td>63</td>
-                <td>0.95</td>
-            </tr>
-        </table>
+            <table class="adjustments bg-light-grey">
+                <tr>
+                    <th></th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Dose</th>
+                    <th>Interval</th>
+                    <th>Duration</th>
+                    <th>Score</th>
+                </tr>
+                <tr>
+                    <td><img src="asset/img/dot.png" alt="Dot icon"></td>
+                    <td>01.05.2022 16:25</td>
+                    <td>06.05.2022 16:25</td>
+                    <td>600 mg</td>
+                    <td>24 hours</td>
+                    <td>63</td>
+                    <td>0.95</td>
+                </tr>
+            </table>
 
-        <div class="canvasAdjustments">
-            <canvas id="canBestAdj" width="716" height="474">
-            </canvas>
+            <div class="canvasAdjustments">
+                <canvas id="canBestAdj" width="716" height="474">
+                </canvas>
+            </div>
         </div>
 
         <div>With this new treatment, the targets are expected to change as follows</div>
@@ -432,7 +434,7 @@
         <!-- Copyright -->
         <div class="copyright">
             <span>Copyright (c) HEIG-VD/CHUV - 2022 | Icônes créés par <a href="https://www.flaticon.com/fr/auteurs/gajah-mada" title="institution icônes"> Gajah Mada - Flaticon</a> & <a href="https://www.flaticon.com/fr/auteurs/freepik" title="la personne icônes">Freepik - Flaticon</a></span>
-        </div>    
+        </div> 
     </div>
     <script>
 

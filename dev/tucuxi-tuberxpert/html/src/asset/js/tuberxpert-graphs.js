@@ -1,4 +1,17 @@
-       // Add targets to the graph.
+       
+        // Make a date from a tuberXpert date string.
+        // Can't use the new Date(dateStr). This version is not
+        // supported by the PDF exporter.
+        function makeDate(dateStr) {
+            var dateTimeSplits = dateStr.split('T');
+            var dateSplit = dateTimeSplits[0];
+            var timeSplit = dateTimeSplits[1];
+            var date = dateSplit.split('-')
+            var time = timeSplit.split(':')
+            return new Date(date[0], date[1], date[2], time[0], time[1], time[2])
+        }
+       
+        // Add targets to the graph.
         // Expect an array of targets:
         // targets : [ target : [type, min, best, max], ... ]
         function addTargets (graph, targets){
@@ -44,12 +57,22 @@
 
         // Add times and values to the adjustment considering the start date.
         function addPredictionData(adjustment, start, times, values) {
-            for(i = 0; i < times.length; i++) {
+            for(var i = 0; i < times.length; i++) {
                 adjustment.predictionData.time.push(times[i] * 3600 + start.getTime()/1000);
                 adjustment.predictionData.value.push(values[i]);
             }
             adjustment.predictionData.troughs.push(adjustment.predictionData.value.length - 1)
             return adjustment;
+        }
+
+        function createPredictionData(cdata, offset) {
+            var data = new GraphPredictionData([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+            for (var i = 0; i < 10; i++) {
+                data.time[i] *= 3600;
+                data.time[i] += cdata.timestart.getTime() / 1000 + 24 * 3600;
+            }
+            data.isValid = true;
+            return data;
         }
 
         // We expect a tripple dimension array. that looks like:
@@ -60,6 +83,8 @@
         // The start time and end time are time strings. The form must looks like: "2022-07-06T08:00:00".
         function displayGraphs(graph, adjustments, starttime, endtime) {
 
+            console.info("Test");
+
             // Setting the time bounds
             graph.timestart = new Date(starttime);
             graph.timeend = new Date(endtime);
@@ -68,36 +93,9 @@
             graph.scale = 1;
 
             // For each adjustment
-            for(var adjustment = 0; adjustment < adjustments.length; adjustment++) {
-
-                adj = new GraphAdjustment();
-
-                // For each cycle data in the adjustment
-                for(var cycleData = 0; cycleData < adjustments[adjustment].length; cycleData++) {
-                    adj = addPredictionData(
-                        adj,
-                        new Date(adjustments[adjustment][cycleData][0]),  // Starting date
-                        adjustments[adjustment][cycleData][1],  // Times
-                        adjustments[adjustment][cycleData][2]   // Values
-                    );
-                }
-                adj.predictionData.isValid = true;
-                graph.revP.append(adj);
-
-
-                // We display the second graph immediately after the first adjustment.
-                // The second graph is only displaying the best adjustment.
-                if (adjustment == 0) {
-                    var canvasBest = document.getElementById("canBestAdj");
-
-                    graph.updateChartDimensions(canvasBest);
-                    graph.canvas = canvasBest;
-                    graph.annotationsCanvas = canvasBest;
-                    graph.clockCanvas = canvasBest;
-        
-                    drawGraph(graph);
-                }
-            }
+            var adj = new GraphAdjustment();
+            adj.predictionData = createPredictionData(obj, 15);
+            obj.revP.append(adj);
 
             var canvasAll = document.getElementById("canAllAdj");
 

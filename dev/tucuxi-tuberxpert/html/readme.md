@@ -4,11 +4,11 @@ The PDF converter (wkhtmltopdf) requires JavaScript code in EcmaScript 5 version
 
 <h3> src </h3>
 
-Contains the original unconverted files (EcmaScript6).
+Contains the index used as base for the template, the css files and the original unconverted js files (EcmaScript6).
 
 <h3> build </h3>
 
-Contains the files converted to EcmaScript 5. These files are the ones used by the HTML exporter.
+Contains the js files converted to EcmaScript 5. These files are the ones used by the HTML exporter and the index page.
 
 <h2> Usage </h2>
 

@@ -17,7 +17,7 @@
   
 }
 
-.page-A4 > table > tbody > div[class="canvasAdjustments"], .avoid-break {
+.page-A4 > table > tbody > div[class="canvasAdjustments"] {
   page-break-inside: avoid;
   
 }
