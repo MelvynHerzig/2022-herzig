@@ -17,7 +17,7 @@
   
 }
 
-.page-A4 > table > tbody > div[class="canvasAdjustments"] {
+.page-A4 > table > tbody > div[class="canvasAdjustments"], .avoid-break {
   page-break-inside: avoid;
   
 }
@@ -31,6 +31,10 @@
   TuberXpert Globals
   =======================================================
 */
+
+html {
+  height: fit-content;
+}
 
 h1, h2, h3, h4, h5 {
   margin: 0px;
@@ -58,7 +62,6 @@ h5 {
 }
 
 .page-A4 > div {
-  margin-bottom: 1rem;
   margin-top: 1rem;
 }
 
@@ -130,7 +133,9 @@ table table td:nth-child(1) {
 }
 
 .header tr td:nth-child(2) {
+  vertical-align: bottom;
   text-align: center;
+  text-decoration: underline;
 }
 
 .header tr td:nth-child(3) {
