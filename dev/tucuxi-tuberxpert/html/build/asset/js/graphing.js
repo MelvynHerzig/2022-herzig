@@ -6,12 +6,12 @@ function drawGraph(cdata) //eslint-disable-line @typescript-eslint/no-unused-var
 
     //the min max is restricted to the window after scaling. We have to apply the scale to the values
     //then project the values onto the drawn space. So you have to know and use the scale and offset first.
-    //console.log("painting!")
+    //console.log('painting!')
     //Init context
     initContext(cdata, ctx);
     ctx.save();
     extents(cdata);
-    //    console.log(maxX + " " + minX);
+    //    console.log(maxX + ' ' + minX);
 
     var adjTabShowPop = cdata.gInformationSelection.displayAposterioriPrediction && !cdata.hasPatientVariates && !cdata.hasMeasures;
     var adjTabShowApr = cdata.gInformationSelection.displayAposterioriPrediction && cdata.hasPatientVariates && !cdata.hasMeasures;
@@ -334,12 +334,12 @@ function colorRegionBtwCurves(cdata, ctx, predDataL, predDataU, dataX, dataY, da
     ctx.globalAlpha = 0.2;
     ctx.globalAlpha = 1.0;
     ctx.lineWidth = 2.0 * cdata.scale; // / scalex;
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
     ctx.beginPath();
 
     if (dataX === undefined || dataY === undefined) {
-        console.log("No data available in colorRegionBtwCurves");
+        console.log('No data available in colorRegionBtwCurves');
         return;
     }
 
@@ -379,16 +379,16 @@ function initContext(cdata, ctx) {
     cdata.hasTargets = cdata.targets && cdata.targets.length > 0;
 
     //Default settings
-    ctx.font = cdata.fontSize + " " + cdata.police;
+    ctx.font = cdata.fontSize + ' ' + cdata.police;
     ctx.globalAlpha = 1.0;
     ctx.lineWidth = 1.0;
-    ctx.strokeStyle = "black";
-    ctx.fillStyle = "black";
+    ctx.strokeStyle = 'black';
+    ctx.fillStyle = 'black';
 }
 
 function extents(cdata) {
-    // /!\ var has a weird scope: it spreads in all the function, meaning that 2 for loops declaring a "var i" variable
-    // will trigger a "i is already defined" error in eslint. The "let" keyword to declare variable has a more
+    // /!\ var has a weird scope: it spreads in all the function, meaning that 2 for loops declaring a 'var i' variable
+    // will trigger a 'i is already defined' error in eslint. The 'let' keyword to declare variable has a more
     // natural scope (only spreads in inner blocks) but may not be supported by QT.
     var i;
 
@@ -484,10 +484,10 @@ function extents(cdata) {
     cdata.xRatio = cdata.plotWidth / (cdata.maxX - cdata.minX);
     cdata.yRatio = cdata.plotHeight / (cdata.maxY - cdata.minY);
 
-    //                console.log("maxX: " + maxX);
-    //                console.log("minX: " + minX);
-    //                console.log("maxY: " + maxY);
-    //                console.log("minY: " + minY);
+    //                console.log('maxX: ' + maxX);
+    //                console.log('minX: ' + minX);
+    //                console.log('maxY: ' + maxY);
+    //                console.log('minY: ' + minY);
 }
 
 function drawCurve(cdata, ctx, predData, color, filter) {
@@ -497,13 +497,13 @@ function drawCurve(cdata, ctx, predData, color, filter) {
     //Settings
     ctx.strokeStyle = color;
     ctx.lineWidth = 2.0 * cdata.scale;
-    ctx.lineCap = "butt";
-    ctx.lineJoin = "round";
+    ctx.lineCap = 'butt';
+    ctx.lineJoin = 'round';
 
     //ToDo: Ignore filtered curves in the calculation of max and min, and move it canvas properties
 
     //Draw the curve
-    //    ctx.path = "";
+    //    ctx.path = '';
     ctx.beginPath();
     var isFuture = false;
     var highlight = predData === cdata.canvas.closestPred && cdata.canvas.closestPred.highlight;
@@ -520,13 +520,13 @@ function drawCurve(cdata, ctx, predData, color, filter) {
             var x2 = atime2screen(cdata, dataX[i + 1]);
             var y2 = acxn2screen(cdata, dataY[i + 1]);
             if (x1 < lastX) {
-                console.log("Beuh 1." + dataX[i]);
+                console.log('Beuh 1.' + dataX[i]);
             }
             if (x2 < lastX) {
-                console.log("DataSize: " + dataX.length);
-                console.log("Beuh 2a. " + i + " : " + dataX[i - 1]);
-                console.log("Beuh 2b. " + i + " : " + dataX[i]);
-                console.log("Beuh 2c. " + i + " : " + dataX[i + 1]);
+                console.log('DataSize: ' + dataX.length);
+                console.log('Beuh 2a. ' + i + ' : ' + dataX[i - 1]);
+                console.log('Beuh 2b. ' + i + ' : ' + dataX[i]);
+                console.log('Beuh 2c. ' + i + ' : ' + dataX[i + 1]);
             }
             lastX = x2;
 
@@ -549,13 +549,13 @@ function drawCurve(cdata, ctx, predData, color, filter) {
                     isFuture = true;
                 }
             }
-            //console.log(x2 + " " + x1 + " " + cdata.topLeftX + " " + cdata.bottomRightX);
+            //console.log(x2 + ' ' + x1 + ' ' + cdata.topLeftX + ' ' + cdata.bottomRightX);
             if (x2 > cdata.topLeftX && x1 <= cdata.bottomRightX) {
                 if (!continueLine) {
                     ctx.moveTo(x1, y1);
                     continueLine = true;
                 }
-                //console.log("LineTo(" + x2, ", " + y2);
+                //console.log('LineTo(' + x2, ', ' + y2);
                 ctx.lineTo(x2, y2);
             }
         } else {
@@ -575,7 +575,7 @@ function drawCurve(cdata, ctx, predData, color, filter) {
 
 function drawMeasures(cdata, ctx) {
     //Settings
-    ctx.fillStyle = "red";
+    ctx.fillStyle = 'red';
     ctx.lineWidth = 1 * cdata.scale; // / scalex;
 
     //ToDo: Ignore filtered curves in the calculation of max and min, and move it canvas properties
@@ -589,8 +589,8 @@ function drawMeasures(cdata, ctx) {
         var x = atime2screen(cdata, cdata.measures[i].moment.getTime() / 1000);
         var y = acxn2screen(cdata, cdata.measures[i].concentration.dbvalue * cdata.measures[i].concentration.multiplier);
 
-        //console.log("measurex: " + x)
-        //console.log("measurey: " + y)
+        //console.log('measurex: ' + x)
+        //console.log('measurey: ' + y)
         ctx.beginPath();
         ctx.arc(x, y, 5 * cdata.scale, 0, 2 * Math.PI, true);
         ctx.fill();
@@ -600,9 +600,9 @@ function drawMeasures(cdata, ctx) {
             cdata.currentMeasure = {
                 x: x,
                 y: y,
-                value: cdata.measures[i].concentration.dbvalue.toFixed(2) + " " + cdata.measures[i].concentration.unitstring,
+                value: cdata.measures[i].concentration.dbvalue.toFixed(2) + ' ' + cdata.measures[i].concentration.unitstring,
                 time: formatDate(cdata.measures[i].moment), //formatDateInLine(cdata.measures[i].moment),
-                color: "red"
+                color: 'red'
             };
         }
     }
@@ -615,11 +615,11 @@ function drawTargets(cdata, ctx, times, predData) {
 
     //ToDo: Ignore filtered curves in the calculation of max and min, and move it canvas properties
 
-    // console.log("Nb targets = " + targets.length);
+    // console.log('Nb targets = ' + targets.length);
 
     for (var targetIndex = 0; targetIndex < targets.length; ++targetIndex) {
         // Settings
-        ctx.fillStyle = "blue";
+        ctx.fillStyle = 'blue';
         ctx.lineWidth = 1 * cdata.scale;
 
         var i, t, leftgrd, rightgrd, crossSize, gradientSize;
@@ -640,11 +640,11 @@ function drawTargets(cdata, ctx, times, predData) {
             ctx.lineTo(last, y_mean);
             ctx.stroke();
             //        var highgrd = ctx.createLinearGradient(0, y_mean, 0, y_max);
-            //        highgrd.addColorStop(0,"black");
-            //        highgrd.addColorStop(1,"white");
+            //        highgrd.addColorStop(0,'black');
+            //        highgrd.addColorStop(1,'white');
             //        var lowgrd = ctx.createLinearGradient(0, y_mean, 0, y_min);
-            //        lowgrd.addColorStop(0,"black");
-            //        lowgrd.addColorStop(1,"white");
+            //        lowgrd.addColorStop(0,'black');
+            //        lowgrd.addColorStop(1,'white');
             //        ctx.fillStyle = highgrd
             ctx.fillRect(first, y_mean, last - first, y_max - y_mean);
             //        ctx.fillStyle = lowgrd
@@ -661,15 +661,15 @@ function drawTargets(cdata, ctx, times, predData) {
                 if (isFinite(t) && !isNaN(t) && !isNaN(y_mean)) {
                     gradientSize = 20 * cdata.scale;
                     leftgrd = ctx.createLinearGradient(t, y_mean, t - gradientSize, y_mean);
-                    leftgrd.addColorStop(0, "black");
-                    //leftgrd.addColorStop(1,"white");
-                    //leftgrd.addColorStop(1,"#DEE2F1");
-                    leftgrd.addColorStop(1, "#F2F2FF");
+                    leftgrd.addColorStop(0, 'black');
+                    //leftgrd.addColorStop(1,'white');
+                    //leftgrd.addColorStop(1,'#DEE2F1');
+                    leftgrd.addColorStop(1, '#F2F2FF');
                     rightgrd = ctx.createLinearGradient(t, y_mean, t + gradientSize, y_mean);
-                    rightgrd.addColorStop(0, "black");
-                    //rightgrd.addColorStop(1,"white");
-                    //rightgrd.addColorStop(1,"#DEE2F1");
-                    rightgrd.addColorStop(1, "#F2F2FF");
+                    rightgrd.addColorStop(0, 'black');
+                    //rightgrd.addColorStop(1,'white');
+                    //rightgrd.addColorStop(1,'#DEE2F1');
+                    rightgrd.addColorStop(1, '#F2F2FF');
                     ctx.fillStyle = leftgrd;
                     ctx.fillRect(t - gradientSize, y_min, gradientSize, y_max - y_min);
                     ctx.fillStyle = rightgrd;
@@ -710,12 +710,12 @@ function drawTargets(cdata, ctx, times, predData) {
                     ctx.lineTo(t+arrowWidth,y_max+arrowHeight);
                     ctx.lineTo(t,y_max+arrowHeight);
                     */
-                    //       ctx.drawImage("qrc:/icons/flow/targets_disabled_mini.png", t - 16, v - 16, 32, 32);
+                    //       ctx.drawImage('qrc:/icons/flow/targets_disabled_mini.png', t - 16, v - 16, 32, 32);
                     ctx.stroke();
                     ctx.globalAlpha = 0.2;
                 }
             }
-            // console.log("target is residual");
+            // console.log('target is residual');
         }
 
         if (ttpe === 1 && predData !== null) {
@@ -725,11 +725,11 @@ function drawTargets(cdata, ctx, times, predData) {
                 ctx.beginPath();
                 t = atime2screen(cdata, predData.timeAt(peaks[i]));
                 leftgrd = ctx.createLinearGradient(t, y_mean, t - gradientSize, y_mean);
-                leftgrd.addColorStop(0, "black");
-                leftgrd.addColorStop(1, "white");
+                leftgrd.addColorStop(0, 'black');
+                leftgrd.addColorStop(1, 'white');
                 rightgrd = ctx.createLinearGradient(t, y_mean, t + gradientSize, y_mean);
-                rightgrd.addColorStop(0, "black");
-                rightgrd.addColorStop(1, "white");
+                rightgrd.addColorStop(0, 'black');
+                rightgrd.addColorStop(1, 'white');
                 ctx.fillStyle = leftgrd;
                 ctx.fillRect(t - gradientSize, y_min, gradientSize, y_max - y_min);
                 ctx.fillStyle = rightgrd;
@@ -771,17 +771,17 @@ function drawTargets(cdata, ctx, times, predData) {
                 ctx.lineTo(t+arrowWidth,y_max+arrowHeight);
                 ctx.lineTo(t,y_max+arrowHeight);
                 */
-                //                ctx.drawImage("qrc:/icons/flow/targets_disabled_mini.png", t - 16, v - 16, 32, 32);
+                //                ctx.drawImage('qrc:/icons/flow/targets_disabled_mini.png', t - 16, v - 16, 32, 32);
                 ctx.stroke();
                 ctx.globalAlpha = 0.2;
             }
-            // console.log("target is peak");
+            // console.log('target is peak');
         }
 
         if (ttpe === 2) {
             // Mean/AUC
             // Do not draw something else
-            // console.log("target is mean/AUX");
+            // console.log('target is mean/AUX');
         }
     }
 }
@@ -851,9 +851,9 @@ function ascreen2time(cdata, p) {
 
 function drawAxisTicks(cdata, ctx) {
     //Settings
-    ctx.textAlign = "left";
-    ctx.textBaseline = "middle";
-    ctx.font = cdata.axisTicksFontSize + " " + cdata.police;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.font = cdata.axisTicksFontSize + ' ' + cdata.police;
 
     //ToDo: Ignore filtered curves in the calculation of max and min, and move it canvas properties
 
@@ -878,23 +878,23 @@ function drawAxisTicks(cdata, ctx) {
     var order = 2 - Math.log(cdata.maxY - cdata.minY) / Math.LN10;
     if (order >= 1 && order < 4) {
         cdata.unitefforder = 1e3;
-        cdata.unit = "ng/l";
+        cdata.unit = 'ng/l';
     }
     if (order >= 4 && order < 7) {
         cdata.unitefforder = 1e6;
-        cdata.unit = "pg/l";
+        cdata.unit = 'pg/l';
     }
     if (order > -5 && order < -2) {
         cdata.unitefforder = 1e-3;
-        cdata.unit = "mg/l";
+        cdata.unit = 'mg/l';
     }
     if (order > -8 && order < -5) {
         cdata.unitefforder = 1e-6;
-        cdata.unit = "g/l";
+        cdata.unit = 'g/l';
     }
     if (order < 1 && order >= -2) {
         cdata.unitefforder = 1;
-        cdata.unit = "ug/l";
+        cdata.unit = 'ug/l';
     }
 
     for (var i = 0; i < nbTicksY; i++) {
@@ -1163,16 +1163,16 @@ function chop(cdata, interval, ticktimes, isHour, time) {
 
 function drawAxisLabels(cdata, ctx) {
     //Settings
-    ctx.font = "bold " + cdata.fontSize + " " + cdata.police;
+    ctx.font = 'bold ' + cdata.fontSize + ' ' + cdata.police;
 
     //Draw x-axis label
-    ctx.textAlign = "left";
-    ctx.textBaseline = "middle";
-    ctx.fillText("Time", cdata.leftMargin + cdata.plotWidth + 15 * cdata.scale, cdata.topMargin + cdata.plotHeight);
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Time', cdata.leftMargin + cdata.plotWidth + 15 * cdata.scale, cdata.topMargin + cdata.plotHeight);
 
     //Draw y-axis label
-    ctx.textAlign = "center";
-    ctx.textBaseline = "bottom";
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
     ctx.fillText(cdata.unit, cdata.leftMargin, cdata.topMargin - 15 * cdata.scale);
 
     ctx.restore();
@@ -1181,19 +1181,19 @@ function drawAxisLabels(cdata, ctx) {
 
 function drawLegends(cdata, ctx) {
     //Settings
-    ctx.textAlign = "left";
-    ctx.textBaseline = "Alphabetic";
-    ctx.font = cdata.fontSize + " " + cdata.police;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'Alphabetic';
+    ctx.font = cdata.fontSize + ' ' + cdata.police;
 
     //Constants
-    var populationText = "Typical patient";
-    var popPercText = "Typical patient percentiles";
-    var aprioriText = "A priori";
-    var aposterioriText = "A posteriori";
-    var reverseText = "Suggested adjustments";
-    var adjustmentText = "Adjustments";
-    var aprPercText = "A priori percentiles";
-    var apoPercText = "A posteriori percentiles";
+    var populationText = 'Typical patient';
+    var popPercText = 'Typical patient percentiles';
+    var aprioriText = 'A priori';
+    var aposterioriText = 'A posteriori';
+    var reverseText = 'Suggested adjustments';
+    var adjustmentText = 'Adjustments';
+    var aprPercText = 'A priori percentiles';
+    var apoPercText = 'A posteriori percentiles';
 
     var internalSpacing = 5 * cdata.scale;
     var externalSpacing = 10 * cdata.scale;
@@ -1304,7 +1304,7 @@ function drawLegends(cdata, ctx) {
         //            legends[i].cb.y = y + (boxHeight - cbSize) / 2
         //        }
 
-        ctx.fillStyle = "black";
+        ctx.fillStyle = 'black';
         ctx.beginPath();
         ctx.fillText(legends[i].text, x + internalSpacing * 3 + colorSize, y + (boxHeight + colorSize) / 2);
 
@@ -1372,7 +1372,7 @@ function checkPointProximity(x1, y1, x2, y2, useScale) //eslint-disable-line @ty
 function formatHour(date) {
     var hours = date.getHours();
     var mins = date.getMinutes();
-    var sTime = (hours < 10 ? "0" + hours : hours) + ":" + (mins < 10 ? "0" + mins : mins);
+    var sTime = (hours < 10 ? '0' + hours : hours) + ':' + (mins < 10 ? '0' + mins : mins);
 
     return sTime;
 }
@@ -1381,7 +1381,7 @@ function formatDay(date) {
     var day = date.getDate();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
-    var sDate = (day < 10 ? "0" + day : day) + "." + (month < 10 ? "0" + month : month) + "." + year;
+    var sDate = (day < 10 ? '0' + day : day) + '.' + (month < 10 ? '0' + month : month) + '.' + year;
 
     return sDate;
 }
@@ -1389,27 +1389,27 @@ function formatDay(date) {
 function formatDate(date) {
     var hours = date.getHours();
     var mins = date.getMinutes();
-    var sTime = (hours < 10 ? "0" + hours : hours) + ":" + (mins < 10 ? "0" + mins : mins);
+    var sTime = (hours < 10 ? '0' + hours : hours) + ':' + (mins < 10 ? '0' + mins : mins);
 
     var day = date.getDate();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
-    var sDate = (day < 10 ? "0" + day : day) + "." + (month < 10 ? "0" + month : month) + "." + year;
+    var sDate = (day < 10 ? '0' + day : day) + '.' + (month < 10 ? '0' + month : month) + '.' + year;
 
-    return sTime + " " + sDate;
+    return sTime + ' ' + sDate;
 }
 
 function findEnablePercentiles(cdata) {
-    var perc5Text = "5";
-    var perc10Text = "10";
-    var perc25Text = "25";
-    var perc50Text = "50";
-    var perc75Text = "75";
-    var perc90Text = "90";
-    var perc95Text = "95";
+    var perc5Text = '5';
+    var perc10Text = '10';
+    var perc25Text = '25';
+    var perc50Text = '50';
+    var perc75Text = '75';
+    var perc90Text = '90';
+    var perc95Text = '95';
 
     var percTextTab = [0, 0, 0, 0, 0, 0, 0];
-    var percString = " (";
+    var percString = ' (';
     var lastPercentile = false;
 
     if (cdata.gInformationSelection.perc5_95) {
@@ -1434,16 +1434,16 @@ function findEnablePercentiles(cdata) {
     for (var i = 0; i < percTextTab.length; i++) {
         if (percTextTab[i] !== 0) {
             percString += percTextTab[i];
-            percString += "-";
+            percString += '-';
             lastPercentile = true;
         }
     }
 
     if (!lastPercentile) {
-        return "";
+        return '';
     }
 
-    percString = percString.slice(0, -1) + ")";
+    percString = percString.slice(0, -1) + ')';
 
     return percString;
 }
@@ -1455,12 +1455,12 @@ function findEnablePercentiles(cdata) {
 function drawAnnotations(cdata) //eslint-disable-line @typescript-eslint/no-unused-vars
 {
     var i;
-    var ctx = cdata.annotationsCanvas.getContext("2d");
+    var ctx = cdata.annotationsCanvas.getContext('2d');
 
     ctx.lineWidth = 1;
     ctx.globalAlpha = 1.0;
 
-    if (cdata.gInformationSelection.displayPopulationPrediction && cdata.state !== "validation") {
+    if (cdata.gInformationSelection.displayPopulationPrediction && cdata.state !== 'validation') {
         annotateDosage(cdata, ctx, cdata.currentDosage, cdata.colors[1]);
     }
 
@@ -1525,7 +1525,7 @@ function annotateDosage(cdata, ctx, dosage, color) {
     //these are for checking if the start and end are within view, if not we draw it differenetly
     var startinview = true;
     var endinview = true;
-    // console.log(start + " " + end + " " + startX + " " + endX + " " + cdata.topLeftX + " ");
+    // console.log(start + ' ' + end + ' ' + startX + ' ' + endX + ' ' + cdata.topLeftX + ' ');
     // Here the -1 is to avoid some imprecision in atime2screen calculation
     if (startX < cdata.topLeftX - 1 && endX > cdata.topLeftX) {
         startX = cdata.topLeftX;
@@ -1557,7 +1557,7 @@ function annotateDosage(cdata, ctx, dosage, color) {
     }
 
     ctx.stroke();
-    //    console.log("HELLO");
+    //    console.log('HELLO');
     //    console.log(start);
     //    console.log(end);
     //    console.log(startX);
@@ -1582,7 +1582,7 @@ function annotateCovariate(cdata, ctx, pvar, color) {
     var imageSize = 32 * cdata.scale;
     ctx.drawImage(cdata.img_covariates_disabled_mini, timeX - imageSize, cdata.bottomLeftY - imageSize, imageSize, imageSize);
     ctx.stroke();
-    //    console.log("HELLO");
+    //    console.log('HELLO');
     //    console.log(start);
     //    console.log(end);
     //    console.log(startX);
@@ -1744,7 +1744,7 @@ function isCurveAvailable(cdata, index) {
         default:
             break;
     }
-    //console.log("Curve " + index + " is " + (isAvailable ? "available" : "not available"))
+    //console.log('Curve ' + index + ' is ' + (isAvailable ? 'available' : 'not available'))
     return isAvailable;
 }
 
@@ -1754,19 +1754,19 @@ function isCurveVisible(cdata, index) {
 
 function drawTooltips(cdata, ctx) {
     //Settings
-    ctx.font = cdata.tooltipFontSize + " " + cdata.police;
-    ctx.textAlign = "left";
-    ctx.textBaseline = "Alphabetic";
+    ctx.font = cdata.tooltipFontSize + ' ' + cdata.police;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'Alphabetic';
 
     //Constants
-    var timeText = "Time:";
-    var timeAfterDoseText = "T after dose:";
-    var valueText = "C predicted:";
-    var averageText = "C average:";
-    var troughText = "C trough:";
-    var peakText = "C peak:";
-    var aucText = "AUC";
-    var cumulatedAucText = "Cum. AUC";
+    var timeText = 'Time:';
+    var timeAfterDoseText = 'T after dose:';
+    var valueText = 'C predicted:';
+    var averageText = 'C average:';
+    var troughText = 'C trough:';
+    var peakText = 'C peak:';
+    var aucText = 'AUC';
+    var cumulatedAucText = 'Cum. AUC';
 
     var labelsWidth = ctx.measureText(timeAfterDoseText).width + 4 * cdata.scale;
     var valuesWidth, tooltipWidth, tooltipHeight, x, y;
@@ -1784,7 +1784,7 @@ function drawTooltips(cdata, ctx) {
                     ctx.beginPath();
                     ctx.arc(x, y, 4 * cdata.scale, 0, 2 * Math.PI, true);
                     ctx.fillStyle = cdata.currentPoints[i].color;
-                    ctx.fillStyle = "#e6e6e6";
+                    ctx.fillStyle = '#e6e6e6';
                     ctx.fill();
                     ctx.stroke();
 
@@ -1811,60 +1811,60 @@ function drawTooltips(cdata, ctx) {
                         ctx.globalAlpha = 1.0;
                         ctx.stroke();
 
-                        ctx.fillStyle = "black";
+                        ctx.fillStyle = 'black';
                         var xText = x + 2;
                         var yText = y + 12 * cdata.scale;
                         ctx.fillText(timeText, xText, yText);
                         ctx.fillText(cdata.currentPoints[i].time, x + labelsWidth, yText);
                         yText = yText + 14 * cdata.scale;
                         ctx.fillText(timeAfterDoseText, xText, yText);
-                        ctx.fillText(cdata.currentPoints[i].timeAfterDose + "h", x + labelsWidth, yText);
+                        ctx.fillText(cdata.currentPoints[i].timeAfterDose + 'h', x + labelsWidth, yText);
                         yText = yText + 14 * cdata.scale;
                         ctx.fillText(valueText, xText, yText);
-                        ctx.fillText(cdata.currentPoints[i].value + " " + cdata.unit, x + labelsWidth, yText);
+                        ctx.fillText(cdata.currentPoints[i].value + ' ' + cdata.unit, x + labelsWidth, yText);
                         yText = yText + 14 * cdata.scale;
                         var mean = cdata.currentPoints[i].mean;
-                        if (!(mean > 0)) mean = "-";
+                        if (!(mean > 0)) mean = '-';
                         ctx.fillText(averageText, xText, yText);
-                        ctx.fillText(mean + " " + cdata.unit, x + labelsWidth, yText);
+                        ctx.fillText(mean + ' ' + cdata.unit, x + labelsWidth, yText);
                         yText = yText + 14 * cdata.scale;
                         var trough = cdata.currentPoints[i].trough;
-                        if (!(trough > 0)) trough = "-";
+                        if (!(trough > 0)) trough = '-';
                         ctx.fillText(troughText, xText, yText);
-                        ctx.fillText(trough + " " + cdata.unit, x + labelsWidth, yText);
+                        ctx.fillText(trough + ' ' + cdata.unit, x + labelsWidth, yText);
                         yText = yText + 14 * cdata.scale;
                         var peak = cdata.currentPoints[i].peak;
-                        if (!(peak > 0)) peak = "-";
+                        if (!(peak > 0)) peak = '-';
                         ctx.fillText(peakText, xText, yText);
-                        ctx.fillText(peak + " " + cdata.unit, x + labelsWidth, yText);
+                        ctx.fillText(peak + ' ' + cdata.unit, x + labelsWidth, yText);
                         yText = yText + 14 * cdata.scale;
                         var auc = cdata.currentPoints[i].auc;
-                        if (!(auc > 0)) auc = "-";
-                        ctx.fillText(aucText + " (" + cdata.currentPoints[i].cycleDuration + "h):", xText, yText);
-                        ctx.fillText(auc + " " + cdata.unit + "*h", x + labelsWidth, yText);
+                        if (!(auc > 0)) auc = '-';
+                        ctx.fillText(aucText + ' (' + cdata.currentPoints[i].cycleDuration + 'h):', xText, yText);
+                        ctx.fillText(auc + ' ' + cdata.unit + '*h', x + labelsWidth, yText);
                         yText = yText + 14 * cdata.scale;
                         var auc24 = cdata.currentPoints[i].auc24;
-                        if (!(auc24 > 0)) auc24 = "-";
-                        ctx.fillText(aucText + " (24h):", xText, yText);
-                        ctx.fillText(auc24 + " " + cdata.unit + "*h", x + labelsWidth, yText);
+                        if (!(auc24 > 0)) auc24 = '-';
+                        ctx.fillText(aucText + ' (24h):', xText, yText);
+                        ctx.fillText(auc24 + ' ' + cdata.unit + '*h', x + labelsWidth, yText);
                         yText = yText + 14 * cdata.scale;
                         var cumulatedAuc = cdata.currentPoints[i].cumulatedAuc;
-                        if (!(cumulatedAuc > 0)) cumulatedAuc = "-";
+                        if (!(cumulatedAuc > 0)) cumulatedAuc = '-';
                         ctx.fillText(cumulatedAucText, xText, yText);
-                        ctx.fillText(cumulatedAuc + " " + cdata.unit + "*h", x + labelsWidth, yText);
+                        ctx.fillText(cumulatedAuc + ' ' + cdata.unit + '*h', x + labelsWidth, yText);
 
                         if (cdata.currentPoints[i].measureTime.length > 0) {
                             var measureIndex;
                             for (measureIndex = 0; measureIndex < cdata.currentPoints[i].measureTime.length; measureIndex++) {
                                 yText = yText + 14 * cdata.scale;
-                                var textMeasure = "Value at ";
+                                var textMeasure = 'Value at ';
                                 var textMeasure2 = formatDate(new Date(cdata.currentPoints[i].measureTime[measureIndex]));
                                 ctx.fillText(textMeasure, xText, yText);
                                 ctx.fillText(textMeasure2, x + labelsWidth, yText);
 
                                 yText = yText + 14 * cdata.scale;
-                                textMeasure = "is : ";
-                                textMeasure2 = prepareValueForDisplay(cdata, cdata.currentPoints[i].measurePredicted[measureIndex]) + " " + cdata.unit;
+                                textMeasure = 'is : ';
+                                textMeasure2 = prepareValueForDisplay(cdata, cdata.currentPoints[i].measurePredicted[measureIndex]) + ' ' + cdata.unit;
                                 ctx.fillText(textMeasure, xText, yText);
                                 ctx.fillText(textMeasure2, x + labelsWidth, yText);
                             }
@@ -1894,7 +1894,7 @@ function drawTooltips(cdata, ctx) {
             ctx.globalAlpha = 1.0;
             ctx.stroke();
     
-            ctx.fillStyle = "black";
+            ctx.fillStyle = 'black';
             ctx.fillText(valueText, x + 2, y + 12);
             ctx.fillText(cdata.canvas.currentMeasure.value, x + labelsWidth, y + 12);
             ctx.fillText(timeText, x + 2, y + 26);

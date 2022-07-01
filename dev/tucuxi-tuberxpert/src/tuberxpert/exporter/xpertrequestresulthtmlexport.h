@@ -19,6 +19,10 @@ public:
     /// \brief Export the xpert request result to file.
     /// \param _xpertRequestResult Xpert request result to export.
     void exportToFile(XpertRequestResult& _xpertRequestResult) override;
+
+protected:
+
+
 };
 
 } // namespace Xpert
