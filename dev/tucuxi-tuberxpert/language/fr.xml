@@ -11,4 +11,14 @@
     <entry key="population_below">% de la population est en dessous de cette mesure</entry>
     <entry key="population_above">% de la population est en dessus de cette mesure</entry>
 
+    <!-- Report header -->
+    <entry key="tuberxpert_report">Rapport TuberXpert</entry>
+    <entry key="computed_on">Calculé le</entry>
+
+    <!-- Report intro -->
+    <entry key="drug">Médicament</entry>
+    <entry key="id">ID</entry>
+    <entry key="last_dose">Dernière dose</entry>
+    <entry key="drug_model">Fiche médicament</entry>
+
 </dictionary>
