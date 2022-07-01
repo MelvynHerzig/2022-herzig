@@ -16,11 +16,16 @@ public:
     /// \brief Constructor.
     XpertRequestResultHtmlExport();
 
-    /// \brief Export the xpert request result to file.
+    /// \brief Export the xpert request result to file. The export may fail. In that
+    ///        case, the error message of the XpertRequestResult gets set.
     /// \param _xpertRequestResult Xpert request result to export.
     void exportToFile(XpertRequestResult& _xpertRequestResult) override;
 
 protected:
+
+    std::string makeHeaderString() const;
+
+    std::string makeBodyString(XpertRequestResult& _xpertRequestResult) const;
 
 
 };

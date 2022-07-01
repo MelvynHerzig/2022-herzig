@@ -34,7 +34,7 @@ public:
 
     static const std::string normalizeCssStr;
 
-    static const std::string tuberXpertCssStr;
+    static const std::string tuberxpertCssStr;
 
     /**************************************************************
      *                             JS                            *
@@ -44,7 +44,7 @@ public:
 
     static const std::string graphingJsStr;
 
-    static const std::string tuberxpertGraphsJStr;
+    static const std::string tuberxpertJsStr;
 
 
 };
