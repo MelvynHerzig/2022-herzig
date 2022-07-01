@@ -2,6 +2,9 @@
 #define XPERTREQUESTRESULTHTMLEXPORT_H
 
 #include "tuberxpert/exporter/abstractxpertrequestresultexport.h"
+#include "tuberxpert/query/admindata.h"
+
+#include "inja/inja.hpp"
 
 namespace Tucuxi {
 namespace Xpert {
@@ -33,6 +36,17 @@ protected:
 
     std::string exportAdminContactData(XpertRequestResult& _xpertRequestResult) const;
 
+    void exportPersonData(const std::unique_ptr<FullPersonData>& _person, inja::json& _json) const;
+
+    void exportInstituteData(const std::unique_ptr<InstituteData>& _institute, inja::json& _json) const;
+
+    void exportAddressData(const std::unique_ptr<AddressData>& _address, inja::json& _json) const;
+
+    void exportPhoneData(const std::unique_ptr<PhoneData>& _phone, inja::json& _json) const;
+
+    void exportEmailData(const std::unique_ptr<EmailData>& _email, inja::json& _json) const;
+
+    std::string exportClinicalData(XpertRequestResult& _xpertRequestResult) const;
 
 };
 

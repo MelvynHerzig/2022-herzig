@@ -149,8 +149,7 @@ void XpertRequestResultXmlExport::exportAdminData(const unique_ptr<AdminData>& _
 void XpertRequestResultXmlExport::exportFullPersonData(const unique_ptr<FullPersonData>& _fullPerson, Common::XmlNode& _adminNode, const string& _nodeName)
 {
     // If the requiered person to export is not present, just leave
-    if ( (_nodeName == "mandator" && _fullPerson == nullptr) ||
-         (_nodeName == "patient" && _fullPerson == nullptr)) {
+    if (_fullPerson == nullptr) {
         return;
     }
 

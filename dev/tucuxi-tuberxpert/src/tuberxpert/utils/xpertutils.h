@@ -66,6 +66,11 @@ Common::DateTime getLatestDosageTimeRangeStart(const Core::DosageHistory& _dosag
 /// \return Return the final file name.
 std::string computeFileName(const XpertRequestResult& _xpertRequestResult);
 
+/// \brief For the given trait T, make a request and execute it. Then, cast the response in U and put it in the response pointer.
+///        The response pointer is not changed if the computation fails.
+/// \param _trait Trait to use for request.
+/// \param _xpertRequestResult Xpert request result to retrieve a treatment and a drug model.
+/// \param _responsePointer Pointer where to put the response.
 template<typename T, typename U>
 void executeRequestAndGetResult(std::unique_ptr<T> _trait, const XpertRequestResult& _xpertRequestResult, std::unique_ptr<U>& _responsePointer)
 {
@@ -87,6 +92,14 @@ void executeRequestAndGetResult(std::unique_ptr<T> _trait, const XpertRequestRes
     U* dataPointer = dynamic_cast<U*>(computingResponse->getUniquePointerData().release());
     _responsePointer = std::unique_ptr<U>(dataPointer);
 }
+
+/// \brief Transform a camel case key into a phrase.
+///        "camelCaseKey" becomes "Camel case key".
+/// \param key Key to transform.
+/// \return Return the resulting transformation.
+std::string keyToPhrase(const std::string& key);
+
+
 
 
 } // namespace Xpert

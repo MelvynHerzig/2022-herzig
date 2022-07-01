@@ -1201,6 +1201,18 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
         fructose_assert_ne(goodResult.get(), nullptr);
         fructose_assert_eq(goodResult->getNbRanks(), 3);
     }
+
+    /// \brief Test the camel case key to phrase method.
+    /// \param _testName Name of the test
+    void convertKeyToPhrase(const std::string& _testName)
+    {
+
+        std::cout << _testName << std::endl;
+
+        fructose_assert_eq(Tucuxi::Xpert::keyToPhrase(""), "");
+        fructose_assert_eq(Tucuxi::Xpert::keyToPhrase("abc"), "Abc");
+        fructose_assert_eq(Tucuxi::Xpert::keyToPhrase("camelCase"), "Camel case");
+    }
 };
 
 #endif // TEST_XPERTUTILS_H

@@ -1,5 +1,6 @@
 #include "xpertutils.h"
 
+#include <cctype>
 #include <sstream>
 #include <iomanip>
 
@@ -104,6 +105,36 @@ string computeFileName(const XpertRequestResult& _xpertRequestResult)
           dtComputation.day() << "-" << dtComputation.month() << "-" << dtComputation.year() << "_" <<
           dtComputation.hour() << "h" << dtComputation.minute() << "m" << dtComputation.second() << "s" <<
           "." << extension;
+
+    return ss.str();
+}
+
+string keyToPhrase(const string& key)
+{
+
+    stringstream ss;
+
+    // Traverse the string
+    for(size_t i=0; i < key.length(); i++)
+    {
+        // If the first char is lowercase transform in uppercase.
+        if (i == 0 && islower(key[i])) {
+            ss << char(toupper(key[i]));
+        }
+
+        // Convert to lowercase if its
+        // an uppercase character but not the first
+        else if (i != 0 && isupper(key[i]))
+        {
+            ss << ' ' << char(tolower(key[i]));
+        }
+
+        // if lowercase character,
+        // then just print
+        else {
+            ss << key[i];
+        }
+    }
 
     return ss.str();
 }
