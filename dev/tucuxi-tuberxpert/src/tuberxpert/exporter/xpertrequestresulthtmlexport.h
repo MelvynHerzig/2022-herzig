@@ -27,6 +27,12 @@ protected:
 
     std::string makeBodyString(XpertRequestResult& _xpertRequestResult) const;
 
+    std::string exportHeader(XpertRequestResult& _xpertRequestResult) const;
+
+    std::string exportDrugIntro(XpertRequestResult& _xpertRequestResult) const;
+
+    std::string exportAdminContactData(XpertRequestResult& _xpertRequestResult) const;
+
 
 };
 

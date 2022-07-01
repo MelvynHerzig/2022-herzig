@@ -148,19 +148,27 @@ hr {
 
 /**
   =======================================================
-  TuberXpert header
+  TuberXpert drug intro
   =======================================================
 */
 
-.drug-intro tr td:nth-child(1), .drug-intro tr td:nth-child(2) {
+.drug-intro > tbody > tr:nth-child(1) {
+  background-color: white;
+}
+
+.drug-intro th {
+  text-align: left;
+}
+
+.drug-intro tr th:nth-child(1) {
   width: 25%;
 }
 
-.drug-intro tr td:nth-child(2) {
+.drug-intro tr th:nth-child(2) {
   width: 20%;
 }
 
-.drug-intro tr td:nth-child(3) {
+.drug-intro tr th:nth-child(3) {
   width: 55%;
 }
 
