@@ -242,7 +242,7 @@ hr {
   text-align: left;
 }
 
-.covariates > tbody > tr:nth-of-type(4n) {
+.covariates > tbody > tr:nth-of-type(3n + 4) {
   border-top: 4px solid white;
 }
 

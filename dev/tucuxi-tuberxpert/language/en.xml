@@ -40,5 +40,7 @@
     <!-- Report Covariates -->
     <entry key="covariates">Covariates</entry>
     <entry key="value">Value</entry>
+    <entry key="source_patient">patient</entry>
+    <entry key="source_default">default</entry>
 
 </dictionary>

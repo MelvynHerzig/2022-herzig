@@ -219,13 +219,13 @@ string XpertRequestResultHtmlExport::makeBodyString(XpertRequestResult& _xpertRe
        << "                {% for row in covariates.rows %}" << endl                                              //     For each covariates
        << "                    <tr>" << endl
        << "                        <th> {{ row.covariate_name }} </th>" << endl                                   //         Insert the name, "value" translation and value.
-       << "                        <th> {{ row.covariate_value_translation }}: {{ row.covariate_value }} </th>" << endl
+       << "                        <th> {{ covariates.value_translation }}: {{ row.covariate_value }} </th>" << endl
        << "                    </tr>" << endl
        << "                    <tr>" << endl
        << "                        <td colspan='2'> {{ row.covariate_desc }} </td>" << endl                       //         Insert the description
        << "                    </tr>" << endl
        << "                    <tr>" << endl
-       << "                    {% if exists(\"row.covariate_warning\") %} " << endl                               //         If there is a warning associated
+       << "                    {% if existsIn( row, \"covariate_warning\") %} " << endl                               //         If there is a warning associated
        << "                        <td colspan='2'>" << endl
        << "                            <table>" << endl
        << "                                <tr class='bg-warning-normal'>" << endl
@@ -244,6 +244,10 @@ string XpertRequestResultHtmlExport::makeBodyString(XpertRequestResult& _xpertRe
        << "            </table>" << endl
        << "        {% endif %}" << endl
        << endl
+       << "        <!-- Copyright -->" << endl
+       << "        <div class='copyright'>" << endl
+       << "            <span>Copyright (c) HEIG-VD/CHUV - 2022 | Icons by <a href='https://www.flaticon.com/fr/auteurs/gajah-mada'> Gajah Mada - Flaticon</a> & <a href='https://www.flaticon.com/fr/auteurs/freepik'>Freepik - Flaticon</a></span>" << endl
+       << "        </div>" << endl
        << "    </div>" << endl
        << "    <script>" << endl
        << "        fillImages();" << endl
@@ -526,6 +530,47 @@ void XpertRequestResultHtmlExport::getCovariatesJson(XpertRequestResult& _xpertR
     // For each covariate result
     for (const CovariateValidationResult& cvr : _xpertRequestResult.getCovariateResults()) {
 
+        inja::json covariate;
+
+        // Get the covariate name translated or english
+        covariate["covariate_name"] = getStringWithEnglishFallback(cvr.getSource()->getName(), _xpertRequestResult.getXpertRequest().getOutputLang());
+
+        // Get the covariate description
+        covariate["covariate_desc"] = getStringWithEnglishFallback(cvr.getSource()->getDescription(), _xpertRequestResult.getXpertRequest().getOutputLang());
+
+        // Get the covariate warning
+        string warning = cvr.getWarning();
+        if (warning != "") {
+            covariate["covariate_warning"] = warning;
+        }
+
+        // Get the covariate value
+        string value = cvr.getValue();
+
+        // Convert the value into true/false for nice display if the data type is bool.
+        if (cvr.getDataType() == Core::DataType::Bool) {
+            if (stoi(value)) {
+                value = "true";
+            } else {
+                value = "false";
+            }
+        }
+
+        string unit = cvr.getUnit().toString();
+
+        // Format the value + unit + source
+        stringstream ss;
+        ss << value;
+
+        if (unit != "-" && unit != "") {
+            ss << " " << unit;
+        }
+
+        ss << " (" << lm.translate("source_" + varToString(cvr.getType())) << ")";
+
+        covariate["covariate_value"] = ss.str();
+
+        _json["rows"].emplace_back(covariate);
     }
 }
 

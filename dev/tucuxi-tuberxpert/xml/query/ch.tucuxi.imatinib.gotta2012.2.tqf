@@ -188,12 +188,12 @@
             </drug>
         </drugs>
     </drugTreatment>
-    <!-- List of the requests we want the server to take care of -->
     <requests>
+        <!-- List of the requests we want the TuberXpert to take care of -->
         <requestXpert>
             <drugId>imatinib</drugId>
             <output>
-                <format>xml</format>
+                <format>html</format>
                 <language>fr</language>
             </output>
             <adjustmentDate>2022-07-06T08:00:00</adjustmentDate>
