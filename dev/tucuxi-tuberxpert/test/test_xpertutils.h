@@ -739,6 +739,18 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
     }
 
+    /// \brief Converts dataType to string. Checks that the string contains the correct value.
+    /// \param _testName Name of the test.
+    void convertDataTypeToString(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Core::DataType::Bool), "bool");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Core::DataType::Int), "int");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Core::DataType::Double), "double");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Core::DataType::Date), "date");
+    }
+
     /// \brief Converts output lang to string. Checks that the requested language get its corresponding
     ///        string or an exception if it is not supported.
     /// \param _testName Name of the test.

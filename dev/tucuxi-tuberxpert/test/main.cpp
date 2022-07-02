@@ -63,6 +63,7 @@ int main(int argc, char** argv)
 #if defined(test_xpertutils)
     TestXpertUtils xpertUtilsTests;
 
+    xpertUtilsTests.add_test("Convert data type to string", &TestXpertUtils::convertDataTypeToString);
     xpertUtilsTests.add_test("Convert output lang to string", &TestXpertUtils::convertOutputLangToString);
     xpertUtilsTests.add_test("Convert double to string", &TestXpertUtils::convertDoubleToString);
     xpertUtilsTests.add_test("Convert covariate type to string", &TestXpertUtils::convertCovariateTypeToString);

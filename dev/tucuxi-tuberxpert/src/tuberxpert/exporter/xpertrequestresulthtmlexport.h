@@ -48,6 +48,8 @@ protected:
 
     void getClinicalDataJson(XpertRequestResult& _xpertRequestResult, inja::json& _json) const;
 
+    void getCovariatesJson(XpertRequestResult& _xpertRequestResult, inja::json& _json) const;
+
 };
 
 } // namespace Xpert

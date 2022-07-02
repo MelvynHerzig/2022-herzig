@@ -193,7 +193,7 @@
         <requestXpert>
             <drugId>imatinib</drugId>
             <output>
-                <format>html</format>
+                <format>xml</format>
                 <language>fr</language>
             </output>
             <adjustmentDate>2022-07-06T08:00:00</adjustmentDate>

@@ -37,4 +37,8 @@
     <!-- Report clinical data -->
     <entry key="clinical_data">Clinical data</entry>
 
+    <!-- Report Covariates -->
+    <entry key="covariates">Covariates</entry>
+    <entry key="value">Value</entry>
+
 </dictionary>

@@ -353,6 +353,9 @@ void XpertRequestResultXmlExport::exportCovariateResults(const vector<CovariateV
         //       <unit>
         addNode(covariateNode, "unit", covariateValidationResult.getUnit().toString());
 
+        //       <datatype>
+        addNode(covariateNode, "dataType", varToString(covariateValidationResult.getDataType()));
+
         //       <desc>
         addNode(covariateNode, "desc", getStringWithEnglishFallback(covariateValidationResult.getSource()->getDescription(), _outputLang));
 

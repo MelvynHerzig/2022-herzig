@@ -12,6 +12,27 @@ using namespace std;
 namespace Tucuxi {
 namespace Xpert {
 
+string varToString(const Core::DataType& _dataType)
+{
+    switch (_dataType) {
+    case Core::DataType::Int: {
+        return "int";
+    } break;
+
+    case Core::DataType::Double: {
+        return "double";
+    } break;
+
+    case Core::DataType::Bool: {
+        return "bool";
+    } break;
+
+    case Core::DataType::Date: {
+       return "date";
+    } break;
+    }
+}
+
 string varToString(const double& _value)
 {
     stringstream stream;

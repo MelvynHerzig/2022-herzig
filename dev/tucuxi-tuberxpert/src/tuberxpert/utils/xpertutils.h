@@ -16,6 +16,17 @@
 namespace Tucuxi {
 namespace Xpert {
 
+/// \brief Convert a data type to a string.
+/// \param _value Value to convert.
+/// \param _type Type of the value for string conversion.
+/// \return The string of the resulting conversion.
+std::string varToString(const Core::DataType& _dataType);
+
+/// \brief Convert a floating point variable to a string with two decimals.
+/// \param _value Variable to convert to a string.
+/// \return String describing the variable.
+std::string varToString(const double& _value);
+
 /// \brief Convert a floating point variable to a string with two decimals.
 /// \param _value Variable to convert to a string.
 /// \return String describing the variable.

@@ -14,6 +14,7 @@
 #include "tuberxpert/result/xpertrequestresult.h"
 #include "tuberxpert/result/globalresult.h"
 #include "tuberxpert/language/languagemanager.h"
+#include "tuberxpert/utils/xpertutils.h"
 
 #include "fructose/fructose.h"
 
@@ -12210,7 +12211,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
     }
 
 
-    /// \brief Check that the CovariateResult are correctly set when a valid model is found.
+    /// \brief Check that the CovariateResults are correctly set when a valid model is found.
     ///        Some coariates are multiple times, some other not even once. This test is based
     ///        on the original imatinib test.
     /// \param _testName Name of the test
@@ -12341,30 +12342,35 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
         fructose_assert_eq(results[0].getSource()->getId(), "age");
         fructose_assert_eq(results[0].getValue(), "1990-01-01 00:00:00");
         fructose_assert_eq(results[0].getUnit().toString(), "");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(results[0].getDataType()), "date");
         fructose_assert_eq(results[0].getType() == Tucuxi::Xpert::CovariateType::Patient, true);
         fructose_assert_eq(results[0].getWarning(), "");
 
         fructose_assert_eq(results[1].getSource()->getId(), "bodyweight");
         fructose_assert_eq(results[1].getValue(), "70");
         fructose_assert_eq(results[1].getUnit().toString(), "kg");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(results[1].getDataType()), "double");
         fructose_assert_eq(results[1].getType() == Tucuxi::Xpert::CovariateType::Patient, true);
         fructose_assert_eq(results[1].getWarning(), "");
 
         fructose_assert_eq(results[2].getSource()->getId(), "bodyweight");
         fructose_assert_eq(results[2].getValue(), "150000");
         fructose_assert_eq(results[2].getUnit().toString(), "g");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(results[2].getDataType()), "double");
         fructose_assert_eq(results[2].getType() == Tucuxi::Xpert::CovariateType::Patient, true);
         fructose_assert_eq(results[2].getWarning(), "The body weight shall be in the interval [44,100].");
 
         fructose_assert_eq(results[3].getSource()->getId(), "gist");
         fructose_assert_eq(results[3].getValue(), "0.000000");
         fructose_assert_eq(results[3].getUnit().toString(), "-");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(results[3].getDataType()), "bool");
         fructose_assert_eq(results[3].getType() == Tucuxi::Xpert::CovariateType::Model, true);
         fructose_assert_eq(results[3].getWarning(), "");
 
         fructose_assert_eq(results[4].getSource()->getId(), "sex");
         fructose_assert_eq(results[4].getValue(), "0.500000");
         fructose_assert_eq(results[4].getUnit().toString(), "-");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(results[4].getDataType()), "double");
         fructose_assert_eq(results[4].getType() == Tucuxi::Xpert::CovariateType::Model, true);
         fructose_assert_eq(results[4].getWarning(), "");
     }

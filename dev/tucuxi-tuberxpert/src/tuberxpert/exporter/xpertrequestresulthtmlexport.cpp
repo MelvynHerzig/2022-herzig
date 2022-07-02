@@ -195,9 +195,9 @@ string XpertRequestResultHtmlExport::makeBodyString(XpertRequestResult& _xpertRe
        << "            </tr>" << endl
        << "        </table>" << endl
        << endl
-       << "        <!-- Administrative/clinical data -->" << endl
+       << "        <!-- Administrative/clinical data -->" << endl                                                 // ---------- CLINICAL DATA ------------
        << "        <h3> {{ clinical_data.clinical_data_translation }} </h3>" << endl                              // Insert "Clinical data" translation
-       << "        {% if not exists(\"clinical_data.rows\") %} " << endl                                                      // If there is no clinical data
+       << "        {% if not exists(\"clinical_data.rows\") %} " << endl                                          // If there is no clinical data
        << "            {{ clinical_data.none_translation }}" << endl                                              //     Insert "None" translation
        << "        {% else %}" << endl                                                                            // Else
        << "            <table class='clinical-data bg-light-grey'>" << endl
@@ -205,6 +205,40 @@ string XpertRequestResultHtmlExport::makeBodyString(XpertRequestResult& _xpertRe
        << "                    <tr>" << endl                                                                      //         Insert a row with key and value
        << "                        <th> {{ row.key }} </th>" << endl
        << "                        <td> {{ row.value }} </td>" << endl
+       << "                    </tr>" << endl
+       << "                {% endfor %}" << endl
+       << "            </table>" << endl
+       << "        {% endif %}" << endl
+       << endl
+       << "        <!-- Covariates -->" << endl                                                                   // ---------- COVARIATES ------------
+       << "        <h3> {{ covariates.covariates_translation }} </h3>" << endl                                    // Insert "Clinical data" translation
+       << "        {% if not exists(\"covariates.rows\") %} " << endl                                             // If there is no clinical data
+       << "            {{ covariates.none_translation }}" << endl                                                 //     Insert "None" translation
+       << "        {% else %}" << endl                                                                            // Else
+       << "            <table class='covariates bg-light-grey'>" << endl
+       << "                {% for row in covariates.rows %}" << endl                                              //     For each covariates
+       << "                    <tr>" << endl
+       << "                        <th> {{ row.covariate_name }} </th>" << endl                                   //         Insert the name, "value" translation and value.
+       << "                        <th> {{ row.covariate_value_translation }}: {{ row.covariate_value }} </th>" << endl
+       << "                    </tr>" << endl
+       << "                    <tr>" << endl
+       << "                        <td colspan='2'> {{ row.covariate_desc }} </td>" << endl                       //         Insert the description
+       << "                    </tr>" << endl
+       << "                    <tr>" << endl
+       << "                    {% if exists(\"row.covariate_warning\") %} " << endl                               //         If there is a warning associated
+       << "                        <td colspan='2'>" << endl
+       << "                            <table>" << endl
+       << "                                <tr class='bg-warning-normal'>" << endl
+       << "                                    <td>" << endl
+       << "                                        <img class='warning-icon' alt='image from asset/img/warning.png'>" << endl
+       << "                                    </td>" << endl
+       << "                                    <td>" << endl
+       << "                                        {{ row.covariate_warning }}" << endl                           //             Insert the warning message
+       << "                                    </td>" << endl
+       << "                                </tr>" << endl
+       << "                            </table> " << endl
+       << "                        </td> " << endl
+       << "                    {% endif %}" << endl
        << "                    </tr>" << endl
        << "                {% endfor %}" << endl
        << "            </table>" << endl
@@ -224,6 +258,7 @@ string XpertRequestResultHtmlExport::makeBodyString(XpertRequestResult& _xpertRe
     getDrugIntroJson(_xpertRequestResult, data["intro"]);
     getContactsJson(_xpertRequestResult, data["contacts"]);
     getClinicalDataJson(_xpertRequestResult, data["clinical_data"]);
+    getCovariatesJson(_xpertRequestResult, data["covariates"]);
 
 
     return inja::render(ss.str(), data);
@@ -472,6 +507,25 @@ void XpertRequestResultHtmlExport::getClinicalDataJson(XpertRequestResult& _xper
             // Add the row to the row list
             _json["rows"].emplace_back(row);
         }
+    }
+}
+
+void XpertRequestResultHtmlExport::getCovariatesJson(XpertRequestResult& _xpertRequestResult, inja::json& _json) const
+{
+    LanguageManager& lm = LanguageManager::getInstance();
+
+    // Clinical data translation
+    _json["covariates_translation"] = lm.translate("covariates");
+
+    // None translation
+    _json["none_translation"] = lm.translate("none");
+
+    // Value translation
+    _json["value_translation"] = lm.translate("value");
+
+    // For each covariate result
+    for (const CovariateValidationResult& cvr : _xpertRequestResult.getCovariateResults()) {
+
     }
 }
 
