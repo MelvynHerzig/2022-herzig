@@ -125,11 +125,90 @@ string XpertRequestResultHtmlExport::makeBodyString(XpertRequestResult& _xpertRe
        << "            </tr>" << endl
        << "        </table>" << endl                     // Insert drug intro
        << endl
-       << "        <!-- Administrative/contacts -->" << endl
-       << "        {{ adminContacts }}" << endl            // Insert administrative contacts
+       << "        <!-- Administrative/contacts -->" << endl                                                      // ---------- ADMIN CONTACTS ------------
+       << "        <h3>Contacts</h3>" << endl
+       << "        <table class='contacts-header'>" << endl                                                       // Insert "Mandator" and "Patient" translation
+       << "            <tr>" << endl                                                                              // ---->  ---->  ---->  ---->  ---->  ---->
+       << "                <th></th>" << endl
+       << "                <th><img alt='image from asset/img/doctor_64.png'  src='data:image/png;base64,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'> {{ contacts.mandator_translation }} </th>" << endl
+       << "                <th><img alt='image from asset/img/patient_64.png' src='data:image/png;base64,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' > {{ contacts.patient_translation }} </th>" << endl
+       << "            </tr>" << endl
+       << "        </table>" << endl
+       << endl
+       << "        <table class='contacts bg-light-grey'>" << endl
+       << "            <tr>" << endl
+       << "                <td rowspan='5'><img alt='image from asset/img/person.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAEngAABJ4B0Y1KzAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAHVSURBVFiF7dY9axRRFMbx38guBg2oEC1Mo0QtgotGBUEQbPwE4kdQwS8gWKcXtLCxUfwSYjpBJFjEYOdLGXxBXF9AcVmPxc7Gcc3u3FnHjYUPHJhh7jnP/95z78xkEaGKsizbios4jVPo4iEe4FZEfKtUMCKSA4ewghgSy9hXqWYF86P4NMK8H+9xsFYAZHiUYN6Pe3UDXKhg3o/zKbW3JG6Vc6l7qmpOKsCRMQCScrKyY5hl2W68GQOgi+mI+DpqUMoKfNHraVV18hipUoCI+IwXYwA8jYjuHwPkejIGQFpO4jE8o9oR7OJY3W/COxUAbvyNV/GefFnLzJexoxYAzGF74X4KN0eYX0OzMH4ac5UBcBhL+I53OD7wvIXLuIvbuIT5gTEn8SGvcR+tJIB8w7UHZva6bCYDNQ7g7UCNjzg7EgDbsDZkeZ8NznKI+TyeD6nxqtjSjQCulGywDq5jdgPj2fxZp6TG1WLe+rcgy7KdeIld0rSGx/n1CexNzGtjf0S0oTiDxRLyOmPxtxZgdYIAq78A6J3vst7VGR1MRfz8I2qhUdK7OtXIPdcBFiZo3tfCPwUwswkAM0WASfa/r0YRoLkJAM0iwP8VWNL7j5uUurmnH1d0pzE2H0pmAAAAAElFTkSuQmCC'></td>" << endl
+       << "                <th> {{ contacts.id_translation}} </th>" << endl                                       // Insert "Id" translation
+       << "                <td> {{ default( contacts.mandator.id, \"-\") }} </td>" << endl                        // Insert mandator's id
+       << "                <td> {{ default( contacts.patient.id, \"-\") }} </td>" << endl                         // Insert patient's id
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <th> {{ contacts.name_translation}} </th>" << endl                                     // Insert "Name" translation
+       << "                <td> {{ default( contacts.mandator.name, \"-\") }} </td>" << endl                      // Insert mandator's name
+       << "                <td> {{ default( contacts.patient.name, \"-\") }} </td>" << endl                       // Insert patient's name
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <th> {{ contacts.address_translation }} </th>" << endl                                 // Insert "Address" translation
+       << "                <td> {{ default( contacts.mandator.address, \"-\") }} </td>" << endl                   // Insert mandator's address
+       << "                <td> {{ default( contacts.patient.address, \"-\") }} </td>" << endl                    // Insert patient's address
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <th> {{ contacts.phone_translation }} </th>" << endl                                   // Insert "Phone" translation
+       << "                <td> {{ default( contacts.mandator.phone, \"-\") }} </td>" << endl                     // Insert mandator's phone
+       << "                <td> {{ default( contacts.patient.phone, \"-\") }} </td>" << endl                      // Insert patient's phone
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <th> {{ contacts.email_translation }}</th>" << endl                                    // Insert "Email" translation
+       << "                <td> {{ default( contacts.mandator.email, \"-\") }} </td>" << endl                     // Insert mandator's email
+       << "                <td> {{ default( contacts.patient.email, \"-\") }} </td>" << endl                      // Insert patient's email
+       << "            </tr>" << endl
+       << "        </table>" << endl
+       << endl
+       << "        <br>" << endl
+       << endl
+       << "        <table class='contacts bg-light-grey'>" << endl
+       << "            <tr>" << endl
+       << "                <td rowspan='5'><img alt='image from asset/img/institute.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEqSURBVFiF7da/LgRRFAbw3yyJxJ+QpRBatUIhSgmvIN5ArdErPYdS6wE0FHS7hSBahUoU/mxkdxW7I2MyY7lrZ1fsl3zFnTlnvi/nnjv38EcxjV3c4BZ7KBchvIQDPKCZ4isOsfzboiVs4hiNDOEsnmILo90IT2EHl98UzeId9jH7E+GvyhzKjtsTUuZQZm7PSeDHNrAWmHuOqIQI63ml6YC3NpsBuasYj9oGGoEGusVkqU/CHxgIA3FDFI0Knvug+wdQ9/m8juTE1VJxYzlxT6m4ieTLgWjCoYGhgf9tIGtmm0ut6zm586l1LSduUevGjTFYv9+kszKOsNJjzSq2cZ98OIMLvZ0Fk7zCQtLAWYHiMauIhiNZPBFV+qB9jZf4FERajVgkHtF4B0XDzEgEu+i7AAAAAElFTkSuQmCC'></td>" << endl
+       << "                <th> {{ contacts.id_translation}} </th>" << endl                                       // Insert "Id" translation
+       << "                <td> {{ default( contacts.mandator.institute.id, \"-\") }} </td>" << endl              // Insert id of mandator's institute
+       << "                <td> {{ default( contacts.patient.institute.id, \"-\") }} </td>" << endl               // Insert id of patient/s institute
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <th> {{ contacts.name_translation }} </th>" << endl                                    // Insert "Name" translation
+       << "                <td> {{ default( contacts.mandator.institute.name, \"-\") }} </td>" << endl            // Insert name of mandator's institute
+       << "                <td> {{ default( contacts.patient.institute.name, \"-\") }} </td>" << endl             // Insert name of patient's institute.
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <th> {{ contacts.address_translation }} </th>" << endl                                 // Insert "Address" translation
+       << "                <td> {{ default( contacts.mandator.institute.address, \"-\") }} </td>" << endl         // Insert address of mandator's institute
+       << "                <td> {{ default( contacts.patient.institute.address, \"-\") }} </td>" << endl          // Insert address of patient's institute
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <th> {{ contacts.phone_translation }} </th>" << endl                                   // Insert "Phone" translation
+       << "                <td> {{ default( contacts.mandator.institute.phone, \"-\") }} </td>" << endl           // Insert phone of mandator's institute
+       << "                <td> {{ default( contacts.patient.institute.phone, \"-\") }} </td>" << endl            // Insert phone of patient's institute
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <th> {{ contacts.email_translation }} </th>" << endl                                   // Insert "Email" translation
+       << "                <td> {{ default( contacts.mandator.institute.email, \"-\") }} </td>" << endl           // Insert email of mandator's institute
+       << "                <td> {{ default( contacts.patient.institute.email, \"-\") }} </td>" << endl            // Insert email of patient's institute
+       << "            </tr>" << endl
+       << "        </table>" << endl
        << endl
        << "        <!-- Administrative/clinical data -->" << endl
-       << "        {{ adminClinicalData }}" << endl        // Insert administrative clinical data
+       << "        <h3> {{ clinical_data.clinical_data_translation }} </h3>" << endl                              // Insert "Clinical data" translation
+       << "        {% if not exists(\"clinical_data.rows\") %} " << endl                                                      // If there is no clinical data
+       << "            {{ clinical_data.none_translation }}" << endl                                              //     Insert "None" translation
+       << "        {% else %}" << endl                                                                            // Else
+       << "            <table class='clinical-data bg-light-grey'>" << endl
+       << "                {% for row in clinical_data.rows %}" << endl                                           //     For each clinical data
+       << "                    <tr>" << endl                                                                      //         Insert a row with key and value
+       << "                        <th> {{ row.key }} </th>" << endl
+       << "                        <td> {{ row.value }} </td>" << endl
+       << "                    </tr>" << endl
+       << "                {% endfor %}" << endl
+       << "            </table>" << endl
+       << "        {% endif %}" << endl
        << endl
        << "    </div>" << endl
        << "    <script>" << endl
@@ -143,8 +222,8 @@ string XpertRequestResultHtmlExport::makeBodyString(XpertRequestResult& _xpertRe
     inja::json data;
     getHeaderJson(_xpertRequestResult, data["header"]);
     getDrugIntroJson(_xpertRequestResult, data["intro"]);
-    data["adminContacts"] = exportAdminContactData(_xpertRequestResult);
-    data["adminClinicalData"] = exportClinicalData(_xpertRequestResult);
+    getContactsJson(_xpertRequestResult, data["contacts"]);
+    getClinicalDataJson(_xpertRequestResult, data["clinical_data"]);
 
 
     return inja::render(ss.str(), data);
@@ -161,8 +240,10 @@ void XpertRequestResultHtmlExport::getHeaderJson(XpertRequestResult& _xpertReque
     _json["computed_on_translation"] = lm.translate("computed_on");
 
     // Computation time
+    Common::DateTime computationTime = _xpertRequestResult.getGlobalResult()->getComputationTime();
+
     stringstream dateStream;
-    dateStream << _xpertRequestResult.getGlobalResult()->getComputationTime();
+    dateStream << computationTime.year() << "." << computationTime.month() << "." << computationTime.day();
 
     _json["computation_time"] = dateStream.str();
 }
@@ -193,94 +274,43 @@ void XpertRequestResultHtmlExport::getDrugIntroJson(XpertRequestResult& _xpertRe
     _json["drug_model"] =  _xpertRequestResult.getDrugModel()->getDrugModelId();
 }
 
-string XpertRequestResultHtmlExport::exportAdminContactData(XpertRequestResult& _xpertRequestResult) const
+void XpertRequestResultHtmlExport::getContactsJson(XpertRequestResult& _xpertRequestResult, inja::json& _json) const
 {
-    stringstream ss;
+    // Get the rows and columns header translations.
+    LanguageManager& lm = LanguageManager::getInstance();
 
-    // Making the administrative contact template
-    ss << "        <h3>Contacts</h3>" << endl
-       << "        <table class='contacts-header'>" << endl
-       << "            <tr>" << endl
-       << "                <th></th>" << endl
-       << "                <th><img alt='image from asset/img/doctor_64.png'  src='data:image/png;base64,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'>Mandator</th>" << endl
-       << "                <th><img alt='image from asset/img/patient_64.png' src='data:image/png;base64,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' >Patient</th>" << endl
-       << "            </tr>" << endl
-       << "        </table>" << endl
-       << endl
-       << "        <table class='contacts bg-light-grey'>" << endl
-       << "            <tr>" << endl
-       << "                <td rowspan='5'><img alt='image from asset/img/person.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAEngAABJ4B0Y1KzAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAHVSURBVFiF7dY9axRRFMbx38guBg2oEC1Mo0QtgotGBUEQbPwE4kdQwS8gWKcXtLCxUfwSYjpBJFjEYOdLGXxBXF9AcVmPxc7Gcc3u3FnHjYUPHJhh7jnP/95z78xkEaGKsizbios4jVPo4iEe4FZEfKtUMCKSA4ewghgSy9hXqWYF86P4NMK8H+9xsFYAZHiUYN6Pe3UDXKhg3o/zKbW3JG6Vc6l7qmpOKsCRMQCScrKyY5hl2W68GQOgi+mI+DpqUMoKfNHraVV18hipUoCI+IwXYwA8jYjuHwPkejIGQFpO4jE8o9oR7OJY3W/COxUAbvyNV/GefFnLzJexoxYAzGF74X4KN0eYX0OzMH4ac5UBcBhL+I53OD7wvIXLuIvbuIT5gTEn8SGvcR+tJIB8w7UHZva6bCYDNQ7g7UCNjzg7EgDbsDZkeZ8NznKI+TyeD6nxqtjSjQCulGywDq5jdgPj2fxZp6TG1WLe+rcgy7KdeIld0rSGx/n1CexNzGtjf0S0oTiDxRLyOmPxtxZgdYIAq78A6J3vst7VGR1MRfz8I2qhUdK7OtXIPdcBFiZo3tfCPwUwswkAM0WASfa/r0YRoLkJAM0iwP8VWNL7j5uUurmnH1d0pzE2H0pmAAAAAElFTkSuQmCC'></td>" << endl
-       << "                <th>Id</th>" << endl
-       << "                <td> {{ default(mandator.id, \"-\") }} </td>" << endl                // Insert mandator's id
-       << "                <td> {{ default(patient.id, \"-\") }} </td>" << endl                 // Insert patient's id
-       << "            </tr>" << endl
-       << "            <tr>" << endl
-       << "                <th>Name</th>" << endl
-       << "                <td> {{ default(mandator.name, \"-\") }} </td>" << endl              // Insert mandator's name
-       << "                <td> {{ default(patient.name, \"-\") }} </td>" << endl               // Insert patient's name
-       << "            </tr>" << endl
-       << "            <tr>" << endl
-       << "                <th>Address</th>" << endl
-       << "                <td> {{ default(mandator.address, \"-\") }} </td>" << endl           // Insert mandator's address
-       << "                <td> {{ default(patient.address, \"-\") }} </td>" << endl            // Insert patient's address
-       << "            </tr>" << endl
-       << "            <tr>" << endl
-       << "                <th>Phone</th>" << endl
-       << "                <td> {{ default(mandator.phone, \"-\") }} </td>" << endl             // Insert mandator's phone
-       << "                <td> {{ default(patient.phone, \"-\") }} </td>" << endl              // Insert patient's phone
-       << "            </tr>" << endl
-       << "            <tr>" << endl
-       << "                <th>Email</th>" << endl
-       << "                <td> {{ default(mandator.email, \"-\") }} </td>" << endl             // Insert mandator's email
-       << "                <td> {{ default(patient.email, \"-\") }} </td>" << endl              // Insert patient's email
-       << "            </tr>" << endl
-       << "        </table>" << endl
-       << endl
-       << "        <br>" << endl
-       << endl
-       << "        <table class='contacts bg-light-grey'>" << endl
-       << "            <tr>" << endl
-       << "                <td rowspan='5'><img alt='image from asset/img/institute.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEqSURBVFiF7da/LgRRFAbw3yyJxJ+QpRBatUIhSgmvIN5ArdErPYdS6wE0FHS7hSBahUoU/mxkdxW7I2MyY7lrZ1fsl3zFnTlnvi/nnjv38EcxjV3c4BZ7KBchvIQDPKCZ4isOsfzboiVs4hiNDOEsnmILo90IT2EHl98UzeId9jH7E+GvyhzKjtsTUuZQZm7PSeDHNrAWmHuOqIQI63ml6YC3NpsBuasYj9oGGoEGusVkqU/CHxgIA3FDFI0Knvug+wdQ9/m8juTE1VJxYzlxT6m4ieTLgWjCoYGhgf9tIGtmm0ut6zm586l1LSduUevGjTFYv9+kszKOsNJjzSq2cZ98OIMLvZ0Fk7zCQtLAWYHiMauIhiNZPBFV+qB9jZf4FERajVgkHtF4B0XDzEgEu+i7AAAAAElFTkSuQmCC'></td>" << endl
-       << "                <th>id</th>" << endl
-       << "                <td> {{ default(mandator.institute.id, \"-\") }} </td>" << endl      // Insert id of mandator's institute
-       << "                <td> {{ default(patient.institute.id, \"-\") }} </td>" << endl       // Insert id of patient/s institute
-       << "            </tr>" << endl
-       << "            <tr>" << endl
-       << "                <th>Name</th>" << endl
-       << "                <td> {{ default(mandator.institute.name, \"-\") }} </td>" << endl    // Insert name of mandator's institute
-       << "                <td> {{ default(patient.institute.name, \"-\") }} </td>" << endl     // Insert name of patient's institute.
-       << "            </tr>" << endl
-       << "            <tr>" << endl
-       << "                <th>Address</th>" << endl
-       << "                <td> {{ default(mandator.institute.address, \"-\") }} </td>" << endl // Insert address of mandator's institute
-       << "                <td> {{ default(patient.institute.address, \"-\") }} </td>" << endl  // Insert address of patient's institute
-       << "            </tr>" << endl
-       << "            <tr>" << endl
-       << "                <th>Phone</th>" << endl
-       << "                <td> {{ default(mandator.institute.phone, \"-\") }} </td>" << endl   // Insert phone of mandator's institute
-       << "                <td> {{ default(patient.institute.phone, \"-\") }} </td>" << endl    // Insert phone of patient's institute
-       << "            </tr>" << endl
-       << "            <tr>" << endl
-       << "                <th>Email</th>" << endl
-       << "                <td> {{ default(mandator.institute.email, \"-\") }} </td>" << endl   // Insert email of mandator's institute
-       << "                <td> {{ default(patient.institute.email, \"-\") }} </td>" << endl    // Insert email of patient's institute
-       << "            </tr>" << endl
-       << "        </table>" << endl;
+    // Mandator translation
+    _json["mandator_translation"] = lm.translate("mandator");
 
-    // Preparing the data to insert
-    inja::json data;
+    // Patient translation
+    _json["patient_translation"] = lm.translate("patient");
+
+    // Id translation
+    _json["id_translation"] = lm.translate("id");
+
+    // Name translation
+    _json["name_translation"] = lm.translate("name");
+
+    // Address translation
+    _json["address_translation"] = lm.translate("address");
+
+    // Phome translation
+    _json["phone_translation"] = lm.translate("phone");
+
+    // Email translation
+    _json["email_translation"] = lm.translate("email");
+
+
     const unique_ptr<AdminData>& adminPtr = _xpertRequestResult.getGlobalResult()->getAdminData();
 
+    // Try to get mandator and patient available information
     if (adminPtr != nullptr) {
-        exportPersonData(adminPtr->getMandator(), data["mandator"]);
-        exportPersonData(adminPtr->getPatient(), data["patient"]);
+        getPersonJson(adminPtr->getMandator(), _json["mandator"]);
+        getPersonJson(adminPtr->getPatient(), _json["patient"]);
     }
-
-    // Rendering
-    return inja::render(ss.str(), data);
 }
 
-void XpertRequestResultHtmlExport::exportPersonData(const unique_ptr<FullPersonData>& _person, inja::json& _json) const
+void XpertRequestResultHtmlExport::getPersonJson(const unique_ptr<FullPersonData>& _person, inja::json& _json) const
 {
     if (_person == nullptr) {
         return;
@@ -302,20 +332,20 @@ void XpertRequestResultHtmlExport::exportPersonData(const unique_ptr<FullPersonD
     _json["name"] = ss.str();
 
     // Address
-    exportAddressData(_person->getPerson().getAddress(), _json);
+    getAddressJson(_person->getPerson().getAddress(), _json);
 
     // Phone
-    exportPhoneData(_person->getPerson().getPhone(), _json);
+    getPhoneJson(_person->getPerson().getPhone(), _json);
 
     // Email
-    exportEmailData(_person->getPerson().getEmail(), _json);
+    getEmailJson(_person->getPerson().getEmail(), _json);
 
     // Institute
-    exportInstituteData(_person->getInstitute(), _json["institute"]);
+    getInstituteJson(_person->getInstitute(), _json["institute"]);
 
 }
 
-void XpertRequestResultHtmlExport::exportInstituteData(const unique_ptr<InstituteData>& _institute, inja::json& _json) const
+void XpertRequestResultHtmlExport::getInstituteJson(const unique_ptr<InstituteData>& _institute, inja::json& _json) const
 {
     if (_institute == nullptr) {
         return;
@@ -331,16 +361,16 @@ void XpertRequestResultHtmlExport::exportInstituteData(const unique_ptr<Institut
     _json["name"] = _institute->getName();
 
     // Address
-    exportAddressData(_institute->getAddress(), _json);
+    getAddressJson(_institute->getAddress(), _json);
 
     // Phone
-    exportPhoneData(_institute->getPhone(), _json);
+    getPhoneJson(_institute->getPhone(), _json);
 
     // Email
-    exportEmailData(_institute->getEmail(), _json);
+    getEmailJson(_institute->getEmail(), _json);
 }
 
-void XpertRequestResultHtmlExport::exportAddressData(const unique_ptr<AddressData>& _address, inja::json& _json) const
+void XpertRequestResultHtmlExport::getAddressJson(const unique_ptr<AddressData>& _address, inja::json& _json) const
 {
     if (_address == nullptr) {
         return;
@@ -351,31 +381,32 @@ void XpertRequestResultHtmlExport::exportAddressData(const unique_ptr<AddressDat
     // Street
     // Post code
     // City
-    ss << _address->getStreet() << endl
-       << Common::Utils::varToString(_address->getPostCode()) << endl
+    ss << _address->getStreet() << "<br>"
+       << Common::Utils::varToString(_address->getPostCode()) << "<br>"
        << _address->getCity();
 
     // State
     string state = _address->getState();
     if (state != "") {
-        ss << endl << state;
+        ss << "<br>" << state;
     }
 
     // Country
     string country = _address->getCountry();
     if (country != "") {
-        ss << endl << country;
+        ss << "<br>" << country;
     }
 
     _json["address"] = ss.str();
 }
 
-void XpertRequestResultHtmlExport::exportPhoneData(const unique_ptr<PhoneData>& _phone, inja::json& _json) const
+void XpertRequestResultHtmlExport::getPhoneJson(const unique_ptr<PhoneData>& _phone, inja::json& _json) const
 {
     if (_phone == nullptr) {
         return;
     }
 
+    LanguageManager& lm = LanguageManager::getInstance();
     stringstream ss;
 
     // Number
@@ -384,18 +415,19 @@ void XpertRequestResultHtmlExport::exportPhoneData(const unique_ptr<PhoneData>& 
     // Type
     string type = _phone->getType();
     if (type != "") {
-        ss << "(" << type << ")";
+        ss << " (" << lm.translate(type) << ")";
     }
 
     _json["phone"] = ss.str();
 }
 
-void XpertRequestResultHtmlExport::exportEmailData(const unique_ptr<EmailData>& _email, inja::json& _json) const
+void XpertRequestResultHtmlExport::getEmailJson(const unique_ptr<EmailData>& _email, inja::json& _json) const
 {
     if (_email == nullptr) {
         return;
     }
 
+    LanguageManager& lm = LanguageManager::getInstance();
     stringstream ss;
 
     // Address
@@ -404,61 +436,43 @@ void XpertRequestResultHtmlExport::exportEmailData(const unique_ptr<EmailData>& 
     // Type
     string type = _email->getType();
     if (type != "") {
-        ss << "(" << type << ")";
+        ss << " (" << lm.translate(type) << ")";
     }
 
     _json["email"] = ss.str();
 }
 
-string XpertRequestResultHtmlExport::exportClinicalData(XpertRequestResult& _xpertRequestResult) const
+void XpertRequestResultHtmlExport::getClinicalDataJson(XpertRequestResult& _xpertRequestResult, inja::json& _json) const
 {
 
-    stringstream ss;
+    LanguageManager& lm = LanguageManager::getInstance();
 
-    ss << "        <h3>Clinical data</h3>" << endl
-       << "        {{ tableOrNone }}" << endl;   // Insert the table of data or "none" if there is none
+    // Clinical data translation
+    _json["clinical_data_translation"] = lm.translate("clinical_data");
 
-    inja::json data;
-    data["tableOrNone"] = "None";
+    // None translation
+    _json["none_translation"] = lm.translate("none");
 
     const unique_ptr<AdminData>& adminPtr = _xpertRequestResult.getGlobalResult()->getAdminData();
 
     // If there is clinical data
-    if (adminPtr != nullptr && adminPtr->getClinicalData()->getData().size() > 0) {
+    if (adminPtr != nullptr &&
+        adminPtr->getClinicalData() != nullptr) {
 
-
-        // Prepare the table
-        stringstream table;
-        table << "        <table class='clinical-data bg-light-grey'>" << endl
-              << "        {% for row in rows %} {{ row }} {% endfor %}" << endl
-              << "        </table>" << endl;
-
-
-        inja::json dataRows; // Json rows
-        stringstream row;
-
-        // Create each html row
+        // For each clinical data
         for (auto clinicalDataIt = adminPtr->getClinicalData()->getData().begin();
              clinicalDataIt != adminPtr->getClinicalData()->getData().end();
              ++clinicalDataIt){
 
-            row.clear();
-            row << "<tr>" << endl
-                << "    <th> {{ key }} </th>" << endl       // Insert the clinical data key
-                << "    <td> {{ value }} </td>" << endl     // Insert the clinical data value
-                << "</tr>";
-            inja::json dataRow;
-            dataRow["key"] = keyToPhrase(clinicalDataIt->first);
-            dataRow["value"] = keyToPhrase(clinicalDataIt->second);
-            dataRows["rows"].emplace_back(inja::render(row.str(), dataRow));
+            // Create json value
+            inja::json row;
+            row["key"] = keyToPhrase(clinicalDataIt->first);
+            row["value"] = clinicalDataIt->second;
+
+            // Add the row to the row list
+            _json["rows"].emplace_back(row);
         }
-
-        // Retreive the table
-        data["tableOrNone"] = inja::render(table.str(), dataRows);
     }
-
-    // Display the table or none
-    return inja::render(ss.str(), data);
 }
 
 } // namespace Xpert

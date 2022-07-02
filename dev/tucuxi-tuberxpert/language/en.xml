@@ -11,14 +11,30 @@
     <entry key="population_below">% of the population is below this measure</entry>
     <entry key="population_above">% of the population is above this measure</entry>
 
+    <!-- Report common -->
+    <entry key="drug">Drug</entry>
+    <entry key="none">None</entry>
+
     <!-- Report header -->
     <entry key="tuberxpert_report">TuberXpert report</entry>
     <entry key="computed_on">Computed on</entry>
 
     <!-- Report intro -->
-    <entry key="drug">Drug</entry>
     <entry key="id">ID</entry>
     <entry key="last_dose">Last dose</entry>
     <entry key="drug_model">Drug model</entry>
+
+    <!-- Report contacts -->
+    <entry key="mandator">Mandator</entry>
+    <entry key="patient">Patient</entry>
+    <entry key="name">Name</entry>
+    <entry key="address">Address</entry>
+    <entry key="phone">Phone</entry>
+    <entry key="email">Email</entry>
+    <entry key="professional">professional</entry>
+    <entry key="private">private</entry>
+
+    <!-- Report clinical data -->
+    <entry key="clinical_data">Clinical data</entry>
 
 </dictionary>

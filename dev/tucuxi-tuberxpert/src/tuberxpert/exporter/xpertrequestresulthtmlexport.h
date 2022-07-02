@@ -34,19 +34,19 @@ protected:
 
     void getDrugIntroJson(XpertRequestResult& _xpertRequestResult, inja::json& _json) const;
 
-    std::string exportAdminContactData(XpertRequestResult& _xpertRequestResult) const;
+    void getContactsJson(XpertRequestResult& _xpertRequestResult, inja::json& _json) const;
 
-    void exportPersonData(const std::unique_ptr<FullPersonData>& _person, inja::json& _json) const;
+    void getPersonJson(const std::unique_ptr<FullPersonData>& _person, inja::json& _json) const;
 
-    void exportInstituteData(const std::unique_ptr<InstituteData>& _institute, inja::json& _json) const;
+    void getInstituteJson(const std::unique_ptr<InstituteData>& _institute, inja::json& _json) const;
 
-    void exportAddressData(const std::unique_ptr<AddressData>& _address, inja::json& _json) const;
+    void getAddressJson(const std::unique_ptr<AddressData>& _address, inja::json& _json) const;
 
-    void exportPhoneData(const std::unique_ptr<PhoneData>& _phone, inja::json& _json) const;
+    void getPhoneJson(const std::unique_ptr<PhoneData>& _phone, inja::json& _json) const;
 
-    void exportEmailData(const std::unique_ptr<EmailData>& _email, inja::json& _json) const;
+    void getEmailJson(const std::unique_ptr<EmailData>& _email, inja::json& _json) const;
 
-    std::string exportClinicalData(XpertRequestResult& _xpertRequestResult) const;
+    void getClinicalDataJson(XpertRequestResult& _xpertRequestResult, inja::json& _json) const;
 
 };
 
