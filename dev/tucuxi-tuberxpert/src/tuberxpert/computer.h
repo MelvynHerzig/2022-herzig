@@ -44,7 +44,7 @@ public:
     Computer();
 
     /// \brief Entry point of the TuberXpert command Line Interface. This method imports
-    ///        the query, loaded the translation file, and handle each XpertRequest to finally
+    ///        the query from file, loads the translation file, and handle each XpertRequest to finally
     ///        print the report of the requests handled successfully.
     /// \param _drugPath Folder containing the drug models.
     /// \param _inputFileName Path to the query file.
@@ -52,10 +52,24 @@ public:
     /// \param _languagePath Path to the folder containing the translation files.
     /// \return A computingStatus the depends on the fact that the query could be loaded and the amount
     ///         of requestXpert handled successfully.
-    ComputingStatus compute(const std::string& _drugPath,
-                            const std::string& _inputFileName,
-                            const std::string& _outputPath,
-                            const std::string& _languagePath) const;
+    ComputingStatus computeFromFile(const std::string& _drugPath,
+                                    const std::string& _inputFileName,
+                                    const std::string& _outputPath,
+                                    const std::string& _languagePath) const;
+
+    /// \brief Entry point of the TuberXpert command Line Interface. This method imports
+    ///        the query from string, loads the translation file, and handle each XpertRequest to finally
+    ///        print the report of the requests handled successfully.
+    /// \param _drugPath Folder containing the drug models.
+    /// \param _inputString Path to the query file.
+    /// \param _outputPath Output directory path. One file per successful request is created.
+    /// \param _languagePath Path to the folder containing the translation files.
+    /// \return A computingStatus the depends on the fact that the query could be loaded and the amount
+    ///         of requestXpert handled successfully.
+    ComputingStatus computeFromString(const std::string& _drugPath,
+                                      const std::string& _inputString,
+                                      const std::string& _outputPath,
+                                      const std::string& _languagePath) const;
 
 protected:
 

@@ -43,32 +43,32 @@ const Core::DrugModel* XpertRequestResult::getDrugModel() const
     return m_drugModel;
 }
 
-const vector<CovariateValidationResult>& XpertRequestResult::getCovariateResults()
+const vector<CovariateValidationResult>& XpertRequestResult::getCovariateResults() const
 {
     return m_covariateResults;
 }
 
-const map<const Core::SingleDose*, DoseValidationResult>& XpertRequestResult::getDoseResults()
+const map<const Core::SingleDose*, DoseValidationResult>& XpertRequestResult::getDoseResults() const
 {
     return m_doseResults;
 }
 
-const map<const Core::Sample*, SampleValidationResult>& XpertRequestResult::getSampleResults()
+const map<const Core::Sample*, SampleValidationResult>& XpertRequestResult::getSampleResults() const
 {
     return m_sampleResults;
 }
 
-const unique_ptr<Core::ComputingTraitAdjustment>& XpertRequestResult::getAdjustmentTrait()
+const unique_ptr<Core::ComputingTraitAdjustment>& XpertRequestResult::getAdjustmentTrait() const
 {
     return m_adjustmentTrait;
 }
 
-const std::unique_ptr<Core::AdjustmentData>& XpertRequestResult::getAdjustmentData()
+const std::unique_ptr<Core::AdjustmentData>& XpertRequestResult::getAdjustmentData() const
 {
     return m_adjustmentData;
 }
 
-const std::unique_ptr<Core::IntakeEvent>& XpertRequestResult::getLastIntake()
+const std::unique_ptr<Core::IntakeEvent>& XpertRequestResult::getLastIntake() const
 {
     return m_lastIntake;
 }

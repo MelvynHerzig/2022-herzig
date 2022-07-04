@@ -14,6 +14,9 @@
     <!-- Report common -->
     <entry key="drug">Médicament</entry>
     <entry key="none">Aucune</entry>
+    <entry key="from">Depuis</entry>
+    <entry key="to">Jusqu'à</entry>
+    <entry key="date">Date</entry>
 
     <!-- Report header -->
     <entry key="tuberxpert_report">Rapport TuberXpert</entry>
@@ -25,7 +28,7 @@
     <entry key="drug_model">Fiche médicament</entry>
 
     <!-- Report contacts -->
-    <entry key="mandator">Mandateur</entry>
+    <entry key="mandator">Mandant</entry>
     <entry key="patient">Patient</entry>
     <entry key="name">Nom</entry>
     <entry key="address">Adresse</entry>
@@ -42,5 +45,13 @@
     <entry key="value">Valeur</entry>
     <entry key="source_patient">patient</entry>
     <entry key="source_default">par défaut</entry>
+    <entry key="yes">oui</entry>
+    <entry key="no">non</entry>
+
+    <!-- Report Treatment -->
+    <entry key="treatment">Traitement</entry>
+    <entry key="type">Type</entry>
+    <entry key="continually">continuellement</entry>
+    <entry key="at_steady_state">à l'état d'équilibre avec la dernière dose le</entry>
 
 </dictionary>

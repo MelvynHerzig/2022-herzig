@@ -22,9 +22,27 @@ namespace Xpert {
 Computer::Computer()
 {}
 
-ComputingStatus Computer::compute(
+ComputingStatus Computer::computeFromFile(const std::string& _drugPath,
+                                          const std::string& _inputFileName,
+                                          const std::string& _outputPath,
+                                          const std::string& _languagePath) const
+{
+    Common::LoggerHelper logHelper;
+
+    // Read the file and extract content
+    ifstream input_file(_inputFileName);
+    if (!input_file.is_open()) {
+        logHelper.error("Failed to open input file.");
+        return ComputingStatus::IMPORT_ERROR;
+    }
+    string inputFileContent = string((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>());
+
+    return computeFromString(_drugPath, inputFileContent, _outputPath, _languagePath);
+}
+
+ComputingStatus Computer::computeFromString(
         const string& _drugPath,
-        const string& _inputFileName,
+        const string& _inputString,
         const string& _outputPath,
         const string& _languagePath) const
 {
@@ -48,7 +66,7 @@ ComputingStatus Computer::compute(
     unique_ptr<XpertQueryData> query = nullptr;
 
     XpertQueryImport importer;
-    XpertQueryImport::Status importResult = importer.importFromFile(query, _inputFileName);
+    XpertQueryImport::Status importResult = importer.importFromString(query, _inputString);
 
     if (importResult != XpertQueryImport::Status::Ok) {
 

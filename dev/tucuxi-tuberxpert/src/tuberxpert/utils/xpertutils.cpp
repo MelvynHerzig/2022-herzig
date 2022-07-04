@@ -130,34 +130,54 @@ string computeFileName(const XpertRequestResult& _xpertRequestResult)
     return ss.str();
 }
 
-string keyToPhrase(const string& key)
+string keyToPhrase(const string& _key)
 {
 
     stringstream ss;
 
     // Traverse the string
-    for(size_t i=0; i < key.length(); i++)
+    for(size_t i=0; i < _key.length(); i++)
     {
         // If the first char is lowercase transform in uppercase.
-        if (i == 0 && islower(key[i])) {
-            ss << char(toupper(key[i]));
+        if (i == 0 && islower(_key[i])) {
+            ss << char(toupper(_key[i]));
         }
 
         // Convert to lowercase if its
         // an uppercase character but not the first
-        else if (i != 0 && isupper(key[i]))
+        else if (i != 0 && isupper(_key[i]))
         {
-            ss << ' ' << char(tolower(key[i]));
+            ss << ' ' << char(tolower(_key[i]));
         }
 
         // if lowercase character,
         // then just print
         else {
-            ss << key[i];
+            ss << _key[i];
         }
     }
 
     return ss.str();
+}
+
+double getAgeIn(Core::CovariateType _ageType, const Common::DateTime& _birthDate, const Common::DateTime& _computationTime)
+{
+    switch (_ageType) {
+    case Core::CovariateType::AgeInDays:
+        return static_cast<double>(Common::Utils::dateDiffInDays(_birthDate, _computationTime));
+        break;
+    case Core::CovariateType::AgeInWeeks:
+        return static_cast<double>(Common::Utils::dateDiffInWeeks(_birthDate,  _computationTime));
+        break;
+    case Core::CovariateType::AgeInMonths:
+        return static_cast<double>(Common::Utils::dateDiffInMonths(_birthDate,  _computationTime));
+        break;
+    case Core::CovariateType::AgeInYears:
+        return static_cast<double>(Common::Utils::dateDiffInYears(_birthDate,  _computationTime));
+        break;
+    default:
+        throw invalid_argument("Invalid covariate type");
+    }
 }
 
 } // namespace XpertUtils

@@ -32,12 +32,12 @@ protected:
     /// \brief Transform the given XpertRequestResult into an XML string.
     /// \param _xpertRequestResult XpertRequestResult to transform.
     /// \param _xmlString Resulting string.
-    void makeXmlString(XpertRequestResult& _xpertRequestResult, std::string& _xmlString);
+    void makeXmlString(const XpertRequestResult& _xpertRequestResult, std::string& _xmlString);
 
     /// \brief Create and append the "introduction" xml nodes: computation time, drugID, last dose and drug model id.
     /// \param _xpertRequestResult XpertRquestResult to retrieve the information.
     /// \param _rootNode Root node where to append the created nodes.
-    void exportDrugIntro(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
+    void exportDrugIntro(const XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
 
     ///
     /// \brief Create and append the admin data.
@@ -84,8 +84,7 @@ protected:
     /// \brief Create and append the covariates validation results.
     /// \param _covariateResults Covariate validation results to export.
     /// \param _rootNode Root node where to append.
-    /// \param _outputLang Language to use for the description and the name of the covariates.
-    void exportCovariateResults(const std::vector<CovariateValidationResult>& _covariateResults, Common::XmlNode& _rootNode, OutputLang _outputLang);
+    void exportCovariateResults(const std::vector<CovariateValidationResult>& _covariateResults, Common::XmlNode& _rootNode);
 
     /// \brief Create and append the treatment node to the root node. Mainly use the inherithed methods.
     /// \param _treatment Treatment to export.
@@ -120,17 +119,17 @@ protected:
     ///        It creates the parameters for typical and apriori types. If possible, it makes aposteriori.
     /// \param _xpertRequestResult XpertRequestResult containing the parameters to export.
     /// \param _rootNode Root node where to append.
-    void exportParameters(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
+    void exportParameters(const XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
 
     /// \brief Create and append the statistics at steady state to the root node.
     /// \param _xpertRequestResult XpertRequestResult containing the statistics at steady state.
     /// \param _rootNode Root node where to append.
-    void exportStatistics(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
+    void exportStatistics(const XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
 
     /// \brief Create and append the covariate used for the computation nodes to the root node.
     /// \param _xpertRequestResult XpertRequestResult containing the covariates used during computation.
     /// \param _rootNode Root node where to append.
-    void exportComputationCovariates(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
+    void exportComputationCovariates(const XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
 
     /// \brief For a given validation result object, create and append its node to a parent node.
     /// \param _validationResult Validation result value to export.
@@ -158,9 +157,10 @@ protected:
     ///        in any method without needing to pass it as argument everywhere.
     Common::XmlDocument m_xmlDocument;
 
-    /// \brief We need to keep a reference on the xpert request result object in order
-    ///        to retrieve the dose validation results map in the exportSingleDose method.
-    XpertRequestResult* m_xpertRequestResultInUse;
+    /// \brief We need to keep a reference on the xpert request result in order
+    ///        to retreive the dose validation results map, to retreive
+    ///        the computation time and to retreive the output language.
+    const XpertRequestResult* m_xpertRequestResultInUse;
 };
 
 } // namespace Xpert

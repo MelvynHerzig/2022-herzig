@@ -130,7 +130,7 @@ int main(int argc, char** argv)
 
     // Computation start
     Tucuxi::Xpert::Computer txc;
-    Tucuxi::Xpert::ComputingStatus result = txc.compute(drugPath, inputFileName, outputPath, languagePath);
+    Tucuxi::Xpert::ComputingStatus result = txc.computeFromFile(drugPath, inputFileName, outputPath, languagePath);
 
     logHelper.info("Tuberxpert console application is exiting...");
     logHelper.info("********************************************************");

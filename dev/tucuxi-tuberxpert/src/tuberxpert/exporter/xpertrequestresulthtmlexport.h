@@ -28,27 +28,38 @@ protected:
 
     std::string makeHeaderString() const;
 
-    std::string makeBodyString(XpertRequestResult& _xpertRequestResult) const;
+    std::string makeBodyString(const XpertRequestResult& _xpertRequestResult) const;
 
-    void getHeaderJson(XpertRequestResult& _xpertRequestResult, inja::json& _json) const;
+    void getHeaderJson(const XpertRequestResult& _xpertRequestResult, inja::json& _headerJson) const;
 
-    void getDrugIntroJson(XpertRequestResult& _xpertRequestResult, inja::json& _json) const;
+    void getDrugIntroJson(const XpertRequestResult& _xpertRequestResult, inja::json& _introJson) const;
 
-    void getContactsJson(XpertRequestResult& _xpertRequestResult, inja::json& _json) const;
+    void getContactsJson(const std::unique_ptr<AdminData>& _admin, inja::json& _contactsJson) const;
 
-    void getPersonJson(const std::unique_ptr<FullPersonData>& _person, inja::json& _json) const;
+    void getPersonJson(const std::unique_ptr<FullPersonData>& _person, inja::json& _personJson) const;
 
-    void getInstituteJson(const std::unique_ptr<InstituteData>& _institute, inja::json& _json) const;
+    void getInstituteJson(const std::unique_ptr<InstituteData>& _institute, inja::json& _instituteJson) const;
 
-    void getAddressJson(const std::unique_ptr<AddressData>& _address, inja::json& _json) const;
+    void getAddressJson(const std::unique_ptr<AddressData>& _address, inja::json& _addressJson) const;
 
-    void getPhoneJson(const std::unique_ptr<PhoneData>& _phone, inja::json& _json) const;
+    void getPhoneJson(const std::unique_ptr<PhoneData>& _phone, inja::json& _phoneJson) const;
 
-    void getEmailJson(const std::unique_ptr<EmailData>& _email, inja::json& _json) const;
+    void getEmailJson(const std::unique_ptr<EmailData>& _email, inja::json& _emailJson) const;
 
-    void getClinicalDataJson(XpertRequestResult& _xpertRequestResult, inja::json& _json) const;
+    void getClinicalDataJson(const std::unique_ptr<AdminData>& _admin, inja::json& _clinicalDataJson) const;
 
-    void getCovariatesJson(XpertRequestResult& _xpertRequestResult, inja::json& _json) const;
+    void getCovariatesJson(const std::vector<CovariateValidationResult>& _covariateResults, inja::json& _covariatesJson) const;
+
+    void getTreatmentJson(const Core::DosageHistory& _history, inja::json& _treatmentJson) const;
+
+    void getTimeRangeJson(const std::unique_ptr<Core::DosageTimeRange>& _timeRange, inja::json& _treatmentRowsJson) const;
+
+    void getAbstractDosageJson(const Tucuxi::Core::Dosage& _dosage, inja::json& _dosageTimeRangeRowJson, const std::string& _posologyIndicationChaining);
+
+    /// \brief We need to keep a reference on the xpert request result in order
+    ///        to retreive the dose validation results map, to retreive
+    ///        the computation time and to retreive the output language.
+    const XpertRequestResult* m_xpertRequestResultInUse;
 
 };
 

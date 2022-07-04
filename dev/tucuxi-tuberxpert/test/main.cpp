@@ -74,6 +74,7 @@ int main(int argc, char** argv)
     xpertUtilsTests.add_test("The value returned by computeFileName is correct.", &TestXpertUtils::computeFileNameReturnsCorrectValues);
     xpertUtilsTests.add_test("The values returned by executeRequestAndGetResult are correct.", &TestXpertUtils::executeRequestAndGetResultReturnsCorrectValues);
     xpertUtilsTests.add_test("Convert key to phrase.", &TestXpertUtils::convertKeyToPhrase);
+    xpertUtilsTests.add_test("Convert birth date to age.", &TestXpertUtils::computeAge);
 
     res = xpertUtilsTests.run(argc, argv);
     if (res != 0) {

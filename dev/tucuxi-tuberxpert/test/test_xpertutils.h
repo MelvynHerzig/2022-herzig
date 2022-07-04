@@ -1225,6 +1225,23 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
         fructose_assert_eq(Tucuxi::Xpert::keyToPhrase("abc"), "Abc");
         fructose_assert_eq(Tucuxi::Xpert::keyToPhrase("camelCase"), "Camel case");
     }
+
+    /// \brief Test the age calculator getAgeIn method.
+    /// \param _testName Name of the test
+    void computeAge(const std::string& _testName)
+    {
+
+        std::cout << _testName << std::endl;
+
+        Tucuxi::Common::DateTime birthDate = Tucuxi::Common::DateTime("2000-01-01T12:00:00", date_format);
+        Tucuxi::Common::DateTime computationTime = Tucuxi::Common::DateTime("2010-01-01T12:00:00", date_format);
+
+        fructose_assert_eq(int(Tucuxi::Xpert::getAgeIn(Tucuxi::Core::CovariateType::AgeInDays, birthDate, computationTime)), 3653);
+        fructose_assert_eq(int(Tucuxi::Xpert::getAgeIn(Tucuxi::Core::CovariateType::AgeInWeeks, birthDate, computationTime)), 521);
+        fructose_assert_eq(int(Tucuxi::Xpert::getAgeIn(Tucuxi::Core::CovariateType::AgeInMonths, birthDate, computationTime)), 119);
+        fructose_assert_eq(int(Tucuxi::Xpert::getAgeIn(Tucuxi::Core::CovariateType::AgeInYears, birthDate, computationTime)), 10);
+        fructose_assert_exception(Tucuxi::Xpert::getAgeIn(Tucuxi::Core::CovariateType(-1), birthDate, computationTime), std::invalid_argument);
+    }
 };
 
 #endif // TEST_XPERTUTILS_H

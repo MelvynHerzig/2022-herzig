@@ -108,9 +108,15 @@ void executeRequestAndGetResult(std::unique_ptr<T> _trait, const XpertRequestRes
 ///        "camelCaseKey" becomes "Camel case key".
 /// \param key Key to transform.
 /// \return Return the resulting transformation.
-std::string keyToPhrase(const std::string& key);
+std::string keyToPhrase(const std::string& _key);
 
-
+/// \brief For a given birth date and computation time, compute the age type between these two dates.
+/// \param _ageType Age type to compute.
+/// \param _birthDate Birth date.
+/// \param _computationTime Reference/computation time.
+/// \return The resulting age as double.
+/// \throws invalid_argument When the covariate type is not an age.
+double getAgeIn(Core::CovariateType _ageType, const Common::DateTime& _birthDate, const Common::DateTime& _computationTime);
 
 
 } // namespace Xpert
