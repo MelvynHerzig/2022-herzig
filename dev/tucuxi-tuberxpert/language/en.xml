@@ -79,4 +79,9 @@
     <entry key="intravenous_drip">intravenous drip</entry>
     <entry key="intravenous_bolus">intravenous bolus</entry>
 
+    <!-- Report Samples -->
+    <entry key="samples">Samples</entry>
+    <entry key="measure">Measure</entry>
+    <entry key="percentile">Percentile</entry>
+
 </dictionary>

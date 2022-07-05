@@ -259,7 +259,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        {% if not exists(\"treatment.rows\") %} "                                                      // If there is no treatment
        << "            {{ treatment.none_translation }}" << endl                                                  //     Insert "None" translation
        << "        {% else %}"
-       << "         <table class='treatment bg-light-grey'>" << endl                                               // Else
+       << "         <table class='treatment bg-light-grey'>" << endl                                              // Else
        << "            {% for dosage_time_range in treatment.rows %}"                                             //     For each dosage time range
        << "            <tr>" << endl
        << "                <td><b>{{ treatment.from_translation }}</b> {{ dosage_time_range.date_from }} </td>" << endl //   Insert "from" translation and from date
@@ -302,6 +302,38 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        </table>" << endl
        << "        {% endif %}"
        << endl
+       << "        <!-- Samples -->" << endl                                                                      // ---------- SAMPLES ------------
+       << "        <h3> {{samples.samples_translation}} </h3>" << endl                                            // Insert "Samples" translation
+       << "        {% if not exists(\"samples.rows\") %} "                                                        // If there is no sample
+       << "            {{ samples.none_translation }}" << endl                                                    //     Insert "None" translation
+       << "        {% else %}"                                                                                    // Else
+       << "        <table class='samples bg-light-grey'>" << endl
+       << "            {% for sample in samples.rows %}"                                                          //     For each samples
+       << "            <tr>" << endl
+       << "                <td><b>{{ samples.date_translation }}:</b> {{ sample.date }}" << endl                 //         Insert sample date and date translation
+       << "                <td><b>{{ samples.measure_translation }}:</b> {{ sample.measure }}</td>" << endl      //         Insert sample measure and measure translation
+       << "                <td><b>{{ samples.percentile_translation }}:</b> {{ sample.percentile }}</td>" << endl//         Insert sample percentile and percentile translation
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                {% if existsIn( sample, \"warning\") %} "                                              //             If there is a warning
+       << "                <td colspan='3'>" << endl
+       << "                    <table>" << endl
+       << "                        <tr class='bg-warning-{{ sample.warning_level }}'>" << endl                   //                 Insert the warning level
+       << "                            <td>" << endl
+       << "                                <img alt='Warning icon image from asset/img/warning.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAASbSURBVFiFxZdtTJVlGMd/1/2cl+cgHOSgCKjTlGFEFDrUGAIBQ8DICeopRXHK8syXWetbH3RuuvVFp261am2t1Rc3+yK51cS5UEcvY9ZW0idbrJjhS04BhfN29eEArgx4Dtj6f7xf/tfvvq77fp77FlXl/5RruhM3bg/laDTccOtmX0Qi5sKlS1/emI6PJJuB9aFQimcw8plCA0D/jd8THcoXw2n2pu729gf/GUAwGPTF3KnngOq56bBqmZDlvc+ZzkGu98cALsaHBxu7uroeOvVMqgRRz6xDolQ/lS0c3m5ItQFm0/BCKvuO/8FPfbFq4007BLzl1NNxBja1tC1RtMcyeE+ELObP+Xv/3b4hmt6+TTTOiFj6zOWOjl+c+BqnpKp6DPA2rJTHggNkZKfwymoPgFejcsypryOA5q27qhGa/CkQrJhgiiW01ftJ9wkITWU1ddVPBCAYDFpGOAmwpcowy060D4fh9FdxPmi/x8ORRBk9gRT2vOgdNdaTwWDQmjFA3J26W6Fo8TyhdrmMt3dcVc5cVk5ffMDZKwOJRkt4qSyNvCyDKkV9d+7unhFAY0tLhsIRgF11gjyKz683E6s2xuJ6X2S8XdJ9vLk2kSZROVJe3pgxbQAb72Egs7RAKFwkkw19JEt4rmAWVctcAJm4w4enBdD86msFCnvdLthR6/iwJOS32V9j43GBwt7SytqCpAHEip0AXBtKhbnpycXHMsyb72PrKg+Ay2XJiaQAmrftagTqMv3QVJbk6sfkt9lW6iUrTVCoK6+qa3QEEAqF3KJyHGB7jcHrnl58LIMdsNlTmTiWKnq8pKTkMbfHAG4PRQ+A5i9bIJQ/63DjTSS/TW2hm6L5FkC+Ly1wYFKA5tbWLFQPCtBWP8PgAJYBv83rNV4EQDhYVleXNSGAibqPAulVxcLSnMkBvGP/UVVszyRj/TZP51isK3KjkG4iHP1XgKaWncUq2ubzQEvV1BuvuliYZYPHFWNdaerEA0ezEKrwkOIRFG0rq1pbPNY9fh8wcAowm8oNsyfxG1NervDhGxaqOZNnAMBvE7g/zI5SN+91ho0Ip4DK0bjQ3LJzM0hFdgAaVzuvvdfN1MFhPAvBEg8LMgxARXnN2s0AVm9vrx2OSTswe/96w8K5zgDuDcG7n8c5d+UOK/K9+LxTlM1jYQ2OkO0XLvwcBVj16ccfvW8GwqYVWPT8EmFlvvPVn7+qdPUo3/REOXt5cOoJo1lYk+di5WILYFFUPK1GVesBNq5J7tjl5YIAqnEKFnucTUpLfJR2lCbGq2q9C6HSCOQvSA5g+VLhnX0WkWgWC7Mc3m1dFhihMNfCCMSh0iD0xxV6epN/IWUHcB4cIBKDuPL9bzHiCiL0G1HtBDj7tTISmcphhhoYZjiinP4uDIDG6ZSXt+ye45bINSDL54XKIiE303k5HgxNvQEDPojcH+Fab5jz16IMhRXgplsjhaKqbNi2s8il8olC8VRm/9T40yw5/RCPaWtXZ8eP4w+TUCjkvjUQXY3oCkECTlxU1XWrvy/qNGpc+dNo/OrDgbvfdnd3R2Aaj9Mnrb8A0TtykI+7cqgAAAAASUVORK5CYII='>" << endl
+       << "                            </td>" << endl
+       << "                            <td>" << endl
+       << "                                {{ sample.warning }}" << endl                                         //                 Insert the warning
+       << "                            </td>" << endl
+       << "                        </tr>" << endl
+       << "                    </table>" << endl
+       << "                </td>" << endl
+       << "                {% endif %}"
+       << "            </tr>" << endl
+       << "            {% endfor %}"
+       << "        </table>" << endl
+       << "        {% endif %}"
+       << endl
        << "        <!-- Copyright -->" << endl
        << "        <div class='copyright'>" << endl
        << "            <span>Copyright (c) HEIG-VD/CHUV - 2022 | Icons by <a href='https://www.flaticon.com/fr/auteurs/gajah-mada'> Gajah Mada - Flaticon</a> & <a href='https://www.flaticon.com/fr/auteurs/freepik'>Freepik - Flaticon</a></span>" << endl
@@ -322,6 +354,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
     getClinicalDataJson(_xpertRequestResult.getGlobalResult().getAdminData(), data["clinical_data"]);
     getCovariatesJson(_xpertRequestResult.getCovariateResults(), data["covariates"]);
     getTreatmentJson(_xpertRequestResult.getTreatment()->getDosageHistory(), data["treatment"]);
+    getSamplesJson(_xpertRequestResult.getSampleResults(), data["samples"]);
 
     return inja::render(ss.str(), data);
 }
@@ -596,7 +629,6 @@ void XpertRequestResultHtmlExport::getCovariatesJson(const vector<CovariateValid
         covariate["desc"] = getStringWithEnglishFallback(cvr.getSource()->getDescription(), m_xpertRequestResultInUse->getXpertRequest().getOutputLang());
 
         // Get the covariate warning
-        string warning = cvr.getWarning();
         getWarningJson(cvr, covariate);
 
         // Get the covariate value
@@ -855,6 +887,53 @@ void XpertRequestResultHtmlExport::getSingleDoseJson(const Core::SingleDose& _do
 
     // Add the single dose to the single doses list of the time range.
     _dosageTimeRangeJson["single_doses"].emplace_back(singleDose);
+}
+
+void XpertRequestResultHtmlExport::getSamplesJson(const std::map<const Core::Sample*, SampleValidationResult>& _sampleResults, inja::json& _samplesJson) const
+{
+    LanguageManager& lm = LanguageManager::getInstance();
+
+    // Get samples translation
+    _samplesJson["samples_translation"] = lm.translate("samples");
+
+    // Get none translation
+    _samplesJson["none_translation"] = lm.translate("none");
+
+    // Get measure translation
+    _samplesJson["measure_translation"] = lm.translate("measure");
+
+    // Get date translation
+    _samplesJson["date_translation"] = lm.translate("date");
+
+    // Get percentile translation
+    _samplesJson["percentile_translation"] = lm.translate("percentile");
+
+    // For each sample validation result
+    for (const auto& sampleResultIt : _sampleResults) {
+
+        inja::json sample;
+
+        // Get the sample date
+        stringstream dateStream;
+        dateStream << sampleResultIt.first->getDate();
+        sample["date"] = dateStream.str();
+
+        // Get the sample measure
+        stringstream valueStream;
+        valueStream << sampleResultIt.first->getValue() << " " << sampleResultIt.first->getUnit().toString();
+        sample["measure"] = valueStream.str();
+
+        // Get the percentile
+        sample["percentile"] = to_string(sampleResultIt.second.getGroupNumberOver99Percentile());
+
+        // Get the warning
+        getWarningJson(sampleResultIt.second, sample);
+
+        // Get the warning level
+        sample["warning_level"] = varToString(sampleResultIt.second.getWarningLevel());
+
+        _samplesJson["rows"].emplace_back(sample);
+    }
 }
 
 string XpertRequestResultHtmlExport::concatenatePosology(const string& _posologyIndication, const string& _posologyIndicationChain) const

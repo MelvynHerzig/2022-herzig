@@ -74,6 +74,8 @@ protected:
 
     void getSingleDoseJson(const Core::SingleDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
 
+    void getSamplesJson(const std::map<const Core::Sample*, SampleValidationResult>& _sampleResults, inja::json& _samplesJson) const;
+
     std::string concatenatePosology(const std::string& _posologyIndication, const std::string& _posologyIndicationChain) const;
 
     std::string timeToString(const Common::TimeOfDay& _timeOfDay) const;
