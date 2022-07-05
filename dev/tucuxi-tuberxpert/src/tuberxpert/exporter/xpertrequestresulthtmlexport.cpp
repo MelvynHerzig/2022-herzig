@@ -281,7 +281,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
        << "                            </td>" << endl
        << "                            <td>" << endl
-       << "                                {{ single_dose.posology }}"                                            //             Insert the dosage and posology information
+       << "                                <b>{{ treatment.posology_translation }}:</b> {{ single_dose.posology }}"//            Insert the dosage and posology information
        << "                            </td>" << endl
        << "                        </tr>" << endl
        << "                        <tr class='bg-warning-normal'>" << endl
@@ -662,6 +662,12 @@ void XpertRequestResultHtmlExport::getTreatmentJson(const Core::DosageHistory& _
     // Type translation
     _treatmentJson["type_translation"] = lm.translate("type");
 
+    // Posologie translation
+    _treatmentJson["posology_translation"] = lm.translate("posology");
+
+    // Formulation and route translation
+    _treatmentJson["formulation_translation"] = lm.translate("formulation");
+
     // Export the dosage time ranges as json rows
     for (const auto& dosageTimeRange : _history.getDosageTimeRanges()) {
         inja::json timeRangeJson;
@@ -777,7 +783,7 @@ void XpertRequestResultHtmlExport::getDosageJson(const Core::LastingDose& _dosag
     string newPosologyIndicationChain = concatenatePosology(posologyStream.str(), _posologyIndicationChain);
 
     // Export the single dose
-    geSingleDoseJson(_dosage, _dosageTimeRangeJson, newPosologyIndicationChain);
+    getSingleDoseJson(_dosage, _dosageTimeRangeJson, newPosologyIndicationChain);
 }
 
 void XpertRequestResultHtmlExport::getDosageJson(const Core::DailyDose& _dosage, inja::json& _dosageTimeRangeJson, const string& _posologyIndicationChain) const
@@ -790,7 +796,7 @@ void XpertRequestResultHtmlExport::getDosageJson(const Core::DailyDose& _dosage,
     string newPosologyIndicationChain = concatenatePosology(posologyStream.str(), _posologyIndicationChain);
 
     // Export the single dose
-    geSingleDoseJson(_dosage, _dosageTimeRangeJson, newPosologyIndicationChain);
+    getSingleDoseJson(_dosage, _dosageTimeRangeJson, newPosologyIndicationChain);
 }
 
 void XpertRequestResultHtmlExport::getDosageJson(const Core::WeeklyDose& _dosage, inja::json& _dosageTimeRangeJson, const string& _posologyIndicationChain) const
@@ -804,14 +810,37 @@ void XpertRequestResultHtmlExport::getDosageJson(const Core::WeeklyDose& _dosage
     string newPosologyIndicationChain = concatenatePosology(posologyStream.str(), _posologyIndicationChain);
 
     // Export the single dose
-    geSingleDoseJson(_dosage, _dosageTimeRangeJson, newPosologyIndicationChain);
+    getSingleDoseJson(_dosage, _dosageTimeRangeJson, newPosologyIndicationChain);
 }
 
-void XpertRequestResultHtmlExport::geSingleDoseJson(const Core::SingleDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const
+void XpertRequestResultHtmlExport::getSingleDoseJson(const Core::SingleDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const
 {
-    // Add the dose value to the posology chain
+    // Get the route
+    LanguageManager& lm = LanguageManager::getInstance();
+    static std::map<Tucuxi::Core::AdministrationRoute, std::string> routes = {
+            {Tucuxi::Core::AdministrationRoute::Oral, "oral"},
+            {Tucuxi::Core::AdministrationRoute::Nasal, "nasal"},
+            {Tucuxi::Core::AdministrationRoute::Rectal, "rectal"},
+            {Tucuxi::Core::AdministrationRoute::Vaginal, "vaginal"},
+            {Tucuxi::Core::AdministrationRoute::Undefined, "undefined"},
+            {Tucuxi::Core::AdministrationRoute::Sublingual, "sublingual"},
+            {Tucuxi::Core::AdministrationRoute::Transdermal, "transdermal"},
+            {Tucuxi::Core::AdministrationRoute::Subcutaneous, "subcutaneous"},
+            {Tucuxi::Core::AdministrationRoute::Intramuscular, "intramuscular"},
+            {Tucuxi::Core::AdministrationRoute::IntravenousDrip, "intravenous_drip"},
+            {Tucuxi::Core::AdministrationRoute::IntravenousBolus, "intravenous_bolus"}};
+
+    auto it = routes.find(_dosage.getLastFormulationAndRoute().getAdministrationRoute());
+
+    // get the dosage
     stringstream posologyStream;
     posologyStream << varToString(_dosage.getDose()) << " " << _dosage.getDoseUnit().toString();
+
+    // If the route is defined add it to the dosage
+    if (it != routes.end() && it->second != "undefined") {
+        posologyStream << " (" << lm.translate(it->second) << ")";
+    }
+
     string newPosologyIndicationChain = concatenatePosology(posologyStream.str(), _posologyIndicationChain);
 
     // Add the posology of the single dose.

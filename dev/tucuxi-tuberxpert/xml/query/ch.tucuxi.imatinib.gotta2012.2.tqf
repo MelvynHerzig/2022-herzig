@@ -124,7 +124,7 @@
                                             <infusionTimeInMinutes>60</infusionTimeInMinutes>
                                         </dose>
                                         <formulationAndRoute>
-                                            <formulation>parenteralSolution</formulation>
+                                            <formulation>oralSolution</formulation>
                                             <administrationName>foo bar</administrationName>
                                             <administrationRoute>oral</administrationRoute>
                                             <absorptionModel>extravascular</absorptionModel>

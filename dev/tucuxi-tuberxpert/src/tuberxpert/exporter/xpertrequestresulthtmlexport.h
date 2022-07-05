@@ -54,25 +54,25 @@ protected:
 
     void getTimeRangeJson(const std::unique_ptr<Core::DosageTimeRange>& _timeRange, inja::json& _treatmentRowsJson) const;
 
-    void getAbstractDosageJson(const Tucuxi::Core::Dosage& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+    void getAbstractDosageJson(const Core::Dosage& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
 
-    void getDosageJson(const Tucuxi::Core::DosageLoop& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+    void getDosageJson(const Core::DosageLoop& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
 
-    void getDosageJson(const Tucuxi::Core::DosageSteadyState& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+    void getDosageJson(const Core::DosageSteadyState& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
 
-    void getDosageJson(const Tucuxi::Core::DosageRepeat& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+    void getDosageJson(const Core::DosageRepeat& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
 
-    void getDosageJson(const Tucuxi::Core::DosageSequence& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+    void getDosageJson(const Core::DosageSequence& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
 
-    void getDosageJson(const Tucuxi::Core::ParallelDosageSequence& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+    void getDosageJson(const Core::ParallelDosageSequence& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
 
-    void getDosageJson(const Tucuxi::Core::LastingDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+    void getDosageJson(const Core::LastingDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
 
-    void getDosageJson(const Tucuxi::Core::DailyDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+    void getDosageJson(const Core::DailyDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
 
-    void getDosageJson(const Tucuxi::Core::WeeklyDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+    void getDosageJson(const Core::WeeklyDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
 
-    void geSingleDoseJson(const Tucuxi::Core::SingleDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+    void getSingleDoseJson(const Core::SingleDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
 
     std::string concatenatePosology(const std::string& _posologyIndication, const std::string& _posologyIndicationChain) const;
 

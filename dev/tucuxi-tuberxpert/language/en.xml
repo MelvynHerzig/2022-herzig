@@ -66,5 +66,17 @@
     <entry key="day_6">Saturday</entry>
     <entry key="day_7">Sunday</entry>
     <entry key="at">at</entry>
+    <entry key="posology">Posology</entry>
+
+    <entry key="oral">oral</entry>
+    <entry key="nasal">nasal</entry>
+    <entry key="rectal">rectal</entry>
+    <entry key="vaginal">vaginal</entry>
+    <entry key="sublingual">sublingual</entry>
+    <entry key="transdermal">transdermal</entry>
+    <entry key="subcutaneous">subcutaneous</entry>
+    <entry key="intramuscular">intramuscular</entry>
+    <entry key="intravenous_drip">intravenous drip</entry>
+    <entry key="intravenous_bolus">intravenous bolus</entry>
 
 </dictionary>
