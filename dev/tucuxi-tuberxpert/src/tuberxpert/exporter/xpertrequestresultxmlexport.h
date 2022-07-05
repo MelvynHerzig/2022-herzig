@@ -89,13 +89,13 @@ protected:
     /// \brief Create and append the treatment node to the root node. Mainly use the inherithed methods.
     /// \param _treatment Treatment to export.
     /// \param _rootNode Root node where to append.
-    void exportTreatment(const std::unique_ptr<Core::DrugTreatment>& _treatment, Tucuxi::Common::XmlNode& _rootNode);
+    void exportTreatment(const std::unique_ptr<Core::DrugTreatment>& _treatment, Common::XmlNode& _rootNode);
 
     /// \brief Override of the inherited method in order to include the warning related to a single dose.
     ///        Create and append a dose to a parent node.
     /// \param _dosage Single dose to export.
     /// \param _parentNode Node where to append the single dose.
-    void exportDose(const Tucuxi::Core::SingleDose& _dosage, Tucuxi::Common::XmlNode& _parentNode) override;
+    void exportDose(const Core::SingleDose& _dosage, Common::XmlNode& _parentNode) override;
 
     /// \brief Create and append the sample results to the root node.
     /// \param _sampleResults Sample results to export.
@@ -105,7 +105,7 @@ protected:
     /// \brief Create and append the adjustment data node to the root node.
     /// \param _adjustmentData Adjustment data to export.
     /// \param _rootNode Root node where to append.
-    void exportAdjustmentData(const std::unique_ptr<Core::AdjustmentData>& _adjustmentData, Tucuxi::Common::XmlNode& _rootNode);
+    void exportAdjustmentData(const std::unique_ptr<Core::AdjustmentData>& _adjustmentData, Common::XmlNode& _rootNode);
 
     /// \brief Create and append a cycle data node to the cycleDatas node of an adjustment.
     ///        Override the inherited method to only export the needed information and not
@@ -113,7 +113,7 @@ protected:
     /// \param _cycleData Cycle data to export
     /// \param _cycleDatasNode CycleDatas node where to append.
     /// \return True.
-    bool exportCycleData(const Tucuxi::Core::CycleData& _cycleData, Tucuxi::Common::XmlNode& _cycleDatasNode) override;
+    bool exportCycleData(const Core::CycleData& _cycleData, Common::XmlNode& _cycleDatasNode) override;
 
     /// \brief Create and append the paramters values to the root node.
     ///        It creates the parameters for typical and apriori types. If possible, it makes aposteriori.
@@ -135,7 +135,7 @@ protected:
     /// \param _validationResult Validation result value to export.
     /// \param _parentNode Parent node where to append.
     template<typename T>
-    void exportWarning(const AbstractValidationResult<T>& _validationResult, Tucuxi::Common::XmlNode& _parentNode) {
+    void exportWarning(const AbstractValidationResult<T>& _validationResult, Common::XmlNode& _parentNode) {
 
         if (!_validationResult.getWarning().empty()) {
             Common::XmlNode warningNode =

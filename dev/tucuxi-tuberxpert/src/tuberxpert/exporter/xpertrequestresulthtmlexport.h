@@ -76,6 +76,8 @@ protected:
 
     void getSamplesJson(const std::map<const Core::Sample*, SampleValidationResult>& _sampleResults, inja::json& _samplesJson) const;
 
+    void getAdjustmentJson(const std::unique_ptr<Core::AdjustmentData>& _adjustmentData, inja::json& _adjustmentsJson) const;
+
     std::string concatenatePosology(const std::string& _posologyIndication, const std::string& _posologyIndicationChain) const;
 
     std::string timeToString(const Common::TimeOfDay& _timeOfDay) const;

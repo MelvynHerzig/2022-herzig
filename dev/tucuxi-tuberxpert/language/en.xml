@@ -53,7 +53,7 @@
     <entry key="type">Type</entry>
     <entry key="continually">continually</entry>
     <entry key="at_steady_state">at steady state with last dose on</entry>
-    <entry key="times">times</entry>
+    <entry key="times">time(s)</entry>
     <entry key="offset">offset</entry>
     <entry key="interval">interval</entry>
     <entry key="daily_at">daily at</entry>
@@ -83,5 +83,15 @@
     <entry key="samples">Samples</entry>
     <entry key="measure">Measure</entry>
     <entry key="percentile">Percentile</entry>
+
+    <!-- Report Adjustments -->
+    <entry key="adjustments">Adjustments</entry>
+    <entry key="intro_phrase">Based on the above information, the following adjustments are relevant to achieve the targets.</entry>
+    <entry key="per_interval">Per interval</entry>
+    <entry key="displayed_adjustments">Displayed adjustments</entry>
+    <entry key="displayed_adjustment">Displayed adjustment</entry>
+    <entry key="score">Score</entry>
+    <entry key="suggestion">Suggestion</entry>
+    <entry key="suggestion_phrase">Considering the above information, TuberXpert recommends the following adjustment</entry>
 
 </dictionary>

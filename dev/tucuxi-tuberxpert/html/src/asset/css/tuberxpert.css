@@ -296,38 +296,12 @@ hr {
   background-color: white;
 }
 
-.adjustments th {
-  text-align: left;
-}
-
-.adjustments tr > td:nth-child(1) {
-  text-align: center;
-}
-
-.adjustments tr > td:nth-child(1) > img {
-  padding-top: 2px;
-}
-
-.adjustments th:nth-child(1) {
+.adjustments table td:nth-child(1) {
   width: 5%;
 }
 
-.adjustments th:nth-child(2), .adjustments th:nth-child(3)  {
-  width: 20%;
-}
-
-.adjustments tr[class='loading-dose'] {
-  margin-right: 1cm;
-  padding-right: 1cm;
-}
-
-.adjustments div {
-  text-align: left;
-  background-color: silver;
-  margin-left: 1cm;
-  margin-right: 3px;
-  padding-left: 3px;
-  padding-right: 3px;
+.adjustments table  td:nth-child(2)  {
+  width: 95%;
 }
 
 /**

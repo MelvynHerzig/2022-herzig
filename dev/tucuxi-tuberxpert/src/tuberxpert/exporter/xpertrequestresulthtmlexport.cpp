@@ -246,8 +246,8 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "                                {{ covariate.warning }}" << endl                                       //             Insert the warning message
        << "                            </td>" << endl
        << "                        </tr>" << endl
-       << "                    </table> " << endl
-       << "                </td> " << endl
+       << "                    </table>" << endl
+       << "                </td>" << endl
        << "                {% endif %}"
        << "            </tr>" << endl
        << "            {% endfor %}"
@@ -334,6 +334,92 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        </table>" << endl
        << "        {% endif %}"
        << endl
+       << "        <!-- Adjustments -->" << endl                                                                  // ---------- ADJUSTMENTS ------------
+       << "        <h3 class='newpage'> {{ adjustments.adjustments_translation }} </h3>" << endl                  // Insert "adjustments" translation and intro phrase
+       << "        <div> {{ adjustments.intro_phrase_translation }} </div>" << endl                               // Insert "intro" translation
+       << endl
+       << "        <h4>{{ adjustments.per_interval_translation }}</h4>" << endl                                   // Insert "per interval" translation
+       << "        <div class='canvasAdjustments'>" << endl
+       << "            <canvas id='canAllAdj' width='716' height='474'></canvas>" << endl
+       << "        </div>" << endl
+       << endl
+       << "        <h5>{{ adjustments.displayed_adjustments_translation }}</h5>" << endl                          // Insert "displayed adjustments" translation
+       << "        {% for adjustment in adjustments.rows %}"                                                      // For each adjustment
+       << "        <table class='adjustments bg-light-grey'>" << endl
+       << "            <tr>" << endl                                                                              //     Insert the score translation and score value
+       << "                <td colspan='2'><b>{{ adjustments.score_translation }}:</b> {{ adjustment.score }} / 1 </td>" << endl
+       << "            </tr>" << endl
+       << "            {% for dosage_time_range in adjustment.dosage_time_ranges %}"                              //     For each time range
+       << "            <tr>" << endl
+       << "                <td>" << endl                                                                          //         Insert time range from date
+       << "                    <b>{{ adjustments.from_translation }}:</b> {{ dosage_time_range.date_from }}" << endl
+       << "                </td>" << endl                                                                         //         and from translation
+       << "                <td>" << endl
+       << "                    <b>{{ adjustments.to_translation }}:</b> {{ dosage_time_range.date_to }}" << endl  //         Insert time range to date
+       << "                </td>" << endl                                                                         //         and to translation
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <td colspan='2'>" << endl
+       << "                    <table>" << endl
+       << "                        {% for single_dose in dosage_time_range.single_doses %}"                       //             For each single dose
+       << "                        <tr>" << endl
+       << "                            <td>" << endl
+       << "                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                            </td>" << endl
+       << "                            <td>" << endl                                                              //                 Insert the posology
+       << "                                <b>{{ adjustments.posology_translation }}:</b> {{ single_dose.posology }}" << endl
+       << "                            </td>" << endl
+       << "                        </tr>" << endl
+       << "                        {% endfor %}" << endl
+       << "                    </table>" << endl
+       << "                </td>" << endl
+       << "            </tr>" << endl
+       << "            {% endfor %}"
+       << "        </table>" << endl
+       << "        <br>" << endl
+       << "        {% endfor %}"
+       << endl
+       << "        <h4 class='newpage'> {{ adjustments.suggestion_translation }} </h4>" << endl                   // Insert Suggestion translation
+       << "        <div> {{ adjustments.suggestion_phrase_translation }} </div>" << endl                          // Insert Suggestion phrase translation
+       << endl
+       << "        <div class='canvasAdjustments'>" << endl
+       << "            <canvas id='canBestAdj' width='716' height='474'></canvas>" << endl
+       << "        </div>"
+       << endl
+       << "        <h5>{{ adjustments.displayed_adjustment_translation }}</h5>" << endl                           // Insert "displayed adjustment" translation
+       << "        <table class='adjustments bg-light-grey'>" << endl                                             // For the best adjustment
+       << "            <tr>" << endl                                                                              // Insert the score translation and score value
+       << "                <td colspan='2'><b>{{ adjustments.score_translation }}:</b> {{ adjustments.rows.0.score }} / 1 </td>" << endl
+       << "            </tr>" << endl
+       << "            {% for dosage_time_range in adjustments.rows.0.dosage_time_ranges %}"                      //     For each time range
+       << "            <tr>" << endl
+       << "                <td>" << endl                                                                          //         Insert time range from date
+       << "                    <b>{{ adjustments.from_translation }}:</b> {{ dosage_time_range.date_from }}" << endl
+       << "                </td>" << endl                                                                         //         and from translation
+       << "                <td>" << endl
+       << "                    <b>{{ adjustments.to_translation }}:</b> {{ dosage_time_range.date_to }}" << endl  //         Insert time range to date
+       << "                </td>" << endl                                                                         //         and to translation
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <td colspan='2'>" << endl
+       << "                    <table>" << endl
+       << "                        {% for single_dose in dosage_time_range.single_doses %}"                       //             For each single dose
+       << "                        <tr>" << endl
+       << "                            <td>" << endl
+       << "                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                            </td>" << endl
+       << "                            <td>" << endl                                                              //                 Insert the posology
+       << "                                <b>{{ adjustments.posology_translation }}:</b> {{ single_dose.posology }}" << endl
+       << "                            </td>" << endl
+       << "                        </tr>" << endl
+       << "                        {% endfor %}" << endl
+       << "                    </table>" << endl
+       << "                </td>" << endl
+       << "            </tr>" << endl
+       << "            {% endfor %}"
+       << "        </table>" << endl
+       << "        <br>" << endl
+       << endl
        << "        <!-- Copyright -->" << endl
        << "        <div class='copyright'>" << endl
        << "            <span>Copyright (c) HEIG-VD/CHUV - 2022 | Icons by <a href='https://www.flaticon.com/fr/auteurs/gajah-mada'> Gajah Mada - Flaticon</a> & <a href='https://www.flaticon.com/fr/auteurs/freepik'>Freepik - Flaticon</a></span>" << endl
@@ -355,6 +441,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
     getCovariatesJson(_xpertRequestResult.getCovariateResults(), data["covariates"]);
     getTreatmentJson(_xpertRequestResult.getTreatment()->getDosageHistory(), data["treatment"]);
     getSamplesJson(_xpertRequestResult.getSampleResults(), data["samples"]);
+    getAdjustmentJson(_xpertRequestResult.getAdjustmentData(), data["adjustments"]);
 
     return inja::render(ss.str(), data);
 }
@@ -933,6 +1020,62 @@ void XpertRequestResultHtmlExport::getSamplesJson(const std::map<const Core::Sam
         sample["warning_level"] = varToString(sampleResultIt.second.getWarningLevel());
 
         _samplesJson["rows"].emplace_back(sample);
+    }
+}
+
+void XpertRequestResultHtmlExport::getAdjustmentJson(const std::unique_ptr<Core::AdjustmentData>& _adjustmentData, inja::json& _adjustmentsJson) const
+{
+    LanguageManager& lm = LanguageManager::getInstance();
+
+    // Get adjustments translation
+    _adjustmentsJson["adjustments_translation"] = lm.translate("adjustments");
+
+    // Get intro phrase translation
+    _adjustmentsJson["intro_phrase_translation"] = lm.translate("intro_phrase");
+
+    // Get per interval translation
+    _adjustmentsJson["per_interval_translation"] = lm.translate("per_interval");
+
+    // Get displayed adjustments translation
+    _adjustmentsJson["displayed_adjustments_translation"] = lm.translate("displayed_adjustments");
+
+    // Get displayed adjustments translation
+    _adjustmentsJson["displayed_adjustment_translation"] = lm.translate("displayed_adjustment");
+
+    // Get score translation
+    _adjustmentsJson["score_translation"] = lm.translate("score");
+
+    // Get from translation
+    _adjustmentsJson["from_translation"] = lm.translate("from");
+
+    // Get to translation
+    _adjustmentsJson["to_translation"] = lm.translate("to");
+
+    // Get posology translation
+    _adjustmentsJson["posology_translation"] = lm.translate("posology");
+
+    // Get suggestion translation
+    _adjustmentsJson["suggestion_translation"] = lm.translate("suggestion");
+
+    // Get suggestion phrase translation
+    _adjustmentsJson["suggestion_phrase_translation"] = lm.translate("suggestion_phrase");
+
+    // For each adjustment
+    for (const Core::DosageAdjustment& adj : _adjustmentData->getAdjustments()) {
+
+        inja::json adjustment;
+
+        // Get adjustment score
+        adjustment["score"] = varToString(adj.getGlobalScore());
+
+        // Export the dosage time ranges as json rows
+        for (const unique_ptr<Core::DosageTimeRange>& dosageTimeRange : adj.m_history.getDosageTimeRanges()) {
+            inja::json timeRangeJson;
+            getTimeRangeJson(dosageTimeRange, timeRangeJson);
+            adjustment["dosage_time_ranges"].emplace_back(timeRangeJson);
+        }
+
+       _adjustmentsJson["rows"].emplace_back(adjustment);
     }
 }
 
