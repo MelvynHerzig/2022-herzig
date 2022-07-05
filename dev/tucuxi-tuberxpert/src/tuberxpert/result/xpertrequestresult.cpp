@@ -9,7 +9,7 @@ namespace Tucuxi {
 namespace Xpert {
 
 XpertRequestResult::XpertRequestResult(
-        const GlobalResult* _xpertGlobalResult,
+        const GlobalResult& _xpertGlobalResult,
         unique_ptr<XpertRequestData> _xpertRequest,
         unique_ptr<Core::DrugTreatment> _drugTreatment,
         const string& _errorMessage)
@@ -73,7 +73,7 @@ const std::unique_ptr<Core::IntakeEvent>& XpertRequestResult::getLastIntake() co
     return m_lastIntake;
 }
 
-const GlobalResult* XpertRequestResult::getGlobalResult() const
+const GlobalResult& XpertRequestResult::getGlobalResult() const
 {
     return m_xpertGlobalResult;
 }

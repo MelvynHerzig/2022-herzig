@@ -53,5 +53,18 @@
     <entry key="type">Type</entry>
     <entry key="continually">continuellement</entry>
     <entry key="at_steady_state">à l'état d'équilibre avec la dernière dose le</entry>
+    <entry key="times">fois</entry>
+    <entry key="offset">décalage</entry>
+    <entry key="interval">intervalle</entry>
+    <entry key="daily_at">quotidiennement à</entry>
+    <entry key="every">chaque</entry>
+    <entry key="day_1">lundi</entry>
+    <entry key="day_2">mardi</entry>
+    <entry key="day_3">mercredi</entry>
+    <entry key="day_4">jeudi</entry>
+    <entry key="day_5">vendredi</entry>
+    <entry key="day_6">samedi</entry>
+    <entry key="day_7">dimanche</entry>
+    <entry key="at">à</entry>
 
 </dictionary>

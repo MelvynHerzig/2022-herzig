@@ -30,8 +30,7 @@ CovariateValidatorAndModelSelector::CovariateValidatorAndModelSelector()
 void CovariateValidatorAndModelSelector::perform(XpertRequestResult& _xpertRequestResult)
 {
     // Fixing computation time to compute age covariate.
-    const GlobalResult* globalResult = _xpertRequestResult.getGlobalResult();
-    m_computationTime = globalResult == nullptr ? Common::DateTime::now() : globalResult->getComputationTime();
+    m_computationTime = _xpertRequestResult.getGlobalResult().getComputationTime();
 
     Tucuxi::Common::LoggerHelper logHelper;
 

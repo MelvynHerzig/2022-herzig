@@ -65,13 +65,13 @@ void XpertRequestResultXmlExport::makeXmlString(const XpertRequestResult& _xpert
     m_xmlDocument.setRoot(root);
 
     // Date of generation
-    addNode(root, "computationTime", dateTimeToXmlString(_xpertRequestResult.getGlobalResult()->getComputationTime()));
+    addNode(root, "computationTime", dateTimeToXmlString(_xpertRequestResult.getGlobalResult().getComputationTime()));
 
     // Add the intro drugId, modelId, lastDose
     exportDrugIntro(_xpertRequestResult, root);
 
     // Add the admin
-    exportAdminData(_xpertRequestResult.getGlobalResult()->getAdminData(), root);
+    exportAdminData(_xpertRequestResult.getGlobalResult().getAdminData(), root);
 
     // Add the covariates
     exportCovariateResults(_xpertRequestResult.getCovariateResults(), root);
@@ -352,7 +352,7 @@ void XpertRequestResultXmlExport::exportCovariateResults(const std::vector<Covar
         if (covariateValidationResult.getSource()->getId() == "age") {
             int age = int(getAgeIn(covariateValidationResult.getSource()->getType(),
                                    covariateValidationResult.getPatient()->getValueAsDate(),
-                                   m_xpertRequestResultInUse->getGlobalResult()->getComputationTime()));
+                                   m_xpertRequestResultInUse->getGlobalResult().getComputationTime()));
             addNode(covariateNode, "value", to_string(age));
         } else {
             addNode(covariateNode, "value", covariateValidationResult.getValue());

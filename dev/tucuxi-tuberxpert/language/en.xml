@@ -20,7 +20,7 @@
 
     <!-- Report header -->
     <entry key="tuberxpert_report">TuberXpert report</entry>
-    <entry key="computed_on">Computed the</entry>
+    <entry key="computed_on">Computed on</entry>
 
     <!-- Report intro -->
     <entry key="id">ID</entry>
@@ -53,5 +53,18 @@
     <entry key="type">Type</entry>
     <entry key="continually">continually</entry>
     <entry key="at_steady_state">at steady state with last dose on</entry>
+    <entry key="times">times</entry>
+    <entry key="offset">offset</entry>
+    <entry key="interval">interval</entry>
+    <entry key="daily_at">daily at</entry>
+    <entry key="every">every</entry>
+    <entry key="day_1">Monday</entry>
+    <entry key="day_2">Tuesday</entry>
+    <entry key="day_3">Wednesday</entry>
+    <entry key="day_4">Thursday</entry>
+    <entry key="day_5">Friday</entry>
+    <entry key="day_6">Saturday</entry>
+    <entry key="day_7">Sunday</entry>
+    <entry key="at">at</entry>
 
 </dictionary>

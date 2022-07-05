@@ -2,6 +2,8 @@
 
 #include <sstream>
 
+#include "tucucore/dosage.h"
+
 #include "tuberxpert/utils/xpertutils.h"
 #include "tuberxpert/exporter/static/filestring.h"
 #include "tuberxpert/result/globalresult.h"
@@ -33,6 +35,7 @@ void XpertRequestResultHtmlExport::exportToFile(XpertRequestResult& _xpertReques
     }
 
     m_xpertRequestResultInUse = &_xpertRequestResult;
+
 
     // Write header
     file << makeHeaderString();
@@ -256,44 +259,42 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        {% if not exists(\"treatment.rows\") %} "                                                      // If there is no treatment
        << "            {{ treatment.none_translation }}" << endl                                                  //     Insert "None" translation
        << "        {% else %}"
-       << "        <table class='treatment bg-light-grey'>" << endl                                               // Else
+       << "         <table class='treatment bg-light-grey'>" << endl                                               // Else
        << "            {% for dosage_time_range in treatment.rows %}"                                             //     For each dosage time range
        << "            <tr>" << endl
        << "                <td><b>{{ treatment.from_translation }}</b> {{ dosage_time_range.date_from }} </td>" << endl //   Insert "from" translation and from date
        << "                <td><b>{{ treatment.to_translation }}</b> {{ dosage_time_range.date_to }}</td>" << endl      //   Insert "to" translation and to date
        << "            </tr>" << endl
        << "            <tr>" << endl
-       << "                {% if existsIn( dosage_time_range, \"type\") %} "                                      //         If it is a loop or at steady state.
-       << "                <b>{{ treatment.type_translation }}:</b> {{ dosage_time_range.type }}"                 //            Insert "type" translation and dosage time range type
-       << "                {% endif %}"
+       << "                <td colspan='2'>" << endl
+       << "                   {% if existsIn( dosage_time_range, \"type\") %} "                                   //         If it is a loop or at steady state.
+       << "                   <b>{{ treatment.type_translation }}:</b> {{ dosage_time_range.type }}"              //            Insert "type" translation and dosage time range type
+       << "                   {% endif %}"
+       << "                </td> " << endl
        << "            </tr>" << endl
        << "            <tr>" << endl
        << "                <td colspan='2'>" << endl
-       << "                    <table>" << endl
+       << "                    <table>" << endl                                                                   //         Insert each single dose found in the time range
+       << "                    {% for single_dose in dosage_time_range.single_doses %}"                           //         For each single dose
        << "                        <tr>" << endl
        << "                            <td>" << endl
        << "                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
        << "                            </td>" << endl
        << "                            <td>" << endl
-       << "                                10’000 mg every monday" << endl
+       << "                                {{ single_dose.posology }}"                                            //             Insert the dosage and posology information
        << "                            </td>" << endl
        << "                        </tr>" << endl
        << "                        <tr class='bg-warning-normal'>" << endl
+       << "                        {% if existsIn( single_dose, \"warning\") %} "                                 //             If there is a warning
        << "                            <td>" << endl
        << "                                <img alt='Warning icon image from asset/img/warning.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAASbSURBVFiFxZdtTJVlGMd/1/2cl+cgHOSgCKjTlGFEFDrUGAIBQ8DICeopRXHK8syXWetbH3RuuvVFp261am2t1Rc3+yK51cS5UEcvY9ZW0idbrJjhS04BhfN29eEArgx4Dtj6f7xf/tfvvq77fp77FlXl/5RruhM3bg/laDTccOtmX0Qi5sKlS1/emI6PJJuB9aFQimcw8plCA0D/jd8THcoXw2n2pu729gf/GUAwGPTF3KnngOq56bBqmZDlvc+ZzkGu98cALsaHBxu7uroeOvVMqgRRz6xDolQ/lS0c3m5ItQFm0/BCKvuO/8FPfbFq4007BLzl1NNxBja1tC1RtMcyeE+ELObP+Xv/3b4hmt6+TTTOiFj6zOWOjl+c+BqnpKp6DPA2rJTHggNkZKfwymoPgFejcsypryOA5q27qhGa/CkQrJhgiiW01ftJ9wkITWU1ddVPBCAYDFpGOAmwpcowy060D4fh9FdxPmi/x8ORRBk9gRT2vOgdNdaTwWDQmjFA3J26W6Fo8TyhdrmMt3dcVc5cVk5ffMDZKwOJRkt4qSyNvCyDKkV9d+7unhFAY0tLhsIRgF11gjyKz683E6s2xuJ6X2S8XdJ9vLk2kSZROVJe3pgxbQAb72Egs7RAKFwkkw19JEt4rmAWVctcAJm4w4enBdD86msFCnvdLthR6/iwJOS32V9j43GBwt7SytqCpAHEip0AXBtKhbnpycXHMsyb72PrKg+Ay2XJiaQAmrftagTqMv3QVJbk6sfkt9lW6iUrTVCoK6+qa3QEEAqF3KJyHGB7jcHrnl58LIMdsNlTmTiWKnq8pKTkMbfHAG4PRQ+A5i9bIJQ/63DjTSS/TW2hm6L5FkC+Ly1wYFKA5tbWLFQPCtBWP8PgAJYBv83rNV4EQDhYVleXNSGAibqPAulVxcLSnMkBvGP/UVVszyRj/TZP51isK3KjkG4iHP1XgKaWncUq2ubzQEvV1BuvuliYZYPHFWNdaerEA0ezEKrwkOIRFG0rq1pbPNY9fh8wcAowm8oNsyfxG1NervDhGxaqOZNnAMBvE7g/zI5SN+91ho0Ip4DK0bjQ3LJzM0hFdgAaVzuvvdfN1MFhPAvBEg8LMgxARXnN2s0AVm9vrx2OSTswe/96w8K5zgDuDcG7n8c5d+UOK/K9+LxTlM1jYQ2OkO0XLvwcBVj16ccfvW8GwqYVWPT8EmFlvvPVn7+qdPUo3/REOXt5cOoJo1lYk+di5WILYFFUPK1GVesBNq5J7tjl5YIAqnEKFnucTUpLfJR2lCbGq2q9C6HSCOQvSA5g+VLhnX0WkWgWC7Mc3m1dFhihMNfCCMSh0iD0xxV6epN/IWUHcB4cIBKDuPL9bzHiCiL0G1HtBDj7tTISmcphhhoYZjiinP4uDIDG6ZSXt+ye45bINSDL54XKIiE303k5HgxNvQEDPojcH+Fab5jz16IMhRXgplsjhaKqbNi2s8il8olC8VRm/9T40yw5/RCPaWtXZ8eP4w+TUCjkvjUQXY3oCkECTlxU1XWrvy/qNGpc+dNo/OrDgbvfdnd3R2Aaj9Mnrb8A0TtykI+7cqgAAAAASUVORK5CYII='>" << endl
        << "                            </td>" << endl
        << "                            <td>" << endl
-       << "                                Maximum recommended dosage reached ( 1’400 mg)" << endl
+       << "                                {{ single_dose.warning }}"                                             //                 Insert the warning
        << "                            </td>" << endl
+       << "                        {% endif %}"
        << "                        </tr>" << endl
-       << "                        <tr>" << endl
-       << "                            <td>" << endl
-       << "                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
-       << "                            </td>" << endl
-       << "                            <td>" << endl
-       << "                                1200 every 12:00:00" << endl
-       << "                            </td>" << endl
-       << "                        </tr>" << endl
+       << "                    {% endfor %}"
        << "                    </table>" << endl
        << "                </td>" << endl
        << "            </tr>" << endl
@@ -317,8 +318,8 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
     inja::json data;
     getHeaderJson(_xpertRequestResult, data["header"]);
     getDrugIntroJson(_xpertRequestResult, data["intro"]);
-    getContactsJson(_xpertRequestResult.getGlobalResult()->getAdminData(), data["contacts"]);
-    getClinicalDataJson(_xpertRequestResult.getGlobalResult()->getAdminData(), data["clinical_data"]);
+    getContactsJson(_xpertRequestResult.getGlobalResult().getAdminData(), data["contacts"]);
+    getClinicalDataJson(_xpertRequestResult.getGlobalResult().getAdminData(), data["clinical_data"]);
     getCovariatesJson(_xpertRequestResult.getCovariateResults(), data["covariates"]);
     getTreatmentJson(_xpertRequestResult.getTreatment()->getDosageHistory(), data["treatment"]);
 
@@ -336,7 +337,7 @@ void XpertRequestResultHtmlExport::getHeaderJson(const XpertRequestResult& _xper
     _headerJson["computed_on_translation"] = lm.translate("computed_on");
 
     // Computation time
-    Common::DateTime computationTime = _xpertRequestResult.getGlobalResult()->getComputationTime();
+    Common::DateTime computationTime = _xpertRequestResult.getGlobalResult().getComputationTime();
 
     stringstream dateStream;
     dateStream << computationTime.year() << "." << computationTime.month() << "." << computationTime.day();
@@ -596,9 +597,7 @@ void XpertRequestResultHtmlExport::getCovariatesJson(const vector<CovariateValid
 
         // Get the covariate warning
         string warning = cvr.getWarning();
-        if (warning != "") {
-            covariate["warning"] = warning;
-        }
+        getWarningJson(cvr, covariate);
 
         // Get the covariate value
         string value = cvr.getValue();
@@ -620,7 +619,7 @@ void XpertRequestResultHtmlExport::getCovariatesJson(const vector<CovariateValid
         if (cvr.getSource()->getId() == "age") {
             valueStream << int(getAgeIn(cvr.getSource()->getType(),
                                      cvr.getPatient()->getValueAsDate(),
-                                     m_xpertRequestResultInUse->getGlobalResult()->getComputationTime()));
+                                     m_xpertRequestResultInUse->getGlobalResult().getComputationTime()));
         } else {
             valueStream << value;
         }
@@ -665,35 +664,185 @@ void XpertRequestResultHtmlExport::getTreatmentJson(const Core::DosageHistory& _
 
     // Export the dosage time ranges as json rows
     for (const auto& dosageTimeRange : _history.getDosageTimeRanges()) {
-        getTimeRangeJson(dosageTimeRange, _treatmentJson["rows"]);
+        inja::json timeRangeJson;
+        getTimeRangeJson(dosageTimeRange, timeRangeJson);
+        _treatmentJson["rows"].emplace_back(timeRangeJson);
     }
 }
 
-void XpertRequestResultHtmlExport::getTimeRangeJson(const std::unique_ptr<Core::DosageTimeRange>& _timeRange, inja::json& _treatmentRowsJson) const
+void XpertRequestResultHtmlExport::getTimeRangeJson(const unique_ptr<Core::DosageTimeRange>& _timeRange, inja::json& _dosageTimeRangeJson) const
 {
-    inja::json dosageTimeRangeRowJson;
-    _treatmentRowsJson["rows"].emplace_back(dosageTimeRangeRowJson);
-
     // Set date from value
     stringstream fromDateStream;
     fromDateStream << _timeRange->getStartDate();
-    dosageTimeRangeRowJson["date_from"] = fromDateStream.str();
+    _dosageTimeRangeJson["date_from"] = fromDateStream.str();
 
     // Set date to value
     stringstream toDateStream;
     toDateStream << _timeRange->getEndDate();
-    dosageTimeRangeRowJson["date_to"] = toDateStream.str();
+    _dosageTimeRangeJson["date_to"] = toDateStream.str();
+
+    getAbstractDosageJson(*_timeRange->getDosage(), _dosageTimeRangeJson, "");
 }
 
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
-#define TRY_GET_JSON(Type)                                                                                                          \
-    if (dynamic_cast<const Tucuxi::Core::Type*>(&_dosage)) {                                                                        \
-        return exportDosage(*dynamic_cast<const Tucuxi::Core::Type*>(&_dosage), _dosageTimeRangeRowJson, _posologyIndicationChain); \
+#define TRY_GET_JSON(Type)                                                                                                        \
+    if (dynamic_cast<const Tucuxi::Core::Type*>(&_dosage)) {                                                                      \
+        return getDosageJson(*dynamic_cast<const Tucuxi::Core::Type*>(&_dosage), _dosageTimeRangeJson, _posologyIndicationChain); \
     }
 
-void XpertRequestResultHtmlExport::getAbstractDosageJson(const Core::Dosage& _dosage, inja::json& _dosageTimeRangeRowJson, const std::string& _posologyIndicationChain)
+void XpertRequestResultHtmlExport::getAbstractDosageJson(const Core::Dosage& _dosage, inja::json& _dosageTimeRangeJson, const string& _posologyIndicationChain) const
 {
+    // The calls order is important here.
+    // First start with the subclasses, else it won't work
+    TRY_GET_JSON(WeeklyDose);
+    TRY_GET_JSON(DailyDose);
+    TRY_GET_JSON(LastingDose);
+    TRY_GET_JSON(ParallelDosageSequence);
+    TRY_GET_JSON(DosageLoop);
+    TRY_GET_JSON(DosageSteadyState);
+    TRY_GET_JSON(DosageRepeat);
+    TRY_GET_JSON(DosageSequence);
+}
 
+void XpertRequestResultHtmlExport::getDosageJson(const Core::DosageLoop& _dosage, inja::json& _dosageTimeRangeJson, const string& _posologyIndicationChain) const
+{
+    // Set the type of the dosage time range.
+    LanguageManager& lm = LanguageManager::getInstance();
+    _dosageTimeRangeJson["type"] = lm.translate("continually");
+
+    // Keep digging into the dosage tree.
+    getAbstractDosageJson(*_dosage.getDosage(), _dosageTimeRangeJson, _posologyIndicationChain);
+}
+
+void XpertRequestResultHtmlExport::getDosageJson(const Core::DosageSteadyState& _dosage, inja::json& _dosageTimeRangeJson, const string& _posologyIndicationChain) const
+{
+    // Set the type of the dosage time range.
+    LanguageManager& lm = LanguageManager::getInstance();
+
+    stringstream typeStream;
+    typeStream << lm.translate("at_steady_state") << " " << _dosage.getLastDoseTime();
+    _dosageTimeRangeJson["type"] = typeStream.str();
+
+    // Keep digging into the dosage tree.
+    getAbstractDosageJson(*_dosage.getDosage(), _dosageTimeRangeJson, _posologyIndicationChain);
+}
+
+void XpertRequestResultHtmlExport::getDosageJson(const Core::DosageRepeat& _dosage, inja::json& _dosageTimeRangeJson, const string& _posologyIndicationChain) const
+{
+    // Add indication in the posology indication chain
+    LanguageManager& lm = LanguageManager::getInstance();
+
+    stringstream posologyStream;
+    posologyStream << _dosage.getNbTimes() << " " << lm.translate("times");
+    string newPosologyIndicationChain = concatenatePosology(posologyStream.str(), _posologyIndicationChain);
+
+    // Keep digging into the dosage tree.
+    getAbstractDosageJson(*_dosage.getDosage(), _dosageTimeRangeJson, newPosologyIndicationChain);
+}
+
+void XpertRequestResultHtmlExport::getDosageJson(const Core::DosageSequence& _dosage, inja::json& _dosageTimeRangeJson, const string& _posologyIndicationChain) const
+{
+    // Just iterate over the dosages. It will create a "sub-row" in the dosage time range row.
+    for (const std::unique_ptr<Tucuxi::Core::DosageBounded>& dosage : _dosage.getDosageList()) {
+        getAbstractDosageJson(*dosage, _dosageTimeRangeJson, _posologyIndicationChain);
+    }
+}
+
+void XpertRequestResultHtmlExport::getDosageJson(const Core::ParallelDosageSequence& _dosage, inja::json& _dosageTimeRangeJson, const string& _posologyIndicationChain) const
+{
+     LanguageManager& lm = LanguageManager::getInstance();
+
+    auto it = _dosage.getOffsetsList().begin();
+
+    // For each dosage add the offset in the posology indication chain.
+    for (const std::unique_ptr<Tucuxi::Core::DosageBounded>& dosage : _dosage.getDosageList()) {
+
+        stringstream offsetStream;
+        offsetStream << lm.translate("offset") << " " << timeToString(TimeOfDay(*it));
+        string newPosologyIndicationChain = concatenatePosology(offsetStream.str(), _posologyIndicationChain);
+
+        getAbstractDosageJson(*dosage,  _dosageTimeRangeJson, newPosologyIndicationChain);
+        it++;
+    }
+}
+
+void XpertRequestResultHtmlExport::getDosageJson(const Core::LastingDose& _dosage, inja::json& _dosageTimeRangeJson, const string& _posologyIndicationChain) const
+{
+    // Add indication in the posology indication chain
+    LanguageManager& lm = LanguageManager::getInstance();
+
+    stringstream posologyStream;
+    posologyStream << lm.translate("interval") << " " << timeToString(TimeOfDay(_dosage.getTimeStep()));
+    string newPosologyIndicationChain = concatenatePosology(posologyStream.str(), _posologyIndicationChain);
+
+    // Export the single dose
+    geSingleDoseJson(_dosage, _dosageTimeRangeJson, newPosologyIndicationChain);
+}
+
+void XpertRequestResultHtmlExport::getDosageJson(const Core::DailyDose& _dosage, inja::json& _dosageTimeRangeJson, const string& _posologyIndicationChain) const
+{
+    // Add indication in the posology indication chain
+    LanguageManager& lm = LanguageManager::getInstance();
+
+    stringstream posologyStream;
+    posologyStream << lm.translate("daily_at") << " " << timeToString(_dosage.getTimeOfDay());
+    string newPosologyIndicationChain = concatenatePosology(posologyStream.str(), _posologyIndicationChain);
+
+    // Export the single dose
+    geSingleDoseJson(_dosage, _dosageTimeRangeJson, newPosologyIndicationChain);
+}
+
+void XpertRequestResultHtmlExport::getDosageJson(const Core::WeeklyDose& _dosage, inja::json& _dosageTimeRangeJson, const string& _posologyIndicationChain) const
+{
+    // Add indication in the posology indication chain
+    LanguageManager& lm = LanguageManager::getInstance();
+
+    stringstream posologyStream;
+    posologyStream << lm.translate("every") << " " << lm.translate("day_" + to_string(_dosage.getDayOfWeek().operator unsigned int()))
+                   << " " <<lm.translate("at") << " " << timeToString(_dosage.getTimeOfDay());
+    string newPosologyIndicationChain = concatenatePosology(posologyStream.str(), _posologyIndicationChain);
+
+    // Export the single dose
+    geSingleDoseJson(_dosage, _dosageTimeRangeJson, newPosologyIndicationChain);
+}
+
+void XpertRequestResultHtmlExport::geSingleDoseJson(const Core::SingleDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const
+{
+    // Add the dose value to the posology chain
+    stringstream posologyStream;
+    posologyStream << varToString(_dosage.getDose()) << " " << _dosage.getDoseUnit().toString();
+    string newPosologyIndicationChain = concatenatePosology(posologyStream.str(), _posologyIndicationChain);
+
+    // Add the posology of the single dose.
+    inja::json singleDose;
+    singleDose["posology"] = newPosologyIndicationChain;
+
+    // Add the potential warning
+    auto singleDoseIt = m_xpertRequestResultInUse->getDoseResults().find(&_dosage);
+    if (singleDoseIt !=  m_xpertRequestResultInUse->getDoseResults().end()){
+        getWarningJson(singleDoseIt->second, singleDose);
+    }
+
+    // Add the single dose to the single doses list of the time range.
+    _dosageTimeRangeJson["single_doses"].emplace_back(singleDose);
+}
+
+string XpertRequestResultHtmlExport::concatenatePosology(const string& _posologyIndication, const string& _posologyIndicationChain) const
+{
+    stringstream ss;
+    ss << _posologyIndication
+       << (_posologyIndicationChain.empty() ? "" : ", ") << _posologyIndicationChain; // Add a coma only if there is already a posology indication.
+
+    return ss.str();
+}
+
+string XpertRequestResultHtmlExport::timeToString(const Common::TimeOfDay& _timeOfDay) const
+{
+    char str[10];
+    snprintf(str, 9, "%02d:%02d:%02d", _timeOfDay.hour(), _timeOfDay.minute(), _timeOfDay.second());
+
+    return string(str);
 }
 
 } // namespace Xpert

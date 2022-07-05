@@ -54,7 +54,38 @@ protected:
 
     void getTimeRangeJson(const std::unique_ptr<Core::DosageTimeRange>& _timeRange, inja::json& _treatmentRowsJson) const;
 
-    void getAbstractDosageJson(const Tucuxi::Core::Dosage& _dosage, inja::json& _dosageTimeRangeRowJson, const std::string& _posologyIndicationChaining);
+    void getAbstractDosageJson(const Tucuxi::Core::Dosage& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+
+    void getDosageJson(const Tucuxi::Core::DosageLoop& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+
+    void getDosageJson(const Tucuxi::Core::DosageSteadyState& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+
+    void getDosageJson(const Tucuxi::Core::DosageRepeat& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+
+    void getDosageJson(const Tucuxi::Core::DosageSequence& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+
+    void getDosageJson(const Tucuxi::Core::ParallelDosageSequence& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+
+    void getDosageJson(const Tucuxi::Core::LastingDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+
+    void getDosageJson(const Tucuxi::Core::DailyDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+
+    void getDosageJson(const Tucuxi::Core::WeeklyDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+
+    void geSingleDoseJson(const Tucuxi::Core::SingleDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const;
+
+    std::string concatenatePosology(const std::string& _posologyIndication, const std::string& _posologyIndicationChain) const;
+
+    std::string timeToString(const Common::TimeOfDay& _timeOfDay) const;
+
+
+    template<typename T>
+    void getWarningJson(const AbstractValidationResult<T>& _validationResult, inja::json& _json) const {
+
+        if (!_validationResult.getWarning().empty()) {
+            _json["warning"] = _validationResult.getWarning();
+        }
+    }
 
     /// \brief We need to keep a reference on the xpert request result in order
     ///        to retreive the dose validation results map, to retreive

@@ -119,10 +119,10 @@ string computeFileName(const XpertRequestResult& _xpertRequestResult)
     }
 
     stringstream ss;
-    Common::DateTime dtComputation = _xpertRequestResult.getGlobalResult()->getComputationTime();
-    ss << _xpertRequestResult.getGlobalResult()->getOutputPath() << "\\" <<
+    Common::DateTime dtComputation = _xpertRequestResult.getGlobalResult().getComputationTime();
+    ss << _xpertRequestResult.getGlobalResult().getOutputPath() << "\\" <<
           _xpertRequestResult.getXpertRequest().getDrugID() << "_" <<
-          _xpertRequestResult.getGlobalResult()->getRequestIndexBeingHandled() + 1 << "_" <<
+          _xpertRequestResult.getGlobalResult().getRequestIndexBeingHandled() + 1 << "_" <<
           dtComputation.day() << "-" << dtComputation.month() << "-" << dtComputation.year() << "_" <<
           dtComputation.hour() << "h" << dtComputation.minute() << "m" << dtComputation.second() << "s" <<
           "." << extension;
