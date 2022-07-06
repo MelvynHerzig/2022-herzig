@@ -124,4 +124,10 @@
     <entry key="a_priori">A priori</entry>
     <entry key="a_posteriori">A posteriori</entry>
 
+    <!-- Report Predictions -->
+    <entry key="predictions">Predictions</entry>
+    <entry key="extrapolated_steady_state_auc24">Extrapolated steady state AUC24</entry>
+    <entry key="steady_state_peak">Steady state peak</entry>
+    <entry key="steady_state_trough">Steady state trough</entry>
+
 </dictionary>

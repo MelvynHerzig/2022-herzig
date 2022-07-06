@@ -124,4 +124,10 @@
     <entry key="a_priori">À priori</entry>
     <entry key="a_posteriori">À posteriori</entry>
 
+    <!-- Report Predictions -->
+    <entry key="predictions">Prédictions</entry>
+    <entry key="extrapolated_steady_state_auc24">ASC24 extrapolée à l'état d'équilibre</entry>
+    <entry key="steady_state_peak">Sommet à l'état d'équilibre</entry>
+    <entry key="steady_state_trough">Creux de l'état d'équilibre</entry>
+
 </dictionary>

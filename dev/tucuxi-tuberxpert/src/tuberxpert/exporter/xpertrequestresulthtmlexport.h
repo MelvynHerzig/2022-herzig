@@ -82,6 +82,8 @@ protected:
 
     void getParametersJson(const XpertRequestResult& _xpertRequestResult, inja::json& _pksJson) const;
 
+    void getPredictionsJson(const XpertRequestResult& _xpertRequestResult, inja::json& _predictionsJson) const;
+
     std::string concatenatePosology(const std::string& _posologyIndication, const std::string& _posologyIndicationChain) const;
 
     std::string timeToString(const Common::TimeOfDay& _timeOfDay) const;

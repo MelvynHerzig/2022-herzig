@@ -396,6 +396,10 @@ hr {
   text-align: left;
 }
 
+.pks td {
+  vertical-align: middle;
+}
+
 /**
   =======================================================
   Pharmacokinetic parameters
@@ -450,6 +454,10 @@ hr {
 
 .computation-covariates th:nth-child(2) {
   width: 45%;
+}
+
+.computation-covariates td {
+  vertical-align: middle;
 }
 
 /**

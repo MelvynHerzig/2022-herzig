@@ -467,6 +467,22 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "            {% endfor %}"
        << "        </table>"
        << endl
+       << "        <!-- Predictions -->" << endl                                                                  // ---------- Predictions ------------
+       << "        <h5 class='underline'> {{ predictions.predictions_translation }}</h5>" << endl                 // Insert predictions translation
+       << "        <table class='predictions bg-light-grey'>" << endl
+       << "            <tr>" << endl
+       << "                <th>{{ predictions.extrapolated_steady_state_auc24_translation }}</th>" << endl        // Insert extrapolated steady state auc24 translation
+       << "                <td>{{ predictions.extrapolated_steady_state_auc24 }}</td>" << endl                    // Insert extrapolated steady state auc24 value
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <th>{{ predictions.steady_state_peak_translation }}</th>" << endl                      // Insert steady state peak translation
+       << "                <td>{{ predictions.steady_state_peak }}</td>" << endl                                  // Insert steady state peak value
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <th>{{ predictions.steady_state_trough_translation }}</th>" << endl                    // Insert steady state trough translation
+       << "                <td>{{ predictions.steady_state_trough }}</td>" << endl                                // Insert steady state trough value
+       << "            </tr>" << endl
+       << "        </table>" << endl
        << "        <!-- Copyright -->" << endl
        << "        <div class='copyright'>" << endl
        << "            <span>Copyright (c) HEIG-VD/CHUV - 2022 | Icons by <a href='https://www.flaticon.com/fr/auteurs/gajah-mada'> Gajah Mada - Flaticon</a> & <a href='https://www.flaticon.com/fr/auteurs/freepik'>Freepik - Flaticon</a></span>" << endl
@@ -491,6 +507,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
     getAdjustmentJson(_xpertRequestResult.getAdjustmentData(), data["adjustments"]);
     getTargetsJson(_xpertRequestResult.getAdjustmentData(), data["targets"]);
     getParametersJson(_xpertRequestResult, data["pks"]);
+    getPredictionsJson(_xpertRequestResult, data["predictions"]);
 
     return inja::render(ss.str(), data);
 }
@@ -1235,6 +1252,50 @@ void XpertRequestResultHtmlExport::getParametersJson(const XpertRequestResult& _
             }
         }
     }
+}
+
+void XpertRequestResultHtmlExport::getPredictionsJson(const XpertRequestResult& _xpertRequestResult, inja::json& _predictionsJson) const
+{
+    LanguageManager& lm = LanguageManager::getInstance();
+
+    // Predictions translation
+    _predictionsJson["predictions_translation"] = lm.translate("predictions");
+
+    // Extrapolated steady state auc24 translation
+    _predictionsJson["extrapolated_steady_state_auc24_translation"] = lm.translate("extrapolated_steady_state_auc24");
+
+    // Steady state peak translation
+    _predictionsJson["steady_state_peak_translation"] = lm.translate("steady_state_peak");
+
+    // Steady state trough translation
+    _predictionsJson["steady_state_trough_translation"] = lm.translate("steady_state_trough");
+
+    // Extrapolated steady state auc24 translation
+    _predictionsJson["extrapolated_steady_state_auc24_translation"] = lm.translate("extrapolated_steady_state_auc24");
+
+    // Steady state peak translation
+    _predictionsJson["steady_state_peak_translation"] = lm.translate("steady_state_peak");
+
+    // Steady state trough translation
+    _predictionsJson["steady_state_trough_translation"] = lm.translate("steady_state_trough");
+
+    double auc24 = -1.0;
+    double peak = -1.0;
+    double residual = -1.0;
+    Tucuxi::Common::DateTime date;
+
+    _xpertRequestResult.getCycleStats().getStatistic(0, Tucuxi::Core::CycleStatisticType::AUC24).getValue(date, auc24);
+    _xpertRequestResult.getCycleStats().getStatistic(0, Tucuxi::Core::CycleStatisticType::Peak).getValue(date, peak);
+    _xpertRequestResult.getCycleStats().getStatistic(0, Tucuxi::Core::CycleStatisticType::Residual).getValue(date, residual);
+
+    // Extrapolated steady state auc24
+    _predictionsJson["extrapolated_steady_state_auc24"] = varToString(auc24);
+
+    // Steady state peak
+    _predictionsJson["steady_state_peak"] = varToString(peak);
+
+    // Steady state trough
+    _predictionsJson["steady_state_trough"] = varToString(residual);
 }
 
 string XpertRequestResultHtmlExport::concatenatePosology(const string& _posologyIndication, const string& _posologyIndicationChain) const
