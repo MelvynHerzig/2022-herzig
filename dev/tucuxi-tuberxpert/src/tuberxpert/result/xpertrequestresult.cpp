@@ -78,7 +78,7 @@ const GlobalResult& XpertRequestResult::getGlobalResult() const
     return m_xpertGlobalResult;
 }
 
-const std::vector<std::vector<Core::ParameterValue> > &XpertRequestResult::getParameters() const
+const std::vector<std::vector<Core::ParameterValue>>& XpertRequestResult::getParameters() const
 {
     return m_parameters;
 }

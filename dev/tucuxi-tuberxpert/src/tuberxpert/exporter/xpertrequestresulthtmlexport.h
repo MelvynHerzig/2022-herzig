@@ -80,6 +80,8 @@ protected:
 
     void getTargetsJson(const std::unique_ptr<Core::AdjustmentData>& _adjustmentData, inja::json& _targetsJson) const;
 
+    void getParametersJson(const XpertRequestResult& _xpertRequestResult, inja::json& _pksJson) const;
+
     std::string concatenatePosology(const std::string& _posologyIndication, const std::string& _posologyIndicationChain) const;
 
     std::string timeToString(const Common::TimeOfDay& _timeOfDay) const;

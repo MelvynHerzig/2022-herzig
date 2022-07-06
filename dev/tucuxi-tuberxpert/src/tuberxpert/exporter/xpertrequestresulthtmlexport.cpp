@@ -444,6 +444,29 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "            {% endfor %}"
        << "        </table>" << endl
        << endl
+       << "        <!-- Pharmacokinetic parameters -->" << endl                                                   // ---------- PKs ------------
+       << "        <h5 class='underline'> {{ pks.pharmacokinetic_parameters_translation }} </h5>" << endl         // Insert pharmacokinetic parameters translation
+       << "        <table class='pks bg-light-grey'>" << endl
+       << "            <tr>" << endl
+       << "                <th></th>" << endl
+       << "                <th></th>" << endl
+       << "                <th>{{ pks.typical_patient_translation }}</th>" << endl                                // Insert typical patient translation
+       << "                <th>{{ pks.a_priori_translation }}</th>" << endl                                       // Insert a priori translation
+       << "                <th>{{ pks.a_posteriori_translation }}</th>" << endl                                   // Insert a posteriori translation
+       << "            </tr>" << endl
+       << "            {% for parameter in pks.rows %}"                                                           // For each parameter
+       << "            <tr>" << endl
+       << "                <td>" << endl
+       << "                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                </td>" << endl
+       << "                <td> {{ parameter.name }} </td>" << endl                                               //     Insert parameter name
+       << "                <td> {{ default( parameter.typical_patient, \"-\") }} </td>" << endl                   //     Insert parameter typical patient value
+       << "                <td> {{ default( parameter.a_priori, \"-\") }} </td>" << endl                          //     Insert parameter a priori value
+       << "                <td> {{ default( parameter.a_posteriori, \"-\") }} </td>" << endl                      //     Insert parameter a posteriori value
+       << "            </tr>" << endl
+       << "            {% endfor %}"
+       << "        </table>"
+       << endl
        << "        <!-- Copyright -->" << endl
        << "        <div class='copyright'>" << endl
        << "            <span>Copyright (c) HEIG-VD/CHUV - 2022 | Icons by <a href='https://www.flaticon.com/fr/auteurs/gajah-mada'> Gajah Mada - Flaticon</a> & <a href='https://www.flaticon.com/fr/auteurs/freepik'>Freepik - Flaticon</a></span>" << endl
@@ -467,6 +490,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
     getSamplesJson(_xpertRequestResult.getSampleResults(), data["samples"]);
     getAdjustmentJson(_xpertRequestResult.getAdjustmentData(), data["adjustments"]);
     getTargetsJson(_xpertRequestResult.getAdjustmentData(), data["targets"]);
+    getParametersJson(_xpertRequestResult, data["pks"]);
 
     return inja::render(ss.str(), data);
 }
@@ -1156,6 +1180,60 @@ void XpertRequestResultHtmlExport::getTargetsJson(const std::unique_ptr<Core::Ad
         targetJson["bounds"] = boundsStream.str();
 
         _targetsJson["rows"].emplace_back(targetJson);
+    }
+}
+
+void XpertRequestResultHtmlExport::getParametersJson(const XpertRequestResult& _xpertRequestResult, inja::json& _pksJson) const
+{
+    LanguageManager& lm = LanguageManager::getInstance();
+
+    // Pharmacokinetic parameters translation
+    _pksJson["pharmacokinetic_parameters_translation"] = lm.translate("pharmacokinetic_parameters");
+
+    // Typical patient translation
+    _pksJson["typical_patient_translation"] = lm.translate("typical_patient");
+
+    // A priori phrase translation
+    _pksJson["a_priori_translation"] = lm.translate("a_priori");
+
+    // A posteriori phrase translation
+    _pksJson["a_posteriori_translation"] = lm.translate("a_posteriori");
+
+    // For each type series (0: typical patient, 1: a priori, 2: a posteriori)
+    for (size_t i = 0; i < _xpertRequestResult.getParameters().size(); i++) {
+
+        // For each parameter
+        // We take advantage of the fact that the parameters are always in the same order
+        // in the 3 vectors. Thus, we can easily add the a priori and a posteriori values.
+        for (size_t j = 0; j < _xpertRequestResult.getParameters()[i].size(); ++j ) {
+
+            const Core::ParameterValue& parameterValue = _xpertRequestResult.getParameters()[i][j];
+
+            // Insert the parameter value depending on the type.
+            switch(i) {
+
+            // Typical patient
+            case 0: {
+                inja::json parameterJson;
+                parameterJson["name"] = parameterValue.m_parameterId;
+                parameterJson["typical_patient"] = varToString(parameterValue.m_value);
+                _pksJson["rows"].emplace_back(parameterJson);
+                break;
+            }
+
+            // A priori
+            case 1: {
+                _pksJson["rows"][j]["a_priori"] = varToString(parameterValue.m_value);
+                break;
+            }
+
+            // A posteriori
+            case 2: {
+                _pksJson["rows"][j]["a_posteriori"] = varToString(parameterValue.m_value);
+                break;
+            }
+            }
+        }
     }
 }
 
