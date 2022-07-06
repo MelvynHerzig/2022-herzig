@@ -419,6 +419,30 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "            {% endfor %}"
        << "        </table>" << endl
        << "        <br>" << endl
+       << endl                                                                                                    // ---------- TARGETS ------------
+       << "        <div>{{ targets.targets_phrase_translation }}</div><br>" << endl                               // Insert target phrase translation
+       << endl
+       << "        <table class='targets bg-light-grey'>" << endl
+       << "            <tr>" << endl
+       << "                <th></th>" << endl
+       << "                <th>Type</th>" << endl
+       << "                <th>Value (unit)</th>" << endl
+       << "                <th>Score</th>" << endl
+       << "            </tr>" << endl
+       << "            {% for target in targets.rows %}"                                                          // For each target
+       << "            <tr>" << endl
+       << "                <td>" << endl
+       << "                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                </td>" << endl
+       << "                <td>{{ target.type }}</td>" << endl                                                    //     Insert target type
+       << "                <td>{{ target.value }}</td>" << endl                                                   //     Insert target value
+       << "                <td>{{ target.score }} / 1</td>" << endl                                               //     Insert target score
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <td colspan='4'><div>{{ target.bounds }}</div></td>" << endl                           //     Insert target bounds
+       << "            </tr>" << endl
+       << "            {% endfor %}"
+       << "        </table>" << endl
        << endl
        << "        <!-- Copyright -->" << endl
        << "        <div class='copyright'>" << endl
@@ -442,6 +466,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
     getTreatmentJson(_xpertRequestResult.getTreatment()->getDosageHistory(), data["treatment"]);
     getSamplesJson(_xpertRequestResult.getSampleResults(), data["samples"]);
     getAdjustmentJson(_xpertRequestResult.getAdjustmentData(), data["adjustments"]);
+    getTargetsJson(_xpertRequestResult.getAdjustmentData(), data["targets"]);
 
     return inja::render(ss.str(), data);
 }
@@ -1076,6 +1101,61 @@ void XpertRequestResultHtmlExport::getAdjustmentJson(const std::unique_ptr<Core:
         }
 
        _adjustmentsJson["rows"].emplace_back(adjustment);
+    }
+}
+
+void XpertRequestResultHtmlExport::getTargetsJson(const std::unique_ptr<Core::AdjustmentData>& _adjustmentData, inja::json& _targetsJson) const
+{
+    LanguageManager& lm = LanguageManager::getInstance();
+
+    // Targets phrase translation
+    _targetsJson["targets_phrase_translation"] = lm.translate("targets_phrase");
+
+    // For each target in the best suggestion
+    for(const auto& target : _adjustmentData->getAdjustments()[0].m_targetsEvaluation) {
+        inja::json targetJson;
+
+        // Get the target type translation
+        static std::map<Core::TargetType, std::string> types = {
+                {Core::TargetType::UnknownTarget, "unknown"},
+                {Core::TargetType::Residual, "residual"},
+                {Core::TargetType::Peak, "peak"},
+                {Core::TargetType::Mean, "mean"},
+                {Core::TargetType::Auc, "auc"},
+                {Core::TargetType::Auc24, "auc24"},
+                {Core::TargetType::CumulativeAuc, "cumulative_auc"},
+                {Core::TargetType::AucOverMic, "auc_over_mic"},
+                {Core::TargetType::Auc24OverMic, "auc24_over_mic"},
+                {Core::TargetType::TimeOverMic, "time_over_mic"},
+                {Core::TargetType::AucDividedByMic, "auc_divided_by_mic"},
+                {Core::TargetType::Auc24DividedByMic, "auc24_divided_by_mic"},
+                {Core::TargetType::PeakDividedByMic, "peak_divided_by_mic"},
+                {Core::TargetType::ResidualDividedByMic, "residual_divided_by_mic"},
+                {Core::TargetType::FractionTimeOverMic, "fraction_time_over_mic"}};
+
+        targetJson["type"] = lm.translate(types.at(target.getTargetType()));
+
+        // Get the value (unit)
+        stringstream valueStream;
+        valueStream << target.getValue() << " (" << target.getUnit().toString() << ")";
+        targetJson["value"] = valueStream.str();
+
+        // Get the score
+        targetJson["score"] = varToString(target.getScore());
+
+        // Get the bounds
+        stringstream boundsStream;
+        boundsStream << lm.translate("inefficacy") << ": " << int(target.getTarget().getInefficacyAlarm()) << " / "
+                     << "<b>"
+                     << lm.translate("min") << ": " << int(target.getTarget().getValueMin()) << " / "
+                     << lm.translate("best") << ": " << int(target.getTarget().getValueBest()) << " / "
+                     << lm.translate("max") << ": " << int(target.getTarget().getValueBest()) << " / "
+                     << "</b>"
+                     << lm.translate("toxicity") << ": " << int(target.getTarget().getToxicityAlarm());
+
+        targetJson["bounds"] = boundsStream.str();
+
+        _targetsJson["rows"].emplace_back(targetJson);
     }
 }
 

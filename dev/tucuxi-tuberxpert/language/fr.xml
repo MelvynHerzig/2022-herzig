@@ -94,4 +94,34 @@
     <entry key="suggestion">Suggestion</entry>
     <entry key="suggestion_phrase">Compte tenu des informations ci-dessus, TuberXpert recommande l'ajustement suivant.</entry>
 
+    <!-- Report Targets -->
+    <entry key="targets_phrase">Avec la meilleure suggestion, les objectifs devraient changer comme suit.</entry>
+    <entry key="unknown">Inconnu</entry>
+    <entry key="residual">Résiduel</entry>
+    <entry key="peak">Sommet</entry>
+    <entry key="mean">Moyenne</entry>
+    <entry key="auc">Aire sous la courbe</entry>
+    <entry key="auc24">Aire sous la courbe pour 24 heures</entry>
+    <entry key="cumulative_auc">Aire sous la courbe cumulatif</entry>
+    <entry key="auc_over_mic">Aire sous la courbe sur la concentration minimale inhibitrice</entry>
+    <entry key="auc24_over_mic">Aire sous la courbe pour 24 heures sur la concentration minimale inhibitrice</entry>
+    <entry key="time_over_mic">Temps sur la concentration minimale inhibitrice</entry>
+    <entry key="auc_divided_by_mic">Aire sous la courbe divisé par la concentration minimale inhibitrice</entry>
+    <entry key="auc24_divided_by_mic">Aire sous la courbe pour 24 heures divisé par la concentration minimale inhibitrice</entry>
+    <entry key="peak_divided_by_mic">Sommet divisé par la concentration minimale inhibitrice</entry>
+    <entry key="residual_divided_by_mic">Résiduel divisé par la concentration minimale inhibitrice</entry>
+    <entry key="fraction_time_over_mic">Fraction de temps sur la concentration minimale inhibitrice</entry>
+
+    <entry key="inefficacy">Inefficacité</entry>
+    <entry key="min">Min</entry>
+    <entry key="best">Meilleur</entry>
+    <entry key="max">Max</entry>
+    <entry key="toxicity">Toxicité</entry>
+
+    <!-- Report Pharmacokinetic parameters -->
+    <entry key="pharmacokinetic_parameters">Paramètres pharmacocinétiques</entry>
+    <entry key="typical_patient">Patient type</entry>
+    <entry key="a_priori">À priori</entry>
+    <entry key="a_posteriori">À posteriori</entry>
+
 </dictionary>

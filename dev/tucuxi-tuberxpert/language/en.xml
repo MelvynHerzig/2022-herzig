@@ -92,6 +92,36 @@
     <entry key="displayed_adjustment">Displayed adjustment</entry>
     <entry key="score">Score</entry>
     <entry key="suggestion">Suggestion</entry>
-    <entry key="suggestion_phrase">Considering the above information, TuberXpert recommends the following adjustment</entry>
+    <entry key="suggestion_phrase">Considering the above information, TuberXpert recommends the following adjustment.</entry>
+
+    <!-- Report Targets -->
+    <entry key="targets_phrase">With the best suggestion, the targets are expected to change as follows.</entry>
+    <entry key="unknown">Unknown</entry>
+    <entry key="residual">Residual</entry>
+    <entry key="peak">Peak</entry>
+    <entry key="mean">Mean</entry>
+    <entry key="auc">Area under the curve</entry>
+    <entry key="auc24">Area under the curve for 24 hours</entry>
+    <entry key="cumulative_auc">Cumulative area under the curve</entry>
+    <entry key="auc_over_mic">Area under the curve over minimum inhibitory concentration</entry>
+    <entry key="auc24_over_mic">Area under the curve for 24 hours over minimum inhibitory concentration</entry>
+    <entry key="time_over_mic">Time over minimum inhibitory concentration</entry>
+    <entry key="auc_divided_by_mic">Area under the curve divided by minimum inhibitory concentration</entry>
+    <entry key="auc24_divided_by_mic">Area under the curve for 24 hours divided by minimum inhibitory concentration</entry>
+    <entry key="peak_divided_by_mic">Peak divided by minimum inhibitory concentration</entry>
+    <entry key="residual_divided_by_mic">Residual divided by minimum inhibitory concentration</entry>
+    <entry key="fraction_time_over_mic">Fraction time over minimum inhibitory concentration</entry>
+
+    <entry key="inefficacy">Inefficacy</entry>
+    <entry key="min">Min</entry>
+    <entry key="best">Best</entry>
+    <entry key="max">Max</entry>
+    <entry key="toxicity">Toxicity</entry>
+
+    <!-- Report Pharmacokinetic parameters -->
+    <entry key="pharmacokinetic_parameters">Pharmacokinetic parameters</entry>
+    <entry key="typical_patient">Typical patient</entry>
+    <entry key="a_priori">A priori</entry>
+    <entry key="a_posteriori">A posteriori</entry>
 
 </dictionary>

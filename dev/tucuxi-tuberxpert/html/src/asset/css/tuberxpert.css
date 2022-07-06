@@ -318,16 +318,14 @@ hr {
   background-color: white;
 }
 
-.targets th {
+.targets td,  .targets th{
+  vertical-align: middle;
   text-align: left;
 }
 
 .targets tr > td:nth-child(1) {
+  vertical-align: top;
   text-align: center;
-}
-
-.targets tr > td:nth-child(1) > img {
-  padding-top: 2px;
 }
 
 .targets th:nth-child(1) {
@@ -335,11 +333,11 @@ hr {
 }
 
 .targets th:nth-child(2)  {
-  width: 20%;
+  width: 60%;
 }
 
 .targets th:nth-child(3)  {
-  width: 60%;
+  width: 20%;
 }
 
 .targets th:nth-child(4)  {
