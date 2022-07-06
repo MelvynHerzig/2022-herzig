@@ -28,6 +28,7 @@
     <entry key="drug_model">Drug model</entry>
 
     <!-- Report contacts -->
+    <entry key="contacts">Contacts</entry>
     <entry key="mandator">Mandator</entry>
     <entry key="patient">Patient</entry>
     <entry key="name">Name</entry>
@@ -129,5 +130,9 @@
     <entry key="extrapolated_steady_state_auc24">Extrapolated steady state AUC24</entry>
     <entry key="steady_state_peak">Steady state peak</entry>
     <entry key="steady_state_trough">Steady state trough</entry>
+
+    <!-- Report Computation covariates -->
+    <entry key="computation_covariates">Covariates used for computation</entry>
+    <entry key="covariate_id">Covariate ID</entry>
 
 </dictionary>

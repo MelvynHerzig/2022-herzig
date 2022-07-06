@@ -131,7 +131,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        </table>" << endl                     // Insert drug intro
        << endl
        << "        <!-- Administrative/contacts -->" << endl                                                      // ---------- ADMIN CONTACTS ------------
-       << "        <h3>Contacts</h3>" << endl
+       << "        <h3> {{ contacts.translation }} </h3>" << endl                                                 // Insert contacts translation
        << "        <table class='contacts-header'>" << endl                                                       // Insert "Mandator" and "Patient" translation
        << "            <tr>" << endl                                                                              // ---->  ---->  ---->  ---->  ---->  ---->
        << "                <th></th>" << endl
@@ -216,7 +216,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        {% endif %}"
        << endl
        << "        <!-- Covariates -->" << endl                                                                   // ---------- COVARIATES ------------
-       << "        <h3> {{ covariates.covariates_translation }} </h3>" << endl                                    // Insert "Clinical data" translation
+       << "        <h3> {{ covariates.translation }} </h3>" << endl                                               // Insert "Clinical data" translation
        << "        {% if not exists(\"covariates.rows\") %} "                                                     // If there is no clinical data
        << "            {{ covariates.none_translation }}" << endl                                                 //     Insert "None" translation
        << "        {% else %}"                                                                                    // Else
@@ -255,7 +255,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        {% endif %}"
        << endl
        << "        <!-- Treatment -->" << endl                                                                    // ---------- TREATMENT ------------
-       << "        <h3> {{ treatment.treatment_translation }} </h3>" << endl                                      // Insert "Treatment" translation
+       << "        <h3> {{ treatment.translation }} </h3>" << endl                                                // Insert "Treatment" translation
        << "        {% if not exists(\"treatment.rows\") %} "                                                      // If there is no treatment
        << "            {{ treatment.none_translation }}" << endl                                                  //     Insert "None" translation
        << "        {% else %}"
@@ -303,7 +303,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        {% endif %}"
        << endl
        << "        <!-- Samples -->" << endl                                                                      // ---------- SAMPLES ------------
-       << "        <h3> {{samples.samples_translation}} </h3>" << endl                                            // Insert "Samples" translation
+       << "        <h3> {{samples.translation}} </h3>" << endl                                                    // Insert "Samples" translation
        << "        {% if not exists(\"samples.rows\") %} "                                                        // If there is no sample
        << "            {{ samples.none_translation }}" << endl                                                    //     Insert "None" translation
        << "        {% else %}"                                                                                    // Else
@@ -335,7 +335,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        {% endif %}"
        << endl
        << "        <!-- Adjustments -->" << endl                                                                  // ---------- ADJUSTMENTS ------------
-       << "        <h3 class='newpage'> {{ adjustments.adjustments_translation }} </h3>" << endl                  // Insert "adjustments" translation and intro phrase
+       << "        <h3 class='newpage'> {{ adjustments.translation }} </h3>" << endl                              // Insert "adjustments" translation and intro phrase
        << "        <div> {{ adjustments.intro_phrase_translation }} </div>" << endl                               // Insert "intro" translation
        << endl
        << "        <h4>{{ adjustments.per_interval_translation }}</h4>" << endl                                   // Insert "per interval" translation
@@ -420,7 +420,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        </table>" << endl
        << "        <br>" << endl
        << endl                                                                                                    // ---------- TARGETS ------------
-       << "        <div>{{ targets.targets_phrase_translation }}</div><br>" << endl                               // Insert target phrase translation
+       << "        <div>{{ targets.phrase_translation }}</div><br>" << endl                                       // Insert target phrase translation
        << endl
        << "        <table class='targets bg-light-grey'>" << endl
        << "            <tr>" << endl
@@ -445,7 +445,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        </table>" << endl
        << endl
        << "        <!-- Pharmacokinetic parameters -->" << endl                                                   // ---------- PKs ------------
-       << "        <h5 class='underline'> {{ pks.pharmacokinetic_parameters_translation }} </h5>" << endl         // Insert pharmacokinetic parameters translation
+       << "        <h5 class='underline'> {{ pks.translation }} </h5>" << endl                                    // Insert pharmacokinetic parameters translation
        << "        <table class='pks bg-light-grey'>" << endl
        << "            <tr>" << endl
        << "                <th></th>" << endl
@@ -467,8 +467,8 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "            {% endfor %}"
        << "        </table>"
        << endl
-       << "        <!-- Predictions -->" << endl                                                                  // ---------- Predictions ------------
-       << "        <h5 class='underline'> {{ predictions.predictions_translation }}</h5>" << endl                 // Insert predictions translation
+       << "        <!-- Predictions -->" << endl                                                                  // ---------- PREDICTIONS ------------
+       << "        <h5 class='underline'> {{ predictions.translation }}</h5>" << endl                             // Insert predictions translation
        << "        <table class='predictions bg-light-grey'>" << endl
        << "            <tr>" << endl
        << "                <th>{{ predictions.extrapolated_steady_state_auc24_translation }}</th>" << endl        // Insert extrapolated steady state auc24 translation
@@ -483,6 +483,26 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "                <td>{{ predictions.steady_state_trough }}</td>" << endl                                // Insert steady state trough value
        << "            </tr>" << endl
        << "        </table>" << endl
+       << endl
+       << "        <!-- Computation covariates -->" << endl                                                       // ---------- COMPUTATION COVARIATES ------------
+       << "        <h5 class='underline'> {{ computation_covariates.translation}}</h5>" << endl                   // Insert Covariates used for computation translation
+       << "        <table class='computation-covariates bg-light-grey'>" << endl
+       << "            <tr>" << endl
+       << "                <th></th>" << endl
+       << "                <th> {{ computation_covariates.covariate_id_translation}} </th>" << endl               // Insert covariate id translation
+       << "                <th> {{ computation_covariates.value_translation}} </th>" << endl                      // Insert value translation
+       << "            </tr>" << endl
+       << "            {% for covariate in computation_covariates.rows %}"                                        // For each covariate
+       << "            <tr>" << endl
+       << "                <td>" << endl
+       << "                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                </td>" << endl
+       << "                <td>{{ covariate.id }}</td>" << endl                                                   //     Insert covariate id
+       << "                <td>{{ covariate.value }}</td>" << endl                                                //     Insert covariate value
+       << "            </tr>" << endl
+       << "            {% endfor %}"
+       << "        </table>" << endl
+       << endl
        << "        <!-- Copyright -->" << endl
        << "        <div class='copyright'>" << endl
        << "            <span>Copyright (c) HEIG-VD/CHUV - 2022 | Icons by <a href='https://www.flaticon.com/fr/auteurs/gajah-mada'> Gajah Mada - Flaticon</a> & <a href='https://www.flaticon.com/fr/auteurs/freepik'>Freepik - Flaticon</a></span>" << endl
@@ -508,6 +528,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
     getTargetsJson(_xpertRequestResult.getAdjustmentData(), data["targets"]);
     getParametersJson(_xpertRequestResult, data["pks"]);
     getPredictionsJson(_xpertRequestResult, data["predictions"]);
+    getComputationCovariatesJson(_xpertRequestResult, data["computation_covariates"]);
 
     return inja::render(ss.str(), data);
 }
@@ -561,6 +582,9 @@ void XpertRequestResultHtmlExport::getContactsJson(const unique_ptr<AdminData>& 
 {
     // Get the rows and columns header translations.
     LanguageManager& lm = LanguageManager::getInstance();
+
+    // Mandator translation
+    _contactsJson["translation"] = lm.translate("contacts");
 
     // Mandator translation
     _contactsJson["mandator_translation"] = lm.translate("mandator");
@@ -759,7 +783,7 @@ void XpertRequestResultHtmlExport::getCovariatesJson(const vector<CovariateValid
     LanguageManager& lm = LanguageManager::getInstance();
 
     // Clinical data translation
-    _covariatesJson["covariates_translation"] = lm.translate("covariates");
+    _covariatesJson["translation"] = lm.translate("covariates");
 
     // None translation
     _covariatesJson["none_translation"] = lm.translate("none");
@@ -833,7 +857,7 @@ void XpertRequestResultHtmlExport::getTreatmentJson(const Core::DosageHistory& _
     LanguageManager& lm = LanguageManager::getInstance();
 
     // Treatment translation
-    _treatmentJson["treatment_translation"] = lm.translate("treatment");
+    _treatmentJson["translation"] = lm.translate("treatment");
 
     // None translation
     _treatmentJson["none_translation"] = lm.translate("none");
@@ -1047,7 +1071,7 @@ void XpertRequestResultHtmlExport::getSamplesJson(const std::map<const Core::Sam
     LanguageManager& lm = LanguageManager::getInstance();
 
     // Get samples translation
-    _samplesJson["samples_translation"] = lm.translate("samples");
+    _samplesJson["translation"] = lm.translate("samples");
 
     // Get none translation
     _samplesJson["none_translation"] = lm.translate("none");
@@ -1094,7 +1118,7 @@ void XpertRequestResultHtmlExport::getAdjustmentJson(const std::unique_ptr<Core:
     LanguageManager& lm = LanguageManager::getInstance();
 
     // Get adjustments translation
-    _adjustmentsJson["adjustments_translation"] = lm.translate("adjustments");
+    _adjustmentsJson["translation"] = lm.translate("adjustments");
 
     // Get intro phrase translation
     _adjustmentsJson["intro_phrase_translation"] = lm.translate("intro_phrase");
@@ -1150,7 +1174,7 @@ void XpertRequestResultHtmlExport::getTargetsJson(const std::unique_ptr<Core::Ad
     LanguageManager& lm = LanguageManager::getInstance();
 
     // Targets phrase translation
-    _targetsJson["targets_phrase_translation"] = lm.translate("targets_phrase");
+    _targetsJson["phrase_translation"] = lm.translate("targets_phrase");
 
     // For each target in the best suggestion
     for(const auto& target : _adjustmentData->getAdjustments()[0].m_targetsEvaluation) {
@@ -1205,7 +1229,7 @@ void XpertRequestResultHtmlExport::getParametersJson(const XpertRequestResult& _
     LanguageManager& lm = LanguageManager::getInstance();
 
     // Pharmacokinetic parameters translation
-    _pksJson["pharmacokinetic_parameters_translation"] = lm.translate("pharmacokinetic_parameters");
+    _pksJson["translation"] = lm.translate("pharmacokinetic_parameters");
 
     // Typical patient translation
     _pksJson["typical_patient_translation"] = lm.translate("typical_patient");
@@ -1259,7 +1283,7 @@ void XpertRequestResultHtmlExport::getPredictionsJson(const XpertRequestResult& 
     LanguageManager& lm = LanguageManager::getInstance();
 
     // Predictions translation
-    _predictionsJson["predictions_translation"] = lm.translate("predictions");
+    _predictionsJson["translation"] = lm.translate("predictions");
 
     // Extrapolated steady state auc24 translation
     _predictionsJson["extrapolated_steady_state_auc24_translation"] = lm.translate("extrapolated_steady_state_auc24");
@@ -1289,13 +1313,42 @@ void XpertRequestResultHtmlExport::getPredictionsJson(const XpertRequestResult& 
     _xpertRequestResult.getCycleStats().getStatistic(0, Tucuxi::Core::CycleStatisticType::Residual).getValue(date, residual);
 
     // Extrapolated steady state auc24
-    _predictionsJson["extrapolated_steady_state_auc24"] = varToString(auc24);
+    _predictionsJson["extrapolated_steady_state_auc24"] = varToString(auc24) + " µg*h/l";
 
     // Steady state peak
-    _predictionsJson["steady_state_peak"] = varToString(peak);
+    _predictionsJson["steady_state_peak"] = varToString(peak) + " µg/l";
 
     // Steady state trough
-    _predictionsJson["steady_state_trough"] = varToString(residual);
+    _predictionsJson["steady_state_trough"] = varToString(residual) + " µg/l";
+}
+
+void XpertRequestResultHtmlExport::getComputationCovariatesJson(const XpertRequestResult& _xpertRequestResult, inja::json& _computationCovariatesJson) const
+{
+    LanguageManager& lm = LanguageManager::getInstance();
+
+    // Computation covariates translation
+    _computationCovariatesJson["translation"] = lm.translate("computation_covariates");
+
+    // Covariate ID translation
+    _computationCovariatesJson["covariate_id_translation"] = lm.translate("covariate_id");
+
+    // Steady state peak translation
+    _computationCovariatesJson["value_translation"] = lm.translate("value");
+
+    // Extract the covariates used during the computation
+    const vector<Core::CovariateValue>& computationCovariates = _xpertRequestResult.getAdjustmentData()->getAdjustments().front().getData().front().m_covariates;
+    for(const Core::CovariateValue& covariateValue : computationCovariates) {
+
+       inja::json computationCovariate;
+
+       // Get the id
+       computationCovariate["id"] = covariateValue.m_covariateId;
+
+       // Get the value
+       computationCovariate["value"] = covariateValue.m_value;
+
+       _computationCovariatesJson["rows"].emplace_back(computationCovariate);
+    }
 }
 
 string XpertRequestResultHtmlExport::concatenatePosology(const string& _posologyIndication, const string& _posologyIndicationChain) const

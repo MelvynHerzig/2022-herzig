@@ -28,6 +28,7 @@
     <entry key="drug_model">Fiche médicament</entry>
 
     <!-- Report contacts -->
+    <entry key="contacts">Contacts</entry>
     <entry key="mandator">Mandant</entry>
     <entry key="patient">Patient</entry>
     <entry key="name">Nom</entry>
@@ -129,5 +130,9 @@
     <entry key="extrapolated_steady_state_auc24">ASC24 extrapolée à l'état d'équilibre</entry>
     <entry key="steady_state_peak">Sommet à l'état d'équilibre</entry>
     <entry key="steady_state_trough">Creux de l'état d'équilibre</entry>
+
+    <!-- Report Computation covariates -->
+    <entry key="computation_covariates">Covariables utilisées pour les calculs</entry>
+    <entry key="covariate_id">Covariable ID</entry>
 
 </dictionary>
