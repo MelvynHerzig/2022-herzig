@@ -50,6 +50,15 @@ std::string varToString(OutputLang _lang);
 /// \throw Invalid argument if the CovariateType is not supported.
 std::string varToString(WarningLevel _lang);
 
+/// \brief Beautify a string that represents a covariate value.
+///        If the type is Bool, return yes/no translation.
+///        If the _id is sex, return man/woman/undefined translation.
+/// \param _value Value of the covariate as string.
+/// \param _type Data type of the initial data type.
+/// \param _id Id of the initial data type.
+/// \return Beatuified string or the default if not corresponding to any criteria to beautify.
+std::string beautifyString(const std::string& _value, Core::DataType _type, const std::string& _id);
+
 /// \brief Extracts a string from a translatable string in regard of a given language. If
 ///        the language is not extractable, it tries to fallback with english.
 /// \param _ts Translatable string.

@@ -786,6 +786,42 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
         fructose_assert_exception(Tucuxi::Xpert::varToString(Tucuxi::Xpert::CovariateType(-1)), std::invalid_argument);
     }
 
+    /// \brief Converts covariate value string with beautifyString.
+    ///        Check that the result are expected depending of the data type and
+    ///        definition id.
+    /// \param _testName Name of the test.
+    void stringBeautification(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        // Dictionary to get resulting values
+        const std::string dictionary = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                          <dictionary
+                                              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                              xsi:noNamespaceSchemaLocation="dictionary.xsd">
+
+                                                <entry key="yes">Yes</entry>
+                                                <entry key="no">No</entry>
+                                                <entry key="undefined">Undefined</entry>
+                                                <entry key="man">Man</entry>
+                                                <entry key="woman">Woman</entry>
+
+                                           </dictionary>)";
+
+        Tucuxi::Xpert::LanguageManager& lm = Tucuxi::Xpert::LanguageManager::getInstance();
+        lm.loadDictionary(dictionary);
+
+        fructose_assert_eq(Tucuxi::Xpert::beautifyString("1.0", Tucuxi::Core::DataType::Bool, ""), "Yes");
+        fructose_assert_eq(Tucuxi::Xpert::beautifyString("0.0", Tucuxi::Core::DataType::Bool, ""), "No");
+
+        fructose_assert_eq(Tucuxi::Xpert::beautifyString("1.0", Tucuxi::Core::DataType::Double, "sex"), "Man");
+        fructose_assert_eq(Tucuxi::Xpert::beautifyString("0.0", Tucuxi::Core::DataType::Double, "sex"), "Woman");
+        fructose_assert_eq(Tucuxi::Xpert::beautifyString("0.5", Tucuxi::Core::DataType::Double, "sex"), "Undefined");
+
+        fructose_assert_eq(Tucuxi::Xpert::beautifyString("42", Tucuxi::Core::DataType::Int, "age"), "42");
+
+    }
+
     /// \brief Tests that the getStringWithEnglishFallback returns the targeted language or
     ///        the default language (en) or empty string.
     /// \param _testName Name of the test.

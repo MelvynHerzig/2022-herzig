@@ -657,7 +657,7 @@ void XpertRequestResultXmlExport::exportComputationCovariates(const XpertRequest
         addNode(computationCovariateNode, "id", covariateValue.m_covariateId);
 
         //          <value>
-        addNode(computationCovariateNode, "value", std::to_string(covariateValue.m_value));
+        addNode(computationCovariateNode, "value", to_string(covariateValue.m_value));
     }
 }
 

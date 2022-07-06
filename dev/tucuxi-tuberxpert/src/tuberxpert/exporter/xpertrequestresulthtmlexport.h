@@ -86,6 +86,8 @@ protected:
 
     void getComputationCovariatesJson(const XpertRequestResult& _xpertRequestResult, inja::json& _computationCovariatesJson) const;
 
+    void getGraphDataJson(const XpertRequestResult& _xpertRequestResult, inja::json& _graphDataJson) const;
+
     std::string concatenatePosology(const std::string& _posologyIndication, const std::string& _posologyIndicationChain) const;
 
     std::string timeToString(const Common::TimeOfDay& _timeOfDay) const;

@@ -67,6 +67,34 @@ string varToString(WarningLevel _value)
     }
 }
 
+string beautifyString(const std::string& _value, Core::DataType _type, const std::string& _id)
+{
+    LanguageManager& lm = LanguageManager::getInstance();
+
+    // Convert the value into yes/no for nice display if the data type is bool.
+    if (_type == Core::DataType::Bool) {
+        if (stoi(_value)) {
+            return lm.translate("yes");
+        } else {
+            return lm.translate("no");
+        }
+    }
+
+    // Convert the value into male/female/undefined for nice display.
+   if (_id == "sex") {
+        double sexAsDouble = stod(_value);
+        if (sexAsDouble > 0.6) {
+            return lm.translate("man");
+        } else if (sexAsDouble < 0.4){
+            return lm.translate("woman");
+        } else {
+            return lm.translate("undefined");
+        }
+    }
+
+   return _value;
+}
+
 string getStringWithEnglishFallback(const Common::TranslatableString& _ts, OutputLang _lang)
 {
     string target = _ts.getString(varToString(_lang));

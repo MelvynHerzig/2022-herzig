@@ -46,8 +46,11 @@
     <entry key="value">Value</entry>
     <entry key="source_patient">patient</entry>
     <entry key="source_default">default</entry>
-    <entry key="yes">yes</entry>
-    <entry key="no">no</entry>
+    <entry key="yes">Yes</entry>
+    <entry key="no">No</entry>
+    <entry key="undefined">Undefined</entry>
+    <entry key="man">Man</entry>
+    <entry key="woman">Woman</entry>
 
     <!-- Report Treatment -->
     <entry key="treatment">Treatment</entry>

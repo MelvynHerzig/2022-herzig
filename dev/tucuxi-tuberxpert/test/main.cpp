@@ -68,6 +68,7 @@ int main(int argc, char** argv)
     xpertUtilsTests.add_test("Convert double to string", &TestXpertUtils::convertDoubleToString);
     xpertUtilsTests.add_test("Convert covariate type to string", &TestXpertUtils::convertCovariateTypeToString);
     xpertUtilsTests.add_test("Convert warning level to string", &TestXpertUtils::convertWarningLevelToString);
+    xpertUtilsTests.add_test("String beautification", &TestXpertUtils::stringBeautification);
     xpertUtilsTests.add_test("Get a translatable string with english fallback.", &TestXpertUtils::getStringFromTranslatableWithFallback);
     xpertUtilsTests.add_test("The values returned by getOldestTimeRangeStart are correct.", &TestXpertUtils::getOldestDosageTimeRangeStartReturnsCorrectValues);
     xpertUtilsTests.add_test("The values returned by getLatestTimeRangeStart are correct.", &TestXpertUtils::getLatestDosageTimeRangeStartReturnsCorrectValues);
