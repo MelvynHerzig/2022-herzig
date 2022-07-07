@@ -11,18 +11,8 @@
   background-color: white;
 }
 
-.page-A4 > table > tbody > tr {
+.avoid-break, .page-A4 tr {
   page-break-inside: avoid;
-  
-}
-
-.page-A4 > table > tbody > div[class='canvasAdjustments'] {
-  page-break-inside: avoid;
-  
-}
-
-.newpage {
-  page-break-before: always;
 }
 
 /**
@@ -181,6 +171,10 @@ hr {
   TuberXpert contacts
   =======================================================
 */
+
+.contacts-header th {
+  vertical-align: bottom;
+}
 
 .contacts-header tr th:nth-child(1) {
   width: 24%;

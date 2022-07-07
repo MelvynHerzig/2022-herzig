@@ -136,24 +136,34 @@ Common::DateTime getLatestDosageTimeRangeStart(const Core::DosageHistory &_dosag
     return latestDateKnown;
 }
 
-string computeFileName(const XpertRequestResult& _xpertRequestResult)
+string computeFileName(const XpertRequestResult& _xpertRequestResult, bool _addOutputPath, bool _addExtension)
 {
-    string extension = "";
-
-    switch(_xpertRequestResult.getXpertRequest().getOutputFormat()) {
-    case OutputFormat::XML  : extension = "xml"; break;
-    case OutputFormat::HTML : extension = "html"; break;
-    case OutputFormat::PDF  : extension = "pdf"; break;
-    }
-
     stringstream ss;
     Common::DateTime dtComputation = _xpertRequestResult.getGlobalResult().getComputationTime();
-    ss << _xpertRequestResult.getGlobalResult().getOutputPath() << "\\" <<
-          _xpertRequestResult.getXpertRequest().getDrugID() << "_" <<
+
+    // If the output path should be prefixed.
+    if (_addOutputPath) {
+         ss << _xpertRequestResult.getGlobalResult().getOutputPath() << "\\";
+    }
+
+    ss << _xpertRequestResult.getXpertRequest().getDrugID() << "_" <<
           _xpertRequestResult.getGlobalResult().getRequestIndexBeingHandled() + 1 << "_" <<
           dtComputation.day() << "-" << dtComputation.month() << "-" << dtComputation.year() << "_" <<
-          dtComputation.hour() << "h" << dtComputation.minute() << "m" << dtComputation.second() << "s" <<
-          "." << extension;
+          dtComputation.hour() << "h" << dtComputation.minute() << "m" << dtComputation.second() << "s";
+
+    // If the extension should be suffixed
+    if (_addExtension) {
+
+        string extension = "";
+
+        switch(_xpertRequestResult.getXpertRequest().getOutputFormat()) {
+        case OutputFormat::XML  : extension = "xml"; break;
+        case OutputFormat::HTML : extension = "html"; break;
+        case OutputFormat::PDF  : extension = "pdf"; break;
+        }
+
+        ss << "." << extension;
+    }
 
     return ss.str();
 }

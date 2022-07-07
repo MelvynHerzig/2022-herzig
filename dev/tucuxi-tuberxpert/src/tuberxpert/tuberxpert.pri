@@ -1,7 +1,18 @@
 
 INCLUDEPATH += $$PWD/../../src \
                $$PWD/../../libs \
-               $$PWD/../../libs/wkhtmltox
+
+# Setup wkhtmltopdf for windows.
+win32 {
+    LIBS += $$PWD/../../libs/wkhtmltox/windows/wkhtmltox.dll
+    copydata.commands = $(COPY_DIR) $$PWD/../../libs/wkhtmltox/windows/wkhtmltox.dll $$OUT_PWD
+}
+
+# Copy the wkhtmltopdf lib into build directory
+first.depends = $(first) copydata
+export(first.depends)
+export(copydata.commands)
+QMAKE_EXTRA_TARGETS += first copydata
 
 HEADERS += \
     $$PWD/computer.h \
