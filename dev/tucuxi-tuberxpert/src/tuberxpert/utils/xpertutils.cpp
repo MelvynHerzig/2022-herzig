@@ -1,5 +1,6 @@
 #include "xpertutils.h"
 
+#include <cctype>
 #include <sstream>
 #include <iomanip>
 
@@ -10,6 +11,27 @@ using namespace std;
 
 namespace Tucuxi {
 namespace Xpert {
+
+string varToString(const Core::DataType& _dataType)
+{
+    switch (_dataType) {
+    case Core::DataType::Int: {
+        return "int";
+    } break;
+
+    case Core::DataType::Double: {
+        return "double";
+    } break;
+
+    case Core::DataType::Bool: {
+        return "bool";
+    } break;
+
+    case Core::DataType::Date: {
+       return "date";
+    } break;
+    }
+}
 
 string varToString(const double& _value)
 {
@@ -43,6 +65,34 @@ string varToString(WarningLevel _value)
     case WarningLevel::CRITICAL  : return "critical";
     default : throw invalid_argument("Unknown warning level"); // If well maintained, should never be returned.
     }
+}
+
+string beautifyString(const std::string& _value, Core::DataType _type, const std::string& _id)
+{
+    LanguageManager& lm = LanguageManager::getInstance();
+
+    // Convert the value into yes/no for nice display if the data type is bool.
+    if (_type == Core::DataType::Bool) {
+        if (stoi(_value)) {
+            return lm.translate("yes");
+        } else {
+            return lm.translate("no");
+        }
+    }
+
+    // Convert the value into male/female/undefined for nice display.
+   if (_id == "sex") {
+        double sexAsDouble = stod(_value);
+        if (sexAsDouble > 0.6) {
+            return lm.translate("man");
+        } else if (sexAsDouble < 0.4){
+            return lm.translate("woman");
+        } else {
+            return lm.translate("undefined");
+        }
+    }
+
+   return _value;
 }
 
 string getStringWithEnglishFallback(const Common::TranslatableString& _ts, OutputLang _lang)
@@ -97,15 +147,65 @@ string computeFileName(const XpertRequestResult& _xpertRequestResult)
     }
 
     stringstream ss;
-    Common::DateTime dtComputation = _xpertRequestResult.getGlobalResult()->getComputationTime();
-    ss << _xpertRequestResult.getGlobalResult()->getOutputPath() << "\\" <<
+    Common::DateTime dtComputation = _xpertRequestResult.getGlobalResult().getComputationTime();
+    ss << _xpertRequestResult.getGlobalResult().getOutputPath() << "\\" <<
           _xpertRequestResult.getXpertRequest().getDrugID() << "_" <<
-          _xpertRequestResult.getGlobalResult()->getRequestIndexBeingHandled() + 1 << "_" <<
+          _xpertRequestResult.getGlobalResult().getRequestIndexBeingHandled() + 1 << "_" <<
           dtComputation.day() << "-" << dtComputation.month() << "-" << dtComputation.year() << "_" <<
           dtComputation.hour() << "h" << dtComputation.minute() << "m" << dtComputation.second() << "s" <<
           "." << extension;
 
     return ss.str();
+}
+
+string keyToPhrase(const string& _key)
+{
+
+    stringstream ss;
+
+    // Traverse the string
+    for(size_t i=0; i < _key.length(); i++)
+    {
+        // If the first char is lowercase transform in uppercase.
+        if (i == 0 && islower(_key[i])) {
+            ss << char(toupper(_key[i]));
+        }
+
+        // Convert to lowercase if its
+        // an uppercase character but not the first
+        else if (i != 0 && isupper(_key[i]))
+        {
+            ss << ' ' << char(tolower(_key[i]));
+        }
+
+        // if lowercase character,
+        // then just print
+        else {
+            ss << _key[i];
+        }
+    }
+
+    return ss.str();
+}
+
+double getAgeIn(Core::CovariateType _ageType, const Common::DateTime& _birthDate, const Common::DateTime& _computationTime)
+{
+    switch (_ageType) {
+    case Core::CovariateType::AgeInDays:
+        return static_cast<double>(Common::Utils::dateDiffInDays(_birthDate, _computationTime));
+        break;
+    case Core::CovariateType::AgeInWeeks:
+        return static_cast<double>(Common::Utils::dateDiffInWeeks(_birthDate,  _computationTime));
+        break;
+    case Core::CovariateType::AgeInMonths:
+        return static_cast<double>(Common::Utils::dateDiffInMonths(_birthDate,  _computationTime));
+        break;
+    case Core::CovariateType::AgeInYears:
+        return static_cast<double>(Common::Utils::dateDiffInYears(_birthDate,  _computationTime));
+        break;
+    default:
+        throw invalid_argument("Invalid covariate type");
+    }
 }
 
 } // namespace XpertUtils

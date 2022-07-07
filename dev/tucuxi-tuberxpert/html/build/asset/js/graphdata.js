@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 ///////////////////////////////////////////////////////////////////////////////
 // File: graphdata.js
@@ -30,22 +30,22 @@ var GraphPercentileDataList = function () {
     }
 
     _createClass(GraphPercentileDataList, [{
-        key: "isEmpty",
+        key: 'isEmpty',
         value: function isEmpty() {
             return this.plist.length == 0;
         }
     }, {
-        key: "size",
+        key: 'size',
         value: function size() {
             return this.plist.length;
         }
     }, {
-        key: "objat",
+        key: 'objat',
         value: function objat(index) {
             return this.plist[index];
         }
     }, {
-        key: "append",
+        key: 'append',
         value: function append(data) {
             this.plist.push(data);
         }
@@ -68,12 +68,12 @@ var GraphFancyPoint = function () {
     }
 
     _createClass(GraphFancyPoint, [{
-        key: "times",
+        key: 'times',
         value: function times() {
             return this.times;
         }
     }, {
-        key: "values",
+        key: 'values',
         value: function values() {
             return this.values;
         }
@@ -99,70 +99,70 @@ var GraphPredictionData = function () {
         this.time = time;
         this.value = value;
         // The indexes at which there are trough concentrations
-        this.troughs = [6];
+        this.troughs = [0];
         // The indexes at which there are peaks
-        this.peaks = [1, 4];
+        this.peaks = [];
         this.isValid = false;
         this.selected = false;
     }
 
     _createClass(GraphPredictionData, [{
-        key: "times",
+        key: 'times',
         value: function times() {
             return this.time;
         }
     }, {
-        key: "values",
+        key: 'values',
         value: function values() {
             return this.value;
         }
     }, {
-        key: "meanAt",
+        key: 'meanAt',
         value: function meanAt(index) {
             return 10;
         }
     }, {
-        key: "timeAt",
+        key: 'timeAt',
         value: function timeAt(index) {
             return this.time[index];
         }
     }, {
-        key: "valueAt",
+        key: 'valueAt',
         value: function valueAt(index) {
             return this.value[index];
         }
     }, {
-        key: "aucAt",
+        key: 'aucAt',
         value: function aucAt(index) {
             return 20;
         }
     }, {
-        key: "auc24At",
+        key: 'auc24At',
         value: function auc24At(index) {
             return 30;
         }
     }, {
-        key: "cumulatedAucAt",
+        key: 'cumulatedAucAt',
         value: function cumulatedAucAt(index) {
             return 40;
         }
     }, {
-        key: "troughAt",
+        key: 'troughAt',
         value: function troughAt(index) {
             return 50;
         }
     }, {
-        key: "peakAt",
+        key: 'peakAt',
         value: function peakAt(index) {
             return 60;
         }
     }, {
-        key: "timeAfterDose",
+        key: 'timeAfterDose',
         value: function timeAfterDose(index) {
             return 70;
         }
     }, {
-        key: "cycleDuration",
+        key: 'cycleDuration',
         value: function cycleDuration(index) {
             return 80;
         }
@@ -363,7 +363,7 @@ var GraphTarget = function GraphTarget(type) {
 var GraphAdjustment = function GraphAdjustment() {
     _classCallCheck(this, GraphAdjustment);
 
-    this.predictionData = new GraphPredictionData();
+    this.predictionData = new GraphPredictionData([], []);
 };
 
 // This class represents all the suggested adjustments.
@@ -379,22 +379,22 @@ var GraphAdjustments = function () {
     }
 
     _createClass(GraphAdjustments, [{
-        key: "append",
+        key: 'append',
         value: function append(adj) {
             this.alist.push(adj);
         }
     }, {
-        key: "isEmpty",
+        key: 'isEmpty',
         value: function isEmpty() {
             return this.alist.length == 0;
         }
     }, {
-        key: "size",
+        key: 'size',
         value: function size() {
             return this.alist.length;
         }
     }, {
-        key: "objat",
+        key: 'objat',
         value: function objat(index) {
             return this.alist[index];
         }
@@ -427,23 +427,23 @@ var GraphFullData = function () {
         this.annotationsCanvas = null;
         this.clockCanvas = null;
 
-        this.colors = ["#bfbfbf", // Unused
-        "#3c4042", // popPrediction
-        "#004375", // aprioriPrediction
-        "#9abfe7", // Unused
-        //"#C80000",    // aposterioriPrediction
-        "#269043", // aposterioriPrediction
-        "#e8a45c", // suggestedAdjustmentLegend
-        "#8cda75", // aposterioriPercentilesLegend
-        "#aaaeb2", // popPercentilesLegend
-        "#9abfe7", // aprioriPercentilesLegend
-        "black" // selectedAdjustmentLegend
+        this.colors = ['#bfbfbf', // Unused
+        '#3c4042', // popPrediction
+        '#004375', // aprioriPrediction
+        '#9abfe7', // Unused
+        //'#C80000',    // aposterioriPrediction
+        '#269043', // aposterioriPrediction
+        '#e8a45c', // suggestedAdjustmentLegend
+        '#8cda75', // aposterioriPercentilesLegend
+        '#aaaeb2', // popPercentilesLegend
+        '#9abfe7', // aprioriPercentilesLegend
+        'black' // selectedAdjustmentLegend
         ];
 
-        this.popcolors = ["#aaaeb2", "#D2D6DA", "#E0E2E6", "#EAEEF0"];
-        this.aprcolors = ["#9abfe7", "#9AE8E2", "#B6F4F0", "#DEFEFC"];
-        this.apocolors = ["#8cda75", "#8CECA6", "#B4FABA", "#D6FCDA"];
-        this.adjcolors = ["#323232", "#969696", "#646464"];
+        this.popcolors = ['#aaaeb2', '#D2D6DA', '#E0E2E6', '#EAEEF0'];
+        this.aprcolors = ['#9abfe7', '#9AE8E2', '#B6F4F0', '#DEFEFC'];
+        this.apocolors = ['#8cda75', '#8CECA6', '#B4FABA', '#D6FCDA'];
+        this.adjcolors = ['#323232', '#969696', '#646464'];
         this.revcolors = [];
 
         // constant indices
@@ -456,9 +456,9 @@ var GraphFullData = function () {
         this.adj = 6;
 
         // Could be a const
-        this.indices = ["pop", "apr", "apo", "rev", "mea", "tar", "adj"];
+        this.indices = ['pop', 'apr', 'apo', 'rev', 'mea', 'tar', 'adj'];
 
-        this.nographtext = "Welcome to Tucuxi! Graphs of predicted concentrations will be shown here.";
+        this.nographtext = 'Welcome to Tucuxi! Graphs of predicted concentrations will be shown here.';
 
         // The following variables are generated by the drawer,
         // So no need to set them prior to the rendering
@@ -486,20 +486,20 @@ var GraphFullData = function () {
         //Chart properties
         this.scaleMax = 2e1;
         this.scaleMin = 2e-3;
-        this.police = "sans-serif";
+        this.police = 'sans-serif';
 
         if (scale == 1) {
-            this.fontSize = "12px";
-            this.axisTicksFontSize = "10px";
-            this.tooltipFontSize = "10px";
+            this.fontSize = '12px';
+            this.axisTicksFontSize = '10px';
+            this.tooltipFontSize = '10px';
         } else if (scale == 2) {
-            this.fontSize = "24px";
-            this.axisTicksFontSize = "20px";
-            this.tooltipFontSize = "20px";
+            this.fontSize = '24px';
+            this.axisTicksFontSize = '20px';
+            this.tooltipFontSize = '20px';
         } else if (scale == 4) {
-            this.fontSize = "48px";
-            this.axisTicksFontSize = "40px";
-            this.tooltipFontSize = "40px";
+            this.fontSize = '48px';
+            this.axisTicksFontSize = '40px';
+            this.tooltipFontSize = '40px';
         }
         this.yFactor = 1.0;
         this.date = new Date();
@@ -524,12 +524,13 @@ var GraphFullData = function () {
         this.isOffsetYEnabled = true;
 
         //ToDo = remove default unit
-        this.unit = "ug/l";
+        this.unit = 'ug/l';
         this.unitefforder = 1;
 
         this.gInformationSelection = new GraphInformationSelection();
 
-        this.timestart = Date.now();
+        this.timestart;
+        this.timeend;
 
         //Canvas margins
         this.leftMargin = 75 * this.scale;
@@ -543,35 +544,35 @@ var GraphFullData = function () {
     }
 
     _createClass(GraphFullData, [{
-        key: "getViewRangeMin",
+        key: 'getViewRangeMin',
         value: function getViewRangeMin() {
-            var newdate = new Date();return newdate.getTime() / 1000 - 24 * 3600;
+            return this.timestart.getTime() / 1000;
         }
     }, {
-        key: "getViewRangeMax",
+        key: 'getViewRangeMax',
         value: function getViewRangeMax() {
-            var newdate = new Date();return newdate.getTime() / 1000;
+            return this.timeend.getTime() / 1000;
         }
 
         // This function shall be called before printing the graph,
         // to precalculate values.
 
     }, {
-        key: "updateChartDimensions",
+        key: 'updateChartDimensions',
         value: function updateChartDimensions(canvas) {
 
             if (this.scale <= 1.5) {
-                this.fontSize = "12px";
-                this.axisTicksFontSize = "10px";
-                this.tooltipFontSize = "10px";
+                this.fontSize = '12px';
+                this.axisTicksFontSize = '10px';
+                this.tooltipFontSize = '10px';
             } else if (this.scale <= 2.5) {
-                this.fontSize = "24px";
-                this.axisTicksFontSize = "20px";
-                this.tooltipFontSize = "20px";
+                this.fontSize = '24px';
+                this.axisTicksFontSize = '20px';
+                this.tooltipFontSize = '20px';
             } else if (this.scale <= 4.5) {
-                this.fontSize = "48px";
-                this.axisTicksFontSize = "40px";
-                this.tooltipFontSize = "40px";
+                this.fontSize = '48px';
+                this.axisTicksFontSize = '40px';
+                this.tooltipFontSize = '40px';
             }
 
             //Canvas margins

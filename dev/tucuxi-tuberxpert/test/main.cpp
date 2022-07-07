@@ -63,15 +63,19 @@ int main(int argc, char** argv)
 #if defined(test_xpertutils)
     TestXpertUtils xpertUtilsTests;
 
+    xpertUtilsTests.add_test("Convert data type to string", &TestXpertUtils::convertDataTypeToString);
     xpertUtilsTests.add_test("Convert output lang to string", &TestXpertUtils::convertOutputLangToString);
     xpertUtilsTests.add_test("Convert double to string", &TestXpertUtils::convertDoubleToString);
     xpertUtilsTests.add_test("Convert covariate type to string", &TestXpertUtils::convertCovariateTypeToString);
     xpertUtilsTests.add_test("Convert warning level to string", &TestXpertUtils::convertWarningLevelToString);
+    xpertUtilsTests.add_test("String beautification", &TestXpertUtils::stringBeautification);
     xpertUtilsTests.add_test("Get a translatable string with english fallback.", &TestXpertUtils::getStringFromTranslatableWithFallback);
     xpertUtilsTests.add_test("The values returned by getOldestTimeRangeStart are correct.", &TestXpertUtils::getOldestDosageTimeRangeStartReturnsCorrectValues);
     xpertUtilsTests.add_test("The values returned by getLatestTimeRangeStart are correct.", &TestXpertUtils::getLatestDosageTimeRangeStartReturnsCorrectValues);
     xpertUtilsTests.add_test("The value returned by computeFileName is correct.", &TestXpertUtils::computeFileNameReturnsCorrectValues);
     xpertUtilsTests.add_test("The values returned by executeRequestAndGetResult are correct.", &TestXpertUtils::executeRequestAndGetResultReturnsCorrectValues);
+    xpertUtilsTests.add_test("Convert key to phrase.", &TestXpertUtils::convertKeyToPhrase);
+    xpertUtilsTests.add_test("Convert birth date to age.", &TestXpertUtils::computeAge);
 
     res = xpertUtilsTests.run(argc, argv);
     if (res != 0) {

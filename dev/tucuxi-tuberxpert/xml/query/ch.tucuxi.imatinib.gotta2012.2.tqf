@@ -119,18 +119,61 @@
                                     <lastingDosage>
                                         <interval>12:00:00</interval>
                                         <dose>
-                                            <value>400</value>
+                                            <value>300</value>
                                             <unit>mg</unit>
                                             <infusionTimeInMinutes>60</infusionTimeInMinutes>
                                         </dose>
                                         <formulationAndRoute>
-                                            <formulation>parenteralSolution</formulation>
+                                            <formulation>oralSolution</formulation>
                                             <administrationName>foo bar</administrationName>
                                             <administrationRoute>oral</administrationRoute>
                                             <absorptionModel>extravascular</absorptionModel>
                                         </formulationAndRoute>
                                     </lastingDosage>
                                 </dosageLoop>
+                            </dosage>
+                        </dosageTimeRange>
+                        <dosageTimeRange>
+                            <start>2018-07-11T08:00:00</start>
+                            <end>2018-08-12T08:00:00</end>
+                            <dosage>
+                                <dosageSequence>
+                                    <dosageRepeat>
+                                        <iterations>4</iterations>
+                                        <dailyDosage>
+                                            <time>10:00:00</time>
+                                            <dose>
+                                                <value>400</value>
+                                                <unit>mg</unit>
+                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                            </dose>
+                                            <formulationAndRoute>
+                                                <formulation>parenteralSolution</formulation>
+                                                <administrationName>foo bar</administrationName>
+                                                <administrationRoute>oral</administrationRoute>
+                                                <absorptionModel>extravascular</absorptionModel>
+                                            </formulationAndRoute>
+                                        </dailyDosage>
+                                    </dosageRepeat>
+                                    <dosageRepeat>
+                                        <iterations>2</iterations>
+                                        <weeklyDosage>
+                                            <day>2</day>
+                                            <time>11:00:00</time>
+                                            <dose>
+                                                <value>550</value>
+                                                <unit>mg</unit>
+                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                            </dose>
+                                            <formulationAndRoute>
+                                                <formulation>parenteralSolution</formulation>
+                                                <administrationName>foo bar</administrationName>
+                                                <administrationRoute>oral</administrationRoute>
+                                                <absorptionModel>extravascular</absorptionModel>
+                                            </formulationAndRoute>
+                                        </weeklyDosage>
+                                    </dosageRepeat>
+                                </dosageSequence>
                             </dosage>
                         </dosageTimeRange>
                     </dosageHistory>
@@ -177,23 +220,23 @@
                     <target>
                         <activeMoietyId>imatinib</activeMoietyId>
                         <targetType>residual</targetType>
-                        <unit>ug/l</unit>
-                        <min>800</min>
-                        <best>1050</best>
-                        <max>1550</max>
-                        <inefficacyAlarm>600</inefficacyAlarm>
-                        <toxicityAlarm>20000</toxicityAlarm>
+                        <unit>mg/l</unit>
+                        <min>0.8</min>
+                        <best>1.05</best>
+                        <max>1.650</max>
+                        <inefficacyAlarm>0.6</inefficacyAlarm>
+                        <toxicityAlarm>20</toxicityAlarm>
                     </target>
                 </targets>
             </drug>
         </drugs>
     </drugTreatment>
-    <!-- List of the requests we want the server to take care of -->
     <requests>
+        <!-- List of the requests we want the TuberXpert to take care of -->
         <requestXpert>
             <drugId>imatinib</drugId>
             <output>
-                <format>xml</format>
+                <format>html</format>
                 <language>fr</language>
             </output>
             <adjustmentDate>2022-07-06T08:00:00</adjustmentDate>

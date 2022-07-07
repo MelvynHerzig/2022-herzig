@@ -26,7 +26,7 @@ GlobalResult::GlobalResult(unique_ptr<XpertQueryData> _xpertQuery, const string&
                     *_xpertQuery,
                     errorMessage);
 
-        m_xpertRequestResults.emplace_back(this, _xpertQuery->moveXpertRequest(i), move(drugTreatment), errorMessage);
+        m_xpertRequestResults.emplace_back(*this, _xpertQuery->moveXpertRequest(i), move(drugTreatment), errorMessage);
     }
 }
 

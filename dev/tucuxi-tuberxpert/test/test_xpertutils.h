@@ -739,6 +739,18 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
     }
 
+    /// \brief Converts dataType to string. Checks that the string contains the correct value.
+    /// \param _testName Name of the test.
+    void convertDataTypeToString(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Core::DataType::Bool), "bool");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Core::DataType::Int), "int");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Core::DataType::Double), "double");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Core::DataType::Date), "date");
+    }
+
     /// \brief Converts output lang to string. Checks that the requested language get its corresponding
     ///        string or an exception if it is not supported.
     /// \param _testName Name of the test.
@@ -772,6 +784,42 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
         fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::CovariateType::Model), "default");
         fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::CovariateType::Patient), "patient");
         fructose_assert_exception(Tucuxi::Xpert::varToString(Tucuxi::Xpert::CovariateType(-1)), std::invalid_argument);
+    }
+
+    /// \brief Converts covariate value string with beautifyString.
+    ///        Check that the result are expected depending of the data type and
+    ///        definition id.
+    /// \param _testName Name of the test.
+    void stringBeautification(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        // Dictionary to get resulting values
+        const std::string dictionary = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                          <dictionary
+                                              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                              xsi:noNamespaceSchemaLocation="dictionary.xsd">
+
+                                                <entry key="yes">Yes</entry>
+                                                <entry key="no">No</entry>
+                                                <entry key="undefined">Undefined</entry>
+                                                <entry key="man">Man</entry>
+                                                <entry key="woman">Woman</entry>
+
+                                           </dictionary>)";
+
+        Tucuxi::Xpert::LanguageManager& lm = Tucuxi::Xpert::LanguageManager::getInstance();
+        lm.loadDictionary(dictionary);
+
+        fructose_assert_eq(Tucuxi::Xpert::beautifyString("1.0", Tucuxi::Core::DataType::Bool, ""), "Yes");
+        fructose_assert_eq(Tucuxi::Xpert::beautifyString("0.0", Tucuxi::Core::DataType::Bool, ""), "No");
+
+        fructose_assert_eq(Tucuxi::Xpert::beautifyString("1.0", Tucuxi::Core::DataType::Double, "sex"), "Man");
+        fructose_assert_eq(Tucuxi::Xpert::beautifyString("0.0", Tucuxi::Core::DataType::Double, "sex"), "Woman");
+        fructose_assert_eq(Tucuxi::Xpert::beautifyString("0.5", Tucuxi::Core::DataType::Double, "sex"), "Undefined");
+
+        fructose_assert_eq(Tucuxi::Xpert::beautifyString("42", Tucuxi::Core::DataType::Int, "age"), "42");
+
     }
 
     /// \brief Tests that the getStringWithEnglishFallback returns the targeted language or
@@ -1200,6 +1248,35 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         fructose_assert_ne(goodResult.get(), nullptr);
         fructose_assert_eq(goodResult->getNbRanks(), 3);
+    }
+
+    /// \brief Test the camel case key to phrase method.
+    /// \param _testName Name of the test
+    void convertKeyToPhrase(const std::string& _testName)
+    {
+
+        std::cout << _testName << std::endl;
+
+        fructose_assert_eq(Tucuxi::Xpert::keyToPhrase(""), "");
+        fructose_assert_eq(Tucuxi::Xpert::keyToPhrase("abc"), "Abc");
+        fructose_assert_eq(Tucuxi::Xpert::keyToPhrase("camelCase"), "Camel case");
+    }
+
+    /// \brief Test the age calculator getAgeIn method.
+    /// \param _testName Name of the test
+    void computeAge(const std::string& _testName)
+    {
+
+        std::cout << _testName << std::endl;
+
+        Tucuxi::Common::DateTime birthDate = Tucuxi::Common::DateTime("2000-01-01T12:00:00", date_format);
+        Tucuxi::Common::DateTime computationTime = Tucuxi::Common::DateTime("2010-01-01T12:00:00", date_format);
+
+        fructose_assert_eq(int(Tucuxi::Xpert::getAgeIn(Tucuxi::Core::CovariateType::AgeInDays, birthDate, computationTime)), 3653);
+        fructose_assert_eq(int(Tucuxi::Xpert::getAgeIn(Tucuxi::Core::CovariateType::AgeInWeeks, birthDate, computationTime)), 521);
+        fructose_assert_eq(int(Tucuxi::Xpert::getAgeIn(Tucuxi::Core::CovariateType::AgeInMonths, birthDate, computationTime)), 119);
+        fructose_assert_eq(int(Tucuxi::Xpert::getAgeIn(Tucuxi::Core::CovariateType::AgeInYears, birthDate, computationTime)), 10);
+        fructose_assert_exception(Tucuxi::Xpert::getAgeIn(Tucuxi::Core::CovariateType(-1), birthDate, computationTime), std::invalid_argument);
     }
 };
 

@@ -6,6 +6,7 @@ INCLUDEPATH += $$PWD/../../src \
 HEADERS += \
     $$PWD/computer.h \
     $$PWD/exporter/abstractxpertrequestresultexport.h \
+    $$PWD/exporter/static/filestring.h \
     $$PWD/exporter/xpertrequestresulthtmlexport.h \
     $$PWD/exporter/xpertrequestresultpdfexport.h \
     $$PWD/exporter/xpertrequestresultxmlexport.h \
@@ -36,6 +37,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/computer.cpp \
+    $$PWD/exporter/static/filestring.cpp \
     $$PWD/exporter/xpertrequestresulthtmlexport.cpp \
     $$PWD/exporter/xpertrequestresultpdfexport.cpp \
     $$PWD/exporter/xpertrequestresultxmlexport.cpp \

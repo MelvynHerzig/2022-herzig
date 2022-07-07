@@ -48,6 +48,10 @@ public:
     /// \return The value.
     std::string getValue() const;
 
+    /// \brief Gets data type of the value
+    /// \return Return the data type of the falue
+    Core::DataType getDataType() const;
+
     /// \brief Gets the data's unit of measure.
     ///        If the patient is set, use it otherwise returns
     ///        the unit from the definition.

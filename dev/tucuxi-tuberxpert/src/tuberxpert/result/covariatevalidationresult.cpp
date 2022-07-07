@@ -22,6 +22,15 @@ std::string CovariateValidationResult::getValue() const
     return Common::Utils::varToString(m_source->getValue());
 }
 
+Core::DataType CovariateValidationResult::getDataType() const
+{
+    if (m_patient != nullptr) {
+        return m_patient->getDataType();
+    }
+
+    return m_source->getDataType();
+}
+
 Common::TucuUnit CovariateValidationResult::getUnit() const
 {
     if (m_patient != nullptr) {

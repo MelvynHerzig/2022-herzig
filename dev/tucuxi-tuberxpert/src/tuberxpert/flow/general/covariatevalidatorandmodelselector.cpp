@@ -30,8 +30,7 @@ CovariateValidatorAndModelSelector::CovariateValidatorAndModelSelector()
 void CovariateValidatorAndModelSelector::perform(XpertRequestResult& _xpertRequestResult)
 {
     // Fixing computation time to compute age covariate.
-    const GlobalResult* globalResult = _xpertRequestResult.getGlobalResult();
-    m_computationTime = globalResult == nullptr ? Common::DateTime::now() : globalResult->getComputationTime();
+    m_computationTime = _xpertRequestResult.getGlobalResult().getComputationTime();
 
     Tucuxi::Common::LoggerHelper logHelper;
 
@@ -218,25 +217,12 @@ unsigned CovariateValidatorAndModelSelector::computeScore(const Core::PatientVar
                 } else if (idToPatient["birthdate"][0]->getDataType() != Core::DataType::Date){
                     throw invalid_argument("Invalid data type for birthdate.");
                 } else {
-                    Common::DateTime birthdate = idToPatient["birthdate"][0]->getValueAsDate();
-                    Core::Value newVal = 0;
-                    switch (idToDefinitionFiltered["age"]->getType()) {
-                    case Core::CovariateType::AgeInDays:
-                        newVal = static_cast<double>(Common::Utils::dateDiffInDays(birthdate, m_computationTime));
-                        break;
-                    case Core::CovariateType::AgeInWeeks:
-                        newVal = static_cast<double>(Common::Utils::dateDiffInWeeks(birthdate,  m_computationTime));
-                        break;
-                    case Core::CovariateType::AgeInMonths:
-                        newVal = static_cast<double>(Common::Utils::dateDiffInMonths(birthdate,  m_computationTime));
-                        break;
-                    case Core::CovariateType::AgeInYears:
-                        newVal = static_cast<double>(Common::Utils::dateDiffInYears(birthdate,  m_computationTime));
-                        break;
-                    default: break; // Unreachable
-                    }
 
-                    if (checkOperation(operation, newVal, definition, idToPatient["birthdate"][0], _lang, _results) == false) {
+                    double age = getAgeIn(idToDefinitionFiltered["age"]->getType(),
+                                          idToPatient["birthdate"][0]->getValueAsDate(),
+                                           m_computationTime);
+
+                    if (checkOperation(operation, age, definition, idToPatient["birthdate"][0], _lang, _results) == false) {
                         ++score;
                     }
                 }

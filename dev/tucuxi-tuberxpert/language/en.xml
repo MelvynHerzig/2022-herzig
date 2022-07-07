@@ -11,4 +11,131 @@
     <entry key="population_below">% of the population is below this measure</entry>
     <entry key="population_above">% of the population is above this measure</entry>
 
+    <!-- Report common -->
+    <entry key="drug">Drug</entry>
+    <entry key="none">None</entry>
+    <entry key="from">From</entry>
+    <entry key="to">To</entry>
+    <entry key="date">Date</entry>
+
+    <!-- Report header -->
+    <entry key="tuberxpert_report">TuberXpert report</entry>
+    <entry key="computed_on">Computed on</entry>
+
+    <!-- Report intro -->
+    <entry key="id">ID</entry>
+    <entry key="last_dose">Last dose</entry>
+    <entry key="drug_model">Drug model</entry>
+
+    <!-- Report contacts -->
+    <entry key="contacts">Contacts</entry>
+    <entry key="mandator">Mandator</entry>
+    <entry key="patient">Patient</entry>
+    <entry key="name">Name</entry>
+    <entry key="address">Address</entry>
+    <entry key="phone">Phone</entry>
+    <entry key="email">Email</entry>
+    <entry key="professional">professional</entry>
+    <entry key="private">private</entry>
+
+    <!-- Report clinical data -->
+    <entry key="clinical_data">Clinical data</entry>
+
+    <!-- Report Covariates -->
+    <entry key="covariates">Covariates</entry>
+    <entry key="value">Value</entry>
+    <entry key="source_patient">patient</entry>
+    <entry key="source_default">default</entry>
+    <entry key="yes">Yes</entry>
+    <entry key="no">No</entry>
+    <entry key="undefined">Undefined</entry>
+    <entry key="man">Man</entry>
+    <entry key="woman">Woman</entry>
+
+    <!-- Report Treatment -->
+    <entry key="treatment">Treatment</entry>
+    <entry key="type">Type</entry>
+    <entry key="continually">continually</entry>
+    <entry key="at_steady_state">at steady state with last dose on</entry>
+    <entry key="times">time(s)</entry>
+    <entry key="offset">offset</entry>
+    <entry key="interval">interval</entry>
+    <entry key="daily_at">daily at</entry>
+    <entry key="every">every</entry>
+    <entry key="day_1">Monday</entry>
+    <entry key="day_2">Tuesday</entry>
+    <entry key="day_3">Wednesday</entry>
+    <entry key="day_4">Thursday</entry>
+    <entry key="day_5">Friday</entry>
+    <entry key="day_6">Saturday</entry>
+    <entry key="day_7">Sunday</entry>
+    <entry key="at">at</entry>
+    <entry key="posology">Posology</entry>
+
+    <entry key="oral">oral</entry>
+    <entry key="nasal">nasal</entry>
+    <entry key="rectal">rectal</entry>
+    <entry key="vaginal">vaginal</entry>
+    <entry key="sublingual">sublingual</entry>
+    <entry key="transdermal">transdermal</entry>
+    <entry key="subcutaneous">subcutaneous</entry>
+    <entry key="intramuscular">intramuscular</entry>
+    <entry key="intravenous_drip">intravenous drip</entry>
+    <entry key="intravenous_bolus">intravenous bolus</entry>
+
+    <!-- Report Samples -->
+    <entry key="samples">Samples</entry>
+    <entry key="measure">Measure</entry>
+    <entry key="percentile">Percentile</entry>
+
+    <!-- Report Adjustments -->
+    <entry key="adjustments">Adjustments</entry>
+    <entry key="intro_phrase">Based on the above information, the following adjustments are relevant to achieve the targets.</entry>
+    <entry key="per_interval">Per interval</entry>
+    <entry key="displayed_adjustments">Displayed adjustments</entry>
+    <entry key="displayed_adjustment">Displayed adjustment</entry>
+    <entry key="score">Score</entry>
+    <entry key="suggestion">Suggestion</entry>
+    <entry key="suggestion_phrase">Considering the above information, TuberXpert recommends the following adjustment.</entry>
+
+    <!-- Report Targets -->
+    <entry key="targets_phrase">With the best suggestion, the targets are expected to change as follows.</entry>
+    <entry key="unknown">Unknown</entry>
+    <entry key="residual">Residual</entry>
+    <entry key="peak">Peak</entry>
+    <entry key="mean">Mean</entry>
+    <entry key="auc">Area under the curve</entry>
+    <entry key="auc24">Area under the curve for 24 hours</entry>
+    <entry key="cumulative_auc">Cumulative area under the curve</entry>
+    <entry key="auc_over_mic">Area under the curve over minimum inhibitory concentration</entry>
+    <entry key="auc24_over_mic">Area under the curve for 24 hours over minimum inhibitory concentration</entry>
+    <entry key="time_over_mic">Time over minimum inhibitory concentration</entry>
+    <entry key="auc_divided_by_mic">Area under the curve divided by minimum inhibitory concentration</entry>
+    <entry key="auc24_divided_by_mic">Area under the curve for 24 hours divided by minimum inhibitory concentration</entry>
+    <entry key="peak_divided_by_mic">Peak divided by minimum inhibitory concentration</entry>
+    <entry key="residual_divided_by_mic">Residual divided by minimum inhibitory concentration</entry>
+    <entry key="fraction_time_over_mic">Fraction time over minimum inhibitory concentration</entry>
+
+    <entry key="inefficacy">Inefficacy</entry>
+    <entry key="min">Min</entry>
+    <entry key="best">Best</entry>
+    <entry key="max">Max</entry>
+    <entry key="toxicity">Toxicity</entry>
+
+    <!-- Report Pharmacokinetic parameters -->
+    <entry key="pharmacokinetic_parameters">Pharmacokinetic parameters</entry>
+    <entry key="typical_patient">Typical patient</entry>
+    <entry key="a_priori">A priori</entry>
+    <entry key="a_posteriori">A posteriori</entry>
+
+    <!-- Report Predictions -->
+    <entry key="predictions">Predictions</entry>
+    <entry key="extrapolated_steady_state_auc24">Extrapolated steady state AUC24</entry>
+    <entry key="steady_state_peak">Steady state peak</entry>
+    <entry key="steady_state_trough">Steady state trough</entry>
+
+    <!-- Report Computation covariates -->
+    <entry key="computation_covariates">Covariates used for computation</entry>
+    <entry key="covariate_id">Covariate ID</entry>
+
 </dictionary>

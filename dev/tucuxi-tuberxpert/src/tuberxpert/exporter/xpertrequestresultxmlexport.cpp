@@ -53,7 +53,7 @@ void XpertRequestResultXmlExport::exportToFile(XpertRequestResult& _xpertRequest
     return;
 }
 
-void XpertRequestResultXmlExport::makeXmlString(XpertRequestResult& _xpertRequestResult, string& _xmlString)
+void XpertRequestResultXmlExport::makeXmlString(const XpertRequestResult& _xpertRequestResult, string& _xmlString)
 {
     // Making root
     Tucuxi::Common::XmlNode root = m_xmlDocument.createNode(Tucuxi::Common::EXmlNodeType::Element, "tuberxpertResult");
@@ -65,16 +65,16 @@ void XpertRequestResultXmlExport::makeXmlString(XpertRequestResult& _xpertReques
     m_xmlDocument.setRoot(root);
 
     // Date of generation
-    addNode(root, "computationTime", dateTimeToXmlString(_xpertRequestResult.getGlobalResult()->getComputationTime()));
+    addNode(root, "computationTime", dateTimeToXmlString(_xpertRequestResult.getGlobalResult().getComputationTime()));
 
     // Add the intro drugId, modelId, lastDose
     exportDrugIntro(_xpertRequestResult, root);
 
     // Add the admin
-    exportAdminData(_xpertRequestResult.getGlobalResult()->getAdminData(), root);
+    exportAdminData(_xpertRequestResult.getGlobalResult().getAdminData(), root);
 
     // Add the covariates
-    exportCovariateResults(_xpertRequestResult.getCovariateResults(), root, _xpertRequestResult.getXpertRequest().getOutputLang());
+    exportCovariateResults(_xpertRequestResult.getCovariateResults(), root);
 
     // Add the dosage history (treatment)
     exportTreatment(_xpertRequestResult.getTreatment(), root);
@@ -97,7 +97,7 @@ void XpertRequestResultXmlExport::makeXmlString(XpertRequestResult& _xpertReques
     m_xmlDocument.toString(_xmlString, true);
 }
 
-void XpertRequestResultXmlExport::exportDrugIntro(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode)
+void XpertRequestResultXmlExport::exportDrugIntro(const XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode)
 {
     // <drug>
     Common::XmlNode drugNode =
@@ -149,8 +149,7 @@ void XpertRequestResultXmlExport::exportAdminData(const unique_ptr<AdminData>& _
 void XpertRequestResultXmlExport::exportFullPersonData(const unique_ptr<FullPersonData>& _fullPerson, Common::XmlNode& _adminNode, const string& _nodeName)
 {
     // If the requiered person to export is not present, just leave
-    if ( (_nodeName == "mandator" && _fullPerson == nullptr) ||
-         (_nodeName == "patient" && _fullPerson == nullptr)) {
+    if (_fullPerson == nullptr) {
         return;
     }
 
@@ -323,7 +322,7 @@ void XpertRequestResultXmlExport::exportClinicalData(const unique_ptr<ClinicalDa
     }
 }
 
-void XpertRequestResultXmlExport::exportCovariateResults(const vector<CovariateValidationResult>& _covariateResults, Common::XmlNode& _rootNode, OutputLang _outputLang)
+void XpertRequestResultXmlExport::exportCovariateResults(const std::vector<CovariateValidationResult>& _covariateResults, Common::XmlNode& _rootNode)
 {
     // <covariates>
     Common::XmlNode covariatesNode =
@@ -346,16 +345,28 @@ void XpertRequestResultXmlExport::exportCovariateResults(const vector<CovariateV
         }
 
         //       <name>
-        addNode(covariateNode, "name", getStringWithEnglishFallback(covariateValidationResult.getSource()->getName().getString(), _outputLang));
+        addNode(covariateNode, "name", getStringWithEnglishFallback(covariateValidationResult.getSource()->getName().getString(),
+                                                                    m_xpertRequestResultInUse->getXpertRequest().getOutputLang()));
 
         //       <value>
-        addNode(covariateNode, "value", covariateValidationResult.getValue());
+        if (covariateValidationResult.getSource()->getId() == "age") {
+            int age = int(getAgeIn(covariateValidationResult.getSource()->getType(),
+                                   covariateValidationResult.getPatient()->getValueAsDate(),
+                                   m_xpertRequestResultInUse->getGlobalResult().getComputationTime()));
+            addNode(covariateNode, "value", to_string(age));
+        } else {
+            addNode(covariateNode, "value", covariateValidationResult.getValue());
+        }
 
         //       <unit>
         addNode(covariateNode, "unit", covariateValidationResult.getUnit().toString());
 
+        //       <datatype>
+        addNode(covariateNode, "dataType", varToString(covariateValidationResult.getDataType()));
+
         //       <desc>
-        addNode(covariateNode, "desc", getStringWithEnglishFallback(covariateValidationResult.getSource()->getDescription(), _outputLang));
+        addNode(covariateNode, "desc", getStringWithEnglishFallback(covariateValidationResult.getSource()->getDescription(),
+                                                                    m_xpertRequestResultInUse->getXpertRequest().getOutputLang()));
 
         //       <source>
         addNode(covariateNode, "source", varToString(covariateValidationResult.getType()));
@@ -563,7 +574,7 @@ bool XpertRequestResultXmlExport::exportCycleData(const Core::CycleData &_cycleD
     return true;
 }
 
-void XpertRequestResultXmlExport::exportParameters(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode)
+void XpertRequestResultXmlExport::exportParameters(const XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode)
 {
     // <parameters>
     Tucuxi::Common::XmlNode parametersNode =
@@ -598,7 +609,7 @@ void XpertRequestResultXmlExport::exportParameters(XpertRequestResult& _xpertReq
     }
 }
 
-void XpertRequestResultXmlExport::exportStatistics(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode)
+void XpertRequestResultXmlExport::exportStatistics(const XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode)
 {
     // <statistics>
     Tucuxi::Common::XmlNode statisticsNode =
@@ -625,7 +636,7 @@ void XpertRequestResultXmlExport::exportStatistics(XpertRequestResult& _xpertReq
     addNode(statisticsNode, "residual", Common::Utils::varToString(residual));
 }
 
-void XpertRequestResultXmlExport::exportComputationCovariates(XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode)
+void XpertRequestResultXmlExport::exportComputationCovariates(const XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode)
 {
     // <computationCovariates>
     Tucuxi::Common::XmlNode computationCovariatesNode =
@@ -646,7 +657,7 @@ void XpertRequestResultXmlExport::exportComputationCovariates(XpertRequestResult
         addNode(computationCovariateNode, "id", covariateValue.m_covariateId);
 
         //          <value>
-        addNode(computationCovariateNode, "value", std::to_string(covariateValue.m_value));
+        addNode(computationCovariateNode, "value", to_string(covariateValue.m_value));
     }
 }
 

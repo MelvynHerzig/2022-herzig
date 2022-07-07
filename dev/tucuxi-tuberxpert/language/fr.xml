@@ -11,4 +11,131 @@
     <entry key="population_below">% de la population est en dessous de cette mesure</entry>
     <entry key="population_above">% de la population est en dessus de cette mesure</entry>
 
+    <!-- Report common -->
+    <entry key="drug">Médicament</entry>
+    <entry key="none">Aucune</entry>
+    <entry key="from">Depuis</entry>
+    <entry key="to">Jusqu'à</entry>
+    <entry key="date">Date</entry>
+
+    <!-- Report header -->
+    <entry key="tuberxpert_report">Rapport TuberXpert</entry>
+    <entry key="computed_on">Calculé le</entry>
+
+    <!-- Report intro -->
+    <entry key="id">ID</entry>
+    <entry key="last_dose">Dernière dose</entry>
+    <entry key="drug_model">Fiche médicament</entry>
+
+    <!-- Report contacts -->
+    <entry key="contacts">Contacts</entry>
+    <entry key="mandator">Mandant</entry>
+    <entry key="patient">Patient</entry>
+    <entry key="name">Nom</entry>
+    <entry key="address">Adresse</entry>
+    <entry key="phone">Téléphone</entry>
+    <entry key="email">Email</entry>
+    <entry key="professional">professionnel</entry>
+    <entry key="private">privé</entry>
+
+    <!-- Report clinical data -->
+    <entry key="clinical_data">Données cliniques</entry>
+
+    <!-- Report Covariates -->
+    <entry key="covariates">Covariables</entry>
+    <entry key="value">Valeur</entry>
+    <entry key="source_patient">patient</entry>
+    <entry key="source_default">par défaut</entry>
+    <entry key="yes">Oui</entry>
+    <entry key="no">Non</entry>
+    <entry key="undefined">Non défini</entry>
+    <entry key="man">Homme</entry>
+    <entry key="woman">Femme</entry>
+
+    <!-- Report Treatment -->
+    <entry key="treatment">Traitement</entry>
+    <entry key="type">Type</entry>
+    <entry key="continually">continuellement</entry>
+    <entry key="at_steady_state">à l'état d'équilibre avec la dernière dose le</entry>
+    <entry key="times">fois</entry>
+    <entry key="offset">décalage</entry>
+    <entry key="interval">intervalle</entry>
+    <entry key="daily_at">quotidiennement à</entry>
+    <entry key="every">chaque</entry>
+    <entry key="day_1">lundi</entry>
+    <entry key="day_2">mardi</entry>
+    <entry key="day_3">mercredi</entry>
+    <entry key="day_4">jeudi</entry>
+    <entry key="day_5">vendredi</entry>
+    <entry key="day_6">samedi</entry>
+    <entry key="day_7">dimanche</entry>
+    <entry key="at">à</entry>
+    <entry key="posology">Posologie</entry>
+
+    <entry key="oral">oral</entry>
+    <entry key="nasal">nasal</entry>
+    <entry key="rectal">rectal</entry>
+    <entry key="vaginal">vaginal</entry>
+    <entry key="sublingual">sublingual</entry>
+    <entry key="transdermal">transcutané</entry>
+    <entry key="subcutaneous">sous-cutanée</entry>
+    <entry key="intramuscular">intramusculaire</entry>
+    <entry key="intravenous_drip">perfusion intraveineuse</entry>
+    <entry key="intravenous_bolus">bolus intraveineux</entry>
+
+    <!-- Report Samples -->
+    <entry key="samples">Échantillons</entry>
+    <entry key="measure">Mesure</entry>
+    <entry key="percentile">Percentile</entry>
+
+    <!-- Report Adjustments -->
+    <entry key="adjustments">Ajustments</entry>
+    <entry key="intro_phrase">Sur la base des informations ci-dessus, les ajustements suivants sont pertinents pour atteindre les objectifs fixés.</entry>
+    <entry key="per_interval">Par intervalle</entry>
+    <entry key="displayed_adjustments">Ajustements affichés</entry>
+    <entry key="displayed_adjustment">Ajustement affiché</entry>
+    <entry key="score">Score</entry>
+    <entry key="suggestion">Suggestion</entry>
+    <entry key="suggestion_phrase">Compte tenu des informations ci-dessus, TuberXpert recommande l'ajustement suivant.</entry>
+
+    <!-- Report Targets -->
+    <entry key="targets_phrase">Avec la meilleure suggestion, les objectifs devraient changer comme suit.</entry>
+    <entry key="unknown">Inconnu</entry>
+    <entry key="residual">Résiduel</entry>
+    <entry key="peak">Sommet</entry>
+    <entry key="mean">Moyenne</entry>
+    <entry key="auc">Aire sous la courbe</entry>
+    <entry key="auc24">Aire sous la courbe pour 24 heures</entry>
+    <entry key="cumulative_auc">Aire sous la courbe cumulatif</entry>
+    <entry key="auc_over_mic">Aire sous la courbe sur la concentration minimale inhibitrice</entry>
+    <entry key="auc24_over_mic">Aire sous la courbe pour 24 heures sur la concentration minimale inhibitrice</entry>
+    <entry key="time_over_mic">Temps sur la concentration minimale inhibitrice</entry>
+    <entry key="auc_divided_by_mic">Aire sous la courbe divisé par la concentration minimale inhibitrice</entry>
+    <entry key="auc24_divided_by_mic">Aire sous la courbe pour 24 heures divisé par la concentration minimale inhibitrice</entry>
+    <entry key="peak_divided_by_mic">Sommet divisé par la concentration minimale inhibitrice</entry>
+    <entry key="residual_divided_by_mic">Résiduel divisé par la concentration minimale inhibitrice</entry>
+    <entry key="fraction_time_over_mic">Fraction de temps sur la concentration minimale inhibitrice</entry>
+
+    <entry key="inefficacy">Inefficacité</entry>
+    <entry key="min">Min</entry>
+    <entry key="best">Meilleur</entry>
+    <entry key="max">Max</entry>
+    <entry key="toxicity">Toxicité</entry>
+
+    <!-- Report Pharmacokinetic parameters -->
+    <entry key="pharmacokinetic_parameters">Paramètres pharmacocinétiques</entry>
+    <entry key="typical_patient">Patient type</entry>
+    <entry key="a_priori">À priori</entry>
+    <entry key="a_posteriori">À posteriori</entry>
+
+    <!-- Report Predictions -->
+    <entry key="predictions">Prédictions</entry>
+    <entry key="extrapolated_steady_state_auc24">ASC24 extrapolée à l'état d'équilibre</entry>
+    <entry key="steady_state_peak">Sommet à l'état d'équilibre</entry>
+    <entry key="steady_state_trough">Creux de l'état d'équilibre</entry>
+
+    <!-- Report Computation covariates -->
+    <entry key="computation_covariates">Covariables utilisées pour les calculs</entry>
+    <entry key="covariate_id">Covariable ID</entry>
+
 </dictionary>

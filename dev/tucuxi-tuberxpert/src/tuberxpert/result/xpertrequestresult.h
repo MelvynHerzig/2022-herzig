@@ -38,7 +38,7 @@ public:
     /// \param _drugTreatment Associated treatment if extraction was successfull.
     /// \param _errorMessage If the treatment extraction was not successfull, the related error message or empty string.
     XpertRequestResult(
-            const GlobalResult* _xpertGlobalResult,
+            const GlobalResult& _xpertGlobalResult,
             std::unique_ptr<XpertRequestData> _xpertRequest,
             std::unique_ptr<Core::DrugTreatment> _drugTreatment,
             const std::string& _errorMessage);
@@ -62,39 +62,39 @@ public:
     /// \brief Gets the covariates results.
     /// \return The vector containing each CovariateResult for each covariates. May be empty if
     ///         model selection failed.
-    const std::vector<CovariateValidationResult>& getCovariateResults();
+    const std::vector<CovariateValidationResult>& getCovariateResults() const;
 
     /// \brief Gets the doses results.
     /// \return The vector containing each DoseResult for each dose found in the treatment.
     ///         This may be empty if there is no dosage or if the doses validation failed.
-    const std::map<const Core::SingleDose*, DoseValidationResult>& getDoseResults();
+    const std::map<const Core::SingleDose*, DoseValidationResult>& getDoseResults() const;
 
     /// \brief Gets the samples results.
     /// \return The vector containing each SampleResult for each sample found in the treatment.
     ///         This may be empty if there is no sample or if the samples validation failed.
-    const std::map<const Core::Sample*, SampleValidationResult>& getSampleResults();
+    const std::map<const Core::Sample*, SampleValidationResult>& getSampleResults() const;
 
     /// \brief Get a unique pointer on the adjustment trait used to make the computing request.
     ///        May be nullptr.
     /// \return A constant unique pointer on the adjustment trait.
-    const std::unique_ptr<Core::ComputingTraitAdjustment>& getAdjustmentTrait();
+    const std::unique_ptr<Core::ComputingTraitAdjustment>& getAdjustmentTrait() const;
 
     /// \brief Get a unique pointer on the adjustment data retrieved by the computation of the adjustment trait.
     ///        May be nullptr.
     /// \return A constant unique pointer on the adjustment data.
-    const std::unique_ptr<Core::AdjustmentData>& getAdjustmentData();
+    const std::unique_ptr<Core::AdjustmentData>& getAdjustmentData() const;
 
     /// \brief Get a unique pointer on the last intake of the patient.
     ///        May be nullptr since it is possible to not have any last intake.
     /// \return A constant unique pointer on the intake event.
-    const std::unique_ptr<Core::IntakeEvent>& getLastIntake();
+    const std::unique_ptr<Core::IntakeEvent>& getLastIntake() const;
 
     /// \brief Get a constant pointer on the GlobalResult object that contains common information
     ///        for all the XpertRequestResult as well as all the XpertRequestResult. This pointer
     ///        is not to be deleted.
     /// \return Return a constant pointer on the XpertResult held by this object.
     ///         May be nullptr.
-    const GlobalResult* getGlobalResult() const;
+    const GlobalResult& getGlobalResult() const;
 
     /// \brief Get the parameters groups. Index 2 might not exist.
     /// \return In index 0, the typical patient.
@@ -154,7 +154,7 @@ protected:
 
     /// \brief Where to retrieve the computation time and the administrative data
     ///        /!\ No need to free
-    const GlobalResult* m_xpertGlobalResult;
+    const GlobalResult& m_xpertGlobalResult;
 
     /// \brief Unique pointer to the related request this object stores results for.
     std::unique_ptr<XpertRequestData> m_xpertRequest;

@@ -16,6 +16,17 @@
 namespace Tucuxi {
 namespace Xpert {
 
+/// \brief Convert a data type to a string.
+/// \param _value Value to convert.
+/// \param _type Type of the value for string conversion.
+/// \return The string of the resulting conversion.
+std::string varToString(const Core::DataType& _dataType);
+
+/// \brief Convert a floating point variable to a string with two decimals.
+/// \param _value Variable to convert to a string.
+/// \return String describing the variable.
+std::string varToString(const double& _value);
+
 /// \brief Convert a floating point variable to a string with two decimals.
 /// \param _value Variable to convert to a string.
 /// \return String describing the variable.
@@ -38,6 +49,15 @@ std::string varToString(OutputLang _lang);
 /// \return String describing the warning level.
 /// \throw Invalid argument if the CovariateType is not supported.
 std::string varToString(WarningLevel _lang);
+
+/// \brief Beautify a string that represents a covariate value.
+///        If the type is Bool, return yes/no translation.
+///        If the _id is sex, return man/woman/undefined translation.
+/// \param _value Value of the covariate as string.
+/// \param _type Data type of the initial data type.
+/// \param _id Id of the initial data type.
+/// \return Beatuified string or the default if not corresponding to any criteria to beautify.
+std::string beautifyString(const std::string& _value, Core::DataType _type, const std::string& _id);
 
 /// \brief Extracts a string from a translatable string in regard of a given language. If
 ///        the language is not extractable, it tries to fallback with english.
@@ -66,6 +86,11 @@ Common::DateTime getLatestDosageTimeRangeStart(const Core::DosageHistory& _dosag
 /// \return Return the final file name.
 std::string computeFileName(const XpertRequestResult& _xpertRequestResult);
 
+/// \brief For the given trait T, make a request and execute it. Then, cast the response in U and put it in the response pointer.
+///        The response pointer is not changed if the computation fails.
+/// \param _trait Trait to use for request.
+/// \param _xpertRequestResult Xpert request result to retrieve a treatment and a drug model.
+/// \param _responsePointer Pointer where to put the response.
 template<typename T, typename U>
 void executeRequestAndGetResult(std::unique_ptr<T> _trait, const XpertRequestResult& _xpertRequestResult, std::unique_ptr<U>& _responsePointer)
 {
@@ -87,6 +112,20 @@ void executeRequestAndGetResult(std::unique_ptr<T> _trait, const XpertRequestRes
     U* dataPointer = dynamic_cast<U*>(computingResponse->getUniquePointerData().release());
     _responsePointer = std::unique_ptr<U>(dataPointer);
 }
+
+/// \brief Transform a camel case key into a phrase.
+///        "camelCaseKey" becomes "Camel case key".
+/// \param key Key to transform.
+/// \return Return the resulting transformation.
+std::string keyToPhrase(const std::string& _key);
+
+/// \brief For a given birth date and computation time, compute the age type between these two dates.
+/// \param _ageType Age type to compute.
+/// \param _birthDate Birth date.
+/// \param _computationTime Reference/computation time.
+/// \return The resulting age as double.
+/// \throws invalid_argument When the covariate type is not an age.
+double getAgeIn(Core::CovariateType _ageType, const Common::DateTime& _birthDate, const Common::DateTime& _computationTime);
 
 
 } // namespace Xpert

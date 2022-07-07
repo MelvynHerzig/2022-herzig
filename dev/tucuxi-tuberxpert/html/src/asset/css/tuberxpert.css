@@ -1,0 +1,496 @@
+/**
+  =======================================================
+  CSS for managing A4 page in order to be printed nicely.
+  =======================================================
+*/
+
+.page-A4 {
+  width: 21cm;
+  margin: auto;
+  padding: 0 1cm 0 1cm;
+  background-color: white;
+}
+
+.page-A4 > table > tbody > tr {
+  page-break-inside: avoid;
+  
+}
+
+.page-A4 > table > tbody > div[class='canvasAdjustments'] {
+  page-break-inside: avoid;
+  
+}
+
+.newpage {
+  page-break-before: always;
+}
+
+/**
+  =======================================================
+  TuberXpert Globals
+  =======================================================
+*/
+
+html {
+  height: fit-content;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0px;
+}
+
+h3 {
+  text-decoration: underline;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+h4 {
+  text-decoration: underline;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+h5 {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.page-A4 > div {
+  margin-top: 1rem;
+}
+
+hr {
+  margin-top: 0.5cm;
+  border: 1px solid black;
+}
+
+body {
+  background-color: #525659;
+}
+
+.bg-light-grey{
+  background-color: #F1F1F1;
+}
+
+.bg-warning-normal {  
+  background-color: #E8C882;
+}
+
+
+.bg-warning-critical {
+  background-color: #E5807F;
+}
+
+table {
+  column-gap: 0.5cm;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+table, th, td {
+  border: transparent;
+}
+
+td, th {
+  vertical-align: top;
+  word-wrap: break-word;
+  padding: 3px;
+}
+
+table table {
+  width: 99%;
+  margin: auto;
+  margin-bottom: 3px;
+}
+
+table table td {
+  vertical-align: middle;
+}
+
+table table td:nth-child(1) {
+  width: 6%;
+  padding: 5px;
+}
+
+table img[alt='Dot icon image from asset/img/dot.png'] {
+  margin-top: 5px;
+}
+
+/**
+  =======================================================
+  TuberXpert header
+  =======================================================
+*/
+
+.header tr td {
+  width: 33%;
+  vertical-align:bottom;
+}
+
+.header tr td:nth-child(2) {
+  vertical-align: bottom;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.header tr td:nth-child(3) {
+  text-align: right;
+}
+
+hr {
+  margin-top: 0.2cm;
+  margin-bottom: 0.5cm;
+}
+
+/**
+  =======================================================
+  TuberXpert drug intro
+  =======================================================
+*/
+
+.drug-intro > tbody > tr:nth-child(1) {
+  background-color: white;
+}
+
+.drug-intro th {
+  text-align: left;
+}
+
+.drug-intro tr th:nth-child(1) {
+  width: 25%;
+}
+
+.drug-intro tr th:nth-child(2) {
+  width: 20%;
+}
+
+.drug-intro tr th:nth-child(3) {
+  width: 55%;
+}
+
+/**
+  =======================================================
+  TuberXpert contacts
+  =======================================================
+*/
+
+.contacts-header tr th:nth-child(1) {
+  width: 24%;
+}
+
+.contacts-header tr th:nth-child(2), .contacts-header tr th:nth-child(3) {
+  width: 38%;
+}
+
+.contacts {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.contacts tr td:nth-child(1) {
+  width: 6%;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.contacts tr th {
+  width: 17%;
+  text-align: right;
+  border-right: 1px solid black;
+  padding-right: 4px;
+}
+
+.contacts tr td:nth-child(2), .contacts tr td:nth-child(3) {
+  width: 38%;
+  padding-left: 4px;
+}
+
+/**
+  =======================================================
+  TuberXpert clinical data
+  =======================================================
+*/
+
+.clinical-data tr th {
+  width: 25%;
+  text-align: right;
+}
+
+.clinical-data tr td {
+  width: 75%;
+  vertical-align: top;
+  text-align: left;
+  padding-left: 8px;
+}
+
+.clinical-data tr + tr {
+  border-top: 4px solid white;
+}
+
+/**
+  =======================================================
+  TuberXpert covariates
+  =======================================================
+*/
+
+.covariates td {
+  text-align: left;
+}
+
+.covariates > tbody > tr > td:nth-child(1), .covariates > tbody > tr > td:nth-child(2), .covariates > tbody > tr > td:nth-child(3)  {
+  width: 33%;
+}
+
+.covariates > tbody > tr:nth-of-type(3n + 4) {
+  border-top: 4px solid white;
+}
+
+/**
+  =======================================================
+  TuberXpert treatment
+  =======================================================
+*/
+
+.treatment > tbody > tr:nth-of-type(3n + 4) {
+  border-top: 4px solid white;
+}
+
+.treatment img[src='asset/img/dot.png'] {
+  margin-top: 3px;
+}
+
+.treatment table tr td:nth-child(1) {
+  text-align: center;
+}
+
+/**
+  =======================================================
+  TuberXpert samples
+  =======================================================
+*/
+
+.samples > tbody > tr:nth-of-type(2n + 3) {
+  border-top: 4px solid white;
+}
+
+/**
+  =======================================================
+  TuberXpert Adjustments
+  =======================================================
+*/
+
+.adjustments > tbody > tr:nth-of-type(2n + 4) {
+  border-top: 4px solid white;
+}
+
+.adjustments > tbody > tr:nth-child(1) {
+  background-color: white;
+}
+
+.adjustments table td:nth-child(1) {
+  width: 5%;
+}
+
+.adjustments table  td:nth-child(2)  {
+  width: 95%;
+}
+
+/**
+  =======================================================
+  TuberXpert Targets
+  =======================================================
+*/
+
+.targets > tbody > tr:nth-of-type(2n + 4) {
+  border-top: 4px solid white;
+}
+
+.targets > tbody > tr:nth-child(1) {
+  background-color: white;
+}
+
+.targets td,  .targets th{
+  vertical-align: middle;
+  text-align: left;
+}
+
+.targets tr > td:nth-child(1) {
+  vertical-align: top;
+  text-align: center;
+}
+
+.targets th:nth-child(1) {
+  width: 5%;
+}
+
+.targets th:nth-child(2)  {
+  width: 60%;
+}
+
+.targets th:nth-child(3)  {
+  width: 20%;
+}
+
+.targets th:nth-child(4)  {
+  width: 15%;
+}
+
+.targets tr[class='target-values'] {
+  margin-right: 1cm;
+  padding-right: 1cm;
+}
+
+.targets div {
+  text-align: left;
+  background-color: silver;
+  margin-left: 1cm;
+  margin-right: 3px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+/**
+  =======================================================
+  Pharmacokinetic parameters
+  =======================================================
+*/
+
+.pks > tbody > tr:nth-of-type(1n + 3) {
+  border-top: 4px solid white;
+}
+
+.pks > tbody > tr:nth-child(1) {
+  background-color: white;
+}
+
+.pks tr > td:nth-child(1) {
+  text-align: center;
+}
+
+.pks tr > td:nth-child(1) > img {
+  padding-top: 2px;
+}
+
+.pks th:nth-child(1) {
+  width: 5%;
+}
+
+.pks th:nth-child(2)  {
+  width: 20%;
+}
+
+.pks th:nth-child(3), .pks th:nth-child(4), .pks th:nth-child(5)  {
+  width: 25%;
+}
+
+.pks th {
+  text-align: left;
+}
+
+.pks td {
+  vertical-align: middle;
+}
+
+/**
+  =======================================================
+  Pharmacokinetic parameters
+  =======================================================
+*/
+
+.predictions th {
+  width: 40%;
+  text-align: end;
+  background-color: white;
+  padding-right: 6px;
+}
+
+.predictions td  {
+  width: 60%;
+  padding-left: 6px;
+}
+
+/**
+  =======================================================
+  Computation covariates
+  =======================================================
+*/
+
+.computation-covariates > tbody > tr:nth-of-type(1n + 3) {
+  border-top: 4px solid white;
+}
+
+.computation-covariates > tbody > tr:nth-child(1) {
+  background-color: white;
+}
+
+.computation-covariates th {
+  text-align: left;
+}
+
+.computation-covariates tr > td:nth-child(1) {
+  text-align: center;
+}
+
+.computation-covariates tr > td:nth-child(1) > img {
+  padding-top: 2px;
+}
+
+.computation-covariates th:nth-child(1) {
+  width: 5%;
+}
+
+.computation-covariates th:nth-child(2) {
+  width: 40%;
+}
+
+.computation-covariates th:nth-child(2) {
+  width: 45%;
+}
+
+.computation-covariates td {
+  vertical-align: middle;
+}
+
+/**
+  =======================================================
+  TuberXpert canvas
+  =======================================================
+*/
+
+.canvasAdjustments {
+  width: 19cm;
+  height: 12.6cm;
+}
+
+.canvasAdjustments > canvas {
+  height:12.6cm;
+  width:19cm;
+}
+
+/**
+  =======================================================
+  TuberXpert copyright
+  =======================================================
+*/
+
+.copyright {
+  margin-top: 0.5cm;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  font-size: x-small;
+  text-align: center;
+}
+
+
+
+
