@@ -223,7 +223,7 @@
                         <unit>mg/l</unit>
                         <min>0.8</min>
                         <best>1.05</best>
-                        <max>1.550</max>
+                        <max>1.650</max>
                         <inefficacyAlarm>0.6</inefficacyAlarm>
                         <toxicityAlarm>20</toxicityAlarm>
                     </target>

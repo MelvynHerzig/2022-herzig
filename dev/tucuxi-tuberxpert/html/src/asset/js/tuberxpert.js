@@ -3,7 +3,7 @@
         // Can't use the new Date(dateStr). This version is not
         // supported by the PDF exporter.
         function makeDate(dateStr) {
-            var dateTimeSplits = dateStr.split('T');
+            var dateTimeSplits = dateStr.split(' ');
             var dateSplit = dateTimeSplits[0];
             var timeSplit = dateTimeSplits[1];
             var date = dateSplit.split('-')
