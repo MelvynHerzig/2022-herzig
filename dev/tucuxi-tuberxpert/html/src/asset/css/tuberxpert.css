@@ -6,13 +6,26 @@
 
 .page-A4 {
   width: 21cm;
+  height: 100%;
   margin: auto;
   padding: 0 1cm 0 1cm;
   background-color: white;
 }
 
-.avoid-break, .page-A4 tr {
+.avoid-break, .page-A4 > table > tbody > tr, .try-not-alone {
   page-break-inside: avoid;
+}
+
+/* The page break avter avoir is not really functionnal,
+   so this is a small css trick to avoir break 150px after
+   titles. With that, wh should avoid lonely title in the bottom
+   of the pages
+*/   
+.try-not-alone::after {
+  content: "";
+  display: block;
+  height: 150px;
+  margin-bottom: -150px;
 }
 
 /**
@@ -21,12 +34,9 @@
   =======================================================
 */
 
-html {
-  height: fit-content;
-}
-
 h1, h2, h3, h4, h5 {
   margin: 0px;
+  
 }
 
 h3 {
@@ -477,12 +487,22 @@ hr {
 */
 
 .copyright {
-  margin-top: 0.5cm;
+  padding-top: 1rem;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
   font-size: x-small;
   text-align: center;
+}
+
+/**
+  =======================================================
+  TuberXpert Ending
+  =======================================================
+*/
+
+.ending {
+  height: 19px;
 }
 
 

@@ -28,7 +28,7 @@ void ReportPrinter::perform(XpertRequestResult& _xpertRequestResult)
     switch(desiredFormat) {
     case OutputFormat::XML  : exporter = make_unique<XpertRequestResultXmlExport>(); break;
     case OutputFormat::HTML : exporter = make_unique<XpertRequestResultHtmlExport>(); break;
-    case OutputFormat::PDF  : exporter = make_unique<XpertRequestResultPdfExport>(); break;
+    case OutputFormat::PDF  : exporter = make_unique<XpertRequestResultPdfExport>(make_unique<XpertRequestResultHtmlExport>()); break;
     }
 
     // Export

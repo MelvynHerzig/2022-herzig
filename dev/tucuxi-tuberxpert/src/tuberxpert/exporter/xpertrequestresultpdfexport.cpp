@@ -9,69 +9,83 @@ using namespace std;
 namespace Tucuxi {
 namespace Xpert {
 
-XpertRequestResultPdfExport::XpertRequestResultPdfExport()
+XpertRequestResultPdfExport::XpertRequestResultPdfExport(unique_ptr<AbstractHtmlExport> _htmlExport) : m_htmlExport(move(_htmlExport))
 {}
 
 void XpertRequestResultPdfExport::exportToFile(XpertRequestResult& _xpertRequestResult)
 {
-    if( remove( "C:/Users/melvy/Desktop/test.pdf" ) != 0 )
-        cout <<  "Error deleting file" ;
+    // Get the output file name
+    string outputFileName = computeFileName(_xpertRequestResult);
 
+    // Try to remove the output file if it already exists.
+    // Wkhtmltox does not replace it automatically.
+    if (remove(outputFileName.c_str()) != 0) {
+        _xpertRequestResult.setErrorMessage("Output pdf file: " + outputFileName + " already exists and could not be replaced.");
+        return;
+    }
 
+    // Make the filename of the temporary html file.
+    string tempHtmlFileName = computeFileName(_xpertRequestResult, true, false) + "_temp.html";
+
+    // Generate the temp html file.
+    m_htmlExport->exportToFile(tempHtmlFileName, _xpertRequestResult);
+    if( !_xpertRequestResult.shouldBeHandled() ){
+        _xpertRequestResult.setErrorMessage("Error during the generation of the html for pdf exportation.");
+        remove(tempHtmlFileName.c_str()); // Just in case, try to delete the temp file.
+        return;
+    }
+
+    // Preparing the wkhtmltox export objects.
     wkhtmltopdf_global_settings* gs;
     wkhtmltopdf_object_settings* os;
-    wkhtmltopdf_converter * c;
+    wkhtmltopdf_converter* c;
 
-    /* Init wkhtmltopdf in graphics less mode */
+    // Init wkhtmltopdf in graphics less mode
     wkhtmltopdf_init(false);
 
-    /*
-     * Create a global settings object used to store options that are not
-     * related to input objects, note that control of this object is parsed to
-     * the converter later, which is then responsible for freeing it
-     */
+
+    // Create a global settings object used to store options that are not
+    // related to input objects,
     gs = wkhtmltopdf_create_global_settings();
-    /* We want the result to be storred in the file called test.pdf */
-    string fileName = "C:\\Users\\melvy\\Desktop\\test.pdf";
-    wkhtmltopdf_set_global_setting(gs, "out", fileName.c_str());
+
+    wkhtmltopdf_set_global_setting(gs, "out", outputFileName.c_str());
     wkhtmltopdf_set_global_setting(gs, "margin.top", "8");
     wkhtmltopdf_set_global_setting(gs, "margin.bottom", "8");
     wkhtmltopdf_set_global_setting(gs, "margin.left", "0");
     wkhtmltopdf_set_global_setting(gs, "margin.right", "0");
 
-    /*
-     * Create a input object settings object that is used to store settings
-     * related to a input object, note again that control of this object is parsed to
-     * the converter later, which is then responsible for freeing it
-     */
+    // Create a input object settings object that is used to store settings
+    // related to a input object, note again that control of this object is parsed to
+    // the converter later, which is then responsible for freeing it
     os = wkhtmltopdf_create_object_settings();
-    /* We want to convert to convert the qstring documentation page */
-    wkhtmltopdf_set_object_setting(os, "page", "C:\\Users\\melvy\\Desktop\\imatinib_1_24-6-2022_13h45m30s.html");
+
+    // Convert the temp html file
+    wkhtmltopdf_set_object_setting(os, "page", tempHtmlFileName.c_str());
     wkhtmltopdf_set_object_setting(os, "load.blockLocalFileAccess", "false");
     wkhtmltopdf_set_object_setting(os, "web.enableIntelligentShrinking", "false");
 
-    /* Create the actual converter object used to convert the pages */
+    // Create the actual converter object used to convert the pages
     c = wkhtmltopdf_create_converter(gs);
 
-    /*
-     * Add the the settings object describing the qstring documentation page
-     * to the list of pages to convert. Objects are converted in the order in which
-     * they are added
-     */
+    // Add the the settings object.
+    // to the list of pages to convert. Objects are converted in the order in which
+    // they are added
     wkhtmltopdf_add_object(c, os, NULL);
 
-    /* Perform the actual conversion */
-    if (!wkhtmltopdf_convert(c))
-        cout << "Conversion failed!";
+    // Perform the actual conversion
+    if (!wkhtmltopdf_convert(c)) {
+        _xpertRequestResult.setErrorMessage("Error during the exportation of the html into pdf. Http error code: " +
+                                            to_string(wkhtmltopdf_http_error_code(c)));
+    }
 
-    /* Output possible http error code encountered */
-    cout << "httpErrorCode: " << wkhtmltopdf_http_error_code(c) << endl;
-
-    /* Destroy the converter object since we are done with it */
+    // Destroy the converter object since we are done with it
     wkhtmltopdf_destroy_converter(c);
 
-    /* We will no longer be needing wkhtmltopdf funcionality */
+    // We will no longer be needing wkhtmltopdf funcionality
     wkhtmltopdf_deinit();
+
+    // Remove the temp file
+    remove(tempHtmlFileName.c_str());
 }
 
 } // namespace Xpert

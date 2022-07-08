@@ -19,18 +19,19 @@ XpertRequestResultHtmlExport::XpertRequestResultHtmlExport()
 
 void XpertRequestResultHtmlExport::exportToFile(XpertRequestResult& _xpertRequestResult)
 {
-    // Get the xml string
-    string xmlString;
-    //makeXmlString(_xpertRequestResult, xmlString);
 
     // Get the filename <drugId>_<requestNumber>_<current time to evit conflict naming>
     string fileName = computeFileName(_xpertRequestResult);
+    exportToFile(fileName, _xpertRequestResult);
+}
 
+void XpertRequestResultHtmlExport::exportToFile(const std::string& _fileName, XpertRequestResult& _xpertRequestResult)
+{
     // Opening the file
     ofstream file;
-    file.open(fileName);
+    file.open(_fileName);
     if ((file.rdstate() & ostream::failbit) != 0) {
-        _xpertRequestResult.setErrorMessage("The file " + fileName + " could not be opened.");
+        _xpertRequestResult.setErrorMessage("The file " + _fileName + " could not be opened.");
         return ;
     }
 
@@ -44,9 +45,6 @@ void XpertRequestResultHtmlExport::exportToFile(XpertRequestResult& _xpertReques
     file << makeBodyString(_xpertRequestResult);;
 
     file.close();
-
-    // The html is exported.
-    return;
 }
 
 string XpertRequestResultHtmlExport::makeHeaderString() const
@@ -89,7 +87,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
     stringstream ss;
 
     // Making the body template
-    ss << "<body class='bg-secondary'>" << endl
+    ss << "<body>" << endl
        << "    <div class='page-A4 bg-body'>" << endl
        << endl
        << "        <!-- Header -->" << endl                                                                       // ---------- HEADER PART ------------
@@ -107,7 +105,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "            </tr>" << endl
        << "        </table>" << endl
        << endl
-       << "    <hr>"
+       << "        <hr>"
        << endl
        << "        <!-- Drug intro -->" << endl                                                                   // ---------- DRUG INTRO ------------
        << "        <h3> {{ intro.drug_translation }} </h3>" << endl                                               // Insert "Drug" translation
@@ -215,130 +213,124 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "            </table>" << endl
        << "        {% endif %}"
        << endl
-       << "        <!-- Covariates -->" << endl                                                                   // ---------- COVARIATES ------------
-       << "        <div class=\"avoid-break\">" << endl
-       << "            <h3> {{ covariates.translation }} </h3>" << endl                                           // Insert "Clinical data" translation
-       << "            {% if not exists(\"covariates.rows\") %} "                                                 // If there is no clinical data
-       << "                {{ covariates.none_translation }}" << endl                                             //     Insert "None" translation
-       << "            {% else %}"                                                                                // Else
-       << "                <table class='covariates bg-light-grey'>" << endl
-       << "                {% for covariate in covariates.rows %}"                                                //     For each covariates
-       << "                    <tr>" << endl
-       << "                        <td><b> {{ covariate.name }} </b></td>" << endl                                //         Insert the name, "value" translation and value.
-       << "                        <td><b> {{ covariates.value_translation }}:</b> {{ covariate.value }} </td>" << endl
-       << "                        <td>"
-       << "                        {% if existsIn( covariate, \"date\") %} "                                      //         If there is a covariate date (patient covariate)
-       << "                            <b> {{ covariates.date_translation }}:</b> {{ covariate.date }} "          //             Insert the date
-       << "                        {% endif %}"
-       << "                        </td>" << endl
-       << "                    </tr>" << endl
-       << "                    <tr>" << endl
-       << "                        <td colspan='3'> {{ covariate.desc }} </td>" << endl                           //         Insert the description
-       << "                    </tr>" << endl
-       << "                    <tr>" << endl
-       << "                    {% if existsIn( covariate, \"warning\") %} "                                       //         If there is a warning associated
-       << "                    <td colspan='3'>" << endl
-       << "                        <table>" << endl
-       << "                            <tr class='bg-warning-normal'>" << endl
-       << "                                <td>" << endl
-       << "                                    <img alt='Warning icon image from asset/img/warning.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAASbSURBVFiFxZdtTJVlGMd/1/2cl+cgHOSgCKjTlGFEFDrUGAIBQ8DICeopRXHK8syXWetbH3RuuvVFp261am2t1Rc3+yK51cS5UEcvY9ZW0idbrJjhS04BhfN29eEArgx4Dtj6f7xf/tfvvq77fp77FlXl/5RruhM3bg/laDTccOtmX0Qi5sKlS1/emI6PJJuB9aFQimcw8plCA0D/jd8THcoXw2n2pu729gf/GUAwGPTF3KnngOq56bBqmZDlvc+ZzkGu98cALsaHBxu7uroeOvVMqgRRz6xDolQ/lS0c3m5ItQFm0/BCKvuO/8FPfbFq4007BLzl1NNxBja1tC1RtMcyeE+ELObP+Xv/3b4hmt6+TTTOiFj6zOWOjl+c+BqnpKp6DPA2rJTHggNkZKfwymoPgFejcsypryOA5q27qhGa/CkQrJhgiiW01ftJ9wkITWU1ddVPBCAYDFpGOAmwpcowy060D4fh9FdxPmi/x8ORRBk9gRT2vOgdNdaTwWDQmjFA3J26W6Fo8TyhdrmMt3dcVc5cVk5ffMDZKwOJRkt4qSyNvCyDKkV9d+7unhFAY0tLhsIRgF11gjyKz683E6s2xuJ6X2S8XdJ9vLk2kSZROVJe3pgxbQAb72Egs7RAKFwkkw19JEt4rmAWVctcAJm4w4enBdD86msFCnvdLthR6/iwJOS32V9j43GBwt7SytqCpAHEip0AXBtKhbnpycXHMsyb72PrKg+Ay2XJiaQAmrftagTqMv3QVJbk6sfkt9lW6iUrTVCoK6+qa3QEEAqF3KJyHGB7jcHrnl58LIMdsNlTmTiWKnq8pKTkMbfHAG4PRQ+A5i9bIJQ/63DjTSS/TW2hm6L5FkC+Ly1wYFKA5tbWLFQPCtBWP8PgAJYBv83rNV4EQDhYVleXNSGAibqPAulVxcLSnMkBvGP/UVVszyRj/TZP51isK3KjkG4iHP1XgKaWncUq2ubzQEvV1BuvuliYZYPHFWNdaerEA0ezEKrwkOIRFG0rq1pbPNY9fh8wcAowm8oNsyfxG1NervDhGxaqOZNnAMBvE7g/zI5SN+91ho0Ip4DK0bjQ3LJzM0hFdgAaVzuvvdfN1MFhPAvBEg8LMgxARXnN2s0AVm9vrx2OSTswe/96w8K5zgDuDcG7n8c5d+UOK/K9+LxTlM1jYQ2OkO0XLvwcBVj16ccfvW8GwqYVWPT8EmFlvvPVn7+qdPUo3/REOXt5cOoJo1lYk+di5WILYFFUPK1GVesBNq5J7tjl5YIAqnEKFnucTUpLfJR2lCbGq2q9C6HSCOQvSA5g+VLhnX0WkWgWC7Mc3m1dFhihMNfCCMSh0iD0xxV6epN/IWUHcB4cIBKDuPL9bzHiCiL0G1HtBDj7tTISmcphhhoYZjiinP4uDIDG6ZSXt+ye45bINSDL54XKIiE303k5HgxNvQEDPojcH+Fab5jz16IMhRXgplsjhaKqbNi2s8il8olC8VRm/9T40yw5/RCPaWtXZ8eP4w+TUCjkvjUQXY3oCkECTlxU1XWrvy/qNGpc+dNo/OrDgbvfdnd3R2Aaj9Mnrb8A0TtykI+7cqgAAAAASUVORK5CYII='>" << endl
-       << "                                </td>" << endl
-       << "                                <td>" << endl
-       << "                                    {{ covariate.warning }}" << endl                                   //             Insert the warning message
-       << "                                </td>" << endl
-       << "                            </tr>" << endl
-       << "                        </table>" << endl
-       << "                    </td>" << endl
+       << "       <!-- Covariates -->" << endl                                                                    // ---------- COVARIATES ------------
+       << "        <h3 class='try-not-alone'> {{ covariates.translation }} </h3>" << endl                         // Insert "Clinical data" translation
+       << "        {% if not exists(\"covariates.rows\") %} "                                                     // If there is no clinical data
+       << "            {{ covariates.none_translation }}" << endl                                                 //     Insert "None" translation
+       << "        {% else %}"                                                                                    // Else
+       << "            <table class='covariates bg-light-grey'>" << endl
+       << "            {% for covariate in covariates.rows %}"                                                    //     For each covariates
+       << "                <tr>" << endl
+       << "                    <td><b> {{ covariate.name }} </b></td>" << endl                                    //         Insert the name, "value" translation and value.
+       << "                    <td><b> {{ covariates.value_translation }}:</b> {{ covariate.value }} </td>" << endl
+       << "                    <td>"
+       << "                    {% if existsIn( covariate, \"date\") %} "                                          //         If there is a covariate date (patient covariate)
+       << "                        <b> {{ covariates.date_translation }}:</b> {{ covariate.date }} "              //             Insert the date
        << "                    {% endif %}"
+       << "                    </td>" << endl
        << "                </tr>" << endl
-       << "                {% endfor %}"
-       << "            </table>" << endl
-       << "            {% endif %}"
-       << "        </div>" << endl
+       << "                <tr>" << endl
+       << "                    <td colspan='3'> {{ covariate.desc }} </td>" << endl                               //         Insert the description
+       << "                </tr>" << endl
+       << "                <tr>" << endl
+       << "                {% if existsIn( covariate, \"warning\") %} "                                           //         If there is a warning associated
+       << "                <td colspan='3'>" << endl
+       << "                    <table>" << endl
+       << "                        <tr class='bg-warning-normal'>" << endl
+       << "                            <td>" << endl
+       << "                                <img alt='Warning icon image from asset/img/warning.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAASbSURBVFiFxZdtTJVlGMd/1/2cl+cgHOSgCKjTlGFEFDrUGAIBQ8DICeopRXHK8syXWetbH3RuuvVFp261am2t1Rc3+yK51cS5UEcvY9ZW0idbrJjhS04BhfN29eEArgx4Dtj6f7xf/tfvvq77fp77FlXl/5RruhM3bg/laDTccOtmX0Qi5sKlS1/emI6PJJuB9aFQimcw8plCA0D/jd8THcoXw2n2pu729gf/GUAwGPTF3KnngOq56bBqmZDlvc+ZzkGu98cALsaHBxu7uroeOvVMqgRRz6xDolQ/lS0c3m5ItQFm0/BCKvuO/8FPfbFq4007BLzl1NNxBja1tC1RtMcyeE+ELObP+Xv/3b4hmt6+TTTOiFj6zOWOjl+c+BqnpKp6DPA2rJTHggNkZKfwymoPgFejcsypryOA5q27qhGa/CkQrJhgiiW01ftJ9wkITWU1ddVPBCAYDFpGOAmwpcowy060D4fh9FdxPmi/x8ORRBk9gRT2vOgdNdaTwWDQmjFA3J26W6Fo8TyhdrmMt3dcVc5cVk5ffMDZKwOJRkt4qSyNvCyDKkV9d+7unhFAY0tLhsIRgF11gjyKz683E6s2xuJ6X2S8XdJ9vLk2kSZROVJe3pgxbQAb72Egs7RAKFwkkw19JEt4rmAWVctcAJm4w4enBdD86msFCnvdLthR6/iwJOS32V9j43GBwt7SytqCpAHEip0AXBtKhbnpycXHMsyb72PrKg+Ay2XJiaQAmrftagTqMv3QVJbk6sfkt9lW6iUrTVCoK6+qa3QEEAqF3KJyHGB7jcHrnl58LIMdsNlTmTiWKnq8pKTkMbfHAG4PRQ+A5i9bIJQ/63DjTSS/TW2hm6L5FkC+Ly1wYFKA5tbWLFQPCtBWP8PgAJYBv83rNV4EQDhYVleXNSGAibqPAulVxcLSnMkBvGP/UVVszyRj/TZP51isK3KjkG4iHP1XgKaWncUq2ubzQEvV1BuvuliYZYPHFWNdaerEA0ezEKrwkOIRFG0rq1pbPNY9fh8wcAowm8oNsyfxG1NervDhGxaqOZNnAMBvE7g/zI5SN+91ho0Ip4DK0bjQ3LJzM0hFdgAaVzuvvdfN1MFhPAvBEg8LMgxARXnN2s0AVm9vrx2OSTswe/96w8K5zgDuDcG7n8c5d+UOK/K9+LxTlM1jYQ2OkO0XLvwcBVj16ccfvW8GwqYVWPT8EmFlvvPVn7+qdPUo3/REOXt5cOoJo1lYk+di5WILYFFUPK1GVesBNq5J7tjl5YIAqnEKFnucTUpLfJR2lCbGq2q9C6HSCOQvSA5g+VLhnX0WkWgWC7Mc3m1dFhihMNfCCMSh0iD0xxV6epN/IWUHcB4cIBKDuPL9bzHiCiL0G1HtBDj7tTISmcphhhoYZjiinP4uDIDG6ZSXt+ye45bINSDL54XKIiE303k5HgxNvQEDPojcH+Fab5jz16IMhRXgplsjhaKqbNi2s8il8olC8VRm/9T40yw5/RCPaWtXZ8eP4w+TUCjkvjUQXY3oCkECTlxU1XWrvy/qNGpc+dNo/OrDgbvfdnd3R2Aaj9Mnrb8A0TtykI+7cqgAAAAASUVORK5CYII='>" << endl
+       << "                            </td>" << endl
+       << "                            <td>" << endl
+       << "                                {{ covariate.warning }}" << endl                                       //             Insert the warning message
+       << "                            </td>" << endl
+       << "                        </tr>" << endl
+       << "                    </table>" << endl
+       << "                </td>" << endl
+       << "                {% endif %}"
+       << "            </tr>" << endl
+       << "            {% endfor %}"
+       << "        </table>" << endl
+       << "        {% endif %}"
        << endl
        << "        <!-- Treatment -->" << endl                                                                    // ---------- TREATMENT ------------
-       << "        <div class=\"avoid-break\">" << endl
-       << "            <h3> {{ treatment.translation }} </h3>" << endl                                            // Insert "Treatment" translation
-       << "            {% if not exists(\"treatment.rows\") %} "                                                  // If there is no treatment
-       << "                {{ treatment.none_translation }}" << endl                                              //     Insert "None" translation
-       << "            {% else %}"
-       << "             <table class='treatment bg-light-grey'>" << endl                                          // Else
-       << "                {% for dosage_time_range in treatment.rows %}"                                         //     For each dosage time range
-       << "                <tr>" << endl
-       << "                    <td><b>{{ treatment.from_translation }}</b> {{ dosage_time_range.date_from }} </td>" << endl //   Insert "from" translation and from date
-       << "                    <td><b>{{ treatment.to_translation }}</b> {{ dosage_time_range.date_to }}</td>" << endl      //   Insert "to" translation and to date
-       << "                </tr>" << endl
-       << "                <tr>" << endl
-       << "                    <td colspan='2'>" << endl
-       << "                       {% if existsIn( dosage_time_range, \"type\") %} "                               //         If it is a loop or at steady state.
-       << "                       <b>{{ treatment.type_translation }}:</b> {{ dosage_time_range.type }}"          //            Insert "type" translation and dosage time range type
-       << "                       {% endif %}"
-       << "                    </td> " << endl
-       << "                </tr>" << endl
-       << "                <tr>" << endl
-       << "                    <td colspan='2'>" << endl
-       << "                        <table>" << endl                                                               //         Insert each single dose found in the time range
-       << "                        {% for single_dose in dosage_time_range.single_doses %}"                       //         For each single dose
-       << "                            <tr>" << endl
-       << "                                <td>" << endl
-       << "                                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
-       << "                                </td>" << endl
-       << "                                <td>" << endl
-       << "                                    <b>{{ treatment.posology_translation }}:</b> {{ single_dose.posology }}"//        Insert the dosage and posology information
-       << "                                </td>" << endl
-       << "                            </tr>" << endl
-       << "                            <tr class='bg-warning-normal'>" << endl
-       << "                            {% if existsIn( single_dose, \"warning\") %} "                             //             If there is a warning
-       << "                                <td>" << endl
-       << "                                    <img alt='Warning icon image from asset/img/warning.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAASbSURBVFiFxZdtTJVlGMd/1/2cl+cgHOSgCKjTlGFEFDrUGAIBQ8DICeopRXHK8syXWetbH3RuuvVFp261am2t1Rc3+yK51cS5UEcvY9ZW0idbrJjhS04BhfN29eEArgx4Dtj6f7xf/tfvvq77fp77FlXl/5RruhM3bg/laDTccOtmX0Qi5sKlS1/emI6PJJuB9aFQimcw8plCA0D/jd8THcoXw2n2pu729gf/GUAwGPTF3KnngOq56bBqmZDlvc+ZzkGu98cALsaHBxu7uroeOvVMqgRRz6xDolQ/lS0c3m5ItQFm0/BCKvuO/8FPfbFq4007BLzl1NNxBja1tC1RtMcyeE+ELObP+Xv/3b4hmt6+TTTOiFj6zOWOjl+c+BqnpKp6DPA2rJTHggNkZKfwymoPgFejcsypryOA5q27qhGa/CkQrJhgiiW01ftJ9wkITWU1ddVPBCAYDFpGOAmwpcowy060D4fh9FdxPmi/x8ORRBk9gRT2vOgdNdaTwWDQmjFA3J26W6Fo8TyhdrmMt3dcVc5cVk5ffMDZKwOJRkt4qSyNvCyDKkV9d+7unhFAY0tLhsIRgF11gjyKz683E6s2xuJ6X2S8XdJ9vLk2kSZROVJe3pgxbQAb72Egs7RAKFwkkw19JEt4rmAWVctcAJm4w4enBdD86msFCnvdLthR6/iwJOS32V9j43GBwt7SytqCpAHEip0AXBtKhbnpycXHMsyb72PrKg+Ay2XJiaQAmrftagTqMv3QVJbk6sfkt9lW6iUrTVCoK6+qa3QEEAqF3KJyHGB7jcHrnl58LIMdsNlTmTiWKnq8pKTkMbfHAG4PRQ+A5i9bIJQ/63DjTSS/TW2hm6L5FkC+Ly1wYFKA5tbWLFQPCtBWP8PgAJYBv83rNV4EQDhYVleXNSGAibqPAulVxcLSnMkBvGP/UVVszyRj/TZP51isK3KjkG4iHP1XgKaWncUq2ubzQEvV1BuvuliYZYPHFWNdaerEA0ezEKrwkOIRFG0rq1pbPNY9fh8wcAowm8oNsyfxG1NervDhGxaqOZNnAMBvE7g/zI5SN+91ho0Ip4DK0bjQ3LJzM0hFdgAaVzuvvdfN1MFhPAvBEg8LMgxARXnN2s0AVm9vrx2OSTswe/96w8K5zgDuDcG7n8c5d+UOK/K9+LxTlM1jYQ2OkO0XLvwcBVj16ccfvW8GwqYVWPT8EmFlvvPVn7+qdPUo3/REOXt5cOoJo1lYk+di5WILYFFUPK1GVesBNq5J7tjl5YIAqnEKFnucTUpLfJR2lCbGq2q9C6HSCOQvSA5g+VLhnX0WkWgWC7Mc3m1dFhihMNfCCMSh0iD0xxV6epN/IWUHcB4cIBKDuPL9bzHiCiL0G1HtBDj7tTISmcphhhoYZjiinP4uDIDG6ZSXt+ye45bINSDL54XKIiE303k5HgxNvQEDPojcH+Fab5jz16IMhRXgplsjhaKqbNi2s8il8olC8VRm/9T40yw5/RCPaWtXZ8eP4w+TUCjkvjUQXY3oCkECTlxU1XWrvy/qNGpc+dNo/OrDgbvfdnd3R2Aaj9Mnrb8A0TtykI+7cqgAAAAASUVORK5CYII='>" << endl
-       << "                                </td>" << endl
-       << "                                <td>" << endl
-       << "                                    {{ single_dose.warning }}"                                         //                 Insert the warning
-       << "                                </td>" << endl
-       << "                            {% endif %}"
-       << "                            </tr>" << endl
-       << "                        {% endfor %}"
-       << "                        </table>" << endl
-       << "                    </td>" << endl
-       << "                </tr>" << endl
-       << "                {% endfor %}"
-       << "            </table>" << endl
-       << "            {% endif %}"
-       << "        </div>" << endl
+       << "        <h3 class='try-not-alone'> {{ treatment.translation }} </h3>" << endl                          // Insert "Treatment" translation
+       << "        {% if not exists(\"treatment.rows\") %} "                                                      // If there is no treatment
+       << "            {{ treatment.none_translation }}" << endl                                                  //     Insert "None" translation
+       << "        {% else %}"
+       << "         <table class='treatment bg-light-grey'>" << endl                                              // Else
+       << "            {% for dosage_time_range in treatment.rows %}"                                             //     For each dosage time range
+       << "            <tr>" << endl
+       << "                <td><b>{{ treatment.from_translation }}</b> {{ dosage_time_range.date_from }} </td>" << endl //   Insert "from" translation and from date
+       << "                <td><b>{{ treatment.to_translation }}</b> {{ dosage_time_range.date_to }}</td>" << endl      //   Insert "to" translation and to date
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <td colspan='2'>" << endl
+       << "                   {% if existsIn( dosage_time_range, \"type\") %} "                                   //         If it is a loop or at steady state.
+       << "                   <b>{{ treatment.type_translation }}:</b> {{ dosage_time_range.type }}"              //            Insert "type" translation and dosage time range type
+       << "                   {% endif %}"
+       << "                </td> " << endl
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <td colspan='2'>" << endl
+       << "                    <table>" << endl                                                                   //         Insert each single dose found in the time range
+       << "                    {% for single_dose in dosage_time_range.single_doses %}"                           //         For each single dose
+       << "                        <tr>" << endl
+       << "                            <td>" << endl
+       << "                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                            </td>" << endl
+       << "                            <td>" << endl
+       << "                                <b>{{ treatment.posology_translation }}:</b> {{ single_dose.posology }}"//        Insert the dosage and posology information
+       << "                            </td>" << endl
+       << "                        </tr>" << endl
+       << "                        <tr class='bg-warning-normal'>" << endl
+       << "                        {% if existsIn( single_dose, \"warning\") %} "                                 //             If there is a warning
+       << "                            <td>" << endl
+       << "                                <img alt='Warning icon image from asset/img/warning.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAASbSURBVFiFxZdtTJVlGMd/1/2cl+cgHOSgCKjTlGFEFDrUGAIBQ8DICeopRXHK8syXWetbH3RuuvVFp261am2t1Rc3+yK51cS5UEcvY9ZW0idbrJjhS04BhfN29eEArgx4Dtj6f7xf/tfvvq77fp77FlXl/5RruhM3bg/laDTccOtmX0Qi5sKlS1/emI6PJJuB9aFQimcw8plCA0D/jd8THcoXw2n2pu729gf/GUAwGPTF3KnngOq56bBqmZDlvc+ZzkGu98cALsaHBxu7uroeOvVMqgRRz6xDolQ/lS0c3m5ItQFm0/BCKvuO/8FPfbFq4007BLzl1NNxBja1tC1RtMcyeE+ELObP+Xv/3b4hmt6+TTTOiFj6zOWOjl+c+BqnpKp6DPA2rJTHggNkZKfwymoPgFejcsypryOA5q27qhGa/CkQrJhgiiW01ftJ9wkITWU1ddVPBCAYDFpGOAmwpcowy060D4fh9FdxPmi/x8ORRBk9gRT2vOgdNdaTwWDQmjFA3J26W6Fo8TyhdrmMt3dcVc5cVk5ffMDZKwOJRkt4qSyNvCyDKkV9d+7unhFAY0tLhsIRgF11gjyKz683E6s2xuJ6X2S8XdJ9vLk2kSZROVJe3pgxbQAb72Egs7RAKFwkkw19JEt4rmAWVctcAJm4w4enBdD86msFCnvdLthR6/iwJOS32V9j43GBwt7SytqCpAHEip0AXBtKhbnpycXHMsyb72PrKg+Ay2XJiaQAmrftagTqMv3QVJbk6sfkt9lW6iUrTVCoK6+qa3QEEAqF3KJyHGB7jcHrnl58LIMdsNlTmTiWKnq8pKTkMbfHAG4PRQ+A5i9bIJQ/63DjTSS/TW2hm6L5FkC+Ly1wYFKA5tbWLFQPCtBWP8PgAJYBv83rNV4EQDhYVleXNSGAibqPAulVxcLSnMkBvGP/UVVszyRj/TZP51isK3KjkG4iHP1XgKaWncUq2ubzQEvV1BuvuliYZYPHFWNdaerEA0ezEKrwkOIRFG0rq1pbPNY9fh8wcAowm8oNsyfxG1NervDhGxaqOZNnAMBvE7g/zI5SN+91ho0Ip4DK0bjQ3LJzM0hFdgAaVzuvvdfN1MFhPAvBEg8LMgxARXnN2s0AVm9vrx2OSTswe/96w8K5zgDuDcG7n8c5d+UOK/K9+LxTlM1jYQ2OkO0XLvwcBVj16ccfvW8GwqYVWPT8EmFlvvPVn7+qdPUo3/REOXt5cOoJo1lYk+di5WILYFFUPK1GVesBNq5J7tjl5YIAqnEKFnucTUpLfJR2lCbGq2q9C6HSCOQvSA5g+VLhnX0WkWgWC7Mc3m1dFhihMNfCCMSh0iD0xxV6epN/IWUHcB4cIBKDuPL9bzHiCiL0G1HtBDj7tTISmcphhhoYZjiinP4uDIDG6ZSXt+ye45bINSDL54XKIiE303k5HgxNvQEDPojcH+Fab5jz16IMhRXgplsjhaKqbNi2s8il8olC8VRm/9T40yw5/RCPaWtXZ8eP4w+TUCjkvjUQXY3oCkECTlxU1XWrvy/qNGpc+dNo/OrDgbvfdnd3R2Aaj9Mnrb8A0TtykI+7cqgAAAAASUVORK5CYII='>" << endl
+       << "                            </td>" << endl
+       << "                            <td>" << endl
+       << "                                {{ single_dose.warning }}"                                             //                 Insert the warning
+       << "                            </td>" << endl
+       << "                        {% endif %}"
+       << "                        </tr>" << endl
+       << "                    {% endfor %}"
+       << "                    </table>" << endl
+       << "                </td>" << endl
+       << "            </tr>" << endl
+       << "            {% endfor %}"
+       << "        </table>" << endl
+       << "        {% endif %}"
        << endl
        << "        <!-- Samples -->" << endl                                                                      // ---------- SAMPLES ------------
-       << "        <div class=\"avoid-break\">" << endl
-       << "            <h3> {{samples.translation}} </h3>" << endl                                                // Insert "Samples" translation
-       << "            {% if not exists(\"samples.rows\") %} "                                                    // If there is no sample
-       << "                {{ samples.none_translation }}" << endl                                                //     Insert "None" translation
-       << "            {% else %}"                                                                                // Else
-       << "            <table class='samples bg-light-grey'>" << endl
-       << "                {% for sample in samples.rows %}"                                                      //     For each samples
-       << "                <tr>" << endl
-       << "                    <td><b>{{ samples.date_translation }}:</b> {{ sample.date }}" << endl                 //     Insert sample date and date translation
-       << "                    <td><b>{{ samples.measure_translation }}:</b> {{ sample.measure }}</td>" << endl      //     Insert sample measure and measure translation
-       << "                    <td><b>{{ samples.percentile_translation }}:</b> {{ sample.percentile }}</td>" << endl//     Insert sample percentile and percentile translation
-       << "                </tr>" << endl
-       << "                <tr>" << endl
-       << "                    {% if existsIn( sample, \"warning\") %} "                                          //             If there is a warning
-       << "                    <td colspan='3'>" << endl
-       << "                        <table>" << endl
-       << "                            <tr class='bg-warning-{{ sample.warning_level }}'>" << endl                //                 Insert the warning level
-       << "                                <td>" << endl
-       << "                                    <img alt='Warning icon image from asset/img/warning.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAASbSURBVFiFxZdtTJVlGMd/1/2cl+cgHOSgCKjTlGFEFDrUGAIBQ8DICeopRXHK8syXWetbH3RuuvVFp261am2t1Rc3+yK51cS5UEcvY9ZW0idbrJjhS04BhfN29eEArgx4Dtj6f7xf/tfvvq77fp77FlXl/5RruhM3bg/laDTccOtmX0Qi5sKlS1/emI6PJJuB9aFQimcw8plCA0D/jd8THcoXw2n2pu729gf/GUAwGPTF3KnngOq56bBqmZDlvc+ZzkGu98cALsaHBxu7uroeOvVMqgRRz6xDolQ/lS0c3m5ItQFm0/BCKvuO/8FPfbFq4007BLzl1NNxBja1tC1RtMcyeE+ELObP+Xv/3b4hmt6+TTTOiFj6zOWOjl+c+BqnpKp6DPA2rJTHggNkZKfwymoPgFejcsypryOA5q27qhGa/CkQrJhgiiW01ftJ9wkITWU1ddVPBCAYDFpGOAmwpcowy060D4fh9FdxPmi/x8ORRBk9gRT2vOgdNdaTwWDQmjFA3J26W6Fo8TyhdrmMt3dcVc5cVk5ffMDZKwOJRkt4qSyNvCyDKkV9d+7unhFAY0tLhsIRgF11gjyKz683E6s2xuJ6X2S8XdJ9vLk2kSZROVJe3pgxbQAb72Egs7RAKFwkkw19JEt4rmAWVctcAJm4w4enBdD86msFCnvdLthR6/iwJOS32V9j43GBwt7SytqCpAHEip0AXBtKhbnpycXHMsyb72PrKg+Ay2XJiaQAmrftagTqMv3QVJbk6sfkt9lW6iUrTVCoK6+qa3QEEAqF3KJyHGB7jcHrnl58LIMdsNlTmTiWKnq8pKTkMbfHAG4PRQ+A5i9bIJQ/63DjTSS/TW2hm6L5FkC+Ly1wYFKA5tbWLFQPCtBWP8PgAJYBv83rNV4EQDhYVleXNSGAibqPAulVxcLSnMkBvGP/UVVszyRj/TZP51isK3KjkG4iHP1XgKaWncUq2ubzQEvV1BuvuliYZYPHFWNdaerEA0ezEKrwkOIRFG0rq1pbPNY9fh8wcAowm8oNsyfxG1NervDhGxaqOZNnAMBvE7g/zI5SN+91ho0Ip4DK0bjQ3LJzM0hFdgAaVzuvvdfN1MFhPAvBEg8LMgxARXnN2s0AVm9vrx2OSTswe/96w8K5zgDuDcG7n8c5d+UOK/K9+LxTlM1jYQ2OkO0XLvwcBVj16ccfvW8GwqYVWPT8EmFlvvPVn7+qdPUo3/REOXt5cOoJo1lYk+di5WILYFFUPK1GVesBNq5J7tjl5YIAqnEKFnucTUpLfJR2lCbGq2q9C6HSCOQvSA5g+VLhnX0WkWgWC7Mc3m1dFhihMNfCCMSh0iD0xxV6epN/IWUHcB4cIBKDuPL9bzHiCiL0G1HtBDj7tTISmcphhhoYZjiinP4uDIDG6ZSXt+ye45bINSDL54XKIiE303k5HgxNvQEDPojcH+Fab5jz16IMhRXgplsjhaKqbNi2s8il8olC8VRm/9T40yw5/RCPaWtXZ8eP4w+TUCjkvjUQXY3oCkECTlxU1XWrvy/qNGpc+dNo/OrDgbvfdnd3R2Aaj9Mnrb8A0TtykI+7cqgAAAAASUVORK5CYII='>" << endl
-       << "                                </td>" << endl
-       << "                                <td>" << endl
-       << "                                    {{ sample.warning }}" << endl                                      //                 Insert the warning
-       << "                                </td>" << endl
-       << "                            </tr>" << endl
-       << "                        </table>" << endl
-       << "                    </td>" << endl
-       << "                    {% endif %}"
-       << "                </tr>" << endl
-       << "                {% endfor %}"
-       << "            </table>" << endl
-       << "            {% endif %}"
-       << "        </div>" << endl
+       << "        <h3 class='try-not-alone'> {{samples.translation}} </h3>" << endl                              // Insert "Samples" translation
+       << "        {% if not exists(\"samples.rows\") %} "                                                        // If there is no sample
+       << "            {{ samples.none_translation }}" << endl                                                    //     Insert "None" translation
+       << "        {% else %}"                                                                                    // Else
+       << "        <table class='samples bg-light-grey'>" << endl
+       << "            {% for sample in samples.rows %}"                                                          //     For each samples
+       << "            <tr>" << endl
+       << "                <td><b>{{ samples.date_translation }}:</b> {{ sample.date }}" << endl                  //     Insert sample date and date translation
+       << "                <td><b>{{ samples.measure_translation }}:</b> {{ sample.measure }}</td>" << endl       //     Insert sample measure and measure translation
+       << "                <td><b>{{ samples.percentile_translation }}:</b> {{ sample.percentile }}</td>" << endl //     Insert sample percentile and percentile translation
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                {% if existsIn( sample, \"warning\") %} "                                              //             If there is a warning
+       << "                <td colspan='3'>" << endl
+       << "                    <table>" << endl
+       << "                        <tr class='bg-warning-{{ sample.warning_level }}'>" << endl                    //                 Insert the warning level
+       << "                            <td>" << endl
+       << "                                <img alt='Warning icon image from asset/img/warning.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAASbSURBVFiFxZdtTJVlGMd/1/2cl+cgHOSgCKjTlGFEFDrUGAIBQ8DICeopRXHK8syXWetbH3RuuvVFp261am2t1Rc3+yK51cS5UEcvY9ZW0idbrJjhS04BhfN29eEArgx4Dtj6f7xf/tfvvq77fp77FlXl/5RruhM3bg/laDTccOtmX0Qi5sKlS1/emI6PJJuB9aFQimcw8plCA0D/jd8THcoXw2n2pu729gf/GUAwGPTF3KnngOq56bBqmZDlvc+ZzkGu98cALsaHBxu7uroeOvVMqgRRz6xDolQ/lS0c3m5ItQFm0/BCKvuO/8FPfbFq4007BLzl1NNxBja1tC1RtMcyeE+ELObP+Xv/3b4hmt6+TTTOiFj6zOWOjl+c+BqnpKp6DPA2rJTHggNkZKfwymoPgFejcsypryOA5q27qhGa/CkQrJhgiiW01ftJ9wkITWU1ddVPBCAYDFpGOAmwpcowy060D4fh9FdxPmi/x8ORRBk9gRT2vOgdNdaTwWDQmjFA3J26W6Fo8TyhdrmMt3dcVc5cVk5ffMDZKwOJRkt4qSyNvCyDKkV9d+7unhFAY0tLhsIRgF11gjyKz683E6s2xuJ6X2S8XdJ9vLk2kSZROVJe3pgxbQAb72Egs7RAKFwkkw19JEt4rmAWVctcAJm4w4enBdD86msFCnvdLthR6/iwJOS32V9j43GBwt7SytqCpAHEip0AXBtKhbnpycXHMsyb72PrKg+Ay2XJiaQAmrftagTqMv3QVJbk6sfkt9lW6iUrTVCoK6+qa3QEEAqF3KJyHGB7jcHrnl58LIMdsNlTmTiWKnq8pKTkMbfHAG4PRQ+A5i9bIJQ/63DjTSS/TW2hm6L5FkC+Ly1wYFKA5tbWLFQPCtBWP8PgAJYBv83rNV4EQDhYVleXNSGAibqPAulVxcLSnMkBvGP/UVVszyRj/TZP51isK3KjkG4iHP1XgKaWncUq2ubzQEvV1BuvuliYZYPHFWNdaerEA0ezEKrwkOIRFG0rq1pbPNY9fh8wcAowm8oNsyfxG1NervDhGxaqOZNnAMBvE7g/zI5SN+91ho0Ip4DK0bjQ3LJzM0hFdgAaVzuvvdfN1MFhPAvBEg8LMgxARXnN2s0AVm9vrx2OSTswe/96w8K5zgDuDcG7n8c5d+UOK/K9+LxTlM1jYQ2OkO0XLvwcBVj16ccfvW8GwqYVWPT8EmFlvvPVn7+qdPUo3/REOXt5cOoJo1lYk+di5WILYFFUPK1GVesBNq5J7tjl5YIAqnEKFnucTUpLfJR2lCbGq2q9C6HSCOQvSA5g+VLhnX0WkWgWC7Mc3m1dFhihMNfCCMSh0iD0xxV6epN/IWUHcB4cIBKDuPL9bzHiCiL0G1HtBDj7tTISmcphhhoYZjiinP4uDIDG6ZSXt+ye45bINSDL54XKIiE303k5HgxNvQEDPojcH+Fab5jz16IMhRXgplsjhaKqbNi2s8il8olC8VRm/9T40yw5/RCPaWtXZ8eP4w+TUCjkvjUQXY3oCkECTlxU1XWrvy/qNGpc+dNo/OrDgbvfdnd3R2Aaj9Mnrb8A0TtykI+7cqgAAAAASUVORK5CYII='>" << endl
+       << "                            </td>" << endl
+       << "                            <td>" << endl
+       << "                                {{ sample.warning }}" << endl                                          //                 Insert the warning
+       << "                            </td>" << endl
+       << "                        </tr>" << endl
+       << "                    </table>" << endl
+       << "                </td>" << endl
+       << "                {% endif %}"
+       << "            </tr>" << endl
+       << "            {% endfor %}"
+       << "        </table>" << endl
+       << "        {% endif %}"
        << endl
        << "        <!-- Adjustments -->" << endl                                                                  // ---------- ADJUSTMENTS ------------
        << "        <div class=\"avoid-break\">" << endl
@@ -351,43 +343,41 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "           </div>" << endl
        << "        </div>" << endl
        << endl
-       << "        <div class=\"avoid-break\">" << endl
-       << "            <h5>{{ adjustments.displayed_adjustments_translation }}</h5>" << endl                      // Insert "displayed adjustments" translation
-       << "            {% for adjustment in adjustments.rows %}"                                                  // For each adjustment
-       << "            <table class='adjustments bg-light-grey'>" << endl
-       << "                <tr>" << endl                                                                          //     Insert the score translation and score value
-       << "                    <td colspan='2'><b>{{ adjustments.score_translation }}:</b> {{ adjustment.score }} / 1 </td>" << endl
-       << "                </tr>" << endl
-       << "                {% for dosage_time_range in adjustment.dosage_time_ranges %}"                          //     For each time range
-       << "                <tr>" << endl
-       << "                    <td>" << endl                                                                      //         Insert time range from date
-       << "                        <b>{{ adjustments.from_translation }}:</b> {{ dosage_time_range.date_from }}" << endl
-       << "                    </td>" << endl                                                                     //         and from translation
-       << "                    <td>" << endl
-       << "                        <b>{{ adjustments.to_translation }}:</b> {{ dosage_time_range.date_to }}" << endl//       Insert time range to date
-       << "                    </td>" << endl                                                                     //         and to translation
-       << "                </tr>" << endl
-       << "                <tr>" << endl
-       << "                    <td colspan='2'>" << endl
-       << "                        <table>" << endl
-       << "                            {% for single_dose in dosage_time_range.single_doses %}"                   //             For each single dose
-       << "                            <tr>" << endl
-       << "                                <td>" << endl
-       << "                                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
-       << "                                </td>" << endl
-       << "                                <td>" << endl                                                          //                 Insert the posology
-       << "                                    <b>{{ adjustments.posology_translation }}:</b> {{ single_dose.posology }}" << endl
-       << "                                </td>" << endl
-       << "                            </tr>" << endl
-       << "                            {% endfor %}" << endl
-       << "                        </table>" << endl
-       << "                    </td>" << endl
-       << "                </tr>" << endl
-       << "                {% endfor %}"
-       << "            </table>" << endl
-       << "            <br>" << endl
+       << "        <h5 class='try-not-alone'>{{ adjustments.displayed_adjustments_translation }}</h5>" << endl    // Insert "displayed adjustments" translation
+       << "        {% for adjustment in adjustments.rows %}"                                                      // For each adjustment
+       << "        <table class='adjustments bg-light-grey'>" << endl
+       << "            <tr>" << endl                                                                              //     Insert the score translation and score value
+       << "                <td colspan='2'><b>{{ adjustments.score_translation }}:</b> {{ adjustment.score }} / 1 </td>" << endl
+       << "            </tr>" << endl
+       << "            {% for dosage_time_range in adjustment.dosage_time_ranges %}"                              //     For each time range
+       << "            <tr>" << endl
+       << "                <td>" << endl                                                                          //         Insert time range from date
+       << "                    <b>{{ adjustments.from_translation }}:</b> {{ dosage_time_range.date_from }}" << endl
+       << "                </td>" << endl                                                                         //         and from translation
+       << "                <td>" << endl
+       << "                    <b>{{ adjustments.to_translation }}:</b> {{ dosage_time_range.date_to }}" << endl  //         Insert time range to date
+       << "                </td>" << endl                                                                         //         and to translation
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <td colspan='2'>" << endl
+       << "                    <table>" << endl
+       << "                        {% for single_dose in dosage_time_range.single_doses %}"                       //             For each single dose
+       << "                        <tr>" << endl
+       << "                            <td>" << endl
+       << "                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                            </td>" << endl
+       << "                            <td>" << endl                                                              //                 Insert the posology
+       << "                                <b>{{ adjustments.posology_translation }}:</b> {{ single_dose.posology }}" << endl
+       << "                            </td>" << endl
+       << "                        </tr>" << endl
+       << "                        {% endfor %}" << endl
+       << "                    </table>" << endl
+       << "                </td>" << endl
+       << "            </tr>" << endl
        << "            {% endfor %}"
-       << "        </div>" << endl
+       << "        </table>" << endl
+       << "        <br>" << endl
+       << "        {% endfor %}"
        << endl
        << "        <div class=\"avoid-break\">" << endl
        << "            <h4 class='newpage'> {{ adjustments.suggestion_translation }} </h4>" << endl               // Insert Suggestion translation
@@ -398,92 +388,86 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "            </div>"
        << "        </div>" << endl
        << endl
-       << "        <div class=\"avoid-break\">" << endl
-       << "            <h5>{{ adjustments.displayed_adjustment_translation }}</h5>" << endl                       // Insert "displayed adjustment" translation
-       << "            <table class='adjustments bg-light-grey'>" << endl                                         // For the best adjustment
-       << "                <tr>" << endl                                                                          // Insert the score translation and score value
-       << "                    <td colspan='2'><b>{{ adjustments.score_translation }}:</b> {{ adjustments.rows.0.score }} / 1 </td>" << endl
-       << "                </tr>" << endl
-       << "                {% for dosage_time_range in adjustments.rows.0.dosage_time_ranges %}"                  //     For each time range
-       << "                <tr>" << endl
-       << "                    <td>" << endl                                                                      //         Insert time range from date
-       << "                        <b>{{ adjustments.from_translation }}:</b> {{ dosage_time_range.date_from }}" << endl
-       << "                    </td>" << endl                                                                     //         and from translation
-       << "                    <td>" << endl
-       << "                        <b>{{ adjustments.to_translation }}:</b> {{ dosage_time_range.date_to }}" << endl//       Insert time range to date
-       << "                    </td>" << endl                                                                     //         and to translation
-       << "                </tr>" << endl
-       << "                <tr>" << endl
-       << "                    <td colspan='2'>" << endl
-       << "                        <table>" << endl
-       << "                            {% for single_dose in dosage_time_range.single_doses %}"                   //             For each single dose
-       << "                            <tr>" << endl
-       << "                                <td>" << endl
-       << "                                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
-       << "                                </td>" << endl
-       << "                                <td>" << endl                                                          //                 Insert the posology
-       << "                                    <b>{{ adjustments.posology_translation }}:</b> {{ single_dose.posology }}" << endl
-       << "                                </td>" << endl
-       << "                            </tr>" << endl
-       << "                            {% endfor %}" << endl
-       << "                        </table>" << endl
-       << "                    </td>" << endl
-       << "                </tr>" << endl
-       << "                {% endfor %}"
-       << "            </table>" << endl
-       << "            <br>" << endl
-       << "        </div>" << endl
+       << "        <h5 class='try-not-alone'>{{ adjustments.displayed_adjustment_translation }}</h5>" << endl     // Insert "displayed adjustment" translation
+       << "        <table class='adjustments bg-light-grey'>" << endl                                             // For the best adjustment
+       << "            <tr>" << endl                                                                              // Insert the score translation and score value
+       << "                <td colspan='2'><b>{{ adjustments.score_translation }}:</b> {{ adjustments.rows.0.score }} / 1 </td>" << endl
+       << "            </tr>" << endl
+       << "            {% for dosage_time_range in adjustments.rows.0.dosage_time_ranges %}"                      //     For each time range
+       << "            <tr>" << endl
+       << "                <td>" << endl                                                                          //         Insert time range from date
+       << "                    <b>{{ adjustments.from_translation }}:</b> {{ dosage_time_range.date_from }}" << endl
+       << "                </td>" << endl                                                                         //         and from translation
+       << "                <td>" << endl
+       << "                    <b>{{ adjustments.to_translation }}:</b> {{ dosage_time_range.date_to }}" << endl//       Insert time range to date
+       << "                </td>" << endl                                                                         //         and to translation
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <td colspan='2'>" << endl
+       << "                    <table>" << endl
+       << "                        {% for single_dose in dosage_time_range.single_doses %}"                       //             For each single dose
+       << "                        <tr>" << endl
+       << "                            <td>" << endl
+       << "                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                            </td>" << endl
+       << "                            <td>" << endl                                                              //                 Insert the posology
+       << "                                <b>{{ adjustments.posology_translation }}:</b> {{ single_dose.posology }}" << endl
+       << "                            </td>" << endl
+       << "                        </tr>" << endl
+       << "                        {% endfor %}" << endl
+       << "                    </table>" << endl
+       << "                </td>" << endl
+       << "            </tr>" << endl
+       << "            {% endfor %}"
+       << "        </table>" << endl
+       << "        <br>" << endl
        << endl                                                                                                    // ---------- TARGETS ------------
-       << "        <div class=\"avoid-break\">" << endl
-       << "            <div>{{ targets.phrase_translation }}</div><br>" << endl                                   // Insert target phrase translation
+       << "        <div class='try-not-alone'>{{ targets.phrase_translation }}</div><br>" << endl                 // Insert target phrase translation
        << endl
-       << "            <table class='targets bg-light-grey'>" << endl
-       << "                <tr>" << endl
-       << "                    <th></th>" << endl
-       << "                    <th>Type</th>" << endl
-       << "                    <th>Value (unit)</th>" << endl
-       << "                    <th>Score</th>" << endl
-       << "                </tr>" << endl
-       << "                {% for target in targets.rows %}"                                                      // For each target
-       << "                <tr>" << endl
-       << "                    <td>" << endl
-       << "                        <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
-       << "                    </td>" << endl
-       << "                    <td>{{ target.type }}</td>" << endl                                                //     Insert target type
-       << "                    <td>{{ target.value }}</td>" << endl                                               //     Insert target value
-       << "                    <td>{{ target.score }} / 1</td>" << endl                                           //     Insert target score
-       << "                </tr>" << endl
-       << "                <tr>" << endl
-       << "                    <td colspan='4'><div>{{ target.bounds }}</div></td>" << endl                       //     Insert target bounds
-       << "                </tr>" << endl
-       << "                {% endfor %}"
-       << "            </table>" << endl
-       << "        </div>" << endl
+       << "        <table class='targets bg-light-grey'>" << endl
+       << "            <tr>" << endl
+       << "                <th></th>" << endl
+       << "                <th>Type</th>" << endl
+       << "                <th>Value (unit)</th>" << endl
+       << "                <th>Score</th>" << endl
+       << "            </tr>" << endl
+       << "            {% for target in targets.rows %}"                                                          // For each target
+       << "            <tr>" << endl
+       << "                <td>" << endl
+       << "                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                </td>" << endl
+       << "                <td>{{ target.type }}</td>" << endl                                                    //     Insert target type
+       << "                <td>{{ target.value }}</td>" << endl                                                   //     Insert target value
+       << "                <td>{{ target.score }} / 1</td>" << endl                                               //     Insert target score
+       << "            </tr>" << endl
+       << "            <tr>" << endl
+       << "                <td colspan='4'><div>{{ target.bounds }}</div></td>" << endl                           //     Insert target bounds
+       << "            </tr>" << endl
+       << "            {% endfor %}"
+       << "        </table>" << endl
        << endl
        << "        <!-- Pharmacokinetic parameters -->" << endl                                                   // ---------- PKs ------------
-       << "        <div class=\"avoid-break\">" << endl
-       << "            <h5 class='underline'> {{ pks.translation }} </h5>" << endl                                // Insert pharmacokinetic parameters translation
-       << "            <table class='pks bg-light-grey'>" << endl
-       << "                <tr>" << endl
-       << "                    <th></th>" << endl
-       << "                    <th></th>" << endl
-       << "                    <th>{{ pks.typical_patient_translation }}</th>" << endl                            // Insert typical patient translation
-       << "                    <th>{{ pks.a_priori_translation }}</th>" << endl                                   // Insert a priori translation
-       << "                    <th>{{ pks.a_posteriori_translation }}</th>" << endl                               // Insert a posteriori translation
-       << "                </tr>" << endl
-       << "                {% for parameter in pks.rows %}"                                                       // For each parameter
-       << "                <tr>" << endl
-       << "                    <td>" << endl
-       << "                        <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
-       << "                    </td>" << endl
-       << "                    <td> {{ parameter.name }} </td>" << endl                                           //     Insert parameter name
-       << "                    <td> {{ default( parameter.typical_patient, \"-\") }} </td>" << endl               //     Insert parameter typical patient value
-       << "                    <td> {{ default( parameter.a_priori, \"-\") }} </td>" << endl                      //     Insert parameter a priori value
-       << "                    <td> {{ default( parameter.a_posteriori, \"-\") }} </td>" << endl                  //     Insert parameter a posteriori value
-       << "                </tr>" << endl
-       << "                {% endfor %}"
-       << "            </table>"
-       << "        </div>" << endl
+       << "        <h5 class='underline try-not-alone'> {{ pks.translation }} </h5>" << endl                      // Insert pharmacokinetic parameters translation
+       << "        <table class='pks bg-light-grey'>" << endl
+       << "            <tr>" << endl
+       << "                <th></th>" << endl
+       << "                <th></th>" << endl
+       << "                <th>{{ pks.typical_patient_translation }}</th>" << endl                                // Insert typical patient translation
+       << "                <th>{{ pks.a_priori_translation }}</th>" << endl                                       // Insert a priori translation
+       << "                <th>{{ pks.a_posteriori_translation }}</th>" << endl                                   // Insert a posteriori translation
+       << "            </tr>" << endl
+       << "            {% for parameter in pks.rows %}"                                                           // For each parameter
+       << "            <tr>" << endl
+       << "                <td>" << endl
+       << "                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                </td>" << endl
+       << "                <td> {{ parameter.name }} </td>" << endl                                               //     Insert parameter name
+       << "                <td> {{ default( parameter.typical_patient, \"-\") }} </td>" << endl                   //     Insert parameter typical patient value
+       << "                <td> {{ default( parameter.a_priori, \"-\") }} </td>" << endl                          //     Insert parameter a priori value
+       << "                <td> {{ default( parameter.a_posteriori, \"-\") }} </td>" << endl                      //     Insert parameter a posteriori value
+       << "            </tr>" << endl
+       << "            {% endfor %}"
+       << "        </table>"
        << endl
        << "        <!-- Predictions -->" << endl                                                                  // ---------- PREDICTIONS ------------
        << "        <div class=\"avoid-break\">" << endl
@@ -505,30 +489,32 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        </div>" << endl
        << endl
        << "        <!-- Computation covariates -->" << endl                                                       // ---------- COMPUTATION COVARIATES ------------
-       << "        <div class=\"avoid-break\">" << endl
-       << "            <h5 class='underline'> {{ computation_covariates.translation}}</h5>" << endl               // Insert Covariates used for computation translation
-       << "            <table class='computation-covariates bg-light-grey'>" << endl
-       << "                <tr>" << endl
-       << "                    <th></th>" << endl
-       << "                    <th> {{ computation_covariates.covariate_id_translation}} </th>" << endl           // Insert covariate id translation
-       << "                    <th> {{ computation_covariates.value_translation}} </th>" << endl                  // Insert value translation
-       << "                </tr>" << endl
-       << "                {% for covariate in computation_covariates.rows %}"                                    // For each covariate
-       << "                <tr>" << endl
-       << "                    <td>" << endl
-       << "                        <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
-       << "                    </td>" << endl
-       << "                    <td>{{ covariate.id }}</td>" << endl                                               //     Insert covariate id
-       << "                    <td>{{ covariate.value }}</td>" << endl                                            //     Insert covariate value
-       << "                </tr>" << endl
-       << "                {% endfor %}"
-       << "            </table>" << endl
-       << "        </div>" << endl
+       << "        <h5 class='underline try-not-alone'> {{ computation_covariates.translation}}</h5>" << endl     // Insert Covariates used for computation translation
+       << "        <table class='computation-covariates bg-light-grey'>" << endl
+       << "            <tr>" << endl
+       << "                <th></th>" << endl
+       << "                <th> {{ computation_covariates.covariate_id_translation}} </th>" << endl               // Insert covariate id translation
+       << "                <th> {{ computation_covariates.value_translation}} </th>" << endl                      // Insert value translation
+       << "            </tr>" << endl
+       << "            {% for covariate in computation_covariates.rows %}"                                        // For each covariate
+       << "            <tr>" << endl
+       << "                <td>" << endl
+       << "                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                </td>" << endl
+       << "                <td>{{ covariate.id }}</td>" << endl                                                   //     Insert covariate id
+       << "                <td>{{ covariate.value }}</td>" << endl                                                //     Insert covariate value
+       << "            </tr>" << endl
+       << "            {% endfor %}"
+       << "        </table>" << endl
        << endl
        << "        <!-- Copyright -->" << endl
        << "        <div class='copyright'>" << endl
        << "            <span>Copyright (c) HEIG-VD/CHUV - 2022 | Icons by <a href='https://www.flaticon.com/fr/auteurs/gajah-mada'> Gajah Mada - Flaticon</a> & <a href='https://www.flaticon.com/fr/auteurs/freepik'>Freepik - Flaticon</a></span>" << endl
        << "        </div>" << endl
+       << endl
+       << "        <!-- Ending clean / otherwise we see background on pdf printing -->" << endl
+       << "        <div class='ending'/>" << endl
+       << endl
        << "    </div>" << endl
        << "    <script>" << endl
        << endl                                                                                                    // ---------- DATA FOR GRAPHS ------------

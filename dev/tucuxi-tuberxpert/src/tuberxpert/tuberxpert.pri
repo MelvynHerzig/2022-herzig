@@ -16,6 +16,7 @@ QMAKE_EXTRA_TARGETS += first copydata
 
 HEADERS += \
     $$PWD/computer.h \
+    $$PWD/exporter/abstracthtmlexport.h \
     $$PWD/exporter/abstractxpertrequestresultexport.h \
     $$PWD/exporter/static/filestring.h \
     $$PWD/exporter/xpertrequestresulthtmlexport.h \

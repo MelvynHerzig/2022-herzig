@@ -2,6 +2,7 @@
 #define XPERTREQUESTRESULTHTMLEXPORT_H
 
 #include "tuberxpert/exporter/abstractxpertrequestresultexport.h"
+#include "tuberxpert/exporter/abstracthtmlexport.h"
 #include "tuberxpert/query/admindata.h"
 
 #include "inja/inja.hpp"
@@ -12,7 +13,7 @@ namespace Xpert {
 /// \brief This class exports an XpertRequestResult into html.
 /// \date 23/06/2022
 /// \author Herzig Melvyn
-class XpertRequestResultHtmlExport : public AbstractXpertRequestResultExport
+class XpertRequestResultHtmlExport : public AbstractXpertRequestResultExport, public AbstractHtmlExport
 {
 public:
 
@@ -23,6 +24,8 @@ public:
     ///        case, the error message of the XpertRequestResult gets set.
     /// \param _xpertRequestResult Xpert request result to export.
     void exportToFile(XpertRequestResult& _xpertRequestResult) override;
+
+    void exportToFile(const std::string& _fileName, XpertRequestResult& _xpertRequestResult) override;
 
 protected:
 
