@@ -83,8 +83,10 @@ Common::DateTime getLatestDosageTimeRangeStart(const Core::DosageHistory& _dosag
 /// \brief Compute the final file name considering the path and the desired format.
 ///        The final file name is <drugId>_<request number>_<computation time>.<file format>
 /// \param _xpertRequestResult To get the directory path, the drug id and the file format.
+/// \param _addExtension Tell if the output folder should be prefixed to the filename.
+/// \param _addExtension Tell if the file extension should be added to the file name.
 /// \return Return the final file name.
-std::string computeFileName(const XpertRequestResult& _xpertRequestResult);
+std::string computeFileName(const XpertRequestResult& _xpertRequestResult, bool _addOutputPath = true, bool _addExtension = true);
 
 /// \brief For the given trait T, make a request and execute it. Then, cast the response in U and put it in the response pointer.
 ///        The response pointer is not changed if the computation fails.

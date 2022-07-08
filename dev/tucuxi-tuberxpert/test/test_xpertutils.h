@@ -1083,6 +1083,8 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
 
         fructose_assert_eq(Tucuxi::Xpert::computeFileName(xrr), "random\\path\\imatinib_1_11-7-2018_13h45m30s.xml");
+        fructose_assert_eq(Tucuxi::Xpert::computeFileName(xrr, false), "imatinib_1_11-7-2018_13h45m30s.xml");
+        fructose_assert_eq(Tucuxi::Xpert::computeFileName(xrr, false, false), "imatinib_1_11-7-2018_13h45m30s");
     }
 
     /// \brief Check that the method executeRequestAndGetResult set the result to nullptr when

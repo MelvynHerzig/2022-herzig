@@ -69,3 +69,5 @@ Thumbs.db
 *.dll
 *.exe
 
+!libs/wkhtmltox/windows/wkhtmltox.dll
+!libs/wkhtmltox/ubuntu/libwkhtmltox.so.0.12.6

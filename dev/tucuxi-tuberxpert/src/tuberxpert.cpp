@@ -4,8 +4,6 @@
 #include "tuberxpert/computer.h"
 #include "cxxopts/include/cxxopts.hpp"
 
-#include "pdf.h"
-
 using namespace std;
 
 /*********************************************************************************

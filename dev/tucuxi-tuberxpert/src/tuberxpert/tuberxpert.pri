@@ -1,10 +1,29 @@
 
 INCLUDEPATH += $$PWD/../../src \
                $$PWD/../../libs \
-               $$PWD/../../libs/wkhtmltox
+
+# Setup wkhtmltopdf for windows.
+win32 {
+    LIBS += $$PWD/../../libs/wkhtmltox/windows/wkhtmltox.dll
+
+    COPY_FROM_PATH=$$shell_path($$PWD/../../libs/wkhtmltox/windows/wkhtmltox.dll)
+    COPY_TO_PATH=$$shell_path($$OUT_PWD)
+} else {
+    COPY_FROM_PATH=$$PWD/plugins
+    COPY_TO_PATH=$$DESTDIR/plugins
+}
+
+copydata.commands = $(COPY_DIR) $$COPY_FROM_PATH $$COPY_TO_PATH
+first.depends = $(first) copydata
+
+export(first.depends)
+export(copydata.commands)
+
+QMAKE_EXTRA_TARGETS += first copydata
 
 HEADERS += \
     $$PWD/computer.h \
+    $$PWD/exporter/abstracthtmlexport.h \
     $$PWD/exporter/abstractxpertrequestresultexport.h \
     $$PWD/exporter/static/filestring.h \
     $$PWD/exporter/xpertrequestresulthtmlexport.h \

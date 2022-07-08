@@ -19,18 +19,19 @@ XpertRequestResultHtmlExport::XpertRequestResultHtmlExport()
 
 void XpertRequestResultHtmlExport::exportToFile(XpertRequestResult& _xpertRequestResult)
 {
-    // Get the xml string
-    string xmlString;
-    //makeXmlString(_xpertRequestResult, xmlString);
 
     // Get the filename <drugId>_<requestNumber>_<current time to evit conflict naming>
     string fileName = computeFileName(_xpertRequestResult);
+    exportToFile(fileName, _xpertRequestResult);
+}
 
+void XpertRequestResultHtmlExport::exportToFile(const std::string& _fileName, XpertRequestResult& _xpertRequestResult)
+{
     // Opening the file
     ofstream file;
-    file.open(fileName);
+    file.open(_fileName);
     if ((file.rdstate() & ostream::failbit) != 0) {
-        _xpertRequestResult.setErrorMessage("The file " + fileName + " could not be opened.");
+        _xpertRequestResult.setErrorMessage("The file " + _fileName + " could not be opened.");
         return ;
     }
 
@@ -44,9 +45,6 @@ void XpertRequestResultHtmlExport::exportToFile(XpertRequestResult& _xpertReques
     file << makeBodyString(_xpertRequestResult);;
 
     file.close();
-
-    // The html is exported.
-    return;
 }
 
 string XpertRequestResultHtmlExport::makeHeaderString() const
@@ -89,7 +87,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
     stringstream ss;
 
     // Making the body template
-    ss << "<body class='bg-secondary'>" << endl
+    ss << "<body>" << endl
        << "    <div class='page-A4 bg-body'>" << endl
        << endl
        << "        <!-- Header -->" << endl                                                                       // ---------- HEADER PART ------------
@@ -107,7 +105,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "            </tr>" << endl
        << "        </table>" << endl
        << endl
-       << "    <hr>"
+       << "        <hr>"
        << endl
        << "        <!-- Drug intro -->" << endl                                                                   // ---------- DRUG INTRO ------------
        << "        <h3> {{ intro.drug_translation }} </h3>" << endl                                               // Insert "Drug" translation
@@ -215,8 +213,8 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "            </table>" << endl
        << "        {% endif %}"
        << endl
-       << "        <!-- Covariates -->" << endl                                                                   // ---------- COVARIATES ------------
-       << "        <h3> {{ covariates.translation }} </h3>" << endl                                               // Insert "Clinical data" translation
+       << "       <!-- Covariates -->" << endl                                                                    // ---------- COVARIATES ------------
+       << "        <h3 class='try-not-alone'> {{ covariates.translation }} </h3>" << endl                         // Insert "Clinical data" translation
        << "        {% if not exists(\"covariates.rows\") %} "                                                     // If there is no clinical data
        << "            {{ covariates.none_translation }}" << endl                                                 //     Insert "None" translation
        << "        {% else %}"                                                                                    // Else
@@ -232,7 +230,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "                    </td>" << endl
        << "                </tr>" << endl
        << "                <tr>" << endl
-       << "                    <td colspan='3'> {{ covariate.desc }} </td>" << endl                                //         Insert the description
+       << "                    <td colspan='3'> {{ covariate.desc }} </td>" << endl                               //         Insert the description
        << "                </tr>" << endl
        << "                <tr>" << endl
        << "                {% if existsIn( covariate, \"warning\") %} "                                           //         If there is a warning associated
@@ -255,7 +253,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        {% endif %}"
        << endl
        << "        <!-- Treatment -->" << endl                                                                    // ---------- TREATMENT ------------
-       << "        <h3> {{ treatment.translation }} </h3>" << endl                                                // Insert "Treatment" translation
+       << "        <h3 class='try-not-alone'> {{ treatment.translation }} </h3>" << endl                          // Insert "Treatment" translation
        << "        {% if not exists(\"treatment.rows\") %} "                                                      // If there is no treatment
        << "            {{ treatment.none_translation }}" << endl                                                  //     Insert "None" translation
        << "        {% else %}"
@@ -281,7 +279,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
        << "                            </td>" << endl
        << "                            <td>" << endl
-       << "                                <b>{{ treatment.posology_translation }}:</b> {{ single_dose.posology }}"//            Insert the dosage and posology information
+       << "                                <b>{{ treatment.posology_translation }}:</b> {{ single_dose.posology }}"//        Insert the dosage and posology information
        << "                            </td>" << endl
        << "                        </tr>" << endl
        << "                        <tr class='bg-warning-normal'>" << endl
@@ -303,27 +301,27 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        {% endif %}"
        << endl
        << "        <!-- Samples -->" << endl                                                                      // ---------- SAMPLES ------------
-       << "        <h3> {{samples.translation}} </h3>" << endl                                                    // Insert "Samples" translation
+       << "        <h3 class='try-not-alone'> {{samples.translation}} </h3>" << endl                              // Insert "Samples" translation
        << "        {% if not exists(\"samples.rows\") %} "                                                        // If there is no sample
        << "            {{ samples.none_translation }}" << endl                                                    //     Insert "None" translation
        << "        {% else %}"                                                                                    // Else
        << "        <table class='samples bg-light-grey'>" << endl
        << "            {% for sample in samples.rows %}"                                                          //     For each samples
        << "            <tr>" << endl
-       << "                <td><b>{{ samples.date_translation }}:</b> {{ sample.date }}" << endl                 //         Insert sample date and date translation
-       << "                <td><b>{{ samples.measure_translation }}:</b> {{ sample.measure }}</td>" << endl      //         Insert sample measure and measure translation
-       << "                <td><b>{{ samples.percentile_translation }}:</b> {{ sample.percentile }}</td>" << endl//         Insert sample percentile and percentile translation
+       << "                <td><b>{{ samples.date_translation }}:</b> {{ sample.date }}" << endl                  //     Insert sample date and date translation
+       << "                <td><b>{{ samples.measure_translation }}:</b> {{ sample.measure }}</td>" << endl       //     Insert sample measure and measure translation
+       << "                <td><b>{{ samples.percentile_translation }}:</b> {{ sample.percentile }}</td>" << endl //     Insert sample percentile and percentile translation
        << "            </tr>" << endl
        << "            <tr>" << endl
        << "                {% if existsIn( sample, \"warning\") %} "                                              //             If there is a warning
        << "                <td colspan='3'>" << endl
        << "                    <table>" << endl
-       << "                        <tr class='bg-warning-{{ sample.warning_level }}'>" << endl                   //                 Insert the warning level
+       << "                        <tr class='bg-warning-{{ sample.warning_level }}'>" << endl                    //                 Insert the warning level
        << "                            <td>" << endl
        << "                                <img alt='Warning icon image from asset/img/warning.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAASbSURBVFiFxZdtTJVlGMd/1/2cl+cgHOSgCKjTlGFEFDrUGAIBQ8DICeopRXHK8syXWetbH3RuuvVFp261am2t1Rc3+yK51cS5UEcvY9ZW0idbrJjhS04BhfN29eEArgx4Dtj6f7xf/tfvvq77fp77FlXl/5RruhM3bg/laDTccOtmX0Qi5sKlS1/emI6PJJuB9aFQimcw8plCA0D/jd8THcoXw2n2pu729gf/GUAwGPTF3KnngOq56bBqmZDlvc+ZzkGu98cALsaHBxu7uroeOvVMqgRRz6xDolQ/lS0c3m5ItQFm0/BCKvuO/8FPfbFq4007BLzl1NNxBja1tC1RtMcyeE+ELObP+Xv/3b4hmt6+TTTOiFj6zOWOjl+c+BqnpKp6DPA2rJTHggNkZKfwymoPgFejcsypryOA5q27qhGa/CkQrJhgiiW01ftJ9wkITWU1ddVPBCAYDFpGOAmwpcowy060D4fh9FdxPmi/x8ORRBk9gRT2vOgdNdaTwWDQmjFA3J26W6Fo8TyhdrmMt3dcVc5cVk5ffMDZKwOJRkt4qSyNvCyDKkV9d+7unhFAY0tLhsIRgF11gjyKz683E6s2xuJ6X2S8XdJ9vLk2kSZROVJe3pgxbQAb72Egs7RAKFwkkw19JEt4rmAWVctcAJm4w4enBdD86msFCnvdLthR6/iwJOS32V9j43GBwt7SytqCpAHEip0AXBtKhbnpycXHMsyb72PrKg+Ay2XJiaQAmrftagTqMv3QVJbk6sfkt9lW6iUrTVCoK6+qa3QEEAqF3KJyHGB7jcHrnl58LIMdsNlTmTiWKnq8pKTkMbfHAG4PRQ+A5i9bIJQ/63DjTSS/TW2hm6L5FkC+Ly1wYFKA5tbWLFQPCtBWP8PgAJYBv83rNV4EQDhYVleXNSGAibqPAulVxcLSnMkBvGP/UVVszyRj/TZP51isK3KjkG4iHP1XgKaWncUq2ubzQEvV1BuvuliYZYPHFWNdaerEA0ezEKrwkOIRFG0rq1pbPNY9fh8wcAowm8oNsyfxG1NervDhGxaqOZNnAMBvE7g/zI5SN+91ho0Ip4DK0bjQ3LJzM0hFdgAaVzuvvdfN1MFhPAvBEg8LMgxARXnN2s0AVm9vrx2OSTswe/96w8K5zgDuDcG7n8c5d+UOK/K9+LxTlM1jYQ2OkO0XLvwcBVj16ccfvW8GwqYVWPT8EmFlvvPVn7+qdPUo3/REOXt5cOoJo1lYk+di5WILYFFUPK1GVesBNq5J7tjl5YIAqnEKFnucTUpLfJR2lCbGq2q9C6HSCOQvSA5g+VLhnX0WkWgWC7Mc3m1dFhihMNfCCMSh0iD0xxV6epN/IWUHcB4cIBKDuPL9bzHiCiL0G1HtBDj7tTISmcphhhoYZjiinP4uDIDG6ZSXt+ye45bINSDL54XKIiE303k5HgxNvQEDPojcH+Fab5jz16IMhRXgplsjhaKqbNi2s8il8olC8VRm/9T40yw5/RCPaWtXZ8eP4w+TUCjkvjUQXY3oCkECTlxU1XWrvy/qNGpc+dNo/OrDgbvfdnd3R2Aaj9Mnrb8A0TtykI+7cqgAAAAASUVORK5CYII='>" << endl
        << "                            </td>" << endl
        << "                            <td>" << endl
-       << "                                {{ sample.warning }}" << endl                                         //                 Insert the warning
+       << "                                {{ sample.warning }}" << endl                                          //                 Insert the warning
        << "                            </td>" << endl
        << "                        </tr>" << endl
        << "                    </table>" << endl
@@ -335,15 +333,17 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        {% endif %}"
        << endl
        << "        <!-- Adjustments -->" << endl                                                                  // ---------- ADJUSTMENTS ------------
-       << "        <h3 class='newpage'> {{ adjustments.translation }} </h3>" << endl                              // Insert "adjustments" translation and intro phrase
-       << "        <div> {{ adjustments.intro_phrase_translation }} </div>" << endl                               // Insert "intro" translation
+       << "        <div class=\"avoid-break\">" << endl
+       << "           <h3 class='newpage'> {{ adjustments.translation }} </h3>" << endl                           // Insert "adjustments" translation and intro phrase
+       << "           <div> {{ adjustments.intro_phrase_translation }} </div>" << endl                            // Insert "intro" translation
        << endl
-       << "        <h4>{{ adjustments.per_interval_translation }}</h4>" << endl                                   // Insert "per interval" translation
-       << "        <div class='canvasAdjustments'>" << endl
-       << "            <canvas id='canAllAdj' width='716' height='474'></canvas>" << endl
+       << "           <h4>{{ adjustments.per_interval_translation }}</h4>" << endl                                // Insert "per interval" translation
+       << "           <div class='canvasAdjustments'>" << endl
+       << "               <canvas id='canAllAdj' width='716' height='474'></canvas>" << endl
+       << "           </div>" << endl
        << "        </div>" << endl
        << endl
-       << "        <h5>{{ adjustments.displayed_adjustments_translation }}</h5>" << endl                          // Insert "displayed adjustments" translation
+       << "        <h5 class='try-not-alone'>{{ adjustments.displayed_adjustments_translation }}</h5>" << endl    // Insert "displayed adjustments" translation
        << "        {% for adjustment in adjustments.rows %}"                                                      // For each adjustment
        << "        <table class='adjustments bg-light-grey'>" << endl
        << "            <tr>" << endl                                                                              //     Insert the score translation and score value
@@ -379,14 +379,16 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        <br>" << endl
        << "        {% endfor %}"
        << endl
-       << "        <h4 class='newpage'> {{ adjustments.suggestion_translation }} </h4>" << endl                   // Insert Suggestion translation
-       << "        <div> {{ adjustments.suggestion_phrase_translation }} </div>" << endl                          // Insert Suggestion phrase translation
+       << "        <div class=\"avoid-break\">" << endl
+       << "            <h4 class='newpage'> {{ adjustments.suggestion_translation }} </h4>" << endl               // Insert Suggestion translation
+       << "            <div> {{ adjustments.suggestion_phrase_translation }} </div>" << endl                      // Insert Suggestion phrase translation
        << endl
-       << "        <div class='canvasAdjustments'>" << endl
-       << "            <canvas id='canBestAdj' width='716' height='474'></canvas>" << endl
-       << "        </div>"
+       << "            <div class='canvasAdjustments'>" << endl
+       << "                <canvas id='canBestAdj' width='716' height='474'></canvas>" << endl
+       << "            </div>"
+       << "        </div>" << endl
        << endl
-       << "        <h5>{{ adjustments.displayed_adjustment_translation }}</h5>" << endl                           // Insert "displayed adjustment" translation
+       << "        <h5 class='try-not-alone'>{{ adjustments.displayed_adjustment_translation }}</h5>" << endl     // Insert "displayed adjustment" translation
        << "        <table class='adjustments bg-light-grey'>" << endl                                             // For the best adjustment
        << "            <tr>" << endl                                                                              // Insert the score translation and score value
        << "                <td colspan='2'><b>{{ adjustments.score_translation }}:</b> {{ adjustments.rows.0.score }} / 1 </td>" << endl
@@ -397,7 +399,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "                    <b>{{ adjustments.from_translation }}:</b> {{ dosage_time_range.date_from }}" << endl
        << "                </td>" << endl                                                                         //         and from translation
        << "                <td>" << endl
-       << "                    <b>{{ adjustments.to_translation }}:</b> {{ dosage_time_range.date_to }}" << endl  //         Insert time range to date
+       << "                    <b>{{ adjustments.to_translation }}:</b> {{ dosage_time_range.date_to }}" << endl//       Insert time range to date
        << "                </td>" << endl                                                                         //         and to translation
        << "            </tr>" << endl
        << "            <tr>" << endl
@@ -420,7 +422,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        </table>" << endl
        << "        <br>" << endl
        << endl                                                                                                    // ---------- TARGETS ------------
-       << "        <div>{{ targets.phrase_translation }}</div><br>" << endl                                       // Insert target phrase translation
+       << "        <div class='try-not-alone'>{{ targets.phrase_translation }}</div><br>" << endl                 // Insert target phrase translation
        << endl
        << "        <table class='targets bg-light-grey'>" << endl
        << "            <tr>" << endl
@@ -445,7 +447,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        </table>" << endl
        << endl
        << "        <!-- Pharmacokinetic parameters -->" << endl                                                   // ---------- PKs ------------
-       << "        <h5 class='underline'> {{ pks.translation }} </h5>" << endl                                    // Insert pharmacokinetic parameters translation
+       << "        <h5 class='underline try-not-alone'> {{ pks.translation }} </h5>" << endl                      // Insert pharmacokinetic parameters translation
        << "        <table class='pks bg-light-grey'>" << endl
        << "            <tr>" << endl
        << "                <th></th>" << endl
@@ -468,24 +470,26 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        </table>"
        << endl
        << "        <!-- Predictions -->" << endl                                                                  // ---------- PREDICTIONS ------------
-       << "        <h5 class='underline'> {{ predictions.translation }}</h5>" << endl                             // Insert predictions translation
-       << "        <table class='predictions bg-light-grey'>" << endl
-       << "            <tr>" << endl
-       << "                <th>{{ predictions.extrapolated_steady_state_auc24_translation }}</th>" << endl        // Insert extrapolated steady state auc24 translation
-       << "                <td>{{ predictions.extrapolated_steady_state_auc24 }}</td>" << endl                    // Insert extrapolated steady state auc24 value
-       << "            </tr>" << endl
-       << "            <tr>" << endl
-       << "                <th>{{ predictions.steady_state_peak_translation }}</th>" << endl                      // Insert steady state peak translation
-       << "                <td>{{ predictions.steady_state_peak }}</td>" << endl                                  // Insert steady state peak value
-       << "            </tr>" << endl
-       << "            <tr>" << endl
-       << "                <th>{{ predictions.steady_state_trough_translation }}</th>" << endl                    // Insert steady state trough translation
-       << "                <td>{{ predictions.steady_state_trough }}</td>" << endl                                // Insert steady state trough value
-       << "            </tr>" << endl
-       << "        </table>" << endl
+       << "        <div class=\"avoid-break\">" << endl
+       << "            <h5 class='underline'> {{ predictions.translation }}</h5>" << endl                         // Insert predictions translation
+       << "            <table class='predictions bg-light-grey'>" << endl
+       << "                <tr>" << endl
+       << "                    <th>{{ predictions.extrapolated_steady_state_auc24_translation }}</th>" << endl    // Insert extrapolated steady state auc24 translation
+       << "                    <td>{{ predictions.extrapolated_steady_state_auc24 }}</td>" << endl                // Insert extrapolated steady state auc24 value
+       << "                </tr>" << endl
+       << "                <tr>" << endl
+       << "                    <th>{{ predictions.steady_state_peak_translation }}</th>" << endl                  // Insert steady state peak translation
+       << "                    <td>{{ predictions.steady_state_peak }}</td>" << endl                              // Insert steady state peak value
+       << "                </tr>" << endl
+       << "                <tr>" << endl
+       << "                    <th>{{ predictions.steady_state_trough_translation }}</th>" << endl                // Insert steady state trough translation
+       << "                    <td>{{ predictions.steady_state_trough }}</td>" << endl                            // Insert steady state trough value
+       << "                </tr>" << endl
+       << "            </table>" << endl
+       << "        </div>" << endl
        << endl
        << "        <!-- Computation covariates -->" << endl                                                       // ---------- COMPUTATION COVARIATES ------------
-       << "        <h5 class='underline'> {{ computation_covariates.translation}}</h5>" << endl                   // Insert Covariates used for computation translation
+       << "        <h5 class='underline try-not-alone'> {{ computation_covariates.translation}}</h5>" << endl     // Insert Covariates used for computation translation
        << "        <table class='computation-covariates bg-light-grey'>" << endl
        << "            <tr>" << endl
        << "                <th></th>" << endl
@@ -507,6 +511,10 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        <div class='copyright'>" << endl
        << "            <span>Copyright (c) HEIG-VD/CHUV - 2022 | Icons by <a href='https://www.flaticon.com/fr/auteurs/gajah-mada'> Gajah Mada - Flaticon</a> & <a href='https://www.flaticon.com/fr/auteurs/freepik'>Freepik - Flaticon</a></span>" << endl
        << "        </div>" << endl
+       << endl
+       << "        <!-- Ending clean / otherwise we see background on pdf printing -->" << endl
+       << "        <div class='ending'/>" << endl
+       << endl
        << "    </div>" << endl
        << "    <script>" << endl
        << endl                                                                                                    // ---------- DATA FOR GRAPHS ------------
