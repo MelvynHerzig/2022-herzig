@@ -19,7 +19,8 @@ void XpertRequestResultPdfExport::exportToFile(XpertRequestResult& _xpertRequest
 
     // Try to remove the output file if it already exists.
     // Wkhtmltox does not replace it automatically.
-    if (remove(outputFileName.c_str()) != 0) {
+    ifstream f(outputFileName.c_str());
+    if (f.good() && remove(outputFileName.c_str()) != 0) {
         _xpertRequestResult.setErrorMessage("Output pdf file: " + outputFileName + " already exists and could not be replaced.");
         return;
     }

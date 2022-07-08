@@ -5,13 +5,20 @@ INCLUDEPATH += $$PWD/../../src \
 # Setup wkhtmltopdf for windows.
 win32 {
     LIBS += $$PWD/../../libs/wkhtmltox/windows/wkhtmltox.dll
-    copydata.commands = $(COPY_DIR) $$PWD/../../libs/wkhtmltox/windows/wkhtmltox.dll $$OUT_PWD
+
+    COPY_FROM_PATH=$$shell_path($$PWD/../../libs/wkhtmltox/windows/wkhtmltox.dll)
+    COPY_TO_PATH=$$shell_path($$OUT_PWD)
+} else {
+    COPY_FROM_PATH=$$PWD/plugins
+    COPY_TO_PATH=$$DESTDIR/plugins
 }
 
-# Copy the wkhtmltopdf lib into build directory
+copydata.commands = $(COPY_DIR) $$COPY_FROM_PATH $$COPY_TO_PATH
 first.depends = $(first) copydata
+
 export(first.depends)
 export(copydata.commands)
+
 QMAKE_EXTRA_TARGETS += first copydata
 
 HEADERS += \
