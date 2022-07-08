@@ -9,8 +9,10 @@ win32 {
     COPY_FROM_PATH=$$shell_path($$PWD/../../libs/wkhtmltox/windows/wkhtmltox.dll)
     COPY_TO_PATH=$$shell_path($$OUT_PWD)
 } else {
-    COPY_FROM_PATH=$$PWD/plugins
-    COPY_TO_PATH=$$DESTDIR/plugins
+    LIBS += $$PWD/../../libs/wkhtmltox/ubuntu/libwkhtmltox.so.0.12.6
+
+    COPY_FROM_PATH=$$PWD/../../libs/wkhtmltox/ubuntu/libwkhtmltox.so.0.12.6
+    COPY_TO_PATH=$$OUT_PWD
 }
 
 copydata.commands = $(COPY_DIR) $$COPY_FROM_PATH $$COPY_TO_PATH

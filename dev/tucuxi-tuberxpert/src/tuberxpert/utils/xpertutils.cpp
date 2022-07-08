@@ -143,7 +143,7 @@ string computeFileName(const XpertRequestResult& _xpertRequestResult, bool _addO
 
     // If the output path should be prefixed.
     if (_addOutputPath) {
-         ss << _xpertRequestResult.getGlobalResult().getOutputPath() << "\\";
+         ss << _xpertRequestResult.getGlobalResult().getOutputPath() << "/";
     }
 
     ss << _xpertRequestResult.getXpertRequest().getDrugID() << "_" <<
