@@ -100,7 +100,30 @@ void XpertRequestResult::setDrugModel(const Core::DrugModel* _newDrugModel)
 
 void XpertRequestResult::setCovariateResults(vector<CovariateValidationResult>&& _newCovariateResults)
 {
+
+
     m_covariateResults = _newCovariateResults;
+
+    // Sort the covariate results by name and by date.
+    OutputLang lang = m_xpertRequest->getOutputLang();
+    sort(m_covariateResults.begin(), m_covariateResults.end(),
+         [lang](const CovariateValidationResult& cvr1, const CovariateValidationResult& cvr2) {
+
+        // Try to sort by name
+        string cvr1Name = getStringWithEnglishFallback(cvr1.getSource()->getName(), lang);
+        string cvr2Name = getStringWithEnglishFallback(cvr2.getSource()->getName(), lang);
+
+        if (cvr1Name != cvr2Name) {
+            return cvr1Name < cvr2Name;
+        // Else try by date.
+        // Normaly this if is always true. Just a fool guard.
+        } else if(cvr1.getPatient() != nullptr && cvr2.getPatient() != nullptr){
+            return cvr1.getPatient()->getEventTime() < cvr2.getPatient()->getEventTime();
+        }
+
+        // Should never happen
+        return true;
+    });
 }
 
 void XpertRequestResult::setDoseResults(map<const Core::SingleDose*, DoseValidationResult>&& _newDoseResults)
