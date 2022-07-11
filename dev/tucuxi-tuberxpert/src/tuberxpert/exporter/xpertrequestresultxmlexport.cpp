@@ -661,32 +661,5 @@ void XpertRequestResultXmlExport::exportComputationCovariates(const XpertRequest
     }
 }
 
-
-string XpertRequestResultXmlExport::dateTimeToXmlString(const Tucuxi::Common::DateTime& _dateTime) const
-{
-    if (_dateTime.isUndefined()) {
-        return "";
-    }
-
-    string result;
-    result = to_string(_dateTime.year()) + "." + to_string(_dateTime.month()) + "."
-             + to_string(_dateTime.day()) + "T" + to_string(_dateTime.hour()) + ":"
-             + to_string(_dateTime.minute()) + ":" + to_string(_dateTime.second());
-
-    char str[20];
-    snprintf(
-            str,
-            20,
-            "%04d-%02d-%02dT%02d:%02d:%02d",
-            _dateTime.year(),
-            _dateTime.month(),
-            _dateTime.day(),
-            _dateTime.hour(),
-            _dateTime.minute(),
-            _dateTime.second());
-    result = str;
-    return result;
-}
-
 } // namespace Xpert
 } // namespace Tucuxi

@@ -93,9 +93,6 @@ protected:
 
     std::string concatenatePosology(const std::string& _posologyIndication, const std::string& _posologyIndicationChain) const;
 
-    std::string timeToString(const Common::TimeOfDay& _timeOfDay) const;
-
-
     template<typename T>
     void getWarningJson(const AbstractValidationResult<T>& _validationResult, inja::json& _json) const {
 
@@ -103,6 +100,8 @@ protected:
             _json["warning"] = _validationResult.getWarning();
         }
     }
+
+protected:
 
     /// \brief We need to keep a reference on the xpert request result in order
     ///        to retreive the dose validation results map, to retreive

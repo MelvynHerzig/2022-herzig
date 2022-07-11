@@ -17,6 +17,7 @@
     <entry key="from">Depuis</entry>
     <entry key="to">Jusqu'à</entry>
     <entry key="date">Date</entry>
+    <entry key="hour_acronym">h</entry>
 
     <!-- Report header -->
     <entry key="tuberxpert_report">Rapport TuberXpert</entry>

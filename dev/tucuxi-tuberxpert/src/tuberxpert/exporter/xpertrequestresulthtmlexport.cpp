@@ -579,12 +579,7 @@ void XpertRequestResultHtmlExport::getHeaderJson(const XpertRequestResult& _xper
     _headerJson["computed_on_translation"] = lm.translate("computed_on");
 
     // Computation time
-    Common::DateTime computationTime = _xpertRequestResult.getGlobalResult().getComputationTime();
-
-    stringstream dateStream;
-    dateStream << computationTime.year() << "." << computationTime.month() << "." << computationTime.day();
-
-    _headerJson["computation_time"] = dateStream.str();
+    _headerJson["computation_time"] = dateTimeToString(_xpertRequestResult.getGlobalResult().getComputationTime(), false);
 }
 
 void XpertRequestResultHtmlExport::getDrugIntroJson(const XpertRequestResult& _xpertRequestResult, inja::json& _introJson) const
@@ -620,7 +615,7 @@ void XpertRequestResultHtmlExport::getContactsJson(const unique_ptr<AdminData>& 
     // Get the rows and columns header translations.
     LanguageManager& lm = LanguageManager::getInstance();
 
-    // Mandator translation
+    // Contacts translation
     _contactsJson["translation"] = lm.translate("contacts");
 
     // Mandator translation
@@ -874,9 +869,7 @@ void XpertRequestResultHtmlExport::getCovariatesJson(const vector<CovariateValid
 
         // Get the covariate date if it is a patient covariate
         if (cvr.getPatient() != nullptr) {
-            stringstream dateStream;
-            dateStream << cvr.getPatient()->getEventTime();
-            covariate["date"] = dateStream.str();
+            covariate["date"] = dateTimeToString(cvr.getPatient()->getEventTime(), false);
         }
 
         _covariatesJson["rows"].emplace_back(covariate);
@@ -920,20 +913,18 @@ void XpertRequestResultHtmlExport::getTimeRangeJson(const unique_ptr<Core::Dosag
 {
     // Set date from value
     stringstream fromDateStream;
-    fromDateStream << _timeRange->getStartDate();
-    _dosageTimeRangeJson["date_from"] = fromDateStream.str();
+    _dosageTimeRangeJson["date_from"] = dateTimeToString(_timeRange->getStartDate());
 
     // Set date to value
     stringstream toDateStream;
-    toDateStream << _timeRange->getEndDate();
-    _dosageTimeRangeJson["date_to"] = toDateStream.str();
+    _dosageTimeRangeJson["date_to"] = dateTimeToString(_timeRange->getEndDate());
 
     getAbstractDosageJson(*_timeRange->getDosage(), _dosageTimeRangeJson, "");
 }
 
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
-#define TRY_GET_JSON(Type)                                                                                                        \
-    if (dynamic_cast<const Tucuxi::Core::Type*>(&_dosage)) {                                                                      \
+#define TRY_GET_JSON(Type)                                                                                                    \
+    if (dynamic_cast<const Tucuxi::Core::Type*>(&_dosage)) {                                                                  \
     return getDosageJson(*dynamic_cast<const Tucuxi::Core::Type*>(&_dosage), _dosageTimeRangeJson, _posologyIndicationChain); \
 }
 
@@ -967,7 +958,7 @@ void XpertRequestResultHtmlExport::getDosageJson(const Core::DosageSteadyState& 
     LanguageManager& lm = LanguageManager::getInstance();
 
     stringstream typeStream;
-    typeStream << lm.translate("at_steady_state") << " " << _dosage.getLastDoseTime();
+    typeStream << lm.translate("at_steady_state") << " " << dateTimeToString(_dosage.getLastDoseTime());
     _dosageTimeRangeJson["type"] = typeStream.str();
 
     // Keep digging into the dosage tree.
@@ -1123,8 +1114,7 @@ void XpertRequestResultHtmlExport::getSamplesJson(const std::map<const Core::Sam
 
         // Get the sample date
         stringstream dateStream;
-        dateStream << sampleResultIt.first->getDate();
-        sample["date"] = dateStream.str();
+        sample["date"] = dateTimeToString(sampleResultIt.first->getDate());
 
         // Get the sample measure
         stringstream valueStream;
@@ -1233,7 +1223,7 @@ void XpertRequestResultHtmlExport::getTargetsJson(const std::unique_ptr<Core::Ad
 
         // Get the value (unit)
         stringstream valueStream;
-        valueStream << target.getValue() << " (" << target.getUnit().toString() << ")";
+        valueStream << varToString(target.getValue()) << " (" << target.getUnit().toString() << ")";
         targetJson["value"] = valueStream.str();
 
         // Get the score
@@ -1477,14 +1467,6 @@ string XpertRequestResultHtmlExport::concatenatePosology(const string& _posology
        << (_posologyIndicationChain.empty() ? "" : ", ") << _posologyIndicationChain; // Add a coma only if there is already a posology indication.
 
     return ss.str();
-}
-
-string XpertRequestResultHtmlExport::timeToString(const Common::TimeOfDay& _timeOfDay) const
-{
-    char str[10];
-    snprintf(str, 9, "%02d:%02d:%02d", _timeOfDay.hour(), _timeOfDay.minute(), _timeOfDay.second());
-
-    return string(str);
 }
 
 } // namespace Xpert

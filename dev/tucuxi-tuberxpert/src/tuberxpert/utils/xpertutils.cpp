@@ -68,6 +68,72 @@ string varToString(WarningLevel _value)
     }
 }
 
+string dateTimeToXmlString(const Tucuxi::Common::DateTime& _dateTime)
+{
+    if (_dateTime.isUndefined()) {
+        return "";
+    }
+
+    string result;
+    result = to_string(_dateTime.year()) + "." + to_string(_dateTime.month()) + "."
+             + to_string(_dateTime.day()) + "T" + to_string(_dateTime.hour()) + ":"
+             + to_string(_dateTime.minute()) + ":" + to_string(_dateTime.second());
+
+    char str[20];
+    snprintf(
+            str,
+            20,
+            "%04d-%02d-%02dT%02d:%02d:%02d",
+            _dateTime.year(),
+            _dateTime.month(),
+            _dateTime.day(),
+            _dateTime.hour(),
+            _dateTime.minute(),
+            _dateTime.second());
+    result = str;
+    return result;
+}
+
+string timeToString(const Common::TimeOfDay& _timeOfDay)
+{
+    stringstream timeStream;
+
+    LanguageManager& lm = LanguageManager::getInstance();
+
+    timeStream << _timeOfDay.hour() << lm.translate("hour_acronym");
+
+    if (_timeOfDay.minute() != 0) {
+        timeStream << _timeOfDay.minute();
+    }
+
+    return timeStream.str();
+}
+
+string dateTimeToString(const Common::DateTime& _dateTime, bool _withTime)
+{
+    if (_dateTime.isUndefined()) {
+        return "";
+    }
+
+    stringstream dateTimeStream;
+
+
+    // Setting the date format
+    dateTimeStream << _dateTime.day() << '.' << _dateTime.month() << '.' << _dateTime.year();
+
+    if (!_withTime) {
+        return dateTimeStream.str();
+    }
+
+    dateTimeStream << ' ' << timeToString(Common::Duration(
+                                              chrono::hours(_dateTime.hour()),
+                                              chrono::minutes(_dateTime.minute()),
+                                              chrono::seconds(_dateTime.second()))
+                                          );
+
+    return dateTimeStream.str();
+}
+
 string beautifyString(const std::string& _value, Core::DataType _type, const std::string& _id)
 {
     LanguageManager& lm = LanguageManager::getInstance();

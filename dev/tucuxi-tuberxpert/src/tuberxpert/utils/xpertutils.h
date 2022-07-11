@@ -39,16 +39,38 @@ std::string varToString(const double& _value);
 std::string varToString(CovariateType _value);
 
 /// \brief Computes the corresponding string out of an OutputLang.
-/// \param lang OutputLang to "translate" into string.
+/// \param _lang OutputLang to "translate" into string.
 /// \return Returns a string corresponding to OutputLang requested.
 /// \throw LanguageException If the OutputLang is not supported.
 std::string varToString(OutputLang _lang);
 
 /// \brief Convert a warning level to a string.
-/// \param _value Warning level to convert to a string.
+/// \param _level Warning level to convert to a string.
 /// \return String describing the warning level.
-/// \throw Invalid argument if the CovariateType is not supported.
-std::string varToString(WarningLevel _lang);
+/// \throw Invalid argument if the level is not supported.
+std::string varToString(WarningLevel _level);
+
+/// \brief Converts a date time into a string usable as an xml value.
+/// \param _dateTime Date time to export.
+/// \return Resulting string value.
+std::string dateTimeToXmlString(const Common::DateTime& _dateTime);
+
+/// \brief Convert a date and time to a string for html/pdf.
+///        Remove the seconds.
+///        Remove the minutes if equal to 0.
+///        Suffix the hour acronym of the language manager to the hour value.
+/// \param _value Warning level to convert to a string.
+/// \return String that match the time.
+std::string timeToString(const Common::TimeOfDay& _timeOfDay);
+
+/// \brief Convert a date and time to a string for html/pdf.
+///        Format <day>.<month>.<year> <hour>h<minutes>
+///        As explained, the seconds are removed.
+///        If the minutes is 0, remove it aswell.
+/// \param _dateTime Date and time to convert
+/// \param _withTime Tells if the date time result string must include the time part. Default is true.
+/// \return String describing the date.
+std::string dateTimeToString(const DateTime& _dateTime, bool _withTime = true);
 
 /// \brief Beautify a string that represents a covariate value.
 ///        If the type is Bool, return yes/no translation.

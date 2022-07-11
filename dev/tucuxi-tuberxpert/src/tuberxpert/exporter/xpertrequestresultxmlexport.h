@@ -146,11 +146,6 @@ protected:
         }
     }
 
-    /// \brief Converts a date time into a string usable as an xml value.
-    /// \param _dateTime Date time to export.
-    /// \return Resulting string value.
-    std::string dateTimeToXmlString(const Common::DateTime& _dateTime) const;
-
 protected:
 
     /// \brief We keep a reference on the xml document variable in order to create xml nodes

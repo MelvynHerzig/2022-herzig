@@ -823,6 +823,94 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
         fructose_assert_eq(Tucuxi::Xpert::beautifyString("72.652222", Tucuxi::Core::DataType::Double, "bodyweight"), "72.65");
     }
 
+    /// \brief Check that the string returned by dateTimeToXmlString is the
+    ///        expected value.
+    /// \param _testName Name of the test.
+    void convertWarningLevelToString(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::WarningLevel::CRITICAL), "critical");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::WarningLevel::NORMAL), "normal");
+        fructose_assert_exception(Tucuxi::Xpert::varToString(Tucuxi::Xpert::WarningLevel(-1)), std::invalid_argument);
+    }
+
+    /// \brief Converts a date time to a formatted date time string.
+    /// \param _testName Name of the test.
+    void dateTimeToXmlStringReturnCorrectValue(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        std::string formatedDateTimeString = "2022-01-01T10:00:00";
+
+        Tucuxi::Common::DateTime formatedDateTime{formatedDateTimeString, date_format};
+
+        fructose_assert_eq(Tucuxi::Xpert::dateTimeToXmlString(formatedDateTime), formatedDateTimeString);
+    }
+
+    /// \brief Check that the string returned by timeToString is the
+    ///        expected value.
+    /// \param _testName Name of the test.
+    void timeToStringReturnCorrectValue(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        // Dictionary to get hours acronym
+        const std::string dictionary = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                          <dictionary
+                                              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                              xsi:noNamespaceSchemaLocation="dictionary.xsd">
+
+                                                <entry key="hour_acronym">h</entry>
+
+                                           </dictionary>)";
+
+        Tucuxi::Xpert::LanguageManager& lm = Tucuxi::Xpert::LanguageManager::getInstance();
+        lm.loadDictionary(dictionary);
+
+
+        Tucuxi::Common::TimeOfDay timeOfDayWithoutMinute{Tucuxi::Common::Duration(
+                        std::chrono::hours(8),
+                        std::chrono::minutes(0),
+                        std::chrono::seconds(1))};
+
+        Tucuxi::Common::TimeOfDay timeOfDayWithMinute{Tucuxi::Common::Duration(
+                        std::chrono::hours(8),
+                        std::chrono::minutes(30),
+                        std::chrono::seconds(1))};
+
+        fructose_assert_eq(Tucuxi::Xpert::timeToString(timeOfDayWithoutMinute), "8h");
+        fructose_assert_eq(Tucuxi::Xpert::timeToString(timeOfDayWithMinute), "8h30");
+    }
+
+    /// \brief Check that the string returned by dateTimeToString is the
+    ///        expected value.
+    /// \param _testName Name of the test.
+    void dateTimeToStringReturnCorrectValue(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        // Dictionary to get hours acronym
+        const std::string dictionary = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                          <dictionary
+                                              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                              xsi:noNamespaceSchemaLocation="dictionary.xsd">
+
+                                                <entry key="hour_acronym">h</entry>
+
+                                           </dictionary>)";
+
+        Tucuxi::Xpert::LanguageManager& lm = Tucuxi::Xpert::LanguageManager::getInstance();
+        lm.loadDictionary(dictionary);
+
+        std::string formatedDateTimeString = "2022-01-01T10:00:00";
+
+        Tucuxi::Common::DateTime formatedDateTime{formatedDateTimeString, date_format};
+
+        fructose_assert_eq(Tucuxi::Xpert::dateTimeToString(formatedDateTime), "1.1.2022 10h");
+        fructose_assert_eq(Tucuxi::Xpert::dateTimeToString(formatedDateTime, false), "1.1.2022");
+    }
+
     /// \brief Tests that the getStringWithEnglishFallback returns the targeted language or
     ///        the default language (en) or empty string.
     /// \param _testName Name of the test.
@@ -838,17 +926,6 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         fructose_assert_eq(Tucuxi::Xpert::getStringWithEnglishFallback(ts1, Tucuxi::Xpert::OutputLang::FRENCH), "chaine de caractere traductible en fr");
         fructose_assert_eq(Tucuxi::Xpert::getStringWithEnglishFallback(ts2, Tucuxi::Xpert::OutputLang::FRENCH), "translatable string in en");
-    }
-
-    /// \brief Converts warning level to string.
-    /// \param _testName Name of the test.
-    void convertWarningLevelToString(const std::string& _testName)
-    {
-        std::cout << _testName << std::endl;
-
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::WarningLevel::CRITICAL), "critical");
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::WarningLevel::NORMAL), "normal");
-        fructose_assert_exception(Tucuxi::Xpert::varToString(Tucuxi::Xpert::WarningLevel(-1)), std::invalid_argument);
     }
 
     /// \brief Tests that the getOldestDosageTimeRangeStart works as expected.

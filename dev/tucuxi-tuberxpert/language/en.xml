@@ -17,6 +17,7 @@
     <entry key="from">From</entry>
     <entry key="to">To</entry>
     <entry key="date">Date</entry>
+    <entry key="hour_acronym">h</entry>
 
     <!-- Report header -->
     <entry key="tuberxpert_report">TuberXpert report</entry>

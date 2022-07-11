@@ -76,6 +76,9 @@ int main(int argc, char** argv)
     xpertUtilsTests.add_test("The values returned by executeRequestAndGetResult are correct.", &TestXpertUtils::executeRequestAndGetResultReturnsCorrectValues);
     xpertUtilsTests.add_test("Convert key to phrase.", &TestXpertUtils::convertKeyToPhrase);
     xpertUtilsTests.add_test("Convert birth date to age.", &TestXpertUtils::computeAge);
+    xpertUtilsTests.add_test("Date time to xml string returns correct value.", &TestXpertUtils::dateTimeToXmlStringReturnCorrectValue);
+    xpertUtilsTests.add_test("Time to string return correct value.", &TestXpertUtils::timeToStringReturnCorrectValue);
+    xpertUtilsTests.add_test("Date time to string retruns correct value.", &TestXpertUtils::dateTimeToStringReturnCorrectValue);
 
     res = xpertUtilsTests.run(argc, argv);
     if (res != 0) {
