@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<query version="1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
+
+    <queryId>imatinib</queryId>
+    <clientId>124568</clientId>
+    <date>2022-06-24T13:45:30</date> <!-- Date that define the computation time -->
+    <language>en</language>
+
+    <drugTreatment>
+        <!-- All the information regarding the patient -->
+        <patient>
+            <covariates> 
+            </covariates>
+        </patient>
+        <!-- List of the drugs informations we have concerning the patient -->
+        <drugs>
+            <!-- All the information regarding the drug -->
+            <drug>
+                <drugId>imatinib</drugId>
+                <activePrinciple>something</activePrinciple>
+                <brandName>somebrand</brandName>
+                <atc>something</atc>
+                <!-- All the information regarding the treatment -->
+                <treatment>
+                    <dosageHistory>
+                    </dosageHistory>
+                </treatment>
+                <!-- Samples history -->
+                <samples>
+                </samples>
+                <!-- Personalised targets -->
+                <targets>
+                </targets>
+            </drug>
+        </drugs>
+    </drugTreatment>
+    <requests>
+        <!-- List of the requests we want the TuberXpert to take care of -->
+        <requestXpert>
+            <drugId>imatinib</drugId>
+            <output>
+                <format>pdf</format>
+                <language>fr</language>
+            </output>
+            <adjustmentDate>2018-07-11T08:00:00</adjustmentDate>
+            <options>
+                <loadingOption>LoadingDoseAllowed</loadingOption>
+                <restPeriodOption>RestPeriodAllowed</restPeriodOption>
+                <targetExtractionOption>definitionIfNoIndividualTarget</targetExtractionOption>
+                <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
+            </options>
+        </requestXpert>
+    </requests>
+</query>

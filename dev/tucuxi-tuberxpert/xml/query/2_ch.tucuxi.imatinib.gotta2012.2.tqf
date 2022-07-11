@@ -74,7 +74,7 @@
 			</person>
 		</patient>
 		<clinicalData>
-			<clinicalDataEntry key="note">random note</clinicalDataEntry>
+			<clinicalDataEntry key="uneNote">le contenu de la note</clinicalDataEntry>
 		</clinicalData>
 	</admin>
 
@@ -87,15 +87,15 @@
                     <date>2018-07-11T10:45:30</date>
                     <value>1990-01-01T00:00:00</value>
                     <unit></unit>
-                      <dataType>date</dataType>
+                    <dataType>date</dataType>
                     <nature>discrete</nature>
                 </covariate> 
                 <covariate>
                     <covariateId>bodyweight</covariateId>
                     <date>2018-07-06T08:00:00</date>
-                    <value>200</value>
+                    <value>40</value>
                     <unit>kg</unit>
-                      <dataType>double</dataType>
+                    <dataType>double</dataType>
                     <nature>discrete</nature>
                 </covariate>
             </covariates>
@@ -133,49 +133,6 @@
                                 </dosageLoop>
                             </dosage>
                         </dosageTimeRange>
-                        <dosageTimeRange>
-                            <start>2018-07-11T08:00:00</start>
-                            <end>2018-08-12T08:00:00</end>
-                            <dosage>
-                                <dosageSequence>
-                                    <dosageRepeat>
-                                        <iterations>4</iterations>
-                                        <dailyDosage>
-                                            <time>10:00:00</time>
-                                            <dose>
-                                                <value>400</value>
-                                                <unit>mg</unit>
-                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                            </dose>
-                                            <formulationAndRoute>
-                                                <formulation>parenteralSolution</formulation>
-                                                <administrationName>foo bar</administrationName>
-                                                <administrationRoute>oral</administrationRoute>
-                                                <absorptionModel>extravascular</absorptionModel>
-                                            </formulationAndRoute>
-                                        </dailyDosage>
-                                    </dosageRepeat>
-                                    <dosageRepeat>
-                                        <iterations>2</iterations>
-                                        <weeklyDosage>
-                                            <day>2</day>
-                                            <time>11:00:00</time>
-                                            <dose>
-                                                <value>550</value>
-                                                <unit>mg</unit>
-                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                            </dose>
-                                            <formulationAndRoute>
-                                                <formulation>parenteralSolution</formulation>
-                                                <administrationName>foo bar</administrationName>
-                                                <administrationRoute>oral</administrationRoute>
-                                                <absorptionModel>extravascular</absorptionModel>
-                                            </formulationAndRoute>
-                                        </weeklyDosage>
-                                    </dosageRepeat>
-                                </dosageSequence>
-                            </dosage>
-                        </dosageTimeRange>
                     </dosageHistory>
                 </treatment>
                 <!-- Samples history -->
@@ -187,28 +144,6 @@
                             <concentration>
                                 <analyteId>imatinib</analyteId>
                                 <value>0.7</value>
-                                <unit>mg/l</unit>
-                            </concentration>
-                        </concentrations>
-                    </sample>
-                    <sample>
-                        <sampleId>11</sampleId>
-                        <sampleDate>2018-07-07T07:00:00</sampleDate>
-                        <concentrations>
-                            <concentration>
-                                <analyteId>imatinib</analyteId>
-                                <value>10.6</value>
-                                <unit>mg/l</unit>
-                            </concentration>
-                        </concentrations>
-                    </sample>
-                    <sample>
-                        <sampleId>12</sampleId>
-                        <sampleDate>2018-07-07T13:00:00</sampleDate>
-                        <concentrations>
-                            <concentration>
-                                <analyteId>imatinib</analyteId>
-                                <value>0.8</value>
                                 <unit>mg/l</unit>
                             </concentration>
                         </concentrations>
@@ -239,11 +174,11 @@
                 <format>pdf</format>
                 <language>fr</language>
             </output>
-            <adjustmentDate>2022-07-06T08:00:00</adjustmentDate>
+            <adjustmentDate>2018-07-11T08:00:00</adjustmentDate>
             <options>
-                <loadingOption>noLoadingDose</loadingOption>
-                <restPeriodOption>noRestPeriod</restPeriodOption>
-                <targetExtractionOption>definitionIfNoIndividualTarget</targetExtractionOption>
+                <loadingOption>LoadingDoseAllowed</loadingOption>
+                <restPeriodOption>RestPeriodAllowed</restPeriodOption>
+                <targetExtractionOption>individualTargets</targetExtractionOption>
                 <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
             </options>
         </requestXpert>

@@ -37,6 +37,7 @@ string varToString(const double& _value)
 {
     stringstream stream;
     stream << fixed << setprecision(2) << _value;
+    string i = stream.str();
     return stream.str();
 }
 
@@ -78,6 +79,8 @@ string beautifyString(const std::string& _value, Core::DataType _type, const std
         } else {
             return lm.translate("no");
         }
+    } else if (_type == Core::DataType::Double && _id != "sex") {
+        return varToString(stod(_value));
     }
 
     // Convert the value into male/female/undefined for nice display.

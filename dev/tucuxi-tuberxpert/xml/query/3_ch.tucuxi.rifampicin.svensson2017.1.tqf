@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<query version="1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
+
+    <queryId>rifampicin_1</queryId>
+    <clientId>124568</clientId>
+    <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+    <language>en</language>
+
+    <admin>
+		<mandator>
+            <person>
+				<title>Dr.</title>
+				<firstName>John</firstName>
+				<lastName>Doe</lastName>
+			</person>
+			<institute>
+				<id>456789</id>
+				<name>CHUV</name>
+				<address>
+					<street>Av. de l'Ours 1</street>
+					<postCode>1010</postCode>
+					<city>Lausanne</city>
+					<state>Vaud</state>
+					<country>Suisse</country>
+				</address>
+				<phone>
+					<number>0213140001</number>
+					<type>private</type>
+				</phone>
+				<email>
+					<address>info@chuv.com</address>
+					<type>professional</type>
+				</email>
+			</institute>
+		</mandator>
+		<patient>
+			<person>
+				<id>123456</id>
+				<firstName>Alice</firstName>
+				<lastName>Aupaysdesmerveilles</lastName>
+				<address>
+					<street>Av. d'Ouchy 27</street>
+					<postCode>1006</postCode>
+					<city>Lausanne</city>
+					<state>Vaud</state>
+					<country>Suisse</country>
+				</address>
+				<phone>
+					<number>0216170002</number>
+					<type>professional</type>
+				</phone>
+				<email>
+					<address>alice.apdm@gmail.com</address>
+					<type>private</type>
+				</email>
+			</person>
+		</patient>
+		<clinicalData>
+			<clinicalDataEntry key="aNote">Note content</clinicalDataEntry>
+		</clinicalData>
+	</admin>
+
+    <drugTreatment>
+        <!-- All the information regarding the patient -->
+        <patient>
+            <covariates>
+            </covariates>
+        </patient>
+        <!-- List of the drugs informations we have concerning the patient -->
+        <drugs>
+            <!-- All the information regarding the drug -->
+            <drug>
+                <drugId>rifampicin</drugId>
+                <activePrinciple>something</activePrinciple>
+                <brandName>somebrand</brandName>
+                <atc>something</atc>
+                <!-- All the information regarding the treatment -->
+                <treatment>
+                    <dosageHistory>
+                    </dosageHistory>
+                </treatment>
+                <!-- Samples history -->
+                <samples>
+                </samples>
+                <!-- Personalised targets -->
+                <targets>
+                    <!-- It's the same node we can find in the drug model xml file -->
+                    <target>
+                        <activeMoietyId>rifampicin</activeMoietyId>
+                        <targetType>residual</targetType>
+                        <unit>mg/l</unit>
+                        <min>20</min>
+                        <best>25</best>
+                        <max>30</max>
+                        <inefficacyAlarm>15</inefficacyAlarm>
+                        <toxicityAlarm>50</toxicityAlarm>
+                    </target>
+                </targets>
+            </drug>
+        </drugs>
+    </drugTreatment>
+    <!-- List of the requests we want the server to take care of -->
+    <requests>
+
+        <!-- List of the requests we want the TuberXpert to take care of -->
+        <requestXpert>
+            <drugId>rifampicin</drugId>
+            <output>
+                <format>pdf</format>
+                <language>en</language>
+            </output>
+            <options>
+                <loadingOption>LoadingDoseAllowed</loadingOption>
+                <restPeriodOption>RestPeriodAllowed</restPeriodOption>
+                <targetExtractionOption>populationValues</targetExtractionOption>
+                <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
+            </options>
+        </requestXpert>
+    </requests>
+</query>

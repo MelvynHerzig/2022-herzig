@@ -349,7 +349,7 @@ void XpertRequestResultXmlExport::exportCovariateResults(const std::vector<Covar
                                                                     m_xpertRequestResultInUse->getXpertRequest().getOutputLang()));
 
         //       <value>
-        if (covariateValidationResult.getSource()->getId() == "age") {
+        if (covariateValidationResult.getSource()->getId() == "age" && covariateValidationResult.getPatient() != nullptr) {
             int age = int(getAgeIn(covariateValidationResult.getSource()->getType(),
                                    covariateValidationResult.getPatient()->getValueAsDate(),
                                    m_xpertRequestResultInUse->getGlobalResult().getComputationTime()));

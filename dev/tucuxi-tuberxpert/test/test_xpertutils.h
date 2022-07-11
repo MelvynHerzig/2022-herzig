@@ -820,6 +820,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         fructose_assert_eq(Tucuxi::Xpert::beautifyString("42", Tucuxi::Core::DataType::Int, "age"), "42");
 
+        fructose_assert_eq(Tucuxi::Xpert::beautifyString("72.652222", Tucuxi::Core::DataType::Double, "bodyweight"), "72.65");
     }
 
     /// \brief Tests that the getStringWithEnglishFallback returns the targeted language or
@@ -1077,12 +1078,12 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
             throw std::runtime_error("Setup failed");
         }
 
-        Tucuxi::Xpert::GlobalResult globalResult{move(query), "random\\path"};
+        Tucuxi::Xpert::GlobalResult globalResult{move(query), "random/path"};
         globalResult.incrementRequestIndexBeingHandled();
         Tucuxi::Xpert::XpertRequestResult& xrr =  globalResult.getXpertRequestResults()[0];
 
 
-        fructose_assert_eq(Tucuxi::Xpert::computeFileName(xrr), "random\\path\\imatinib_1_11-7-2018_13h45m30s.xml");
+        fructose_assert_eq(Tucuxi::Xpert::computeFileName(xrr), "random/path/imatinib_1_11-7-2018_13h45m30s.xml");
         fructose_assert_eq(Tucuxi::Xpert::computeFileName(xrr, false), "imatinib_1_11-7-2018_13h45m30s.xml");
         fructose_assert_eq(Tucuxi::Xpert::computeFileName(xrr, false, false), "imatinib_1_11-7-2018_13h45m30s");
     }

@@ -120,7 +120,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "                    {{ intro.drug_id }}" << endl                                                       // Insert drug id
        << "                </td>" << endl
        << "                <td>" << endl
-       << "                    {{ intro.last_dose }}" << endl                                                     // Insert last dose
+       << "                    {{ default( intro.last_dose, \"-\") }}" << endl                                    // Insert last dose
        << "                </td>" << endl
        << "                <td>" << endl
        << "                    {{ intro.drug_model }}" << endl                                                    // Insert last dose
@@ -335,9 +335,10 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        <!-- Adjustments -->" << endl                                                                  // ---------- ADJUSTMENTS ------------
        << "        <div class=\"avoid-break\">" << endl
        << "           <h3 class='newpage'> {{ adjustments.translation }} </h3>" << endl                           // Insert "adjustments" translation and intro phrase
-       << "           <div> {{ adjustments.intro_phrase_translation }} </div>" << endl                            // Insert "intro" translation
        << endl
+       <<             "{% if length(adjustments.rows) > 1 %}"                                                     // If there is more than one adjustment
        << "           <h4>{{ adjustments.per_interval_translation }}</h4>" << endl                                // Insert "per interval" translation
+       << "           <div> {{ adjustments.intro_phrase_translation }} </div>" << endl                            // Insert "intro" translation
        << "           <div class='canvasAdjustments'>" << endl
        << "               <canvas id='canAllAdj' width='716' height='474'></canvas>" << endl
        << "           </div>" << endl
@@ -378,6 +379,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        </table>" << endl
        << "        <br>" << endl
        << "        {% endfor %}"
+       << "        {% endif %}"
        << endl
        << "        <div class=\"avoid-break\">" << endl
        << "            <h4 class='newpage'> {{ adjustments.suggestion_translation }} </h4>" << endl               // Insert Suggestion translation
@@ -605,7 +607,9 @@ void XpertRequestResultHtmlExport::getDrugIntroJson(const XpertRequestResult& _x
     _introJson["drug_id"] = _xpertRequestResult.getXpertRequest().getDrugID();
 
     // Last dose
-    _introJson["last_dose"] = varToString(_xpertRequestResult.getLastIntake()->getDose()) + " " + _xpertRequestResult.getLastIntake()->getUnit().toString();
+    if (_xpertRequestResult.getLastIntake() != nullptr) {
+        _introJson["last_dose"] = varToString(_xpertRequestResult.getLastIntake()->getDose()) + " " + _xpertRequestResult.getLastIntake()->getUnit().toString();
+    }
 
     // Drug model
     _introJson["drug_model"] =  _xpertRequestResult.getDrugModel()->getDrugModelId();
@@ -711,6 +715,7 @@ void XpertRequestResultHtmlExport::getInstituteJson(const unique_ptr<InstituteDa
 void XpertRequestResultHtmlExport::getAddressJson(const unique_ptr<AddressData>& _address, inja::json& _addressJson) const
 {
     if (_address == nullptr) {
+        _addressJson = "-";
         return;
     }
 
@@ -741,6 +746,7 @@ void XpertRequestResultHtmlExport::getAddressJson(const unique_ptr<AddressData>&
 void XpertRequestResultHtmlExport::getPhoneJson(const unique_ptr<PhoneData>& _phone, inja::json& _phoneJson) const
 {
     if (_phone == nullptr) {
+        _phoneJson = "-";
         return;
     }
 
@@ -762,6 +768,7 @@ void XpertRequestResultHtmlExport::getPhoneJson(const unique_ptr<PhoneData>& _ph
 void XpertRequestResultHtmlExport::getEmailJson(const unique_ptr<EmailData>& _email, inja::json& _emailJson) const
 {
     if (_email == nullptr) {
+        _emailJson = "-";
         return;
     }
 
@@ -849,7 +856,7 @@ void XpertRequestResultHtmlExport::getCovariatesJson(const vector<CovariateValid
         // Format the value + unit + source
         stringstream valueStream;
 
-        if (cvr.getSource()->getId() == "age") {
+        if (cvr.getSource()->getId() == "age" && cvr.getPatient() != nullptr) {
             valueStream << int(getAgeIn(cvr.getSource()->getType(),
                                         cvr.getPatient()->getValueAsDate(),
                                         m_xpertRequestResultInUse->getGlobalResult().getComputationTime()));
