@@ -137,6 +137,6 @@
 
     <!-- Report Computation covariates -->
     <entry key="computation_covariates">Covariates used for computation</entry>
-    <entry key="covariate_id">Covariate ID</entry>
+    <entry key="covariate">Covariate</entry>
 
 </dictionary>

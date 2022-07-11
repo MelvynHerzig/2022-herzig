@@ -495,7 +495,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        <table class='computation-covariates bg-light-grey'>" << endl
        << "            <tr>" << endl
        << "                <th></th>" << endl
-       << "                <th> {{ computation_covariates.covariate_id_translation}} </th>" << endl               // Insert covariate id translation
+       << "                <th> {{ computation_covariates.covariate_translation}} </th>" << endl                  // Insert covariate translation
        << "                <th> {{ computation_covariates.value_translation}} </th>" << endl                      // Insert value translation
        << "            </tr>" << endl
        << "            {% for covariate in computation_covariates.rows %}"                                        // For each covariate
@@ -503,7 +503,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "                <td>" << endl
        << "                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
        << "                </td>" << endl
-       << "                <td>{{ covariate.id }}</td>" << endl                                                   //     Insert covariate id
+       << "                <td>{{ covariate.name }}</td>" << endl                                                 //     Insert covariate id
        << "                <td>{{ covariate.value }}</td>" << endl                                                //     Insert covariate value
        << "            </tr>" << endl
        << "            {% endfor %}"
@@ -1351,7 +1351,7 @@ void XpertRequestResultHtmlExport::getComputationCovariatesJson(const XpertReque
     _computationCovariatesJson["translation"] = lm.translate("computation_covariates");
 
     // Covariate ID translation
-    _computationCovariatesJson["covariate_id_translation"] = lm.translate("covariate_id");
+    _computationCovariatesJson["covariate_translation"] = lm.translate("covariate");
 
     // Steady state peak translation
     _computationCovariatesJson["value_translation"] = lm.translate("value");
@@ -1362,10 +1362,7 @@ void XpertRequestResultHtmlExport::getComputationCovariatesJson(const XpertReque
 
         inja::json computationCovariate;
 
-        // Get the id
         string covariateId = covariateValue.m_covariateId;
-        computationCovariate["id"] = covariateId;
-
 
         // Find the covariate definition in the drug model
         const Core::CovariateDefinitions& covariateDefinitions = _xpertRequestResult.getDrugModel()->getCovariates();
@@ -1374,6 +1371,9 @@ void XpertRequestResultHtmlExport::getComputationCovariatesJson(const XpertReque
                                             [&covariateId](const unique_ptr<Core::CovariateDefinition>& covariateDefinition) {
             return covariateDefinition->getId() == covariateId;
         });
+
+        // Get the name
+        computationCovariate["name"] = getStringWithEnglishFallback((*covariteDefinitionIt)->getName(), _xpertRequestResult.getXpertRequest().getOutputLang());
 
         // Get the value
         computationCovariate["value"] = beautifyString(varToString(covariateValue.m_value),
