@@ -5431,8 +5431,8 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                 <covariate>
                                                     <covariateId>bodyweight1</covariateId>
                                                     <covariateName>
-                                                        <name lang='en'>Total Body Weight</name>
-                                                        <name lang='fr'>Poids total</name>
+                                                        <name lang='en'>Total Body Weight1</name>
+                                                        <name lang='fr'>Poids total1</name>
                                                     </covariateName>
                                                     <description>
                                                         <desc lang='en'>Total body weight of patient, in kilogramms</desc>
@@ -5475,7 +5475,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                 <covariate>
                                                     <covariateId>bodyweight2</covariateId>
                                                     <covariateName>
-                                                        <name lang='en'>Total Body Weight</name>
+                                                        <name lang='en'>Total Body Weight2</name>
                                                         <name lang='fr'>Poids total</name>
                                                     </covariateName>
                                                     <description>
@@ -5519,8 +5519,8 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                 <covariate>
                                                     <covariateId>bodyweight</covariateId>
                                                     <covariateName>
-                                                        <name lang='en'>Total Body Weight</name>
-                                                        <name lang='fr'>Poids total</name>
+                                                        <name lang='en'>Total Body Weight2</name>
+                                                        <name lang='fr'>Poids total2</name>
                                                     </covariateName>
                                                     <description>
                                                         <desc lang='en'>Total body weight of patient, in kilogramms</desc>
@@ -6179,8 +6179,8 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                 <covariate>
                                                     <covariateId>bodyweight3</covariateId>
                                                     <covariateName>
-                                                        <name lang='en'>Total Body Weight</name>
-                                                        <name lang='fr'>Poids total</name>
+                                                        <name lang='en'>Total Body Weight3</name>
+                                                        <name lang='fr'>Poids total3</name>
                                                     </covariateName>
                                                     <description>
                                                         <desc lang='en'>Total body weight of patient, in kilogramms</desc>
@@ -6223,8 +6223,8 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                 <covariate>
                                                     <covariateId>bodyweight4</covariateId>
                                                     <covariateName>
-                                                        <name lang='en'>Total Body Weight</name>
-                                                        <name lang='fr'>Poids total</name>
+                                                        <name lang='en'>Total Body Weight4</name>
+                                                        <name lang='fr'>Poids total4</name>
                                                     </covariateName>
                                                     <description>
                                                         <desc lang='en'>Total body weight of patient, in kilogramms</desc>
@@ -6927,8 +6927,8 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                 <covariate>
                                                     <covariateId>bodyweight5</covariateId>
                                                     <covariateName>
-                                                        <name lang='en'>Total Body Weight</name>
-                                                        <name lang='fr'>Poids total</name>
+                                                        <name lang='en'>Total Body Weight5</name>
+                                                        <name lang='fr'>Poids total5</name>
                                                     </covariateName>
                                                     <description>
                                                         <desc lang='en'>Total body weight of patient, in kilogramms</desc>
@@ -6971,8 +6971,8 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                 <covariate>
                                                     <covariateId>bodyweight6</covariateId>
                                                     <covariateName>
-                                                        <name lang='en'>Total Body Weight</name>
-                                                        <name lang='fr'>Poids total</name>
+                                                        <name lang='en'>Total Body Weight6</name>
+                                                        <name lang='fr'>Poids total6</name>
                                                     </covariateName>
                                                     <description>
                                                         <desc lang='en'>Total body weight of patient, in kilogramms</desc>
@@ -7788,8 +7788,8 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                 <covariate>
                                                     <covariateId>bodyweight1</covariateId>
                                                     <covariateName>
-                                                        <name lang='en'>Total Body Weight</name>
-                                                        <name lang='fr'>Poids total</name>
+                                                        <name lang='en'>Total Body Weight1</name>
+                                                        <name lang='fr'>Poids total1</name>
                                                     </covariateName>
                                                     <description>
                                                         <desc lang='en'>Total body weight of patient, in kilogramms</desc>
@@ -8492,8 +8492,8 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                 <covariate>
                                                     <covariateId>bodyweight2</covariateId>
                                                     <covariateName>
-                                                        <name lang='en'>Total Body Weight</name>
-                                                        <name lang='fr'>Poids total</name>
+                                                        <name lang='en'>Total Body Weight2</name>
+                                                        <name lang='fr'>Poids total2</name>
                                                     </covariateName>
                                                     <description>
                                                         <desc lang='en'>Total body weight of patient, in kilogramms</desc>
@@ -8536,8 +8536,8 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                 <covariate>
                                                     <covariateId>bodyweight3</covariateId>
                                                     <covariateName>
-                                                        <name lang='en'>Total Body Weight</name>
-                                                        <name lang='fr'>Poids total</name>
+                                                        <name lang='en'>Total Body Weight3</name>
+                                                        <name lang='fr'>Poids total3</name>
                                                     </covariateName>
                                                     <description>
                                                         <desc lang='en'>Total body weight of patient, in kilogramms</desc>
@@ -12203,11 +12203,11 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
         fructose_assert_eq(xpertRequestResult0.shouldBeHandled(), true);
         fructose_assert_eq(xpertRequestResult0.getErrorMessage(), "");
-        fructose_assert_eq(xpertRequestResult0.getCovariateResults()[1].getWarning(), "Le poids doit etre dans compris entre [44,100].");
+        fructose_assert_eq(xpertRequestResult0.getCovariateResults()[2].getWarning(), "Le poids doit etre dans compris entre [44,100].");
 
         fructose_assert_eq(xpertRequestResult1.shouldBeHandled(), true);
         fructose_assert_eq(xpertRequestResult1.getErrorMessage(), "");
-        fructose_assert_eq(xpertRequestResult1.getCovariateResults()[1].getWarning(), "The body weight shall be in the interval [44,100].");
+        fructose_assert_eq(xpertRequestResult1.getCovariateResults()[2].getWarning(), "The body weight shall be in the interval [44,100].");
 
 
     }
@@ -12215,7 +12215,8 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
     /// \brief Check that the CovariateResults are correctly set when a valid model is found.
     ///        Some coariates are multiple times, some other not even once. This test is based
-    ///        on the original imatinib test.
+    ///        on the original imatinib test. In addition, the covariate results must be sorted
+    ///        by name (english as asked in the query) and then by date of measure.
     /// \param _testName Name of the test
     void getCovariateResults(const std::string& _testName)
     {
@@ -12348,33 +12349,33 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
         fructose_assert_eq(results[0].getType() == Tucuxi::Xpert::CovariateType::Patient, true);
         fructose_assert_eq(results[0].getWarning(), "");
 
-        fructose_assert_eq(results[1].getSource()->getId(), "bodyweight");
-        fructose_assert_eq(results[1].getValue(), "70");
-        fructose_assert_eq(results[1].getUnit().toString(), "kg");
-        fructose_assert_eq(Tucuxi::Xpert::varToString(results[1].getDataType()), "double");
-        fructose_assert_eq(results[1].getType() == Tucuxi::Xpert::CovariateType::Patient, true);
+        fructose_assert_eq(results[1].getSource()->getId(), "gist");
+        fructose_assert_eq(results[1].getValue(), "0.000000");
+        fructose_assert_eq(results[1].getUnit().toString(), "-");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(results[1].getDataType()), "bool");
+        fructose_assert_eq(results[1].getType() == Tucuxi::Xpert::CovariateType::Model, true);
         fructose_assert_eq(results[1].getWarning(), "");
 
-        fructose_assert_eq(results[2].getSource()->getId(), "bodyweight");
-        fructose_assert_eq(results[2].getValue(), "150000");
-        fructose_assert_eq(results[2].getUnit().toString(), "g");
+        fructose_assert_eq(results[2].getSource()->getId(), "sex");
+        fructose_assert_eq(results[2].getValue(), "0.500000");
+        fructose_assert_eq(results[2].getUnit().toString(), "-");
         fructose_assert_eq(Tucuxi::Xpert::varToString(results[2].getDataType()), "double");
-        fructose_assert_eq(results[2].getType() == Tucuxi::Xpert::CovariateType::Patient, true);
-        fructose_assert_eq(results[2].getWarning(), "The body weight shall be in the interval [44,100].");
+        fructose_assert_eq(results[2].getType() == Tucuxi::Xpert::CovariateType::Model, true);
+        fructose_assert_eq(results[2].getWarning(), "");
 
-        fructose_assert_eq(results[3].getSource()->getId(), "gist");
-        fructose_assert_eq(results[3].getValue(), "0.000000");
-        fructose_assert_eq(results[3].getUnit().toString(), "-");
-        fructose_assert_eq(Tucuxi::Xpert::varToString(results[3].getDataType()), "bool");
-        fructose_assert_eq(results[3].getType() == Tucuxi::Xpert::CovariateType::Model, true);
+        fructose_assert_eq(results[3].getSource()->getId(), "bodyweight");
+        fructose_assert_eq(results[3].getValue(), "70");
+        fructose_assert_eq(results[3].getUnit().toString(), "kg");
+        fructose_assert_eq(Tucuxi::Xpert::varToString(results[3].getDataType()), "double");
+        fructose_assert_eq(results[3].getType() == Tucuxi::Xpert::CovariateType::Patient, true);
         fructose_assert_eq(results[3].getWarning(), "");
 
-        fructose_assert_eq(results[4].getSource()->getId(), "sex");
-        fructose_assert_eq(results[4].getValue(), "0.500000");
-        fructose_assert_eq(results[4].getUnit().toString(), "-");
+        fructose_assert_eq(results[4].getSource()->getId(), "bodyweight");
+        fructose_assert_eq(results[4].getValue(), "150000");
+        fructose_assert_eq(results[4].getUnit().toString(), "g");
         fructose_assert_eq(Tucuxi::Xpert::varToString(results[4].getDataType()), "double");
-        fructose_assert_eq(results[4].getType() == Tucuxi::Xpert::CovariateType::Model, true);
-        fructose_assert_eq(results[4].getWarning(), "");
+        fructose_assert_eq(results[4].getType() == Tucuxi::Xpert::CovariateType::Patient, true);
+        fructose_assert_eq(results[4].getWarning(), "The body weight shall be in the interval [44,100].");
     }
 };
 

@@ -83,6 +83,14 @@
         <patient>
             <covariates> 
                 <covariate>
+                    <covariateId>bodyweight</covariateId>
+                    <date>2017-07-06T08:00:00</date>
+                    <value>50</value>
+                    <unit>kg</unit>
+                    <dataType>double</dataType>
+                    <nature>discrete</nature>
+                </covariate>
+                <covariate>
                     <covariateId>birthdate</covariateId>
                     <date>2018-07-11T10:45:30</date>
                     <value>1990-01-01T00:00:00</value>

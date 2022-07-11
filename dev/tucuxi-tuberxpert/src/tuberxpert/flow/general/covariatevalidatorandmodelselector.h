@@ -88,6 +88,8 @@ protected:
     /// \return Return true if english or _lang is supported otherwise false.
     bool checkCovariateDefinitionsLanguage(const Core::CovariateDefinitions& _modelDefinitions, OutputLang _lang) const;
 
+    void sortByNameAndDate(std::vector<CovariateValidationResult>& _results, OutputLang _lang) const;
+
 protected:
 
     /// \brief Fix the computation time to get the same values when testing

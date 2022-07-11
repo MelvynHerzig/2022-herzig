@@ -130,6 +130,7 @@ void CovariateValidatorAndModelSelector::perform(XpertRequestResult& _xpertReque
 
         //check language compatibility
         if (checkCovariateDefinitionsLanguage(bestDrugModel->getCovariates(), _xpertRequestResult.getXpertRequest().getOutputLang())) {
+            sortByNameAndDate(bestCovariateResults, _xpertRequestResult.getXpertRequest().getOutputLang());
             _xpertRequestResult.setCovariateResults(move(bestCovariateResults));
             _xpertRequestResult.setDrugModel(bestDrugModel);
         } else {
@@ -258,7 +259,7 @@ bool CovariateValidatorAndModelSelector::checkOperation(Core::Operation* _op,
                                            const Core::CovariateDefinition* _definition,
                                            const Core::PatientCovariate* _patient,
                                            OutputLang _lang,
-                                           std::vector<CovariateValidationResult>& _results) const
+                                           vector<CovariateValidationResult>& _results) const
 {
     Core::OperationInputList defInputList = _op->getInputs();
     Core::OperationInputList inputList;
@@ -304,6 +305,27 @@ bool CovariateValidatorAndModelSelector::checkCovariateDefinitionsLanguage(
     }
 
     return true;
+}
+
+void CovariateValidatorAndModelSelector::sortByNameAndDate(vector<CovariateValidationResult>& _results, OutputLang _lang) const {
+    sort(_results.begin(), _results.end(),
+         [_lang](const CovariateValidationResult& cvr1, const CovariateValidationResult& cvr2) {
+
+        // First try to sort by name
+        string cvr1Name = getStringWithEnglishFallback(cvr1.getSource()->getName(), _lang);
+        string cvr2Name = getStringWithEnglishFallback(cvr2.getSource()->getName(), _lang);
+
+        if (cvr1Name != cvr2Name) {
+            return cvr1Name < cvr2Name;
+        // Else try by date.
+        // Normaly this if is always true. It is here for security.
+        } else { // if(cvr1.getPatient() != nullptr && cvr2.getPatient() != nullptr){
+            return cvr1.getPatient()->getEventTime() < cvr2.getPatient()->getEventTime();
+        }
+
+        // Should never happen
+        return true;
+    });
 }
 
 } // namespace Xpert
