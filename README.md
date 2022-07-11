@@ -5,7 +5,7 @@
 Herzig Melvyn
 
 <h3> <b>Last update</b> </h3> 
-09.07.2022
+11.07.2022
 
 <hr>
 
@@ -192,7 +192,7 @@ Example of administrative data:
 ```
 
 <h4> <u>TuberXpert request:</u> </h4>
-This element tells tuberXpert which drug it should adjust and how the final report should be (format and language).
+This element tells TuberXpert which drug it should adjust and how the final report should be (format and language).
 
 For a complete specification of this element, check the overall project documentation:
 "_/publi/tb_Herzig_Melvyn_2022_intermediate.pdf_" in the implementation section.
@@ -235,7 +235,7 @@ The program requires four arguments to run:
 <br>
 <h3> Report </h3>
 
-If the execution went well, TuberXpert prints a final report in xml, html or pdf in the required language. The content of the report is influenced the information contained in the input file. For example:
+If the execution succeed, TuberXpert prints a final report in xml, html or pdf in the required language. The content of the report is influenced by the information contained in the input file. For example:
 - The administrative data
 - The patient covariates
 - The treatments
