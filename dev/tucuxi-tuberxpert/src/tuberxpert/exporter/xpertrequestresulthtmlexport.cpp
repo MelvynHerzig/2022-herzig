@@ -439,8 +439,8 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "{% if length(adjustments.rows) > 1 %}"
        << "        <div class='avoid-break-inside'>" << endl
        << "           <h3> {{ adjustments.translation }} </h3>" << endl
-       << "           <h4>{{ adjustments.per_interval_translation }}</h4>" << endl
        << "           <div> {{ adjustments.intro_phrase_translation }} </div>" << endl
+       << "           <h4>{{ adjustments.per_interval_translation }}</h4>" << endl
        << "           <div class='canvasAdjustments'>" << endl
        << "               <canvas id='canAllAdj' width='716' height='474'></canvas>" << endl
        << "           </div>" << endl
@@ -507,8 +507,9 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
           //       around the "displayed adjustment" title, the score and the first dosage time range. This way,
           //       we avoid the title and the score to be alone in the bottom of a page.
 
+       << "        <!-- Best adjustment -->" << endl
        << "        <div class='avoid-break-inside'>" << endl
-       << "           <h3> {{ adjustments.suggestion_translation }} </h3>" << endl
+       << "           <h3> {{ adjustments.adjustment_suggested_translation }} </h3>" << endl
        << "           <div> {{ adjustments.suggestion_phrase_translation }} </div></h4>" << endl
        << "           <div class='canvasAdjustments'>" << endl
        << "               <canvas id='canBestAdj' width='716' height='474'></canvas>" << endl
@@ -518,7 +519,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "{% for dosage_time_range in adjustments.rows.0.dosage_time_ranges %}"
        <<     "{% if loop.is_first %}"
        << "       <div class='avoid-break-inside'>" << endl
-       << "           <h4>{{ adjustments.displayed_adjustments_translation }}</h4>" << endl
+       << "           <h4>{{ adjustments.displayed_adjustment_translation }}</h4>" << endl
        << "           <div class='adjustment-score'><b>{{ adjustments.score_translation }}:</b> {{ adjustments.rows.0.score }} / 1 </div>" << endl
        <<     "{% endif %}"
        << "           <table class='dosage-time-range bg-light-grey'>" << endl
@@ -551,177 +552,209 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "       </div>"
        <<     "{% endif %}"
        << "{% endfor %}"
+       << endl
+
+          // Target part:
+          // For each target
+          //    Insert its type, its values and bounds in a table
+          //
+          // Note: Here, the page breaking system requires to wrap the target evolution intro phrase
+          //       and the table col headers in a <div class='avoid-break-inside'> with the first target.
+          //       This way, we avoid to have a weird page break that let the phrase and the headers alone.
+
+       << "        <!-- Targets -->" << endl
+       << "{% for target in targets.rows %}"
+       <<     "{% if loop.is_first %}"
+       << "        <div class='avoid-break-inside'>" << endl
+       << "            <div> {{ targets.phrase_translation }} </div>" << endl
+       << "            <br>" << endl
+       << "            <table class='targets-header'>" << endl
+       << "                <tr>" << endl
+       << "                    <th></th>" << endl
+       << "                    <th>Type</th>" << endl
+       << "                    <th>Value (unit)</th>" << endl
+       << "                    <th>Score</th>" << endl
+       << "                </tr>"
+       << "            </table>" << endl
+       <<     "{% endif %}"
+       << "           <table class='target bg-light-grey'>" << endl
+       << "               <tr>" << endl
+       << "                   <td>" << endl
+       << "                       <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                   </td>" << endl
+       << "                   <td>{{ target.type }}</td>" << endl
+       << "                   <td>{{ target.value }}</td>" << endl
+       << "                   <td>{{ target.score }} / 1</td>" << endl
+       << "               </tr>" << endl
+       << "               <tr>" << endl
+       << "                   <td colspan='4'><div>{{ target.bounds }}</div></td>" << endl
+       << "               </tr>" << endl
+       << "           </table>" << endl
+       <<     "{% if loop.is_first %}"
+       << "       </div>"
+       <<     "{% endif %}"
+       << "{% endfor %}"
+       << endl
+
+          // Pharmacokinetic parameters:
+          // For parameter
+          //    Insert it name and values
+          //
+          // Note: Here, the page breaking system requires to wrap the title
+          //       and the table col headers in a <div class='avoid-break-inside'> with the first parameter.
+          //
+
+       << "        <!-- Pharmacokinetic parameters -->" << endl
+       << "{% for parameter in pks.rows %}"
+       <<     "{% if loop.is_first %}"
+       << "        <div class='avoid-break-inside'>" << endl
+       << "            <h4> {{ pks.translation }} </h4>" << endl
+       << "            <table class='pk-header'>" << endl
+       << "                <tr>" << endl
+       << "                    <th></th>" << endl
+       << "                    <th></th>" << endl
+       << "                    <th>{{ pks.typical_patient_translation }}</th>" << endl
+       << "                    <th>{{ pks.a_priori_translation }}</th>" << endl
+       << "                    <th>{{ pks.a_posteriori_translation }}</th>" << endl
+       << "                </tr>" << endl
+       << "            </table>" << endl
+       <<     "{% endif %}"
+       << "           <table class='pk bg-light-grey'>" << endl
+       << "               <tr>" << endl
+       << "                   <td>" << endl
+       << "                       <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                   </td>" << endl
+       << "                   <td> {{ parameter.name }} </td>" << endl
+       << "                   <td> {{ default( parameter.typical_patient, \"-\") }} </td>" << endl
+       << "                   <td> {{ default( parameter.a_priori, \"-\") }} </td>" << endl
+       << "                   <td> {{ default( parameter.a_posteriori, \"-\") }} </td>" << endl
+       << "            </tr>" << endl
+       << "           </table>" << endl
+       <<     "{% if loop.is_first %}"
+       << "       </div>"
+       <<     "{% endif %}"
+       << "{% endfor %}"
+       << endl
+
+          // Predictions part:
+          // Insert the steady state auc24
+          // Insert the steady state peak
+          // Insert the steady state trough
+          //
+          // Note: Since the table is has a fixed small size, just wrap everything in
+          //       a <div class='avoid-break-inside'>.
 
 
+       << "        <!-- Predictions -->" << endl
+       << "        <div class='avoid-break-inside'>" << endl
+       << "            <h5 class='underline'> {{ predictions.translation }}</h5>" << endl
+       << "            <table class='predictions bg-light-grey'>" << endl
+       << "                <tr>" << endl
+       << "                    <th>{{ predictions.extrapolated_steady_state_auc24_translation }}</th>" << endl
+       << "                    <td>{{ predictions.extrapolated_steady_state_auc24 }}</td>" << endl
+       << "                </tr>" << endl
+       << "                <tr>" << endl
+       << "                    <th>{{ predictions.steady_state_peak_translation }}</th>" << endl
+       << "                    <td>{{ predictions.steady_state_peak }}</td>" << endl
+       << "                </tr>" << endl
+       << "                <tr>" << endl
+       << "                    <th>{{ predictions.steady_state_trough_translation }}</th>" << endl
+       << "                    <td>{{ predictions.steady_state_trough }}</td>" << endl
+       << "                </tr>" << endl
+       << "            </table>" << endl
+       << "        </div>" << endl
+       << endl
+
+          // Computation covariates part:
+          // For each computation covariate
+          //    Insert a table with its name and value
+          //
+          // Note: The page break simple is like in the targets. We wrap the title, the headers and
+          //       the first computation covariate together with <div class='avoid-break-inside'>.
+          //       This way, the title and the headers won't be left alone.
+
+       << "        <!-- Computation covariates -->" << endl
+       << "{% for covariate in computation_covariates.rows %}"
+       <<     "{% if loop.is_first %}"
+       << "        <div class='avoid-break-inside'>" << endl
+       << "            <h4> {{ computation_covariates.translation}} </h4>" << endl
+       << "            <table class='computation-covariate-header'>" << endl
+       << "                <tr>" << endl
+       << "                    <th></th>" << endl
+       << "                    <th> {{ computation_covariates.covariate_translation}} </th>" << endl
+       << "                    <th> {{ computation_covariates.value_translation}} </th>" << endl
+       << "                </tr>" << endl
+       << "            </table>" << endl
+       <<     "{% endif %}"
+       << "           <table class='computation-covariate bg-light-grey'>" << endl
+       << "               <tr>" << endl
+       << "                   <td>" << endl
+       << "                       <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                   </td>" << endl
+       << "                   <td>{{ covariate.name }}</td>" << endl
+       << "                   <td>{{ covariate.value }}</td>" << endl
+       << "               </tr>" << endl
+       << "           </table>" << endl
+       <<     "{% if loop.is_first %}"
+       << "       </div>"
+       <<     "{% endif %}"
+       << "{% endfor %}"
+       << endl
+       << "        <!-- Copyright -->" << endl
+       << "        <div class='copyright'>" << endl
+       << "            <span>Copyright (c) HEIG-VD/CHUV - 2022 | Icons by <a href='https://www.flaticon.com/fr/auteurs/gajah-mada'> Gajah Mada - Flaticon</a> & <a href='https://www.flaticon.com/fr/auteurs/freepik'>Freepik - Flaticon</a></span>" << endl
+       << "        </div>" << endl
+       << endl
+       << "        <!-- Ending clean / otherwise we see background on pdf printing -->" << endl
+       << "        <div class='ending'/>" << endl
+       << endl
+       << "    </div>" << endl
+       << "    <script>" << endl
+       << endl
+
+          // Data for graphs part:
+          // For each adjustment
+          //    If this is not the first adjustment
+          //        Add a comma in front of the array
+          //    For each cycle dats
+          //        If this is not the first cycle data
+          //            Add a comma in front of the array
+          //        Insert the cycle data start date
+          //        Insert the cycle data time offsets
+          //         Insert the cyycle data concentrations
+
+       << "        var adustmentsData = [" << endl
+       <<             "{% for adjustment in graph_data.adjustments %}"
+       <<                "{% if not loop.is_first %}, {% endif %}"
+       << "              [" << endl
+       <<                "{% for cycle in adjustment.cycles %}"
+       <<                   "{% if not loop.is_first %}, {% endif %}"
+       << "                  [" << endl
+       << "                  '{{ cycle.start }}'," << endl
+       << "                  [{{ cycle.times }}]," << endl
+       << "                  [{{ cycle.values }}]," << endl
+       << "                  ]" << endl
+       <<                "{% endfor %}"
+       << "              ]" << endl
+       <<              "{% endfor %}"
+       << "        ];" << endl
 
 
+          // Target data part:
+          // For each target
+          //    Add a comma if not first
+          //    Insert target type, min, best and max values
 
-
-//       << endl
-//       << "        <div class=\"avoid-break\">" << endl
-//       << "            <h4 class='newpage'> {{ adjustments.suggestion_translation }} </h4>" << endl               // Insert Suggestion translation
-//       << "            <div> {{ adjustments.suggestion_phrase_translation }} </div>" << endl                      // Insert Suggestion phrase translation
-//       << endl
-//       << "            <div class='canvasAdjustments'>" << endl
-//       << "                <canvas id='canBestAdj' width='716' height='474'></canvas>" << endl
-//       << "            </div>"
-//       << "        </div>" << endl
-//       << endl
-//       << "        <h5 class='try-not-alone'>{{ adjustments.displayed_adjustment_translation }}</h5>" << endl     // Insert "displayed adjustment" translation
-//       << "        <table class='adjustments bg-light-grey'>" << endl                                             // For the best adjustment
-//       << "            <tr>" << endl                                                                              // Insert the score translation and score value
-//       << "                <td colspan='2'><b>{{ adjustments.score_translation }}:</b> {{ adjustments.rows.0.score }} / 1 </td>" << endl
-//       << "            </tr>" << endl
-//       << "            {% for dosage_time_range in adjustments.rows.0.dosage_time_ranges %}"                      //     For each time range
-//       << "            <tr>" << endl
-//       << "                <td>" << endl                                                                          //         Insert time range from date
-//       << "                    <b>{{ adjustments.from_translation }}:</b> {{ dosage_time_range.date_from }}" << endl
-//       << "                </td>" << endl                                                                         //         and from translation
-//       << "                <td>" << endl
-//       << "                    <b>{{ adjustments.to_translation }}:</b> {{ dosage_time_range.date_to }}" << endl//       Insert time range to date
-//       << "                </td>" << endl                                                                         //         and to translation
-//       << "            </tr>" << endl
-//       << "            <tr>" << endl
-//       << "                <td colspan='2'>" << endl
-//       << "                    <table>" << endl
-//       << "                        {% for single_dose in dosage_time_range.single_doses %}"                       //             For each single dose
-//       << "                        <tr>" << endl
-//       << "                            <td>" << endl
-//       << "                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
-//       << "                            </td>" << endl
-//       << "                            <td>" << endl                                                              //                 Insert the posology
-//       << "                                <b>{{ adjustments.posology_translation }}:</b> {{ single_dose.posology }}" << endl
-//       << "                            </td>" << endl
-//       << "                        </tr>" << endl
-//       << "                        {% endfor %}" << endl
-//       << "                    </table>" << endl
-//       << "                </td>" << endl
-//       << "            </tr>" << endl
-//       << "            {% endfor %}"
-//       << "        </table>" << endl
-//       << "        <br>" << endl
-//       << endl                                                                                                    // ---------- TARGETS ------------
-//       << "        <div class='try-not-alone'>{{ targets.phrase_translation }}</div><br>" << endl                 // Insert target phrase translation
-//       << endl
-//       << "        <table class='targets bg-light-grey'>" << endl
-//       << "            <tr>" << endl
-//       << "                <th></th>" << endl
-//       << "                <th>Type</th>" << endl
-//       << "                <th>Value (unit)</th>" << endl
-//       << "                <th>Score</th>" << endl
-//       << "            </tr>" << endl
-//       << "            {% for target in targets.rows %}"                                                          // For each target
-//       << "            <tr>" << endl
-//       << "                <td>" << endl
-//       << "                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
-//       << "                </td>" << endl
-//       << "                <td>{{ target.type }}</td>" << endl                                                    //     Insert target type
-//       << "                <td>{{ target.value }}</td>" << endl                                                   //     Insert target value
-//       << "                <td>{{ target.score }} / 1</td>" << endl                                               //     Insert target score
-//       << "            </tr>" << endl
-//       << "            <tr>" << endl
-//       << "                <td colspan='4'><div>{{ target.bounds }}</div></td>" << endl                           //     Insert target bounds
-//       << "            </tr>" << endl
-//       << "            {% endfor %}"
-//       << "        </table>" << endl
-//       << endl
-//       << "        <!-- Pharmacokinetic parameters -->" << endl                                                   // ---------- PKs ------------
-//       << "        <h5 class='underline try-not-alone'> {{ pks.translation }} </h5>" << endl                      // Insert pharmacokinetic parameters translation
-//       << "        <table class='pks bg-light-grey'>" << endl
-//       << "            <tr>" << endl
-//       << "                <th></th>" << endl
-//       << "                <th></th>" << endl
-//       << "                <th>{{ pks.typical_patient_translation }}</th>" << endl                                // Insert typical patient translation
-//       << "                <th>{{ pks.a_priori_translation }}</th>" << endl                                       // Insert a priori translation
-//       << "                <th>{{ pks.a_posteriori_translation }}</th>" << endl                                   // Insert a posteriori translation
-//       << "            </tr>" << endl
-//       << "            {% for parameter in pks.rows %}"                                                           // For each parameter
-//       << "            <tr>" << endl
-//       << "                <td>" << endl
-//       << "                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
-//       << "                </td>" << endl
-//       << "                <td> {{ parameter.name }} </td>" << endl                                               //     Insert parameter name
-//       << "                <td> {{ default( parameter.typical_patient, \"-\") }} </td>" << endl                   //     Insert parameter typical patient value
-//       << "                <td> {{ default( parameter.a_priori, \"-\") }} </td>" << endl                          //     Insert parameter a priori value
-//       << "                <td> {{ default( parameter.a_posteriori, \"-\") }} </td>" << endl                      //     Insert parameter a posteriori value
-//       << "            </tr>" << endl
-//       << "            {% endfor %}"
-//       << "        </table>"
-//       << endl
-//       << "        <!-- Predictions -->" << endl                                                                  // ---------- PREDICTIONS ------------
-//       << "        <div class=\"avoid-break\">" << endl
-//       << "            <h5 class='underline'> {{ predictions.translation }}</h5>" << endl                         // Insert predictions translation
-//       << "            <table class='predictions bg-light-grey'>" << endl
-//       << "                <tr>" << endl
-//       << "                    <th>{{ predictions.extrapolated_steady_state_auc24_translation }}</th>" << endl    // Insert extrapolated steady state auc24 translation
-//       << "                    <td>{{ predictions.extrapolated_steady_state_auc24 }}</td>" << endl                // Insert extrapolated steady state auc24 value
-//       << "                </tr>" << endl
-//       << "                <tr>" << endl
-//       << "                    <th>{{ predictions.steady_state_peak_translation }}</th>" << endl                  // Insert steady state peak translation
-//       << "                    <td>{{ predictions.steady_state_peak }}</td>" << endl                              // Insert steady state peak value
-//       << "                </tr>" << endl
-//       << "                <tr>" << endl
-//       << "                    <th>{{ predictions.steady_state_trough_translation }}</th>" << endl                // Insert steady state trough translation
-//       << "                    <td>{{ predictions.steady_state_trough }}</td>" << endl                            // Insert steady state trough value
-//       << "                </tr>" << endl
-//       << "            </table>" << endl
-//       << "        </div>" << endl
-//       << endl
-//       << "        <!-- Computation covariates -->" << endl                                                       // ---------- COMPUTATION COVARIATES ------------
-//       << "        <h5 class='underline try-not-alone'> {{ computation_covariates.translation}}</h5>" << endl     // Insert Covariates used for computation translation
-//       << "        <table class='computation-covariates bg-light-grey'>" << endl
-//       << "            <tr>" << endl
-//       << "                <th></th>" << endl
-//       << "                <th> {{ computation_covariates.covariate_translation}} </th>" << endl                  // Insert covariate translation
-//       << "                <th> {{ computation_covariates.value_translation}} </th>" << endl                      // Insert value translation
-//       << "            </tr>" << endl
-//       << "            {% for covariate in computation_covariates.rows %}"                                        // For each covariate
-//       << "            <tr>" << endl
-//       << "                <td>" << endl
-//       << "                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
-//       << "                </td>" << endl
-//       << "                <td>{{ covariate.name }}</td>" << endl                                                 //     Insert covariate id
-//       << "                <td>{{ covariate.value }}</td>" << endl                                                //     Insert covariate value
-//       << "            </tr>" << endl
-//       << "            {% endfor %}"
-//       << "        </table>" << endl
-//       << endl
-//       << "        <!-- Copyright -->" << endl
-//       << "        <div class='copyright'>" << endl
-//       << "            <span>Copyright (c) HEIG-VD/CHUV - 2022 | Icons by <a href='https://www.flaticon.com/fr/auteurs/gajah-mada'> Gajah Mada - Flaticon</a> & <a href='https://www.flaticon.com/fr/auteurs/freepik'>Freepik - Flaticon</a></span>" << endl
-//       << "        </div>" << endl
-//       << endl
-//       << "        <!-- Ending clean / otherwise we see background on pdf printing -->" << endl
-//       << "        <div class='ending'/>" << endl
-//       << endl
-//       << "    </div>" << endl
-//       << "    <script>" << endl
-//       << endl                                                                                                    // ---------- DATA FOR GRAPHS ------------
-//       << "        var adustmentsData = [" << endl
-//       <<             "{% for adjustment in graph_data.adjustments %}"                                            // For each adjustment
-//       <<                "{% if not loop.is_first %}, {% endif %}"                                                //     If this is not the first adjustment
-//       << "              [" << endl                                                                               //     add a comma in front of the array
-//       <<                "{% for cycle in adjustment.cycles %}"                                                   //     For each cycle dats
-//       <<                   "{% if not loop.is_first %}, {% endif %}"                                             //         If this is not the first cycle data
-//       << "                  [" << endl                                                                           //         add a comma in front of the array
-//       << "                  '{{ cycle.start }}'," << endl                                                        //         Insert the cycle data start date
-//       << "                  [{{ cycle.times }}]," << endl                                                        //         Insert the cycle data time offsets
-//       << "                  [{{ cycle.values }}]," << endl                                                       //         Insert the cyycle data concentrations
-//       << "                  ]" << endl
-//       <<                "{% endfor %}"
-//       << "              ]" << endl
-//       <<              "{% endfor %}"
-//       << "        ];" << endl
-//       << "        var targets = [" << endl
-//       <<             "{% for target in graph_data.targets %}"                                                    // For each target
-//       <<                "{% if not loop.is_first %}, {% endif %}"                                                //    Add a comma if not first
-//       << "               [ '{{ target.type }}', {{ target.min }} , {{ target.best }}, {{ target.max }} ] " << endl //  Insert target type, min, best and max values
-//       <<             "{% endfor %}"
-//       << "        ];"
-//       << "        var obj = new GraphFullData();" << endl
-//       << "        addTargets(obj, targets);" << endl
-//       << "        displayGraphs(obj, adustmentsData, {{graph_data.adjustment_date}}, {{graph_data.end_date}});" << endl
-//       << "    </script>" << endl
+       << "        var targets = [" << endl
+       <<             "{% for target in graph_data.targets %}"
+       <<                "{% if not loop.is_first %}, {% endif %}"
+       << "               [ '{{ target.type }}', {{ target.min }} , {{ target.best }}, {{ target.max }} ] " << endl
+       <<             "{% endfor %}"
+       << "        ];"
+       << "        var obj = new GraphFullData();" << endl
+       << "        addTargets(obj, targets);" << endl
+       << "        displayGraphs(obj, adustmentsData, {{graph_data.adjustment_date}}, {{graph_data.end_date}});" << endl
+       << "    </script>" << endl
        << "</body>" << endl
        << "</html>" << endl;
 
@@ -1343,7 +1376,7 @@ void XpertRequestResultHtmlExport::getAdjustmentJson(const std::unique_ptr<Core:
     _adjustmentsJson["posology_translation"] = lm.translate("posology");
 
     // Get suggestion translation
-    _adjustmentsJson["suggestion_translation"] = lm.translate("suggestion");
+    _adjustmentsJson["adjustment_suggested_translation"] = lm.translate("adjustment_suggested");
 
     // Get suggestion phrase translation
     _adjustmentsJson["suggestion_phrase_translation"] = lm.translate("suggestion_phrase");

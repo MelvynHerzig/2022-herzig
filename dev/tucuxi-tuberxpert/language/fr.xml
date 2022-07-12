@@ -96,7 +96,7 @@
     <entry key="displayed_adjustments">Ajustements affichés</entry>
     <entry key="displayed_adjustment">Ajustement affiché</entry>
     <entry key="score">Score</entry>
-    <entry key="suggestion">Suggestion</entry>
+    <entry key="adjustment_suggested">Ajustement suggéré</entry>
     <entry key="suggestion_phrase">Compte tenu des informations ci-dessus, TuberXpert recommande l'ajustement suivant.</entry>
 
     <!-- Report Targets -->
