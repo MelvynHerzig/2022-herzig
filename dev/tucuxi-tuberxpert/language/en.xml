@@ -90,7 +90,7 @@
     <entry key="percentile">Percentile</entry>
 
     <!-- Report Adjustments -->
-    <entry key="adjustments">Adjustments</entry>
+    <entry key="adjustments">Adjustments found</entry>
     <entry key="intro_phrase">Based on the above information, the following adjustments are relevant to achieve the targets.</entry>
     <entry key="per_interval">Per interval</entry>
     <entry key="displayed_adjustments">Displayed adjustments</entry>

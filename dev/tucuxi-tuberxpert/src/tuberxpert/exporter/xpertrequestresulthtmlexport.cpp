@@ -373,8 +373,8 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
           //            Insert the warning
           //
           // Note: Here, the tricky part is to have a <div class='avoid-break-inside'> that wrap
-          //       the title and the first dosage time range table for nice page break. This div needs
-          //       to be closed when there is no dosage time range or at the end of the first dosage time range.
+          //       the title and the first sample table for nice page break. This div needs
+          //       to be closed when there is no sample or at the end of the first sample.
 
        << "        <!-- Samples -->" << endl
        << "        <div class='avoid-break-inside'>" << endl
@@ -413,18 +413,88 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        <<     "{% endfor %}"
        << "{% endif %}"
        << endl
-//       << "        <!-- Adjustments -->" << endl                                                                  // ---------- ADJUSTMENTS ------------
-//       << "        <div class=\"avoid-break\">" << endl
-//       << "           <h3 class='newpage'> {{ adjustments.translation }} </h3>" << endl                           // Insert "adjustments" translation and intro phrase
-//       << endl
-//       <<             "{% if length(adjustments.rows) > 1 %}"                                                     // If there is more than one adjustment
-//       << "           <h4>{{ adjustments.per_interval_translation }}</h4>" << endl                                // Insert "per interval" translation
-//       << "           <div> {{ adjustments.intro_phrase_translation }} </div>" << endl                            // Insert "intro" translation
-//       << "           <div class='canvasAdjustments'>" << endl
-//       << "               <canvas id='canAllAdj' width='716' height='474'></canvas>" << endl
-//       << "           </div>" << endl
-//       << "        </div>" << endl
-//       << endl
+
+          // Adjustments found part:
+          // If there is more than one adjustment
+          //    Insert the intro phrase
+          //    For each adjustment
+          //        Insert the score
+          //        For each dosage time range
+          //            Insert a table with the dosage time range information
+          //            If there is a type
+          //                Insert the dosage type (loop/steady state)
+          //            Insert a table for each single dose
+          //            For each single dose
+          //                Insert the posology
+          //                If there is a warning
+          //                    Insert it
+          //
+          // Note: Here, the tricky part is to have a <div class='avoid-break-inside'> that wraps the title
+          //       and the graph canvas to have them groupped. Additionnally we want such a div around
+          //       "displayed adjustments" and the first adjustment data (score + dosage time range tables)
+          //       to avoid "displayed adjustments" to be left alone before a page break. Finally,
+          //       we want a div around the score and the first dosage time range to avoid a lonely
+          //       score at the bottom of a page.
+
+       << "        <!-- Adjustments -->" << endl
+       << "{% if length(adjustments.rows) > 1 %}"
+       << "        <div class='avoid-break-inside'>" << endl
+       << "           <h3> {{ adjustments.translation }} </h3>" << endl
+       << "           <h4>{{ adjustments.per_interval_translation }}</h4>" << endl
+       << "           <div> {{ adjustments.intro_phrase_translation }} </div>" << endl
+       << "           <div class='canvasAdjustments'>" << endl
+       << "               <canvas id='canAllAdj' width='716' height='474'></canvas>" << endl
+       << "           </div>" << endl
+       << "        </div>" << endl
+       << endl
+       <<     "{% for adjustment in adjustments.rows %}"
+       <<         "{% if loop.is_first %}"
+       << "       <div class='avoid-break-inside'>" << endl
+       << "           <h4>{{ adjustments.displayed_adjustments_translation }}</h4>" << endl
+       <<         "{% endif %}"
+       <<         "{% for dosage_time_range in adjustment.dosage_time_ranges %}"
+       <<             "{% if loop.is_first %}"
+       << "           <div class='avoid-break-inside'>" << endl
+       << "               <div class='adjustment-score'><b>{{ adjustments.score_translation }}:</b> {{ adjustment.score }} / 1 </div>" << endl
+       <<             "{% endif %}"
+       << "               <table class='dosage-time-range bg-light-grey'>" << endl
+       << "                   <tr>" << endl
+       << "                       <td>" << endl
+       << "                           <b>{{ adjustments.from_translation }}:</b> {{ dosage_time_range.date_from }}" << endl
+       << "                       </td>" << endl
+       << "                       <td>" << endl
+       << "                           <b>{{ adjustments.to_translation }}:</b> {{ dosage_time_range.date_to }}" << endl
+       << "                       </td>" << endl
+       << "                   </tr>" << endl
+       << "                   <tr>" << endl
+       << "                       <td colspan='2'>" << endl
+       << "                           <table>" << endl
+       <<                 "{% for single_dose in dosage_time_range.single_doses %}"
+       << "                               <tr>" << endl
+       << "                                   <td>" << endl
+       << "                                       <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                                   </td>" << endl
+       << "                                   <td>" << endl
+       << "                                       <b>{{ adjustments.posology_translation }}:</b> {{ single_dose.posology }}" << endl
+       << "                                   </td>" << endl
+       << "                               </tr>" << endl
+       <<                 "{% endfor %}" << endl
+       << "                           </table>" << endl
+       << "                       </td>" << endl
+       << "                   </tr>" << endl
+       << "               </table>" << endl
+       <<             "{% if loop.is_first %}"
+       << "           </div>"
+       <<             "{% endif %}"
+       <<         "{% endfor %}"
+       <<         "{% if loop.is_first %}"
+       << "       </div>"
+       <<         "{% endif %}"
+       <<     "{% endfor %}"
+       << "{% endif %}"
+
+
+
 //       << "        <h5 class='try-not-alone'>{{ adjustments.displayed_adjustments_translation }}</h5>" << endl    // Insert "displayed adjustments" translation
 //       << "        {% for adjustment in adjustments.rows %}"                                                      // For each adjustment
 //       << "        <table class='adjustments bg-light-grey'>" << endl
@@ -461,6 +531,13 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
 //       << "        <br>" << endl
 //       << "        {% endfor %}"
 //       << "        {% endif %}"
+
+
+
+
+
+
+
 //       << endl
 //       << "        <div class=\"avoid-break\">" << endl
 //       << "            <h4 class='newpage'> {{ adjustments.suggestion_translation }} </h4>" << endl               // Insert Suggestion translation
