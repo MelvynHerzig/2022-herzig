@@ -25,7 +25,7 @@ void XpertRequestResultHtmlExport::exportToFile(XpertRequestResult& _xpertReques
     exportToFile(fileName, _xpertRequestResult);
 }
 
-void XpertRequestResultHtmlExport::exportToFile(const std::string& _fileName, XpertRequestResult& _xpertRequestResult)
+void XpertRequestResultHtmlExport::exportToFile(const string& _fileName, XpertRequestResult& _xpertRequestResult)
 {
     // Opening the file
     ofstream file;
@@ -1191,7 +1191,7 @@ void XpertRequestResultHtmlExport::getDosageJson(const Core::DosageRepeat& _dosa
 void XpertRequestResultHtmlExport::getDosageJson(const Core::DosageSequence& _dosage, inja::json& _dosageTimeRangeJson, const string& _posologyIndicationChain) const
 {
     // Just iterate over the dosages. It will create a "sub-row" in the dosage time range row.
-    for (const std::unique_ptr<Tucuxi::Core::DosageBounded>& dosage : _dosage.getDosageList()) {
+    for (const unique_ptr<Tucuxi::Core::DosageBounded>& dosage : _dosage.getDosageList()) {
         getAbstractDosageJson(*dosage, _dosageTimeRangeJson, _posologyIndicationChain);
     }
 }
@@ -1203,7 +1203,7 @@ void XpertRequestResultHtmlExport::getDosageJson(const Core::ParallelDosageSeque
     auto it = _dosage.getOffsetsList().begin();
 
     // For each dosage add the offset in the posology indication chain.
-    for (const std::unique_ptr<Tucuxi::Core::DosageBounded>& dosage : _dosage.getDosageList()) {
+    for (const unique_ptr<Tucuxi::Core::DosageBounded>& dosage : _dosage.getDosageList()) {
 
         stringstream offsetStream;
         offsetStream << lm.translate("offset") << " " << timeToString(TimeOfDay(*it));
@@ -1254,11 +1254,11 @@ void XpertRequestResultHtmlExport::getDosageJson(const Core::WeeklyDose& _dosage
     getSingleDoseJson(_dosage, _dosageTimeRangeJson, newPosologyIndicationChain);
 }
 
-void XpertRequestResultHtmlExport::getSingleDoseJson(const Core::SingleDose& _dosage, inja::json& _dosageTimeRangeJson, const std::string& _posologyIndicationChain) const
+void XpertRequestResultHtmlExport::getSingleDoseJson(const Core::SingleDose& _dosage, inja::json& _dosageTimeRangeJson, const string& _posologyIndicationChain) const
 {
     // Get the route
     LanguageManager& lm = LanguageManager::getInstance();
-    static std::map<Tucuxi::Core::AdministrationRoute, std::string> routes = {
+    static map<Tucuxi::Core::AdministrationRoute, string> routes = {
         {Tucuxi::Core::AdministrationRoute::Oral, "oral"},
         {Tucuxi::Core::AdministrationRoute::Nasal, "nasal"},
         {Tucuxi::Core::AdministrationRoute::Rectal, "rectal"},
@@ -1298,7 +1298,7 @@ void XpertRequestResultHtmlExport::getSingleDoseJson(const Core::SingleDose& _do
     _dosageTimeRangeJson["single_doses"].emplace_back(singleDose);
 }
 
-void XpertRequestResultHtmlExport::getSamplesJson(const std::map<const Core::Sample*, SampleValidationResult>& _sampleResults, inja::json& _samplesJson) const
+void XpertRequestResultHtmlExport::getSamplesJson(const vector<SampleValidationResult>& _sampleResults, inja::json& _samplesJson) const
 {
     LanguageManager& lm = LanguageManager::getInstance();
 
@@ -1318,33 +1318,33 @@ void XpertRequestResultHtmlExport::getSamplesJson(const std::map<const Core::Sam
     _samplesJson["percentile_translation"] = lm.translate("percentile");
 
     // For each sample validation result
-    for (const auto& sampleResultIt : _sampleResults) {
+    for (const auto& sampleValidationResult : _sampleResults) {
 
         inja::json sample;
 
         // Get the sample date
         stringstream dateStream;
-        sample["date"] = dateTimeToString(sampleResultIt.first->getDate());
+        sample["date"] = dateTimeToString(sampleValidationResult.getSource()->getDate());
 
         // Get the sample measure
         stringstream valueStream;
-        valueStream << sampleResultIt.first->getValue() << " " << sampleResultIt.first->getUnit().toString();
+        valueStream << sampleValidationResult.getSource()->getValue() << " " << sampleValidationResult.getSource()->getUnit().toString();
         sample["measure"] = valueStream.str();
 
         // Get the percentile
-        sample["percentile"] = to_string(sampleResultIt.second.getGroupNumberOver99Percentile());
+        sample["percentile"] = to_string(sampleValidationResult.getGroupNumberOver99Percentile());
 
         // Get the warning
-        getWarningJson(sampleResultIt.second, sample);
+        getWarningJson(sampleValidationResult, sample);
 
         // Get the warning level
-        sample["warning_level"] = varToString(sampleResultIt.second.getWarningLevel());
+        sample["warning_level"] = varToString(sampleValidationResult.getWarningLevel());
 
         _samplesJson["rows"].emplace_back(sample);
     }
 }
 
-void XpertRequestResultHtmlExport::getAdjustmentJson(const std::unique_ptr<Core::AdjustmentData>& _adjustmentData, inja::json& _adjustmentsJson) const
+void XpertRequestResultHtmlExport::getAdjustmentJson(const unique_ptr<Core::AdjustmentData>& _adjustmentData, inja::json& _adjustmentsJson) const
 {
     LanguageManager& lm = LanguageManager::getInstance();
 
@@ -1400,7 +1400,7 @@ void XpertRequestResultHtmlExport::getAdjustmentJson(const std::unique_ptr<Core:
     }
 }
 
-void XpertRequestResultHtmlExport::getTargetsJson(const std::unique_ptr<Core::AdjustmentData>& _adjustmentData, inja::json& _targetsJson) const
+void XpertRequestResultHtmlExport::getTargetsJson(const unique_ptr<Core::AdjustmentData>& _adjustmentData, inja::json& _targetsJson) const
 {
     LanguageManager& lm = LanguageManager::getInstance();
 
@@ -1412,7 +1412,7 @@ void XpertRequestResultHtmlExport::getTargetsJson(const std::unique_ptr<Core::Ad
         inja::json targetJson;
 
         // Get the target type translation
-        static std::map<Core::TargetType, std::string> types = {
+        static map<Core::TargetType, string> types = {
             {Core::TargetType::UnknownTarget, "unknown"},
             {Core::TargetType::Residual, "residual"},
             {Core::TargetType::Peak, "peak"},
@@ -1624,7 +1624,7 @@ void XpertRequestResultHtmlExport::getGraphDataJson(const XpertRequestResult& _x
     }
 
     // Create the js array of adjustments
-    const std::vector<Core::DosageAdjustment>& adjustments = _xpertRequestResult.getAdjustmentData()->getAdjustments();
+    const vector<Core::DosageAdjustment>& adjustments = _xpertRequestResult.getAdjustmentData()->getAdjustments();
 
     // For each adjustment
     for (size_t a = 0; a < adjustments.size(); ++a) {

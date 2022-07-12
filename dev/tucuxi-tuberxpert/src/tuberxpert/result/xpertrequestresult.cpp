@@ -53,7 +53,7 @@ const map<const Core::SingleDose*, DoseValidationResult>& XpertRequestResult::ge
     return m_doseResults;
 }
 
-const map<const Core::Sample*, SampleValidationResult>& XpertRequestResult::getSampleResults() const
+const vector<SampleValidationResult>& XpertRequestResult::getSampleResults() const
 {
     return m_sampleResults;
 }
@@ -129,9 +129,23 @@ void XpertRequestResult::setDoseResults(map<const Core::SingleDose*, DoseValidat
     m_doseResults = _newDoseResults;
 }
 
-void XpertRequestResult::setSampleResults(map<const Core::Sample*, SampleValidationResult>&& _newSampleResults)
+void XpertRequestResult::setSampleResults(vector<SampleValidationResult>&& _newSampleResults)
 {
     m_sampleResults = _newSampleResults;
+
+    // Sort the sample results by date and by analyteId.
+    sort(m_sampleResults.begin(), m_sampleResults.end(),
+         [](const SampleValidationResult& svr1, const SampleValidationResult& svr2) {
+
+
+        // Try by date
+        if (svr1.getSource()->getDate() != svr2.getSource()->getDate()) {
+            return svr1.getSource()->getDate() < svr2.getSource()->getDate();
+        // Else try by analyteID.
+        } else {
+            return svr1.getSource()->getAnalyteID() < svr2.getSource()->getAnalyteID();
+        }
+    });
 }
 
 void XpertRequestResult::setAdjustmentTrait(const Core::ComputingTraitAdjustment& _adjustmentTrait)

@@ -434,11 +434,11 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
         fructose_assert_exception(sv.findGroupPositionOver99Percentiles(&pData, sample), std::invalid_argument);
     }
 
-    /// \brief This method performs a real sample validation but since the position of the sample is kind of "unpredictable",
-    ///        it simply checks that the map of SampleResult has the same size than the number of samples in the treatment.
-    ///        It uses the real imatinib drug model.
+    /// \brief This method performs a real sample validation. The vector retrived by getSampleResults must
+    ///        be sorted by sample date. We only check the sample date. The other interesting values, such as:
+    ///        percentile, warning type, warning message are already tested by more deterministic tests.
     /// \param _testName Name of the test
-    void getTheExpectedAmountOfResults(const std::string& _testName)
+    void getSampleResultsSorted(const std::string& _testName)
     {
 
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -507,7 +507,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
                                                         </sample>
                                                         <sample>
                                                             <sampleId>123456</sampleId>
-                                                            <sampleDate>2018-07-07T07:00:00</sampleDate>
+                                                            <sampleDate>2018-07-08T07:00:00</sampleDate>
                                                             <concentrations>
                                                                 <concentration>
                                                                     <analyteId>imatinib</analyteId>
@@ -518,7 +518,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
                                                         </sample>
                                                         <sample>
                                                             <sampleId>123456</sampleId>
-                                                            <sampleDate>2018-07-07T13:00:00</sampleDate>
+                                                            <sampleDate>2018-07-06T13:00:00</sampleDate>
                                                             <concentrations>
                                                                 <concentration>
                                                                     <analyteId>imatinib</analyteId>
@@ -1261,7 +1261,15 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
         // Execution
         flowStepProvider.getSampleValidator()->perform(xrr);
 
-        fructose_assert_eq(xrr.getSampleResults().size(), xrr.getTreatment()->getSamples().size());
+        const std::vector<Tucuxi::Xpert::SampleValidationResult>& sampleResults = xrr.getSampleResults();
+
+        fructose_assert_eq(sampleResults.size(), xrr.getTreatment()->getSamples().size());
+
+        fructose_assert_eq(sampleResults[0].getSource()->getDate(), Tucuxi::Common::DateTime("2018-07-06T13:00:00", date_format))
+
+        fructose_assert_eq(sampleResults[1].getSource()->getDate(), Tucuxi::Common::DateTime("2018-07-07T06:00:30", date_format))
+
+        fructose_assert_eq(sampleResults[2].getSource()->getDate(), Tucuxi::Common::DateTime("2018-07-08T07:00:00", date_format))
     }
 };
 

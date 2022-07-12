@@ -72,7 +72,7 @@ public:
     /// \brief Gets the samples results.
     /// \return The vector containing each SampleResult for each sample found in the treatment.
     ///         This may be empty if there is no sample or if the samples validation failed.
-    const std::map<const Core::Sample*, SampleValidationResult>& getSampleResults() const;
+    const std::vector<SampleValidationResult>& getSampleResults() const;
 
     /// \brief Get a unique pointer on the adjustment trait used to make the computing request.
     ///        May be nullptr.
@@ -124,7 +124,7 @@ public:
 
     /// \brief Sets a new SampleRsult map.
     /// \param _newSampleResults SampleResult map to retrieve.
-    void setSampleResults(std::map<const Core::Sample*, SampleValidationResult>&& _newSampleResults);
+    void setSampleResults(std::vector<SampleValidationResult>&& _newSampleResults);
 
     /// \brief Set the adjustment trait to use in order to create a computing request for the core.
     /// \param _adjustmentTrait Computing adjustment trait to retrieve.
@@ -179,9 +179,8 @@ protected:
     std::map<const Core::SingleDose*, DoseValidationResult> m_doseResults;
 
     /// \brief Result for each sample made during SampleValidator phase.
-    ///        One entry per sample found. The map keys are the same pointers
-    ///        stored in each SampleResult.
-    std::map<const Core::Sample*, SampleValidationResult> m_sampleResults;
+    ///        One entry per sample found.
+    std::vector<SampleValidationResult> m_sampleResults;
 
     /// \brief Adjustment trait used to make the computing request.
     std::unique_ptr<Core::ComputingTraitAdjustment> m_adjustmentTrait;

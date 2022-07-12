@@ -100,7 +100,7 @@ protected:
     /// \brief Create and append the sample results to the root node.
     /// \param _sampleResults Sample results to export.
     /// \param _rootNode Root node where to append.
-    void exportSampleResults(const std::map<const Core::Sample*, SampleValidationResult>& _sampleResults, Common::XmlNode& _rootNode);
+    void exportSampleResults(const std::vector<SampleValidationResult>& _sampleResults, Common::XmlNode& _rootNode);
 
     /// \brief Create and append the adjustment data node to the root node.
     /// \param _adjustmentData Adjustment data to export.

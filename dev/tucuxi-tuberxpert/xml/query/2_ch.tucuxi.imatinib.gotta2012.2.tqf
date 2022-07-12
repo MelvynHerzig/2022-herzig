@@ -120,13 +120,14 @@
                 <treatment>
                     <dosageHistory>
                         <dosageTimeRange>
-                            <start>2018-07-04T08:00:00</start>
-                            <end>2023-07-06T07:00:00</end>
+                            <start>2018-07-06T08:00:00</start>
+                            <end>2023-07-08T08:00:00</end>
                             <dosage>
-                                <lastingDosage>
-                                        <interval>4:00:00</interval>
+                                <dosageLoop>
+                                    <lastingDosage>
+                                        <interval>12:00:00</interval>
                                         <dose>
-                                            <value>75</value>
+                                            <value>300</value>
                                             <unit>mg</unit>
                                             <infusionTimeInMinutes>60</infusionTimeInMinutes>
                                         </dose>
@@ -137,6 +138,7 @@
                                             <absorptionModel>extravascular</absorptionModel>
                                         </formulationAndRoute>
                                     </lastingDosage>
+                                </dosageLoop>
                             </dosage>
                         </dosageTimeRange>
                     </dosageHistory>
@@ -144,12 +146,34 @@
                 <!-- Samples history -->
                 <samples>
                     <sample>
+                        <sampleId>12</sampleId>
+                        <sampleDate>2018-07-09T06:00:30</sampleDate>
+                        <concentrations>
+                            <concentration>
+                                <analyteId>imatinib</analyteId>
+                                <value>2.5</value>
+                                <unit>mg/l</unit>
+                            </concentration>
+                        </concentrations>
+                    </sample>
+                    <sample>
                         <sampleId>10</sampleId>
                         <sampleDate>2018-07-07T06:00:30</sampleDate>
                         <concentrations>
                             <concentration>
                                 <analyteId>imatinib</analyteId>
                                 <value>0.7</value>
+                                <unit>mg/l</unit>
+                            </concentration>
+                        </concentrations>
+                    </sample>
+                    <sample>
+                        <sampleId>11</sampleId>
+                        <sampleDate>2018-07-08T06:00:30</sampleDate>
+                        <concentrations>
+                            <concentration>
+                                <analyteId>imatinib</analyteId>
+                                <value>5</value>
                                 <unit>mg/l</unit>
                             </concentration>
                         </concentrations>
@@ -178,7 +202,7 @@
             <drugId>imatinib</drugId>
             <output>
                 <format>pdf</format>
-                <language>en</language>
+                <language>fr</language>
             </output>
             <adjustmentDate>2018-07-11T08:00:00</adjustmentDate>
             <options>

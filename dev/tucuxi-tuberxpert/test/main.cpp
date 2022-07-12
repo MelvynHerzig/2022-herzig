@@ -265,7 +265,7 @@ int main(int argc, char** argv)
     testSampleValidator.add_test("Gets some group positions over 99 percentile.", &TestSampleValidator::findGroupPositionOver99Percentiles);
     testSampleValidator.add_test("Gets an exception when the sample unit cannot be converted.", &TestSampleValidator::getExceptionUnitConversion);
     testSampleValidator.add_test("Gets an exception when the sample date cannot be found.", &TestSampleValidator::getExceptionDateNotFound);
-    testSampleValidator.add_test("Gets the expected amount of samples results.", &TestSampleValidator::getTheExpectedAmountOfResults);
+    testSampleValidator.add_test("Gets and checks the content of the sample results is sorted.", &TestSampleValidator::getSampleResultsSorted);
 
     res = testSampleValidator.run(argc, argv);
     if (res != 0) {

@@ -45,7 +45,7 @@ void SampleValidator::perform(XpertRequestResult& _xpertRequestResult)
         return;
     }
 
-    map<const Core::Sample*, SampleValidationResult> sampleResults;
+    vector<SampleValidationResult> sampleResults;
 
     // Getting percentiles for each sample
     for(const unique_ptr<Core::Sample>& sample : _xpertRequestResult.getTreatment()->getSamples()) {
@@ -87,7 +87,7 @@ void SampleValidator::perform(XpertRequestResult& _xpertRequestResult)
             return;
         }
 
-        sampleResults.emplace(make_pair(sample.get(), SampleValidationResult(sample.get(), groupOver99Percentiles)));
+        sampleResults.emplace_back(SampleValidationResult(sample.get(), groupOver99Percentiles));
     }
 
     _xpertRequestResult.setSampleResults(move(sampleResults));
