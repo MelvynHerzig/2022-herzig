@@ -416,7 +416,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
 
           // Adjustments found part:
           // If there is more than one adjustment
-          //    Insert the intro phrase
+          //    Insert the title and the intro phrase above the canvas.
           //    For each adjustment
           //        Insert the score
           //        For each dosage time range
@@ -430,11 +430,10 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
           //                    Insert it
           //
           // Note: Here, the tricky part is to have a <div class='avoid-break-inside'> that wraps the title
-          //       and the graph canvas to have them groupped. Additionnally we want such a div around
-          //       "displayed adjustments" and the first adjustment data (score + dosage time range tables)
-          //       to avoid "displayed adjustments" to be left alone before a page break. Finally,
-          //       we want a div around the score and the first dosage time range to avoid a lonely
-          //       score at the bottom of a page.
+          //       and the graph canvas to have them groupped. Additionnally, we want such a div around
+          //       the score of each ajustment and the first dosage time range. However, we must include
+          //       "displayed adjustment" title in the first div we create. That is possible to achieve with
+          //       loop.is_first and loop.parent.is_first in loops.
 
        << "        <!-- Adjustments -->" << endl
        << "{% if length(adjustments.rows) > 1 %}"
@@ -448,13 +447,12 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        </div>" << endl
        << endl
        <<     "{% for adjustment in adjustments.rows %}"
-       <<         "{% if loop.is_first %}"
-       << "       <div class='avoid-break-inside'>" << endl
-       << "           <h4>{{ adjustments.displayed_adjustments_translation }}</h4>" << endl
-       <<         "{% endif %}"
        <<         "{% for dosage_time_range in adjustment.dosage_time_ranges %}"
        <<             "{% if loop.is_first %}"
        << "           <div class='avoid-break-inside'>" << endl
+       <<                 "{% if loop.parent.is_first %}"
+       << "               <h4>{{ adjustments.displayed_adjustments_translation }}</h4>" << endl
+       <<                 "{% endif %}"
        << "               <div class='adjustment-score'><b>{{ adjustments.score_translation }}:</b> {{ adjustment.score }} / 1 </div>" << endl
        <<             "{% endif %}"
        << "               <table class='dosage-time-range bg-light-grey'>" << endl
@@ -487,51 +485,72 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "           </div>"
        <<             "{% endif %}"
        <<         "{% endfor %}"
-       <<         "{% if loop.is_first %}"
-       << "       </div>"
-       <<         "{% endif %}"
        <<     "{% endfor %}"
        << "{% endif %}"
 
 
+          // Adjustments suggestion part:
+          // Insert the title, the phrase above the canvas
+          // For the best adjustment adjustment (the first)
+          //     Insert the score
+          //     For each dosage time range
+          //         Insert a table with the dosage time range information
+          //         If there is a type
+          //             Insert the dosage type (loop/steady state)
+          //         Insert a table for each single dose
+          //         For each single dose
+          //             Insert the posology
+          //             If there is a warning
+          //                 Insert it
+          //
+          // Note: Here, the page breaking system is quiet simple. We just add a <div class='avoid-break-inside'>
+          //       around the "displayed adjustment" title, the score and the first dosage time range. This way,
+          //       we avoid the title and the score to be alone in the bottom of a page.
 
-//       << "        <h5 class='try-not-alone'>{{ adjustments.displayed_adjustments_translation }}</h5>" << endl    // Insert "displayed adjustments" translation
-//       << "        {% for adjustment in adjustments.rows %}"                                                      // For each adjustment
-//       << "        <table class='adjustments bg-light-grey'>" << endl
-//       << "            <tr>" << endl                                                                              //     Insert the score translation and score value
-//       << "                <td colspan='2'><b>{{ adjustments.score_translation }}:</b> {{ adjustment.score }} / 1 </td>" << endl
-//       << "            </tr>" << endl
-//       << "            {% for dosage_time_range in adjustment.dosage_time_ranges %}"                              //     For each time range
-//       << "            <tr>" << endl
-//       << "                <td>" << endl                                                                          //         Insert time range from date
-//       << "                    <b>{{ adjustments.from_translation }}:</b> {{ dosage_time_range.date_from }}" << endl
-//       << "                </td>" << endl                                                                         //         and from translation
-//       << "                <td>" << endl
-//       << "                    <b>{{ adjustments.to_translation }}:</b> {{ dosage_time_range.date_to }}" << endl  //         Insert time range to date
-//       << "                </td>" << endl                                                                         //         and to translation
-//       << "            </tr>" << endl
-//       << "            <tr>" << endl
-//       << "                <td colspan='2'>" << endl
-//       << "                    <table>" << endl
-//       << "                        {% for single_dose in dosage_time_range.single_doses %}"                       //             For each single dose
-//       << "                        <tr>" << endl
-//       << "                            <td>" << endl
-//       << "                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
-//       << "                            </td>" << endl
-//       << "                            <td>" << endl                                                              //                 Insert the posology
-//       << "                                <b>{{ adjustments.posology_translation }}:</b> {{ single_dose.posology }}" << endl
-//       << "                            </td>" << endl
-//       << "                        </tr>" << endl
-//       << "                        {% endfor %}" << endl
-//       << "                    </table>" << endl
-//       << "                </td>" << endl
-//       << "            </tr>" << endl
-//       << "            {% endfor %}"
-//       << "        </table>" << endl
-//       << "        <br>" << endl
-//       << "        {% endfor %}"
-//       << "        {% endif %}"
-
+       << "        <div class='avoid-break-inside'>" << endl
+       << "           <h3> {{ adjustments.suggestion_translation }} </h3>" << endl
+       << "           <div> {{ adjustments.suggestion_phrase_translation }} </div></h4>" << endl
+       << "           <div class='canvasAdjustments'>" << endl
+       << "               <canvas id='canBestAdj' width='716' height='474'></canvas>" << endl
+       << "           </div>" << endl
+       << "        </div>" << endl
+       << endl
+       << "{% for dosage_time_range in adjustments.rows.0.dosage_time_ranges %}"
+       <<     "{% if loop.is_first %}"
+       << "       <div class='avoid-break-inside'>" << endl
+       << "           <h4>{{ adjustments.displayed_adjustments_translation }}</h4>" << endl
+       << "           <div class='adjustment-score'><b>{{ adjustments.score_translation }}:</b> {{ adjustments.rows.0.score }} / 1 </div>" << endl
+       <<     "{% endif %}"
+       << "           <table class='dosage-time-range bg-light-grey'>" << endl
+       << "               <tr>" << endl
+       << "                   <td>" << endl
+       << "                       <b>{{ adjustments.from_translation }}:</b> {{ dosage_time_range.date_from }}" << endl
+       << "                   </td>" << endl
+       << "                   <td>" << endl
+       << "                       <b>{{ adjustments.to_translation }}:</b> {{ dosage_time_range.date_to }}" << endl
+       << "                   </td>" << endl
+       << "               </tr>" << endl
+       << "               <tr>" << endl
+       << "                   <td colspan='2'>" << endl
+       << "                       <table>" << endl
+       <<     "{% for single_dose in dosage_time_range.single_doses %}"
+       << "                           <tr>" << endl
+       << "                               <td>" << endl
+       << "                                   <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>" << endl
+       << "                               </td>" << endl
+       << "                               <td>" << endl
+       << "                                   <b>{{ adjustments.posology_translation }}:</b> {{ single_dose.posology }}" << endl
+       << "                               </td>" << endl
+       << "                           </tr>" << endl
+       <<     "{% endfor %}" << endl
+       << "                       </table>" << endl
+       << "                   </td>" << endl
+       << "               </tr>" << endl
+       << "           </table>" << endl
+       <<     "{% if loop.is_first %}"
+       << "       </div>"
+       <<     "{% endif %}"
+       << "{% endfor %}"
 
 
 
