@@ -73,6 +73,7 @@ void SampleValidator::perform(XpertRequestResult& _xpertRequestResult)
         // If computation failed, abort xpert request handling.
         if (percentilesResult == nullptr) {
             _xpertRequestResult.setErrorMessage("Percentiles computation failed.");
+            return;
         }
 
         unsigned groupOver99Percentiles = 0;

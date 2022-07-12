@@ -120,14 +120,13 @@
                 <treatment>
                     <dosageHistory>
                         <dosageTimeRange>
-                            <start>2018-07-06T08:00:00</start>
-                            <end>2023-07-08T08:00:00</end>
+                            <start>2018-07-04T08:00:00</start>
+                            <end>2023-07-06T07:00:00</end>
                             <dosage>
-                                <dosageLoop>
-                                    <lastingDosage>
-                                        <interval>12:00:00</interval>
+                                <lastingDosage>
+                                        <interval>4:00:00</interval>
                                         <dose>
-                                            <value>300</value>
+                                            <value>75</value>
                                             <unit>mg</unit>
                                             <infusionTimeInMinutes>60</infusionTimeInMinutes>
                                         </dose>
@@ -138,7 +137,6 @@
                                             <absorptionModel>extravascular</absorptionModel>
                                         </formulationAndRoute>
                                     </lastingDosage>
-                                </dosageLoop>
                             </dosage>
                         </dosageTimeRange>
                     </dosageHistory>
