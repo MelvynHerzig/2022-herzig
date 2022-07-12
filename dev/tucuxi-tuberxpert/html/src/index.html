@@ -29,7 +29,7 @@
                     <b>TuberXpert report</b>
                 </td>
                 <td>
-                    <b>Computed on:&nbsp;</b> 08.04.2022
+                    <b>Computed on:&nbsp;</b> 8.4.2022
                 </td>
             </tr>
         </table>
@@ -142,21 +142,27 @@
         </table>
 
         <!-- Covariates -->
-        <h3 class='try-not-alone'>Covariates</h3>
-        <table class='covariates bg-light-grey'>
-            <tr>
-                <td><b>Fat-Free Mass</b></td>
-                <td><b>Value:</b> 70 kg (default)</td>
-                <td><b>Date:</b> 2018-07-06 08:00:00</td>
-            </tr>
-            <tr>
-                <td colspan='3'> The fat-free mass of the patient.</td>
-            </tr>
-            <tr></tr>
+        <!-- With this div around the title and the first element, we avoid lonely title before page break. -->
+        <div class='avoid-break-inside'>
+            <h3>Covariates</h3>
+            <table class='covariate bg-light-grey'>
+                <tr>
+                    <td><b>Fat-Free Mass</b></td>
+                    <td><b>Value:</b> 70 kg (default)</td>
+                    <td><b>Date:</b> 6.7.2018 8h</td>
+                </tr>
+                <tr>
+                    <td colspan='3'> The fat-free mass of the patient.</td>
+                </tr>
+                <tr></tr>
+            </table> 
+        </div>
+
+        <table class='covariate bg-light-grey'>
             <tr>
                 <td><b>Fat-Free Mass</b></td>
                 <td><b>Value:</b> -10 kg (patient)</td>
-                <td><b>Date:</b> 2018-07-06 08:00:00</td>
+                <td><b>Date:</b>6.7.2018 8h</td>
             </tr>
             <tr>
                 <td colspan='3'> The fat-free mass of the patient.</td>
@@ -179,33 +185,39 @@
 
 
         <!-- Treatment -->
-        <h3 class='try-not-alone'>Treatment</h3>
-        <table class='treatment bg-light-grey'>
+        <!-- With this div around the title and the first element, we avoid lonely title before page break. -->
+        <div class='avoid-break-inside'>
+            <h3>Treatment</h3>
+            <table class='dosage-time-range bg-light-grey'>
+                <tr>
+                    <td><b>From:&nbsp;</b>6.7.2018 8h</td>
+                    <td><b>To:&nbsp;</b>8.7.2018 8h</td>
+                </tr>
+                <tr>
+                    <td colspan='2'><b>Type:&nbsp;</b>continually/ at steady state with last dose on: YYYY-MM-DD HH:MM:SS</td>
+                </tr>       
+                <tr>
+                    <td colspan='2'>
+                        <table>
+                            <tr>
+                                <td>
+                                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
+                                </td>
+                                <td>
+                                    <b>Posology:</b> 100 mg daily at 10h
+                                </td>
+                            </tr>
+                            <tr></tr>
+                        </table>    
+                    </td>
+                </tr>
+            </table>    
+        </div>
+        
+        <table class='dosage-time-range bg-light-grey'>
             <tr>
-                <td><b>From:&nbsp;</b>2018-07-06 08:00:00</td>
-                <td><b>To:&nbsp;</b>2018-07-08 08:00:00</td>
-            </tr>
-            <tr>
-                <td colspan='2'><b>Type:&nbsp;</b>continually/ at steady state with last dose on: YYYY-MM-DD HH:MM:SS</td>
-            </tr>       
-            <tr>
-                <td colspan='2'>
-                    <table>
-                        <tr>
-                            <td>
-                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
-                            </td>
-                            <td>
-                                <b>Posology:</b> 100 mg daily at 10:00:00
-                            </td>
-                        </tr>
-                        <tr></tr>
-                    </table>    
-                </td>
-            </tr>
-            <tr>
-                <td><b>From:&nbsp;</b>2018-07-08 08:00:00</td>
-                <td><b>To:&nbsp;</b>2018-07-18 08:00:00</td>
+                <td><b>From:&nbsp;</b>8.7.2018 8h</td>
+                <td><b>To:&nbsp;</b>18.7.2018 8h</td>
             </tr>    
             <tr></tr>
             <tr>
@@ -232,7 +244,7 @@
                                 <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
                             </td>
                             <td>
-                                <b>Posology:</b> 1200 every 12:00:00
+                                <b>Posology:</b> 1200 every 12h
                             </td>
                         </tr>
                         <tr></tr>
@@ -243,16 +255,22 @@
 
 
         <!-- Samples -->
-        <h3 class='try-not-alone'>Samples</h3>
-        <table class='samples bg-light-grey'>
+        <!-- With this div around the title and the first element, we avoid lonely title before page break. -->
+        <div class='avoid-break-inside'>
+            <h3>Samples</h3>
+            <table class='sample bg-light-grey'>
+                <tr>
+                    <td><b>Date:&nbsp;</b>6.7.2018 8h</td>
+                    <td><b>Measure:&nbsp;</b>7 mg/l</td>
+                    <td><b>Percentile:&nbsp;</b>50</td>
+                </tr>
+                <tr></tr>
+            </table>
+        </div>
+
+        <table class='sample bg-light-grey'>
             <tr>
-                <td><b>Date:&nbsp;</b>2018-07-06 08:00:00</td>
-                <td><b>Measure:&nbsp;</b>7 mg/l</td>
-                <td><b>Percentile:&nbsp;</b>50</td>
-            </tr>
-            <tr></tr>
-            <tr>
-                <td><b>Date:&nbsp;</b>2018-07-07 08:00:00</td>
+                <td><b>Date:&nbsp;</b>7.7.2018 8h</td>
                 <td><b>Measure:&nbsp;</b>700 mg/l</td>
                 <td><b>Percentile:&nbsp;</b>100</td>
             </tr>
@@ -270,8 +288,11 @@
                     </table>
                 </td>
             </tr>
+        </table>
+
+        <table class='sample bg-light-grey'>   
             <tr>
-                <td><b>Date:&nbsp;</b>2018-07-08 08:00:00</td>
+                <td><b>Date:&nbsp;</b>8.7.2018 8h</td>
                 <td><b>Measure:&nbsp;</b>2 mg/l</td>
                 <td><b>Percentile:&nbsp;</b>8</td>
             </tr>
@@ -293,8 +314,9 @@
   
 
         <!-- Adjustments -->
-        <div class="avoid-break">
-            <h3>Adjustments</h3>
+        <!-- We want the title grouped with the graph. -->
+        <div class="avoid-break-inside">
+            <h3>Adjustments found</h3>
             <div>Based on the above information, the following adjustments are relevant to achieve the targets.</div>
 
             <h4>Per interval</h4>
@@ -304,39 +326,45 @@
             </div>
         </div>  
 
-        <h5 class='try-not-alone'>Displayed adjustments</h5>
-        <table class='adjustments bg-light-grey'>
-            <tr>
-                <td colspan='2'><b>Score:</b> 0.95 / 1 </td>
-            </tr>
+        <!-- With this div around the title and the first element, we avoid lonely title before page break. -->
+        <!-- We want the header to be grouped with the first time range. -->
+        <div class="avoid-break-inside">
+            <h4>Displayed adjustments</h4>
+            <div class='adjustment-score'><b>Score:</b> 0.95 / 1</div>
+            <table class='dosage-time-range bg-light-grey'>
+                <tr>
+                    <td>
+                        <b>From:</b> 1.5.2022 16h25
+                    </td>
+                    <td>
+                        <b>To:</b> 6.5.2022 16h25
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2'>
+                        <table>
+                            <tr>
+                                <td>
+                                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
+                                </td>
+                                <td>
+                                    <b>Posology:</b> 800 mg (oral), 1 time(s)
+                                </td>
+                            </tr>
+                        </table>    
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <table class='dosage-time-range bg-light-grey'>   
             <tr>
                 <td>
-                    <b>From:</b> 01.05.2022 16:25
+                    <b>From:</b> 1.5.2022 16h25
                 </td>
                 <td>
-                    <b>To:</b> 06.05.2022 16:25
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    <table>
-                        <tr>
-                            <td>
-                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
-                            </td>
-                            <td>
-                                <b>Posology:</b> 800 mg (oral), 1 time(s)
-                            </td>
-                        </tr>
-                    </table>    
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>From:</b> 01.05.2022 16:25
-                </td>
-                <td>
-                    <b>To:</b> 06.05.2022 16:25
+                    <b>To:</b> 6.5.2022 16h25
                 </td>
             </tr>
             <tr>
@@ -354,39 +382,39 @@
                 </td>
             </tr>        
         </table>
-        <br>
 
-        <table class='adjustments bg-light-grey'>
-            <tr>
-                <td colspan='2'><b>Score:</b> 0.87 / 1 </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>From:</b> 01.05.2022 16:25
-                </td>
-                <td>
-                    <b>To:</b> 06.05.2022 16:25
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    <table>
-                        <tr>
-                            <td>
-                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
-                            </td>
-                            <td>
-                                <b>Posology:</b> 200 mg (oral) every 12:00:00, 14 times
-                            </td>
-                        </tr>
-                    </table>    
-                </td>
-            </tr>
-        </table>
-        <br>
+         <!-- With this div around the score and the first time range, we avoid lonely title before page break. -->
+        <div class="avoid-break-inside">
+            <div class='adjustment-score'><b>Score:</b> 0.87 / 1</div>
+            <table class='dosage-time-range bg-light-grey'>
+                <tr>
+                    <td>
+                        <b>From:</b> 1.5.2022 16h25
+                    </td>
+                    <td>
+                        <b>To:</b> 6.5.2022 16h25
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2'>
+                        <table>
+                            <tr>
+                                <td>
+                                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
+                                </td>
+                                <td>
+                                    <b>Posology:</b> 200 mg (oral) every 12h, 14 times
+                                </td>
+                            </tr>
+                        </table>    
+                    </td>
+                </tr>
+            </table>
+        </div>
 
-        <div class="avoid-break">
-            <h4>Suggestion</h4>
+        <!-- We want the title grouped with the graph. -->
+        <div class="avoid-break-inside">
+            <h3>Adjustment suggested</h3>
             <div>Considering the above information, TuberXpert recommends the following adjustment.</div>
 
             <div class='canvasAdjustments'>
@@ -395,86 +423,115 @@
             </div>
         </div>
 
-        <h5 class='try-not-alone'>Displayed adjustments</h5>
-        <table class='adjustments bg-light-grey'>
-            <tr>
-                <td colspan="2"><b>Score:</b> 0.95 / 1 </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>From:</b> 01.05.2022 16:25
-                </td>
-                <td>
-                    <b>To:</b> 06.05.2022 16:25
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    <table>
-                        <tr>
-                            <td>
-                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
-                            </td>
-                            <td>
-                                <b>Posology:</b> 800 mg (oral), 1 time(s)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
-                            </td>
-                            <td>
-                                <b>Posology:</b> 600 mg (oral) every 24:00:00, 7 times
-                            </td>
-                        </tr>
-                    </table>    
-                </td>
-            </tr>
-        </table>
- 
-        <div>With this new treatment, the targets are expected to change as follows</div>
-        <br>
-
-        <table class='targets bg-light-grey'>
-            <tr>
-                <th></th>
-                <th>Type</th>
-                <th>Value (unit)</th>
-                <th>Score</th>
-            </tr>
+        <!-- With this div around the title and the first time range, we avoid lonely title before page break. -->
+        <!-- We want the header to be grouped with the first time range. -->
+        <div class='avoid-break-inside'>
+            <h4>Displayed adjustment</h4>
+            <div class='adjustment-score'><b>Score:</b> 0.87 / 1</div>
+            <table class='dosage-time-range bg-light-grey'>
                 <tr>
                     <td>
-                        <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
+                        <b>From:</b> 1.5.2022 16h25
                     </td>
-                    <td>Aire sous la courbe pour 24 heures divisé par la concentration minimale inhibitrice</td>
-                    <td>1103.12 (ug/l)</td>
-                    <td>0.95 / 1</td>
+                    <td>
+                        <b>To:</b> 6.5.2022 16h25
+                    </td>
                 </tr>
                 <tr>
-                    <td colspan='4'><div>Inefficacy: 0 / <b> Min:750 / Best: 1000 / </b> Max: 1500 / Toxicity: 10000</div></td>
+                    <td colspan='2'>
+                        <table>
+                            <tr>
+                                <td>
+                                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
+                                </td>
+                                <td>
+                                    <b>Posology:</b> 800 mg (oral), 1 time(s)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
+                                </td>
+                                <td>
+                                    <b>Posology:</b> 600 mg (oral) every 24h, 7 times
+                                </td>
+                            </tr>
+                        </table>    
+                    </td>
                 </tr>
-            </div>
-        </table>
+            </table>
+        </div>
 
-        <!-- Pharmacokinetic parameters -->
-        <h5 class='underline try-not-alone'>Pharmacokinetic parameters</h5>
-        <table class='pks bg-light-grey'>
-            <tr>
-                <th></th>
-                <th></th>
-                <th>Typical patient</th>
-                <th>A priori</th>
-                <th>A posteriori</th>
-            </tr>
+        <!-- With this div around the title and the target, we avoid lonely title before page break. -->
+        <div class='avoid-break-inside'>
+            <div>With this new treatment, the targets are expected to change as follows</div>
+            <br>
+
+            <table class='targets-header'>
+                <tr>
+                    <th></th>
+                    <th>Type</th>
+                    <th>Value (unit)</th>
+                    <th>Score</th>
+                </tr>
+            </table>    
+            <table class='target bg-light-grey'>  
+                    <tr>
+                        <td>
+                            <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
+                        </td>
+                        <td>Aire sous la courbe pour 24 heures divisé par la concentration minimale inhibitrice</td>
+                        <td>1103.12 (ug/l)</td>
+                        <td>0.95 / 1</td>
+                    </tr>
+                    <tr>
+                        <td colspan='4'><div>Inefficacy: 0 / <b> Min:750 / Best: 1000 / </b> Max: 1500 / Toxicity: 10000</div></td>
+                    </tr>
+                </div>
+            </table>
+        </div>
+
+        <table class='target bg-light-grey'>  
             <tr>
                 <td>
                     <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
                 </td>
-                <td>CL</td>
-                <td>15.106</td>
-                <td>15.202</td>
-                <td>15.202</td>
+                <td>Aire sous la courbe pour 24 heures divisé par la concentration minimale inhibitrice</td>
+                <td>1103.12 (ug/l)</td>
+                <td>0.95 / 1</td>
             </tr>
+            <tr>
+                <td colspan='4'><div>Inefficacy: 0 / <b> Min:750 / Best: 1000 / </b> Max: 1500 / Toxicity: 10000</div></td>
+            </tr>
+        </table>
+
+        <!-- Pharmacokinetic parameters -->
+        <!-- With this div around the title and the first pk, we avoid lonely title before page break. -->
+        <div class='avoid-break-inside'>
+            <h4>Pharmacokinetic parameters</h4>
+            <table class='pk-header'>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>Typical patient</th>
+                    <th>A priori</th>
+                    <th>A posteriori</th>
+                </tr>
+            </table>
+            <table class='pk bg-light-grey'> 
+                <tr>
+                    <td>
+                        <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
+                    </td>
+                    <td>CL</td>
+                    <td>15.106</td>
+                    <td>15.202</td>
+                    <td>15.202</td>
+                </tr>
+            </table>       
+        </div>    
+
+        <table class='pk bg-light-grey'>    
             <tr>
                 <td>
                     <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
@@ -487,8 +544,9 @@
         </table>
 
         <!-- Predictions -->
-        <div class="avoid-break"> 
-            <h5 class='underline'>Predictions</h5>
+        <!-- Simply don't break inside the table since it has a fixed size and it is small.-->
+        <div class="avoid-break-inside"> 
+            <h4>Predictions</h4>
             <table class='predictions bg-light-grey'>
                 <tr>
                     <th>Extrapolated steady state AUC24</th>
@@ -506,20 +564,27 @@
         </div>
 
         <!-- Computation covariates -->
-        <h5 class='underline try-not-alone'>Covariates used for computation</h5>
-        <table class='computation-covariates bg-light-grey'>
-            <tr>
-                <th></th>
-                <th>Covariate ID</th>
-                <th>Value</th>
-            </tr>
-            <tr>
-                <td>
-                    <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
-                </td>
-                <td>bodyweight</td>
-                <td>50</td>
-            </tr>
+        <!-- Dont break between the title, the header and the first element.-->
+        <div class="avoid-break-inside"> 
+            <h4>Covariates used for computation</h4>
+            <table class='computation-covariate-header'>
+                <tr>
+                    <th></th>
+                    <th>Covariate</th>
+                    <th>Value</th>
+                </tr>
+            </table>    
+            <table class='computation-covariate bg-light-grey'>    
+                <tr>
+                    <td>
+                        <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
+                    </td>
+                    <td>bodyweight</td>
+                    <td>50</td>
+                </tr>
+            </table>
+        </div>   
+        <table class='computation-covariate bg-light-grey'>    
             <tr>
                 <td>
                     <img alt='Dot icon image from asset/img/dot.png' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAACsSQRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAANsAAADbAfBQ5pwAAACnSURBVDhPY6AlMADi2UB8Hoi/Q2kQ3wKICQIWIC4BYpDG/1jwbyBuAGKQOpwAZAA2zegYZBBWAPICLhegY5CLQOrBgAlKg0A2EHNAmAQByDvJECaqISZQmliANZCJ9QoMfwZiMEB2yQ0oTSy4A6VRDDkDpYkFWNWD/AgKdWxOR8cgdTgTHij+sWlCx91AjBOAog5kEC4XgcRBBuBNsTBAUd4hAzAwAAAOk1RgOtjufQAAAABJRU5ErkJggg=='>
@@ -534,7 +599,7 @@
             <span>Copyright (c) HEIG-VD/CHUV - 2022 | Icons by <a href='https://www.flaticon.com/fr/auteurs/gajah-mada'> Gajah Mada - Flaticon</a> & <a href='https://www.flaticon.com/fr/auteurs/freepik'>Freepik - Flaticon</a></span>
         </div>
         
-        <!-- Ending clean / otherwise we see background on pdf printing -->
+        <!-- We need this empty div otherwise we see background when pdf printing -->
         <div class='ending'/>
     </div>
     <script>

@@ -12,20 +12,8 @@
   background-color: white;
 }
 
-.avoid-break, .page-A4 > table > tbody > tr, .try-not-alone {
+.avoid-break-inside, tr, table {
   page-break-inside: avoid;
-}
-
-/* The page break avter avoir is not really functionnal,
-   so this is a small css trick to avoir break 150px after
-   titles. With that, wh should avoid lonely title in the bottom
-   of the pages
-*/   
-.try-not-alone::after {
-  content: "";
-  display: block;
-  height: 150px;
-  margin-bottom: -150px;
 }
 
 /**
@@ -34,10 +22,6 @@
   =======================================================
 */
 
-h1, h2, h3, h4, h5 {
-  margin: 0px;
-  
-}
 
 h3 {
   text-decoration: underline;
@@ -49,15 +33,6 @@ h4 {
   text-decoration: underline;
   margin-bottom: 1rem;
   margin-top: 1rem;
-}
-
-h5 {
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-}
-
-.underline {
-  text-decoration: underline;
 }
 
 .page-A4 > div {
@@ -136,7 +111,6 @@ table img[alt='Dot icon image from asset/img/dot.png'] {
 }
 
 .header tr td:nth-child(2) {
-  vertical-align: bottom;
   text-align: center;
   text-decoration: underline;
 }
@@ -246,34 +220,41 @@ hr {
   =======================================================
 */
 
-.covariates td {
+.covariate td {
   text-align: left;
 }
 
-.covariates > tbody > tr > td:nth-child(1), .covariates > tbody > tr > td:nth-child(2), .covariates > tbody > tr > td:nth-child(3)  {
+.covariate > tbody > tr > td:nth-child(1), .covariate > tbody > tr > td:nth-child(2), .covariate > tbody > tr > td:nth-child(3)  {
   width: 33%;
 }
 
-.covariates > tbody > tr:nth-of-type(3n + 4) {
+div[class='avoid-break-inside'] + .covariate,
+.covariate + .covariate {
   border-top: 4px solid white;
 }
 
 /**
   =======================================================
-  TuberXpert treatment
+  TuberXpert treatment & adjustment
   =======================================================
 */
 
-.treatment > tbody > tr:nth-of-type(3n + 4) {
-  border-top: 4px solid white;
-}
-
-.treatment img[src='asset/img/dot.png'] {
+.dosage-time-range img[src='asset/img/dot.png'] {
   margin-top: 3px;
 }
 
-.treatment table tr td:nth-child(1) {
+.dosage-time-range table tr td:nth-child(1) {
   text-align: center;
+}
+
+div[class='avoid-break-inside'] + .dosage-time-range, 
+.dosage-time-range + .dosage-time-range {
+  border-top: 4px solid white;
+}
+
+.adjustment-score {
+  margin-left: 3px;
+  padding-bottom: 3px;
 }
 
 /**
@@ -282,30 +263,8 @@ hr {
   =======================================================
 */
 
-.samples > tbody > tr:nth-of-type(2n + 3) {
+div[class='avoid-break-inside'] + .sample, .sample + .sample {
   border-top: 4px solid white;
-}
-
-/**
-  =======================================================
-  TuberXpert Adjustments
-  =======================================================
-*/
-
-.adjustments > tbody > tr:nth-of-type(2n + 4) {
-  border-top: 4px solid white;
-}
-
-.adjustments > tbody > tr:nth-child(1) {
-  background-color: white;
-}
-
-.adjustments table td:nth-child(1) {
-  width: 5%;
-}
-
-.adjustments table  td:nth-child(2)  {
-  width: 95%;
 }
 
 /**
@@ -314,46 +273,33 @@ hr {
   =======================================================
 */
 
-.targets > tbody > tr:nth-of-type(2n + 4) {
-  border-top: 4px solid white;
-}
-
-.targets > tbody > tr:nth-child(1) {
-  background-color: white;
-}
-
-.targets td,  .targets th{
+.targets-header th, .target td {
   vertical-align: middle;
   text-align: left;
 }
 
-.targets tr > td:nth-child(1) {
-  vertical-align: top;
-  text-align: center;
-}
-
-.targets th:nth-child(1) {
+.targets-header th:nth-child(1), .target td:nth-child(1) {
   width: 5%;
 }
 
-.targets th:nth-child(2)  {
+.target td:nth-child(1) {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.targets-header th:nth-child(2), .target td:nth-child(2)  {
   width: 60%;
 }
 
-.targets th:nth-child(3)  {
+.targets-header th:nth-child(3), .target td:nth-child(3)  {
   width: 20%;
 }
 
-.targets th:nth-child(4)  {
+.targets-header th:nth-child(4), .target td:nth-child(4)  {
   width: 15%;
 }
 
-.targets tr[class='target-values'] {
-  margin-right: 1cm;
-  padding-right: 1cm;
-}
-
-.targets div {
+.target div {
   text-align: left;
   background-color: silver;
   margin-left: 1cm;
@@ -362,51 +308,50 @@ hr {
   padding-right: 3px;
 }
 
+div[class='avoid-break-inside'] + .target, .target + .target {
+  border-top: 4px solid white;
+}
+
 /**
   =======================================================
   Pharmacokinetic parameters
   =======================================================
 */
 
-.pks > tbody > tr:nth-of-type(1n + 3) {
-  border-top: 4px solid white;
-}
-
-.pks > tbody > tr:nth-child(1) {
-  background-color: white;
-}
-
-.pks tr > td:nth-child(1) {
+.pk td:nth-child(1) {
   text-align: center;
 }
 
-.pks tr > td:nth-child(1) > img {
-  padding-top: 2px;
-}
 
-.pks th:nth-child(1) {
+.pk-header th:nth-child(1), .pk td:nth-child(1) {
   width: 5%;
 }
 
-.pks th:nth-child(2)  {
+.pk-header th:nth-child(2), .pk td:nth-child(2)  {
   width: 20%;
 }
 
-.pks th:nth-child(3), .pks th:nth-child(4), .pks th:nth-child(5)  {
+.pk-header th:nth-child(3), .pk td:nth-child(3),
+.pk-header th:nth-child(4), .pk td:nth-child(4),
+.pk-header th:nth-child(5), .pk td:nth-child(5)  {
   width: 25%;
 }
 
-.pks th {
+.pk-header th {
   text-align: left;
 }
 
-.pks td {
+.pk td, .pk-header th {
   vertical-align: middle;
+}
+
+div[class='avoid-break-inside'] + .pk, .pk + .pk {
+  border-top: 4px solid white;
 }
 
 /**
   =======================================================
-  Pharmacokinetic parameters
+  Predictions
   =======================================================
 */
 
@@ -426,42 +371,41 @@ hr {
   =======================================================
   Computation covariates
   =======================================================
-*/
+*/ 
 
-.computation-covariates > tbody > tr:nth-of-type(1n + 3) {
-  border-top: 4px solid white;
-}
-
-.computation-covariates > tbody > tr:nth-child(1) {
-  background-color: white;
-}
-
-.computation-covariates th {
-  text-align: left;
-}
-
-.computation-covariates tr > td:nth-child(1) {
+.computation-covariate tr > td:nth-child(1) {
   text-align: center;
 }
 
-.computation-covariates tr > td:nth-child(1) > img {
+.computation-covariate tr > td:nth-child(1) > img {
   padding-top: 2px;
 }
 
-.computation-covariates th:nth-child(1) {
+.computation-covariate-header th:nth-child(1),
+.computation-covariate td:nth-child(1) {
   width: 5%;
 }
 
-.computation-covariates th:nth-child(2) {
+.computation-covariate-header th:nth-child(2),
+.computation-covariate td:nth-child(2) {
   width: 40%;
 }
 
-.computation-covariates th:nth-child(2) {
+.computation-covariate-header th:nth-child(3),
+.computation-covariate td:nth-child(3) {
   width: 45%;
 }
 
-.computation-covariates td {
+.computation-covariate-header th {
+  text-align: left;
+}
+
+.computation-covariate td {
   vertical-align: middle;
+}
+
+div[class='avoid-break-inside'] + .computation-covariate, .computation-covariate + .computation-covariate {
+  border-top: 4px solid white;
 }
 
 /**

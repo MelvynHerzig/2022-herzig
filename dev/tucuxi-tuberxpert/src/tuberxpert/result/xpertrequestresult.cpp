@@ -100,8 +100,6 @@ void XpertRequestResult::setDrugModel(const Core::DrugModel* _newDrugModel)
 
 void XpertRequestResult::setCovariateResults(vector<CovariateValidationResult>&& _newCovariateResults)
 {
-
-
     m_covariateResults = _newCovariateResults;
 
     // Sort the covariate results by name and by date.

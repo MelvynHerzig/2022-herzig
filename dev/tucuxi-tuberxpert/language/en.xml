@@ -90,13 +90,13 @@
     <entry key="percentile">Percentile</entry>
 
     <!-- Report Adjustments -->
-    <entry key="adjustments">Adjustments</entry>
+    <entry key="adjustments">Adjustments found</entry>
     <entry key="intro_phrase">Based on the above information, the following adjustments are relevant to achieve the targets.</entry>
     <entry key="per_interval">Per interval</entry>
     <entry key="displayed_adjustments">Displayed adjustments</entry>
     <entry key="displayed_adjustment">Displayed adjustment</entry>
     <entry key="score">Score</entry>
-    <entry key="suggestion">Suggestion</entry>
+    <entry key="adjustment_suggested">Adjustment suggested</entry>
     <entry key="suggestion_phrase">Considering the above information, TuberXpert recommends the following adjustment.</entry>
 
     <!-- Report Targets -->
