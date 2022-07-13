@@ -363,7 +363,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                             <lastName>Doe</lastName>
                                                             <address>
                                                                 <street>Av. de l'Ours 2</street>
-                                                                <postCode>1010</postCode>
+                                                                <postalCode>1010</postalCode>
                                                                 <city>Lausanne</city>
                                                                 <state>Vaud</state>
                                                                 <country>Suisse</country>
@@ -382,7 +382,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                             <name>CHUV</name>
                                                             <address>
                                                                 <street>Av. de l'Ours 1</street>
-                                                                <postCode>1010</postCode>
+                                                                <postalCode>1010</postalCode>
                                                                 <city>Lausanne</city>
                                                                 <state>Vaud</state>
                                                                 <country>Suisse</country>
@@ -404,7 +404,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                             <lastName>Aupaysdesmerveilles</lastName>
                                                             <address>
                                                                 <street>Av. d'Ouchy 27</street>
-                                                                <postCode>1006</postCode>
+                                                                <postalCode>1006</postalCode>
                                                                 <city>Lausanne</city>
                                                                 <state>Vaud</state>
                                                                 <country>Suisse</country>
@@ -423,7 +423,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                             <name>EHNV</name>
                                                             <address>
                                                                 <street>Street name 2</street>
-                                                                <postCode>1400</postCode>
+                                                                <postalCode>1400</postalCode>
                                                                 <city>Yverdon-les-Bains</city>
                                                                 <state>Vaud</state>
                                                                 <country>Suisse</country>
@@ -578,7 +578,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
         fructose_assert_eq(mandator.getFirstName(), "John");
         fructose_assert_eq(mandator.getLastName(), "Doe");
         fructose_assert_eq(mandatorAddress.getStreet(), "Av. de l'Ours 2");
-        fructose_assert_eq(mandatorAddress.getPostCode(), 1010);
+        fructose_assert_eq(mandatorAddress.getPostalCode(), 1010);
         fructose_assert_eq(mandatorAddress.getCity(), "Lausanne");
         fructose_assert_eq(mandatorAddress.getState(), "Vaud");
         fructose_assert_eq(mandatorAddress.getCountry(), "Suisse");
@@ -589,7 +589,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
         fructose_assert_eq(mandatorInstitute.getId(), "456789");
         fructose_assert_eq(mandatorInstitute.getName(), "CHUV");
         fructose_assert_eq(mandatorInstituteAddress.getStreet(), "Av. de l'Ours 1");
-        fructose_assert_eq(mandatorInstituteAddress.getPostCode(), 1010);
+        fructose_assert_eq(mandatorInstituteAddress.getPostalCode(), 1010);
         fructose_assert_eq(mandatorInstituteAddress.getCity(), "Lausanne");
         fructose_assert_eq(mandatorInstituteAddress.getState(), "Vaud");
         fructose_assert_eq(mandatorInstituteAddress.getCountry(), "Suisse");
@@ -611,7 +611,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
         fructose_assert_eq(patient.getFirstName(), "Alice");
         fructose_assert_eq(patient.getLastName(), "Aupaysdesmerveilles");
         fructose_assert_eq(patientAddress.getStreet(), "Av. d'Ouchy 27");
-        fructose_assert_eq(patientAddress.getPostCode(), 1006);
+        fructose_assert_eq(patientAddress.getPostalCode(), 1006);
         fructose_assert_eq(patientAddress.getCity(), "Lausanne");
         fructose_assert_eq(patientAddress.getState(), "Vaud");
         fructose_assert_eq(patientAddress.getCountry(), "Suisse");
@@ -622,7 +622,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
         fructose_assert_eq(patientInstitute.getId(), "1234");
         fructose_assert_eq(patientInstitute.getName(), "EHNV");
         fructose_assert_eq(patientInstituteAddress.getStreet(), "Street name 2");
-        fructose_assert_eq(patientInstituteAddress.getPostCode(), 1400);
+        fructose_assert_eq(patientInstituteAddress.getPostalCode(), 1400);
         fructose_assert_eq(patientInstituteAddress.getCity(), "Yverdon-les-Bains");
         fructose_assert_eq(patientInstituteAddress.getState(), "Vaud");
         fructose_assert_eq(patientInstituteAddress.getCountry(), "Suisse");

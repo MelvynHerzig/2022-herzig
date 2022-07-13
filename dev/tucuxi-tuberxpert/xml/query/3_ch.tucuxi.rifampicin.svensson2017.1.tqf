@@ -20,7 +20,7 @@
 				<name>CHUV</name>
 				<address>
 					<street>Av. de l'Ours 1</street>
-					<postCode>1010</postCode>
+					<postalCode>1010</postalCode>
 					<city>Lausanne</city>
 					<state>Vaud</state>
 					<country>Suisse</country>
@@ -42,7 +42,7 @@
 				<lastName>Aupaysdesmerveilles</lastName>
 				<address>
 					<street>Av. d'Ouchy 27</street>
-					<postCode>1006</postCode>
+					<postalCode>1006</postalCode>
 					<city>Lausanne</city>
 					<state>Vaud</state>
 					<country>Suisse</country>

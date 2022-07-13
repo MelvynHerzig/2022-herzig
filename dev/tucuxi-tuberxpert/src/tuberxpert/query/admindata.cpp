@@ -9,33 +9,40 @@ namespace Xpert {
  |                   AddressData                  |
  **************************************************/
 
-AddressData::AddressData(const string& _street, int _postCode, const string& _city, const string& _state, const string& _country)
-    : m_street(std::move(_street)), m_postCode(_postCode), m_city(std::move(_city)), m_state(std::move(_state)),
-      m_country(std::move(_country))
+AddressData::AddressData(const string& _street,
+                         int _postCode,
+                         const string& _city,
+                         const string& _state,
+                         const string& _country)
+    : m_street(move(_street)),
+      m_postalCode(_postCode),
+      m_city(move(_city)),
+      m_state(move(_state)),
+      m_country(move(_country))
 {
 }
 
-const string& AddressData::getStreet() const
+string AddressData::getStreet() const
 {
     return m_street;
 }
 
-int AddressData::getPostCode() const
+int AddressData::getPostalCode() const
 {
-    return m_postCode;
+    return m_postalCode;
 }
 
-const string& AddressData::getCity() const
+string AddressData::getCity() const
 {
     return m_city;
 }
 
-const string& AddressData::getState() const
+string AddressData::getState() const
 {
     return m_state;
 }
 
-const string& AddressData::getCountry() const
+string AddressData::getCountry() const
 {
     return m_country;
 }
@@ -46,12 +53,12 @@ const string& AddressData::getCountry() const
 
 PhoneData::PhoneData(const string& _number, const string& _type) : m_number(_number), m_type(_type) {}
 
-const string& PhoneData::getNumber() const
+string PhoneData::getNumber() const
 {
     return m_number;
 }
 
-const string& PhoneData::getType() const
+string PhoneData::getType() const
 {
     return m_type;
 }
@@ -62,12 +69,12 @@ const string& PhoneData::getType() const
 
 EmailData::EmailData(const string& _address, const string& _type) : m_address(_address), m_type(_type) {}
 
-const string& EmailData::getAddress() const
+string EmailData::getAddress() const
 {
     return m_address;
 }
 
-const string& EmailData::getType() const
+string EmailData::getType() const
 {
     return m_type;
 }
@@ -84,27 +91,31 @@ PersonData::PersonData(
         unique_ptr<AddressData> _address,
         unique_ptr<PhoneData> _phone,
         unique_ptr<EmailData> _email)
-    : m_id(_id), m_title(_title), m_firstName(_firstName), m_lastName(_lastName), m_address(move(_address)),
-      m_phone(move(_phone)), m_email(move(_email))
+    : m_id(_id), m_title(_title),
+      m_firstName(_firstName),
+      m_lastName(_lastName),
+      m_address(move(_address)),
+      m_phone(move(_phone)),
+      m_email(move(_email))
 {
 }
 
-const string& PersonData::getId() const
+string PersonData::getId() const
 {
     return m_id;
 }
 
-const string& PersonData::getTitle() const
+string PersonData::getTitle() const
 {
     return m_title;
 }
 
-const string& PersonData::getFirstName() const
+string PersonData::getFirstName() const
 {
     return m_firstName;
 }
 
-const string& PersonData::getLastName() const
+string PersonData::getLastName() const
 {
     return m_lastName;
 }
@@ -134,16 +145,20 @@ InstituteData::InstituteData(
         unique_ptr<AddressData> _address,
         unique_ptr<PhoneData> _phone,
         unique_ptr<EmailData> _email)
-    : m_id(_id), m_name(_name), m_address(move(_address)), m_phone(move(_phone)), m_email(move(_email))
+    : m_id(_id),
+      m_name(_name),
+      m_address(move(_address)),
+      m_phone(move(_phone)),
+      m_email(move(_email))
 {
 }
 
-const string& InstituteData::getId() const
+string InstituteData::getId() const
 {
     return m_id;
 }
 
-const std::string& InstituteData::getName() const
+string InstituteData::getName() const
 {
     return m_name;
 }
@@ -167,8 +182,10 @@ const unique_ptr<EmailData>& InstituteData::getEmail() const
  |                   FullPersonData               |
  **************************************************/
 
-FullPersonData::FullPersonData(std::unique_ptr<PersonData> _person, std::unique_ptr<InstituteData> _institute)
-    : m_person(move(_person)), m_institute(move(_institute))
+FullPersonData::FullPersonData(unique_ptr<PersonData> _person,
+                               unique_ptr<InstituteData> _institute)
+    : m_person(move(_person)),
+      m_institute(move(_institute))
 {
 }
 
@@ -186,9 +203,9 @@ const unique_ptr<InstituteData>& FullPersonData::getInstitute() const
  |                 ClinicalData                   |
  **************************************************/
 
-ClinicalData::ClinicalData(const std::map<std::string, std::string>& _data) : m_data(_data) {}
+ClinicalData::ClinicalData(const map<string, string>& _data) : m_data(_data) {}
 
-const std::map<std::string, std::string>& ClinicalData::getData() const
+const map<string, string>& ClinicalData::getData() const
 {
     return m_data;
 }
@@ -201,7 +218,9 @@ AdminData::AdminData(
         unique_ptr<FullPersonData> _mandator,
         unique_ptr<FullPersonData> _patient,
         unique_ptr<ClinicalData> _clinicalData)
-    : m_mandator(move(_mandator)), m_patient(move(_patient)), m_clinicalData(move(_clinicalData))
+    : m_mandator(move(_mandator)),
+      m_patient(move(_patient)),
+      m_clinicalData(move(_clinicalData))
 {
 }
 

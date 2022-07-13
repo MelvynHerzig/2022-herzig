@@ -222,7 +222,7 @@ unique_ptr<AddressData> XpertQueryImport::createAddressData(Common::XmlNodeItera
     }
 
     static const string STREET_NODE_NAME = "street";
-    static const string POSTALCODE_NODE_NAME = "postCode";
+    static const string POSTALCODE_NODE_NAME = "postalCode";
     static const string CITY_NODE_NAME = "city";
     static const string STATE_NODE_NAME = "state";
     static const string COUNTRY_NODE_NAME = "country";

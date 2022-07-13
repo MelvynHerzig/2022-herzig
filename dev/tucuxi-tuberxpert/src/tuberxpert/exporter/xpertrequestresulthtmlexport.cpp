@@ -930,7 +930,7 @@ void XpertRequestResultHtmlExport::getAddressJson(const unique_ptr<AddressData>&
     // Post code
     // City
     ss << _address->getStreet() << "<br>"
-       << Common::Utils::varToString(_address->getPostCode()) << "<br>"
+       << Common::Utils::varToString(_address->getPostalCode()) << "<br>"
        << _address->getCity();
 
     // State

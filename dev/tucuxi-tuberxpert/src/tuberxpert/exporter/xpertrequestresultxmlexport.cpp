@@ -244,8 +244,8 @@ void XpertRequestResultXmlExport::exportAddressData(const unique_ptr<AddressData
     //   <street>
     addNode(addressNode, "street", _address->getStreet());
 
-    //   <postCode>
-    addNode(addressNode, "postCode", Common::Utils::varToString(_address->getPostCode()));
+    //   <postalCode>
+    addNode(addressNode, "postalCode", Common::Utils::varToString(_address->getPostalCode()));
 
     //   <city>
     addNode(addressNode, "city", _address->getCity());
