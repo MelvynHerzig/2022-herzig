@@ -5,8 +5,8 @@
 
     <queryId>rifampicin_1</queryId>
     <clientId>124568</clientId>
-    <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-    <language>en</language>
+    <date>2018-07-11T13:45:30</date> <!-- Date that defines the computation time -->
+    <language>en</language>          <!-- Unused -->
 
     <admin>
 		<mandator>
@@ -78,12 +78,7 @@
                 <atc>something</atc>
                 <!-- All the information regarding the treatment -->
                 <treatment>
-                    <dosageHistory>
-                    </dosageHistory>
                 </treatment>
-                <!-- Samples history -->
-                <samples>
-                </samples>
                 <!-- Personalised targets -->
                 <targets>
                     <!-- It's the same node we can find in the drug model xml file -->
@@ -105,18 +100,18 @@
     <requests>
 
         <!-- List of the requests we want the TuberXpert to take care of -->
-        <requestXpert>
+        <xpertRequest>
             <drugId>rifampicin</drugId>
             <output>
                 <format>pdf</format>
                 <language>en</language>
             </output>
             <options>
-                <loadingOption>LoadingDoseAllowed</loadingOption>
-                <restPeriodOption>RestPeriodAllowed</restPeriodOption>
+                <loadingOption>loadingDoseAllowed</loadingOption>
+                <restPeriodOption>restPeriodAllowed</restPeriodOption>
                 <targetExtractionOption>populationValues</targetExtractionOption>
                 <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
             </options>
-        </requestXpert>
+        </xpertRequest>
     </requests>
 </query>

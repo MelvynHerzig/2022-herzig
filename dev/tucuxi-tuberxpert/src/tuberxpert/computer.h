@@ -4,23 +4,21 @@
 #include <memory>
 #include <string>
 
-#include "tucucore/computingservice/computingtrait.h"
-
 #include "tuberxpert/result/xpertrequestresult.h"
 #include "tuberxpert/flow/abstract/abstractxpertflowstepprovider.h"
 
 namespace Tucuxi {
 namespace Xpert {
 
-/// \brief Enum whose values are used as the return value of TuberXpertComputer.
+/// \brief Enum whose values are used as return value of Computer.
 ///        The values are:
 ///
-///        ALL_REQUESTS_SUCCEEDED: Every XpertRequest could be fully handled until
-///        the report printing.
+///        ALL_REQUESTS_SUCCEEDED: Each TuberXpert request could be fully processed until
+///        the report was printed.
 ///
-///        SOME_REQUESTS_SUCCEEDED: Some XpertRequest failed during a step of the process.
+///        SOME_REQUESTS_SUCCEEDED: Some TuberXpert request failed at some stage of the process.
 ///
-///        NO_REQUESTS_SUCCEEDED: No XpertRequest could be fully handled.
+///        NO_REQUESTS_SUCCEEDED: No TuberXpert request could be fully processed.
 ///
 ///        IMPORT_ERROR: The query file could not be loaded.
 /// \date 03/06/2022
@@ -33,18 +31,18 @@ enum class ComputingStatus {
     IMPORT_ERROR
 };
 
-/// \brief Given the required arguments, this class drives the execution flow of tuberXpert.
+/// \brief Given the required arguments, this class drives the flow of execution of tuberXpert.
 /// \date 03/06/2022
 /// \author Herzig Melvyn
 class Computer
 {
 public:
 
-    /// \brief Constructor.
+    /// \brief Default constructor.
     Computer();
 
     /// \brief Entry point of the TuberXpert command Line Interface. This method imports
-    ///        the query from file, loads the translation file, and handle each XpertRequest to finally
+    ///        the query from a file, loads the translation file, and handle each xpertRequest to finally
     ///        print the report of the requests handled successfully.
     /// \param _drugPath Folder containing the drug models.
     /// \param _inputFileName Path to the query file.

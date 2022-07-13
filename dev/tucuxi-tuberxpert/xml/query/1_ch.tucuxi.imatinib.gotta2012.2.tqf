@@ -5,8 +5,8 @@
 
     <queryId>imatinib</queryId>
     <clientId>124568</clientId>
-    <date>2022-06-24T13:45:30</date> <!-- Date that define the computation time -->
-    <language>en</language>
+    <date>2022-06-24T13:45:30</date> <!-- Date that defines the computation time -->
+    <language>en</language>          <!-- Unused -->
 
     <drugTreatment>
         <!-- All the information regarding the patient -->
@@ -24,21 +24,13 @@
                 <atc>something</atc>
                 <!-- All the information regarding the treatment -->
                 <treatment>
-                    <dosageHistory>
-                    </dosageHistory>
                 </treatment>
-                <!-- Samples history -->
-                <samples>
-                </samples>
-                <!-- Personalised targets -->
-                <targets>
-                </targets>
             </drug>
         </drugs>
     </drugTreatment>
     <requests>
         <!-- List of the requests we want the TuberXpert to take care of -->
-        <requestXpert>
+        <xpertRequest>
             <drugId>imatinib</drugId>
             <output>
                 <format>pdf</format>
@@ -46,11 +38,11 @@
             </output>
             <adjustmentDate>2018-07-11T08:00:00</adjustmentDate>
             <options>
-                <loadingOption>LoadingDoseAllowed</loadingOption>
-                <restPeriodOption>RestPeriodAllowed</restPeriodOption>
+                <loadingOption>loadingDoseAllowed</loadingOption>
+                <restPeriodOption>restPeriodAllowed</restPeriodOption>
                 <targetExtractionOption>definitionIfNoIndividualTarget</targetExtractionOption>
                 <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
             </options>
-        </requestXpert>
+        </xpertRequest>
     </requests>
 </query>

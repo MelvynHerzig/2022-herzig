@@ -55,7 +55,7 @@ Common::IImport::Status XpertQueryImport::importDocument(unique_ptr<XpertQueryDa
     static const string DATE_NODE_NAME = "date";
     static const string LANGUAGE_NODE_NAME = "language";
     static const string REQUESTS_NODE_NAME = "requests";
-    static const string REQUEST_XPERT_REQUESTS_NODE_NAME = "requestXpert";
+    static const string XPERT_REQUEST_REQUESTS_NODE_NAME = "xpertRequest";
 
     Common::XmlNode root = _document.getRoot();
 
@@ -81,8 +81,8 @@ Common::IImport::Status XpertQueryImport::importDocument(unique_ptr<XpertQueryDa
 
 
     requestsRootIterator = root.getChildren(REQUESTS_NODE_NAME);
-    Common::XmlNodeIterator requestsXpertIterator = requestsRootIterator->getChildren(REQUEST_XPERT_REQUESTS_NODE_NAME);
-    checkNodeIterator(requestsXpertIterator, REQUEST_XPERT_REQUESTS_NODE_NAME);
+    Common::XmlNodeIterator requestsXpertIterator = requestsRootIterator->getChildren(XPERT_REQUEST_REQUESTS_NODE_NAME);
+    checkNodeIterator(requestsXpertIterator, XPERT_REQUEST_REQUESTS_NODE_NAME);
 
     vector<unique_ptr<XpertRequestData> > requestsXpert;
     while (requestsXpertIterator != Common::XmlNodeIterator::none()) {

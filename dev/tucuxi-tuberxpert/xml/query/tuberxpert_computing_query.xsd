@@ -30,7 +30,7 @@
 			<xs:element name="requests">
 			<xs:complexType>
 		        <xs:sequence>
-				  	<xs:element name="requestXpert" type="requestXpertType" minOccurs="1" maxOccurs="unbounded"/>	
+				  	<xs:element name="xpertRequest" type="xpertRequestType" minOccurs="1" maxOccurs="unbounded"/>	
 		          	<xs:element name="request" type="requestType" minOccurs="0" maxOccurs="unbounded" />
 		        </xs:sequence>
 			</xs:complexType>
@@ -693,7 +693,7 @@ with the DosageHistory class and AbstractDosage subclasses -->
 	</xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="requestXpertType">
+<xs:complexType name="xpertRequestType">
 	<xs:sequence>
 		<xs:element name="drugId" type="xs:string" />
 		<xs:element name="output">
