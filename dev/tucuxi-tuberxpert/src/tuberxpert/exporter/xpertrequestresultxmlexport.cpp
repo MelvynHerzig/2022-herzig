@@ -105,7 +105,7 @@ void XpertRequestResultXmlExport::exportDrugIntro(const XpertRequestResult& _xpe
     _rootNode.addChild(drugNode);
 
     //  <drugId>
-    addNode(drugNode, "drugId", _xpertRequestResult.getXpertRequest().getDrugID());
+    addNode(drugNode, "drugId", _xpertRequestResult.getXpertRequest().getDrugId());
 
     //      <lastDose>
     Common::XmlNode lastDoseNode =

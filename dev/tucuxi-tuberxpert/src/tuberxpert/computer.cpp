@@ -91,7 +91,7 @@ ComputingStatus Computer::computeFromString(
 
         // Get the XpertFlowStepProvider for the drug of the request.
         unique_ptr<AbstractXpertFlowStepProvider> xpertFlowStepProvider(nullptr);
-        getXpertFlowStepProvider(xpertRequestResult.getXpertRequest().getDrugID(), xpertFlowStepProvider);
+        getXpertFlowStepProvider(xpertRequestResult.getXpertRequest().getDrugId(), xpertFlowStepProvider);
 
         // Execute each step provided by the selected XpertFlowStepProvider.
         executeFlow(xpertRequestResult, _languagePath, xpertFlowStepProvider);

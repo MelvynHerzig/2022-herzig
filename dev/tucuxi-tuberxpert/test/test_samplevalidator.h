@@ -1256,7 +1256,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
 
         Tucuxi::Xpert::GlobalResult globalResult{move(query), ""};
         Tucuxi::Xpert::XpertRequestResult& xrr =  globalResult.getXpertRequestResults()[0];
-        xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
+        xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugId())[0]);
 
         // Execution
         flowStepProvider.getSampleValidator()->perform(xrr);

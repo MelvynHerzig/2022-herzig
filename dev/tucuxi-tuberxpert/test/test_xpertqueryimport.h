@@ -1919,7 +1919,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
 
         const Tucuxi::Xpert::XpertRequestData& xpertRequest = *(query->getXpertRequests()[0]);
 
-        fructose_assert_eq(xpertRequest.getDrugID(), "rifampicin");
+        fructose_assert_eq(xpertRequest.getDrugId(), "rifampicin");
         fructose_assert_eq(xpertRequest.getOutputFormat() == Tucuxi::Xpert::OutputFormat::XML, true);
         fructose_assert_eq(xpertRequest.getOutputLang() == Tucuxi::Xpert::OutputLang::ENGLISH, true);
         fructose_assert_eq(xpertRequest.getAdjustmentTime(), DateTime("2018-07-06T08:00:00", "%Y-%m-%dT%H:%M:%S"));

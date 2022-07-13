@@ -226,7 +226,7 @@ string computeFileName(const XpertRequestResult& _xpertRequestResult,
         fileNameStream << _xpertRequestResult.getGlobalResult().getOutputPath() << "/";
     }
 
-    fileNameStream << _xpertRequestResult.getXpertRequest().getDrugID() << "_" <<
+    fileNameStream << _xpertRequestResult.getXpertRequest().getDrugId() << "_" <<
           _xpertRequestResult.getGlobalResult().getRequestIndexBeingHandled() + 1 << "_" <<
           computationTime.day() << "-" << computationTime.month() << "-" << computationTime.year() << "_" <<
           computationTime.hour() << "h" << computationTime.minute() << "m" << computationTime.second() << "s";

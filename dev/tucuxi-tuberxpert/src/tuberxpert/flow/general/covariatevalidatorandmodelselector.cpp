@@ -48,7 +48,7 @@ void CovariateValidatorAndModelSelector::perform(XpertRequestResult& _xpertReque
     }
 
     // Targeted drug identifier.
-    string drugId = _xpertRequestResult.getXpertRequest().getDrugID();
+    string drugId = _xpertRequestResult.getXpertRequest().getDrugId();
 
     // Gets the drug model repository.
     Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();

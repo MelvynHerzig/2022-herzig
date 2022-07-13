@@ -739,7 +739,7 @@ struct TestRequestExecutor : public fructose::test_base<TestRequestExecutor>
 
         _globalResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query), "");
         Tucuxi::Xpert::XpertRequestResult& xrr =  _globalResult->getXpertRequestResults()[0];
-        xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
+        xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugId())[0]);
     }
 
     /// \brief This method changes the trait of the xpert request result in order to fail.

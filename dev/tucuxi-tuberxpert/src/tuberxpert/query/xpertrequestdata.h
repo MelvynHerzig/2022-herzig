@@ -11,92 +11,69 @@
 namespace Tucuxi {
 namespace Xpert {
 
-/// \brief List of the supported languages
-///        It can be:
-///         0: English (ENGLISH)
-///         1: French (FRENCH)
+/// \brief List of supported languages.
 /// \date 24/04/2022
 /// \author Herzig Melvyn
 enum class OutputLang
 {
-    ENGLISH = 0,
-    FRENCH
+    ENGLISH = 0, /**< For English language. */
+    FRENCH       /**< For French language. */
 };
 
-/// \brief List of the supported languages
-///        It can be:
-///         0: xml (XML)
-///         1: html (HTML)
-///         2: pdf (PDF)
+/// \brief List of the supported formats.
 /// \date 24/04/2022
 /// \author Herzig Melvyn
 enum class OutputFormat
 {
-    XML = 0,
-    HTML,
-    PDF
+    XML = 0, /**< For a report in xml. */
+    HTML,    /**< For a report in html. */
+    PDF      /**< For a report in pdf. */
 };
 
-/// \brief The LoadingOption enum.
-///        This option allows to authorize or not a loading dose to rapidly attain the steady state.
-///        This is the same we can find computingTrait.h with an added value "unspecified".
-///        The last value just means:
-///        "I don't know what to fill, so check and follow drug model recommendations".
+/// \brief This enum authorizes or not a loading dose to reach quickly the steady state.
+///        It is the same as in computingTrait.h with an added value "unspecified".
+///        This last value simply means:
+///        "I don't know what to fill, so check and follow the recommendations of the drug model".
 enum class LoadingOption
 {
-    /// No loading dose is allowed
-    NoLoadingDose = 0,
-
-    /// A loading dose shall be proposed if relevant
-    LoadingDoseAllowed,
-
-    /// The user will use the drug model recommendation.
-    Unspecified
+    NoLoadingDose = 0,  /**< No loading dose is allowed. */
+    LoadingDoseAllowed, /**< A loading dose may be offered if necessary. */
+    Unspecified         /**< Use the recommendations of the drug model. */
 };
 
 ///
-/// \brief The RestPeriodOption enum.
-///        This option allows to authorize or not a resting period to rapidly attain steady state.
-///        This is the same we can find computingTrait.h with an added value "unspecified".
-///        The last value just means:
-///        "I don't know what to fill, so check and follow drug model recommendations".
+/// \brief This enum authorizes or not a rest period to reach quickly the steady state.
+///        It is the same as in computingTrait.h with an added value "unspecified".
+///        This last value simply means:
+///        "I don't know what to fill, so check and follow the recommendations of the drug model".
 enum class RestPeriodOption
 {
-    /// No resting period is allowed
-    NoRestPeriod = 0,
-
-    /// A resting period shall be proposed if relevant
-    RestPeriodAllowed,
-
-    /// The user will use the drug model recommendation. 
-    Unspecified
+    NoRestPeriod = 0,  /**< No rest period is allowed. */
+    RestPeriodAllowed, /**< A rest period may be offered if necessary. */
+    Unspecified        /**< Use the recommendations of the drug model. */
 };
 
 
-/// \brief Class representing the custom request of tuberXpert.
-///        This is the representation of the "RequestXpert" element
-///        from an XML query file.
+/// \brief Class that represents the custom request of TuberXpert.
+///        It is the representation of the "xpertRequest" element
+///        from an xml query file.
 /// \date 24/04/2022
 /// \author Herzig Melvyn
 class XpertRequestData
 {
 public:
-    // Constructors
-    /// \brief Default constructor is not supported.
-    XpertRequestData() = delete;
-
 
     /// \brief XpertRequestData constructor.
-    /// \param _drugID Drug targeted.
-    /// \param _outputFormat Output format.
-    /// \param _outputLang Output language.
-    /// \param _adjustmentTime Time at which the adjustment take place.
-    /// \param _loadingOption Selects if a loading dose can be proposed or not.
-    /// \param _restPeriodOption Selects if a rest period can be proposed or not.
-    /// \param _targetExtractionOption Target extraction options
-    /// \param _formulationAndRouteSelectionOption Selection of the formulation and route options
+    /// \param _drugId Identifier of the drug to adjust.
+    /// \param _outputFormat Report output format.
+    /// \param _outputLang Report output language.
+    /// \param _adjustmentTime Time at which the adjustment takes place.
+    /// \param _loadingOption Define whether a loading dose can be offered.
+    /// \param _restPeriodOption Define whether a rest period can be offered.
+    /// \param _targetExtractionOption Define the target extraction option.
+    /// \param _formulationAndRouteSelectionOption Define the selection of the formulation and route option
     XpertRequestData(
-            const std::string& _drugID,
+            const std::string& _drugId,
             OutputFormat _outputFormat,
             OutputLang _outputLang,
             Common::DateTime _adjustmentTime,
@@ -107,61 +84,63 @@ public:
 
 
     // Getters
-    /// \brief Gets the drug id to adjust.
-    /// \return Drug identifier.
-    std::string getDrugID() const;
 
-    /// \brief Gets the output format.
-    /// \return Output format.
+    /// \brief Get the identifier of the drug to adjust.
+    /// \return The drug identifier.
+    std::string getDrugId() const;
+
+    /// \brief Get the output format of the report.
+    /// \return The output format of the report.
     OutputFormat getOutputFormat() const;
 
-    /// \brief Gets the output language.
-    /// \return Output language.
+    /// \brief Get the output language of the report.
+    /// \return The output language of the report.
     OutputLang getOutputLang() const;
 
-    /// \brief Gets the time of adjustment.
-    /// \return Time of the adjustment.
+    /// \brief Get the time of the adjustment.
+    /// \return The time of the adjustment.
     Common::DateTime getAdjustmentTime() const;
 
-    /// \brief Gets the option about a potential loading dose.
-    /// \return The option about a potential loading dose.
+    /// \brief Get the option about a potential loading dose.
+    /// \return The loading dose option.
     LoadingOption getLoadingOption() const;
 
-    /// \brief Gets the option about a potential rest period.
-    /// \return The option about a potential rest period.
+    /// \brief Get the option about a potential rest period.
+    /// \return The rest period option.
     RestPeriodOption getRestPeriodOption() const;
 
-    /// \brief Gets the target extraction option.
+    /// \brief Get the target extraction option.
     /// \return The target extraction option.
     Core::TargetExtractionOption getTargetExtractionOption() const;
 
-    /// \brief Gets the formulation and route selection option.
+    /// \brief Get the formulation and route selection option.
     /// \return The formulation and route selection option.
     Core::FormulationAndRouteSelectionOption getFormulationAndRouteSelectionOption() const;
 
 protected:
-    /// \brief Targeted drug to use tuberXpert.
-    std::string m_drugID;
 
-    /// \brief Output format.
+    /// \brief Identifier of the drug that TuberXpert must use.
+    std::string m_drugId;
+
+    /// \brief Output format of the report.
     OutputFormat m_outputFormat;
 
-    /// \brief Output language.
+    /// \brief Output language of the report.
     OutputLang m_outputLang;
 
-    /// \brief Date of the adjustment
+    /// \brief Time of the adjustment.
     Common::DateTime m_adjustmentTime;
 
-    /// \brief Shall we propose a loading dose if applicable?
+    /// \brief Is the loading dose applicable?
     LoadingOption m_loadingOption;
 
-    /// \brief Shall we propose a rest period if applicable?
+    /// \brief Is the rest period applicable?
     RestPeriodOption m_restPeriodOption;
 
-    /// \brief Target extraction options
+    /// \brief Target extraction option.
     Core::TargetExtractionOption m_targetExtractionOption;
 
-    /// \brief What formulation and route have to be used for generating candidates
+    /// \brief What formulation and route should be used to generate candidates.
     Core::FormulationAndRouteSelectionOption m_formulationAndRouteSelectionOption;
 };
 

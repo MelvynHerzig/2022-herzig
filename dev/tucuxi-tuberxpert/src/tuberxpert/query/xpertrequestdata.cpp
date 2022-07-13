@@ -4,7 +4,7 @@ namespace Tucuxi {
 namespace Xpert {
 
 XpertRequestData::XpertRequestData(
-        const std::string& _drugID,
+        const std::string& _drugId,
         OutputFormat _outputFormat,
         OutputLang _outputLang,
         Common::DateTime _adjustmentTime,
@@ -12,19 +12,19 @@ XpertRequestData::XpertRequestData(
         RestPeriodOption _restPeriodOption,
         Core::TargetExtractionOption _targetExtractionOption,
         Core::FormulationAndRouteSelectionOption _formulationAndRouteSelectionOption) :
-        m_drugID(_drugID),
-        m_outputFormat(_outputFormat),
-        m_outputLang(_outputLang),
-        m_adjustmentTime(_adjustmentTime),
-        m_loadingOption(_loadingOption),
-        m_restPeriodOption(_restPeriodOption),
-        m_targetExtractionOption(_targetExtractionOption),
-        m_formulationAndRouteSelectionOption(_formulationAndRouteSelectionOption)
+    m_drugId(_drugId),
+    m_outputFormat(_outputFormat),
+    m_outputLang(_outputLang),
+    m_adjustmentTime(_adjustmentTime),
+    m_loadingOption(_loadingOption),
+    m_restPeriodOption(_restPeriodOption),
+    m_targetExtractionOption(_targetExtractionOption),
+    m_formulationAndRouteSelectionOption(_formulationAndRouteSelectionOption)
 {}
 
-std::string XpertRequestData::getDrugID() const
+std::string XpertRequestData::getDrugId() const
 {
-    return m_drugID;
+    return m_drugId;
 }
 
 OutputFormat XpertRequestData::getOutputFormat() const

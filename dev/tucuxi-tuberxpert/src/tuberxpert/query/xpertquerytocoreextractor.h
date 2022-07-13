@@ -1,7 +1,6 @@
 #ifndef XPERTQUERYTOCOREEXTRACTOR_H
 #define XPERTQUERYTOCOREEXTRACTOR_H
 
-#include <optional>
 #include <string>
 
 #include "tucuquery/querytocoreextractor.h"
@@ -13,7 +12,7 @@
 namespace Tucuxi {
 namespace Xpert {
 
-/// \brief This class extends the tucuquery QueryToCoreExtractor.
+/// \brief This class extends the QueryToCoreExtractor of tucuquery.
 ///        The main point of this class is to provide a method
 ///        to extract a drugTreatment for a given XpertRequestData.
 /// \date 23/04/2022
@@ -22,15 +21,17 @@ class XpertQueryToCoreExtractor : Query::QueryToCoreExtractor
 {
 public:
 
-    /// \brief Extracts a drugTreatment for a given XpertRequestData in regards
-    ///        of a XpertQueryData. This method just add a few verification steps
+    /// \brief Extract a DrugTreatment for a given XpertRequestData based on
+    ///        an XpertQueryData. This method simply adds a few verification steps
     ///        before calling the QueryToCoreExtractor::extractDrugTreatment method.
-    /// \param _xpertRequest Request to extract related drug treatment.
-    /// \param _xpertQuery Query where to look for information.
-    /// \param _errorMessage Error message so store information if something goes wrong.
-    ///                      Set to "" if everything is fine.
-    /// \return Retrusna unique pointer to the generaterd DrugTreatment.
-    ///         May be a unique pointer on nullptr if it goes wrong.
+    ///        There must be precisely one drug that matches the drug identifier
+    ///        in the XpertRequest.
+    /// \param _xpertRequest XpertRequest that contains the identifier of the drug to extract.
+    /// \param _xpertQuery Xpert query where to extract the drug treatment.
+    /// \param _errorMessage Error message to store information if something goes wrong.
+    ///                      It is an empty string if everything is fine.
+    /// \return A unique pointer to the generated DrugTreatment.
+    ///         May be nullptr if it fails.
     std::unique_ptr<Core::DrugTreatment> extractDrugTreatment(
             const std::unique_ptr<XpertRequestData>& _xpertRequest,
             const XpertQueryData& _xpertQuery,

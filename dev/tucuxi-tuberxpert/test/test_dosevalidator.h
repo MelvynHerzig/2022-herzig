@@ -739,7 +739,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         _globalResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query), "");
         Tucuxi::Xpert::XpertRequestResult& xrr =  _globalResult->getXpertRequestResults()[0];
-        xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
+        xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugId())[0]);
 
         // Loading the dictionary with keys used by the dose validator.
         std::string translationsString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>

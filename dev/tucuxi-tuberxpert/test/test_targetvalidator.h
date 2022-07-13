@@ -785,7 +785,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         _globalResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query), "");
         Tucuxi::Xpert::XpertRequestResult& xrr =  _globalResult->getXpertRequestResults()[0];
-        xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
+        xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugId())[0]);
     }
 
     /// \brief Checks that there is an error if the treatment of XpertRequestResult is nullptr.

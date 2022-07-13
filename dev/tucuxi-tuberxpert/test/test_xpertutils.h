@@ -736,7 +736,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         _globalResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query), "");
         Tucuxi::Xpert::XpertRequestResult& xrr =  _globalResult->getXpertRequestResults()[0];
-        xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
+        xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugId())[0]);
     }
 
     /// \brief Converts dataType to string. Checks that the string contains the correct value.

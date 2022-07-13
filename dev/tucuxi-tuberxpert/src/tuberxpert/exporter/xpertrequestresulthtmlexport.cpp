@@ -809,7 +809,7 @@ void XpertRequestResultHtmlExport::getDrugIntroJson(const XpertRequestResult& _x
     _introJson["drug_model_translation"] = lm.translate("drug_model");
 
     // Drug id
-    _introJson["drug_id"] = _xpertRequestResult.getXpertRequest().getDrugID();
+    _introJson["drug_id"] = _xpertRequestResult.getXpertRequest().getDrugId();
 
     // Last dose
     if (_xpertRequestResult.getLastIntake() != nullptr) {
