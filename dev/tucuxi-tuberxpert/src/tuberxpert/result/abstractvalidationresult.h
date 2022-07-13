@@ -6,23 +6,19 @@
 namespace Tucuxi {
 namespace Xpert {
 
-/// \brief Enums that sets the "level" of the warning
+/// \brief Enum which defines the severity of a validation warning
 ///        returned by an AbstractResult class.
-///
-///         It can be:
-///             - NORMAL = 0
-///             - CRITICAL = 1
 /// \date 02/06/2022
 /// \author Herzig Melvyn
 enum class WarningLevel
 {
-    NORMAL = 0,
-    CRITICAL
+    NORMAL = 0, /**< It seems strange. May be a double check is needed */
+    CRITICAL    /**< It is unusual. A serious control is necessary. */
 };
 
-/// \brief This class is the base class for all result classes except Global and Request.
-///        A result class is always linked to a "source" pointer and
-///        associates to it a warning (message) with a WarningLevel.
+/// \brief This class is the base class for all validation result classes (except Common and Request).
+///        A validation result class is always linked to a "source" pointer and
+///        associates a warning (message) with a WarningLevel.
 /// \date 02/06/2022
 /// \author Herzig Melvyn
 template <typename T>
@@ -31,28 +27,30 @@ class AbstractValidationResult
 public:
 
     /// \brief Constructor.
-    /// \param _source Pointer to the source object concerned by the result.
-    /// \param _warning Warning message associated.
+    /// \param _source Pointer to the source object concerned by the validation result.
+    /// \param _warning Warning message associated with the validation result
+    ///                 if something is suspicious.
     AbstractValidationResult(const T* _source, const std::string& _warning) :
-    m_source(_source), m_warning(_warning){}
+        m_source(_source), m_warning(_warning){}
 
-    /// \brief Abstract destructor.
+    /// \brief Destructor.
     virtual ~AbstractValidationResult(){};
 
-    /// \brief Gets the source object of the result.
-    /// \return A constant pointer to the source object.
+    /// \brief Get the source object concerned by the validation result.
+    /// \return A constant pointer to the source object. This pointer
+    ///         does not need to be deleted.
     const T* getSource() const {
         return m_source;
     }
 
-    /// \brief Gets the warning message.
-    /// \return The warning message. May be empty string if none.
+    /// \brief Get the warning message associated with the validation result.
+    /// \return The warning message. May be empty string if nothing is suspicious.
     const std::string& getWarning() const {
         return m_warning;
     }
 
-    /// \brief Gets the warning level associated to a warning. This
-    ///        doesn't consider if the warning is set or not.
+    /// \brief Get the warning level associated to a warning. It
+    ///        doesn't take into account whether the warning is set or not.
     /// \return Returns WarningLevel::NORMAL. May be overrided.
     virtual WarningLevel getWarningLevel() const{
         return WarningLevel::NORMAL;
@@ -60,7 +58,7 @@ public:
 
 protected:
 
-    /// \brief Source object targeted by the result.
+    /// \brief Source object concerned by the validation result.
     const T* m_source;
 
     /// \brief The associated warning message if necessary.
