@@ -1,11 +1,10 @@
 #include "computer.h"
 
-#include <memory>
 #include <fstream>
 
 #include "tucucommon/loggerhelper.h"
-#include "tucucore/drugmodelrepository.h"
 #include "tucucore/computingcomponent.h"
+#include "tucucore/drugmodelrepository.h"
 
 #include "tuberxpert/language/languagemanager.h"
 #include "tuberxpert/query/xpertqueryimport.h"
@@ -29,14 +28,16 @@ ComputingStatus Computer::computeFromFile(const std::string& _drugPath,
 {
     Common::LoggerHelper logHelper;
 
-    // Read the file and extract content
+    // Read the file and extract its content.
     ifstream input_file(_inputFileName);
     if (!input_file.is_open()) {
-        logHelper.error("Failed to open input file.");
+        logHelper.error("Failed to open query file.");
         return ComputingStatus::IMPORT_ERROR;
     }
-    string inputFileContent = string((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>());
+    string inputFileContent =
+            string((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>());
 
+    // Extract from string.
     return computeFromString(_drugPath, inputFileContent, _outputPath, _languagePath);
 }
 
@@ -49,7 +50,7 @@ ComputingStatus Computer::computeFromString(
 
     Common::LoggerHelper logHelper;
 
-    // Drug models repository creation
+    // Drug models repository creation.
     Common::ComponentManager* pCmpMgr = Common::ComponentManager::getInstance();
 
     auto drugModelRepository =
@@ -60,7 +61,7 @@ ComputingStatus Computer::computeFromString(
     drugModelRepository->addFolderPath(_drugPath);
 
     /*********************************************************************************
-     *                               Query Importation                               *
+     *                               Query importation                               *
      * *******************************************************************************/
 
     unique_ptr<XpertQueryData> query = nullptr;
@@ -77,20 +78,22 @@ ComputingStatus Computer::computeFromString(
     GlobalResult globalResult(move(query), _outputPath);
 
     /*********************************************************************************
-     *                             For each xpert resquest                           *
+     *                             For each xpert request                            *
      * *******************************************************************************/
 
     unsigned nbUnfulfilledRequest = 0;
     for (XpertRequestResult& xpertRequestResult : globalResult.getXpertRequestResults()) {
 
         logHelper.info("---------------------------------------");
-        logHelper.info("Handling request number: " + to_string(globalResult.incrementRequestIndexBeingHandled() + 1)); // +1 because it starts from 0.
+        logHelper.info("Handling request number: " +
+                       to_string(globalResult.incrementRequestIndexBeingHandled() + 1)); // +1 because it starts from 0
 
-        // Get the flow step provider for the drug of the request.
+
+        // Get the XpertFlowStepProvider for the drug of the request.
         unique_ptr<AbstractXpertFlowStepProvider> xpertFlowStepProvider(nullptr);
-        getXpertFlowStepProvider(xpertRequestResult, xpertFlowStepProvider);
+        getXpertFlowStepProvider(xpertRequestResult.getXpertRequest().getDrugID(), xpertFlowStepProvider);
 
-        // Executes each step provided by the selected flow step provider.
+        // Execute each step provided by the selected XpertFlowStepProvider.
         executeFlow(xpertRequestResult, _languagePath, xpertFlowStepProvider);
         if (xpertRequestResult.shouldBeHandled() == false) {
             logHelper.error(xpertRequestResult.getErrorMessage());
@@ -98,20 +101,20 @@ ComputingStatus Computer::computeFromString(
             continue;
         }
 
-        // Here the request has been fully handled without any problem.
+        // Here, the request has been fully processed without any problems.
     }
 
     pCmpMgr->unregisterComponent("DrugModelRepository");
 
-    // If all request were successfully handled.
+    // If each request could be fully processed.
     if (nbUnfulfilledRequest == 0) {
         return ComputingStatus::ALL_REQUESTS_SUCCEEDED;
 
-        // If some failed.
+        // If some requests failed.
     } else if ( nbUnfulfilledRequest < globalResult.getXpertRequestResults().size()) {
         return ComputingStatus::SOME_REQUESTS_SUCCEEDED;
 
-        // Otherwise they all failed.
+        // Else, if they all failed.
     } else {
         return ComputingStatus::NO_REQUESTS_SUCCEEDED;
     }
@@ -129,67 +132,69 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
      *                      Check extraction                      *
      * ************************************************************/
     logHelper.info("Checking extraction state...");
+
     if (_xpertRequestResult.shouldBeHandled() == false) {
         return;
     }
+
     logHelper.info("Extraction succeed.");
 
     /**************************************************************
      *                Loading the translation file                *
      * ************************************************************/
-
     logHelper.info("Loading translation file...");
 
-    // Getting language manager
+    // Getting language manager.
     LanguageManager& languageManager = LanguageManager::getInstance();
 
-
     try {
-        string languageFileName = _languagePath + "/" + varToString(_xpertRequestResult.getXpertRequest().getOutputLang()) + ".xml";
-        ifstream ifs(languageFileName);
+        string translationFileName = _languagePath +
+                                  "/" +
+                                  varToString(_xpertRequestResult.getXpertRequest().getOutputLang()) +
+                                  ".xml";
+        ifstream ifs(translationFileName);
 
-        // If language file opening failed.
+        // If the opening of the translation file failed.
         if (ifs.fail()) {
-            throw runtime_error("Could not open the file " + languageFileName);
+            throw runtime_error("Could not open the translation file " + translationFileName);
         }
 
-        // Try loading the language file, it may throw a LanguageException.
+        // Try loading the translation file. It may throw a LanguageException.
         string xmlLanguageString((istreambuf_iterator<char>(ifs)), (istreambuf_iterator<char>()));
         languageManager.loadDictionary(xmlLanguageString);
 
-        logHelper.info("Successfully loaded " + languageFileName);
+        logHelper.info("Successfully loaded " + translationFileName);
 
     } catch (const runtime_error& e) {
 
-        // Somehow, the acquisition of the language file failed.
-        // Leave this requestXpert and try the next one.
+        // Somehow, the loading of the translation file failed.
+        // Leave this xpertRequest and try the next one.
         return;
     }
 
     /**************************************************************
-     *                       Model selection                      *
+     *        Drug model selection and covariates validation      *
      * ************************************************************/
-
     logHelper.info("Validating covariates and selecting drug model...");
 
     _stepProvider->getCovariateValidatorAndModelSelector()->perform(_xpertRequestResult);
 
-    // Check if model selection was successful
+    // Check if the model selection was successful.
     if (_xpertRequestResult.shouldBeHandled() == false) {
         return;
     }
 
-    logHelper.info("Covariates validated and drug model selected: " + _xpertRequestResult.getDrugModel()->getDrugModelId());
+    logHelper.info("Covariates validated and drug model selected: " +
+                   _xpertRequestResult.getDrugModel()->getDrugModelId());
 
     /**************************************************************
-     *                       Dosages checking                     *
+     *                        Doses validation                    *
      * ************************************************************/
-
-    logHelper.info("Checking dosages...");
+    logHelper.info("Validating doses...");
 
     _stepProvider->getDoseValidator()->perform(_xpertRequestResult);
 
-    // Check if dosages checking was successful
+    // Check if the doses validation was successful.
     if (_xpertRequestResult.shouldBeHandled() == false) {
         return;
     }
@@ -198,14 +203,13 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
 
 
     /**************************************************************
-     *                       Samples checking                     *
+     *                       Samples validation                   *
      * ************************************************************/
-
-    logHelper.info("Checking samples...");
+    logHelper.info("Validating samples...");
 
     _stepProvider->getSampleValidator()->perform(_xpertRequestResult);
 
-    // Check if samples checking was successful
+    // Check if the samples validation was successful.
     if (_xpertRequestResult.shouldBeHandled() == false) {
         return;
     }
@@ -214,14 +218,13 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
 
 
     /**************************************************************
-     *                       Targets checking                     *
+     *                      Targets validation                    *
      * ************************************************************/
-
-    logHelper.info("Checking targets...");
+    logHelper.info("Validating targets...");
 
     _stepProvider->getTargetValidator()->perform(_xpertRequestResult);
 
-    // Check if targets checking was successful
+    // Check if targets validation was successful.
     if (_xpertRequestResult.shouldBeHandled() == false) {
         return;
     }
@@ -231,12 +234,11 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
     /**************************************************************
      *                  Creating adjustment trait                 *
      * ************************************************************/
-
     logHelper.info("Creating adjustment trait...");
 
     _stepProvider->getAdjustmentTraitCreator()->perform(_xpertRequestResult);
 
-    // Check if adjustment trait creation was successful
+    // Check if the adjustment trait creation was successful.
     if (_xpertRequestResult.shouldBeHandled() == false) {
         return;
     }
@@ -244,22 +246,24 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
     logHelper.info("Adjustment trait successfully created.");
 
     /**************************************************************
-     *                     Requests execution                     *
+     *                     Requests submission                    *
      * ************************************************************/
-    logHelper.info("Submitting adjustment request...");
+    logHelper.info("Submission of the adjustment request...");
 
+    // Check if the submission of the adjustment request was successful.
     _stepProvider->getRequestExecutor()->perform(_xpertRequestResult);
     if (_xpertRequestResult.shouldBeHandled() == false) {
         return;
     }
 
-    logHelper.info("Adjustment request execution succeed.");
+    logHelper.info("Adjustment request submission succeed.");
 
     /**************************************************************
      *                      Report generation                     *
      * ************************************************************/
     logHelper.info("Generating report...");
 
+    // Check if the report generation was successful.
     _stepProvider->getReportPrinter()->perform(_xpertRequestResult);
     if (_xpertRequestResult.shouldBeHandled() == false) {
         return;
@@ -267,26 +271,29 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
 
     logHelper.info("Report generation succeed.");
 
-    // At that point the xpertRequestResult is still handleable (got no error).
+    // At this point, the XpertRequestResult has not received
+    // any errors during the execution of the flow steps.
 }
 
-void Computer::getXpertFlowStepProvider(XpertRequestResult& _xpertRequestResult, unique_ptr<AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const
+void Computer::getXpertFlowStepProvider(const string& _drugId,
+                                        unique_ptr<AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const
 {
 
-    // The idea is the have this method that return a FlowStepProvider for each
-    // drug. If a drug is not implemented, the general one is returned. For example, like this:
+    // The idea is the have this method return a XpertFlowStepProvider for each
+    // drug. If a drug has no specialized XpertFlowStepProvider, the general XpertFlowStepProvider
+    // is returned. For example, like this:
 
-    // if (_xpertRequestResult.getXpertRequest().getDrugID() == "imatinib") {
+    // if (_drugId == "imatinib") {
     //     _xpertFlowStepProvider = make_unique<XpertFlow::ImatinibXpertFlowStepProvider>();
-    // } else if (_xpertRequestResult.getXpertRequest().getDrugID() == "rifampicin") {
+    // } else if (_drugId == "rifampicin") {
     //     _xpertFlowStepProvider = make_unique<XpertFlow::RifampicinXpertFlowStepProvider>();
     // } else {
     //     _xpertFlowStepProvider = make_unique<XpertFlow::GeneralXpertFlowStepProvider>();
     // }
 
 
-    // But at the moment, TuberXpert is implemented in a general manner.
-    // In future stages, this line should be removed for the commented ones on top of it.
+    // But for now, TuberXpert is implemented in a general way.
+    // In future steps, this line should be removed for those commented above.
     _xpertFlowStepProvider = make_unique<GeneralXpertFlowStepProvider>();
 }
 
