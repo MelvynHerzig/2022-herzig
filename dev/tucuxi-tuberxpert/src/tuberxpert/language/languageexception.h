@@ -16,7 +16,7 @@ public:
     /// \param _msg Message to embeed.
     explicit LanguageException(const std::string& _msg);
 
-    /// \brief Char array constructor.
+    /// \brief Character array constructor.
     /// \param _msg Message to embeed.
     explicit LanguageException(const char* _msg);
 };

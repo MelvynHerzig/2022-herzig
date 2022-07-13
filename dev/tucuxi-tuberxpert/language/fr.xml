@@ -1,142 +1,142 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<dictionary
+<translations
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="dictionary.xsd">
+    xsi:noNamespaceSchemaLocation="translations_file.xsd">
     
     <!-- Dosages -->
-    <entry key="maximum_dosage_warning">Dosage maximum recommandé dépassé:</entry>
-    <entry key="minimum_dosage_warning">Dosage minimum recommandé dépassé:</entry>
+    <translation key="maximum_dosage_warning">Dosage maximum recommandé dépassé:</translation>
+    <translation key="minimum_dosage_warning">Dosage minimum recommandé dépassé:</translation>
 
     <!-- Samples -->
-    <entry key="population_below">% de la population est en dessous de cette mesure</entry>
-    <entry key="population_above">% de la population est en dessus de cette mesure</entry>
+    <translation key="population_below">% de la population est en dessous de cette mesure</translation>
+    <translation key="population_above">% de la population est en dessus de cette mesure</translation>
 
     <!-- Report common -->
-    <entry key="drug">Médicament</entry>
-    <entry key="none">Aucun(e)</entry>
-    <entry key="from">Depuis</entry>
-    <entry key="to">Jusqu'à</entry>
-    <entry key="date">Date</entry>
-    <entry key="hour_acronym">h</entry>
+    <translation key="drug">Médicament</translation>
+    <translation key="none">Aucun(e)</translation>
+    <translation key="from">Depuis</translation>
+    <translation key="to">Jusqu'à</translation>
+    <translation key="date">Date</translation>
+    <translation key="hour_acronym">h</translation>
 
     <!-- Report header -->
-    <entry key="tuberxpert_report">Rapport TuberXpert</entry>
-    <entry key="computed_on">Calculé le</entry>
+    <translation key="tuberxpert_report">Rapport TuberXpert</translation>
+    <translation key="computed_on">Calculé le</translation>
 
     <!-- Report intro -->
-    <entry key="id">ID</entry>
-    <entry key="last_dose">Dernière dose</entry>
-    <entry key="drug_model">Fiche médicament</entry>
+    <translation key="id">ID</translation>
+    <translation key="last_dose">Dernière dose</translation>
+    <translation key="drug_model">Fiche médicament</translation>
 
     <!-- Report contacts -->
-    <entry key="contacts">Contacts</entry>
-    <entry key="mandator">Mandant</entry>
-    <entry key="patient">Patient</entry>
-    <entry key="name">Nom</entry>
-    <entry key="address">Adresse</entry>
-    <entry key="phone">Téléphone</entry>
-    <entry key="email">Email</entry>
-    <entry key="professional">professionnel</entry>
-    <entry key="private">privé</entry>
+    <translation key="contacts">Contacts</translation>
+    <translation key="mandator">Mandant</translation>
+    <translation key="patient">Patient</translation>
+    <translation key="name">Nom</translation>
+    <translation key="address">Adresse</translation>
+    <translation key="phone">Téléphone</translation>
+    <translation key="email">Email</translation>
+    <translation key="professional">professionnel</translation>
+    <translation key="private">privé</translation>
 
     <!-- Report clinical data -->
-    <entry key="clinical_data">Données cliniques</entry>
+    <translation key="clinical_data">Données cliniques</translation>
 
     <!-- Report Covariates -->
-    <entry key="covariates">Covariables</entry>
-    <entry key="value">Valeur</entry>
-    <entry key="source_patient">patient</entry>
-    <entry key="source_default">par défaut</entry>
-    <entry key="yes">Oui</entry>
-    <entry key="no">Non</entry>
-    <entry key="undefined">Non défini</entry>
-    <entry key="man">Homme</entry>
-    <entry key="woman">Femme</entry>
+    <translation key="covariates">Covariables</translation>
+    <translation key="value">Valeur</translation>
+    <translation key="source_patient">patient</translation>
+    <translation key="source_default">par défaut</translation>
+    <translation key="yes">Oui</translation>
+    <translation key="no">Non</translation>
+    <translation key="undefined">Non défini</translation>
+    <translation key="man">Homme</translation>
+    <translation key="woman">Femme</translation>
 
     <!-- Report Treatment -->
-    <entry key="treatment">Traitement</entry>
-    <entry key="type">Type</entry>
-    <entry key="continually">continuellement</entry>
-    <entry key="at_steady_state">à l'état d'équilibre avec la dernière dose le</entry>
-    <entry key="times">fois</entry>
-    <entry key="offset">décalage</entry>
-    <entry key="interval">intervalle</entry>
-    <entry key="daily_at">quotidiennement à</entry>
-    <entry key="every">chaque</entry>
-    <entry key="day_1">lundi</entry>
-    <entry key="day_2">mardi</entry>
-    <entry key="day_3">mercredi</entry>
-    <entry key="day_4">jeudi</entry>
-    <entry key="day_5">vendredi</entry>
-    <entry key="day_6">samedi</entry>
-    <entry key="day_7">dimanche</entry>
-    <entry key="at">à</entry>
-    <entry key="posology">Posologie</entry>
+    <translation key="treatment">Traitement</translation>
+    <translation key="type">Type</translation>
+    <translation key="continually">continuellement</translation>
+    <translation key="at_steady_state">à l'état d'équilibre avec la dernière dose le</translation>
+    <translation key="times">fois</translation>
+    <translation key="offset">décalage</translation>
+    <translation key="interval">intervalle</translation>
+    <translation key="daily_at">quotidiennement à</translation>
+    <translation key="every">chaque</translation>
+    <translation key="day_1">lundi</translation>
+    <translation key="day_2">mardi</translation>
+    <translation key="day_3">mercredi</translation>
+    <translation key="day_4">jeudi</translation>
+    <translation key="day_5">vendredi</translation>
+    <translation key="day_6">samedi</translation>
+    <translation key="day_7">dimanche</translation>
+    <translation key="at">à</translation>
+    <translation key="posology">Posologie</translation>
 
-    <entry key="oral">oral</entry>
-    <entry key="nasal">nasal</entry>
-    <entry key="rectal">rectal</entry>
-    <entry key="vaginal">vaginal</entry>
-    <entry key="sublingual">sublingual</entry>
-    <entry key="transdermal">transcutané</entry>
-    <entry key="subcutaneous">sous-cutanée</entry>
-    <entry key="intramuscular">intramusculaire</entry>
-    <entry key="intravenous_drip">perfusion intraveineuse</entry>
-    <entry key="intravenous_bolus">bolus intraveineux</entry>
+    <translation key="oral">oral</translation>
+    <translation key="nasal">nasal</translation>
+    <translation key="rectal">rectal</translation>
+    <translation key="vaginal">vaginal</translation>
+    <translation key="sublingual">sublingual</translation>
+    <translation key="transdermal">transcutané</translation>
+    <translation key="subcutaneous">sous-cutanée</translation>
+    <translation key="intramuscular">intramusculaire</translation>
+    <translation key="intravenous_drip">perfusion intraveineuse</translation>
+    <translation key="intravenous_bolus">bolus intraveineux</translation>
 
     <!-- Report Samples -->
-    <entry key="samples">Échantillons</entry>
-    <entry key="measure">Mesure</entry>
-    <entry key="percentile">Percentile</entry>
+    <translation key="samples">Échantillons</translation>
+    <translation key="measure">Mesure</translation>
+    <translation key="percentile">Percentile</translation>
 
     <!-- Report Adjustments -->
-    <entry key="adjustments">Ajustements trouvés</entry>
-    <entry key="intro_phrase">Sur la base des informations ci-dessus, les ajustements suivants sont pertinents pour atteindre les objectifs fixés.</entry>
-    <entry key="per_interval">Par intervalle</entry>
-    <entry key="displayed_adjustments">Ajustements affichés</entry>
-    <entry key="displayed_adjustment">Ajustement affiché</entry>
-    <entry key="score">Score</entry>
-    <entry key="adjustment_suggested">Ajustement suggéré</entry>
-    <entry key="suggestion_phrase">Compte tenu des informations ci-dessus, TuberXpert recommande l'ajustement suivant.</entry>
+    <translation key="adjustments">Ajustements trouvés</translation>
+    <translation key="intro_phrase">Sur la base des informations ci-dessus, les ajustements suivants sont pertinents pour atteindre les objectifs fixés.</translation>
+    <translation key="per_interval">Par intervalle</translation>
+    <translation key="displayed_adjustments">Ajustements affichés</translation>
+    <translation key="displayed_adjustment">Ajustement affiché</translation>
+    <translation key="score">Score</translation>
+    <translation key="adjustment_suggested">Ajustement suggéré</translation>
+    <translation key="suggestion_phrase">Compte tenu des informations ci-dessus, TuberXpert recommande l'ajustement suivant.</translation>
 
     <!-- Report Targets -->
-    <entry key="targets_phrase">Avec la meilleure suggestion, les objectifs devraient changer comme suit.</entry>
-    <entry key="unknown">Inconnu</entry>
-    <entry key="residual">Résiduel</entry>
-    <entry key="peak">Sommet</entry>
-    <entry key="mean">Moyenne</entry>
-    <entry key="auc">Aire sous la courbe</entry>
-    <entry key="auc24">Aire sous la courbe pour 24 heures</entry>
-    <entry key="cumulative_auc">Aire sous la courbe cumulatif</entry>
-    <entry key="auc_over_mic">Aire sous la courbe sur la concentration minimale inhibitrice</entry>
-    <entry key="auc24_over_mic">Aire sous la courbe pour 24 heures sur la concentration minimale inhibitrice</entry>
-    <entry key="time_over_mic">Temps sur la concentration minimale inhibitrice</entry>
-    <entry key="auc_divided_by_mic">Aire sous la courbe divisé par la concentration minimale inhibitrice</entry>
-    <entry key="auc24_divided_by_mic">Aire sous la courbe pour 24 heures divisé par la concentration minimale inhibitrice</entry>
-    <entry key="peak_divided_by_mic">Sommet divisé par la concentration minimale inhibitrice</entry>
-    <entry key="residual_divided_by_mic">Résiduel divisé par la concentration minimale inhibitrice</entry>
-    <entry key="fraction_time_over_mic">Fraction de temps sur la concentration minimale inhibitrice</entry>
+    <translation key="targets_phrase">Avec la meilleure suggestion, les objectifs devraient changer comme suit.</translation>
+    <translation key="unknown">Inconnu</translation>
+    <translation key="residual">Résiduel</translation>
+    <translation key="peak">Sommet</translation>
+    <translation key="mean">Moyenne</translation>
+    <translation key="auc">Aire sous la courbe</translation>
+    <translation key="auc24">Aire sous la courbe pour 24 heures</translation>
+    <translation key="cumulative_auc">Aire sous la courbe cumulatif</translation>
+    <translation key="auc_over_mic">Aire sous la courbe sur la concentration minimale inhibitrice</translation>
+    <translation key="auc24_over_mic">Aire sous la courbe pour 24 heures sur la concentration minimale inhibitrice</translation>
+    <translation key="time_over_mic">Temps sur la concentration minimale inhibitrice</translation>
+    <translation key="auc_divided_by_mic">Aire sous la courbe divisé par la concentration minimale inhibitrice</translation>
+    <translation key="auc24_divided_by_mic">Aire sous la courbe pour 24 heures divisé par la concentration minimale inhibitrice</translation>
+    <translation key="peak_divided_by_mic">Sommet divisé par la concentration minimale inhibitrice</translation>
+    <translation key="residual_divided_by_mic">Résiduel divisé par la concentration minimale inhibitrice</translation>
+    <translation key="fraction_time_over_mic">Fraction de temps sur la concentration minimale inhibitrice</translation>
 
-    <entry key="inefficacy">Inefficacité</entry>
-    <entry key="min">Min</entry>
-    <entry key="best">Meilleur</entry>
-    <entry key="max">Max</entry>
-    <entry key="toxicity">Toxicité</entry>
+    <translation key="inefficacy">Inefficacité</translation>
+    <translation key="min">Min</translation>
+    <translation key="best">Meilleur</translation>
+    <translation key="max">Max</translation>
+    <translation key="toxicity">Toxicité</translation>
 
     <!-- Report Pharmacokinetic parameters -->
-    <entry key="pharmacokinetic_parameters">Paramètres pharmacocinétiques</entry>
-    <entry key="typical_patient">Patient typique</entry>
-    <entry key="a_priori">À priori</entry>
-    <entry key="a_posteriori">À posteriori</entry>
+    <translation key="pharmacokinetic_parameters">Paramètres pharmacocinétiques</translation>
+    <translation key="typical_patient">Patient typique</translation>
+    <translation key="a_priori">À priori</translation>
+    <translation key="a_posteriori">À posteriori</translation>
 
     <!-- Report Predictions -->
-    <entry key="predictions">Prédictions</entry>
-    <entry key="extrapolated_steady_state_auc24">AUC24 extrapolée à l'état d'équilibre</entry>
-    <entry key="steady_state_peak">Sommet à l'état d'équilibre</entry>
-    <entry key="steady_state_trough">Résiduel à l'état d'équilibre</entry>
+    <translation key="predictions">Prédictions</translation>
+    <translation key="extrapolated_steady_state_auc24">AUC24 extrapolée à l'état d'équilibre</translation>
+    <translation key="steady_state_peak">Sommet à l'état d'équilibre</translation>
+    <translation key="steady_state_trough">Résiduel à l'état d'équilibre</translation>
 
     <!-- Report Computation covariates -->
-    <entry key="computation_covariates">Covariables utilisées pour les calculs</entry>
-    <entry key="covariate">Covariable</entry>
+    <translation key="computation_covariates">Covariables utilisées pour les calculs</translation>
+    <translation key="covariate">Covariable</translation>
 
-</dictionary>
+</translations>

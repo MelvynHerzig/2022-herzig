@@ -97,7 +97,7 @@ int main(int argc, char** argv)
 #if defined(test_language)
     TestLanguageManager testLanguageManager;
 
-    testLanguageManager.add_test("GetInstance", &TestLanguageManager::retrieveDictionary);
+    testLanguageManager.add_test("GetInstance", &TestLanguageManager::retrieveTranslations);
     testLanguageManager.add_test("translate", &TestLanguageManager::wordTranslation);
 
     res = testLanguageManager.run(argc, argv);
@@ -128,10 +128,10 @@ int main(int argc, char** argv)
     testXpertQueryImports.add_test("Gets an error when missing mandatory values in mandator institute", &TestXpertQueryImport::errorWhenMissingMandatoryInMandatorInstitute);
     testXpertQueryImports.add_test("Gets an error when missing mandatory values in patient person", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientPerson);
     testXpertQueryImports.add_test("Gets an error when missing mandatory values in patient institute", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientInstitute);
-    testXpertQueryImports.add_test("Gets complete request xpert element", &TestXpertQueryImport::retrieveCompleteRequestXpert);
-    testXpertQueryImports.add_test("Gets default request xpert element", &TestXpertQueryImport::retrieveDefaultRequestXpert);
-    testXpertQueryImports.add_test("Gets an error when missing request xpert", &TestXpertQueryImport::errorWhenNoRequestXpert);
-    testXpertQueryImports.add_test("Gets an error when missing mandatory values in request xpert", &TestXpertQueryImport::errorWhenMissingMandatoryRequestXpert);
+    testXpertQueryImports.add_test("Gets complete request xpert element", &TestXpertQueryImport::retrieveCompleteXpertRequest);
+    testXpertQueryImports.add_test("Gets default request xpert element", &TestXpertQueryImport::retrieveDefaultXpertRequest);
+    testXpertQueryImports.add_test("Gets an error when missing request xpert", &TestXpertQueryImport::errorWhenNoXpertRequest);
+    testXpertQueryImports.add_test("Gets an error when missing mandatory values in request xpert", &TestXpertQueryImport::errorWhenMissingMandatoryXpertRequest);
     testXpertQueryImports.add_test("Gets an error when the xml document can't be created from string", &TestXpertQueryImport::errorWhenCreatingXmlDocumentFromString);
     testXpertQueryImports.add_test("Gets an error when the xml document can't be created from file", &TestXpertQueryImport::errorWhenCreatingXmlDocumentFromFile);
 

@@ -140,30 +140,30 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
     logHelper.info("Extraction succeed.");
 
     /**************************************************************
-     *                Loading the translation file                *
+     *                Loading the translations file                *
      * ************************************************************/
     logHelper.info("Loading translation file...");
 
     // Getting language manager.
-    LanguageManager& languageManager = LanguageManager::getInstance();
+    LanguageManager& langMgr = LanguageManager::getInstance();
 
     try {
-        string translationFileName = _languagePath +
+        string translationsFileName = _languagePath +
                                   "/" +
                                   outputLangToString(_xpertRequestResult.getXpertRequest().getOutputLang()) +
                                   ".xml";
-        ifstream ifs(translationFileName);
+        ifstream ifStream(translationsFileName);
 
         // If the opening of the translation file failed.
-        if (ifs.fail()) {
-            throw runtime_error("Could not open the translation file " + translationFileName);
+        if (ifStream.fail()) {
+            throw runtime_error("Could not open the translation file " + translationsFileName);
         }
 
         // Try loading the translation file. It may throw a LanguageException.
-        string xmlLanguageString((istreambuf_iterator<char>(ifs)), (istreambuf_iterator<char>()));
-        languageManager.loadDictionary(xmlLanguageString);
+        string xmlLanguageString((istreambuf_iterator<char>(ifStream)), (istreambuf_iterator<char>()));
+        langMgr.loadTranslations(xmlLanguageString);
 
-        logHelper.info("Successfully loaded " + translationFileName);
+        logHelper.info("Successfully loaded " + translationsFileName);
 
     } catch (const runtime_error& e) {
 

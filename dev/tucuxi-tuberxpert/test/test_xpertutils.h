@@ -807,20 +807,20 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         // Dictionary to get resulting values
         const std::string dictionary = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                          <dictionary
+                                          <translations
                                               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                              xsi:noNamespaceSchemaLocation="dictionary.xsd">
+                                              xsi:noNamespaceSchemaLocation="translations_file.xsd">
 
-                                                <entry key="yes">Yes</entry>
-                                                <entry key="no">No</entry>
-                                                <entry key="undefined">Undefined</entry>
-                                                <entry key="man">Man</entry>
-                                                <entry key="woman">Woman</entry>
+                                                <translation key="yes">Yes</translation>
+                                                <translation key="no">No</translation>
+                                                <translation key="undefined">Undefined</translation>
+                                                <translation key="man">Man</translation>
+                                                <translation key="woman">Woman</translation>
 
-                                           </dictionary>)";
+                                           </translations>)";
 
         Tucuxi::Xpert::LanguageManager& lm = Tucuxi::Xpert::LanguageManager::getInstance();
-        lm.loadDictionary(dictionary);
+        lm.loadTranslations(dictionary);
 
         fructose_assert_eq(Tucuxi::Xpert::beautifyString("1.0", Tucuxi::Core::DataType::Bool, ""), "Yes");
         fructose_assert_eq(Tucuxi::Xpert::beautifyString("0.0", Tucuxi::Core::DataType::Bool, ""), "No");
@@ -856,16 +856,16 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         // Dictionary to get hours acronym
         const std::string dictionary = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                          <dictionary
+                                          <translations
                                               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                              xsi:noNamespaceSchemaLocation="dictionary.xsd">
+                                              xsi:noNamespaceSchemaLocation="translations_file.xsd">
 
-                                                <entry key="hour_acronym">h</entry>
+                                                <translation key="hour_acronym">h</translation>
 
-                                           </dictionary>)";
+                                           </translations>)";
 
         Tucuxi::Xpert::LanguageManager& lm = Tucuxi::Xpert::LanguageManager::getInstance();
-        lm.loadDictionary(dictionary);
+        lm.loadTranslations(dictionary);
 
 
         Tucuxi::Common::TimeOfDay timeOfDayWithoutMinute{Tucuxi::Common::Duration(
@@ -891,16 +891,16 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         // Dictionary to get hours acronym
         const std::string dictionary = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                          <dictionary
+                                          <translation
                                               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                              xsi:noNamespaceSchemaLocation="dictionary.xsd">
+                                              xsi:noNamespaceSchemaLocation="translations_file.xsd">
 
-                                                <entry key="hour_acronym">h</entry>
+                                                <translation key="hour_acronym">h</translation>
 
-                                           </dictionary>)";
+                                           </translations>)";
 
         Tucuxi::Xpert::LanguageManager& lm = Tucuxi::Xpert::LanguageManager::getInstance();
-        lm.loadDictionary(dictionary);
+        lm.loadTranslations(dictionary);
 
         std::string formatedDateTimeString = "2022-01-01T10:00:00";
 

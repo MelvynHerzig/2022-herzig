@@ -186,7 +186,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>rifampicin</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -199,8 +199,8 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
-                                            <requestXpert>
+                                            </xpertRequest>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -213,7 +213,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>
                                     )";
@@ -327,7 +327,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                 </drugTreatment>
                                                 <!-- List of the requests we want the server to take care of -->
                                                 <requests>
-                                                    <requestXpert>
+                                                    <xpertRequest>
                                                         <drugId>rifampicin</drugId>
                                                         <output>
                                                             <format>xml</format>
@@ -340,7 +340,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                             <targetExtractionOption>populationValues</targetExtractionOption>
                                                             <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                         </options>
-                                                    </requestXpert>
+                                                    </xpertRequest>
                                                 </requests>
                                             </query>
                                             )";
@@ -526,7 +526,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                 </drugTreatment>
                                                 <!-- List of the requests we want the server to take care of -->
                                                 <requests>
-                                                    <requestXpert>
+                                                    <xpertRequest>
                                                         <drugId>rifampicin</drugId>
                                                         <output>
                                                             <format>xml</format>
@@ -539,7 +539,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                             <targetExtractionOption>populationValues</targetExtractionOption>
                                                             <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                         </options>
-                                                    </requestXpert>
+                                                    </xpertRequest>
                                                 </requests>
                                             </query>
                                             )";
@@ -731,7 +731,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                 </drugTreatment>
                                                 <!-- List of the requests we want the server to take care of -->
                                                 <requests>
-                                                    <requestXpert>
+                                                    <xpertRequest>
                                                         <drugId>rifampicin</drugId>
                                                         <output>
                                                             <format>xml</format>
@@ -744,8 +744,8 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                             <targetExtractionOption>populationValues</targetExtractionOption>
                                                             <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                         </options>
-                                                    </requestXpert>
-                                                    <requestXpert>
+                                                    </xpertRequest>
+                                                    <xpertRequest>
                                                         <drugId>imatinib</drugId>
                                                         <output>
                                                             <format>xml</format>
@@ -758,7 +758,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                             <targetExtractionOption>populationValues</targetExtractionOption>
                                                             <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                         </options>
-                                                    </requestXpert>
+                                                    </xpertRequest>
                                                 </requests>
                                             </query>
                                             )";
@@ -885,7 +885,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                 </drugTreatment>
                                                 <!-- List of the requests we want the server to take care of -->
                                                 <requests>
-                                                    <requestXpert>
+                                                    <xpertRequest>
                                                         <drugId>rifampicin</drugId>
                                                         <output>
                                                             <format>xml</format>
@@ -898,8 +898,8 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                             <targetExtractionOption>populationValues</targetExtractionOption>
                                                             <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                         </options>
-                                                    </requestXpert>
-                                                    <requestXpert>
+                                                    </xpertRequest>
+                                                    <xpertRequest>
                                                         <drugId>imatinib</drugId>
                                                         <output>
                                                             <format>xml</format>
@@ -912,7 +912,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
                                                             <targetExtractionOption>populationValues</targetExtractionOption>
                                                             <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                         </options>
-                                                    </requestXpert>
+                                                    </xpertRequest>
                                                 </requests>
                                             </query>
                                             )";

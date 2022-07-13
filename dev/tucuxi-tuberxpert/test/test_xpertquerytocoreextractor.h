@@ -23,7 +23,7 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
 {
 
     /// \brief Checks that the drug treatment is normally extracted for
-    ///        the requestXperts that require a valid drug. A drug is valid
+    ///        the xpertRequests that require a valid drug. A drug is valid
     ///        if it appears only once.
     /// \param _testName Name of the test
     void extractGoodDrugTreatment(const std::string& _testName)
@@ -193,7 +193,7 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>rifampicin</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -206,8 +206,8 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
-                                            <requestXpert>
+                                            </xpertRequest>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -220,7 +220,7 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>
                                     )";
@@ -418,7 +418,7 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>rifampicin</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -431,8 +431,8 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
-                                            <requestXpert>
+                                            </xpertRequest>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -445,7 +445,7 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>
                                     )";

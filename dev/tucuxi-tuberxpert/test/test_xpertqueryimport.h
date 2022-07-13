@@ -200,7 +200,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                        </drugTreatment>
                                        <!-- List of the requests we want the server to take care of -->
                                        <requests>
-                                           <requestXpert>
+                                           <xpertRequest>
                                                <drugId>rifampicin</drugId>
                                                <output>
                                                    <format>xml</format>
@@ -213,7 +213,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                    <targetExtractionOption>populationValues</targetExtractionOption>
                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                </options>
-                                           </requestXpert>
+                                           </xpertRequest>
                                        </requests>
                                    </query>)";
 
@@ -395,7 +395,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>rifampicin</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -408,7 +408,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>
                                     )";
@@ -522,7 +522,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>rifampicin</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -535,7 +535,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>
                                     )";
@@ -665,7 +665,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>rifampicin</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -678,7 +678,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>
                                     )";
@@ -830,7 +830,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>rifampicin</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -843,7 +843,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>
                                     )";
@@ -1036,7 +1036,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>rifampicin</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1049,7 +1049,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>
                                     )";
@@ -1212,7 +1212,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>rifampicin</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1225,7 +1225,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>
                                     )";
@@ -1370,7 +1370,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>rifampicin</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1383,7 +1383,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>
                                     )";
@@ -1512,7 +1512,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>rifampicin</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1525,7 +1525,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>
                                     )";
@@ -1670,7 +1670,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>rifampicin</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1683,7 +1683,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>
                                     )";
@@ -1702,10 +1702,10 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_ne(importer.getErrorMessage().find("address"), std::string::npos);
     }
 
-    /// \brief Load an xml file with every possible data in requestXpert node
+    /// \brief Load an xml file with every possible data in xpertRequest node
     /// and check if the recieved values are expected.
     /// \param _testName Name of the test.
-    void retrieveCompleteRequestXpert(const std::string& _testName)
+    void retrieveCompleteXpertRequest(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -1889,7 +1889,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>rifampicin</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1902,7 +1902,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>
                                     )";
@@ -1930,10 +1930,10 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
 
     }
 
-    /// \brief Load an xml file with default data in requestXpert node
+    /// \brief Load an xml file with default data in xpertRequest node
     /// and check if the recieved values are expected.
     /// \param _testName Name of the test.
-    void retrieveDefaultRequestXpert(const std::string& _testName)
+    void retrieveDefaultXpertRequest(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -2117,13 +2117,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>rifampicin</drugId>
                                                 <output>
                                                     <format>xml</format>
                                                     <language>en</language>
                                                 </output>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>
                                     )";
@@ -2148,9 +2148,9 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(xpertRequest.getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute, true);
     }
 
-    /// \brief Load an xml file without requestXpert and check that error is returned.
+    /// \brief Load an xml file without xpertRequest and check that error is returned.
     /// \param _testName Name of the test.
-    void errorWhenNoRequestXpert(const std::string& _testName)
+    void errorWhenNoXpertRequest(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -2344,13 +2344,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Error);
-        fructose_assert_ne(importer.getErrorMessage().find("No requestXpert found"), std::string::npos);
+        fructose_assert_ne(importer.getErrorMessage().find("No xpertRequest found"), std::string::npos);
         fructose_assert_eq(query->getXpertRequests().size(), 0);
     }
 
-    /// \brief Load an xml file without mandatory values in requestXpert and check that error is returned.
+    /// \brief Load an xml file without mandatory values in xpertRequest and check that error is returned.
     /// \param _testName Name of the test.
-    void errorWhenMissingMandatoryRequestXpert(const std::string& _testName)
+    void errorWhenMissingMandatoryXpertRequest(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -2534,7 +2534,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
                                                 <options>
                                                     <loadingOption>noLoadingDose</loadingOption>
@@ -2542,7 +2542,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>
                                     )";

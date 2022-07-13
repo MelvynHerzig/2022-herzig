@@ -742,17 +742,17 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugID())[0]);
 
         // Loading the dictionary with keys used by the dose validator.
-        std::string dictionaryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                            <dictionary
+        std::string translationsString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                            <translations
                                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                                xsi:noNamespaceSchemaLocation="dictionary.xsd">
+                                                xsi:noNamespaceSchemaLocation="translations_file.xsd">
 
-                                                <entry key="maximum_dosage_warning">Maximum recommended dosage reached</entry>
-                                                <entry key="minimum_dosage_warning">Minimum recommended dosage reached</entry>
+                                                <translation key="maximum_dosage_warning">Maximum recommended dosage reached</translation>
+                                                <translation key="minimum_dosage_warning">Minimum recommended dosage reached</translation>
 
-                                            </dictionary>)";
+                                            </translations>)";
         Tucuxi::Xpert::LanguageManager& languageManager = Tucuxi::Xpert::LanguageManager::getInstance();
-        languageManager.loadDictionary(dictionaryString);
+        languageManager.loadTranslations(translationsString);
     }
 
     /// \brief Checks that there is an error if the treatment of XpertRequestResult is nullptr.
@@ -838,7 +838,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -851,7 +851,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -918,7 +918,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -931,7 +931,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -1018,7 +1018,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1031,7 +1031,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -1117,7 +1117,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1130,7 +1130,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -1215,7 +1215,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1228,7 +1228,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";  
 
@@ -1314,7 +1314,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1327,7 +1327,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -1478,7 +1478,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1491,7 +1491,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 

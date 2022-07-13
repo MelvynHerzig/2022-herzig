@@ -160,7 +160,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -173,7 +173,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -263,7 +263,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -276,7 +276,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -307,19 +307,19 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
     {
 
         std::string dictionary = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                    <dictionary
+                                    <translations
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="dictionary.xsd">
+                                        xsi:noNamespaceSchemaLocation="translations_file.xsd">
 
-                                        <entry key="population_below">% of the population is below this measure</entry>
-                                        <entry key="population_above">% of the population is above this measure</entry>
+                                        <translation key="population_below">% of the population is below this measure</translation>
+                                        <translation key="population_above">% of the population is above this measure</translation>
 
-                                    </dictionary>)";
+                                    </translations>)";
 
         std::cout << _testName << std::endl;
 
         Tucuxi::Xpert::LanguageManager& lm = Tucuxi::Xpert::LanguageManager::getInstance();
-        lm.loadDictionary(dictionary);
+        lm.loadTranslations(dictionary);
 
         // Creating SampleResult objects that are located in a different group. There are
         // 100 groups that are implicitly formed by the 99 percentiles.
@@ -536,7 +536,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -549,7 +549,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 

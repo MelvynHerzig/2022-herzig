@@ -872,7 +872,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -885,7 +885,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -1057,7 +1057,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1070,8 +1070,8 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
-                                            <requestXpert>
+                                            </xpertRequest>
+                                            <xpertRequest>
                                                 <drugId>rifampicin</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1084,7 +1084,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -1177,7 +1177,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1190,7 +1190,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -1279,7 +1279,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1292,7 +1292,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -2101,7 +2101,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -2114,7 +2114,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -2213,7 +2213,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -2226,7 +2226,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -3034,7 +3034,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -3047,7 +3047,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -3156,7 +3156,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -3169,7 +3169,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -3905,7 +3905,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -3918,7 +3918,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -4655,7 +4655,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -4668,7 +4668,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -5312,7 +5312,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -5325,7 +5325,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -7669,7 +7669,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -7682,7 +7682,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -9331,7 +9331,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib0</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -9344,8 +9344,8 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
-                                            <requestXpert>
+                                            </xpertRequest>
+                                            <xpertRequest>
                                                 <drugId>imatinib1</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -9358,8 +9358,8 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
-                                            <requestXpert>
+                                            </xpertRequest>
+                                            <xpertRequest>
                                                 <drugId>imatinib2</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -9372,7 +9372,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -11497,7 +11497,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -11510,8 +11510,8 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
-                                            <requestXpert>
+                                            </xpertRequest>
+                                            <xpertRequest>
                                                 <drugId>en_imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -11524,7 +11524,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -12307,7 +12307,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -12320,7 +12320,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 

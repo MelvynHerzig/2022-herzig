@@ -1386,7 +1386,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1399,7 +1399,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -1490,7 +1490,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1503,7 +1503,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -1591,7 +1591,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1604,7 +1604,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -1675,7 +1675,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1688,7 +1688,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -1754,7 +1754,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1767,7 +1767,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -1855,7 +1855,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1868,7 +1868,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -1960,7 +1960,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1973,7 +1973,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -2037,7 +2037,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -2049,7 +2049,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -2137,7 +2137,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -2149,7 +2149,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -2235,7 +2235,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -2247,7 +2247,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -2337,7 +2337,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -2349,7 +2349,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -2438,7 +2438,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>busulfan</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -2450,7 +2450,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -2517,7 +2517,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>busulfan</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -2529,7 +2529,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -2619,7 +2619,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>busulfan</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -2632,7 +2632,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -2721,7 +2721,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -2733,7 +2733,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -2819,7 +2819,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -2831,7 +2831,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -2917,7 +2917,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -2929,7 +2929,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -3019,7 +3019,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -3031,7 +3031,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -3117,7 +3117,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -3129,7 +3129,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -3219,7 +3219,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -3231,7 +3231,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -3317,7 +3317,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>busulfan</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -3329,7 +3329,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -3416,7 +3416,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -3428,7 +3428,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -3514,7 +3514,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -3526,7 +3526,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>aprioriValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -3612,7 +3612,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -3624,7 +3624,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <!-- target extraction option is not set -->
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -3710,7 +3710,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -3722,7 +3722,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>aprioriValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -3808,7 +3808,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -3820,7 +3820,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>aprioriValues</targetExtractionOption>
                                                     <!-- formulation and route selection option not set -->
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -3928,7 +3928,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -3940,7 +3940,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>aprioriValues</targetExtractionOption>
                                                     <!-- formulation and route selection option not set -->
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -4004,7 +4004,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -4016,7 +4016,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
                                                     <targetExtractionOption>aprioriValues</targetExtractionOption>
                                                     <!-- formulation and route selection option not set -->
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 

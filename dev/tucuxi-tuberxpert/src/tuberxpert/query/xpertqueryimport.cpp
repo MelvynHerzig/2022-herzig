@@ -91,7 +91,7 @@ Common::IImport::Status XpertQueryImport::importDocument(unique_ptr<XpertQueryDa
     }
 
     if (requestsXpert.size() == 0) {
-        setStatus(Status::Error, "No requestXpert found");
+        setStatus(Status::Error, "No xpertRequest found");
     }
 
     _query = make_unique<XpertQueryData>(queryId, clientId, date, language,  move(pAdministrativeData), move(pParametersData), requests, requestsXpert);

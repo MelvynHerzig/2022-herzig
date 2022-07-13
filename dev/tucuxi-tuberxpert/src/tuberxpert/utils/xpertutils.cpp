@@ -98,9 +98,9 @@ string TimeOfDayToString(const Common::TimeOfDay& _timeOfDay)
 {
     stringstream timeStream;
 
-    LanguageManager& lm = LanguageManager::getInstance();
+    LanguageManager& langMgr = LanguageManager::getInstance();
 
-    timeStream << _timeOfDay.hour() << lm.translate("hour_acronym");
+    timeStream << _timeOfDay.hour() << langMgr.translate("hour_acronym");
 
     if (_timeOfDay.minute() != 0) {
         timeStream << _timeOfDay.minute();
@@ -137,14 +137,14 @@ string dateTimeToString(const Common::DateTime& _dateTime, bool _withTime)
 
 string beautifyString(const string& _value, Core::DataType _type, const string& _id)
 {
-    LanguageManager& lm = LanguageManager::getInstance();
+    LanguageManager& langMgr = LanguageManager::getInstance();
 
     // Convert the value to yes/no for nice display if the data type is bool.
     if (_type == Core::DataType::Bool) {
         if (stoi(_value)) {
-            return lm.translate("yes");
+            return langMgr.translate("yes");
         } else {
-            return lm.translate("no");
+            return langMgr.translate("no");
         }
     // Only print two decimals if it is a double.
     } else if (_type == Core::DataType::Double && _id != "sex") {
@@ -155,20 +155,20 @@ string beautifyString(const string& _value, Core::DataType _type, const string& 
     if (_id == "sex") {
         double sexAsDouble = stod(_value);
         if (sexAsDouble > 0.6) {
-            return lm.translate("man");
+            return langMgr.translate("man");
         } else if (sexAsDouble < 0.4){
-            return lm.translate("woman");
+            return langMgr.translate("woman");
         } else {
-            return lm.translate("undefined");
+            return langMgr.translate("undefined");
         }
     }
 
     return _value;
 }
 
-string getStringWithEnglishFallback(const Common::TranslatableString& _ts, OutputLang _lang)
+string getStringWithEnglishFallback(const Common::TranslatableString& _translatableString, OutputLang _lang)
 {
-    string translatedString = _ts.getString(outputLangToString(_lang));
+    string translatedString = _translatableString.getString(outputLangToString(_lang));
 
     // Required translation.
     if (translatedString != ""){
@@ -176,7 +176,7 @@ string getStringWithEnglishFallback(const Common::TranslatableString& _ts, Outpu
 
     // English or empty string.
     } else {
-        return _ts.getString();
+        return _translatableString.getString();
     }
 }
 
@@ -219,7 +219,7 @@ string computeFileName(const XpertRequestResult& _xpertRequestResult,
                        bool _addExtension)
 {
     stringstream fileNameStream;
-    Common::DateTime dtComputation = _xpertRequestResult.getGlobalResult().getComputationTime();
+    Common::DateTime computationTime = _xpertRequestResult.getGlobalResult().getComputationTime();
 
     // If the output path should be prefixed.
     if (_addOutputPath) {
@@ -228,8 +228,8 @@ string computeFileName(const XpertRequestResult& _xpertRequestResult,
 
     fileNameStream << _xpertRequestResult.getXpertRequest().getDrugID() << "_" <<
           _xpertRequestResult.getGlobalResult().getRequestIndexBeingHandled() + 1 << "_" <<
-          dtComputation.day() << "-" << dtComputation.month() << "-" << dtComputation.year() << "_" <<
-          dtComputation.hour() << "h" << dtComputation.minute() << "m" << dtComputation.second() << "s";
+          computationTime.day() << "-" << computationTime.month() << "-" << computationTime.year() << "_" <<
+          computationTime.hour() << "h" << computationTime.minute() << "m" << computationTime.second() << "s";
 
     // If the extension should be suffixed.
     if (_addExtension) {

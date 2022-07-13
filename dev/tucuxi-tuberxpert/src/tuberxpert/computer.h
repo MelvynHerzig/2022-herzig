@@ -47,7 +47,7 @@ public:
     /// \param _drugPath Path to the folder containing the drug models.
     /// \param _inputFileName Path to the query file.
     /// \param _outputPath Path ot the output directory. One file is created per successful request.
-    /// \param _languagePath Path to the folder containing the translation files.
+    /// \param _languagePath Path to the folder containing the translations files.
     /// \return  A computingStatus that depends on whether the query could be loaded and how much
     ///          requestXpert was successfully processed.
     ComputingStatus computeFromFile(const std::string& _drugPath,
@@ -61,7 +61,7 @@ public:
     /// \param _drugPath Path to the folder containing the drug models.
     /// \param _inputString Xml query string.
     /// \param _outputPath Path ot the output directory. One file is created per successful request.
-    /// \param _languagePath Path to the folder containing the translation files.
+    /// \param _languagePath Path to the folder containing the translations files.
     /// \return A computingStatus that depends on whether the query could be loaded and how much
     ///          requestXpert was successfully processed.
     ComputingStatus computeFromString(const std::string& _drugPath,

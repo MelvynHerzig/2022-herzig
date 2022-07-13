@@ -81,10 +81,10 @@ std::string beautifyString(const std::string& _value, Core::DataType _type, cons
 
 /// \brief Extract a translated string from a translatable string based on a given language.
 ///        If the language is not extractable, it tries to fall back on English.
-/// \param _ts Translatable string.
+/// \param _translatableString Translatable string.
 /// \param _lang Lang to extract.
 /// \return If present, the translated string, otherwise the English translation, otherwise an empty string.
-std::string getStringWithEnglishFallback(const Common::TranslatableString& _ts, OutputLang _lang);
+std::string getStringWithEnglishFallback(const Common::TranslatableString& _translatableString, OutputLang _lang);
 
 /// \brief Extract the start time of the dosage time range that is the oldest in the dosage history
 ///        and before the reference time.
