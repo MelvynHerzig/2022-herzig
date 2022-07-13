@@ -16,140 +16,148 @@
 namespace Tucuxi {
 namespace Xpert {
 
-/// \brief Convert a data type to a string.
-/// \param _value Value to convert.
-/// \param _type Type of the value for string conversion.
+/// \brief Convert a DataType to a string.
+/// \param _dataType DataType to convert.
 /// \return The string of the resulting conversion.
-std::string varToString(const Core::DataType& _dataType);
+std::string dataTypeToString(const Core::DataType& _dataType);
 
-/// \brief Convert a floating point variable to a string with two decimals.
-/// \param _value Variable to convert to a string.
-/// \return String describing the variable.
-std::string varToString(const double& _value);
+/// \brief Convert a double to a string with two decimals.
+/// \param _double Double to convert.
+/// \return The string of the resulting conversion.
+std::string doubleToString(const double& _double);
 
-/// \brief Convert a floating point variable to a string with two decimals.
-/// \param _value Variable to convert to a string.
-/// \return String describing the variable.
-std::string varToString(const double& _value);
+/// \brief Convert a CovariateType to a string.
+/// \param _covariateType CovariateType to convert.
+/// \return The string of the resulting conversion.
+/// \throw Invalid argument if CovariateType is not supported.
+std::string covariateTypeToString(CovariateType _covariateType);
 
-/// \brief Convert a covariate type to a string.
-/// \param _value Covariate type to convert to a string.
-/// \return String describing the covariate type.
-/// \throw Invalid argument if the CovariateType is not supported.
-std::string varToString(CovariateType _value);
+/// \brief Convert an OutputLang to a string.
+/// \param _lang OutputLang to convert.
+/// \return The string of the resulting conversion.
+/// \throw LanguageException if OutputLang is not supported.
+std::string outputLangToString(OutputLang _lang);
 
-/// \brief Computes the corresponding string out of an OutputLang.
-/// \param _lang OutputLang to "translate" into string.
-/// \return Returns a string corresponding to OutputLang requested.
-/// \throw LanguageException If the OutputLang is not supported.
-std::string varToString(OutputLang _lang);
+/// \brief Convert a WarningLevel to a string.
+/// \param _level WarningLevel to convert.
+/// \return The string of the resulting conversion.
+/// \throw Invalid argument if WarningLevel is not supported.
+std::string warningLevelToString(WarningLevel _level);
 
-/// \brief Convert a warning level to a string.
-/// \param _level Warning level to convert to a string.
-/// \return String describing the warning level.
-/// \throw Invalid argument if the level is not supported.
-std::string varToString(WarningLevel _level);
-
-/// \brief Converts a date time into a string usable as an xml value.
-/// \param _dateTime Date time to export.
-/// \return Resulting string value.
+/// \brief Convert a DateTime to a usable string for xml export.
+/// \param _dateTime DateTime to convert.
+/// \return The string of the resulting conversion.
 std::string dateTimeToXmlString(const Common::DateTime& _dateTime);
 
-/// \brief Convert a date and time to a string for html/pdf.
-///        Remove the seconds.
-///        Remove the minutes if equal to 0.
+/// \brief Convert a TimeOfDay to a string.
+///        It removes the seconds.
+///        It removes the minutes if they are equal to 0.
 ///        Suffix the hour acronym of the language manager to the hour value.
-/// \param _value Warning level to convert to a string.
-/// \return String that match the time.
-std::string timeToString(const Common::TimeOfDay& _timeOfDay);
+///        For example in English: 8h30 or 10h (when the minutes are equalt to 0).
+/// \param _timeOfDay TimeOfDay to convert.
+/// \return The string of the resulting conversion.
+std::string TimeOfDayToString(const Common::TimeOfDay& _timeOfDay);
 
-/// \brief Convert a date and time to a string for html/pdf.
-///        Format <day>.<month>.<year> <hour>h<minutes>
-///        As explained, the seconds are removed.
-///        If the minutes is 0, remove it aswell.
-/// \param _dateTime Date and time to convert
-/// \param _withTime Tells if the date time result string must include the time part. Default is true.
-/// \return String describing the date.
+/// \brief Convert a DateTime to a string.
+///        Format: <day>.<month>.<year> <hour><hour acronym><minutes>
+///        It removes the seconds.
+///        It removes the minutes if they are equal to 0.
+/// \param _dateTime DateTime to convert
+/// \param _withTime Indicates whether the result string should include the time part.
+///                  The default value is true.
+/// \return The string of the resulting conversion.
 std::string dateTimeToString(const DateTime& _dateTime, bool _withTime = true);
 
 /// \brief Beautify a string that represents a covariate value.
-///        If the type is Bool, return yes/no translation.
-///        If the _id is sex, return man/woman/undefined translation.
-/// \param _value Value of the covariate as string.
-/// \param _type Data type of the initial data type.
-/// \param _id Id of the initial data type.
-/// \return Beatuified string or the default if not corresponding to any criteria to beautify.
+///        If the DataType is Bool, returns the translation of "yes" or "no".
+///        If the DataType is double, return the value with two decimals.
+///        If the covariate identifier is sex, returns the translation of
+///        "man", "woman" or "undefined".
+/// \param _value Value of the covariate.
+/// \param _type DataType of the covariate.
+/// \param _id Identifier of the the covariate.
+/// \return The beautified string or the unchanged input if it does not meet any beautify criteria.
 std::string beautifyString(const std::string& _value, Core::DataType _type, const std::string& _id);
 
-/// \brief Extracts a string from a translatable string in regard of a given language. If
-///        the language is not extractable, it tries to fallback with english.
+/// \brief Extract a translated string from a translatable string based on a given language.
+///        If the language is not extractable, it tries to fall back on English.
 /// \param _ts Translatable string.
 /// \param _lang Lang to extract.
-/// \return The translation if present, else the english translation else empty string.
+/// \return If present, the translated string, otherwise the English translation, otherwise an empty string.
 std::string getStringWithEnglishFallback(const Common::TranslatableString& _ts, OutputLang _lang);
 
-/// \brief Extract the dosage time range starting time that is the oldest of the dosage history and before
-///        the reference time.
-/// \param _dosageHistory Dosage history to extract the oldest time range starting time.
-/// \param _referenceTime Reference time. The resulting time must be before this time.
-/// \return Return the oldest starting time found or the computation date if the dosage history is empty.
-Common::DateTime getOldestDosageTimeRangeStart(const Core::DosageHistory& _dosageHistory, const Common::DateTime& _referenceTime);
+/// \brief Extract the start time of the dosage time range that is the oldest in the dosage history
+///        and before the reference time.
+/// \param _dosageHistory Dosage history to extract the start time of the oldest dosage time range.
+/// \param _referenceTime Reference time. The resulting start time must be earlier than this time.
+/// \return The oldest starting time found or the reference time if the dosage history is empty.
+Common::DateTime getOldestDosageTimeRangeStart(const Core::DosageHistory& _dosageHistory,
+                                               const Common::DateTime& _referenceTime);
 
-/// \brief Extract the latest (the last in the past / youngest) dosage time range start that is the closest to
-///        the time reference time.
-/// \param _dosageHistory Dosage history to extract the latest time range starting time.
-/// \param _referenceTime Reference time. The resulting time must be before this time.
-/// \return Return the latest starting time found or an undefined date if the dosage history is empty or in the future.
-Common::DateTime getLatestDosageTimeRangeStart(const Core::DosageHistory& _dosageHistory, const Common::DateTime& _referenceTime);
+/// \brief Extract the start of the most recent (last in the past/youngest) dosage time range that
+///        is closest to the reference time.
+/// \param _dosageHistory Dosage history to extract the start time of the latest dosage time range.
+/// \param _referenceTime Reference time. The resulting start time must be earlier than this time.
+/// \return The latest starting time found or an undefined date-time if the dosage history is empty or in the future.
+Common::DateTime getLatestDosageTimeRangeStart(const Core::DosageHistory& _dosageHistory,
+                                               const Common::DateTime& _referenceTime);
 
-/// \brief Compute the final file name considering the path and the desired format.
+/// \brief Compute the final file name considering the desired output path and the format.
 ///        The final file name is <drugId>_<request number>_<computation time>.<file format>
-/// \param _xpertRequestResult To get the directory path, the drug id and the file format.
-/// \param _addExtension Tell if the output folder should be prefixed to the filename.
-/// \param _addExtension Tell if the file extension should be added to the file name.
+/// \param _xpertRequestResult XpertRequestResult to get the output directory path, the drug id and the file format.
+/// \param _addOutputPath Tell whether the path of the output directory should be prefixed to the file name.
+/// \param _addExtension Tell whether the file extension should be suffixed to the file name.
 /// \return Return the final file name.
-std::string computeFileName(const XpertRequestResult& _xpertRequestResult, bool _addOutputPath = true, bool _addExtension = true);
+std::string computeFileName(const XpertRequestResult& _xpertRequestResult,
+                            bool _addOutputPath = true,
+                            bool _addExtension = true);
 
-/// \brief For the given trait T, make a request and execute it. Then, cast the response in U and put it in the response pointer.
-///        The response pointer is not changed if the computation fails.
-/// \param _trait Trait to use for request.
-/// \param _xpertRequestResult Xpert request result to retrieve a treatment and a drug model.
+/// \brief For the given trait T, make a request and execute it. Then convert the response to U and
+///        place it in the response pointer.
+///        The response pointer is set to nullptr if the computation fails.
+/// \param _trait Computing trait to be used for request.
+/// \param _xpertRequestResult XpertRequestResult to retrieve the treatment and drug model.
 /// \param _responsePointer Pointer where to put the response.
 template<typename T, typename U>
-void executeRequestAndGetResult(std::unique_ptr<T> _trait, const XpertRequestResult& _xpertRequestResult, std::unique_ptr<U>& _responsePointer)
+void executeRequestAndGetResult(std::unique_ptr<T> _trait,
+                                const XpertRequestResult& _xpertRequestResult,
+                                std::unique_ptr<U>& _responsePointer)
 {
-    // Make computig request and computing response
+    // Make the computing request and response.
     Core::ComputingRequest computingRequest { "", *_xpertRequestResult.getDrugModel(), *_xpertRequestResult.getTreatment(), move(_trait)};
     std::unique_ptr<Core::ComputingResponse> computingResponse = std::make_unique<Core::ComputingResponse>("");
 
-    // Start the core computation
+    // Start the computation in tucuxi-core.
     Core::IComputingService* computingComponent = dynamic_cast<Core::IComputingService*>(Core::ComputingComponent::createComponent());
     Core::ComputingStatus result = computingComponent->compute(computingRequest, computingResponse);
 
-    // If computation failed, just set to nullptr and leave
+    // If the computation failed, set to nullptr and leave.
     if (result != Core::ComputingStatus::Ok) {
         _responsePointer = nullptr;
         return;
     }
 
-    // Acquire the data and put them in the unique pointer as response
+    // Acquire the data and put it in the unique pointer as the response.
     U* dataPointer = dynamic_cast<U*>(computingResponse->getUniquePointerData().release());
     _responsePointer = std::unique_ptr<U>(dataPointer);
 }
 
-/// \brief Transform a camel case key into a phrase.
+/// \brief Convert a camel case key to a phrase.
 ///        "camelCaseKey" becomes "Camel case key".
-/// \param key Key to transform.
-/// \return Return the resulting transformation.
+/// \param key Camel case ke to convert.
+/// \return The resulting phrase.
 std::string keyToPhrase(const std::string& _key);
 
-/// \brief For a given birth date and computation time, compute the age type between these two dates.
+/// \brief For a given date of birth and computation time, compute the age between these two dates
+///        according to a given age type.
 /// \param _ageType Age type to compute.
-/// \param _birthDate Birth date.
-/// \param _computationTime Reference/computation time.
-/// \return The resulting age as double.
-/// \throws invalid_argument When the covariate type is not an age.
-double getAgeIn(Core::CovariateType _ageType, const Common::DateTime& _birthDate, const Common::DateTime& _computationTime);
+/// \param _birthDate Date of birth.
+/// \param _computationTime Computation time to use as the present day.
+/// \return The resulting age as a double.
+/// \throws Invalid argument when the covariate type is not an age type.
+double getAgeIn(Core::CovariateType _ageType,
+                const Common::DateTime& _birthDate,
+                const Common::DateTime& _computationTime);
 
 
 } // namespace Xpert

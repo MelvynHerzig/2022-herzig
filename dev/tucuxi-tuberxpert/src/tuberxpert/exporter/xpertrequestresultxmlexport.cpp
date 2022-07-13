@@ -114,7 +114,7 @@ void XpertRequestResultXmlExport::exportDrugIntro(const XpertRequestResult& _xpe
 
     if (_xpertRequestResult.getLastIntake() != nullptr) {
         //              <value>
-        addNode(lastDoseNode, "value", varToString(_xpertRequestResult.getLastIntake()->getDose()));
+        addNode(lastDoseNode, "value", doubleToString(_xpertRequestResult.getLastIntake()->getDose()));
 
         //              <unit>
         addNode(lastDoseNode, "unit", _xpertRequestResult.getLastIntake()->getUnit().toString());
@@ -362,14 +362,14 @@ void XpertRequestResultXmlExport::exportCovariateResults(const std::vector<Covar
         addNode(covariateNode, "unit", covariateValidationResult.getUnit().toString());
 
         //       <datatype>
-        addNode(covariateNode, "dataType", varToString(covariateValidationResult.getDataType()));
+        addNode(covariateNode, "dataType", dataTypeToString(covariateValidationResult.getDataType()));
 
         //       <desc>
         addNode(covariateNode, "desc", getStringWithEnglishFallback(covariateValidationResult.getSource()->getDescription(),
                                                                     m_xpertRequestResultInUse->getXpertRequest().getOutputLang()));
 
         //       <source>
-        addNode(covariateNode, "source", varToString(covariateValidationResult.getType()));
+        addNode(covariateNode, "source", covariateTypeToString(covariateValidationResult.getType()));
 
         //       <warning>
         exportWarning(covariateValidationResult, covariateNode);

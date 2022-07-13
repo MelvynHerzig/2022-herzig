@@ -813,7 +813,7 @@ void XpertRequestResultHtmlExport::getDrugIntroJson(const XpertRequestResult& _x
 
     // Last dose
     if (_xpertRequestResult.getLastIntake() != nullptr) {
-        _introJson["last_dose"] = varToString(_xpertRequestResult.getLastIntake()->getDose()) + " " + _xpertRequestResult.getLastIntake()->getUnit().toString();
+        _introJson["last_dose"] = doubleToString(_xpertRequestResult.getLastIntake()->getDose()) + " " + _xpertRequestResult.getLastIntake()->getUnit().toString();
     }
 
     // Drug model
@@ -1073,7 +1073,7 @@ void XpertRequestResultHtmlExport::getCovariatesJson(const vector<CovariateValid
             valueStream << " " << unit;
         }
 
-        valueStream << " (" << lm.translate("source_" + varToString(cvr.getType())) << ")";
+        valueStream << " (" << lm.translate("source_" + covariateTypeToString(cvr.getType())) << ")";
 
         covariate["value"] = valueStream.str();
 
@@ -1206,7 +1206,7 @@ void XpertRequestResultHtmlExport::getDosageJson(const Core::ParallelDosageSeque
     for (const unique_ptr<Tucuxi::Core::DosageBounded>& dosage : _dosage.getDosageList()) {
 
         stringstream offsetStream;
-        offsetStream << lm.translate("offset") << " " << timeToString(TimeOfDay(*it));
+        offsetStream << lm.translate("offset") << " " << TimeOfDayToString(TimeOfDay(*it));
         string newPosologyIndicationChain = concatenatePosology(offsetStream.str(), _posologyIndicationChain);
 
         getAbstractDosageJson(*dosage,  _dosageTimeRangeJson, newPosologyIndicationChain);
@@ -1220,7 +1220,7 @@ void XpertRequestResultHtmlExport::getDosageJson(const Core::LastingDose& _dosag
     LanguageManager& lm = LanguageManager::getInstance();
 
     stringstream posologyStream;
-    posologyStream << lm.translate("interval") << " " << timeToString(TimeOfDay(_dosage.getTimeStep()));
+    posologyStream << lm.translate("interval") << " " << TimeOfDayToString(TimeOfDay(_dosage.getTimeStep()));
     string newPosologyIndicationChain = concatenatePosology(posologyStream.str(), _posologyIndicationChain);
 
     // Export the single dose
@@ -1233,7 +1233,7 @@ void XpertRequestResultHtmlExport::getDosageJson(const Core::DailyDose& _dosage,
     LanguageManager& lm = LanguageManager::getInstance();
 
     stringstream posologyStream;
-    posologyStream << lm.translate("daily_at") << " " << timeToString(_dosage.getTimeOfDay());
+    posologyStream << lm.translate("daily_at") << " " << TimeOfDayToString(_dosage.getTimeOfDay());
     string newPosologyIndicationChain = concatenatePosology(posologyStream.str(), _posologyIndicationChain);
 
     // Export the single dose
@@ -1247,7 +1247,7 @@ void XpertRequestResultHtmlExport::getDosageJson(const Core::WeeklyDose& _dosage
 
     stringstream posologyStream;
     posologyStream << lm.translate("every") << " " << lm.translate("day_" + to_string(_dosage.getDayOfWeek().operator unsigned int()))
-                   << " " <<lm.translate("at") << " " << timeToString(_dosage.getTimeOfDay());
+                   << " " <<lm.translate("at") << " " << TimeOfDayToString(_dosage.getTimeOfDay());
     string newPosologyIndicationChain = concatenatePosology(posologyStream.str(), _posologyIndicationChain);
 
     // Export the single dose
@@ -1275,7 +1275,7 @@ void XpertRequestResultHtmlExport::getSingleDoseJson(const Core::SingleDose& _do
 
     // get the dosage
     stringstream posologyStream;
-    posologyStream << varToString(_dosage.getDose()) << " " << _dosage.getDoseUnit().toString();
+    posologyStream << doubleToString(_dosage.getDose()) << " " << _dosage.getDoseUnit().toString();
 
     // If the route is defined add it to the dosage
     if (it != routes.end() && it->second != "undefined") {
@@ -1338,7 +1338,7 @@ void XpertRequestResultHtmlExport::getSamplesJson(const vector<SampleValidationR
         getWarningJson(sampleValidationResult, sample);
 
         // Get the warning level
-        sample["warning_level"] = varToString(sampleValidationResult.getWarningLevel());
+        sample["warning_level"] = warningLevelToString(sampleValidationResult.getWarningLevel());
 
         _samplesJson["rows"].emplace_back(sample);
     }
@@ -1387,7 +1387,7 @@ void XpertRequestResultHtmlExport::getAdjustmentJson(const unique_ptr<Core::Adju
         inja::json adjustment;
 
         // Get adjustment score
-        adjustment["score"] = varToString(adj.getGlobalScore());
+        adjustment["score"] = doubleToString(adj.getGlobalScore());
 
         // Export the dosage time ranges as json rows
         for (const unique_ptr<Core::DosageTimeRange>& dosageTimeRange : adj.m_history.getDosageTimeRanges()) {
@@ -1433,11 +1433,11 @@ void XpertRequestResultHtmlExport::getTargetsJson(const unique_ptr<Core::Adjustm
 
         // Get the value (unit)
         stringstream valueStream;
-        valueStream << varToString(target.getValue()) << " (" << target.getUnit().toString() << ")";
+        valueStream << doubleToString(target.getValue()) << " (" << target.getUnit().toString() << ")";
         targetJson["value"] = valueStream.str();
 
         // Get the score
-        targetJson["score"] = varToString(target.getScore());
+        targetJson["score"] = doubleToString(target.getScore());
 
         // Get the bounds
         stringstream boundsStream;
@@ -1488,20 +1488,20 @@ void XpertRequestResultHtmlExport::getParametersJson(const XpertRequestResult& _
             case 0: {
                 inja::json parameterJson;
                 parameterJson["name"] = parameterValue.m_parameterId;
-                parameterJson["typical_patient"] = varToString(parameterValue.m_value);
+                parameterJson["typical_patient"] = doubleToString(parameterValue.m_value);
                 _pksJson["rows"].emplace_back(parameterJson);
                 break;
             }
 
                 // A priori
             case 1: {
-                _pksJson["rows"][j]["a_priori"] = varToString(parameterValue.m_value);
+                _pksJson["rows"][j]["a_priori"] = doubleToString(parameterValue.m_value);
                 break;
             }
 
                 // A posteriori
             case 2: {
-                _pksJson["rows"][j]["a_posteriori"] = varToString(parameterValue.m_value);
+                _pksJson["rows"][j]["a_posteriori"] = doubleToString(parameterValue.m_value);
                 break;
             }
             }
@@ -1544,13 +1544,13 @@ void XpertRequestResultHtmlExport::getPredictionsJson(const XpertRequestResult& 
     _xpertRequestResult.getCycleStats().getStatistic(0, Tucuxi::Core::CycleStatisticType::Residual).getValue(date, residual);
 
     // Extrapolated steady state auc24
-    _predictionsJson["extrapolated_steady_state_auc24"] = varToString(auc24) + " µg*h/l";
+    _predictionsJson["extrapolated_steady_state_auc24"] = doubleToString(auc24) + " µg*h/l";
 
     // Steady state peak
-    _predictionsJson["steady_state_peak"] = varToString(peak) + " µg/l";
+    _predictionsJson["steady_state_peak"] = doubleToString(peak) + " µg/l";
 
     // Steady state trough
-    _predictionsJson["steady_state_trough"] = varToString(residual) + " µg/l";
+    _predictionsJson["steady_state_trough"] = doubleToString(residual) + " µg/l";
 }
 
 void XpertRequestResultHtmlExport::getComputationCovariatesJson(const XpertRequestResult& _xpertRequestResult, inja::json& _computationCovariatesJson) const
@@ -1586,7 +1586,7 @@ void XpertRequestResultHtmlExport::getComputationCovariatesJson(const XpertReque
         computationCovariate["name"] = getStringWithEnglishFallback((*covariteDefinitionIt)->getName(), _xpertRequestResult.getXpertRequest().getOutputLang());
 
         // Get the value
-        computationCovariate["value"] = beautifyString(varToString(covariateValue.m_value),
+        computationCovariate["value"] = beautifyString(doubleToString(covariateValue.m_value),
                                                        (*covariteDefinitionIt)->getDataType(),
                                                        (*covariteDefinitionIt)->getId());
 
@@ -1611,13 +1611,13 @@ void XpertRequestResultHtmlExport::getGraphDataJson(const XpertRequestResult& _x
         targetJson["type"] = Core::toString(target.getTargetType());
 
         // Add target min
-        targetJson["min"] = varToString(target.getTarget().getValueMin());
+        targetJson["min"] = doubleToString(target.getTarget().getValueMin());
 
         // Add target best
-        targetJson["best"] = varToString(target.getTarget().getValueBest());
+        targetJson["best"] = doubleToString(target.getTarget().getValueBest());
 
         // Add target max
-        targetJson["max"] = varToString(target.getTarget().getValueMax());
+        targetJson["max"] = doubleToString(target.getTarget().getValueMax());
 
 
         _graphDataJson["targets"].emplace_back(targetJson);

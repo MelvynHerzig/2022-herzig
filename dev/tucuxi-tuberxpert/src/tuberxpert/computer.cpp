@@ -150,7 +150,7 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
     try {
         string translationFileName = _languagePath +
                                   "/" +
-                                  varToString(_xpertRequestResult.getXpertRequest().getOutputLang()) +
+                                  outputLangToString(_xpertRequestResult.getXpertRequest().getOutputLang()) +
                                   ".xml";
         ifstream ifs(translationFileName);
 

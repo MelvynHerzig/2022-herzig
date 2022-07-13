@@ -140,7 +140,7 @@ protected:
         if (!_validationResult.getWarning().empty()) {
             Common::XmlNode warningNode =
                     m_xmlDocument.createNode(Common::EXmlNodeType::Element, "warning", _validationResult.getWarning());
-            auto levelAttribute = m_xmlDocument.createAttribute("level", varToString(_validationResult.getWarningLevel()));
+            auto levelAttribute = m_xmlDocument.createAttribute("level", warningLevelToString(_validationResult.getWarningLevel()));
             warningNode.addAttribute(levelAttribute);
             _parentNode.addChild(warningNode);
         }

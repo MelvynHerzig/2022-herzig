@@ -64,10 +64,13 @@ int main(int argc, char** argv)
     TestXpertUtils xpertUtilsTests;
 
     xpertUtilsTests.add_test("Convert data type to string", &TestXpertUtils::convertDataTypeToString);
-    xpertUtilsTests.add_test("Convert output lang to string", &TestXpertUtils::convertOutputLangToString);
     xpertUtilsTests.add_test("Convert double to string", &TestXpertUtils::convertDoubleToString);
     xpertUtilsTests.add_test("Convert covariate type to string", &TestXpertUtils::convertCovariateTypeToString);
+    xpertUtilsTests.add_test("Convert output lang to string", &TestXpertUtils::convertOutputLangToString);
     xpertUtilsTests.add_test("Convert warning level to string", &TestXpertUtils::convertWarningLevelToString);
+    xpertUtilsTests.add_test("Date time to xml string returns correct value.", &TestXpertUtils::dateTimeToXmlStringReturnCorrectValue);
+    xpertUtilsTests.add_test("Time to string return correct value.", &TestXpertUtils::timeToStringReturnCorrectValue);
+    xpertUtilsTests.add_test("Date time to string retruns correct value.", &TestXpertUtils::dateTimeToStringReturnCorrectValue);
     xpertUtilsTests.add_test("String beautification", &TestXpertUtils::stringBeautification);
     xpertUtilsTests.add_test("Get a translatable string with english fallback.", &TestXpertUtils::getStringFromTranslatableWithFallback);
     xpertUtilsTests.add_test("The values returned by getOldestTimeRangeStart are correct.", &TestXpertUtils::getOldestDosageTimeRangeStartReturnsCorrectValues);
@@ -76,9 +79,6 @@ int main(int argc, char** argv)
     xpertUtilsTests.add_test("The values returned by executeRequestAndGetResult are correct.", &TestXpertUtils::executeRequestAndGetResultReturnsCorrectValues);
     xpertUtilsTests.add_test("Convert key to phrase.", &TestXpertUtils::convertKeyToPhrase);
     xpertUtilsTests.add_test("Convert birth date to age.", &TestXpertUtils::computeAge);
-    xpertUtilsTests.add_test("Date time to xml string returns correct value.", &TestXpertUtils::dateTimeToXmlStringReturnCorrectValue);
-    xpertUtilsTests.add_test("Time to string return correct value.", &TestXpertUtils::timeToStringReturnCorrectValue);
-    xpertUtilsTests.add_test("Date time to string retruns correct value.", &TestXpertUtils::dateTimeToStringReturnCorrectValue);
 
     res = xpertUtilsTests.run(argc, argv);
     if (res != 0) {

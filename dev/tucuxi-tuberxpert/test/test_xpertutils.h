@@ -745,10 +745,31 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
     {
         std::cout << _testName << std::endl;
 
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Core::DataType::Bool), "bool");
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Core::DataType::Int), "int");
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Core::DataType::Double), "double");
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Core::DataType::Date), "date");
+        fructose_assert_eq(Tucuxi::Xpert::dataTypeToString(Tucuxi::Core::DataType::Bool), "bool");
+        fructose_assert_eq(Tucuxi::Xpert::dataTypeToString(Tucuxi::Core::DataType::Int), "int");
+        fructose_assert_eq(Tucuxi::Xpert::dataTypeToString(Tucuxi::Core::DataType::Double), "double");
+        fructose_assert_eq(Tucuxi::Xpert::dataTypeToString(Tucuxi::Core::DataType::Date), "date");
+    }
+
+    /// \brief Converts double to string. Checks that the string contains two decimals.
+    /// \param _testName Name of the test.
+    void convertDoubleToString(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        fructose_assert_eq(Tucuxi::Xpert::doubleToString(5.411111), "5.41");
+        fructose_assert_eq(Tucuxi::Xpert::doubleToString(6), "6.00");
+    }
+
+    /// \brief Converts covariate type to string.
+    /// \param _testName Name of the test.
+    void convertCovariateTypeToString(const std::string& _testName)
+    {
+        std::cout << _testName << std::endl;
+
+        fructose_assert_eq(Tucuxi::Xpert::covariateTypeToString(Tucuxi::Xpert::CovariateType::Model), "default");
+        fructose_assert_eq(Tucuxi::Xpert::covariateTypeToString(Tucuxi::Xpert::CovariateType::Patient), "patient");
+        fructose_assert_exception(Tucuxi::Xpert::covariateTypeToString(Tucuxi::Xpert::CovariateType(-1)), std::invalid_argument);
     }
 
     /// \brief Converts output lang to string. Checks that the requested language get its corresponding
@@ -759,31 +780,21 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         std::cout << _testName << std::endl;
 
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::OutputLang::ENGLISH), "en");
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::OutputLang::FRENCH), "fr");
-        fructose_assert_exception(Tucuxi::Xpert::varToString(Tucuxi::Xpert::OutputLang(-1)), Tucuxi::Xpert::LanguageException);
+        fructose_assert_eq(Tucuxi::Xpert::outputLangToString(Tucuxi::Xpert::OutputLang::ENGLISH), "en");
+        fructose_assert_eq(Tucuxi::Xpert::outputLangToString(Tucuxi::Xpert::OutputLang::FRENCH), "fr");
+        fructose_assert_exception(Tucuxi::Xpert::outputLangToString(Tucuxi::Xpert::OutputLang(-1)), Tucuxi::Xpert::LanguageException);
     }
 
-
-    /// \brief Converts double to string. Checks that the string contains two decimals.
+    /// \brief Check that the string returned by dateTimeToXmlString is the
+    ///        expected value.
     /// \param _testName Name of the test.
-    void convertDoubleToString(const std::string& _testName)
+    void convertWarningLevelToString(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
-        fructose_assert_eq(Tucuxi::Xpert::varToString(5.411111), "5.41");
-        fructose_assert_eq(Tucuxi::Xpert::varToString(6), "6.00");
-    }
-
-    /// \brief Converts covariate type to string.
-    /// \param _testName Name of the test.
-    void convertCovariateTypeToString(const std::string& _testName)
-    {
-        std::cout << _testName << std::endl;
-
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::CovariateType::Model), "default");
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::CovariateType::Patient), "patient");
-        fructose_assert_exception(Tucuxi::Xpert::varToString(Tucuxi::Xpert::CovariateType(-1)), std::invalid_argument);
+        fructose_assert_eq(Tucuxi::Xpert::warningLevelToString(Tucuxi::Xpert::WarningLevel::CRITICAL), "critical");
+        fructose_assert_eq(Tucuxi::Xpert::warningLevelToString(Tucuxi::Xpert::WarningLevel::NORMAL), "normal");
+        fructose_assert_exception(Tucuxi::Xpert::warningLevelToString(Tucuxi::Xpert::WarningLevel(-1)), std::invalid_argument);
     }
 
     /// \brief Converts covariate value string with beautifyString.
@@ -821,18 +832,6 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
         fructose_assert_eq(Tucuxi::Xpert::beautifyString("42", Tucuxi::Core::DataType::Int, "age"), "42");
 
         fructose_assert_eq(Tucuxi::Xpert::beautifyString("72.652222", Tucuxi::Core::DataType::Double, "bodyweight"), "72.65");
-    }
-
-    /// \brief Check that the string returned by dateTimeToXmlString is the
-    ///        expected value.
-    /// \param _testName Name of the test.
-    void convertWarningLevelToString(const std::string& _testName)
-    {
-        std::cout << _testName << std::endl;
-
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::WarningLevel::CRITICAL), "critical");
-        fructose_assert_eq(Tucuxi::Xpert::varToString(Tucuxi::Xpert::WarningLevel::NORMAL), "normal");
-        fructose_assert_exception(Tucuxi::Xpert::varToString(Tucuxi::Xpert::WarningLevel(-1)), std::invalid_argument);
     }
 
     /// \brief Converts a date time to a formatted date time string.
@@ -879,8 +878,8 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
                         std::chrono::minutes(30),
                         std::chrono::seconds(1))};
 
-        fructose_assert_eq(Tucuxi::Xpert::timeToString(timeOfDayWithoutMinute), "8h");
-        fructose_assert_eq(Tucuxi::Xpert::timeToString(timeOfDayWithMinute), "8h30");
+        fructose_assert_eq(Tucuxi::Xpert::TimeOfDayToString(timeOfDayWithoutMinute), "8h");
+        fructose_assert_eq(Tucuxi::Xpert::TimeOfDayToString(timeOfDayWithMinute), "8h30");
     }
 
     /// \brief Check that the string returned by dateTimeToString is the
@@ -1127,7 +1126,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1140,7 +1139,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 
@@ -1271,7 +1270,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
                                         </drugTreatment>
                                         <!-- List of the requests we want the server to take care of -->
                                         <requests>
-                                            <requestXpert>
+                                            <xpertRequest>
                                                 <drugId>imatinib</drugId>
                                                 <output>
                                                     <format>xml</format>
@@ -1284,7 +1283,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
                                                     <targetExtractionOption>populationValues</targetExtractionOption>
                                                     <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
                                                 </options>
-                                            </requestXpert>
+                                            </xpertRequest>
                                         </requests>
                                     </query>)";
 

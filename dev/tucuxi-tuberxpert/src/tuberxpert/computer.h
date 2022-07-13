@@ -81,9 +81,9 @@ protected:
                      const std::string& _languagePath,
                      const std::unique_ptr<AbstractXpertFlowStepProvider>& _stepProvider) const;
 
-    /// \brief For a given drug identifier, get the AbstractXpertFlowStepProvider that best matches.
+    /// \brief For a given drug identifier, get the XpertFlowStepProvider that best matches.
     /// \param _drugId Drug identifier to search for the best AbstractXpertFlowStepProvider.
-    /// \param _xpertFlowStepProvider Unique pointer in which to create the corresponding AbstractXpertFlowStepProvider.
+    /// \param _xpertFlowStepProvider Unique pointer in which to create the corresponding XpertFlowStepProvider.
     void getXpertFlowStepProvider(const std::string& _drugId,
                                   std::unique_ptr<AbstractXpertFlowStepProvider>& _xpertFlowStepProvider) const;
 };

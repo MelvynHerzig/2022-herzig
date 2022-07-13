@@ -141,11 +141,11 @@ void DoseValidator::checkDoses(const Core::SingleDose& _singleDose,
         if(value < matchingFr->getValidDoses()->getFromValue()) {
             // (for example in english) : warning = Minimum recommended dosage reached (1 mg/l)
             warning = LanguageManager::getInstance().translate("minimum_dosage_warning") +
-                    " (" + varToString(matchingFr->getValidDoses()->getFromValue()) + " " +  matchingFr->getValidDoses()->getUnit().toString() + ")";
+                    " (" + doubleToString(matchingFr->getValidDoses()->getFromValue()) + " " +  matchingFr->getValidDoses()->getUnit().toString() + ")";
         } else if (value > matchingFr->getValidDoses()->getToValue()) {
             // (for example in english) : warning = Maximum recommended dosage reached (1 mg/l)
             warning = LanguageManager::getInstance().translate("maximum_dosage_warning") +
-                    " (" + varToString(matchingFr->getValidDoses()->getToValue()) + " " +  matchingFr->getValidDoses()->getUnit().toString() + ")";
+                    " (" + doubleToString(matchingFr->getValidDoses()->getToValue()) + " " +  matchingFr->getValidDoses()->getUnit().toString() + ")";
         }
 
         _doseResults.emplace(make_pair(&_singleDose, DoseValidationResult(&_singleDose, warning)));

@@ -1524,28 +1524,28 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
              switch(int(psd->getDose())) {
                 case 3000 :
-                 fructose_assert_eq(Tucuxi::Xpert::varToString(psd->getDose()), "3000.00");
+                 fructose_assert_eq(Tucuxi::Xpert::doubleToString(psd->getDose()), "3000.00");
                  fructose_assert_eq(psd->getDoseUnit().toString(), "mg");
                  fructose_assert_eq(doseIt->second.getWarning(), "Maximum recommended dosage reached (400.00 mg)");
                  first = true;
                  break;
 
                 case 3 :
-                 fructose_assert_eq(Tucuxi::Xpert::varToString(psd->getDose()), "3.00");
+                 fructose_assert_eq(Tucuxi::Xpert::doubleToString(psd->getDose()), "3.00");
                  fructose_assert_eq(psd->getDoseUnit().toString(), "mg");
                  fructose_assert_eq(doseIt->second.getWarning(), "Minimum recommended dosage reached (100.00 mg)");
                  second = true;
                  break;
 
                 case 400 :
-                 fructose_assert_eq(Tucuxi::Xpert::varToString(psd->getDose()), "400.00");
+                 fructose_assert_eq(Tucuxi::Xpert::doubleToString(psd->getDose()), "400.00");
                  fructose_assert_eq(psd->getDoseUnit().toString(), "mg");
                  fructose_assert_eq(doseIt->second.getWarning(), "");
                  third = true;
                  break;
 
                 case 0 :
-                 fructose_assert_eq(Tucuxi::Xpert::varToString(psd->getDose()), "0.39");
+                 fructose_assert_eq(Tucuxi::Xpert::doubleToString(psd->getDose()), "0.39");
                  fructose_assert_eq(psd->getDoseUnit().toString(), "g");
                  fructose_assert_eq(doseIt->second.getWarning(), "");
                  fourth = true;
