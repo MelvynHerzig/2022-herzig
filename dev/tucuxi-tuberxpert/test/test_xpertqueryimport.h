@@ -223,7 +223,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        const Tucuxi::Xpert::AdminData& pAdmin = *query->getAmin();
+        const Tucuxi::Xpert::AdminData& pAdmin = *query->getAdminData();
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
 
@@ -420,7 +420,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
 
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(query->getAmin().get(), nullptr);
+        fructose_assert_eq(query->getAdminData().get(), nullptr);
     }
 
     /// \brief Load an xml file with admin but no mandator, no patient and no clinical data.
@@ -546,11 +546,11 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
-        fructose_assert_ne(query->getAmin().get(), nullptr);
+        fructose_assert_ne(query->getAdminData().get(), nullptr);
 
-        fructose_assert_eq(query->getAmin()->getMandator().get(), nullptr);
-        fructose_assert_eq(query->getAmin()->getPatient().get(), nullptr);
-        fructose_assert_eq(query->getAmin()->getClinicalData().get(), nullptr);
+        fructose_assert_eq(query->getAdminData()->getMandator().get(), nullptr);
+        fructose_assert_eq(query->getAdminData()->getPatient().get(), nullptr);
+        fructose_assert_eq(query->getAdminData()->getClinicalData().get(), nullptr);
     }
 
     /// \brief Load an xml file with admin and minimal persons element
@@ -688,7 +688,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        const std::unique_ptr<Tucuxi::Xpert::AdminData>& admin = query->getAmin();
+        const std::unique_ptr<Tucuxi::Xpert::AdminData>& admin = query->getAdminData();
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
         fructose_assert_ne(admin.get(), nullptr);
@@ -853,7 +853,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-         const std::unique_ptr<Tucuxi::Xpert::AdminData>& admin = query->getAmin();
+         const std::unique_ptr<Tucuxi::Xpert::AdminData>& admin = query->getAdminData();
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
         fructose_assert_ne(admin.get(), nullptr);
@@ -1059,7 +1059,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        const std::unique_ptr<Tucuxi::Xpert::AdminData>& pAdmin = query->getAmin();
+        const std::unique_ptr<Tucuxi::Xpert::AdminData>& pAdmin = query->getAdminData();
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
 

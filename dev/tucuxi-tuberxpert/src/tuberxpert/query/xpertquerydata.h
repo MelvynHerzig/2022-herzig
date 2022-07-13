@@ -2,39 +2,34 @@
 #define XPERTQUERYDATA_H
 
 #include "tucuquery/querydata.h"
-#include "tucuquery/parametersdata.h"
 
-#include "tuberxpert/query/xpertrequestdata.h"
 #include "tuberxpert/query/admindata.h"
+#include "tuberxpert/query/xpertrequestdata.h"
 
 namespace Tucuxi {
 namespace Xpert {
 
-/// \brief This class extends the core queryData to include AdministrativeData class and
-/// the custom request "requestXpert" as XpertRequestData class.
+/// \brief This class extends the queryData of tucuxi-core to include AdminData class and
+///        the custom request element "xpertReequest" as XpertRequestData class.
+///        In other words, it contains the content of a query for TuberXpert.
 /// \date 23/04/2022
 /// \author Herzig Melvyn
 class XpertQueryData : public Query::QueryData
 {
 public:
 
-    // Constructors
-
-    /// \brief Default constructor is not supported.
-    XpertQueryData() = delete;
-
-    /// \brief Constructor of a query.
-    /// \param _queryID ID of the query.
-    /// \param _clientID ID of the client.
-    /// \param _queryDate A pointer to the date at which the query is sent.
-    /// \param _language The language supported by the client.
-    /// \param _admin A pointer to the administrative data.
+    /// \brief Constructor of an xpert query.
+    /// \param _queryID Identifier of the query. Just for QueryData compatibility.
+    /// \param _clientID Identifier of the client. Just for QueryData compatibility.
+    /// \param _queryDate Date and time to be used as "present" time.
+    /// \param _language The language supported by the client. Just for QueryData compatibility.
+    /// \param _admin A pointer to the admin data.
     /// \param _parameters A pointer to the medical data used for computation.
-    /// \param _requests The requests that the server must process.
-    /// \param _xpertRequests The requests for tuberXpert.
+    /// \param _requests The requests that tucuxi-core would execute. Just for QueryData compatibility.
+    /// \param _xpertRequests The xpert requests for TuberXpert.
     XpertQueryData(
-            const std::string& _queryID,
-            const std::string& _clientID,
+            const std::string& _queryId,
+            const std::string& _clientId,
             const Common::DateTime& _queryDate,
             const std::string& _language,
             std::unique_ptr<AdminData> _admin,
@@ -42,34 +37,33 @@ public:
             std::vector<std::unique_ptr<Query::RequestData>>& _requests,
             std::vector<std::unique_ptr<XpertRequestData>>& _xpertRequests);
 
-    /// \brief Copy constructor is not supported.
-    ///        The copy constructor is not supported because of the use of
-    ///        unique_ptr wich can't be copied.
+    /// \brief Copy constructor is not supported because of unique pointers.
     XpertQueryData(const XpertQueryData& _other) = delete;
 
-    /// \brief Gets administrative information.
-    /// \return The administrative information.
-    const std::unique_ptr<AdminData>& getAmin() const;
+    /// \brief Get the admin data.
+    /// \return The admini data as a unique pointer that may be nullptr.
+    const std::unique_ptr<AdminData>& getAdminData() const;
 
-    /// \brief Moves the administrative data unique pointer ownership.
-    /// \return Returns a right value on the administrative data unique pointer.
-    std::unique_ptr<AdminData>&& moveAdmin();
+    /// \brief Give the admin data unique pointer ownership.
+    /// \return A right value reference on the administrative data unique pointer.
+    std::unique_ptr<AdminData>&& moveAdminData();
 
-    /// \brief Get the custom requests for tuberXpert
-    /// \return A vector of custom requests.
+    /// \brief Get the custom requests for TuberXpert.
+    /// \return A vector of xpertRequestData. There is one element per request.
     const std::vector<std::unique_ptr<XpertRequestData>>& getXpertRequests() const;
 
-    /// \brief Moves an XpertRequest unique pointer ownership.
-    /// \param _i Index of the XpertRequest to move. _i must be smaller than m_xpertRequests.size().
-    /// \return Returns a right value on the XpertRequest unique pointer.
-    /// \throw out_of_range If the index _i bigger or equal to m_xpertRequests.size().
+    /// \brief Give the ownership of an XpertRequest unique pointer.
+    /// \param _i Index of the XpertRequest to give. _i must be smaller than the number of xpertRequests.
+    /// \return A right value reference on the xpertRequest unique pointer.
+    /// \throw out_of_range if _i is bigger or equal to the number of xpertRequests.
     std::unique_ptr<XpertRequestData>&& moveXpertRequest(size_t _i);
 
 protected:
-    /// \brief Administrative information.
+
+    /// \brief Admin information.
     std::unique_ptr<AdminData> m_admin;
 
-    /// \brief Custom requests for tuberXpert.
+    /// \brief Custom requests for TuberXpert.
     std::vector<std::unique_ptr<XpertRequestData>> m_xpertRequests;
 };
 

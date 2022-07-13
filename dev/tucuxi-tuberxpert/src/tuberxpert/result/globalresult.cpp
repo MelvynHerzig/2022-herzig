@@ -11,7 +11,7 @@ namespace Xpert {
 
 GlobalResult::GlobalResult(unique_ptr<XpertQueryData> _xpertQuery, const string& _outputPath) :
     m_computationTime(_xpertQuery->getpQueryDate()),
-    m_adminData(_xpertQuery->moveAdmin()),
+    m_adminData(_xpertQuery->moveAdminData()),
     m_outputPath(_outputPath),
     m_requestIndexBeingHandled(-1)
 

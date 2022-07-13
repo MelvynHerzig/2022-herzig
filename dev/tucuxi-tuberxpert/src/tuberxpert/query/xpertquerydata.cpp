@@ -6,29 +6,30 @@ namespace Tucuxi {
 namespace Xpert {
 
 XpertQueryData::XpertQueryData(
-        const string& _queryID,
-        const string& _clientID,
+        const string& _queryId,
+        const string& _clientId,
         const Common::DateTime& _queryDate,
         const string& _language,
         unique_ptr<AdminData> _admin,
         unique_ptr<Query::DrugTreatmentData> _parameters,
         vector<unique_ptr<Query::RequestData>>& _requests,
         vector<unique_ptr<XpertRequestData>>& _xpertRequests) :
-        Query::QueryData(_queryID, _clientID, _queryDate, _language, move(_parameters), _requests),
-        m_admin(move(_admin)), m_xpertRequests(move(_xpertRequests))
+    Query::QueryData(_queryId, _clientId, _queryDate, _language, move(_parameters), _requests),
+    m_admin(move(_admin)),
+    m_xpertRequests(move(_xpertRequests))
 {}
 
-const unique_ptr<AdminData>& XpertQueryData::getAmin() const
+const unique_ptr<AdminData>& XpertQueryData::getAdminData() const
 {
     return m_admin;
 }
 
-unique_ptr<AdminData>&& XpertQueryData::moveAdmin()
+unique_ptr<AdminData>&& XpertQueryData::moveAdminData()
 {
     return move(m_admin);
 }
 
-const std::vector<std::unique_ptr<XpertRequestData>>& XpertQueryData::getXpertRequests() const
+const vector<unique_ptr<XpertRequestData>>& XpertQueryData::getXpertRequests() const
 {
     return m_xpertRequests;
 }
