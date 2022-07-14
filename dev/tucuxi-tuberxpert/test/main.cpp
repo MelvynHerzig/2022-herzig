@@ -4,11 +4,11 @@
 #include "test_xpertutils.h"
 #endif
 
-#if defined(test_language)
+#if defined(test_languagemanager)
 #include "test_languagemanager.h"
 #endif
 
-#if defined(test_query)
+#if defined(test_xpertqueryimport)
 #include "test_xpertqueryimport.h"
 #endif
 
@@ -16,8 +16,8 @@
 #include "test_xpertquerytocoreextractor.h"
 #endif
 
-#if defined(test_globalresultcreation)
-#include "test_globalresultcreation.h"
+#if defined(test_xpertqueryresultcreation)
+#include "test_xpertqueryresultcreation.h"
 #endif
 
 #if defined(test_covariatevalidatorandmodelselector)
@@ -94,7 +94,7 @@ int main(int argc, char** argv)
      *                        Language                         *
      ***********************************************************/
 
-#if defined(test_language)
+#if defined(test_languagemanager)
     TestLanguageManager testLanguageManager;
 
     testLanguageManager.add_test("GetInstance", &TestLanguageManager::retrieveTranslations);
@@ -115,7 +115,7 @@ int main(int argc, char** argv)
      ***********************************************************/
 
 
-#if defined(test_query)
+#if defined(test_xpertqueryimport)
     TestXpertQueryImport testXpertQueryImports;
 
     testXpertQueryImports.add_test("Gets complete admin element", &TestXpertQueryImport::retrieveCompleteAdmin);
@@ -168,18 +168,18 @@ int main(int argc, char** argv)
 
 
     /***********************************************************
-     *                  GlobalResult creation                   *
+     *               XpertQueryResult creation                 *
      ***********************************************************/
 
-#if defined(test_globalresultcreation)
-    TestGlobalResultCreation testGlobalResultCreation;
+#if defined(test_xpertqueryresultcreation)
+    TestXpertQueryResultCreation testXpertQueryResultCreation;
 
-    testGlobalResultCreation.add_test("Query pointer invalidation", &TestGlobalResultCreation::queryPtrInvalidation);
-    testGlobalResultCreation.add_test("Retrieves administrative data", &TestGlobalResultCreation::retrieveAdministrativeData);
-    testGlobalResultCreation.add_test("Retrieves xpert request results", &TestGlobalResultCreation::retrieveXpertRequestResult);
-    testGlobalResultCreation.add_test("Retrieves generation date", &TestGlobalResultCreation::retrieveComputationTime);
+    testXpertQueryResultCreation.add_test("Query pointer invalidation", &TestXpertQueryResultCreation::queryPtrInvalidation);
+    testXpertQueryResultCreation.add_test("Retrieves administrative data", &TestXpertQueryResultCreation::retrieveAdministrativeData);
+    testXpertQueryResultCreation.add_test("Retrieves xpert request results", &TestXpertQueryResultCreation::retrieveXpertRequestResult);
+    testXpertQueryResultCreation.add_test("Retrieves generation date", &TestXpertQueryResultCreation::retrieveComputationTime);
 
-    res = testGlobalResultCreation.run(argc, argv);
+    res = testXpertQueryResultCreation.run(argc, argv);
     if (res != 0) {
         std::cout << "GlobalResult creation tests failed" << std::endl << std::endl;
         exit(1);

@@ -22,6 +22,7 @@ public:
 
     /// \brief Constructor.
     /// \param _dose Patient dose concerned by this validation result.
+    ///              The dose must have at least the same lifetime as this object
     /// \param _warning Associated warning message.
     DoseValidationResult(const Core::SingleDose* _dose, const std::string& _warning);
 

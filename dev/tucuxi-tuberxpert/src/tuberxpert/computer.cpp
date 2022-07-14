@@ -9,7 +9,7 @@
 #include "tuberxpert/language/languagemanager.h"
 #include "tuberxpert/query/xpertqueryimport.h"
 #include "tuberxpert/query/xpertquerydata.h"
-#include "tuberxpert/result/globalresult.h"
+#include "tuberxpert/result/xpertqueryresult.h"
 #include "tuberxpert/utils/xpertutils.h"
 #include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
 
@@ -75,7 +75,7 @@ ComputingStatus Computer::computeFromString(
         return ComputingStatus::IMPORT_ERROR;
     }
 
-    GlobalResult globalResult(move(query), _outputPath);
+    XpertQueryResult globalResult(move(query), _outputPath);
 
     /*********************************************************************************
      *                             For each xpert request                            *

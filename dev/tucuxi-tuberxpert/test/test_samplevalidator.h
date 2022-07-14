@@ -21,7 +21,7 @@
 #include "tuberxpert/language/languagemanager.h"
 #include "tuberxpert/query/xpertquerydata.h"
 #include "tuberxpert/query/xpertqueryimport.h"
-#include "tuberxpert/result/globalresult.h"
+#include "tuberxpert/result/xpertqueryresult.h"
 #include "tuberxpert/result/samplevalidationresult.h"
 
 #include "fructose/fructose.h"
@@ -188,7 +188,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
             throw std::runtime_error("import failded.");
         }
 
-        Tucuxi::Xpert::GlobalResult xr{move(query), ""};
+        Tucuxi::Xpert::XpertQueryResult xr{move(query), ""};
 
         flowStepProvider.getSampleValidator()->perform(xr.getXpertRequestResults()[0]);
 
@@ -291,7 +291,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
             throw std::runtime_error("import failded.");
         }
 
-        Tucuxi::Xpert::GlobalResult xr{move(query), ""};
+        Tucuxi::Xpert::XpertQueryResult xr{move(query), ""};
 
         flowStepProvider.getSampleValidator()->perform(xr.getXpertRequestResults()[0]);
 
@@ -1254,7 +1254,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
             throw std::runtime_error("Setup failed");
         }
 
-        Tucuxi::Xpert::GlobalResult globalResult{move(query), ""};
+        Tucuxi::Xpert::XpertQueryResult globalResult{move(query), ""};
         Tucuxi::Xpert::XpertRequestResult& xrr =  globalResult.getXpertRequestResults()[0];
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugId())[0]);
 

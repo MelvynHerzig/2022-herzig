@@ -6,7 +6,7 @@
 
 #include "tuberxpert/utils/xpertutils.h"
 #include "tuberxpert/exporter/static/filestring.h"
-#include "tuberxpert/result/globalresult.h"
+#include "tuberxpert/result/xpertqueryresult.h"
 #include "tuberxpert/language/languagemanager.h"
 
 using namespace std;

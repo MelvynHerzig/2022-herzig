@@ -1,4 +1,4 @@
-#include "globalresult.h"
+#include "xpertqueryresult.h"
 
 #include <optional>
 
@@ -9,7 +9,7 @@ using namespace std;
 namespace Tucuxi {
 namespace Xpert {
 
-GlobalResult::GlobalResult(unique_ptr<XpertQueryData> _xpertQuery, const string& _outputPath) :
+XpertQueryResult::XpertQueryResult(unique_ptr<XpertQueryData> _xpertQuery, const string& _outputPath) :
     m_computationTime(_xpertQuery->getpQueryDate()),
     m_adminData(_xpertQuery->moveAdminData()),
     m_outputPath(_outputPath),
@@ -30,32 +30,32 @@ GlobalResult::GlobalResult(unique_ptr<XpertQueryData> _xpertQuery, const string&
     }
 }
 
-Common::DateTime GlobalResult::getComputationTime() const
+Common::DateTime XpertQueryResult::getComputationTime() const
 {
     return m_computationTime;
 }
 
-const unique_ptr<AdminData>& GlobalResult::getAdminData() const
+const unique_ptr<AdminData>& XpertQueryResult::getAdminData() const
 {
     return m_adminData;
 }
 
-std::vector<XpertRequestResult>& GlobalResult::getXpertRequestResults()
+std::vector<XpertRequestResult>& XpertQueryResult::getXpertRequestResults()
 {
     return m_xpertRequestResults;
 }
 
-string GlobalResult::getOutputPath() const
+string XpertQueryResult::getOutputPath() const
 {
     return m_outputPath;
 }
 
-int GlobalResult::getRequestIndexBeingHandled() const
+int XpertQueryResult::getRequestIndexBeingHandled() const
 {
     return m_requestIndexBeingHandled;
 }
 
-int GlobalResult::incrementRequestIndexBeingHandled()
+int XpertQueryResult::incrementRequestIndexBeingHandled()
 {
     return ++m_requestIndexBeingHandled;
 }

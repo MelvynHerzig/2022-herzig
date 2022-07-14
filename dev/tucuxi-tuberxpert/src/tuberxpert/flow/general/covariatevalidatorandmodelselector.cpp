@@ -17,7 +17,7 @@
 #include "tucucommon/unit.h"
 
 #include "tuberxpert/utils/xpertutils.h"
-#include "tuberxpert/result/globalresult.h"
+#include "tuberxpert/result/xpertqueryresult.h"
 
 using namespace std;
 

@@ -7,7 +7,7 @@
 #include "tucucore/intakeextractor.h"
 #include "tucucore/computingservice/computingresult.h"
 
-#include "tuberxpert/result/globalresult.h"
+#include "tuberxpert/result/xpertqueryresult.h"
 #include "tuberxpert/utils/xpertutils.h"
 
 using namespace std;

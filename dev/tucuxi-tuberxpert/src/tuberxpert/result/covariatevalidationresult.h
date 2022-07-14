@@ -34,8 +34,10 @@ class CovariateValidationResult : public AbstractValidationResult<Core::Covariat
 public:
 
     /// \brief Constructor.
-    /// \param _definition. Definition of the covariate in the drug model. Should never be nullptr.
+    /// \param _definition Definition of the covariate in the drug model. Should never be nullptr.
+    ///                    The definition must have at least the same lifetime as this object.
     /// \param _patient Patient-related covariate, if present. May be nullptr, if not defined.
+    ///                 The patient-related covariate must have at least the same lifetime as this object.
     /// \param _warning Associated warning message.
     CovariateValidationResult(const Core::CovariateDefinition* _definition,
                     const Core::PatientCovariate* _patient,
@@ -64,6 +66,7 @@ public:
 
 
     /// \brief Get the pointer on the patient covariate that overrides the definition.
+    ///        The pointer returned by this method must not to be deleted.
     /// \return The pointer on the patient's covariate if it exists, otherwise nullptr.
     const Core::PatientCovariate* getPatient() const;
 

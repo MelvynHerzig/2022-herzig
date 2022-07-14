@@ -6,15 +6,15 @@
 #include "tuberxpert/language/languagemanager.h"
 #include "tuberxpert/query/xpertquerydata.h"
 #include "tuberxpert/query/xpertqueryimport.h"
-#include "tuberxpert/result/globalresult.h"
+#include "tuberxpert/result/xpertqueryresult.h"
 
-/// \brief Tests for GlobalResult creation.
+/// \brief Tests for XpertQueryResult creation.
 ///        This struct tests the constructor of XpertResult with various queries and verifies
 ///        that the expected values can correctly be retrieved.
 ///        Basically this tests the step before selecting drug model.
 /// \date 25/05/2022
 /// \author Herzig Melvyn
-struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCreation>
+struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryResultCreation>
 {
 
     /// \brief Checks that the ownership of the query is taken by XpertResult
@@ -225,7 +225,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        Tucuxi::Xpert::GlobalResult xpertResult(std::move(query), "");
+        Tucuxi::Xpert::XpertQueryResult xpertResult(std::move(query), "");
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
         fructose_assert_eq(query.get(), nullptr);
@@ -553,8 +553,8 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
         Tucuxi::Xpert::XpertQueryImport::Status importResultEmptyAdmin = importer.importFromString(queryEmptyAdmin, emptyAdminString);
         Tucuxi::Xpert::XpertQueryImport::Status importResultCompleteAdmin = importer.importFromString(queryCompleteAdmin, completeAdminString);
 
-        Tucuxi::Xpert::GlobalResult xpertResultEmptyAdmin(std::move(queryEmptyAdmin), "");
-        Tucuxi::Xpert::GlobalResult xpertResultCompleteAdmin(std::move(queryCompleteAdmin), "");
+        Tucuxi::Xpert::XpertQueryResult xpertResultEmptyAdmin(std::move(queryEmptyAdmin), "");
+        Tucuxi::Xpert::XpertQueryResult xpertResultCompleteAdmin(std::move(queryCompleteAdmin), "");
 
         fructose_assert_eq(importResultEmptyAdmin, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
         fructose_assert_eq(importResultCompleteAdmin, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
@@ -770,7 +770,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
 
-        Tucuxi::Xpert::GlobalResult xpertResult(std::move(query), "");
+        Tucuxi::Xpert::XpertQueryResult xpertResult(std::move(query), "");
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
 
@@ -924,7 +924,7 @@ struct TestGlobalResultCreation : public fructose::test_base<TestGlobalResultCre
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
 
-        Tucuxi::Xpert::GlobalResult xpertResult(std::move(query), "");
+        Tucuxi::Xpert::XpertQueryResult xpertResult(std::move(query), "");
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
         fructose_assert_eq(xpertResult.getComputationTime(), Tucuxi::Common::DateTime("2018-07-11T13:45:30", "%Y-%m-%dT%H:%M:%S"));

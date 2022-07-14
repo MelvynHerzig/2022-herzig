@@ -11,7 +11,7 @@
 
 #include "tuberxpert/query/xpertquerydata.h"
 #include "tuberxpert/query/xpertqueryimport.h"
-#include "tuberxpert/result/globalresult.h"
+#include "tuberxpert/result/xpertqueryresult.h"
 #include "tuberxpert/language/languageexception.h"
 #include "tuberxpert/utils/xpertutils.h"
 
@@ -693,7 +693,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
     /// \param _globalResult Object that will contain the result of this function execution.
     void setupEnv(const std::string& _queryString,
                   const std::string& _model,
-                  std::unique_ptr<Tucuxi::Xpert::GlobalResult>& _globalResult) {
+                  std::unique_ptr<Tucuxi::Xpert::XpertQueryResult>& _globalResult) {
 
         // Drug models repository creation
         Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
@@ -734,7 +734,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
             throw std::runtime_error("Setup failed");
         }
 
-        _globalResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query), "");
+        _globalResult = std::make_unique<Tucuxi::Xpert::XpertQueryResult>(move(query), "");
         Tucuxi::Xpert::XpertRequestResult& xrr =  _globalResult->getXpertRequestResults()[0];
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugId())[0]);
     }
@@ -1154,7 +1154,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
             throw std::runtime_error("Setup failed");
         }
 
-        Tucuxi::Xpert::GlobalResult globalResult{move(query), "random/path"};
+        Tucuxi::Xpert::XpertQueryResult globalResult{move(query), "random/path"};
         globalResult.incrementRequestIndexBeingHandled();
         Tucuxi::Xpert::XpertRequestResult& xrr =  globalResult.getXpertRequestResults()[0];
 
@@ -1289,7 +1289,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::GlobalResult> result = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> result = nullptr;
 
         setupEnv(queryString, imatinibModelString, result);
 

@@ -5,7 +5,7 @@
 #include <iomanip>
 
 #include "tuberxpert/language/languageexception.h"
-#include "tuberxpert/result/globalresult.h"
+#include "tuberxpert/result/xpertqueryresult.h"
 
 using namespace std;
 

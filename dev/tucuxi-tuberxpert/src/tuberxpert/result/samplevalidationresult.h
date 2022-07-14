@@ -36,6 +36,7 @@ public:
 
     /// \brief Constructor.
     /// \param _sample Patient sample concerned by this validation result.
+    ///                The sample must have at least the same lifetime as this object.
     /// \param _groupNumberOver99Percentile Position of the group on the 99 percentiles.
     SampleValidationResult(const Core::Sample* _sample, unsigned _groupNumberOver99Percentile);
 

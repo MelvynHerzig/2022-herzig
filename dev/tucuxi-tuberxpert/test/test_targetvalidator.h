@@ -8,7 +8,7 @@
 #include "tucucore/pkmodel.h"
 #include "tucucore/drugmodelchecker.h"
 
-#include "tuberxpert/result/globalresult.h"
+#include "tuberxpert/result/xpertqueryresult.h"
 #include "tuberxpert/query/xpertqueryimport.h"
 #include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
 
@@ -742,7 +742,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
     /// \param _globalResult Object that will contain the result of this function execution.
     void setupEnv(const std::string& _queryString,
                   const std::string& _model,
-                  std::unique_ptr<Tucuxi::Xpert::GlobalResult>& _globalResult) {
+                  std::unique_ptr<Tucuxi::Xpert::XpertQueryResult>& _xpertQueryResult) {
 
         // Drug models repository creation
          Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
@@ -783,8 +783,8 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
             throw std::runtime_error("Setup failed");
         }
 
-        _globalResult = std::make_unique<Tucuxi::Xpert::GlobalResult>(move(query), "");
-        Tucuxi::Xpert::XpertRequestResult& xrr =  _globalResult->getXpertRequestResults()[0];
+        _xpertQueryResult = std::make_unique<Tucuxi::Xpert::XpertQueryResult>(move(query), "");
+        Tucuxi::Xpert::XpertRequestResult& xrr =  _xpertQueryResult->getXpertRequestResults()[0];
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugId())[0]);
     }
 
@@ -899,12 +899,12 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
             throw std::runtime_error("import failded.");
         }
 
-        Tucuxi::Xpert::GlobalResult globalResult{move(query), ""};
+        Tucuxi::Xpert::XpertQueryResult xpertQueryResult{move(query), ""};
 
-        flowStepProvider.getTargetValidator()->perform(globalResult.getXpertRequestResults()[0]);
+        flowStepProvider.getTargetValidator()->perform(xpertQueryResult.getXpertRequestResults()[0]);
 
-        fructose_assert_eq(globalResult.getXpertRequestResults()[0].shouldBeHandled(), false);
-        fructose_assert_eq(globalResult.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
+        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].shouldBeHandled(), false);
+        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
     }
 
     /// \brief This method performs a target validation with a treatment that does not specify custom targets.
@@ -1052,11 +1052,11 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::GlobalResult> globalResult = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult = nullptr;
 
-        setupEnv(queryString, originalImatinibModelString, globalResult);
+        setupEnv(queryString, originalImatinibModelString, xpertQueryResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xrr = globalResult->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = xpertQueryResult->getXpertRequestResults()[0];
 
         flowStepProvider.getTargetValidator()->perform(xrr);
 
@@ -1229,11 +1229,11 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::GlobalResult> globalResult = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult = nullptr;
 
-        setupEnv(queryString, originalImatinibModelString, globalResult);
+        setupEnv(queryString, originalImatinibModelString, xpertQueryResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xrr = globalResult->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = xpertQueryResult->getXpertRequestResults()[0];
 
         flowStepProvider.getTargetValidator()->perform(xrr);
 
@@ -1408,7 +1408,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::GlobalResult> globalResult = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> globalResult = nullptr;
 
         setupEnv(queryString, originalImatinibModelString, globalResult);
 
@@ -1576,11 +1576,11 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         std::cout << _testName << std::endl;
 
-        std::unique_ptr<Tucuxi::Xpert::GlobalResult> globalResult = nullptr;
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult = nullptr;
 
-        setupEnv(queryString, originalImatinibModelString, globalResult);
+        setupEnv(queryString, originalImatinibModelString, xpertQueryResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xrr = globalResult->getXpertRequestResults()[0];
+        Tucuxi::Xpert::XpertRequestResult& xrr = xpertQueryResult->getXpertRequestResults()[0];
 
         flowStepProvider.getTargetValidator()->perform(xrr);
 

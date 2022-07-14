@@ -12,7 +12,7 @@
 
 #include "tucuquery/fullsample.h"
 
-#include "tuberxpert/result/globalresult.h"
+#include "tuberxpert/result/xpertqueryresult.h"
 #include "tuberxpert/utils/xpertutils.h"
 
 using namespace std;

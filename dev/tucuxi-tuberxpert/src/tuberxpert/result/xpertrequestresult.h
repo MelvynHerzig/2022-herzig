@@ -21,7 +21,7 @@
 namespace Tucuxi {
 namespace Xpert {
 
-class GlobalResult;
+class XpertQueryResult;
 
 /// \brief This is object stores the results of tuberXpert in regards of
 ///        a given requestXpert. This object is filled along the tuberXpert execution flow.
@@ -38,7 +38,7 @@ public:
     /// \param _drugTreatment Associated treatment if extraction was successfull.
     /// \param _errorMessage If the treatment extraction was not successfull, the related error message or empty string.
     XpertRequestResult(
-            const GlobalResult& _xpertGlobalResult,
+            const XpertQueryResult& _xpertGlobalResult,
             std::unique_ptr<XpertRequestData> _xpertRequest,
             std::unique_ptr<Core::DrugTreatment> _drugTreatment,
             const std::string& _errorMessage);
@@ -94,7 +94,7 @@ public:
     ///        is not to be deleted.
     /// \return Return a constant pointer on the XpertResult held by this object.
     ///         May be nullptr.
-    const GlobalResult& getGlobalResult() const;
+    const XpertQueryResult& getGlobalResult() const;
 
     /// \brief Get the parameters groups. Index 2 might not exist.
     /// \return In index 0, the typical patient.
@@ -154,7 +154,7 @@ protected:
 
     /// \brief Where to retrieve the computation time and the administrative data
     ///        /!\ No need to free
-    const GlobalResult& m_xpertGlobalResult;
+    const XpertQueryResult& m_xpertGlobalResult;
 
     /// \brief Unique pointer to the related request this object stores results for.
     std::unique_ptr<XpertRequestData> m_xpertRequest;
