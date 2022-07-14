@@ -901,7 +901,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Directory does not contain drug model for the given drug.");
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "The drug files directory does not contain a drug model for the given drug: imatinib");
     }
 
     /// \brief Checks that all formulations and routes of the query are the same.
@@ -5204,7 +5204,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Covariate extraction failed for drug model: ch.tucuxi.imatinib.gotta2012_original. It may be caused by covariates that could not be converted.");
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Covariates extraction failed for drug model: ch.tucuxi.imatinib.gotta2012_original. It may be caused by covariates that could not be converted.");
     }
 
     /// \brief Three versions of imatinib model:
