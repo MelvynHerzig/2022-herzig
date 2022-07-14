@@ -13,25 +13,21 @@ using namespace std;
 namespace Tucuxi {
 namespace Xpert {
 
-ReportPrinter::ReportPrinter()
-{}
-
 void ReportPrinter::perform(XpertRequestResult& _xpertRequestResult)
 {
-    // Extracts the request format
-    OutputFormat desiredFormat = _xpertRequestResult.getXpertRequest().getOutputFormat();
+    // Extract the request format.
+    OutputFormat desiredOutputFormat = _xpertRequestResult.getXpertRequest().getOutputFormat();
 
-    // Exporter
     unique_ptr<AbstractXpertRequestResultExport> exporter = nullptr;
 
-    // Select the cooresponding exporter
-    switch(desiredFormat) {
+    // Select the cooresponding exporter.
+    switch(desiredOutputFormat) {
     case OutputFormat::XML  : exporter = make_unique<XpertRequestResultXmlExport>(); break;
     case OutputFormat::HTML : exporter = make_unique<XpertRequestResultHtmlExport>(); break;
     case OutputFormat::PDF  : exporter = make_unique<XpertRequestResultPdfExport>(make_unique<XpertRequestResultHtmlExport>()); break;
     }
 
-    // Export
+    // Launch export.
     exporter->exportToFile(_xpertRequestResult);
 }
 
