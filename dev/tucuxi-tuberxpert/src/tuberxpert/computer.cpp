@@ -75,18 +75,18 @@ ComputingStatus Computer::computeFromString(
         return ComputingStatus::IMPORT_ERROR;
     }
 
-    XpertQueryResult globalResult(move(query), _outputPath);
+    XpertQueryResult xpertQueryResult(move(query), _outputPath);
 
     /*********************************************************************************
      *                             For each xpert request                            *
      * *******************************************************************************/
 
     unsigned nbUnfulfilledRequest = 0;
-    for (XpertRequestResult& xpertRequestResult : globalResult.getXpertRequestResults()) {
+    for (XpertRequestResult& xpertRequestResult : xpertQueryResult.getXpertRequestResults()) {
 
         logHelper.info("---------------------------------------");
-        logHelper.info("Handling request number: " +
-                       to_string(globalResult.incrementRequestIndexBeingHandled() + 1)); // +1 because it starts from 0
+        logHelper.info("Processing request number: " +
+                       to_string(xpertQueryResult.incrementRequestIndexBeingProcessed() + 1)); // +1 because it starts from 0
 
 
         // Get the XpertFlowStepProvider for the drug of the request.
@@ -95,7 +95,7 @@ ComputingStatus Computer::computeFromString(
 
         // Execute each step provided by the selected XpertFlowStepProvider.
         executeFlow(xpertRequestResult, _languagePath, xpertFlowStepProvider);
-        if (xpertRequestResult.shouldBeHandled() == false) {
+        if (xpertRequestResult.shouldContinueProcessing() == false) {
             logHelper.error(xpertRequestResult.getErrorMessage());
             ++nbUnfulfilledRequest;
             continue;
@@ -111,7 +111,7 @@ ComputingStatus Computer::computeFromString(
         return ComputingStatus::ALL_REQUESTS_SUCCEEDED;
 
         // If some requests failed.
-    } else if ( nbUnfulfilledRequest < globalResult.getXpertRequestResults().size()) {
+    } else if ( nbUnfulfilledRequest < xpertQueryResult.getXpertRequestResults().size()) {
         return ComputingStatus::SOME_REQUESTS_SUCCEEDED;
 
         // Else, if they all failed.
@@ -133,7 +133,7 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
      * ************************************************************/
     logHelper.info("Checking extraction state...");
 
-    if (_xpertRequestResult.shouldBeHandled() == false) {
+    if (_xpertRequestResult.shouldContinueProcessing() == false) {
         return;
     }
 
@@ -180,7 +180,7 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
     _stepProvider->getCovariateValidatorAndModelSelector()->perform(_xpertRequestResult);
 
     // Check if the model selection was successful.
-    if (_xpertRequestResult.shouldBeHandled() == false) {
+    if (_xpertRequestResult.shouldContinueProcessing() == false) {
         return;
     }
 
@@ -195,7 +195,7 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
     _stepProvider->getDoseValidator()->perform(_xpertRequestResult);
 
     // Check if the doses validation was successful.
-    if (_xpertRequestResult.shouldBeHandled() == false) {
+    if (_xpertRequestResult.shouldContinueProcessing() == false) {
         return;
     }
 
@@ -210,7 +210,7 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
     _stepProvider->getSampleValidator()->perform(_xpertRequestResult);
 
     // Check if the samples validation was successful.
-    if (_xpertRequestResult.shouldBeHandled() == false) {
+    if (_xpertRequestResult.shouldContinueProcessing() == false) {
         return;
     }
 
@@ -225,7 +225,7 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
     _stepProvider->getTargetValidator()->perform(_xpertRequestResult);
 
     // Check if targets validation was successful.
-    if (_xpertRequestResult.shouldBeHandled() == false) {
+    if (_xpertRequestResult.shouldContinueProcessing() == false) {
         return;
     }
 
@@ -239,7 +239,7 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
     _stepProvider->getAdjustmentTraitCreator()->perform(_xpertRequestResult);
 
     // Check if the adjustment trait creation was successful.
-    if (_xpertRequestResult.shouldBeHandled() == false) {
+    if (_xpertRequestResult.shouldContinueProcessing() == false) {
         return;
     }
 
@@ -252,7 +252,7 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
 
     // Check if the submission of the adjustment request was successful.
     _stepProvider->getRequestExecutor()->perform(_xpertRequestResult);
-    if (_xpertRequestResult.shouldBeHandled() == false) {
+    if (_xpertRequestResult.shouldContinueProcessing() == false) {
         return;
     }
 
@@ -265,7 +265,7 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
 
     // Check if the report generation was successful.
     _stepProvider->getReportPrinter()->perform(_xpertRequestResult);
-    if (_xpertRequestResult.shouldBeHandled() == false) {
+    if (_xpertRequestResult.shouldContinueProcessing() == false) {
         return;
     }
 
@@ -280,7 +280,7 @@ void Computer::getXpertFlowStepProvider(const string& _drugId,
 {
 
     // The idea is the have this method return a XpertFlowStepProvider for each
-    // drug. If a drug has no specialized XpertFlowStepProvider, the general XpertFlowStepProvider
+    // drug. If a drug has no specialized XpertFlowStepProvider, the GeneralXpertFlowStepProvider
     // is returned. For example, like this:
 
     // if (_drugId == "imatinib") {

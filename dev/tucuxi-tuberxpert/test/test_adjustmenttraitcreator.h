@@ -1418,7 +1418,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xpertGlobalResult.getXpertRequestResults()[0]);
 
-        fructose_assert_eq(xpertGlobalResult.getXpertRequestResults()[0].shouldBeHandled(), false);
+        fructose_assert_eq(xpertGlobalResult.getXpertRequestResults()[0].shouldContinueProcessing(), false);
         fructose_assert_eq(xpertGlobalResult.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
     }
 
@@ -1519,7 +1519,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getNbPointsPerHour(), 20);
     }
 
@@ -1620,7 +1620,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
 
         Tucuxi::Core::ComputingOption computingOption = xrr.getAdjustmentTrait()->getComputingOption();
         fructose_assert_eq(computingOption.getCompartmentsOption() == Tucuxi::Core::CompartmentsOption::AllActiveMoieties, true);
@@ -1704,7 +1704,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getComputingOption().getParametersType() == Tucuxi::Core::PredictionParameterType::Apriori, true);
     }
 
@@ -1783,7 +1783,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getComputingOption().getParametersType() == Tucuxi::Core::PredictionParameterType::Apriori, true);
     }
 
@@ -1884,7 +1884,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
 
         Tucuxi::Core::ComputingOption computingOption = xrr.getAdjustmentTrait()->getComputingOption();
         fructose_assert_eq(computingOption.getCompartmentsOption() == Tucuxi::Core::CompartmentsOption::AllActiveMoieties, true);
@@ -1989,7 +1989,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2018-07-06T08:00:00", date_format));
     }
 
@@ -2065,7 +2065,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T11:00:00", date_format));
     }
 
@@ -2163,7 +2163,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T11:00:00", date_format));
     }
 
@@ -2261,7 +2261,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T20:00:00", date_format));
     }
 
@@ -2363,7 +2363,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getAdjustmentTime(),  Tucuxi::Common::DateTime("2022-06-20T21:00:00", date_format));
     }
 
@@ -2464,7 +2464,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2022-06-19T08:00:00", date_format));
         fructose_assert_eq(xrr.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2022-06-23T08:00:00", date_format));
     }
@@ -2543,7 +2543,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2022-06-20T10:00:00", date_format));
         fructose_assert_eq(xrr.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2022-06-24T10:00:00", date_format));
     }
@@ -2646,7 +2646,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), false);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "Based on the standard treatment in the model:ch.tucuxi.busulfan.paci2012, considering that the oldest dosage is the treatment start, the treatment is already over at the time of the adjustment.");
     }
 
@@ -2747,7 +2747,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2022-06-20T19:00:00", date_format));
         fructose_assert_eq(xrr.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2022-06-27T19:00:00", date_format));
     }
@@ -2845,7 +2845,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getBestCandidatesOption() == Tucuxi::Core::BestCandidatesOption::BestDosagePerInterval, true);
     }
 
@@ -2943,7 +2943,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getLoadingOption() == Tucuxi::Core::LoadingOption::NoLoadingDose, true);
     }
 
@@ -3045,7 +3045,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getLoadingOption() == Tucuxi::Core::LoadingOption::LoadingDoseAllowed, true);
     }
 
@@ -3143,7 +3143,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getRestPeriodOption() == Tucuxi::Core::RestPeriodOption::NoRestPeriod, true);
     }
 
@@ -3245,7 +3245,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getRestPeriodOption() == Tucuxi::Core::RestPeriodOption::RestPeriodAllowed, true);
     }
 
@@ -3344,7 +3344,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getSteadyStateTargetOption() == Tucuxi::Core::SteadyStateTargetOption::WithinTreatmentTimeRange, true);
     }
 
@@ -3442,7 +3442,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getSteadyStateTargetOption() == Tucuxi::Core::SteadyStateTargetOption::AtSteadyState, true);
     }
 
@@ -3540,7 +3540,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::AprioriValues, true);
     }
 
@@ -3638,7 +3638,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::DefinitionIfNoIndividualTarget, true);
     }
 
@@ -3736,7 +3736,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::AllFormulationAndRoutes, true);
     }
 
@@ -3834,7 +3834,7 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         flowStepProvider.getAdjustmentTraitCreator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getAdjustmentTrait()->getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute, true);
     }
 

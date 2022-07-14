@@ -9,18 +9,18 @@ namespace Tucuxi {
 namespace Xpert {
 
 XpertRequestResult::XpertRequestResult(
-        const XpertQueryResult& _xpertGlobalResult,
+        const XpertQueryResult& _xpertQueryResult,
         unique_ptr<XpertRequestData> _xpertRequest,
         unique_ptr<Core::DrugTreatment> _drugTreatment,
-        const string& _errorMessage)
-    : m_xpertGlobalResult(_xpertGlobalResult),
-      m_xpertRequest(move(_xpertRequest)),
-      m_drugTreatment(move(_drugTreatment)),
-      m_errorMessage(_errorMessage),
-      m_drugModel(nullptr),
-      m_adjustmentTrait(nullptr),
-      m_adjustmentData(nullptr),
-      m_lastIntake(nullptr)
+        const string& _errorMessage):
+    m_xpertQueryResult(_xpertQueryResult),
+    m_xpertRequest(move(_xpertRequest)),
+    m_drugTreatment(move(_drugTreatment)),
+    m_errorMessage(_errorMessage),
+    m_drugModel(nullptr),
+    m_adjustmentTrait(nullptr),
+    m_adjustmentData(nullptr),
+    m_lastIntake(nullptr)
 {}
 
 const XpertRequestData& XpertRequestResult::getXpertRequest() const
@@ -33,7 +33,7 @@ const  unique_ptr<Core::DrugTreatment>& XpertRequestResult::getTreatment() const
     return m_drugTreatment;
 }
 
-const string& XpertRequestResult::getErrorMessage() const
+string XpertRequestResult::getErrorMessage() const
 {
     return m_errorMessage;
 }
@@ -43,19 +43,19 @@ const Core::DrugModel* XpertRequestResult::getDrugModel() const
     return m_drugModel;
 }
 
-const vector<CovariateValidationResult>& XpertRequestResult::getCovariateResults() const
+const vector<CovariateValidationResult>& XpertRequestResult::getCovariateValidationResults() const
 {
-    return m_covariateResults;
+    return m_covariateValidationResults;
 }
 
-const map<const Core::SingleDose*, DoseValidationResult>& XpertRequestResult::getDoseResults() const
+const map<const Core::SingleDose*, DoseValidationResult>& XpertRequestResult::getDoseValidationResults() const
 {
-    return m_doseResults;
+    return m_doseValidationResults;
 }
 
-const vector<SampleValidationResult>& XpertRequestResult::getSampleResults() const
+const vector<SampleValidationResult>& XpertRequestResult::getSampleValidationResults() const
 {
-    return m_sampleResults;
+    return m_sampleValidationResults;
 }
 
 const unique_ptr<Core::ComputingTraitAdjustment>& XpertRequestResult::getAdjustmentTrait() const
@@ -63,22 +63,22 @@ const unique_ptr<Core::ComputingTraitAdjustment>& XpertRequestResult::getAdjustm
     return m_adjustmentTrait;
 }
 
-const std::unique_ptr<Core::AdjustmentData>& XpertRequestResult::getAdjustmentData() const
+const unique_ptr<Core::AdjustmentData>& XpertRequestResult::getAdjustmentData() const
 {
     return m_adjustmentData;
 }
 
-const std::unique_ptr<Core::IntakeEvent>& XpertRequestResult::getLastIntake() const
+const unique_ptr<Core::IntakeEvent>& XpertRequestResult::getLastIntake() const
 {
     return m_lastIntake;
 }
 
-const XpertQueryResult& XpertRequestResult::getGlobalResult() const
+const XpertQueryResult& XpertRequestResult::getXpertQueryResult() const
 {
-    return m_xpertGlobalResult;
+    return m_xpertQueryResult;
 }
 
-const std::vector<std::vector<Core::ParameterValue>>& XpertRequestResult::getParameters() const
+const vector<vector<Core::ParameterValue>>& XpertRequestResult::getParameters() const
 {
     return m_parameters;
 }
@@ -93,55 +93,57 @@ void XpertRequestResult::setErrorMessage(const string& _message)
     m_errorMessage = _message;
 }
 
-void XpertRequestResult::setDrugModel(const Core::DrugModel* _newDrugModel)
+void XpertRequestResult::setDrugModel(const Core::DrugModel* _drugModel)
 {
-    m_drugModel = _newDrugModel;
+    m_drugModel = _drugModel;
 }
 
-void XpertRequestResult::setCovariateResults(vector<CovariateValidationResult>&& _newCovariateResults)
+void XpertRequestResult::setCovariateResults(vector<CovariateValidationResult>&& _covariateValidationResults)
 {
-    m_covariateResults = _newCovariateResults;
+    m_covariateValidationResults = _covariateValidationResults;
 
-    // Sort the covariate results by name and by date.
+    // Sort the covariate validation results by name and date.
     OutputLang lang = m_xpertRequest->getOutputLang();
-    sort(m_covariateResults.begin(), m_covariateResults.end(),
-         [lang](const CovariateValidationResult& cvr1, const CovariateValidationResult& cvr2) {
+    sort(m_covariateValidationResults.begin(), m_covariateValidationResults.end(),
+         [lang](const CovariateValidationResult& covValRes_1, const CovariateValidationResult& covValRes_2) {
 
-        // Try to sort by name
-        string cvr1Name = getStringWithEnglishFallback(cvr1.getSource()->getName(), lang);
-        string cvr2Name = getStringWithEnglishFallback(cvr2.getSource()->getName(), lang);
+        // Try to sort by name.
+        string covaritateName_1 = getStringWithEnglishFallback(covValRes_1.getSource()->getName(), lang);
+        string covariateName_2 = getStringWithEnglishFallback(covValRes_2.getSource()->getName(), lang);
 
-        if (cvr1Name != cvr2Name) {
-            return cvr1Name < cvr2Name;
-        // Else try by date.
-        // Normaly this if is always true. Just a fool guard.
-        } else if(cvr1.getPatient() != nullptr && cvr2.getPatient() != nullptr){
-            return cvr1.getPatient()->getEventTime() < cvr2.getPatient()->getEventTime();
+        if (covaritateName_1 != covariateName_2) {
+            return covaritateName_1 < covariateName_2;
+        // Otherwhise try by date.
+        // Normally this if is always true. The only time there is the
+        // same name is when the patient has multiple measures.
+        // So, this is just a fool guard.
+        } else if(covValRes_1.getPatient() != nullptr && covValRes_2.getPatient() != nullptr){
+            return covValRes_1.getPatient()->getEventTime() < covValRes_2.getPatient()->getEventTime();
         }
 
-        // Should never happen
+        // Should never happen.
         return true;
     });
 }
 
-void XpertRequestResult::setDoseResults(map<const Core::SingleDose*, DoseValidationResult>&& _newDoseResults)
+void XpertRequestResult::setDoseResults(map<const Core::SingleDose*, DoseValidationResult>&& _doseValidationResults)
 {
-    m_doseResults = _newDoseResults;
+    m_doseValidationResults = _doseValidationResults;
 }
 
-void XpertRequestResult::setSampleResults(vector<SampleValidationResult>&& _newSampleResults)
+void XpertRequestResult::setSampleResults(vector<SampleValidationResult>&& _sampleValidationResults)
 {
-    m_sampleResults = _newSampleResults;
+    m_sampleValidationResults = _sampleValidationResults;
 
     // Sort the sample results by date and by analyteId.
-    sort(m_sampleResults.begin(), m_sampleResults.end(),
+    sort(m_sampleValidationResults.begin(), m_sampleValidationResults.end(),
          [](const SampleValidationResult& svr1, const SampleValidationResult& svr2) {
 
 
         // Try by date
         if (svr1.getSource()->getDate() != svr2.getSource()->getDate()) {
             return svr1.getSource()->getDate() < svr2.getSource()->getDate();
-        // Else try by analyteID.
+            // Else try by analyteID.
         } else {
             return svr1.getSource()->getAnalyteID() < svr2.getSource()->getAnalyteID();
         }
@@ -163,7 +165,7 @@ void XpertRequestResult::setLastIntake(unique_ptr<Core::IntakeEvent> _lastIntake
     m_lastIntake = move(_lastIntake);
 }
 
-void XpertRequestResult::addParameters(const std::vector<Core::ParameterValue>& _parameters)
+void XpertRequestResult::addParameters(const vector<Core::ParameterValue>& _parameters)
 {
     auto it = m_parameters.begin();
     m_parameters.emplace(it, _parameters);
@@ -174,7 +176,7 @@ void XpertRequestResult::setCycleStats(const Core::CycleStats _cycleStats)
     m_cycleStats = _cycleStats;
 }
 
-bool XpertRequestResult::shouldBeHandled() const
+bool XpertRequestResult::shouldContinueProcessing() const
 {
     return m_errorMessage == "";
 }

@@ -900,7 +900,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
-        fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
+        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Directory does not contain drug model for the given drug.");
     }
 
@@ -1101,9 +1101,9 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult0);
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult1);
 
-        fructose_assert_eq(xpertRequestResult0.shouldBeHandled(), false);
+        fructose_assert_eq(xpertRequestResult0.shouldContinueProcessing(), false);
         fructose_assert_eq(xpertRequestResult0.getErrorMessage(), "All formulations and routes must be equal.");
-        fructose_assert_eq(xpertRequestResult1.shouldBeHandled(), false);
+        fructose_assert_eq(xpertRequestResult1.shouldContinueProcessing(), false);
         fructose_assert_eq(xpertRequestResult1.getErrorMessage(), "All formulations and routes must be equal.");
     }
 
@@ -1205,7 +1205,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
-        fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
+        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "No valid drug model found.");
     }
 
@@ -2019,7 +2019,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
-        fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
+        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
         fructose_assert_eq(xpertRequestResult.getDrugModel()->getDrugModelId(), "ch.tucuxi.imatinib.gotta2012_original");
     }
@@ -2131,7 +2131,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
-        fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
+        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "No valid drug model found.");
     }
 
@@ -2951,7 +2951,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
-        fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
+        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
         fructose_assert_eq(xpertRequestResult.getDrugModel()->getDrugModelId(), "ch.tucuxi.imatinib.gotta2012_modified");
     }
@@ -3062,7 +3062,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
-        fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
+        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
         fructose_assert_eq(xpertRequestResult.getDrugModel()->getDrugModelId(), "ch.tucuxi.imatinib.gotta2012_original");
     }
@@ -3821,7 +3821,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
-        fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
+        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found when handling model ch.tucuxi.imatinib.gotta2012_original, details: Multiple birthdate not allowed.");
     }
 
@@ -4570,7 +4570,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
-        fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
+        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found when handling model ch.tucuxi.imatinib.gotta2012_original, details: Invalid data type for birthdate.");
     }
 
@@ -5203,7 +5203,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
-        fructose_assert_eq(xpertRequestResult.shouldBeHandled(), false);
+        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Covariate extraction failed for drug model: ch.tucuxi.imatinib.gotta2012_original. It may be caused by covariates that could not be converted.");
     }
 
@@ -7584,7 +7584,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
-        fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
+        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
         fructose_assert_eq(xpertRequestResult.getDrugModel()->getDrugModelId() ,"ch.tucuxi.imatinib.gotta2012_2");
     }
@@ -9149,7 +9149,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
-        fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
+        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
         fructose_assert_eq(xpertRequestResult.getDrugModel()->getDrugModelId() ,"ch.tucuxi.imatinib.gotta2012_2");
     }
@@ -11018,7 +11018,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                     <pkModelId>linear.1comp.macro</pkModelId>
                                                     <analytes>
                                                         <analyte>
-                                         CovariateValidationResult    <analyteId>imatinib</analyteId>
+                                                            <analyteId>imatinib</analyteId>
                                                             <unit>ug/l</unit>
                                                             <molarMass>
                                                                 <value>493.603</value>
@@ -11369,13 +11369,13 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult1);
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult2);
 
-        fructose_assert_eq(xpertRequestResult0.shouldBeHandled(), false);
+        fructose_assert_eq(xpertRequestResult0.shouldContinueProcessing(), false);
         fructose_assert_eq(xpertRequestResult0.getErrorMessage(), "Best drug model found but covariate definitions dont't support requested language.");
 
-        fructose_assert_eq(xpertRequestResult1.shouldBeHandled(), false);
+        fructose_assert_eq(xpertRequestResult1.shouldContinueProcessing(), false);
         fructose_assert_eq(xpertRequestResult1.getErrorMessage(), "Best drug model found but covariate definitions dont't support requested language.");
 
-        fructose_assert_eq(xpertRequestResult2.shouldBeHandled(), false);
+        fructose_assert_eq(xpertRequestResult2.shouldContinueProcessing(), false);
         fructose_assert_eq(xpertRequestResult2.getErrorMessage(), "Best drug model found but covariate definitions dont't support requested language.");
     }
 
@@ -12201,13 +12201,13 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult0);
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult1);
 
-        fructose_assert_eq(xpertRequestResult0.shouldBeHandled(), true);
+        fructose_assert_eq(xpertRequestResult0.shouldContinueProcessing(), true);
         fructose_assert_eq(xpertRequestResult0.getErrorMessage(), "");
-        fructose_assert_eq(xpertRequestResult0.getCovariateResults()[2].getWarning(), "Le poids doit etre dans compris entre [44,100].");
+        fructose_assert_eq(xpertRequestResult0.getCovariateValidationResults()[2].getWarning(), "Le poids doit etre dans compris entre [44,100].");
 
-        fructose_assert_eq(xpertRequestResult1.shouldBeHandled(), true);
+        fructose_assert_eq(xpertRequestResult1.shouldContinueProcessing(), true);
         fructose_assert_eq(xpertRequestResult1.getErrorMessage(), "");
-        fructose_assert_eq(xpertRequestResult1.getCovariateResults()[2].getWarning(), "The body weight shall be in the interval [44,100].");
+        fructose_assert_eq(xpertRequestResult1.getCovariateValidationResults()[2].getWarning(), "The body weight shall be in the interval [44,100].");
 
 
     }
@@ -12335,11 +12335,11 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
 
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
-        fructose_assert_eq(xpertRequestResult.shouldBeHandled(), true);
+        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
         fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
         fructose_assert_eq(xpertRequestResult.getDrugModel()->getDrugModelId() ,"ch.tucuxi.imatinib.gotta2012_original");
 
-        const std::vector<Tucuxi::Xpert::CovariateValidationResult>& results = xpertRequestResult.getCovariateResults();
+        const std::vector<Tucuxi::Xpert::CovariateValidationResult>& results = xpertRequestResult.getCovariateValidationResults();
         fructose_assert_eq(results.size(), 5); // 3 covariates ( 2 weights + 1 birthdate) + Gist definition + Sex definition
 
         fructose_assert_eq(results[0].getSource()->getId(), "age");

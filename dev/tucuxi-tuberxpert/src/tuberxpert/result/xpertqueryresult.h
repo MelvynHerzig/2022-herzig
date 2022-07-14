@@ -13,7 +13,7 @@ namespace Tucuxi {
 namespace Xpert {
 
 /// \brief This is a class that contains the results of a TuberXpert query.
-///        The class is built with an XpertQueryDataObject. It acquires the administrative data.
+///        The class is built with an XpertQueryData object. It acquires the AdminData.
 ///        Then, for each xpertRequest found, it creates an XpertRequestResult which is stored in an
 ///        internal vector.
 ///
@@ -61,14 +61,14 @@ public:
     /// \return The index of the xpertRequest from the internal vector.
     ///         If no xpertRequest is processed (i.e. incrementRequestIndexBeingHandled
     ///         has not been called once), then it returns -1.
-    int getRequestIndexBeingHandled() const;
+    int getRequestIndexBeingProcessed() const;
 
-    // Setter
+    // Setters
 
     /// \brief Increment the index of the xpertRequest being processed and get the
     ///        incremented number.
     /// \return The number of the xpertRequest to process.
-    int incrementRequestIndexBeingHandled();
+    int incrementRequestIndexBeingProcessed();
 
 protected:
 
@@ -88,7 +88,7 @@ protected:
 
     /// \brief Index of the XpertRequestResult being processed. Used for logging and
     ///        report naming purposes only.
-    int m_requestIndexBeingHandled;
+    int m_requestIndexBeingProcessed;
 };
 
 } // namespace Xpert

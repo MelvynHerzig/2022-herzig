@@ -1155,7 +1155,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
         }
 
         Tucuxi::Xpert::XpertQueryResult globalResult{move(query), "random/path"};
-        globalResult.incrementRequestIndexBeingHandled();
+        globalResult.incrementRequestIndexBeingProcessed();
         Tucuxi::Xpert::XpertRequestResult& xrr =  globalResult.getXpertRequestResults()[0];
 
 

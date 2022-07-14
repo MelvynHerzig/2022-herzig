@@ -780,13 +780,13 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
         fructose_assert_eq(xpertResult.getXpertRequestResults()[0].getErrorMessage(), "");
         fructose_assert_ne(xpertResult.getXpertRequestResults()[0].getTreatment().get(), nullptr);
         fructose_assert_eq(xpertResult.getXpertRequestResults()[0].getXpertRequest().getDrugId(), "rifampicin");
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[0].shouldBeHandled(), true);
+        fructose_assert_eq(xpertResult.getXpertRequestResults()[0].shouldContinueProcessing(), true);
 
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getDrugModel(), nullptr);
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getErrorMessage(), "No drug matching. Could not extract drug treatment.");
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getTreatment().get(), nullptr);
         fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getXpertRequest().getDrugId(), "imatinib");
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[1].shouldBeHandled(), false);
+        fructose_assert_eq(xpertResult.getXpertRequestResults()[1].shouldContinueProcessing(), false);
     }
 
     /// \brief Checks that computation time of the XpertGlobalResult is well retrieved from the query.

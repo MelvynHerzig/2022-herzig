@@ -927,7 +927,7 @@ struct TestRequestExecutor : public fructose::test_base<TestRequestExecutor>
         // Execution
         flowStepProvider.getRequestExecutor()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), false);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "Adjustment request execution failed.");
         fructose_assert_eq(xrr.getAdjustmentData().get(), nullptr);
     }
@@ -1099,7 +1099,7 @@ struct TestRequestExecutor : public fructose::test_base<TestRequestExecutor>
         // Execution
         flowStepProvider.getRequestExecutor()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_ne(xrr.getAdjustmentData().get(), nullptr);
         fructose_assert_eq(xrr.getAdjustmentData()->getAdjustments().empty(), false);
     }
@@ -1270,7 +1270,7 @@ struct TestRequestExecutor : public fructose::test_base<TestRequestExecutor>
         // Execution
         flowStepProvider.getRequestExecutor()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getCycleStats().getStats().empty(), false);
         fructose_assert_eq(xrr.getCycleStats().getStats()[0].size(), 9);
     }
@@ -1442,7 +1442,7 @@ struct TestRequestExecutor : public fructose::test_base<TestRequestExecutor>
         // Execution
         flowStepProvider.getRequestExecutor()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getParameters().size(), 3);
         fructose_assert_eq(xrr.getParameters()[0].empty(), false);
         fructose_assert_eq(xrr.getParameters()[0].size(), xrr.getParameters()[1].size());
@@ -1561,7 +1561,7 @@ struct TestRequestExecutor : public fructose::test_base<TestRequestExecutor>
         // Execution
         flowStepProvider.getRequestExecutor()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getParameters().size(), 2);
         fructose_assert_eq(xrr.getParameters()[0].empty(), false);
         fructose_assert_eq(xrr.getParameters()[0].size(), xrr.getParameters()[1].size());;

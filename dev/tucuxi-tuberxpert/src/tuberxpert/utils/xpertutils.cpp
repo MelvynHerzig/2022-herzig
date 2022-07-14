@@ -219,15 +219,15 @@ string computeFileName(const XpertRequestResult& _xpertRequestResult,
                        bool _addExtension)
 {
     stringstream fileNameStream;
-    Common::DateTime computationTime = _xpertRequestResult.getGlobalResult().getComputationTime();
+    Common::DateTime computationTime = _xpertRequestResult.getXpertQueryResult().getComputationTime();
 
     // If the output path should be prefixed.
     if (_addOutputPath) {
-        fileNameStream << _xpertRequestResult.getGlobalResult().getOutputPath() << "/";
+        fileNameStream << _xpertRequestResult.getXpertQueryResult().getOutputPath() << "/";
     }
 
     fileNameStream << _xpertRequestResult.getXpertRequest().getDrugId() << "_" <<
-          _xpertRequestResult.getGlobalResult().getRequestIndexBeingHandled() + 1 << "_" <<
+          _xpertRequestResult.getXpertQueryResult().getRequestIndexBeingProcessed() + 1 << "_" <<
           computationTime.day() << "-" << computationTime.month() << "-" << computationTime.year() << "_" <<
           computationTime.hour() << "h" << computationTime.minute() << "m" << computationTime.second() << "s";
 

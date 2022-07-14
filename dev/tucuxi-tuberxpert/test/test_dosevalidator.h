@@ -870,9 +870,9 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         flowStepProvider.getDoseValidator()->perform(xr.getXpertRequestResults()[0]);
 
-        fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
+        fructose_assert_eq(xr.getXpertRequestResults()[0].shouldContinueProcessing(), false);
         fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
-        fructose_assert_eq(xr.getXpertRequestResults()[0].getDoseResults().size(), 0);
+        fructose_assert_eq(xr.getXpertRequestResults()[0].getDoseValidationResults().size(), 0);
     }
 
     /// \brief Checks that DoseResults map of the XpertResquestResult is empty if there is no
@@ -946,8 +946,8 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         flowStepProvider.getDoseValidator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getDoseResults().size(), 0);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
+        fructose_assert_eq(xrr.getDoseValidationResults().size(), 0);
 
     }
 
@@ -1045,9 +1045,9 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         flowStepProvider.getDoseValidator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getDoseResults().size(), 1);
-        fructose_assert_eq(xrr.getDoseResults().begin()->second.getWarning(), "Minimum recommended dosage reached (100.00 mg)");
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
+        fructose_assert_eq(xrr.getDoseValidationResults().size(), 1);
+        fructose_assert_eq(xrr.getDoseValidationResults().begin()->second.getWarning(), "Minimum recommended dosage reached (100.00 mg)");
     }
 
     /// \brief Checks that DoseResults map of the XpertResquestResult is contains
@@ -1144,9 +1144,9 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         flowStepProvider.getDoseValidator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getDoseResults().size(), 1);
-        fructose_assert_eq(xrr.getDoseResults().begin()->second.getWarning(), "Maximum recommended dosage reached (400.00 mg)");
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
+        fructose_assert_eq(xrr.getDoseValidationResults().size(), 1);
+        fructose_assert_eq(xrr.getDoseValidationResults().begin()->second.getWarning(), "Maximum recommended dosage reached (400.00 mg)");
     }
 
     /// \brief Checks that XpertRequestResult gets an error if the unit conversion fails.
@@ -1242,8 +1242,8 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         flowStepProvider.getDoseValidator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), false);
-        fructose_assert_eq(xrr.getDoseResults().size(), 0);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), false);
+        fructose_assert_eq(xrr.getDoseValidationResults().size(), 0);
         fructose_assert_eq(xrr.getErrorMessage(), "Patient dosage error found, details: Error in unit conversion");
     }
 
@@ -1341,8 +1341,8 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         flowStepProvider.getDoseValidator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), false);
-        fructose_assert_eq(xrr.getDoseResults().size(), 0);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), false);
+        fructose_assert_eq(xrr.getDoseValidationResults().size(), 0);
         fructose_assert_eq(xrr.getErrorMessage(), "Patient dosage error found, details: no corresponding full formulation and route found for a dosage.");
     }
 
@@ -1505,15 +1505,15 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         flowStepProvider.getDoseValidator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
-        fructose_assert_eq(xrr.getDoseResults().size(), 4);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
+        fructose_assert_eq(xrr.getDoseValidationResults().size(), 4);
         fructose_assert_eq(xrr.getErrorMessage(), "");
 
         // All dose are diffrent and we are going to use this to get the correct asserts
         // This is because map are not guaranteed in the same order. This not really elegant but it does
         // the trick.
         bool first = false, second = false, third = false, fourth = false;
-        for(auto doseIt = xrr.getDoseResults().begin(); doseIt != xrr.getDoseResults().end(); ++doseIt) {
+        for(auto doseIt = xrr.getDoseValidationResults().begin(); doseIt != xrr.getDoseValidationResults().end(); ++doseIt) {
              const Tucuxi::Core::SingleDose* psd = doseIt->first;
 
              // Checking that the key equals to the dose pointer in the DoseResult.

@@ -903,7 +903,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         flowStepProvider.getTargetValidator()->perform(xpertQueryResult.getXpertRequestResults()[0]);
 
-        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].shouldBeHandled(), false);
+        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].shouldContinueProcessing(), false);
         fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
     }
 
@@ -1060,7 +1060,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         flowStepProvider.getTargetValidator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getErrorMessage(), "");
     }
 
@@ -1237,7 +1237,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         flowStepProvider.getTargetValidator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), false);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "Two patient's targets with the same active moiety and the same target type detected.");
     }
 
@@ -1416,7 +1416,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         flowStepProvider.getTargetValidator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), true);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), true);
         fructose_assert_eq(xrr.getErrorMessage(), "");
     }
 
@@ -1584,7 +1584,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         flowStepProvider.getTargetValidator()->perform(xrr);
 
-        fructose_assert_eq(xrr.shouldBeHandled(), false);
+        fructose_assert_eq(xrr.shouldContinueProcessing(), false);
         fructose_assert_eq(xrr.getErrorMessage(), "A target is related to an active moiety that does not belong to the drug model: ch.tucuxi.imatinib.gotta2012_original");
     }
 };

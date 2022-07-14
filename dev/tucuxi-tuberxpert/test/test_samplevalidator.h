@@ -192,9 +192,9 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
 
         flowStepProvider.getSampleValidator()->perform(xr.getXpertRequestResults()[0]);
 
-        fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
+        fructose_assert_eq(xr.getXpertRequestResults()[0].shouldContinueProcessing(), false);
         fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "Samples found but dosage history is empty.");
-        fructose_assert_eq(xr.getXpertRequestResults()[0].getSampleResults().size(), 0);
+        fructose_assert_eq(xr.getXpertRequestResults()[0].getSampleValidationResults().size(), 0);
     }
 
     /// \brief Checks that there is an error if the drug model of XpertRequestResult is nullptr.
@@ -295,9 +295,9 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
 
         flowStepProvider.getSampleValidator()->perform(xr.getXpertRequestResults()[0]);
 
-        fructose_assert_eq(xr.getXpertRequestResults()[0].shouldBeHandled(), false);
+        fructose_assert_eq(xr.getXpertRequestResults()[0].shouldContinueProcessing(), false);
         fructose_assert_eq(xr.getXpertRequestResults()[0].getErrorMessage(), "No drug model set.");
-        fructose_assert_eq(xr.getXpertRequestResults()[0].getSampleResults().size(), 0);
+        fructose_assert_eq(xr.getXpertRequestResults()[0].getSampleValidationResults().size(), 0);
     }
 
     /// \brief Checks that the warnings are correct when retrieving them
@@ -1261,7 +1261,7 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
         // Execution
         flowStepProvider.getSampleValidator()->perform(xrr);
 
-        const std::vector<Tucuxi::Xpert::SampleValidationResult>& sampleResults = xrr.getSampleResults();
+        const std::vector<Tucuxi::Xpert::SampleValidationResult>& sampleResults = xrr.getSampleValidationResults();
 
         fructose_assert_eq(sampleResults.size(), xrr.getTreatment()->getSamples().size());
 

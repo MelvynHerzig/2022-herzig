@@ -21,7 +21,7 @@ AdjustmentTraitCreator::AdjustmentTraitCreator()
 void AdjustmentTraitCreator::perform(XpertRequestResult& _xpertRequestResult)
 {
     // Fixing computation time to compute adjustment / start / end times...
-    m_computationTime = _xpertRequestResult.getGlobalResult().getComputationTime();
+    m_computationTime = _xpertRequestResult.getXpertQueryResult().getComputationTime();
 
     // Checks treatment
     if (_xpertRequestResult.getTreatment() == nullptr) {

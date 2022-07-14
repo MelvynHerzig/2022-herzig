@@ -30,7 +30,7 @@ void XpertRequestResultPdfExport::exportToFile(XpertRequestResult& _xpertRequest
 
     // Generate the temp html file.
     m_htmlExport->exportToFile(tempHtmlFileName, _xpertRequestResult);
-    if( !_xpertRequestResult.shouldBeHandled() ){
+    if( !_xpertRequestResult.shouldContinueProcessing() ){
         _xpertRequestResult.setErrorMessage("Error during the generation of the html for pdf exportation.");
         remove(tempHtmlFileName.c_str()); // Just in case, try to delete the temp file.
         return;

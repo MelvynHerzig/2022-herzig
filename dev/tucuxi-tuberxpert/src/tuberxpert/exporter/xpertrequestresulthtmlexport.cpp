@@ -763,11 +763,11 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
     inja::json xpertRequestResultJson;
     getHeaderJson(_xpertRequestResult, xpertRequestResultJson["header"]);
     getDrugIntroJson(_xpertRequestResult, xpertRequestResultJson["intro"]);
-    getContactsJson(_xpertRequestResult.getGlobalResult().getAdminData(), xpertRequestResultJson["contacts"]);
-    getClinicalDataJson(_xpertRequestResult.getGlobalResult().getAdminData(), xpertRequestResultJson["clinical_data"]);
-    getCovariatesJson(_xpertRequestResult.getCovariateResults(), xpertRequestResultJson["covariates"]);
+    getContactsJson(_xpertRequestResult.getXpertQueryResult().getAdminData(), xpertRequestResultJson["contacts"]);
+    getClinicalDataJson(_xpertRequestResult.getXpertQueryResult().getAdminData(), xpertRequestResultJson["clinical_data"]);
+    getCovariatesJson(_xpertRequestResult.getCovariateValidationResults(), xpertRequestResultJson["covariates"]);
     getTreatmentJson(_xpertRequestResult.getTreatment()->getDosageHistory(), xpertRequestResultJson["treatment"]);
-    getSamplesJson(_xpertRequestResult.getSampleResults(), xpertRequestResultJson["samples"]);
+    getSamplesJson(_xpertRequestResult.getSampleValidationResults(), xpertRequestResultJson["samples"]);
     getAdjustmentJson(_xpertRequestResult.getAdjustmentData(), xpertRequestResultJson["adjustments"]);
     getTargetsJson(_xpertRequestResult.getAdjustmentData(), xpertRequestResultJson["targets"]);
     getParametersJson(_xpertRequestResult, xpertRequestResultJson["pks"]);
@@ -789,7 +789,7 @@ void XpertRequestResultHtmlExport::getHeaderJson(const XpertRequestResult& _xper
     _headerJson["computed_on_translation"] = lm.translate("computed_on");
 
     // Computation time
-    _headerJson["computation_time"] = dateTimeToString(_xpertRequestResult.getGlobalResult().getComputationTime(), false);
+    _headerJson["computation_time"] = dateTimeToString(_xpertRequestResult.getXpertQueryResult().getComputationTime(), false);
 }
 
 void XpertRequestResultHtmlExport::getDrugIntroJson(const XpertRequestResult& _xpertRequestResult, inja::json& _introJson) const
@@ -1064,7 +1064,7 @@ void XpertRequestResultHtmlExport::getCovariatesJson(const vector<CovariateValid
         if (cvr.getSource()->getId() == "age" && cvr.getPatient() != nullptr) {
             valueStream << int(getAgeIn(cvr.getSource()->getType(),
                                         cvr.getPatient()->getValueAsDate(),
-                                        m_xpertRequestResultInUse->getGlobalResult().getComputationTime()));
+                                        m_xpertRequestResultInUse->getXpertQueryResult().getComputationTime()));
         } else {
             valueStream << value;
         }
@@ -1289,8 +1289,8 @@ void XpertRequestResultHtmlExport::getSingleDoseJson(const Core::SingleDose& _do
     singleDose["posology"] = newPosologyIndicationChain;
 
     // Add the potential warning
-    auto singleDoseIt = m_xpertRequestResultInUse->getDoseResults().find(&_dosage);
-    if (singleDoseIt !=  m_xpertRequestResultInUse->getDoseResults().end()){
+    auto singleDoseIt = m_xpertRequestResultInUse->getDoseValidationResults().find(&_dosage);
+    if (singleDoseIt !=  m_xpertRequestResultInUse->getDoseValidationResults().end()){
         getWarningJson(singleDoseIt->second, singleDose);
     }
 

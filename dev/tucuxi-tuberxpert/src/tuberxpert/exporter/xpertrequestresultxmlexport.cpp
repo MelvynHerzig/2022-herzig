@@ -65,22 +65,22 @@ void XpertRequestResultXmlExport::makeXmlString(const XpertRequestResult& _xpert
     m_xmlDocument.setRoot(root);
 
     // Date of generation
-    addNode(root, "computationTime", dateTimeToXmlString(_xpertRequestResult.getGlobalResult().getComputationTime()));
+    addNode(root, "computationTime", dateTimeToXmlString(_xpertRequestResult.getXpertQueryResult().getComputationTime()));
 
     // Add the intro drugId, modelId, lastDose
     exportDrugIntro(_xpertRequestResult, root);
 
     // Add the admin
-    exportAdminData(_xpertRequestResult.getGlobalResult().getAdminData(), root);
+    exportAdminData(_xpertRequestResult.getXpertQueryResult().getAdminData(), root);
 
     // Add the covariates
-    exportCovariateResults(_xpertRequestResult.getCovariateResults(), root);
+    exportCovariateResults(_xpertRequestResult.getCovariateValidationResults(), root);
 
     // Add the dosage history (treatment)
     exportTreatment(_xpertRequestResult.getTreatment(), root);
 
     // Add the samples
-    exportSampleResults(_xpertRequestResult.getSampleResults(), root);
+    exportSampleResults(_xpertRequestResult.getSampleValidationResults(), root);
 
     // Add the adjustments
     exportAdjustmentData(_xpertRequestResult.getAdjustmentData(), root);
@@ -352,7 +352,7 @@ void XpertRequestResultXmlExport::exportCovariateResults(const std::vector<Covar
         if (covariateValidationResult.getSource()->getId() == "age" && covariateValidationResult.getPatient() != nullptr) {
             int age = int(getAgeIn(covariateValidationResult.getSource()->getType(),
                                    covariateValidationResult.getPatient()->getValueAsDate(),
-                                   m_xpertRequestResultInUse->getGlobalResult().getComputationTime()));
+                                   m_xpertRequestResultInUse->getXpertQueryResult().getComputationTime()));
             addNode(covariateNode, "value", to_string(age));
         } else {
             addNode(covariateNode, "value", covariateValidationResult.getValue());
@@ -407,8 +407,8 @@ void XpertRequestResultXmlExport::exportDose(
     addNode(doseNode, "infusionTimeInMinutes", _dosage.getInfusionTime().toMinutes());
 
     // <warning>
-    auto singleDoseIt = m_xpertRequestResultInUse->getDoseResults().find(&_dosage);
-    if (singleDoseIt !=  m_xpertRequestResultInUse->getDoseResults().end()){
+    auto singleDoseIt = m_xpertRequestResultInUse->getDoseValidationResults().find(&_dosage);
+    if (singleDoseIt !=  m_xpertRequestResultInUse->getDoseValidationResults().end()){
         exportWarning(singleDoseIt->second, doseNode);
     }
 }

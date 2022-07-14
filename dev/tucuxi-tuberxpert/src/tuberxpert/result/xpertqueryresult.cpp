@@ -13,12 +13,12 @@ XpertQueryResult::XpertQueryResult(unique_ptr<XpertQueryData> _xpertQuery, const
     m_computationTime(_xpertQuery->getpQueryDate()),
     m_adminData(_xpertQuery->moveAdminData()),
     m_outputPath(_outputPath),
-    m_requestIndexBeingHandled(-1)
+    m_requestIndexBeingProcessed(-1)
 
 {
     XpertQueryToCoreExtractor extractor;
 
-    // For each requestXpert, extract the treatment.
+    // For each xpertRequest, extract its treatment.
     for (size_t i = 0; i < _xpertQuery->getXpertRequests().size(); ++i) {
         string errorMessage;
         unique_ptr<Core::DrugTreatment> drugTreatment = extractor.extractDrugTreatment(
@@ -26,7 +26,10 @@ XpertQueryResult::XpertQueryResult(unique_ptr<XpertQueryData> _xpertQuery, const
                     *_xpertQuery,
                     errorMessage);
 
-        m_xpertRequestResults.emplace_back(*this, _xpertQuery->moveXpertRequest(i), move(drugTreatment), errorMessage);
+        m_xpertRequestResults.emplace_back(*this,
+                                           _xpertQuery->moveXpertRequest(i),
+                                           move(drugTreatment),
+                                           errorMessage);
     }
 }
 
@@ -40,7 +43,7 @@ const unique_ptr<AdminData>& XpertQueryResult::getAdminData() const
     return m_adminData;
 }
 
-std::vector<XpertRequestResult>& XpertQueryResult::getXpertRequestResults()
+vector<XpertRequestResult>& XpertQueryResult::getXpertRequestResults()
 {
     return m_xpertRequestResults;
 }
@@ -50,14 +53,14 @@ string XpertQueryResult::getOutputPath() const
     return m_outputPath;
 }
 
-int XpertQueryResult::getRequestIndexBeingHandled() const
+int XpertQueryResult::getRequestIndexBeingProcessed() const
 {
-    return m_requestIndexBeingHandled;
+    return m_requestIndexBeingProcessed;
 }
 
-int XpertQueryResult::incrementRequestIndexBeingHandled()
+int XpertQueryResult::incrementRequestIndexBeingProcessed()
 {
-    return ++m_requestIndexBeingHandled;
+    return ++m_requestIndexBeingProcessed;
 }
 
 } // namespace Xpert
