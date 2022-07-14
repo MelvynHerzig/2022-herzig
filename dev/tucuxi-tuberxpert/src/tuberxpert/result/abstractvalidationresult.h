@@ -45,7 +45,7 @@ public:
 
     /// \brief Get the warning message associated with the validation result.
     /// \return The warning message. May be empty string if nothing is suspicious.
-    const std::string& getWarning() const {
+    std::string getWarning() const {
         return m_warning;
     }
 
