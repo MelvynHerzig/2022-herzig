@@ -58,7 +58,7 @@ protected:
     ///         of the definition when filling _results.
     /// \param _results Vector to store the covariate validation results for this model.
     /// \return The score of the model.
-    /// \throw Invalid argument when the conversion between the patient covariate and model
+    /// \throw invalid_argument When the conversion between the patient covariate and model
     ///        definition fails, if a definition does not support english and the requested language
     ///        and if the validation of a covariate definition fails.
     unsigned computeScore(const Core::PatientVariates& _patientCovariates,
@@ -77,7 +77,7 @@ protected:
     ///                 returns true.
     /// \param _lang Language of the request to get the correct translation of the error message from the definition.
     /// \param _results Vector of covariate validation results to push patient and definition covariate.
-    /// \throw Invalid argument when the operation could not be fully performed due to an error.
+    /// \throw invalid_argument When the operation could not be fully performed due to an error.
     bool checkOperation(double _patientConvertedValue,
                         const Core::CovariateDefinition* _definition,
                         const Core::PatientCovariate* _patient,

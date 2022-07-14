@@ -29,7 +29,7 @@ std::string doubleToString(const double& _double);
 /// \brief Convert a CovariateType to a string.
 /// \param _covariateType CovariateType to convert.
 /// \return The string of the resulting conversion.
-/// \throw Invalid argument if CovariateType is not supported.
+/// \throw invalid_argument If CovariateType is not supported.
 std::string covariateTypeToString(CovariateType _covariateType);
 
 /// \brief Convert an OutputLang to a string.
@@ -41,7 +41,7 @@ std::string outputLangToString(OutputLang _lang);
 /// \brief Convert a WarningLevel to a string.
 /// \param _level WarningLevel to convert.
 /// \return The string of the resulting conversion.
-/// \throw Invalid argument if WarningLevel is not supported.
+/// \throw invalid_argument If WarningLevel is not supported.
 std::string warningLevelToString(WarningLevel _level);
 
 /// \brief Convert a DateTime to a usable string for xml export.
@@ -154,7 +154,7 @@ std::string keyToPhrase(const std::string& _key);
 /// \param _birthDate Date of birth.
 /// \param _computationTime Computation time to use as the present day.
 /// \return The resulting age as a double.
-/// \throws Invalid argument when the covariate type is not an age type.
+/// \throw invalid_argument When the covariate type is not an age type.
 double getAgeIn(Core::CovariateType _ageType,
                 const Common::DateTime& _birthDate,
                 const Common::DateTime& _computationTime);

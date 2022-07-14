@@ -32,7 +32,7 @@ public:
     /// \brief Load an xml translations file from an xml string.
     ///        Each call clears and reloads the map that stores the translations.
     /// \param _xmlString Translations xml string.
-    /// \throw LanguageException if the xml string could not be imported.
+    /// \throw LanguageException If the xml string could not be imported.
     void loadTranslations(const std::string& _xmlString);
 
 private:

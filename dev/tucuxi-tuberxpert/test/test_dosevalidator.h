@@ -1343,7 +1343,7 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
 
         fructose_assert_eq(xrr.shouldContinueProcessing(), false);
         fructose_assert_eq(xrr.getDoseValidationResults().size(), 0);
-        fructose_assert_eq(xrr.getErrorMessage(), "Patient dosage error found, details: no corresponding full formulation and route found for a dosage.");
+        fructose_assert_eq(xrr.getErrorMessage(), "Patient dosage error found, details: No corresponding full formulation and route found for a dosage.");
     }
 
     /// \brief Checks that DosageValidator works with every types of dosage and multiple dosageTimeRange.
