@@ -36,6 +36,8 @@ public:
     /// \brief Destructor.
     virtual ~AbstractValidationResult(){};
 
+    // Getters
+
     /// \brief Get the source object concerned by the validation result.
     /// \return A constant pointer to the source object. This pointer
     ///         does not need to be deleted.
@@ -44,14 +46,14 @@ public:
     }
 
     /// \brief Get the warning message associated with the validation result.
-    /// \return The warning message. May be empty string if nothing is suspicious.
+    /// \return The warning message. May be an empty string if nothing is suspicious.
     std::string getWarning() const {
         return m_warning;
     }
 
     /// \brief Get the warning level associated to a warning. It
     ///        doesn't take into account whether the warning is set or not.
-    /// \return Returns WarningLevel::NORMAL. May be overrided.
+    /// \return WarningLevel::NORMAL. May be override.
     virtual WarningLevel getWarningLevel() const{
         return WarningLevel::NORMAL;
     }

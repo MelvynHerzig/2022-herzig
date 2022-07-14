@@ -19,19 +19,9 @@ XpertQueryData::XpertQueryData(
     m_xpertRequests(move(_xpertRequests))
 {}
 
-const unique_ptr<AdminData>& XpertQueryData::getAdminData() const
-{
-    return m_admin;
-}
-
 unique_ptr<AdminData>&& XpertQueryData::moveAdminData()
 {
     return move(m_admin);
-}
-
-const vector<unique_ptr<XpertRequestData>>& XpertQueryData::getXpertRequests() const
-{
-    return m_xpertRequests;
 }
 
 unique_ptr<XpertRequestData>&& XpertQueryData::moveXpertRequest(size_t _i)
@@ -43,6 +33,15 @@ unique_ptr<XpertRequestData>&& XpertQueryData::moveXpertRequest(size_t _i)
     throw out_of_range("Cannot move XpertRequestData. Out of range index.");
 }
 
+const unique_ptr<AdminData>& XpertQueryData::getAdminData() const
+{
+    return m_admin;
+}
+
+const vector<unique_ptr<XpertRequestData>>& XpertQueryData::getXpertRequests() const
+{
+    return m_xpertRequests;
+}
 
 } // namespace Xpert
 } // namespace Tucuxi

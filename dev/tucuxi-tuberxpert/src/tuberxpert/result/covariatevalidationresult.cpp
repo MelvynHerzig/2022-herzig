@@ -14,7 +14,7 @@ CovariateValidationResult::CovariateValidationResult(const Core::CovariateDefini
     m_patient(_patient)
 {}
 
-std::string CovariateValidationResult::getValue() const
+string CovariateValidationResult::getValue() const
 {
     // If the patient's covariate is defined.
     if (m_patient != nullptr) {

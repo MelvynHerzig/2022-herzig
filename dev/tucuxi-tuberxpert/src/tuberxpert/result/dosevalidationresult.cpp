@@ -7,7 +7,7 @@ namespace Xpert {
 
 
 DoseValidationResult::DoseValidationResult(const Core::SingleDose* _dose,
-                                           const std::string& _warning) :
+                                           const string& _warning) :
     AbstractValidationResult<Core::SingleDose>(_dose, _warning)
 {}
 

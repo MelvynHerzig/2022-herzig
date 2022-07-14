@@ -17,7 +17,7 @@ enum class CovariateType {
     Model    /**< The covariate value comes from the drug model. This is the default value. */
 };
 
-/// \brief This class stores the validation results for a patient covariate.
+/// \brief This class stores the validation result for a patient covariate.
 ///        This class is created during the "covariate validator and model selector"
 ///        phase. It's purpose is to tell what the computing core will receive:
 ///
@@ -40,6 +40,8 @@ public:
     CovariateValidationResult(const Core::CovariateDefinition* _definition,
                     const Core::PatientCovariate* _patient,
                     const std::string& _warning);
+
+    // Getters
 
     /// \brief Get the value of the covariate. If the patient-related covariate is defined,
     ///        it is used, otherwise it returns the value of the definition.
