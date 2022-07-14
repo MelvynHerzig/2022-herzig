@@ -21,7 +21,7 @@ void DoseValidator::perform(XpertRequestResult& _xpertRequestResult)
         return;
     }
 
-    // Check if there is drug model.
+    // Check if there is a drug model.
     if (_xpertRequestResult.getDrugModel() == nullptr) {
         _xpertRequestResult.setErrorMessage("No drug model set.");
         return;

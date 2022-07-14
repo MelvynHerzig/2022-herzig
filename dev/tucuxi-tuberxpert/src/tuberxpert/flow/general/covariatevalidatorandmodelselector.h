@@ -95,8 +95,9 @@ protected:
 
 protected:
 
-    /// \brief Fix the computation time to get the same age when testing
-    ///        at different times. Retrieved from the xpertRequestResult in perform method.
+    /// \brief Fix the computation time to get the same age when executing
+    ///        at different times. Retrieved from the XpertRequestResult in perform method.
+    ///        It allows not to be forced to use local time when time-based calculations are needed.
     Common::DateTime m_computationTime;
 };
 
