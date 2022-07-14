@@ -354,6 +354,7 @@ int main(int argc, char** argv)
 #if defined(test_requestexecutor)
     TestRequestExecutor testRequestExecutor;
 
+    testRequestExecutor.add_test("Get an error when the adjustment trait is nullptr.", &TestRequestExecutor::errorWhenNoAdjustmentTrait);
     testRequestExecutor.add_test("Get an error when request failed.", &TestRequestExecutor::errorWhenRequestFailed);
     testRequestExecutor.add_test("Get correct adjustment data when request succeed.", &TestRequestExecutor::getCorrectAdjustmentDataWhenRequestSucceed);
     testRequestExecutor.add_test("Get correct statistics when request succeed.", &TestRequestExecutor::getCorrectStatisticsWhenRequestSucceed);

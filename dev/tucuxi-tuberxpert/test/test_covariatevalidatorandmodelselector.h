@@ -4571,7 +4571,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
         flowStepProvider.getCovariateValidatorAndModelSelector()->perform(xpertRequestResult);
 
         fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found when handling model ch.tucuxi.imatinib.gotta2012_original, details: Invalid data type for birthdate.");
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Patient covariate error found when handling model ch.tucuxi.imatinib.gotta2012_original, details: Invalid data type of birthdate.");
     }
 
     /// \brief The query sets one gist with bad unit and the model requires this covariate.

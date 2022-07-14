@@ -742,6 +742,102 @@ struct TestRequestExecutor : public fructose::test_base<TestRequestExecutor>
         xrr.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xrr.getXpertRequest().getDrugId())[0]);
     }
 
+    /// \brief Checks that there is an error if the AdjustmentTrait of XpertRequestResult is nullptr.
+    /// \param _testName Name of the test
+    void errorWhenNoAdjustmentTrait(const std::string& _testName)
+    {
+        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <query version="1.0"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+
+                                        <queryId>imatinib_2</queryId>
+                                        <clientId>124568</clientId>
+                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+                                        <language>en</language>
+
+                                        <drugTreatment>
+                                            <!-- All the information regarding the patient -->
+                                            <patient>
+                                                <covariates>
+                                                </covariates>
+                                            </patient>
+                                            <!-- List of the drugs informations we have concerning the patient -->
+                                            <drugs>
+                                                <!-- All the information regarding the drug -->
+                                                <drug>
+                                                    <drugId>imatinib</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <!-- All the information regarding the treatment -->
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                            <dosageTimeRange>
+                                                                <start>2018-07-06T08:00:00</start>
+                                                                <end>2018-07-08T08:00:00</end>
+                                                                <dosage>
+                                                                    <dosageLoop>
+                                                                        <lastingDosage>
+                                                                            <interval>12:00:00</interval>
+                                                                            <dose>
+                                                                                <value>400</value>
+                                                                                <unit>mg</unit>
+                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                                                            </dose>
+                                                                            <formulationAndRoute>
+                                                                                <formulation>parenteralSolution</formulation>
+                                                                                <administrationName>foo bar</administrationName>
+                                                                                <administrationRoute>oral</administrationRoute>
+                                                                                <absorptionModel>extravascular</absorptionModel>
+                                                                            </formulationAndRoute>
+                                                                        </lastingDosage>
+                                                                    </dosageLoop>
+                                                                </dosage>
+                                                            </dosageTimeRange>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <!-- Samples history -->
+                                                    <samples>
+                                                    </samples>
+                                                    <!-- Personalised targets -->
+                                                    <targets>
+                                                    </targets>
+                                                </drug>
+                                            </drugs>
+                                        </drugTreatment>
+                                        <!-- List of the requests we want the server to take care of -->
+                                        <requests>
+                                            <xpertRequest>
+                                                <drugId>imatinib</drugId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>en</language>
+                                                </output>
+                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
+                                                <options>
+                                                    <loadingOption>noLoadingDose</loadingOption>
+                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
+                                                    <targetExtractionOption>populationValues</targetExtractionOption>
+                                                    <formulationAndRouteSelectionOption>allFormulationAndRoutes</formulationAndRouteSelectionOption>
+                                                </options>
+                                            </xpertRequest>
+                                        </requests>
+                                    </query>)";
+
+        std::cout << _testName << std::endl;
+
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> globalResult = nullptr;
+
+        setupEnv(queryString, imatinibModelString, globalResult);
+
+        Tucuxi::Xpert::XpertRequestResult& xrr = globalResult->getXpertRequestResults()[0];
+        flowStepProvider.getRequestExecutor()->perform(xrr);
+
+        fructose_assert_eq(xrr.shouldContinueProcessing(), false);
+        fructose_assert_eq(xrr.getErrorMessage(), "No adjustment trait set.");
+    }
+
     /// \brief This method changes the trait of the xpert request result in order to fail.
     ///        The adjustmentData should be nullptr and the xpertRequestResult gets an error message.
     /// \param _testName Name of the test
