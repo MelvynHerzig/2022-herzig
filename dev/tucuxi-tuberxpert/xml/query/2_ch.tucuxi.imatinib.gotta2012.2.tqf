@@ -73,9 +73,9 @@
 				</email>
 			</person>
 		</patient>
-		<clinicalData>
-			<clinicalDataEntry key="uneNote">le contenu de la note</clinicalDataEntry>
-		</clinicalData>
+		<clinicalDatas>
+			<clinicalData key="uneNote">le contenu de la note</clinicalData>
+		</clinicalDatas>
 	</admin>
 
     <drugTreatment>
@@ -201,7 +201,7 @@
         <xpertRequest>
             <drugId>imatinib</drugId>
             <output>
-                <format>pdf</format>
+                <format>xml</format>
                 <language>fr</language>
             </output>
             <adjustmentDate>2018-07-11T08:00:00</adjustmentDate>

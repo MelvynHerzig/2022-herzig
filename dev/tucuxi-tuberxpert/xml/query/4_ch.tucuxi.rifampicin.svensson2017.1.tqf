@@ -57,9 +57,9 @@
 				</email>
 			</person>
 		</patient>
-		<clinicalData>
-			<clinicalDataEntry key="aNote">Note content</clinicalDataEntry>
-		</clinicalData>
+		<clinicalDatas>
+			<clinicalData key="aNote">Note content</clinicalData>
+		</clinicalDatas>
 	</admin>
 
     <drugTreatment>

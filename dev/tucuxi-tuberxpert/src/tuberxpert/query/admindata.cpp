@@ -200,12 +200,12 @@ const unique_ptr<InstituteData>& FullPersonData::getInstitute() const
 }
 
 /**************************************************
- |                 ClinicalData                   |
+ |                 ClinicalDatas                   |
  **************************************************/
 
-ClinicalData::ClinicalData(const map<string, string>& _data) : m_data(_data) {}
+ClinicalDatas::ClinicalDatas(const map<string, string>& _data) : m_data(_data) {}
 
-const map<string, string>& ClinicalData::getData() const
+const map<string, string>& ClinicalDatas::getData() const
 {
     return m_data;
 }
@@ -217,10 +217,10 @@ const map<string, string>& ClinicalData::getData() const
 AdminData::AdminData(
         unique_ptr<FullPersonData> _mandator,
         unique_ptr<FullPersonData> _patient,
-        unique_ptr<ClinicalData> _clinicalData)
+        unique_ptr<ClinicalDatas> _clinicalDatas)
     : m_mandator(move(_mandator)),
       m_patient(move(_patient)),
-      m_clinicalData(move(_clinicalData))
+      m_clinicalDatas(move(_clinicalDatas))
 {
 }
 
@@ -234,9 +234,9 @@ const unique_ptr<FullPersonData>& AdminData::getPatient() const
     return m_patient;
 }
 
-const unique_ptr<ClinicalData>& AdminData::getClinicalData() const
+const unique_ptr<ClinicalDatas>& AdminData::getClinicalDatas() const
 {
-    return m_clinicalData;
+    return m_clinicalDatas;
 }
 
 } // namespace Xpert

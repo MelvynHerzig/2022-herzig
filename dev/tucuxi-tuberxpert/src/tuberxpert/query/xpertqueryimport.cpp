@@ -101,7 +101,7 @@ unique_ptr<AdminData> XpertQueryImport::createAdminData(Common::XmlDocument& _do
     static const string ADMIN_NODE_NAME = "admin";
     static const string MANDATOR_NODE_NAME = "mandator";
     static const string PATIENT_NODE_NAME = "patient";
-    static const string CLINICALDATA_NODE_NAME = "clinicalData";
+    static const string CLINICAL_DATAS_NODE_NAME = "clinicalDatas";
 
     Common::XmlNode root = _document.getRoot();
     Common::XmlNodeIterator adminRootIterator = root.getChildren(ADMIN_NODE_NAME);
@@ -113,11 +113,11 @@ unique_ptr<AdminData> XpertQueryImport::createAdminData(Common::XmlDocument& _do
 
     Common::XmlNodeIterator mandatorRootIterator = adminRootIterator->getChildren(MANDATOR_NODE_NAME);
     Common::XmlNodeIterator patientRootIterator  = adminRootIterator->getChildren(PATIENT_NODE_NAME);
-    Common::XmlNodeIterator clinicalDataRootIterator  = adminRootIterator->getChildren(CLINICALDATA_NODE_NAME);
+    Common::XmlNodeIterator clinicalDataRootIterator  = adminRootIterator->getChildren(CLINICAL_DATAS_NODE_NAME);
 
     unique_ptr<FullPersonData> pMandator = createFullPersonData(mandatorRootIterator);
     unique_ptr<FullPersonData> pPatient = createFullPersonData(patientRootIterator);
-    unique_ptr<ClinicalData> pClinicalData = createClinicalData(clinicalDataRootIterator);
+    unique_ptr<ClinicalDatas> pClinicalData = createClinicalDatas(clinicalDataRootIterator);
 
     return make_unique<AdminData>(
                 move(pMandator),
@@ -268,23 +268,25 @@ unique_ptr<EmailData> XpertQueryImport::createEmailData(Common::XmlNodeIterator&
     return make_unique<EmailData>(address, type);
 }
 
-unique_ptr<ClinicalData> XpertQueryImport::createClinicalData(Common::XmlNodeIterator& _clinicalDataRootIterator)
+unique_ptr<ClinicalDatas> XpertQueryImport::createClinicalDatas(Common::XmlNodeIterator& _clinicalDatasRootIterator)
 {
-    if (!_clinicalDataRootIterator->isValid()) {
+    if (!_clinicalDatasRootIterator->isValid()) {
         return nullptr;
     }
 
-    static const string CLINICAL_DATA_ENTRY_NODE_NAME = "clinicalDataEntry";
+    static const string CLINICAL_DATA_NODE_NAME = "clinicalData";
 
     map<string, string> data;
 
-    Common::XmlNodeIterator xmlNodeIterator = _clinicalDataRootIterator->getChildren(CLINICAL_DATA_ENTRY_NODE_NAME);
+    Common::XmlNodeIterator xmlNodeIterator = _clinicalDatasRootIterator->getChildren(CLINICAL_DATA_NODE_NAME);
+
+    // For each clinical data
     while(xmlNodeIterator != xmlNodeIterator.none()) {
         data[xmlNodeIterator->getAttribute("key").getValue()] = xmlNodeIterator->getValue();
         xmlNodeIterator++;
     }
 
-    return make_unique<ClinicalData>(data);
+    return make_unique<ClinicalDatas>(data);
 }
 
 unique_ptr<XpertRequestData> XpertQueryImport::createXpertRequesData(Common::XmlNodeIterator& _requestXpertRootIterator)

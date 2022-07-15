@@ -315,29 +315,29 @@ protected:
 };
 
 /// \brief Class allowing to store various information related to a patient.
-///        It contains the information of the "clinicalData" element from a query.
+///        It contains the information of the "clinicalDatas" element from a query.
 /// \date 28/04/2022
-class ClinicalData
+class ClinicalDatas
 {
 public:
 
-    /// \brief Clinical data constructor.
-    /// \param _data Map of data. Each entry corresponds to a clinicalDataEntry.
+    /// \brief ClinicalDatas constructor.
+    /// \param _data Map of data. Each entry corresponds to a clinicalData.
     ///              The keys correspond to the key attributes and the values to the
-    ///              values of the clinicalDataEntry elements.
-    ClinicalData(const std::map<std::string, std::string>& _data);
+    ///              values of the clinicalData elements.
+    ClinicalDatas(const std::map<std::string, std::string>& _data);
 
     // Getters
 
-    /// \brief Get the clinical data. Each entry corresponds to a clinicalDataEntry.
+    /// \brief Get the clinical data. Each entry corresponds to a clinicalData.
     ///        The keys correspond to the key attributes and the values to the
-    ///        values of the clinicalDataEntry elements.
+    ///        values of the clinicalData elements.
     /// \return The map containing the clinical data.
     const std::map<std::string, std::string>& getData() const;
 
 protected:
 
-    /// \brief Clinical data.
+    /// \brief Map of the clinical data.
     std::map<std::string, std::string> m_data;
 };
 
@@ -350,10 +350,10 @@ public:
     /// \brief Constructor of admin data.
     /// \param _mandator Mandator information pointer.
     /// \param _patient Patient information pointer.
-    /// \param _clinicalData Patient's clinical data information pointer.
+    /// \param _clinicalDatas Patient's clinical data information pointer.
     AdminData(std::unique_ptr<FullPersonData> _mandator,
               std::unique_ptr<FullPersonData> _patient,
-              std::unique_ptr<ClinicalData> _clinicalData);
+              std::unique_ptr<ClinicalDatas> _clinicalDatas);
 
     /// \brief Copy constructor is not supported because of unique pointers.
     AdminData(AdminData& _other) = delete;
@@ -370,7 +370,7 @@ public:
 
     /// \brief Get the clinical data.
     /// \return The clinical data unique pointer. May be nullptr.
-    const std::unique_ptr<ClinicalData>& getClinicalData() const;
+    const std::unique_ptr<ClinicalDatas>& getClinicalDatas() const;
 
 protected:
 
@@ -381,7 +381,7 @@ protected:
     std::unique_ptr<FullPersonData> m_patient;
 
     /// \brief The clinical data. May be nullptr.
-    std::unique_ptr<ClinicalData> m_clinicalData;
+    std::unique_ptr<ClinicalDatas> m_clinicalDatas;
 };
 
 } // namespace Xpert

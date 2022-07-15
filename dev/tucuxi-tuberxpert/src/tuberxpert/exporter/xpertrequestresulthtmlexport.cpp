@@ -209,7 +209,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
        << "        </table>" << endl
        << endl
 
-          // Administrative data - clinical data part:
+          // Administrative data - clinical datas part:
           // If there is no clinical data
           //    Insert none
           // Else
@@ -1003,13 +1003,13 @@ void XpertRequestResultHtmlExport::getClinicalDataJson(const unique_ptr<AdminDat
     // None translation
     _clinicalDataJson["none_translation"] = lm.translate("none");
 
-    // If there is clinical data
+    // If there are clinical data
     if (_admin != nullptr &&
-            _admin->getClinicalData() != nullptr) {
+            _admin->getClinicalDatas() != nullptr) {
 
         // For each clinical data
-        for (auto clinicalDataIt = _admin->getClinicalData()->getData().begin();
-             clinicalDataIt != _admin->getClinicalData()->getData().end();
+        for (auto clinicalDataIt = _admin->getClinicalDatas()->getData().begin();
+             clinicalDataIt != _admin->getClinicalDatas()->getData().end();
              ++clinicalDataIt){
 
             // Create json value

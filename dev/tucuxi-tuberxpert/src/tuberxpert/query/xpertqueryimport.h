@@ -77,10 +77,10 @@ protected:
     /// \return A unique pointer on the email data. If the iterator is not valid, nullptr.
     std::unique_ptr<EmailData> createEmailData(Common::XmlNodeIterator& _emailRootIterator);
 
-    /// \brief Create the clinical data object from the clinicalData iterator.
-    /// \param _clinicalDataRootIterator ClinicalData node iterator.
-    /// \return A unique pointer on the clinical data. If the iterator is not valid, nullptr.
-    std::unique_ptr<ClinicalData> createClinicalData(Common::XmlNodeIterator& _clinicalDataRootIterator);
+    /// \brief Create the clinical datas object from the clinicalDatas iterator.
+    /// \param _clinicalDatasRootIterator Clinical datas node iterator.
+    /// \return A unique pointer on the clinical datas. If the iterator is not valid, nullptr.
+    std::unique_ptr<ClinicalDatas> createClinicalDatas(Common::XmlNodeIterator& _clinicalDatasRootIterator);
 
     // -------------- Xpert request --------------
 

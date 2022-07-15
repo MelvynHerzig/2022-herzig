@@ -10,6 +10,8 @@
 		<xs:sequence>
 
 			<xs:element name="computationTime" type="xs:dateTime" />
+
+			<xs:element name="language" type="xs:string" />
 			
 			<xs:element name="drug" type="drugIntroType"/>
 
@@ -115,10 +117,10 @@
 				</xs:sequence>
 			</xs:complexType>	
 		</xs:element>
-		<xs:element name="clinicalData" minOccurs="0">
+		<xs:element name="clinicalDatas" minOccurs="0">
 			<xs:complexType>
 				<xs:sequence>
-					<xs:element name="clinicalDataEntry" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="clinicalData" minOccurs="0" maxOccurs="unbounded">
 						<xs:complexType>
 							<xs:simpleContent>
 								<xs:extension base="xs:string">
@@ -154,7 +156,7 @@
 <xs:complexType name="addressType">
 	<xs:sequence>
 		<xs:element name="street" type="xs:string" />
-		<xs:element name="postCode" >
+		<xs:element name="postalCode" >
 			<xs:simpleType>
 				 <xs:restriction base="xs:string">
 				 	<!-- 4 digit number that can't begin with a 0 -->
@@ -215,6 +217,17 @@
         <xs:element name="name" type="xs:string" />
 		<xs:element name="value" type="xs:string" />
 		<xs:element name="unit" type="unitType" />
+		<xs:element name="dataType">
+			<xs:simpleType>
+				<!-- As seen in Tucux's DataType Enum -->
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="int" />
+					<xs:enumeration value="double" />
+					<xs:enumeration value="bool" />
+					<xs:enumeration value="date" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
 		<xs:element name="desc" type="xs:string" />
         <xs:element name="source"  minOccurs="0">
 			<xs:simpleType>
