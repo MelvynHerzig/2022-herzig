@@ -133,7 +133,7 @@
     <translation key="predictions">Prédictions</translation>
     <translation key="extrapolated_steady_state_auc24">AUC24 extrapolée à l'état d'équilibre</translation>
     <translation key="steady_state_peak">Sommet à l'état d'équilibre</translation>
-    <translation key="steady_state_trough">Résiduel à l'état d'équilibre</translation>
+    <translation key="steady_state_residual">Résiduel à l'état d'équilibre</translation>
 
     <!-- Report Computation covariates -->
     <translation key="computation_covariates">Covariables utilisées pour les calculs</translation>

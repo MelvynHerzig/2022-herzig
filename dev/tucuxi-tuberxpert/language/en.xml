@@ -133,7 +133,7 @@
     <translation key="predictions">Predictions</translation>
     <translation key="extrapolated_steady_state_auc24">Extrapolated steady state AUC24</translation>
     <translation key="steady_state_peak">Steady state peak</translation>
-    <translation key="steady_state_trough">Steady state trough</translation>
+    <translation key="steady_state_residual">Steady state residual</translation>
 
     <!-- Report Computation covariates -->
     <translation key="computation_covariates">Covariates used for computation</translation>
