@@ -63,22 +63,22 @@ int main(int argc, char** argv)
 #if defined(test_xpertutils)
     TestXpertUtils xpertUtilsTests;
 
-    xpertUtilsTests.add_test("Convert data type to string", &TestXpertUtils::convertDataTypeToString);
-    xpertUtilsTests.add_test("Convert double to string", &TestXpertUtils::convertDoubleToString);
-    xpertUtilsTests.add_test("Convert covariate type to string", &TestXpertUtils::convertCovariateTypeToString);
-    xpertUtilsTests.add_test("Convert output lang to string", &TestXpertUtils::convertOutputLangToString);
-    xpertUtilsTests.add_test("Convert warning level to string", &TestXpertUtils::convertWarningLevelToString);
-    xpertUtilsTests.add_test("Date time to xml string returns correct value.", &TestXpertUtils::dateTimeToXmlStringReturnCorrectValue);
-    xpertUtilsTests.add_test("Time to string return correct value.", &TestXpertUtils::timeToStringReturnCorrectValue);
-    xpertUtilsTests.add_test("Date time to string retruns correct value.", &TestXpertUtils::dateTimeToStringReturnCorrectValue);
-    xpertUtilsTests.add_test("String beautification", &TestXpertUtils::stringBeautification);
-    xpertUtilsTests.add_test("Get a translatable string with english fallback.", &TestXpertUtils::getStringFromTranslatableWithFallback);
-    xpertUtilsTests.add_test("The values returned by getOldestTimeRangeStart are correct.", &TestXpertUtils::getOldestDosageTimeRangeStartReturnsCorrectValues);
-    xpertUtilsTests.add_test("The values returned by getLatestTimeRangeStart are correct.", &TestXpertUtils::getLatestDosageTimeRangeStartReturnsCorrectValues);
-    xpertUtilsTests.add_test("The value returned by computeFileName is correct.", &TestXpertUtils::computeFileNameReturnsCorrectValues);
-    xpertUtilsTests.add_test("The values returned by executeRequestAndGetResult are correct.", &TestXpertUtils::executeRequestAndGetResultReturnsCorrectValues);
-    xpertUtilsTests.add_test("Convert key to phrase.", &TestXpertUtils::convertKeyToPhrase);
-    xpertUtilsTests.add_test("Convert birth date to age.", &TestXpertUtils::computeAge);
+    xpertUtilsTests.add_test("DataType to string behaves correctly with all dataTypes.", &TestXpertUtils::dataTypeToString_behavesCorrectly_withAllDataType);
+    xpertUtilsTests.add_test("Double to string behaves correctly.", &TestXpertUtils::doubleToString_behavesCorrectly);
+    xpertUtilsTests.add_test("CovariateType to string behaves correctly with all the covariateTypes.", &TestXpertUtils::covariateTypeToString_behavesCorrectly_withAllTheCovariateTypes);
+    xpertUtilsTests.add_test("OutputLang to string behaves correctly with all outputLang and unsupported values.", &TestXpertUtils::outputLangToString_behavesCorrectly_withAllOutputLangAndUnsupportedValues);
+    xpertUtilsTests.add_test("WarningLevel to string behaves correctly with all warningLevel and unsupported values.", &TestXpertUtils::warningLevelToString_behavesCorrectly_withAllWarningLevelAndUnsupportedValues);
+    xpertUtilsTests.add_test("DateTime to xml string behaves correctly.", &TestXpertUtils::dateTimeToXmlString_behavesCorrectly);
+    xpertUtilsTests.add_test("Time to string behaves correctly.", &TestXpertUtils::timeToString_behavesCorrectly);
+    xpertUtilsTests.add_test("DateTime to string behaves correctly.", &TestXpertUtils::dateTimeToString_behavesCorrectly);
+    xpertUtilsTests.add_test("Beautify strin _behaves correctly", &TestXpertUtils::beautifyString_behavesCorrectly);
+    xpertUtilsTests.add_test("Get string with english fallback behaves correctly.", &TestXpertUtils::getStringWithEnglishFallback_behavesCorrectly);
+    xpertUtilsTests.add_test("Get oldest dosageTimeRange start behaves correctly.", &TestXpertUtils::getOldestDosageTimeRangeStart_behavesCorrectly);
+    xpertUtilsTests.add_test("Get latest dosageTimeRange start behaves correctly.", &TestXpertUtils::getLatestDosageTimeRangeStart_behavesCorrectly);
+    xpertUtilsTests.add_test("Compute file name behaves correctly.", &TestXpertUtils::computeFileName_behavesCorrectly);
+    xpertUtilsTests.add_test("Execute request and get result behaves correctly.", &TestXpertUtils::executeRequestAndGetResult_behavesCorrectly);
+    xpertUtilsTests.add_test("Key to phrase behaves correctly.", &TestXpertUtils::keyToPhrase_behavesCorrectly);
+    xpertUtilsTests.add_test("Get age in behaves correctly.", &TestXpertUtils::getAgeIn_behavesCorrectly);
 
     res = xpertUtilsTests.run(argc, argv);
     if (res != 0) {
@@ -97,8 +97,8 @@ int main(int argc, char** argv)
 #if defined(test_languagemanager)
     TestLanguageManager testLanguageManager;
 
-    testLanguageManager.add_test("GetInstance", &TestLanguageManager::retrieveTranslations);
-    testLanguageManager.add_test("translate", &TestLanguageManager::wordTranslation);
+    testLanguageManager.add_test("Load translations behaves correctly.", &TestLanguageManager::loadTranslations_behavesCorrectly);
+    testLanguageManager.add_test("translate behaves correctly.", &TestLanguageManager::translate_behavesCorrectly);
 
     res = testLanguageManager.run(argc, argv);
     if (res != 0) {
@@ -118,22 +118,22 @@ int main(int argc, char** argv)
 #if defined(test_xpertqueryimport)
     TestXpertQueryImport testXpertQueryImports;
 
-    testXpertQueryImports.add_test("Gets complete admin element", &TestXpertQueryImport::retrieveCompleteAdmin);
-    testXpertQueryImports.add_test("Gets no admin element", &TestXpertQueryImport::retrieveNoAdmin);
-    testXpertQueryImports.add_test("Gets empty admin element", &TestXpertQueryImport::retrieveEmptyAdmin);
-    testXpertQueryImports.add_test("Gets minimal persons", &TestXpertQueryImport::retrieveMinimalPerson);
-    testXpertQueryImports.add_test("Gets minimal institutes", &TestXpertQueryImport::retrieveMinimalInstitute);
-    testXpertQueryImports.add_test("Gets minimal coordinates", &TestXpertQueryImport::retrieveMinimalCoordinates);
-    testXpertQueryImports.add_test("Gets an error when missing mandatory values in mandator person", &TestXpertQueryImport::errorWhenMissingMandatoryInMandatorPerson);
-    testXpertQueryImports.add_test("Gets an error when missing mandatory values in mandator institute", &TestXpertQueryImport::errorWhenMissingMandatoryInMandatorInstitute);
-    testXpertQueryImports.add_test("Gets an error when missing mandatory values in patient person", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientPerson);
-    testXpertQueryImports.add_test("Gets an error when missing mandatory values in patient institute", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientInstitute);
-    testXpertQueryImports.add_test("Gets complete request xpert element", &TestXpertQueryImport::retrieveCompleteXpertRequest);
-    testXpertQueryImports.add_test("Gets default request xpert element", &TestXpertQueryImport::retrieveDefaultXpertRequest);
-    testXpertQueryImports.add_test("Gets an error when missing request xpert", &TestXpertQueryImport::errorWhenNoXpertRequest);
-    testXpertQueryImports.add_test("Gets an error when missing mandatory values in request xpert", &TestXpertQueryImport::errorWhenMissingMandatoryXpertRequest);
-    testXpertQueryImports.add_test("Gets an error when the xml document can't be created from string", &TestXpertQueryImport::errorWhenCreatingXmlDocumentFromString);
-    testXpertQueryImports.add_test("Gets an error when the xml document can't be created from file", &TestXpertQueryImport::errorWhenCreatingXmlDocumentFromFile);
+    testXpertQueryImports.add_test("Xpert query import behaves correctly with complete admin.", &TestXpertQueryImport::xpertQueryImport_getsAllValues_withCompleteAdmin);
+    testXpertQueryImports.add_test("Xpert query import gets nullptr AdminData with no admin element.", &TestXpertQueryImport::xpertQueryImport_getsNullptrAdminData_withNoAdminElement);
+    testXpertQueryImports.add_test("Xpert query import AdminData getters return nullptr with empty admin element.", &TestXpertQueryImport::xpertQueryImport_adminDataGettersReturnNullptr_withEmptyAdminElement);
+    testXpertQueryImports.add_test("Xpert query import missing values are nullptr or empty string with minimal person in mandator and patient.", &TestXpertQueryImport::xpertQueryImport_missingValuesAreNullptrOrEmptyString_withMinimalPersonInMandatorAndPatient);
+    testXpertQueryImports.add_test("Xpert query import missing values are nullptr or empty string with minimal institute in mandator and patient.", &TestXpertQueryImport::xpertQueryImport_missingValuesAreNullptrOrEmptyString_withMinimalInstituteInMandatorAndPatient);
+    testXpertQueryImports.add_test("Xpert query import missing values are empty string with minimal address phone and email", &TestXpertQueryImport::xpertQueryImport_missingValuesAreEmptyString_withMinimalAddressPhoneAndEmail);
+    testXpertQueryImports.add_test("Xpert query import import error with missing mandatory values in complete mandator person", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompleteMandatorPerson);
+    testXpertQueryImports.add_test("Xpert query import import error with missing mandatory values in complete mandator institute", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompleteMandatorInstitute);
+    testXpertQueryImports.add_test("Xpert query import import error with missing mandatory values in complete patient person", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompletePatientPerson);
+    testXpertQueryImports.add_test("Xpert query import import error with missing mandatory values in complete patient institute", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompletePatientInstitute);
+    testXpertQueryImports.add_test("Xpert query import gets all values with complete XpertRequest", &TestXpertQueryImport::xpertQueryImport_getsAllValues_withCompleteXpertRequest);
+    testXpertQueryImports.add_test("Xpert query import get default values with minimal XpertRequest", &TestXpertQueryImport::xpertQueryImport_getDefaultValues_WithMinimalXpertRequest);
+    testXpertQueryImports.add_test("Xpert query import import error without XpertRequest", &TestXpertQueryImport::xpertQueryImport_importError_withoutXpertRequest);
+    testXpertQueryImports.add_test("Xpert query import import error with missing mandatory in XpertRequest", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryInXpertRequest);
+    testXpertQueryImports.add_test("Xpert query import import error with file badly formatted", &TestXpertQueryImport::xpertQueryImport_importError_withFileBadlyFormatted);
+    testXpertQueryImports.add_test("Xpert query import import error with non existing file", &TestXpertQueryImport::xpertQueryImport_importError_withNonExistingFile);
 
     res = testXpertQueryImports.run(argc, argv);
     if (res != 0) {

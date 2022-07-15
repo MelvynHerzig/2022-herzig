@@ -631,8 +631,8 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
         fructose_assert_eq(patientInstituteEmail.getAddress(), "info@ehnv.com");
         fructose_assert_eq(patientInstituteEmail.getType(), "professional");
 
-        fructose_assert_eq(xpertResultCompleteAdmin.getAdminData()->getClinicalData()->getData().find("goodNote")->second, " nice ");
-        fructose_assert_eq(xpertResultCompleteAdmin.getAdminData()->getClinicalData()->getData().find("badNote")->second, "");
+        fructose_assert_eq(xpertResultCompleteAdmin.getAdminData()->getClinicalDatas()->getData().find("goodNote")->second, " nice ");
+        fructose_assert_eq(xpertResultCompleteAdmin.getAdminData()->getClinicalDatas()->getData().find("badNote")->second, "");
     }
 
     /// \brief Checks that the vector of XpertRequestResult is valid.

@@ -12,9 +12,9 @@
 struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
 {
     /// \brief Load an xml file with every possible data in admin node
-    /// and check if the recieved values are expected.
+    ///        and check if the received values are expected. There should be no import errors.
     /// \param _testName Name of the test.
-    void retrieveCompleteAdmin(const std::string& _testName)
+    void xpertQueryImport_getsAllValues_withCompleteAdmin(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -112,24 +112,16 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                    </email>
                                                </institute>
                                            </patient>
-                                           <clinicalData>
-                                               <clinicalDataEntry key="goodNote"> nice </clinicalDataEntry>
-                                               <clinicalDataEntry key="badNote"> <yet>random note</yet> </clinicalDataEntry>
-                                           </clinicalData>
+                                           <clinicalDatas>
+                                               <clinicalData key="goodNote"> nice </clinicalDataEntry>
+                                               <clinicalData key="badNote"> <yet>random note</yet> </clinicalDataEntry>
+                                           </clinicalDatas>
                                        </admin>
 
                                        <drugTreatment>
                                            <!-- All the information regarding the patient -->
                                            <patient>
                                                <covariates>
-                                                   <covariate>
-                                                       <covariateId>ffm</covariateId>
-                                                       <date>2018-07-11T10:45:30</date>
-                                                       <value>40</value>
-                                                       <unit>kg</unit>
-                                                         <dataType>double</dataType>
-                                                       <nature>continuous</nature>
-                                                   </covariate>
                                                </covariates>
                                            </patient>
                                            <!-- List of the drugs informations we have concerning the patient -->
@@ -143,57 +135,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                    <!-- All the information regarding the treatment -->
                                                    <treatment>
                                                        <dosageHistory>
-                                                           <dosageTimeRange>
-                                                               <start>2018-07-06T08:00:00</start>
-                                                               <end>2018-07-08T08:00:00</end>
-                                                               <dosage>
-                                                                   <dosageLoop>
-                                                                       <lastingDosage>
-                                                                           <interval>12:00:00</interval>
-                                                                           <dose>
-                                                                               <value>800</value>
-                                                                               <unit>mg</unit>
-                                                                               <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                           </dose>
-                                                                           <formulationAndRoute>
-                                                                               <formulation>parenteralSolution</formulation>
-                                                                               <administrationName>foo bar</administrationName>
-                                                                               <administrationRoute>oral</administrationRoute>
-                                                                               <absorptionModel>extravascular</absorptionModel>
-                                                                           </formulationAndRoute>
-                                                                       </lastingDosage>
-                                                                   </dosageLoop>
-                                                               </dosage>
-                                                           </dosageTimeRange>
                                                        </dosageHistory>
                                                    </treatment>
                                                    <!-- Samples history -->
                                                    <samples>
-                                                       <sample>
-                                                           <sampleId>123456</sampleId>
-                                                           <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                           <concentrations>
-                                                               <concentration>
-                                                                   <analyteId>rifampicin</analyteId>
-                                                                   <value>7</value>
-                                                                   <unit>mg/l</unit>
-                                                               </concentration>
-                                                           </concentrations>
-                                                       </sample>
                                                    </samples>
                                                    <!-- Personalised targets -->
                                                    <targets>
-                                                       <!-- It's the same node we can find in the drug model xml file -->
-                                                       <target>
-                                                           <activeMoietyId>rifampicin</activeMoietyId>
-                                                           <targetType>residual</targetType>
-                                                           <unit>mg/l</unit>
-                                                           <min>20</min>
-                                                           <best>25</best>
-                                                           <max>30</max>
-                                                           <inefficacyAlarm>15</inefficacyAlarm>
-                                                           <toxicityAlarm>50</toxicityAlarm>
-                                                       </target>
                                                    </targets>
                                                </drug>
                                            </drugs>
@@ -218,7 +166,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                    </query>)";
 
 
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
+       std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
 
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
@@ -294,13 +242,14 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(patientInstituteEmail.getAddress(), "info@ehnv.com");
         fructose_assert_eq(patientInstituteEmail.getType(), "professional");
 
-        fructose_assert_eq(pAdmin.getClinicalData()->getData().find("goodNote")->second, " nice ");
-        fructose_assert_eq(pAdmin.getClinicalData()->getData().find("badNote")->second, "");
+        fructose_assert_eq(pAdmin.getClinicalDatas()->getData().find("goodNote")->second, " nice ");
+        fructose_assert_eq(pAdmin.getClinicalDatas()->getData().find("badNote")->second, "");
     }
 
-    /// \brief Load an xml file with no admin element
+    /// \brief Load an xml file with no admin element.
+    ///        The admin data pointer must be nullptr and there should be no import errors.
     /// \param _testName Name of the test.
-    void retrieveNoAdmin(const std::string& _testName)
+    void xpertQueryImport_getsNullptrAdminData_withNoAdminElement(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -317,14 +266,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                    <covariate>
-                                                        <covariateId>ffm</covariateId>
-                                                        <date>2018-07-11T10:45:30</date>
-                                                        <value>40</value>
-                                                        <unit>kg</unit>
-                                                          <dataType>double</dataType>
-                                                        <nature>continuous</nature>
-                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -338,57 +279,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <!-- All the information regarding the treatment -->
                                                     <treatment>
                                                         <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>800</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
-                                                        <sample>
-                                                            <sampleId>123456</sampleId>
-                                                            <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>rifampicin</analyteId>
-                                                                    <value>7</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
-                                                        <!-- It's the same node we can find in the drug model xml file -->
-                                                        <target>
-                                                            <activeMoietyId>rifampicin</activeMoietyId>
-                                                            <targetType>residual</targetType>
-                                                            <unit>mg/l</unit>
-                                                            <min>20</min>
-                                                            <best>25</best>
-                                                            <max>30</max>
-                                                            <inefficacyAlarm>15</inefficacyAlarm>
-                                                            <toxicityAlarm>50</toxicityAlarm>
-                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -423,9 +320,10 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(query->getAdminData().get(), nullptr);
     }
 
-    /// \brief Load an xml file with admin but no mandator, no patient and no clinical data.
+    /// \brief Load an xml file with an admin element that has no mandator, no patient and no clinical data.
+    ///        The AdminData pointer is not nullptr but its getters return nullptr. There should be no import errors.
     /// \param _testName Name of the test.
-    void retrieveEmptyAdmin(const std::string& _testName)
+    void xpertQueryImport_adminDataGettersReturnNullptr_withEmptyAdminElement(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -444,14 +342,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                    <covariate>
-                                                        <covariateId>ffm</covariateId>
-                                                        <date>2018-07-11T10:45:30</date>
-                                                        <value>40</value>
-                                                        <unit>kg</unit>
-                                                          <dataType>double</dataType>
-                                                        <nature>continuous</nature>
-                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -465,57 +355,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <!-- All the information regarding the treatment -->
                                                     <treatment>
                                                         <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>800</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
-                                                        <sample>
-                                                            <sampleId>123456</sampleId>
-                                                            <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>rifampicin</analyteId>
-                                                                    <value>7</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
-                                                        <!-- It's the same node we can find in the drug model xml file -->
-                                                        <target>
-                                                            <activeMoietyId>rifampicin</activeMoietyId>
-                                                            <targetType>residual</targetType>
-                                                            <unit>mg/l</unit>
-                                                            <min>20</min>
-                                                            <best>25</best>
-                                                            <max>30</max>
-                                                            <inefficacyAlarm>15</inefficacyAlarm>
-                                                            <toxicityAlarm>50</toxicityAlarm>
-                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -550,12 +396,14 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
 
         fructose_assert_eq(query->getAdminData()->getMandator().get(), nullptr);
         fructose_assert_eq(query->getAdminData()->getPatient().get(), nullptr);
-        fructose_assert_eq(query->getAdminData()->getClinicalData().get(), nullptr);
+        fructose_assert_eq(query->getAdminData()->getClinicalDatas().get(), nullptr);
     }
 
-    /// \brief Load an xml file with admin and minimal persons element
+    /// \brief Load an xml file with an admin element that has minimal person elements in
+    ///        mandator and patient. There should be no import errors.
+    ///        The missing values must be nullptr or empty string.
     /// \param _testName Name of the test.
-    void retrieveMinimalPerson(const std::string& _testName)
+    void xpertQueryImport_missingValuesAreNullptrOrEmptyString_withMinimalPersonInMandatorAndPatient(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -587,14 +435,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                    <covariate>
-                                                        <covariateId>ffm</covariateId>
-                                                        <date>2018-07-11T10:45:30</date>
-                                                        <value>40</value>
-                                                        <unit>kg</unit>
-                                                          <dataType>double</dataType>
-                                                        <nature>continuous</nature>
-                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -608,57 +448,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <!-- All the information regarding the treatment -->
                                                     <treatment>
                                                         <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>800</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
-                                                        <sample>
-                                                            <sampleId>123456</sampleId>
-                                                            <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>rifampicin</analyteId>
-                                                                    <value>7</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
-                                                        <!-- It's the same node we can find in the drug model xml file -->
-                                                        <target>
-                                                            <activeMoietyId>rifampicin</activeMoietyId>
-                                                            <targetType>residual</targetType>
-                                                            <unit>mg/l</unit>
-                                                            <min>20</min>
-                                                            <best>25</best>
-                                                            <max>30</max>
-                                                            <inefficacyAlarm>15</inefficacyAlarm>
-                                                            <toxicityAlarm>50</toxicityAlarm>
-                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -710,11 +506,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(patient.getPhone().get(), nullptr);
         fructose_assert_eq(patient.getEmail().get(), nullptr);
         fructose_assert_eq(admin->getPatient()->getInstitute().get(), nullptr);
-    }
+    }  
 
-    /// \brief Load an xml file with admin and minimal institutes elements
+    /// \brief Load an xml file with an admin element that has minimal institutes elements
+    ///        in mandator and patient elements. There should be no import errors.
+    ///        The missing values must be nullptr or empty string.
     /// \param _testName Name of the test.
-    void retrieveMinimalInstitute(const std::string& _testName)
+    void xpertQueryImport_missingValuesAreNullptrOrEmptyString_withMinimalInstituteInMandatorAndPatient(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -752,14 +550,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                    <covariate>
-                                                        <covariateId>ffm</covariateId>
-                                                        <date>2018-07-11T10:45:30</date>
-                                                        <value>40</value>
-                                                        <unit>kg</unit>
-                                                          <dataType>double</dataType>
-                                                        <nature>continuous</nature>
-                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -773,57 +563,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <!-- All the information regarding the treatment -->
                                                     <treatment>
                                                         <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>800</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
-                                                        <sample>
-                                                            <sampleId>123456</sampleId>
-                                                            <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>rifampicin</analyteId>
-                                                                    <value>7</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
-                                                        <!-- It's the same node we can find in the drug model xml file -->
-                                                        <target>
-                                                            <activeMoietyId>rifampicin</activeMoietyId>
-                                                            <targetType>residual</targetType>
-                                                            <unit>mg/l</unit>
-                                                            <min>20</min>
-                                                            <best>25</best>
-                                                            <max>30</max>
-                                                            <inefficacyAlarm>15</inefficacyAlarm>
-                                                            <toxicityAlarm>50</toxicityAlarm>
-                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -873,9 +619,10 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(patientInstitute->getEmail().get(), nullptr);
     }
 
-    /// \brief Load an xml file with admin and minimal coordinates elements (address, phone and email)
+    /// \brief Load an xml file with an admin element that has address phone and email in institute
+    ///        and person elements. There should be no import errors. The missing values must empty string.
     /// \param _testName Name of the test.
-    void retrieveMinimalCoordinates(const std::string& _testName)
+    void xpertQueryImport_missingValuesAreEmptyString_withMinimalAddressPhoneAndEmail(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -958,14 +705,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                    <covariate>
-                                                        <covariateId>ffm</covariateId>
-                                                        <date>2018-07-11T10:45:30</date>
-                                                        <value>40</value>
-                                                        <unit>kg</unit>
-                                                          <dataType>double</dataType>
-                                                        <nature>continuous</nature>
-                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -979,57 +718,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <!-- All the information regarding the treatment -->
                                                     <treatment>
                                                         <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>800</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
-                                                        <sample>
-                                                            <sampleId>123456</sampleId>
-                                                            <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>rifampicin</analyteId>
-                                                                    <value>7</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
-                                                        <!-- It's the same node we can find in the drug model xml file -->
-                                                        <target>
-                                                            <activeMoietyId>rifampicin</activeMoietyId>
-                                                            <targetType>residual</targetType>
-                                                            <unit>mg/l</unit>
-                                                            <min>20</min>
-                                                            <best>25</best>
-                                                            <max>30</max>
-                                                            <inefficacyAlarm>15</inefficacyAlarm>
-                                                            <toxicityAlarm>50</toxicityAlarm>
-                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -1102,9 +797,11 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(patientInstituteEmail.getType(), "");
     }
 
-    /// \brief Load an xml file with admin but mandatory values are missing.
+
+    /// \brief Load an xml file with an admin element but the mandatory values are missing in the mandator person.
+    ///        There should be an import error. The error message contains all the elements missing.
     /// \param _testName Name of the test.
-    void errorWhenMissingMandatoryInMandatorPerson(const std::string& _testName)
+    void xpertQueryImport_importError_withMissingMandatoryValuesInCompleteMandatorPerson(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -1134,14 +831,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                    <covariate>
-                                                        <covariateId>ffm</covariateId>
-                                                        <date>2018-07-11T10:45:30</date>
-                                                        <value>40</value>
-                                                        <unit>kg</unit>
-                                                          <dataType>double</dataType>
-                                                        <nature>continuous</nature>
-                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -1155,57 +844,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <!-- All the information regarding the treatment -->
                                                     <treatment>
                                                         <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>800</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
-                                                        <sample>
-                                                            <sampleId>123456</sampleId>
-                                                            <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>rifampicin</analyteId>
-                                                                    <value>7</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
-                                                        <!-- It's the same node we can find in the drug model xml file -->
-                                                        <target>
-                                                            <activeMoietyId>rifampicin</activeMoietyId>
-                                                            <targetType>residual</targetType>
-                                                            <unit>mg/l</unit>
-                                                            <min>20</min>
-                                                            <best>25</best>
-                                                            <max>30</max>
-                                                            <inefficacyAlarm>15</inefficacyAlarm>
-                                                            <toxicityAlarm>50</toxicityAlarm>
-                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -1245,9 +890,10 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_ne(importer.getErrorMessage().find("address"), std::string::npos);
     }
 
-    /// \brief Load an xml file with admin but mandatory values are missing.
+    /// \brief Load an xml file with an admin element but the mandatory values are missing in the mandator institute.
+    ///        There should be an import error. The error message contains all the elements missing.
     /// \param _testName Name of the test.
-    void errorWhenMissingMandatoryInMandatorInstitute(const std::string& _testName)
+    void xpertQueryImport_importError_withMissingMandatoryValuesInCompleteMandatorInstitute(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -1292,14 +938,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                    <covariate>
-                                                        <covariateId>ffm</covariateId>
-                                                        <date>2018-07-11T10:45:30</date>
-                                                        <value>40</value>
-                                                        <unit>kg</unit>
-                                                          <dataType>double</dataType>
-                                                        <nature>continuous</nature>
-                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -1313,57 +951,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <!-- All the information regarding the treatment -->
                                                     <treatment>
                                                         <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>800</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
-                                                        <sample>
-                                                            <sampleId>123456</sampleId>
-                                                            <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>rifampicin</analyteId>
-                                                                    <value>7</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
-                                                        <!-- It's the same node we can find in the drug model xml file -->
-                                                        <target>
-                                                            <activeMoietyId>rifampicin</activeMoietyId>
-                                                            <targetType>residual</targetType>
-                                                            <unit>mg/l</unit>
-                                                            <min>20</min>
-                                                            <best>25</best>
-                                                            <max>30</max>
-                                                            <inefficacyAlarm>15</inefficacyAlarm>
-                                                            <toxicityAlarm>50</toxicityAlarm>
-                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -1402,9 +996,10 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_ne(importer.getErrorMessage().find("address"), std::string::npos);
     }
 
-    /// \brief Load an xml file with admin but mandatory values are missing.
+    /// \brief Load an xml file with an admin element but the mandatory values are missing in the patient person.
+    ///        There should be an import error. The error message contains all the elements missing.
     /// \param _testName Name of the test.
-    void errorWhenMissingMandatoryInPatientPerson(const std::string& _testName)
+    void xpertQueryImport_importError_withMissingMandatoryValuesInCompletePatientPerson(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -1434,14 +1029,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                    <covariate>
-                                                        <covariateId>ffm</covariateId>
-                                                        <date>2018-07-11T10:45:30</date>
-                                                        <value>40</value>
-                                                        <unit>kg</unit>
-                                                          <dataType>double</dataType>
-                                                        <nature>continuous</nature>
-                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -1455,57 +1042,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <!-- All the information regarding the treatment -->
                                                     <treatment>
                                                         <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>800</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
-                                                        <sample>
-                                                            <sampleId>123456</sampleId>
-                                                            <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>rifampicin</analyteId>
-                                                                    <value>7</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
-                                                        <!-- It's the same node we can find in the drug model xml file -->
-                                                        <target>
-                                                            <activeMoietyId>rifampicin</activeMoietyId>
-                                                            <targetType>residual</targetType>
-                                                            <unit>mg/l</unit>
-                                                            <min>20</min>
-                                                            <best>25</best>
-                                                            <max>30</max>
-                                                            <inefficacyAlarm>15</inefficacyAlarm>
-                                                            <toxicityAlarm>50</toxicityAlarm>
-                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -1545,9 +1088,10 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_ne(importer.getErrorMessage().find("address"), std::string::npos);
     }
 
-    /// \brief Load an xml file with admin but mandatory values are missing.
+    /// \brief Load an xml file with an admin element but the mandatory values are missing in the patient institute.
+    ///        There should be an import error. The error message contains all the elements missing.
     /// \param _testName Name of the test.
-    void errorWhenMissingMandatoryInPatientInstitute(const std::string& _testName)
+    void xpertQueryImport_importError_withMissingMandatoryValuesInCompletePatientInstitute(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -1592,14 +1136,6 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                    <covariate>
-                                                        <covariateId>ffm</covariateId>
-                                                        <date>2018-07-11T10:45:30</date>
-                                                        <value>40</value>
-                                                        <unit>kg</unit>
-                                                          <dataType>double</dataType>
-                                                        <nature>continuous</nature>
-                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -1613,57 +1149,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <!-- All the information regarding the treatment -->
                                                     <treatment>
                                                         <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>800</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
-                                                        <sample>
-                                                            <sampleId>123456</sampleId>
-                                                            <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>rifampicin</analyteId>
-                                                                    <value>7</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
-                                                        <!-- It's the same node we can find in the drug model xml file -->
-                                                        <target>
-                                                            <activeMoietyId>rifampicin</activeMoietyId>
-                                                            <targetType>residual</targetType>
-                                                            <unit>mg/l</unit>
-                                                            <min>20</min>
-                                                            <best>25</best>
-                                                            <max>30</max>
-                                                            <inefficacyAlarm>15</inefficacyAlarm>
-                                                            <toxicityAlarm>50</toxicityAlarm>
-                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -1703,9 +1195,9 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
     }
 
     /// \brief Load an xml file with every possible data in xpertRequest node
-    /// and check if the recieved values are expected.
+    ///        and check if the received values are expected. There should be no import errors.
     /// \param _testName Name of the test.
-    void retrieveCompleteXpertRequest(const std::string& _testName)
+    void xpertQueryImport_getsAllValues_withCompleteXpertRequest(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -1718,107 +1210,10 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
-                                        <admin>
-                                            <mandator>
-                                                <person>
-                                                    <id>asdf</id>
-                                                    <title>Dr.</title>
-                                                    <firstName>John</firstName>
-                                                    <lastName>Doe</lastName>
-                                                    <address>
-                                                        <street>Av. de l'Ours 2</street>
-                                                        <postalCode>1010</postalCode>
-                                                        <city>Lausanne</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0213140002</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>john.doe@chuv.com</address>
-                                                        <type>professional</type>
-                                                    </email>
-                                                </person>
-                                                <institute>
-                                                    <id>456789</id>
-                                                    <name>CHUV</name>
-                                                    <address>
-                                                        <street>Av. de l'Ours 1</street>
-                                                        <postalCode>1010</postalCode>
-                                                        <city>Lausanne</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0213140001</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>info@chuv.com</address>
-                                                        <type>professional</type>
-                                                    </email>
-                                                </institute>
-                                            </mandator>
-                                            <patient>
-                                                <person>
-                                                    <id>123456</id>
-                                                    <firstName>Alice</firstName>
-                                                    <lastName>Aupaysdesmerveilles</lastName>
-                                                    <address>
-                                                        <street>Av. d'Ouchy 27</street>
-                                                        <postalCode>1006</postalCode>
-                                                        <city>Lausanne</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0216170002</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>alice.apdm@gmail.com</address>
-                                                        <type>private</type>
-                                                    </email>
-                                                </person>
-                                                <institute>
-                                                    <id>1234</id>
-                                                    <name>EHNV</name>
-                                                    <address>
-                                                        <street>Street name 2</street>
-                                                        <postalCode>1400</postalCode>
-                                                        <city>Yverdon-les-Bains</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0123456789</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>info@ehnv.com</address>
-                                                        <type>professional</type>
-                                                    </email>
-                                                </institute>
-                                            </patient>
-                                            <clinicalData>
-                                                <clinicalDataEntry key="note">random note</clinicalDataEntry>
-                                            </clinicalData>
-                                        </admin>
-
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                    <covariate>
-                                                        <covariateId>ffm</covariateId>
-                                                        <date>2018-07-11T10:45:30</date>
-                                                        <value>40</value>
-                                                        <unit>kg</unit>
-                                                          <dataType>double</dataType>
-                                                        <nature>continuous</nature>
-                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -1832,57 +1227,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <!-- All the information regarding the treatment -->
                                                     <treatment>
                                                         <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>800</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
-                                                        <sample>
-                                                            <sampleId>123456</sampleId>
-                                                            <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>rifampicin</analyteId>
-                                                                    <value>7</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
-                                                        <!-- It's the same node we can find in the drug model xml file -->
-                                                        <target>
-                                                            <activeMoietyId>rifampicin</activeMoietyId>
-                                                            <targetType>residual</targetType>
-                                                            <unit>mg/l</unit>
-                                                            <min>20</min>
-                                                            <best>25</best>
-                                                            <max>30</max>
-                                                            <inefficacyAlarm>15</inefficacyAlarm>
-                                                            <toxicityAlarm>50</toxicityAlarm>
-                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -1930,10 +1281,10 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
 
     }
 
-    /// \brief Load an xml file with default data in xpertRequest node
-    /// and check if the recieved values are expected.
+    /// \brief Load an xml file with the default data in an xpertRequest node
+    ///        and check if the received values are expected. There should be no import errors.
     /// \param _testName Name of the test.
-    void retrieveDefaultXpertRequest(const std::string& _testName)
+    void xpertQueryImport_getDefaultValues_WithMinimalXpertRequest(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -1946,107 +1297,10 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
-                                        <admin>
-                                            <mandator>
-                                                <person>
-                                                    <id>asdf</id>
-                                                    <title>Dr.</title>
-                                                    <firstName>John</firstName>
-                                                    <lastName>Doe</lastName>
-                                                    <address>
-                                                        <street>Av. de l'Ours 2</street>
-                                                        <postalCode>1010</postalCode>
-                                                        <city>Lausanne</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0213140002</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>john.doe@chuv.com</address>
-                                                        <type>professional</type>
-                                                    </email>
-                                                </person>
-                                                <institute>
-                                                    <id>456789</id>
-                                                    <name>CHUV</name>
-                                                    <address>
-                                                        <street>Av. de l'Ours 1</street>
-                                                        <postalCode>1010</postalCode>
-                                                        <city>Lausanne</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0213140001</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>info@chuv.com</address>
-                                                        <type>professional</type>
-                                                    </email>
-                                                </institute>
-                                            </mandator>
-                                            <patient>
-                                                <person>
-                                                    <id>123456</id>
-                                                    <firstName>Alice</firstName>
-                                                    <lastName>Aupaysdesmerveilles</lastName>
-                                                    <address>
-                                                        <street>Av. d'Ouchy 27</street>
-                                                        <postalCode>1006</postalCode>
-                                                        <city>Lausanne</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0216170002</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>alice.apdm@gmail.com</address>
-                                                        <type>private</type>
-                                                    </email>
-                                                </person>
-                                                <institute>
-                                                    <id>1234</id>
-                                                    <name>EHNV</name>
-                                                    <address>
-                                                        <street>Street name 2</street>
-                                                        <postalCode>1400</postalCode>
-                                                        <city>Yverdon-les-Bains</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0123456789</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>info@ehnv.com</address>
-                                                        <type>professional</type>
-                                                    </email>
-                                                </institute>
-                                            </patient>
-                                            <clinicalData>
-                                                <clinicalDataEntry key="note">random note</clinicalDataEntry>
-                                            </clinicalData>
-                                        </admin>
-
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                    <covariate>
-                                                        <covariateId>ffm</covariateId>
-                                                        <date>2018-07-11T10:45:30</date>
-                                                        <value>40</value>
-                                                        <unit>kg</unit>
-                                                          <dataType>double</dataType>
-                                                        <nature>continuous</nature>
-                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -2060,57 +1314,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <!-- All the information regarding the treatment -->
                                                     <treatment>
                                                         <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>800</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
-                                                        <sample>
-                                                            <sampleId>123456</sampleId>
-                                                            <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>rifampicin</analyteId>
-                                                                    <value>7</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
-                                                        <!-- It's the same node we can find in the drug model xml file -->
-                                                        <target>
-                                                            <activeMoietyId>rifampicin</activeMoietyId>
-                                                            <targetType>residual</targetType>
-                                                            <unit>mg/l</unit>
-                                                            <min>20</min>
-                                                            <best>25</best>
-                                                            <max>30</max>
-                                                            <inefficacyAlarm>15</inefficacyAlarm>
-                                                            <toxicityAlarm>50</toxicityAlarm>
-                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -2148,9 +1358,9 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(xpertRequest.getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute, true);
     }
 
-    /// \brief Load an xml file without xpertRequest and check that error is returned.
+    /// \brief Load an xml file without any xpertRequest and check that an error is returned.
     /// \param _testName Name of the test.
-    void errorWhenNoXpertRequest(const std::string& _testName)
+    void xpertQueryImport_importError_withoutXpertRequest(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -2163,107 +1373,10 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
-                                        <admin>
-                                            <mandator>
-                                                <person>
-                                                    <id>asdf</id>
-                                                    <title>Dr.</title>
-                                                    <firstName>John</firstName>
-                                                    <lastName>Doe</lastName>
-                                                    <address>
-                                                        <street>Av. de l'Ours 2</street>
-                                                        <postalCode>1010</postalCode>
-                                                        <city>Lausanne</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0213140002</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>john.doe@chuv.com</address>
-                                                        <type>professional</type>
-                                                    </email>
-                                                </person>
-                                                <institute>
-                                                    <id>456789</id>
-                                                    <name>CHUV</name>
-                                                    <address>
-                                                        <street>Av. de l'Ours 1</street>
-                                                        <postalCode>1010</postalCode>
-                                                        <city>Lausanne</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0213140001</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>info@chuv.com</address>
-                                                        <type>professional</type>
-                                                    </email>
-                                                </institute>
-                                            </mandator>
-                                            <patient>
-                                                <person>
-                                                    <id>123456</id>
-                                                    <firstName>Alice</firstName>
-                                                    <lastName>Aupaysdesmerveilles</lastName>
-                                                    <address>
-                                                        <street>Av. d'Ouchy 27</street>
-                                                        <postalCode>1006</postalCode>
-                                                        <city>Lausanne</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0216170002</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>alice.apdm@gmail.com</address>
-                                                        <type>private</type>
-                                                    </email>
-                                                </person>
-                                                <institute>
-                                                    <id>1234</id>
-                                                    <name>EHNV</name>
-                                                    <address>
-                                                        <street>Street name 2</street>
-                                                        <postalCode>1400</postalCode>
-                                                        <city>Yverdon-les-Bains</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0123456789</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>info@ehnv.com</address>
-                                                        <type>professional</type>
-                                                    </email>
-                                                </institute>
-                                            </patient>
-                                            <clinicalData>
-                                                <clinicalDataEntry key="note">random note</clinicalDataEntry>
-                                            </clinicalData>
-                                        </admin>
-
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                    <covariate>
-                                                        <covariateId>ffm</covariateId>
-                                                        <date>2018-07-11T10:45:30</date>
-                                                        <value>40</value>
-                                                        <unit>kg</unit>
-                                                          <dataType>double</dataType>
-                                                        <nature>continuous</nature>
-                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -2277,57 +1390,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <!-- All the information regarding the treatment -->
                                                     <treatment>
                                                         <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>800</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
-                                                        <sample>
-                                                            <sampleId>123456</sampleId>
-                                                            <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>rifampicin</analyteId>
-                                                                    <value>7</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
-                                                        <!-- It's the same node we can find in the drug model xml file -->
-                                                        <target>
-                                                            <activeMoietyId>rifampicin</activeMoietyId>
-                                                            <targetType>residual</targetType>
-                                                            <unit>mg/l</unit>
-                                                            <min>20</min>
-                                                            <best>25</best>
-                                                            <max>30</max>
-                                                            <inefficacyAlarm>15</inefficacyAlarm>
-                                                            <toxicityAlarm>50</toxicityAlarm>
-                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -2348,9 +1417,10 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(query->getXpertRequests().size(), 0);
     }
 
-    /// \brief Load an xml file without mandatory values in xpertRequest and check that error is returned.
+    /// \brief Load an xml file without mandatory values in the xpertRequest node and check
+    ///        that error is returned. The error message tells what is missing.
     /// \param _testName Name of the test.
-    void errorWhenMissingMandatoryXpertRequest(const std::string& _testName)
+    void xpertQueryImport_importError_withMissingMandatoryInXpertRequest(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -2363,107 +1433,10 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
-                                        <admin>
-                                            <mandator>
-                                                <person>
-                                                    <id>asdf</id>
-                                                    <title>Dr.</title>
-                                                    <firstName>John</firstName>
-                                                    <lastName>Doe</lastName>
-                                                    <address>
-                                                        <street>Av. de l'Ours 2</street>
-                                                        <postalCode>1010</postalCode>
-                                                        <city>Lausanne</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0213140002</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>john.doe@chuv.com</address>
-                                                        <type>professional</type>
-                                                    </email>
-                                                </person>
-                                                <institute>
-                                                    <id>456789</id>
-                                                    <name>CHUV</name>
-                                                    <address>
-                                                        <street>Av. de l'Ours 1</street>
-                                                        <postalCode>1010</postalCode>
-                                                        <city>Lausanne</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0213140001</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>info@chuv.com</address>
-                                                        <type>professional</type>
-                                                    </email>
-                                                </institute>
-                                            </mandator>
-                                            <patient>
-                                                <person>
-                                                    <id>123456</id>
-                                                    <firstName>Alice</firstName>
-                                                    <lastName>Aupaysdesmerveilles</lastName>
-                                                    <address>
-                                                        <street>Av. d'Ouchy 27</street>
-                                                        <postalCode>1006</postalCode>
-                                                        <city>Lausanne</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0216170002</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>alice.apdm@gmail.com</address>
-                                                        <type>private</type>
-                                                    </email>
-                                                </person>
-                                                <institute>
-                                                    <id>1234</id>
-                                                    <name>EHNV</name>
-                                                    <address>
-                                                        <street>Street name 2</street>
-                                                        <postalCode>1400</postalCode>
-                                                        <city>Yverdon-les-Bains</city>
-                                                        <state>Vaud</state>
-                                                        <country>Suisse</country>
-                                                    </address>
-                                                    <phone>
-                                                        <number>0123456789</number>
-                                                        <type>professional</type>
-                                                    </phone>
-                                                    <email>
-                                                        <address>info@ehnv.com</address>
-                                                        <type>professional</type>
-                                                    </email>
-                                                </institute>
-                                            </patient>
-                                            <clinicalData>
-                                                <clinicalDataEntry key="note">random note</clinicalDataEntry>
-                                            </clinicalData>
-                                        </admin>
-
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                    <covariate>
-                                                        <covariateId>ffm</covariateId>
-                                                        <date>2018-07-11T10:45:30</date>
-                                                        <value>40</value>
-                                                        <unit>kg</unit>
-                                                          <dataType>double</dataType>
-                                                        <nature>continuous</nature>
-                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -2477,57 +1450,13 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
                                                     <!-- All the information regarding the treatment -->
                                                     <treatment>
                                                         <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>800</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
-                                                        <sample>
-                                                            <sampleId>123456</sampleId>
-                                                            <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>rifampicin</analyteId>
-                                                                    <value>7</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
-                                                        <!-- It's the same node we can find in the drug model xml file -->
-                                                        <target>
-                                                            <activeMoietyId>rifampicin</activeMoietyId>
-                                                            <targetType>residual</targetType>
-                                                            <unit>mg/l</unit>
-                                                            <min>20</min>
-                                                            <best>25</best>
-                                                            <max>30</max>
-                                                            <inefficacyAlarm>15</inefficacyAlarm>
-                                                            <toxicityAlarm>50</toxicityAlarm>
-                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -2559,8 +1488,9 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
     }
 
     /// \brief Load an xml file not well formatted.
+    ///        There is an import error and the import status is "CantCreateXmlDocument".
     /// \param _testName Name of the test.
-    void errorWhenCreatingXmlDocumentFromString(const std::string& _testName)
+    void xpertQueryImport_importError_withFileBadlyFormatted(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 
@@ -2576,9 +1506,10 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::CantCreateXmlDocument);
     }
 
-    /// \brief Tries to open a file that does not exist.
+    /// \brief Try to open a file that does not exist.
+    ///        There is an import error and the import status is "CantOpenFile".
     /// \param _testName Name of the test.
-    void errorWhenCreatingXmlDocumentFromFile(const std::string& _testName)
+    void xpertQueryImport_importError_withNonExistingFile(const std::string& _testName)
     {
         std::cout << _testName << std::endl;
 

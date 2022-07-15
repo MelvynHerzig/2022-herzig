@@ -18,7 +18,8 @@ include(../../tucuxi-core/make/qtcreator/tucuquery.pri)
 include(../src/tuberxpert/tuberxpert.pri)
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+        testutils.cpp
 
 !win32 {
     # Because of Eigen:
@@ -52,5 +53,6 @@ HEADERS += \
     test_targetvalidator.h \
     test_xpertqueryimport.h \
     test_xpertquerytocoreextractor.h \
-    test_xpertutils.h
+    test_xpertutils.h \
+    testutils.h
 

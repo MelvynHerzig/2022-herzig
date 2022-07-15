@@ -7,15 +7,16 @@
 #include "tuberxpert/language/languageexception.h"
 #include "fructose/fructose.h"
 
-/// \brief Tests for LanguageManager
+/// \brief Tests for LanguageManager.
 /// \date 21/04/2022
 /// \author Herzig Melvyn
 struct TestLanguageManager : public fructose::test_base<TestLanguageManager>
 {
 
-    /// \brief Checks that the loadTranslations method behave as expected.
+    /// \brief Check that the loadTranslations method behaves as expected.
+    ///        If the xml is not well formatted, the loading must throw a languageException.
     /// \param _testName Name of the test
-    void retrieveTranslations(const std::string& _testName)
+    void loadTranslations_behavesCorrectly(const std::string& _testName)
     {
 
         std::string goodString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -30,44 +31,44 @@ struct TestLanguageManager : public fructose::test_base<TestLanguageManager>
 
 
         std::string missSpelledTranslationsString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                    <translations
-                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="translations_file.xsd">
+                                                       <translations
+                                                           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                                           xsi:noNamespaceSchemaLocation="translations_file.xsd">
 
-                                        <translation key="hello">Hello</translation>
-                                        <abc key="world">World</abc>
+                                                           <translation key="hello">Hello</translation>
+                                                           <abc key="world">World</abc>
 
-                                    </translations>)";
+                                                       </translations>)";
 
-        std::string noAttributeString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                    <translations
-                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="translations_file.xsd">
+        std::string noKeyAttributeString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                              <translations
+                                                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                                  xsi:noNamespaceSchemaLocation="translations_file.xsd">
 
-                                        <translation>Hello</translation>
+                                                  <translation>Hello</translation>
 
-                                    </translations>)";
+                                              </translations>)";
 
-        std::string badAttributeString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                    <translations
-                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="translations_file.xsd">
+        std::string badKeyAttributeString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                               <translations
+                                                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                                   xsi:noNamespaceSchemaLocation="translations_file.xsd">
 
-                                        <translation yek="hello">Hello</translation>
+                                                   <translation yek="hello">Hello</translation>
 
-                                    </translations>)";
+                                               </translations>)";
 
         std::string nestedElement = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                    <translations
-                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="translations_file.xsd">
+                                       <translations
+                                           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                           xsi:noNamespaceSchemaLocation="translations_file.xsd">
 
-                                        <translation yek="hello">Hello</translation>
-                                        <translation key="nested">
-                                            <nested> a value </nested>
-                                        </translation>
+                                           <translation yek="hello">Hello</translation>
+                                           <translation key="nested">
+                                               <nested> a value </nested>
+                                           </translation>
 
-                                    </translations>)";
+                                       </translations>)";
 
 
         std::cout << _testName << std::endl;
@@ -76,15 +77,17 @@ struct TestLanguageManager : public fructose::test_base<TestLanguageManager>
 
         fructose_assert_exception(lm.loadTranslations(""), Tucuxi::Xpert::LanguageException);
         fructose_assert_exception(lm.loadTranslations(missSpelledTranslationsString), Tucuxi::Xpert::LanguageException);
-        fructose_assert_exception(lm.loadTranslations(noAttributeString), Tucuxi::Xpert::LanguageException);
-        fructose_assert_exception(lm.loadTranslations(badAttributeString), Tucuxi::Xpert::LanguageException);
+        fructose_assert_exception(lm.loadTranslations(noKeyAttributeString), Tucuxi::Xpert::LanguageException);
+        fructose_assert_exception(lm.loadTranslations(badKeyAttributeString), Tucuxi::Xpert::LanguageException);
         fructose_assert_exception(lm.loadTranslations(nestedElement), Tucuxi::Xpert::LanguageException);
         fructose_assert_no_exception(lm.loadTranslations(goodString));
     }
 
-    /// \brief Checks that translate behave correctly.
+    /// \brief Checks that translate method behaves correctly.
+    ///        If the key is known, the translation is returned.
+    ///        If the key is unknown, the default translation is returned.
     /// \param _testName Name of the test
-    void wordTranslation(const std::string& _testName)
+    void translate_behavesCorrectly(const std::string& _testName)
     {
 
         std::string goodString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
