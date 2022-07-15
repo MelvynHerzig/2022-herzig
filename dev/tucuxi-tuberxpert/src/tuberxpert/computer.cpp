@@ -18,9 +18,6 @@ using namespace std;
 namespace Tucuxi {
 namespace Xpert {
 
-Computer::Computer()
-{}
-
 ComputingStatus Computer::computeFromFile(const std::string& _drugPath,
                                           const std::string& _inputFileName,
                                           const std::string& _outputPath,

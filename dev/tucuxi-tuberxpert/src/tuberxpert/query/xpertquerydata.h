@@ -19,8 +19,8 @@ class XpertQueryData : public Query::QueryData
 public:
 
     /// \brief Constructor of an xpert query.
-    /// \param _queryID Identifier of the query. Just for QueryData compatibility.
-    /// \param _clientID Identifier of the client. Just for QueryData compatibility.
+    /// \param _queryId Identifier of the query. Just for QueryData compatibility.
+    /// \param _clientId Identifier of the client. Just for QueryData compatibility.
     /// \param _queryDate Date and time to be used as "present" time.
     /// \param _language The language supported by the client. Just for QueryData compatibility.
     /// \param _admin A pointer to the admin data.

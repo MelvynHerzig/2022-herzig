@@ -11,24 +11,14 @@ namespace Tucuxi {
 namespace Xpert {
 
 /// \brief Enum whose values are used as return value of Computer.
-///        The values are:
-///
-///        ALL_REQUESTS_SUCCEEDED: Each TuberXpert request could be fully processed until
-///        the report was printed.
-///
-///        SOME_REQUESTS_SUCCEEDED: Some TuberXpert request failed at some stage of the process.
-///
-///        NO_REQUESTS_SUCCEEDED: No TuberXpert request could be fully processed.
-///
-///        IMPORT_ERROR: The query file could not be loaded.
 /// \date 03/06/2022
 /// \author Herzig Melvyn
 enum class ComputingStatus {
 
-    ALL_REQUESTS_SUCCEEDED,
-    SOME_REQUESTS_SUCCEEDED,
-    NO_REQUESTS_SUCCEEDED,
-    IMPORT_ERROR
+    ALL_REQUESTS_SUCCEEDED,  /**< For Each TuberXpert request could be fully processed until the report was printed. */
+    SOME_REQUESTS_SUCCEEDED, /**< Some TuberXpert request failed at some stage of the process. */
+    NO_REQUESTS_SUCCEEDED,   /**< No TuberXpert request could be fully processed. */
+    IMPORT_ERROR             /**< The query file could not be loaded. */
 };
 
 /// \brief Given the required arguments, this class drives the flow of execution of TuberXpert.
@@ -37,9 +27,6 @@ enum class ComputingStatus {
 class Computer
 {
 public:
-
-    /// \brief Default constructor.
-    Computer();
 
     /// \brief Entry point of the TuberXpert command Line Interface. This method imports
     ///        the query from a file, loads the translation file, and processes each xpertRequest to finally

@@ -27,19 +27,19 @@ class XpertQueryResult;
 ///        generate the adjustment report.
 ///
 ///        Typically, an XpertRequestResult gives access to:
-///        - The XpertQueryResult which provides the admin data, the computation time,
-///          the request index and the the output directory path.
-///        - The XpertRequestData that at the origin of this XpertRequestResult.
-///        - The drug treatment for the xpertRequest drug.
-///        - The selected drug model.
-///        - The covariate validation results (CovariateValidationResult).
-///        - The dose validation results (DoseValidationResult).
-///        - The sample validation results (SampleValidationResult).
-///        - The adjustment trait used to find a better treatment.
-///        - The adjustment data returned by Tucuxi computing core.
-///        - The last intake.
-///        - The parameters (Typical, A priori and eventually A posteriori).
-///        - The statistics at steady state.
+///            - The XpertQueryResult which provides the admin data, the computation time,
+///              the request index and the the output directory path.
+///            - The XpertRequestData that at the origin of this XpertRequestResult.
+///            - The drug treatment for the xpertRequest drug.
+///            - The selected drug model.
+///            - The covariate validation results (CovariateValidationResult).
+///            - The dose validation results (DoseValidationResult).
+///            - The sample validation results (SampleValidationResult).
+///            - The adjustment trait used to find a better treatment.
+///            - The adjustment data returned by Tucuxi computing core.
+///            - The last intake.
+///            - The parameters (Typical, A priori and eventually A posteriori).
+///            - The statistics at steady state.
 /// \date 20/05/2022
 /// \author Herzig Melvyn
 class XpertRequestResult
