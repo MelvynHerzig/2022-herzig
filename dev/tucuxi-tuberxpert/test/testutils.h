@@ -25,13 +25,22 @@ public:
     static const std::string englishTranslationFile;
 
     /// \brief Set up the test environment. Load the query, make the
-    ///        XpertQueryResult object, load the model, attribute it to the first XpertRequestResult
+    ///        XpertQueryResult object, load the model, assigns it to the first XpertRequestResult
     ///        of the XpertQueryResult and loads an english translationFile.
     /// \param _queryString Query string to load.
-    /// \param _model Model string to put as drug model of the XpertRequestResult of the first request.
+    /// \param _modelString Model string to put as drug model of the XpertRequestResult of the first request.
     /// \param _xpertQueryResult XpertQueryResult where to put the execution result of this method.
     static void setupEnv(const std::string& _queryString,
-                         const std::string& _model,
+                         const std::string& _modelString,
+                         std::unique_ptr<Tucuxi::Xpert::XpertQueryResult>& _xpertQueryResult);
+
+    /// \brief Set up the test environment. Load the query, make the
+    ///        XpertQueryResult object and load the models without assigning them.
+    /// \param _queryString Query string to load.
+    /// \param _modelStrings Drug models to load.
+    /// \param _xpertQueryResult XpertQueryResult where to put the execution result of this method.
+    static void setupEnv(const std::string& _queryString,
+                         const std::vector<std::string>& _modelStrings,
                          std::unique_ptr<Tucuxi::Xpert::XpertQueryResult>& _xpertQueryResult);
 };
 

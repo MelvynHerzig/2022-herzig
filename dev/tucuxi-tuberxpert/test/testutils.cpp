@@ -190,6 +190,7 @@ const string TestUtils::originalImatinibModelString = R"(<?xml version="1.0" enc
                                                                          <validation>
                                                                              <errorMessage>
                                                                                  <text lang='en'>The body weight shall be in the interval [44,100].</text>
+                                                                                 <text lang='fr'>Le poids doit etre dans compris entre [44,100].</text>
                                                                              </errorMessage>
                                                                              <operation>
                                                                                  <softFormula>
@@ -234,6 +235,7 @@ const string TestUtils::originalImatinibModelString = R"(<?xml version="1.0" enc
                                                                          <validation>
                                                                              <errorMessage>
                                                                                  <text lang='en'>Always correct.</text>
+                                                                                 <text lang='fr'>Toujours correct.</text>
                                                                              </errorMessage>
                                                                              <operation>
                                                                                  <softFormula>
@@ -278,6 +280,7 @@ const string TestUtils::originalImatinibModelString = R"(<?xml version="1.0" enc
                                                                          <validation>
                                                                              <errorMessage>
                                                                                  <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
+                                                                                 <text lang='fr'>Le sexe est un double entre 0 et 1. 0 pour une femme et 1 pour un homme.</text>
                                                                              </errorMessage>
                                                                              <operation>
                                                                                  <softFormula>
@@ -322,6 +325,7 @@ const string TestUtils::originalImatinibModelString = R"(<?xml version="1.0" enc
                                                                          <validation>
                                                                              <errorMessage>
                                                                                  <text lang='en'>The age shall be in the interval [20,88].</text>
+                                                                                 <text lang='fr'>L'âge doit être entre 22 et 88.</text>
                                                                              </errorMessage>
                                                                              <operation>
                                                                                  <softFormula>
@@ -873,9 +877,32 @@ const string TestUtils::englishTranslationFile = R"(<?xml version="1.0" encoding
 
 
 void TestUtils::setupEnv(const string& _queryString,
-                         const string& _model,
+                         const string& _modelString,
                          unique_ptr<Tucuxi::Xpert::XpertQueryResult>& _xpertQueryResult) {
 
+
+    vector<string> models {_modelString};
+    setupEnv(_queryString, models, _xpertQueryResult);
+
+    Tucuxi::Xpert::XpertRequestResult& xpertRequestResult =  _xpertQueryResult->getXpertRequestResults()[0];
+
+    // Get the drug model repository
+    Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
+    Tucuxi::Core::IDrugModelRepository* drugModelRepository = pCmpMgr->getComponent<Tucuxi::Core::IDrugModelRepository>("DrugModelRepository");
+
+    // Attribute the drug model to the XpertRequestResult
+    xpertRequestResult.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xpertRequestResult.getXpertRequest().getDrugId())[0]);
+    _xpertQueryResult->incrementRequestIndexBeingProcessed();
+
+    // Loading the dictionary
+    Tucuxi::Xpert::LanguageManager& languageManager = Tucuxi::Xpert::LanguageManager::getInstance();
+    languageManager.loadTranslations(englishTranslationFile);
+}
+
+void TestUtils::setupEnv(const string& _queryString,
+                         const vector<string>& _modelStrings,
+                         unique_ptr<Tucuxi::Xpert::XpertQueryResult>& _xpertQueryResult)
+{
     // Drug models repository creation
     Tucuxi::Common::ComponentManager* pCmpMgr = Tucuxi::Common::ComponentManager::getInstance();
 
@@ -885,42 +912,39 @@ void TestUtils::setupEnv(const string& _queryString,
     pCmpMgr->registerComponent("DrugModelRepository", drugModelRepository);
 
     Tucuxi::Core::DrugModelImport drugModelImport;
-    unique_ptr<Tucuxi::Core::DrugModel> drugModel;
-    if (drugModelImport.importFromString(drugModel, _model) == Tucuxi::Core::DrugModelImport::Status::Ok) {
 
-        Tucuxi::Core::PkModelCollection pkCollection;
+    // Load each drug model
+    for(const std::string& modelString : _modelStrings){
+         std::unique_ptr<Tucuxi::Core::DrugModel> drugModel;
+         if (drugModelImport.importFromString(drugModel, modelString) == Tucuxi::Core::DrugModelImport::Status::Ok) {
 
-        if (!defaultPopulate(pkCollection)) {
-            throw runtime_error("Could not populate the Pk models collection. No model will be available");
-        }
+             Tucuxi::Core::PkModelCollection pkCollection;
 
-        Tucuxi::Core::DrugModelChecker checker;
-        Tucuxi::Core::DrugModelChecker::CheckerResult_t checkerResult = checker.checkDrugModel(drugModel.get(), &pkCollection);
-        if (!checkerResult.m_ok) {
-            throw runtime_error("A drug file has internal errors : " + checkerResult.m_errorMessage);
-        }
-        drugModelRepository->addDrugModel(drugModel.get());
+             if (!defaultPopulate(pkCollection)) {
+                 throw std::runtime_error("Could not populate the Pk models collection. No model will be available");
+             }
+
+             Tucuxi::Core::DrugModelChecker checker;
+             Tucuxi::Core::DrugModelChecker::CheckerResult_t checkerResult = checker.checkDrugModel(drugModel.get(), &pkCollection);
+             if (!checkerResult.m_ok) {
+                 throw std::runtime_error("A drug file has internal errors : " + checkerResult.m_errorMessage);
+             }
+             drugModelRepository->addDrugModel(drugModel.get());
+         }
+         else {
+             throw std::runtime_error("Failed to import drug file");
+         }
+         drugModel.release();
     }
-    else {
-        throw runtime_error("Failed to import drug file");
-    }
-    drugModel.release();
 
     // Query import
-    unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
+    std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
     Tucuxi::Xpert::XpertQueryImport importer;
     Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, _queryString);
 
     if (importResult != Tucuxi::Xpert::XpertQueryImport::Status::Ok) {
-        throw runtime_error("Setup failed");
+        throw std::runtime_error("Setup failed");
     }
 
     _xpertQueryResult = make_unique<Tucuxi::Xpert::XpertQueryResult>(move(query), "random/path");
-    Tucuxi::Xpert::XpertRequestResult& xpertRequestResult =  _xpertQueryResult->getXpertRequestResults()[0];
-    xpertRequestResult.setDrugModel(drugModelRepository->getDrugModelsByDrugId(xpertRequestResult.getXpertRequest().getDrugId())[0]);
-    _xpertQueryResult->incrementRequestIndexBeingProcessed();
-
-    // Loading the dictionary.
-    Tucuxi::Xpert::LanguageManager& languageManager = Tucuxi::Xpert::LanguageManager::getInstance();
-    languageManager.loadTranslations(englishTranslationFile);
 }

@@ -15,6 +15,8 @@
 #include "tuberxpert/result/dosevalidationresult.h"
 #include "tuberxpert/result/samplevalidationresult.h"
 
+struct TestCovariateValidatorAndModelSelector;
+
 namespace Tucuxi {
 namespace Xpert {
 
@@ -249,6 +251,7 @@ protected:
     /// \brief Extrapolated statistics at steady state.
     ///        The data is retrieved by the RequestExecutor flow step.
     Core::CycleStats m_cycleStats;
+
 };
 
 } // namespace Xpert

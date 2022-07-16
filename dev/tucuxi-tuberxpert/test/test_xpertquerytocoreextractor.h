@@ -11,7 +11,6 @@
 #include "tuberxpert/query/xpertquerydata.h"
 #include "tuberxpert/query/xpertqueryimport.h"
 #include "tuberxpert/query/xpertquerytocoreextractor.h"
-#include "tuberxpert/language/languagemanager.h"
 
 /// \brief Tests for XpertQueryToCoreExtractor.
 ///        This struct tests only the methods created by XpertQueryToCoreExtractor.

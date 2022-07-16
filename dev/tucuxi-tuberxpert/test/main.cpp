@@ -97,7 +97,7 @@ int main(int argc, char** argv)
 #if defined(test_languagemanager)
     TestLanguageManager testLanguageManager;
 
-    testLanguageManager.add_test("Load translations behaves correctly.", &TestLanguageManager::loadTranslations_behavesCorrectly);
+    testLanguageManager.add_test("load translations behaves correctly.", &TestLanguageManager::loadTranslations_behavesCorrectly);
     testLanguageManager.add_test("translate behaves correctly.", &TestLanguageManager::translate_behavesCorrectly);
 
     res = testLanguageManager.run(argc, argv);
@@ -118,22 +118,22 @@ int main(int argc, char** argv)
 #if defined(test_xpertqueryimport)
     TestXpertQueryImport testXpertQueryImports;
 
-    testXpertQueryImports.add_test("Xpert query import behaves correctly with complete admin.", &TestXpertQueryImport::xpertQueryImport_getsAllValues_withCompleteAdmin);
-    testXpertQueryImports.add_test("Xpert query import gets nullptr AdminData with no admin element.", &TestXpertQueryImport::xpertQueryImport_getsNullptrAdminData_withNoAdminElement);
-    testXpertQueryImports.add_test("Xpert query import AdminData getters return nullptr with empty admin element.", &TestXpertQueryImport::xpertQueryImport_adminDataGettersReturnNullptr_withEmptyAdminElement);
-    testXpertQueryImports.add_test("Xpert query import missing values are nullptr or empty string with minimal person in mandator and patient.", &TestXpertQueryImport::xpertQueryImport_missingValuesAreNullptrOrEmptyString_withMinimalPersonInMandatorAndPatient);
-    testXpertQueryImports.add_test("Xpert query import missing values are nullptr or empty string with minimal institute in mandator and patient.", &TestXpertQueryImport::xpertQueryImport_missingValuesAreNullptrOrEmptyString_withMinimalInstituteInMandatorAndPatient);
-    testXpertQueryImports.add_test("Xpert query import missing values are empty string with minimal address phone and email", &TestXpertQueryImport::xpertQueryImport_missingValuesAreEmptyString_withMinimalAddressPhoneAndEmail);
-    testXpertQueryImports.add_test("Xpert query import import error with missing mandatory values in complete mandator person", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompleteMandatorPerson);
-    testXpertQueryImports.add_test("Xpert query import import error with missing mandatory values in complete mandator institute", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompleteMandatorInstitute);
-    testXpertQueryImports.add_test("Xpert query import import error with missing mandatory values in complete patient person", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompletePatientPerson);
-    testXpertQueryImports.add_test("Xpert query import import error with missing mandatory values in complete patient institute", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompletePatientInstitute);
-    testXpertQueryImports.add_test("Xpert query import gets all values with complete XpertRequest", &TestXpertQueryImport::xpertQueryImport_getsAllValues_withCompleteXpertRequest);
-    testXpertQueryImports.add_test("Xpert query import get default values with minimal XpertRequest", &TestXpertQueryImport::xpertQueryImport_getDefaultValues_WithMinimalXpertRequest);
-    testXpertQueryImports.add_test("Xpert query import import error without XpertRequest", &TestXpertQueryImport::xpertQueryImport_importError_withoutXpertRequest);
-    testXpertQueryImports.add_test("Xpert query import import error with missing mandatory in XpertRequest", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryInXpertRequest);
-    testXpertQueryImports.add_test("Xpert query import import error with file badly formatted", &TestXpertQueryImport::xpertQueryImport_importError_withFileBadlyFormatted);
-    testXpertQueryImports.add_test("Xpert query import import error with non existing file", &TestXpertQueryImport::xpertQueryImport_importError_withNonExistingFile);
+    testXpertQueryImports.add_test("xpert query import behaves correctly with complete admin.", &TestXpertQueryImport::xpertQueryImport_getsAllValues_withCompleteAdmin);
+    testXpertQueryImports.add_test("xpert query import gets nullptr AdminData with no admin element.", &TestXpertQueryImport::xpertQueryImport_getsNullptrAdminData_withNoAdminElement);
+    testXpertQueryImports.add_test("xpert query import AdminData getters return nullptr with empty admin element.", &TestXpertQueryImport::xpertQueryImport_adminDataGettersReturnNullptr_withEmptyAdminElement);
+    testXpertQueryImports.add_test("xpert query import missing values are nullptr or empty string with minimal person in mandator and patient.", &TestXpertQueryImport::xpertQueryImport_missingValuesAreNullptrOrEmptyString_withMinimalPersonInMandatorAndPatient);
+    testXpertQueryImports.add_test("xpert query import missing values are nullptr or empty string with minimal institute in mandator and patient.", &TestXpertQueryImport::xpertQueryImport_missingValuesAreNullptrOrEmptyString_withMinimalInstituteInMandatorAndPatient);
+    testXpertQueryImports.add_test("xpert query import missing values are empty string with minimal address phone and email", &TestXpertQueryImport::xpertQueryImport_missingValuesAreEmptyString_withMinimalAddressPhoneAndEmail);
+    testXpertQueryImports.add_test("xpert query import import error with missing mandatory values in complete mandator person", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompleteMandatorPerson);
+    testXpertQueryImports.add_test("xpert query import import error with missing mandatory values in complete mandator institute", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompleteMandatorInstitute);
+    testXpertQueryImports.add_test("xpert query import import error with missing mandatory values in complete patient person", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompletePatientPerson);
+    testXpertQueryImports.add_test("xpert query import import error with missing mandatory values in complete patient institute", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompletePatientInstitute);
+    testXpertQueryImports.add_test("xpert query import gets all values with complete XpertRequest", &TestXpertQueryImport::xpertQueryImport_getsAllValues_withCompleteXpertRequest);
+    testXpertQueryImports.add_test("xpert query import get default values with minimal XpertRequest", &TestXpertQueryImport::xpertQueryImport_getDefaultValues_WithMinimalXpertRequest);
+    testXpertQueryImports.add_test("xpert query import import error without XpertRequest", &TestXpertQueryImport::xpertQueryImport_importError_withoutXpertRequest);
+    testXpertQueryImports.add_test("xpert query import import error with missing mandatory in XpertRequest", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryInXpertRequest);
+    testXpertQueryImports.add_test("xpert query import import error with file badly formatted", &TestXpertQueryImport::xpertQueryImport_importError_withFileBadlyFormatted);
+    testXpertQueryImports.add_test("xpert query import import error with non existing file", &TestXpertQueryImport::xpertQueryImport_importError_withNonExistingFile);
 
     res = testXpertQueryImports.run(argc, argv);
     if (res != 0) {
@@ -153,8 +153,8 @@ int main(int argc, char** argv)
 #if defined(test_xpertquerytocoreextractor)
     TestXpertQueryToCoreExtractor testXpertQueryToCoreExtractor;
 
-    testXpertQueryToCoreExtractor.add_test("Extract drug treatment success with drug elements present once.", &TestXpertQueryToCoreExtractor::extractDrugTreatment_success_withDrugElementsPresentOnce);
-    testXpertQueryToCoreExtractor.add_test("Extract drug treatment failure with multiple or no drug elements", &TestXpertQueryToCoreExtractor::extractDrugTreatment_failure_withMultipleOrNoDrugElements);
+    testXpertQueryToCoreExtractor.add_test("extract drug treatment success with drug elements present once.", &TestXpertQueryToCoreExtractor::extractDrugTreatment_success_withDrugElementsPresentOnce);
+    testXpertQueryToCoreExtractor.add_test("extract drug treatment failure with multiple or no drug elements", &TestXpertQueryToCoreExtractor::extractDrugTreatment_failure_withMultipleOrNoDrugElements);
 
     res = testXpertQueryToCoreExtractor.run(argc, argv);
     if (res != 0) {
@@ -197,22 +197,22 @@ int main(int argc, char** argv)
 #if defined(test_covariatevalidatorandmodelselector)
     TestCovariateValidatorAndModelSelector testCovariateValidatorAndModelSelector;
 
-    testCovariateValidatorAndModelSelector.add_test("Gets an error when no treatment.", &TestCovariateValidatorAndModelSelector::errorWhenNoTreatment);
-    testCovariateValidatorAndModelSelector.add_test("No corresponding model for drug id", &TestCovariateValidatorAndModelSelector::noCorrespondingModelForDrugId);
-    testCovariateValidatorAndModelSelector.add_test("No result if the query formulations and routes are not equal.", &TestCovariateValidatorAndModelSelector::noResultIfQueryFormulationsAndRoutesAreNotEqual);
-    testCovariateValidatorAndModelSelector.add_test("No result if only one model with incompatible formulation and route.", &TestCovariateValidatorAndModelSelector::noResultOneModelIncompatibleFormulationAndRoute);
-    testCovariateValidatorAndModelSelector.add_test("Gets one result if there are one model with incompatible formulation and route and a second compatible.", &TestCovariateValidatorAndModelSelector::getResultOneModelIncompatibleFormulationAndRouteSecondCompatible);
-    testCovariateValidatorAndModelSelector.add_test("No result if one model with incompatible hard constraint.", &TestCovariateValidatorAndModelSelector::noResultOneModelIncompatibleConstraint);
-    testCovariateValidatorAndModelSelector.add_test("Gets one result if there are one model with hard constraint not respected and a second compatible.", &TestCovariateValidatorAndModelSelector::getResultOneModelIncompatibleConstraintSecondCompatible);
-    testCovariateValidatorAndModelSelector.add_test("Gets one result if one model with partially incompatible soft constraint.", &TestCovariateValidatorAndModelSelector::getResultOneModelPartiallyCompatibleSoftConstraint);
-    testCovariateValidatorAndModelSelector.add_test("No result when multiple birthdates even with models left.", &TestCovariateValidatorAndModelSelector::noResultMultipleBirthdate);
-    testCovariateValidatorAndModelSelector.add_test("No result when birthdate with bad datatype even with models left.", &TestCovariateValidatorAndModelSelector::noResultBadDatatypeBirthdate);
-    testCovariateValidatorAndModelSelector.add_test("No result when gist with bad unit even with models left.", &TestCovariateValidatorAndModelSelector::noResultBadUnitGist);
-    testCovariateValidatorAndModelSelector.add_test("Gets the best result out of 3 models without tie.", &TestCovariateValidatorAndModelSelector::getResultOutofThreeNoTie);
-    testCovariateValidatorAndModelSelector.add_test("Gets the best result out of 2 models with tie.", &TestCovariateValidatorAndModelSelector::getResultOutofTwoTie);
-    testCovariateValidatorAndModelSelector.add_test("Selection failed when selected model covariates does not support request language without english fallbabk.", &TestCovariateValidatorAndModelSelector::requestFailDefinitionsNotSupportingLanguageWithoutEnglishBackup);
-    testCovariateValidatorAndModelSelector.add_test("Checks that the translations match the requests languages.", &TestCovariateValidatorAndModelSelector::getGoodCovariateWarningTranslation);
-    testCovariateValidatorAndModelSelector.add_test("Gets and checks the content of the covariate results.", &TestCovariateValidatorAndModelSelector::getCovariateResults);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure when treatment nullptr.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_whenTreatmentNullptr);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure when no drug model for drug id.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_whenNoDrugModelForDrugId);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure when treatment formulations and routes are different.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_whenTreatmentFormulationsAndRoutesAreDifferent);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure with only one model with different formulation and route.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_withOnlyOneModelWithDifferentFormulationAndRoute);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector success with one model with different and one model with same formulation and route.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_success_withOneModelWithDifferentAndOneModelWithSameFormulationAndRoute);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure with one model hard constraint not met.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_withOneModelHardConstraintNotMet);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector success with one model hard constraint not met and other model ok.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_success_withOneModelHardConstraintNotMetAndOtherModelOk);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector success with one model soft constraint not met.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_success_withOneModelSoftConstraintNotMet);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure multiple birth date one model with age one model without.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_multipleBirthDateOneModelWithAgeOneModelWithout);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure bad birth date data type one model with age one model without.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_badBirthDateDataTypeOneModelWithAgeOneModelWithout);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure bad gist unit one model with gist one model without.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_badGistUnitOneModelWithGistOneModelWithout);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector get the best model between three models and no tie.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_getTheBestModel_betweenThreeModelsAndNoTie);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector get the best model between two models with tie.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_getTheBestModel_betweenTwoModelsWithTie);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure when selected model not supporting requested language and english.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_whenSelectedModelNotSupportingRequestedLanguageAndEnglish);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector get good translation with model that supports request language and model only english.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_getGoodTranslations_withModelThatSupportsRequestLanguageAndModelOnlyEnglish);
+    testCovariateValidatorAndModelSelector.add_test("getCovariateValidationResults returns correct values when covariateValidatorAndModelSelector success.", &TestCovariateValidatorAndModelSelector::getCovariateValidationResults_returnsCorrectValues_whenCovariateValidatorAndModelSelectorSuccess);
 
 
     res = testCovariateValidatorAndModelSelector.run(argc, argv);
@@ -233,14 +233,14 @@ int main(int argc, char** argv)
 #if defined(test_dosevalidator)
     TestDoseValidator testDoseValidator;
 
-    testDoseValidator.add_test("Gets an error when no treatment.", &TestDoseValidator::errorWhenNoTreatment);
-    testDoseValidator.add_test("Gets an error when no drug model.", &TestDoseValidator::errorWhenNoDrugModel);
-    testDoseValidator.add_test("The resulting map is empty when there is no dosage.", &TestDoseValidator::emptyResultWhenNoDosages);
-    testDoseValidator.add_test("The resulting dose result contains a warning when underdosing.", &TestDoseValidator::warningUnderdose);
-    testDoseValidator.add_test("The resulting dose result contains a warning when overdosing.", &TestDoseValidator::warningOverdose);
-    testDoseValidator.add_test("Gets an error when the unit conversion fails.", &TestDoseValidator::errorFailUnitConversion);
-    testDoseValidator.add_test("Gets an error when the formulation and route not supported by model.", &TestDoseValidator::errorFormulationAndRouteNotSupported);
-    testDoseValidator.add_test("Checks that result is fine with multiple dosage type and timerange.", &TestDoseValidator::multipleDosageTypeAndDosageTimeRange);
+    testDoseValidator.add_test("doseValidator failure when treatment nullptr.", &TestDoseValidator::doseValidator_failure_whenTreatmentNullptr);
+    testDoseValidator.add_test("doseValidator failure when drug model nullptr.", &TestDoseValidator::doseValidator_failure_whenDrugModelNullptr);
+    testDoseValidator.add_test("getDoseValidationResults is empty when no dose in query.", &TestDoseValidator::getDoseValidationResults_isEmpty_whenNoDoseInQuery);
+    testDoseValidator.add_test("doseValidationResult has warning when under dosing.", &TestDoseValidator::doseValidationResult_hasWarning_whenUnderDosing);
+    testDoseValidator.add_test("doseValidationResult has warning when over dosing.", &TestDoseValidator::doseValidationResult_hasWarning_whenOverDosing);
+    testDoseValidator.add_test("doseValidator failure when bad dose unit.", &TestDoseValidator::doseValidator_failure_whenBadDoseUnit);
+    testDoseValidator.add_test("doseValidator failure when formulation and route not supported by model.", &TestDoseValidator::doseValidator_failure_whenFormulationAndRouteNotSupportedByModel);
+    testDoseValidator.add_test("doseValidator returns correct values with all dosage type and multiple time range.", &TestDoseValidator::doseValidator_returnsCorrectValues_withAllDosageTypeAndMultipleTimeRange);
 
 
     res = testDoseValidator.run(argc, argv);
