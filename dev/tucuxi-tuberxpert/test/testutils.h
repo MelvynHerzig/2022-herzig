@@ -42,6 +42,10 @@ public:
     static void setupEnv(const std::string& _queryString,
                          const std::vector<std::string>& _modelStrings,
                          std::unique_ptr<Tucuxi::Xpert::XpertQueryResult>& _xpertQueryResult);
+
+    /// \brief Load a given translations file.
+    /// \param _translationsFileXml Xml string of the translations file to load.
+    static void loadTranslationsFile(const std::string& _translationsFileXml);
 };
 
 #endif // TESTUTILS_H

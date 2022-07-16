@@ -331,7 +331,7 @@ const string TestUtils::originalImatinibModelString = R"(<?xml version="1.0" enc
                                                                                  <softFormula>
                                                                                      <inputs>
                                                                                          <input>
-                                                                                             <id>age</id>
+                                                                                         <id>age</id>
                                                                                              <type>double</type>
                                                                                          </input>
                                                                                      </inputs>
@@ -895,8 +895,7 @@ void TestUtils::setupEnv(const string& _queryString,
     _xpertQueryResult->incrementRequestIndexBeingProcessed();
 
     // Loading the dictionary
-    Tucuxi::Xpert::LanguageManager& languageManager = Tucuxi::Xpert::LanguageManager::getInstance();
-    languageManager.loadTranslations(englishTranslationFile);
+    loadTranslationsFile(englishTranslationFile);
 }
 
 void TestUtils::setupEnv(const string& _queryString,
@@ -947,4 +946,10 @@ void TestUtils::setupEnv(const string& _queryString,
     }
 
     _xpertQueryResult = make_unique<Tucuxi::Xpert::XpertQueryResult>(move(query), "random/path");
+}
+
+void TestUtils::loadTranslationsFile(const std::string& _translationsFileXml)
+{
+    Tucuxi::Xpert::LanguageManager& languageManager = Tucuxi::Xpert::LanguageManager::getInstance();
+    languageManager.loadTranslations(_translationsFileXml);
 }

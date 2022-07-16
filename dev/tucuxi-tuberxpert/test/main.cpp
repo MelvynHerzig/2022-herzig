@@ -259,14 +259,14 @@ int main(int argc, char** argv)
 #if defined(test_samplevalidator)
     TestSampleValidator testSampleValidator;
 
-    testSampleValidator.add_test("Gets an error when no treatment.", &TestSampleValidator::errorWhenNoTreatment);
-    testSampleValidator.add_test("Gets an error when there are samples but no dosage.", &TestSampleValidator::errorWhenSamplesButNoDosage);
-    testSampleValidator.add_test("Gets an error when no drug model.", &TestSampleValidator::errorWhenNoDrugModel);
-    testSampleValidator.add_test("Gets warnings for a given group position over 99 percentiles.", &TestSampleValidator::warningForGroupPositionOver99Percentiles);
-    testSampleValidator.add_test("Gets some group positions over 99 percentile.", &TestSampleValidator::findGroupPositionOver99Percentiles);
-    testSampleValidator.add_test("Gets an exception when the sample unit cannot be converted.", &TestSampleValidator::getExceptionUnitConversion);
-    testSampleValidator.add_test("Gets an exception when the sample date cannot be found.", &TestSampleValidator::getExceptionDateNotFound);
-    testSampleValidator.add_test("Gets and checks the content of the sample results is sorted.", &TestSampleValidator::getSampleResultsSorted);
+    testSampleValidator.add_test("sampleValidator failure when treatment nullptr.", &TestSampleValidator::sampleValidator_failure_whenTreatmentNullptr);
+    testSampleValidator.add_test("sampleValidator failure when samples without dosages.", &TestSampleValidator::sampleValidator_failure_whenSamplesWithoutDosages);
+    testSampleValidator.add_test("sampleValidator failure when drug model nullptr.", &TestSampleValidator::sampleValidator_failure_whenDrugModelNullptr);
+    testSampleValidator.add_test("sampleValidationResult computes correct warning.", &TestSampleValidator::sampleValidationResult_computesCorrectWarning);
+    testSampleValidator.add_test("findGroupPositionOver99Percentiles behaves correctly with given percentilesData and samples.", &TestSampleValidator::findGroupPositionOver99Percentiles_behavesCorrectly_withGivenPercentilesDataAndSamples);
+    testSampleValidator.add_test("findGroupPositionOver99Percentiles throw invalid argument when sample unit conversion failure.", &TestSampleValidator::findGroupPositionOver99Percentiles_throwInvalidArgument_whenSampleUnitConversionFailure);
+    testSampleValidator.add_test("findGroupPositionOver99Percentiles throw invalid argument when sample date not found in CycleData.", &TestSampleValidator::findGroupPositionOver99Percentiles_throwInvalidArgument_whenSampleDateNotFoundInCycleData);
+    testSampleValidator.add_test("getSampleValidationResult is sorted when not empty.", &TestSampleValidator::getSampleValidationResult_isSorted_whenNotEmpty);
 
     res = testSampleValidator.run(argc, argv);
     if (res != 0) {
