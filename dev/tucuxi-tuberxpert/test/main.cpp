@@ -153,8 +153,8 @@ int main(int argc, char** argv)
 #if defined(test_xpertquerytocoreextractor)
     TestXpertQueryToCoreExtractor testXpertQueryToCoreExtractor;
 
-    testXpertQueryToCoreExtractor.add_test("Extracts good drug treatment", &TestXpertQueryToCoreExtractor::extractGoodDrugTreatment);
-    testXpertQueryToCoreExtractor.add_test("Extracts bad drug treatment", &TestXpertQueryToCoreExtractor::extractBadDrugTreatment);
+    testXpertQueryToCoreExtractor.add_test("Extract drug treatment success with drug elements present once.", &TestXpertQueryToCoreExtractor::extractDrugTreatment_success_withDrugElementsPresentOnce);
+    testXpertQueryToCoreExtractor.add_test("Extract drug treatment failure with multiple or no drug elements", &TestXpertQueryToCoreExtractor::extractDrugTreatment_failure_withMultipleOrNoDrugElements);
 
     res = testXpertQueryToCoreExtractor.run(argc, argv);
     if (res != 0) {
