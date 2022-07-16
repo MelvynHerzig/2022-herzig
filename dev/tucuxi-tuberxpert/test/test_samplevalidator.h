@@ -6,14 +6,11 @@
 #include <memory>
 
 #include "tucucore/drugtreatment/sample.h"
-#include "tucucore/drugmodel/analyte.h"
 #include "tucucore/definitions.h"
 #include "tucucommon/datetime.h"
 #include "tucucommon/unit.h"
 
-#include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
 #include "tuberxpert/flow/general/samplevalidator.h"
-#include "tuberxpert/query/xpertquerydata.h"
 #include "tuberxpert/result/xpertqueryresult.h"
 #include "tuberxpert/result/samplevalidationresult.h"
 
@@ -84,8 +81,6 @@ struct TestSampleValidator : public fructose::test_base<TestSampleValidator>
     /// \param _testName Name of the test
     void sampleValidator_failure_whenTreatmentNullptr(const std::string& _testName)
     {
-        std::cout << _testName << std::endl;
-
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

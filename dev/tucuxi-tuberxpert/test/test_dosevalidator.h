@@ -23,8 +23,6 @@ struct TestDoseValidator : public fructose::test_base<TestDoseValidator>
     /// \param _testName Name of the test
     void doseValidator_failure_whenTreatmentNullptr(const std::string& _testName)
     {
-        std::cout << _testName << std::endl;
-
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

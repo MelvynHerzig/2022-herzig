@@ -284,12 +284,12 @@ int main(int argc, char** argv)
 #if defined(test_targetvalidator)
     TestTargetValidator testTargetValidator;
 
-    testTargetValidator.add_test("Gets an error when no treatment.", &TestTargetValidator::errorWhenNoTreatment);
-    testTargetValidator.add_test("Gets an error when no drug model.", &TestTargetValidator::errorWhenNoDrugModel);
-    testTargetValidator.add_test("No error when no patient's target.", &TestTargetValidator::noErrorWhenNoTarget);
-    testTargetValidator.add_test("Gets an error when two patient's targets have the same active moiety and type.", &TestTargetValidator::errorWhenTargetsWithSameActiveMoietyAndType);
-    testTargetValidator.add_test("No error when two patient's targets have the same active moiety but different type.", &TestTargetValidator::noErrorWhenTargetsWithSameActiveMoietyButDifferentType);
-    testTargetValidator.add_test("Gets an error when one patient's target have a different active moiety than the ones from drug model.", &TestTargetValidator::errorWhenTargetsWithActiveMoietyNotInDrugModel);
+    testTargetValidator.add_test("targetValidator failure whent treatment nullptr.", &TestTargetValidator::targetValidator_failure_whenTreatmentNullptr);
+    testTargetValidator.add_test("targetValidator failure when drug model nullptr.", &TestTargetValidator::targetValidator_failure_whenDrugModelNullptr);
+    testTargetValidator.add_test("targetValidator success when no target in treatment.", &TestTargetValidator::targetValidator_success_whenNoTargetInTreatment);
+    testTargetValidator.add_test("targetValidator failure when target with same active moiety and type in treatment.", &TestTargetValidator::targetValidator_failure_whenTargetWithSameActiveMoietyAndTypeInTreatment);
+    testTargetValidator.add_test("targetValidator success when target with same active moiety but different type in treatment.", &TestTargetValidator::targetValidator_success_whenTargetWithSameActiveMoietyButDifferentTypeInTreatment);
+    testTargetValidator.add_test("targetValidator failure when treatment target with active moiety not in drug model.", &TestTargetValidator::targetValidator_failure_whenTreatmentTargetWithActiveMoietyNotInDrugModel);
 
 
     res = testTargetValidator.run(argc, argv);
