@@ -3,23 +3,27 @@
 
 #include "fructose/fructose.h"
 
+#include "testutils.h"
+
 #include "tuberxpert/language/languagemanager.h"
 #include "tuberxpert/query/xpertquerydata.h"
 #include "tuberxpert/query/xpertqueryimport.h"
 #include "tuberxpert/result/xpertqueryresult.h"
 
-/// \brief Tests for XpertQueryResult creation.
-///        This struct tests the constructor of XpertResult with various queries and verifies
-///        that the expected values can correctly be retrieved.
-///        Basically this tests the step before selecting drug model.
+/// \brief Tests for the creation of XpertQueryResult.
+///        This struct tests the XpertQueryResult constructor with various queries and checks
+///        that the expected values can be correctly retrieved.
 /// \date 25/05/2022
 /// \author Herzig Melvyn
 struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryResultCreation>
 {
 
-    /// \brief Checks that the ownership of the query is taken by XpertResult
+    /// \brief Check that the ownership of the xpertQueryData is taken by XpertRequestResult.
+    ///        The test succeeds if the XpertQueryData pointer is not nullptr before the
+    ///        XpertQueryResult construction and if the XpertQueryData pointer is nullptr
+    ///        after the XpertQueryResult construction.
     /// \param _testName Name of the test
-    void queryPtrInvalidation(const std::string& _testName)
+    void xpertQueryResultCreation_takesXpertQueryDataOwnership(const std::string& _testName)
     {
 
         std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -35,14 +39,6 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                             <!-- All the information regarding the patient -->
                                             <patient>
                                                 <covariates>
-                                                    <covariate>
-                                                        <covariateId>ffm</covariateId>
-                                                        <date>2018-07-11T10:45:30</date>
-                                                        <value>40</value>
-                                                        <unit>g</unit>
-                                                        <dataType>double</dataType>
-                                                        <nature>continuous</nature>
-                                                    </covariate>
                                                 </covariates>
                                             </patient>
                                             <!-- List of the drugs informations we have concerning the patient -->
@@ -56,57 +52,13 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                                     <!-- All the information regarding the treatment -->
                                                     <treatment>
                                                         <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-07-06T08:00:00</start>
-                                                                <end>2018-07-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>800</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
-                                                        <sample>
-                                                            <sampleId>1</sampleId>
-                                                            <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>rifampicin</analyteId>
-                                                                    <value>7</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
-                                                        <!-- It's the same node we can find in the drug model xml file -->
-                                                        <target>
-                                                            <activeMoietyId>rifampicin</activeMoietyId>
-                                                            <targetType>residual</targetType>
-                                                            <unit>mg/l</unit>
-                                                            <min>20</min>
-                                                            <best>25</best>
-                                                            <max>30</max>
-                                                            <inefficacyAlarm>15</inefficacyAlarm>
-                                                            <toxicityAlarm>50</toxicityAlarm>
-                                                        </target>
                                                     </targets>
                                                 </drug>
                                                 <!-- All the information regarding the drug -->
@@ -118,68 +70,13 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                                     <!-- All the information regarding the treatment -->
                                                     <treatment>
                                                         <dosageHistory>
-                                                            <dosageTimeRange>
-                                                                <start>2018-08-06T08:00:00</start>
-                                                                <end>2018-08-08T08:00:00</end>
-                                                                <dosage>
-                                                                    <dosageLoop>
-                                                                        <lastingDosage>
-                                                                            <interval>12:00:00</interval>
-                                                                            <dose>
-                                                                                <value>600</value>
-                                                                                <unit>mg</unit>
-                                                                                <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                            </dose>
-                                                                            <formulationAndRoute>
-                                                                                <formulation>parenteralSolution</formulation>
-                                                                                <administrationName>foo bar</administrationName>
-                                                                                <administrationRoute>oral</administrationRoute>
-                                                                                <absorptionModel>extravascular</absorptionModel>
-                                                                            </formulationAndRoute>
-                                                                        </lastingDosage>
-                                                                    </dosageLoop>
-                                                                </dosage>
-                                                            </dosageTimeRange>
                                                         </dosageHistory>
                                                     </treatment>
                                                     <!-- Samples history -->
                                                     <samples>
-                                                        <sample>
-                                                            <sampleId>2</sampleId>
-                                                            <sampleDate>2018-08-07T03:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>imatinb</analyteId>
-                                                                    <value>5</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
-                                                        <sample>
-                                                            <sampleId>3</sampleId>
-                                                            <sampleDate>2018-07-07T07:00:00</sampleDate>
-                                                            <concentrations>
-                                                                <concentration>
-                                                                    <analyteId>imatinib</analyteId>
-                                                                    <value>0.6</value>
-                                                                    <unit>mg/l</unit>
-                                                                </concentration>
-                                                            </concentrations>
-                                                        </sample>
                                                     </samples>
                                                     <!-- Personalised targets -->
                                                     <targets>
-                                                        <!-- It's the same node we can find in the drug model xml file -->
-                                                        <target>
-                                                            <activeMoietyId>imatinib</activeMoietyId>
-                                                            <targetType>residual</targetType>
-                                                            <unit>mg/l</unit>
-                                                            <min>10</min>
-                                                            <best>15</best>
-                                                            <max>20</max>
-                                                            <inefficacyAlarm>5</inefficacyAlarm>
-                                                            <toxicityAlarm>40</toxicityAlarm>
-                                                        </target>
                                                     </targets>
                                                 </drug>
                                             </drugs>
@@ -192,13 +89,6 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                                     <format>xml</format>
                                                     <language>en</language>
                                                 </output>
-                                                <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
-                                                <options>
-                                                    <loadingOption>noLoadingDose</loadingOption>
-                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
-                                                    <targetExtractionOption>populationValues</targetExtractionOption>
-                                                    <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
-                                                </options>
                                             </xpertRequest>
                                             <xpertRequest>
                                                 <drugId>imatinib</drugId>
@@ -207,12 +97,6 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                                     <language>en</language>
                                                 </output>
                                                 <adjustmentDate>2018-08-06T08:00:00</adjustmentDate>
-                                                <options>
-                                                    <loadingOption>noLoadingDose</loadingOption>
-                                                    <restPeriodOption>noRestPeriod</restPeriodOption>
-                                                    <targetExtractionOption>populationValues</targetExtractionOption>
-                                                    <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
-                                                </options>
                                             </xpertRequest>
                                         </requests>
                                     </query>
@@ -225,15 +109,22 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        Tucuxi::Xpert::XpertQueryResult xpertResult(std::move(query), "");
+        // Must not be nullptr.
+        fructose_assert_ne(query.get(), nullptr);
+
+        Tucuxi::Xpert::XpertQueryResult xpertQueryResult(std::move(query), "");
 
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
         fructose_assert_eq(query.get(), nullptr);
     }
 
-    /// \brief Checks that the administrative data are correctly retrieved.
+    /// \brief Check that the admin data are correctly retrieved.
+    ///        The test imports two xpert queries.
+    ///        The first one has no admin element. Using XpertQueryResult::getAdminData, the value is nullptr.
+    ///        The second one has a full admin element. When using XpertQueryResult::getAdminData, all
+    ///        values of the admin element can be retrieved.
     /// \param _testName Name of the test
-    void retrieveAdministrativeData(const std::string& _testName)
+    void getAdminDataOfXpertQueyResult_returnsCorrectValues_withOrWithoutAdminInQuery(const std::string& _testName)
     {
 
         std::string emptyAdminString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -249,14 +140,6 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                                     <!-- All the information regarding the patient -->
                                                     <patient>
                                                         <covariates>
-                                                            <covariate>
-                                                                <covariateId>ffm</covariateId>
-                                                                <date>2018-07-11T10:45:30</date>
-                                                                <value>40</value>
-                                                                <unit>g</unit>
-                                                                <dataType>double</dataType>
-                                                                <nature>continuous</nature>
-                                                            </covariate>
                                                         </covariates>
                                                     </patient>
                                                     <!-- List of the drugs informations we have concerning the patient -->
@@ -270,57 +153,13 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                                             <!-- All the information regarding the treatment -->
                                                             <treatment>
                                                                 <dosageHistory>
-                                                                    <dosageTimeRange>
-                                                                        <start>2018-07-06T08:00:00</start>
-                                                                        <end>2018-07-08T08:00:00</end>
-                                                                        <dosage>
-                                                                            <dosageLoop>
-                                                                                <lastingDosage>
-                                                                                    <interval>12:00:00</interval>
-                                                                                    <dose>
-                                                                                        <value>800</value>
-                                                                                        <unit>mg</unit>
-                                                                                        <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                                    </dose>
-                                                                                    <formulationAndRoute>
-                                                                                        <formulation>parenteralSolution</formulation>
-                                                                                        <administrationName>foo bar</administrationName>
-                                                                                        <administrationRoute>oral</administrationRoute>
-                                                                                        <absorptionModel>extravascular</absorptionModel>
-                                                                                    </formulationAndRoute>
-                                                                                </lastingDosage>
-                                                                            </dosageLoop>
-                                                                        </dosage>
-                                                                    </dosageTimeRange>
                                                                 </dosageHistory>
                                                             </treatment>
                                                             <!-- Samples history -->
                                                             <samples>
-                                                                <sample>
-                                                                    <sampleId>1</sampleId>
-                                                                    <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                                    <concentrations>
-                                                                        <concentration>
-                                                                            <analyteId>rifampicin</analyteId>
-                                                                            <value>7</value>
-                                                                            <unit>mg/l</unit>
-                                                                        </concentration>
-                                                                    </concentrations>
-                                                                </sample>
                                                             </samples>
                                                             <!-- Personalised targets -->
                                                             <targets>
-                                                                <!-- It's the same node we can find in the drug model xml file -->
-                                                                <target>
-                                                                    <activeMoietyId>rifampicin</activeMoietyId>
-                                                                    <targetType>residual</targetType>
-                                                                    <unit>mg/l</unit>
-                                                                    <min>20</min>
-                                                                    <best>25</best>
-                                                                    <max>30</max>
-                                                                    <inefficacyAlarm>15</inefficacyAlarm>
-                                                                    <toxicityAlarm>50</toxicityAlarm>
-                                                                </target>
                                                             </targets>
                                                         </drug>
                                                     </drugs>
@@ -333,19 +172,12 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                                             <format>xml</format>
                                                             <language>en</language>
                                                         </output>
-                                                        <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
-                                                        <options>
-                                                            <loadingOption>noLoadingDose</loadingOption>
-                                                            <restPeriodOption>noRestPeriod</restPeriodOption>
-                                                            <targetExtractionOption>populationValues</targetExtractionOption>
-                                                            <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
-                                                        </options>
                                                     </xpertRequest>
                                                 </requests>
                                             </query>
                                             )";
 
-        std::string completeAdminString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+        std::string fullAdminString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                             <query version="1.0"
                                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                                 xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -438,24 +270,16 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                                             </email>
                                                         </institute>
                                                     </patient>
-                                                    <clinicalData>
-                                                        <clinicalDataEntry key="goodNote"> nice </clinicalDataEntry>
-                                                        <clinicalDataEntry key="badNote"> <yet>random note</yet> </clinicalDataEntry>
-                                                    </clinicalData>
+                                                    <clinicalDatas>
+                                                        <clinicalData key="goodNote"> nice </clinicalData>
+                                                        <clinicalData key="badNote"> <yet>random note</yet> </clinicalData>
+                                                    </clinicalDatas>
                                                 </admin>
 
                                                 <drugTreatment>
                                                     <!-- All the information regarding the patient -->
                                                     <patient>
                                                         <covariates>
-                                                            <covariate>
-                                                                <covariateId>ffm</covariateId>
-                                                                <date>2018-07-11T10:45:30</date>
-                                                                <value>40</value>
-                                                                <unit>g</unit>
-                                                                <dataType>double</dataType>
-                                                                <nature>continuous</nature>
-                                                            </covariate>
                                                         </covariates>
                                                     </patient>
                                                     <!-- List of the drugs informations we have concerning the patient -->
@@ -469,57 +293,13 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                                             <!-- All the information regarding the treatment -->
                                                             <treatment>
                                                                 <dosageHistory>
-                                                                    <dosageTimeRange>
-                                                                        <start>2018-07-06T08:00:00</start>
-                                                                        <end>2018-07-08T08:00:00</end>
-                                                                        <dosage>
-                                                                            <dosageLoop>
-                                                                                <lastingDosage>
-                                                                                    <interval>12:00:00</interval>
-                                                                                    <dose>
-                                                                                        <value>800</value>
-                                                                                        <unit>mg</unit>
-                                                                                        <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                                    </dose>
-                                                                                    <formulationAndRoute>
-                                                                                        <formulation>parenteralSolution</formulation>
-                                                                                        <administrationName>foo bar</administrationName>
-                                                                                        <administrationRoute>oral</administrationRoute>
-                                                                                        <absorptionModel>extravascular</absorptionModel>
-                                                                                    </formulationAndRoute>
-                                                                                </lastingDosage>
-                                                                            </dosageLoop>
-                                                                        </dosage>
-                                                                    </dosageTimeRange>
                                                                 </dosageHistory>
                                                             </treatment>
                                                             <!-- Samples history -->
                                                             <samples>
-                                                                <sample>
-                                                                    <sampleId>1</sampleId>
-                                                                    <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                                    <concentrations>
-                                                                        <concentration>
-                                                                            <analyteId>rifampicin</analyteId>
-                                                                            <value>7</value>
-                                                                            <unit>mg/l</unit>
-                                                                        </concentration>
-                                                                    </concentrations>
-                                                                </sample>
                                                             </samples>
                                                             <!-- Personalised targets -->
                                                             <targets>
-                                                                <!-- It's the same node we can find in the drug model xml file -->
-                                                                <target>
-                                                                    <activeMoietyId>rifampicin</activeMoietyId>
-                                                                    <targetType>residual</targetType>
-                                                                    <unit>mg/l</unit>
-                                                                    <min>20</min>
-                                                                    <best>25</best>
-                                                                    <max>30</max>
-                                                                    <inefficacyAlarm>15</inefficacyAlarm>
-                                                                    <toxicityAlarm>50</toxicityAlarm>
-                                                                </target>
                                                             </targets>
                                                         </drug>
                                                     </drugs>
@@ -532,13 +312,6 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                                             <format>xml</format>
                                                             <language>en</language>
                                                         </output>
-                                                        <adjustmentDate>2018-07-06T08:00:00</adjustmentDate>
-                                                        <options>
-                                                            <loadingOption>noLoadingDose</loadingOption>
-                                                            <restPeriodOption>noRestPeriod</restPeriodOption>
-                                                            <targetExtractionOption>populationValues</targetExtractionOption>
-                                                            <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
-                                                        </options>
                                                     </xpertRequest>
                                                 </requests>
                                             </query>
@@ -546,29 +319,33 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
 
         std::cout << _testName << std::endl;
 
+        // Import the queries
+
         std::unique_ptr<Tucuxi::Xpert::XpertQueryData> queryEmptyAdmin = nullptr;
         std::unique_ptr<Tucuxi::Xpert::XpertQueryData> queryCompleteAdmin = nullptr;
 
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResultEmptyAdmin = importer.importFromString(queryEmptyAdmin, emptyAdminString);
-        Tucuxi::Xpert::XpertQueryImport::Status importResultCompleteAdmin = importer.importFromString(queryCompleteAdmin, completeAdminString);
+        Tucuxi::Xpert::XpertQueryImport::Status importResultFullAdmin = importer.importFromString(queryCompleteAdmin, fullAdminString);
 
-        Tucuxi::Xpert::XpertQueryResult xpertResultEmptyAdmin(std::move(queryEmptyAdmin), "");
-        Tucuxi::Xpert::XpertQueryResult xpertResultCompleteAdmin(std::move(queryCompleteAdmin), "");
+        // Execute
+
+        Tucuxi::Xpert::XpertQueryResult xpertQueryResultWithEmptyAdmin(std::move(queryEmptyAdmin), "");
+        Tucuxi::Xpert::XpertQueryResult xpertQueryResultWithFullAdmin(std::move(queryCompleteAdmin), "");
+
+        // Compare
 
         fructose_assert_eq(importResultEmptyAdmin, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(importResultCompleteAdmin, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(queryEmptyAdmin.get(), nullptr);
-        fructose_assert_eq(queryCompleteAdmin.get(), nullptr);
+        fructose_assert_eq(importResultFullAdmin, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
 
-        fructose_assert_eq(xpertResultEmptyAdmin.getAdminData().get(), nullptr);
-        fructose_assert_ne(xpertResultCompleteAdmin.getAdminData().get(), nullptr);
+        fructose_assert_eq(xpertQueryResultWithEmptyAdmin.getAdminData().get(), nullptr);
+        fructose_assert_ne(xpertQueryResultWithFullAdmin.getAdminData().get(), nullptr);
 
-        const Tucuxi::Xpert::PersonData& mandator = xpertResultCompleteAdmin.getAdminData()->getMandator()->getPerson();
+        const Tucuxi::Xpert::PersonData& mandator = xpertQueryResultWithFullAdmin.getAdminData()->getMandator()->getPerson();
         const Tucuxi::Xpert::AddressData& mandatorAddress = *mandator.getAddress();
         const Tucuxi::Xpert::PhoneData& mandatorPhone = *mandator.getPhone();
         const Tucuxi::Xpert::EmailData& mandatorEmail = *mandator.getEmail();
-        const Tucuxi::Xpert::InstituteData& mandatorInstitute = *xpertResultCompleteAdmin.getAdminData()->getMandator()->getInstitute();
+        const Tucuxi::Xpert::InstituteData& mandatorInstitute = *xpertQueryResultWithFullAdmin.getAdminData()->getMandator()->getInstitute();
         const Tucuxi::Xpert::AddressData& mandatorInstituteAddress = *mandatorInstitute.getAddress();
         const Tucuxi::Xpert::PhoneData& mandatorInstitutePhone = *mandatorInstitute.getPhone();
         const Tucuxi::Xpert::EmailData& mandatorInstituteEmail = *mandatorInstitute.getEmail();
@@ -598,11 +375,11 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
         fructose_assert_eq(mandatorInstituteEmail.getAddress(), "info@chuv.com");
         fructose_assert_eq(mandatorInstituteEmail.getType(), "professional");
 
-        const Tucuxi::Xpert::PersonData& patient =  xpertResultCompleteAdmin.getAdminData()->getPatient()->getPerson();
+        const Tucuxi::Xpert::PersonData& patient =  xpertQueryResultWithFullAdmin.getAdminData()->getPatient()->getPerson();
         const Tucuxi::Xpert::AddressData& patientAddress = *patient.getAddress();
         const Tucuxi::Xpert::PhoneData& patientPhone = *patient.getPhone();
         const Tucuxi::Xpert::EmailData& patientEmail = *patient.getEmail();
-        const Tucuxi::Xpert::InstituteData& patientInstitute = *xpertResultCompleteAdmin.getAdminData()->getPatient()->getInstitute();
+        const Tucuxi::Xpert::InstituteData& patientInstitute = *xpertQueryResultWithFullAdmin.getAdminData()->getPatient()->getInstitute();
         const Tucuxi::Xpert::AddressData& patientInstituteAddress = *patientInstitute.getAddress();
         const Tucuxi::Xpert::PhoneData& patientInstitutePhone = *patientInstitute.getPhone();
         const Tucuxi::Xpert::EmailData& patientInstituteEmail = *patientInstitute.getEmail();
@@ -631,13 +408,28 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
         fructose_assert_eq(patientInstituteEmail.getAddress(), "info@ehnv.com");
         fructose_assert_eq(patientInstituteEmail.getType(), "professional");
 
-        fructose_assert_eq(xpertResultCompleteAdmin.getAdminData()->getClinicalDatas()->getData().find("goodNote")->second, " nice ");
-        fructose_assert_eq(xpertResultCompleteAdmin.getAdminData()->getClinicalDatas()->getData().find("badNote")->second, "");
+        fructose_assert_eq(xpertQueryResultWithFullAdmin.getAdminData()->getClinicalDatas()->getData().find("goodNote")->second, " nice ");
+        fructose_assert_eq(xpertQueryResultWithFullAdmin.getAdminData()->getClinicalDatas()->getData().find("badNote")->second, "");
     }
 
-    /// \brief Checks that the vector of XpertRequestResult is valid.
+
+    /// \brief Check that the XpertRequestResult are correctly created.
+    ///        The query has two xpertRequests. One if for imatinib and the other
+    ///        is for rifampicin.
+    ///
+    ///        Rifampicin:
+    ///           - The XpertRequestResult has no errors and can still be processed.
+    ///           - The treatment is not nullptr.
+    ///           - The drug model is nullptr.
+    ///
+    ///        Imatinib:
+    ///           - The XpertRequestResult has an error because the query doesn't have a
+    ///             drug element for imatinib.
+    ///           - It should no longer be processed.
+    ///           - The treatment is nullptr.
+    ///           - The drug model is nullptr.
     /// \param _testName Name of the test
-    void retrieveXpertRequestResult(const std::string& _testName)
+    void getXpertRequestResultsOfXpertQueryResult_returnsCorrectValues_withValidAndInvalidXpertRequest(const std::string& _testName)
     {
 
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -653,14 +445,6 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                                     <!-- All the information regarding the patient -->
                                                     <patient>
                                                         <covariates>
-                                                            <covariate>
-                                                                <covariateId>ffm</covariateId>
-                                                                <date>2018-07-11T10:45:30</date>
-                                                                <value>40</value>
-                                                                <unit>g</unit>
-                                                                <dataType>double</dataType>
-                                                                <nature>continuous</nature>
-                                                            </covariate>
                                                         </covariates>
                                                     </patient>
                                                     <!-- List of the drugs informations we have concerning the patient -->
@@ -674,57 +458,13 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                                             <!-- All the information regarding the treatment -->
                                                             <treatment>
                                                                 <dosageHistory>
-                                                                    <dosageTimeRange>
-                                                                        <start>2018-07-06T08:00:00</start>
-                                                                        <end>2018-07-08T08:00:00</end>
-                                                                        <dosage>
-                                                                            <dosageLoop>
-                                                                                <lastingDosage>
-                                                                                    <interval>12:00:00</interval>
-                                                                                    <dose>
-                                                                                        <value>800</value>
-                                                                                        <unit>mg</unit>
-                                                                                        <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                                    </dose>
-                                                                                    <formulationAndRoute>
-                                                                                        <formulation>parenteralSolution</formulation>
-                                                                                        <administrationName>foo bar</administrationName>
-                                                                                        <administrationRoute>oral</administrationRoute>
-                                                                                        <absorptionModel>extravascular</absorptionModel>
-                                                                                    </formulationAndRoute>
-                                                                                </lastingDosage>
-                                                                            </dosageLoop>
-                                                                        </dosage>
-                                                                    </dosageTimeRange>
                                                                 </dosageHistory>
                                                             </treatment>
                                                             <!-- Samples history -->
                                                             <samples>
-                                                                <sample>
-                                                                    <sampleId>1</sampleId>
-                                                                    <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                                    <concentrations>
-                                                                        <concentration>
-                                                                            <analyteId>rifampicin</analyteId>
-                                                                            <value>7</value>
-                                                                            <unit>mg/l</unit>
-                                                                        </concentration>
-                                                                    </concentrations>
-                                                                </sample>
                                                             </samples>
                                                             <!-- Personalised targets -->
                                                             <targets>
-                                                                <!-- It's the same node we can find in the drug model xml file -->
-                                                                <target>
-                                                                    <activeMoietyId>rifampicin</activeMoietyId>
-                                                                    <targetType>residual</targetType>
-                                                                    <unit>mg/l</unit>
-                                                                    <min>20</min>
-                                                                    <best>25</best>
-                                                                    <max>30</max>
-                                                                    <inefficacyAlarm>15</inefficacyAlarm>
-                                                                    <toxicityAlarm>50</toxicityAlarm>
-                                                                </target>
                                                             </targets>
                                                         </drug>
                                                     </drugs>
@@ -765,33 +505,40 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
 
         std::cout << _testName << std::endl;
 
+        // Import the query
         std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
 
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
 
-        Tucuxi::Xpert::XpertQueryResult xpertResult(std::move(query), "");
+        // Execute
+        Tucuxi::Xpert::XpertQueryResult xpertQueryResult(std::move(query), "");
 
+        // Compare
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
 
-        fructose_assert_eq(xpertResult.getXpertRequestResults().size(), 2);
+        fructose_assert_eq(xpertQueryResult.getXpertRequestResults().size(), 2);
 
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[0].getDrugModel(), nullptr);
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[0].getErrorMessage(), "");
-        fructose_assert_ne(xpertResult.getXpertRequestResults()[0].getTreatment().get(), nullptr);
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[0].getXpertRequest().getDrugId(), "rifampicin");
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[0].shouldContinueProcessing(), true);
+        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].getDrugModel(), nullptr);
+        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].getErrorMessage(), "");
+        fructose_assert_ne(xpertQueryResult.getXpertRequestResults()[0].getTreatment().get(), nullptr);
+        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].getXpertRequest().getDrugId(), "rifampicin");
+        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].shouldContinueProcessing(), true);
 
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getDrugModel(), nullptr);
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getErrorMessage(), "No drug matching. Could not extract drug treatment.");
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getTreatment().get(), nullptr);
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[1].getXpertRequest().getDrugId(), "imatinib");
-        fructose_assert_eq(xpertResult.getXpertRequestResults()[1].shouldContinueProcessing(), false);
+        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[1].getDrugModel(), nullptr);
+        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[1].getErrorMessage(), "No drug matching. Could not extract drug treatment.");
+        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[1].getTreatment().get(), nullptr);
+        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[1].getXpertRequest().getDrugId(), "imatinib");
+        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[1].shouldContinueProcessing(), false);
     }
 
-    /// \brief Checks that computation time of the XpertGlobalResult is well retrieved from the query.
+    /// \brief Check that the xpertRequest data are correctly retrieved in the XpertRequestResult.
+    ///        The test imports a query with two xpertRequest elements.
+    ///        The first element is a complete xpertRequest. All values must be retrieved correctly.
+    ///        The second element is a minimal xpertRequest. All values must be retrieved correctly, but
+    ///        the missing values have default values.
     /// \param _testName Name of the test
-    void retrieveComputationTime(const std::string& _testName)
+    void getXpertRequestDataOfXpertRequestResult_returnsCorrectValues_withFullAndMinimalXpertRequest(const std::string& _testName)
     {
 
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -807,14 +554,6 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                                     <!-- All the information regarding the patient -->
                                                     <patient>
                                                         <covariates>
-                                                            <covariate>
-                                                                <covariateId>ffm</covariateId>
-                                                                <date>2018-07-11T10:45:30</date>
-                                                                <value>40</value>
-                                                                <unit>g</unit>
-                                                                <dataType>double</dataType>
-                                                                <nature>continuous</nature>
-                                                            </covariate>
                                                         </covariates>
                                                     </patient>
                                                     <!-- List of the drugs informations we have concerning the patient -->
@@ -828,57 +567,13 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                                             <!-- All the information regarding the treatment -->
                                                             <treatment>
                                                                 <dosageHistory>
-                                                                    <dosageTimeRange>
-                                                                        <start>2018-07-06T08:00:00</start>
-                                                                        <end>2018-07-08T08:00:00</end>
-                                                                        <dosage>
-                                                                            <dosageLoop>
-                                                                                <lastingDosage>
-                                                                                    <interval>12:00:00</interval>
-                                                                                    <dose>
-                                                                                        <value>800</value>
-                                                                                        <unit>mg</unit>
-                                                                                        <infusionTimeInMinutes>60</infusionTimeInMinutes>
-                                                                                    </dose>
-                                                                                    <formulationAndRoute>
-                                                                                        <formulation>parenteralSolution</formulation>
-                                                                                        <administrationName>foo bar</administrationName>
-                                                                                        <administrationRoute>oral</administrationRoute>
-                                                                                        <absorptionModel>extravascular</absorptionModel>
-                                                                                    </formulationAndRoute>
-                                                                                </lastingDosage>
-                                                                            </dosageLoop>
-                                                                        </dosage>
-                                                                    </dosageTimeRange>
                                                                 </dosageHistory>
                                                             </treatment>
                                                             <!-- Samples history -->
                                                             <samples>
-                                                                <sample>
-                                                                    <sampleId>1</sampleId>
-                                                                    <sampleDate>2018-07-07T03:00:00</sampleDate>
-                                                                    <concentrations>
-                                                                        <concentration>
-                                                                            <analyteId>rifampicin</analyteId>
-                                                                            <value>7</value>
-                                                                            <unit>mg/l</unit>
-                                                                        </concentration>
-                                                                    </concentrations>
-                                                                </sample>
                                                             </samples>
                                                             <!-- Personalised targets -->
                                                             <targets>
-                                                                <!-- It's the same node we can find in the drug model xml file -->
-                                                                <target>
-                                                                    <activeMoietyId>rifampicin</activeMoietyId>
-                                                                    <targetType>residual</targetType>
-                                                                    <unit>mg/l</unit>
-                                                                    <min>20</min>
-                                                                    <best>25</best>
-                                                                    <max>30</max>
-                                                                    <inefficacyAlarm>15</inefficacyAlarm>
-                                                                    <toxicityAlarm>50</toxicityAlarm>
-                                                                </target>
                                                             </targets>
                                                         </drug>
                                                     </drugs>
@@ -896,22 +591,15 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                                             <loadingOption>noLoadingDose</loadingOption>
                                                             <restPeriodOption>noRestPeriod</restPeriodOption>
                                                             <targetExtractionOption>populationValues</targetExtractionOption>
-                                                            <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
+                                                            <formulationAndRouteSelectionOption>defaultFormulationAndRoute</formulationAndRouteSelectionOption>
                                                         </options>
                                                     </xpertRequest>
                                                     <xpertRequest>
                                                         <drugId>imatinib</drugId>
                                                         <output>
-                                                            <format>xml</format>
-                                                            <language>en</language>
+                                                            <format>html</format>
+                                                            <language>fr</language>
                                                         </output>
-                                                        <adjustmentDate>2018-08-06T08:00:00</adjustmentDate>
-                                                        <options>
-                                                            <loadingOption>noLoadingDose</loadingOption>
-                                                            <restPeriodOption>noRestPeriod</restPeriodOption>
-                                                            <targetExtractionOption>populationValues</targetExtractionOption>
-                                                            <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
-                                                        </options>
                                                     </xpertRequest>
                                                 </requests>
                                             </query>
@@ -919,15 +607,112 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
 
         std::cout << _testName << std::endl;
 
+        // Import the query
         std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
 
         Tucuxi::Xpert::XpertQueryImport importer;
         Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
 
-        Tucuxi::Xpert::XpertQueryResult xpertResult(std::move(query), "");
+        // Execute
+        Tucuxi::Xpert::XpertQueryResult xpertQueryResult(std::move(query), "");
 
+        // Compare
         fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(xpertResult.getComputationTime(), Tucuxi::Common::DateTime("2018-07-11T13:45:30", "%Y-%m-%dT%H:%M:%S"));
+
+        const Tucuxi::Xpert::XpertRequestData& completeXpertRequest = xpertQueryResult.getXpertRequestResults()[0].getXpertRequest();
+        const Tucuxi::Xpert::XpertRequestData& minimalXpertRequest = xpertQueryResult.getXpertRequestResults()[1].getXpertRequest();
+
+        fructose_assert_eq(completeXpertRequest.getDrugId(), "rifampicin");
+        fructose_assert_eq(completeXpertRequest.getOutputLang() == Tucuxi::Xpert::OutputLang::ENGLISH, true);
+        fructose_assert_eq(completeXpertRequest.getOutputFormat() == Tucuxi::Xpert::OutputFormat::XML, true);
+        fructose_assert_eq(completeXpertRequest.getAdjustmentTime(), Tucuxi::Common::DateTime("2018-07-06T08:00:00", TestUtils::date_format));
+        fructose_assert_eq(completeXpertRequest.getLoadingOption() == Tucuxi::Xpert::LoadingOption::NoLoadingDose, true);
+        fructose_assert_eq(completeXpertRequest.getRestPeriodOption() == Tucuxi::Xpert::RestPeriodOption::NoRestPeriod, true);
+        fructose_assert_eq(completeXpertRequest.getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::PopulationValues, true);
+        fructose_assert_eq(completeXpertRequest.getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::DefaultFormulationAndRoute, true);
+
+
+        fructose_assert_eq(minimalXpertRequest.getDrugId(), "imatinib");
+        fructose_assert_eq(minimalXpertRequest.getOutputLang() == Tucuxi::Xpert::OutputLang::FRENCH, true);
+        fructose_assert_eq(minimalXpertRequest.getOutputFormat() == Tucuxi::Xpert::OutputFormat::HTML, true);
+        fructose_assert_eq(minimalXpertRequest.getAdjustmentTime().isUndefined(), true);
+        fructose_assert_eq(minimalXpertRequest.getLoadingOption() == Tucuxi::Xpert::LoadingOption::Unspecified, true);
+        fructose_assert_eq(minimalXpertRequest.getRestPeriodOption() == Tucuxi::Xpert::RestPeriodOption::Unspecified, true);
+        fructose_assert_eq(minimalXpertRequest.getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::DefinitionIfNoIndividualTarget, true);
+        fructose_assert_eq(minimalXpertRequest.getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute, true);
+    }
+
+    /// \brief Check that computation time of the XpertRequestResult is retrieved from the xpert query.
+    ///        At top of the xpert query, the date element is "2018-07-11T13:45:30".
+    ///        XpertQueryResult::getComputationTime should return the equivalent date of "2018-07-11T13:45:30".
+    /// \param _testName Name of the test
+    void getComputationTimeOfXpertRequestResult_returnsCorrectDateTime(const std::string& _testName)
+    {
+
+        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                     <query version="1.0"
+                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
+                                         <queryId>rifampicin_1</queryId>
+                                         <clientId>124568</clientId>
+                                         <date>2018-07-11T13:45:30</date>
+                                         <language>en</language>
+
+                                         <drugTreatment>
+                                             <!-- All the information regarding the patient -->
+                                             <patient>
+                                                 <covariates>
+                                                 </covariates>
+                                             </patient>
+                                             <!-- List of the drugs informations we have concerning the patient -->
+                                             <drugs>
+                                                 <!-- All the information regarding the drug -->
+                                                 <drug>
+                                                     <drugId>rifampicin</drugId>
+                                                     <activePrinciple>something</activePrinciple>
+                                                     <brandName>somebrand</brandName>
+                                                     <atc>something</atc>
+                                                     <!-- All the information regarding the treatment -->
+                                                     <treatment>
+                                                         <dosageHistory>
+                                                         </dosageHistory>
+                                                     </treatment>
+                                                     <!-- Samples history -->
+                                                     <samples>
+                                                     </samples>
+                                                     <!-- Personalised targets -->
+                                                     <targets>
+                                                     </targets>
+                                                 </drug>
+                                             </drugs>
+                                         </drugTreatment>
+                                         <!-- List of the requests we want the server to take care of -->
+                                         <requests>
+                                             <xpertRequest>
+                                                 <drugId>rifampicin</drugId>
+                                                 <output>
+                                                     <format>xml</format>
+                                                     <language>en</language>
+                                                 </output>
+                                             </xpertRequest>
+                                         </requests>
+                                     </query>
+                                     )";
+
+        std::cout << _testName << std::endl;
+
+        // Import the query
+        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
+
+        Tucuxi::Xpert::XpertQueryImport importer;
+        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
+
+        // Execute
+        Tucuxi::Xpert::XpertQueryResult xpertQueryResult(std::move(query), "");
+
+        // Compare
+        fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
+        fructose_assert_eq(xpertQueryResult.getComputationTime(), Tucuxi::Common::DateTime("2018-07-11T13:45:30", TestUtils::date_format));
 
     }
 

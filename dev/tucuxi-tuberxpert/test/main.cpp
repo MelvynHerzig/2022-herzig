@@ -174,10 +174,11 @@ int main(int argc, char** argv)
 #if defined(test_xpertqueryresultcreation)
     TestXpertQueryResultCreation testXpertQueryResultCreation;
 
-    testXpertQueryResultCreation.add_test("Query pointer invalidation", &TestXpertQueryResultCreation::queryPtrInvalidation);
-    testXpertQueryResultCreation.add_test("Retrieves administrative data", &TestXpertQueryResultCreation::retrieveAdministrativeData);
-    testXpertQueryResultCreation.add_test("Retrieves xpert request results", &TestXpertQueryResultCreation::retrieveXpertRequestResult);
-    testXpertQueryResultCreation.add_test("Retrieves generation date", &TestXpertQueryResultCreation::retrieveComputationTime);
+    testXpertQueryResultCreation.add_test("XpertQueryResult creation takes XpertQueryData ownership.", &TestXpertQueryResultCreation::xpertQueryResultCreation_takesXpertQueryDataOwnership);
+    testXpertQueryResultCreation.add_test("getAdminData of XpertQueyResult returns correct values with or without admin in query.", &TestXpertQueryResultCreation::getAdminDataOfXpertQueyResult_returnsCorrectValues_withOrWithoutAdminInQuery);
+    testXpertQueryResultCreation.add_test("getXpertRequestResults of XpertQueryResult returns correct values with valid and invalid xpertRequest.", &TestXpertQueryResultCreation::getXpertRequestResultsOfXpertQueryResult_returnsCorrectValues_withValidAndInvalidXpertRequest);
+    testXpertQueryResultCreation.add_test("getXpertRequestData of XpertRequestResult returns correct values with full and minimal xpertRequest.", &TestXpertQueryResultCreation::getXpertRequestDataOfXpertRequestResult_returnsCorrectValues_withFullAndMinimalXpertRequest);
+    testXpertQueryResultCreation.add_test("getComputationTime of XpertRequestResult returns correct DateTime.", &TestXpertQueryResultCreation::getComputationTimeOfXpertRequestResult_returnsCorrectDateTime);
 
     res = testXpertQueryResultCreation.run(argc, argv);
     if (res != 0) {

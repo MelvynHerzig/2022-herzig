@@ -18,7 +18,7 @@
 
 #include "fructose/fructose.h"
 
-/// \brief Tests for CovariateValidatorAndModelSelector from the XpertFlowStepProvider.
+/// \brief Tests for CovariateValidatorAndModelSelector from the GeneralXpertFlowStepProvider.
 /// \date 27/05/2022
 /// \author Herzig Melvyn
 struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestCovariateValidatorAndModelSelector>
