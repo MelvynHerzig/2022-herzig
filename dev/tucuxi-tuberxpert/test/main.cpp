@@ -308,35 +308,35 @@ int main(int argc, char** argv)
 #if defined(test_adjustmenttraitcreator)
     TestAdjustmentTraitCreator testAdjustmentTraitCreator;
 
-    testAdjustmentTraitCreator.add_test("Get an error when no treatment.", &TestAdjustmentTraitCreator::errorWhenNoTreatment);
-    testAdjustmentTraitCreator.add_test("Get an error when no drug model.", &TestAdjustmentTraitCreator::errorWhenNoDrugModel);
-    testAdjustmentTraitCreator.add_test("The number of points per hour is twenty.", &TestAdjustmentTraitCreator::nbPointsPerJourIsTwenty);
-    testAdjustmentTraitCreator.add_test("The computing option retrieves all (statistics, covariates and parameters) and is on all active moieties", &TestAdjustmentTraitCreator::computingOptionIsRetrieveAllAndAllActiveMoieties);
-    testAdjustmentTraitCreator.add_test("The computing option prediction parameters type is Apriori when no dosage and no sample", &TestAdjustmentTraitCreator::computingOptionIsAprioriWhenNoDosageAndNoSample);
-    testAdjustmentTraitCreator.add_test("The computing option prediction parameters type is Apriori when dosage but no sample", &TestAdjustmentTraitCreator::computingOptionIsAprioriWhenDosageButNoSample);
-    testAdjustmentTraitCreator.add_test("The computing option prediction parameters type is Aposteriori when dosage and sample", &TestAdjustmentTraitCreator::computingOptionIsAposterioriWhenDosageAndSample);
-    testAdjustmentTraitCreator.add_test("The adjustment time is the adjustment time of the request when set manually.", &TestAdjustmentTraitCreator::adjustmentTimeIsRequestAdjustmentTimeWhenManuallySet);
-    testAdjustmentTraitCreator.add_test("The adjustment time is the computing time plus one hour when there is no dosage history and it is not manually set.", &TestAdjustmentTraitCreator::adjustmentTimeIsComputingTimePlusOneHourWithoutDosageHistoryAndNotManuallySet);
-    testAdjustmentTraitCreator.add_test("The adjustment time is the computing time plus one hour when there is a dosage history in the future and it is not manually set.", &TestAdjustmentTraitCreator::adjustmentTimeIsComputingTimePlusOneHourWithFutureDosageHistoryAndNotManuallySet);
-    testAdjustmentTraitCreator.add_test("The adjustment time is the next intake time when there is an ongoing dosage history and not manually set.", &TestAdjustmentTraitCreator::adjustmentTimeIsNextIntakeTimeWhenOngoingDosageHistoryAndNotManuallySet);
-    testAdjustmentTraitCreator.add_test("The adjustment time is half life approximated when the dosage history is over and not manually set.", &TestAdjustmentTraitCreator::adjustmentTimeIsHalfLifeApproximatedWhenDosageHistoryOverAndNotManuallySet);
-    testAdjustmentTraitCreator.add_test("The start and end date times are the dosage history start plus the standard treatment duration when there are an on ongoing standard treatment and a dosage history.", &TestAdjustmentTraitCreator::startEndDatesAreDosageHistoryStartPlusStandardTreatmentDurationWhenOngoingStandardTreatmentAndDosageHistory);
-    testAdjustmentTraitCreator.add_test("The start and end date times are computation time plus the standard treatment duration when there is a standard treatment but no dosage history.", &TestAdjustmentTraitCreator::startEndDatesAreDosageHistoryStartPlusStandardTreatmentDurationWhenOngoingStandardTreatmentAndDosageHistory);
-    testAdjustmentTraitCreator.add_test("Get an error when there is a standard treatment but it is already over.", &TestAdjustmentTraitCreator::errorWhenStandardTreatmentIsOverBeforeComputationTime);
-    testAdjustmentTraitCreator.add_test("The start and end date times are defined based on the adjustment time when there is no standard treatment.", &TestAdjustmentTraitCreator::startEndDatesAreDefinedOnAdjustmentTimeWhenNoStandardTreatment);
-    testAdjustmentTraitCreator.add_test("The best candidates option is best dosage per interval.", &TestAdjustmentTraitCreator::bestCandidatesOptionIsBestDosagePerInterval);
-    testAdjustmentTraitCreator.add_test("The loading option is retrieved from request when set.", &TestAdjustmentTraitCreator::loadingOptionIsRetrievedFromRequestWhenSet);
-    testAdjustmentTraitCreator.add_test("The loading option is retrieved from drug model when not set.", &TestAdjustmentTraitCreator::loadingOptionIsRetrievedFromDrugModelWhenNotSet);
-    testAdjustmentTraitCreator.add_test("The rest period option is retrieved from request when set.", &TestAdjustmentTraitCreator::restPeriodOptionIsRetrievedFromRequestWhenSet);
-    testAdjustmentTraitCreator.add_test("The rest period option is retrieved from drug model when not set.", &TestAdjustmentTraitCreator::restPeriodOptionIsRetrievedFromDrugModelWhenNotSet);
-    testAdjustmentTraitCreator.add_test("The steady state target option is within treatment time range when there is a standard treatment.", &TestAdjustmentTraitCreator::steadyStateTargetOptionIsWithinTreatmentTimeRangeWhenStandardTreatment);
-    testAdjustmentTraitCreator.add_test("The steady state target option is at steady state when there is no standard treatment.", &TestAdjustmentTraitCreator::steadyStateTargetOptionIsAtSteadyStateWhenNoStandardTreatment);
-    testAdjustmentTraitCreator.add_test("The target extraction option is retrieved from request when set.", &TestAdjustmentTraitCreator::targetExtractionOptionIsRetrievedFromRequestWhenSet);
-    testAdjustmentTraitCreator.add_test("The target extraction option is population values when not set.", &TestAdjustmentTraitCreator::targetExtractionOptionIsDefinitionIfNoIndividualTargetWhenNotSet);
-    testAdjustmentTraitCreator.add_test("The formulation and route selection option is retrieved from request when set.", &TestAdjustmentTraitCreator::formulationAndRouteSelectionOptionIsRetrievedFromRequestWhenSet);
-    testAdjustmentTraitCreator.add_test("The formulation and route selection option is last formulation and route when not set.", &TestAdjustmentTraitCreator::formulationAndRouteSelectionOptionIsLastFormulationAndRouteWhenNotSet);
-    testAdjustmentTraitCreator.add_test("The last intake is correctly set in the XpertRequestResult when there is a treatment.", &TestAdjustmentTraitCreator::lastIntakeIsCorrectlySetWithTreatment);
-    testAdjustmentTraitCreator.add_test("The last intake is nullptr in the XpertRequestResult when there is no treatment.", &TestAdjustmentTraitCreator::lastIntakeIsNullptrWithoutTreatment);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator failure when treatment nullptr.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_failure_whenTreatmentNullptr);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator failure when drug model nullptr.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_failure_whenDrugModelNullptr);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets 20 points per hour.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_sets20PointsPerHour);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets good fixed computing options.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsGoodFixedComputingOptions);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets a priori parameter type when no dosage and no sample.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsAprioriParameterType_whenNoDosageAndNoSample);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets a priori parameter type when dosages but no sample.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsAprioriParameterType_whenDosagesButNoSample);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets a posteriori parameter type when dosages and samples.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsAposterioriParameterType_whenDosagesAndSamples);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct adjustment time when set in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectAdjustmentTime_whenSetInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets adjustment time to computing time plus one hour when not set in XpertRequest and no dosage history.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsAdjustmentTimeToComputingTimePlusOneHour_whenNotSetInXpertRequestAndNoDosageHistory);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets adjustment time to computing time plus one hour when not set in XpertRequest and future dosage hstory.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsAdjustmentTimeToComputingTimePlusOneHour_whenNotSetInXpertRequestAndFutureDosageHistory);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets adjustment time to next intake time when not set in XpertRequest and ongoing dosage history.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsAdjustmentTimeToNextIntakeTime_whenNotSetInXpertRequestAndOngoingDosageHistory);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets adjustment time with half-life approximation when not set in XpertRequest and completed dosage history.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsAdjustmentTimeWithHalfLifeApproximation_whenNotSetInXpertRequestAndCompletedDosageHistory);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets start and end dates correctly when standard treatment and dosage history.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsStartAndEndDatesCorrectly_whenStandardTreatmentAndDosageHistory);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets start and end dates correctly when standard treatment but no dosage history.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsStartAndEndDatesCorrectly_whenStandardTreatmentButNoDosageHistory);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator failure when standard treatment is over before adjustment time.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_failure_whenStandardTreatmentIsOverBeforeAdjustmentTime);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets start end dates on adjustment time when no standard treatment.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsStartEndDatesOnAdjustmentTime_whenNoStandardTreatment);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator best candidates option is best dosage per interval.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_bestCandidatesOptionIsBestDosagePerInterval);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct loading option when defined in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectLoadingOption_whenDefinedInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct loading option when not defined in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectLoadingOption_whenNotDefinedInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct rest period option when defined in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectRestPeriodOption_whenDefinedInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct rest period option when not defined in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectRestPeriodOption_whenNotDefinedInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets steady state target option to within treatment time range when standard treatment.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsSteadyStateTargetOptionToWithinTreatmentTimeRange_whenStandardTreatment);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets steady state target option to at steady state when no standard treatment.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsSteadyStateTargetOptionToAtSteadyState_whenNoStandardTreatment);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct target extraction option when set in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectTargetExtractionOption_whenSetInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct target extraction option when not set in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectTargetExtractionOption_whenNotSetInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct formulation and route selection option when set in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectFormulationAndRouteSelectionOption_whenSetInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct formulation and route selection option when not set in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectFormulationAndRouteSelectionOption_whenNotSetInXpertRequest);
+    testAdjustmentTraitCreator.add_test("getLastIntake returns correct values when dosage history.", &TestAdjustmentTraitCreator::getLastIntake_returnsCorrectValues_whenDosageHistory);
+    testAdjustmentTraitCreator.add_test("getLastIntake returns nullptr when no dosage history.", &TestAdjustmentTraitCreator::getLastIntake_returnsNullptr_whenNoDosageHistory);
 
 
     res = testAdjustmentTraitCreator.run(argc, argv);
@@ -355,12 +355,13 @@ int main(int argc, char** argv)
 #if defined(test_requestexecutor)
     TestRequestExecutor testRequestExecutor;
 
-    testRequestExecutor.add_test("Get an error when the adjustment trait is nullptr.", &TestRequestExecutor::errorWhenNoAdjustmentTrait);
-    testRequestExecutor.add_test("Get an error when request failed.", &TestRequestExecutor::errorWhenRequestFailed);
-    testRequestExecutor.add_test("Get correct adjustment data when request succeed.", &TestRequestExecutor::getCorrectAdjustmentDataWhenRequestSucceed);
-    testRequestExecutor.add_test("Get correct statistics when request succeed.", &TestRequestExecutor::getCorrectStatisticsWhenRequestSucceed);
-    testRequestExecutor.add_test("Get the typical, apriori and aposteriori parameters when the adjustment trait is aposteriori.", &TestRequestExecutor::getTypicalAprioriAposterioriParametersWhenAposterioriTrait);
-    testRequestExecutor.add_test("Get the typical and apriori parameters when the adjustment trait is apriori.", &TestRequestExecutor::getTypicalAprioriParametersWhenAprioriTrait);
+    testRequestExecutor.add_test("requestExecutor failure when adjustment trait nullptr.", &TestRequestExecutor::requestExecutor_failure_whenAdjustmentTraitNullptr);
+    testRequestExecutor.add_test("requestExecutor failure when drug model nullptr.", &TestRequestExecutor::requestExecutor_failure_whenDrugModelNullptr);
+    testRequestExecutor.add_test("requestExecutor failure when request execution failed.", &TestRequestExecutor::requestExecutor_failure_whenRequestExecutionFailed);
+    testRequestExecutor.add_test("requestExecutor gets correct adjustment data when request execution succeed.", &TestRequestExecutor::requestExecutor_getsCorrectAdjustmentData_whenRequestExecutionSucceed);
+    testRequestExecutor.add_test("requestExecutor gets the statistics when request execution succeed.", &TestRequestExecutor::requestExecutor_getsTheStatistics_whenRequestExecutionSucceed);
+    testRequestExecutor.add_test("requestExecutor gets typical apriori aposteriori parameters when aposteriori trait.", &TestRequestExecutor::requestExecutor_getsTypicalAprioriAposterioriParameters_whenAposterioriTrait);
+    testRequestExecutor.add_test("requestExecutor gets typical apriori parameters when apriori trait.", &TestRequestExecutor::requestExecutor_getsTypicalAprioriParameters_whenAprioriTrait);
 
     res = testRequestExecutor.run(argc, argv);
     if (res != 0) {

@@ -21,6 +21,9 @@ public:
     /// \brief Standard drug model string of the imatinib.
     static const std::string originalImatinibModelString;
 
+    /// \brief Standard drug model string of the busulfan.
+    static const std::string originalBusulfanModelString;
+
     /// \brief Standard english translations file.
     static const std::string englishTranslationFile;
 

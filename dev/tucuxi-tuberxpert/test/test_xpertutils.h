@@ -4,8 +4,8 @@
 #include "testutils.h"
 
 #include "tuberxpert/language/languageexception.h"
+
 #include "tuberxpert/utils/xpertutils.h"
-#include "tuberxpert/result/xpertrequestresult.h"
 #include "tuberxpert/result/xpertqueryresult.h"
 
 #include "fructose/fructose.h"

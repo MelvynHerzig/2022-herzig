@@ -17,6 +17,12 @@ void RequestExecutor::perform(XpertRequestResult& _xpertRequestResult)
         return;
     }
 
+    // Check if there is drug model.
+    if (_xpertRequestResult.getDrugModel() == nullptr) {
+        _xpertRequestResult.setErrorMessage("No drug model set.");
+        return;
+    }
+
     // Create a copy of the adjustment trait and prepare the response holder.
     unique_ptr<Core::ComputingTraitAdjustment> baseAdjustmentTrait = make_unique<Core::ComputingTraitAdjustment>(*_xpertRequestResult.getAdjustmentTrait());
     unique_ptr<Core::AdjustmentData> adjustmentResult = nullptr;
