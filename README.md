@@ -146,7 +146,7 @@ Example of administrative data:
 				<name>CHUV</name>
 				<address>
 					<street>Av. de l'Ours 1</street>
-					<postCode>1010</postCode>
+					<postalCode>1010</postalCode>
 					<city>Lausanne</city>
 					<state>Vaud</state>
 					<country>Suisse</country>
@@ -168,7 +168,7 @@ Example of administrative data:
 				<lastName>Aupaysdesmerveilles</lastName>
 				<address>
 					<street>Av. d'Ouchy 27</street>
-					<postCode>1006</postCode>
+					<postalCode>1006</postalCode>
 					<city>Lausanne</city>
 					<state>Vaud</state>
 					<country>Suisse</country>
@@ -183,9 +183,9 @@ Example of administrative data:
 				</email>
 			</person>
 		</patient>
-		<clinicalData>
-			<clinicalDataEntry key="note">random note</clinicalDataEntry>
-		</clinicalData>
+		<clinicalDatas>
+			<clinicalData key="note">random note</clinicalData>
+		</clinicalDatas>
 	</admin>
     [...]
 </query>    
