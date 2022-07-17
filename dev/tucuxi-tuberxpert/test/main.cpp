@@ -4,11 +4,11 @@
 #include "test_xpertutils.h"
 #endif
 
-#if defined(test_language)
+#if defined(test_languagemanager)
 #include "test_languagemanager.h"
 #endif
 
-#if defined(test_query)
+#if defined(test_xpertqueryimport)
 #include "test_xpertqueryimport.h"
 #endif
 
@@ -16,8 +16,8 @@
 #include "test_xpertquerytocoreextractor.h"
 #endif
 
-#if defined(test_globalresultcreation)
-#include "test_globalresultcreation.h"
+#if defined(test_xpertqueryresultcreation)
+#include "test_xpertqueryresultcreation.h"
 #endif
 
 #if defined(test_covariatevalidatorandmodelselector)
@@ -63,22 +63,22 @@ int main(int argc, char** argv)
 #if defined(test_xpertutils)
     TestXpertUtils xpertUtilsTests;
 
-    xpertUtilsTests.add_test("Convert data type to string", &TestXpertUtils::convertDataTypeToString);
-    xpertUtilsTests.add_test("Convert output lang to string", &TestXpertUtils::convertOutputLangToString);
-    xpertUtilsTests.add_test("Convert double to string", &TestXpertUtils::convertDoubleToString);
-    xpertUtilsTests.add_test("Convert covariate type to string", &TestXpertUtils::convertCovariateTypeToString);
-    xpertUtilsTests.add_test("Convert warning level to string", &TestXpertUtils::convertWarningLevelToString);
-    xpertUtilsTests.add_test("String beautification", &TestXpertUtils::stringBeautification);
-    xpertUtilsTests.add_test("Get a translatable string with english fallback.", &TestXpertUtils::getStringFromTranslatableWithFallback);
-    xpertUtilsTests.add_test("The values returned by getOldestTimeRangeStart are correct.", &TestXpertUtils::getOldestDosageTimeRangeStartReturnsCorrectValues);
-    xpertUtilsTests.add_test("The values returned by getLatestTimeRangeStart are correct.", &TestXpertUtils::getLatestDosageTimeRangeStartReturnsCorrectValues);
-    xpertUtilsTests.add_test("The value returned by computeFileName is correct.", &TestXpertUtils::computeFileNameReturnsCorrectValues);
-    xpertUtilsTests.add_test("The values returned by executeRequestAndGetResult are correct.", &TestXpertUtils::executeRequestAndGetResultReturnsCorrectValues);
-    xpertUtilsTests.add_test("Convert key to phrase.", &TestXpertUtils::convertKeyToPhrase);
-    xpertUtilsTests.add_test("Convert birth date to age.", &TestXpertUtils::computeAge);
-    xpertUtilsTests.add_test("Date time to xml string returns correct value.", &TestXpertUtils::dateTimeToXmlStringReturnCorrectValue);
-    xpertUtilsTests.add_test("Time to string return correct value.", &TestXpertUtils::timeToStringReturnCorrectValue);
-    xpertUtilsTests.add_test("Date time to string retruns correct value.", &TestXpertUtils::dateTimeToStringReturnCorrectValue);
+    xpertUtilsTests.add_test("DataType to string behaves correctly with all dataTypes.", &TestXpertUtils::dataTypeToString_behavesCorrectly_withAllDataType);
+    xpertUtilsTests.add_test("Double to string behaves correctly.", &TestXpertUtils::doubleToString_behavesCorrectly);
+    xpertUtilsTests.add_test("CovariateType to string behaves correctly with all the covariateTypes.", &TestXpertUtils::covariateTypeToString_behavesCorrectly_withAllTheCovariateTypes);
+    xpertUtilsTests.add_test("OutputLang to string behaves correctly with all outputLang and unsupported values.", &TestXpertUtils::outputLangToString_behavesCorrectly_withAllOutputLangAndUnsupportedValues);
+    xpertUtilsTests.add_test("WarningLevel to string behaves correctly with all warningLevel and unsupported values.", &TestXpertUtils::warningLevelToString_behavesCorrectly_withAllWarningLevelAndUnsupportedValues);
+    xpertUtilsTests.add_test("DateTime to xml string behaves correctly.", &TestXpertUtils::dateTimeToXmlString_behavesCorrectly);
+    xpertUtilsTests.add_test("Time to string behaves correctly.", &TestXpertUtils::timeToString_behavesCorrectly);
+    xpertUtilsTests.add_test("DateTime to string behaves correctly.", &TestXpertUtils::dateTimeToString_behavesCorrectly);
+    xpertUtilsTests.add_test("Beautify strin _behaves correctly", &TestXpertUtils::beautifyString_behavesCorrectly);
+    xpertUtilsTests.add_test("Get string with english fallback behaves correctly.", &TestXpertUtils::getStringWithEnglishFallback_behavesCorrectly);
+    xpertUtilsTests.add_test("Get oldest dosageTimeRange start behaves correctly.", &TestXpertUtils::getOldestDosageTimeRangeStart_behavesCorrectly);
+    xpertUtilsTests.add_test("Get latest dosageTimeRange start behaves correctly.", &TestXpertUtils::getLatestDosageTimeRangeStart_behavesCorrectly);
+    xpertUtilsTests.add_test("Compute file name behaves correctly.", &TestXpertUtils::computeFileName_behavesCorrectly);
+    xpertUtilsTests.add_test("Execute request and get result behaves correctly.", &TestXpertUtils::executeRequestAndGetResult_behavesCorrectly);
+    xpertUtilsTests.add_test("Key to phrase behaves correctly.", &TestXpertUtils::keyToPhrase_behavesCorrectly);
+    xpertUtilsTests.add_test("Get age in behaves correctly.", &TestXpertUtils::getAgeIn_behavesCorrectly);
 
     res = xpertUtilsTests.run(argc, argv);
     if (res != 0) {
@@ -94,11 +94,11 @@ int main(int argc, char** argv)
      *                        Language                         *
      ***********************************************************/
 
-#if defined(test_language)
+#if defined(test_languagemanager)
     TestLanguageManager testLanguageManager;
 
-    testLanguageManager.add_test("GetInstance", &TestLanguageManager::retrieveDictionary);
-    testLanguageManager.add_test("translate", &TestLanguageManager::wordTranslation);
+    testLanguageManager.add_test("load translations behaves correctly.", &TestLanguageManager::loadTranslations_behavesCorrectly);
+    testLanguageManager.add_test("translate behaves correctly.", &TestLanguageManager::translate_behavesCorrectly);
 
     res = testLanguageManager.run(argc, argv);
     if (res != 0) {
@@ -115,25 +115,25 @@ int main(int argc, char** argv)
      ***********************************************************/
 
 
-#if defined(test_query)
+#if defined(test_xpertqueryimport)
     TestXpertQueryImport testXpertQueryImports;
 
-    testXpertQueryImports.add_test("Gets complete admin element", &TestXpertQueryImport::retrieveCompleteAdmin);
-    testXpertQueryImports.add_test("Gets no admin element", &TestXpertQueryImport::retrieveNoAdmin);
-    testXpertQueryImports.add_test("Gets empty admin element", &TestXpertQueryImport::retrieveEmptyAdmin);
-    testXpertQueryImports.add_test("Gets minimal persons", &TestXpertQueryImport::retrieveMinimalPerson);
-    testXpertQueryImports.add_test("Gets minimal institutes", &TestXpertQueryImport::retrieveMinimalInstitute);
-    testXpertQueryImports.add_test("Gets minimal coordinates", &TestXpertQueryImport::retrieveMinimalCoordinates);
-    testXpertQueryImports.add_test("Gets an error when missing mandatory values in mandator person", &TestXpertQueryImport::errorWhenMissingMandatoryInMandatorPerson);
-    testXpertQueryImports.add_test("Gets an error when missing mandatory values in mandator institute", &TestXpertQueryImport::errorWhenMissingMandatoryInMandatorInstitute);
-    testXpertQueryImports.add_test("Gets an error when missing mandatory values in patient person", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientPerson);
-    testXpertQueryImports.add_test("Gets an error when missing mandatory values in patient institute", &TestXpertQueryImport::errorWhenMissingMandatoryInPatientInstitute);
-    testXpertQueryImports.add_test("Gets complete request xpert element", &TestXpertQueryImport::retrieveCompleteRequestXpert);
-    testXpertQueryImports.add_test("Gets default request xpert element", &TestXpertQueryImport::retrieveDefaultRequestXpert);
-    testXpertQueryImports.add_test("Gets an error when missing request xpert", &TestXpertQueryImport::errorWhenNoRequestXpert);
-    testXpertQueryImports.add_test("Gets an error when missing mandatory values in request xpert", &TestXpertQueryImport::errorWhenMissingMandatoryRequestXpert);
-    testXpertQueryImports.add_test("Gets an error when the xml document can't be created from string", &TestXpertQueryImport::errorWhenCreatingXmlDocumentFromString);
-    testXpertQueryImports.add_test("Gets an error when the xml document can't be created from file", &TestXpertQueryImport::errorWhenCreatingXmlDocumentFromFile);
+    testXpertQueryImports.add_test("xpert query import behaves correctly with complete admin.", &TestXpertQueryImport::xpertQueryImport_getsAllValues_withCompleteAdmin);
+    testXpertQueryImports.add_test("xpert query import gets nullptr AdminData with no admin element.", &TestXpertQueryImport::xpertQueryImport_getsNullptrAdminData_withNoAdminElement);
+    testXpertQueryImports.add_test("xpert query import AdminData getters return nullptr with empty admin element.", &TestXpertQueryImport::xpertQueryImport_adminDataGettersReturnNullptr_withEmptyAdminElement);
+    testXpertQueryImports.add_test("xpert query import missing values are nullptr or empty string with minimal person in mandator and patient.", &TestXpertQueryImport::xpertQueryImport_missingValuesAreNullptrOrEmptyString_withMinimalPersonInMandatorAndPatient);
+    testXpertQueryImports.add_test("xpert query import missing values are nullptr or empty string with minimal institute in mandator and patient.", &TestXpertQueryImport::xpertQueryImport_missingValuesAreNullptrOrEmptyString_withMinimalInstituteInMandatorAndPatient);
+    testXpertQueryImports.add_test("xpert query import missing values are empty string with minimal address phone and email", &TestXpertQueryImport::xpertQueryImport_missingValuesAreEmptyString_withMinimalAddressPhoneAndEmail);
+    testXpertQueryImports.add_test("xpert query import import error with missing mandatory values in complete mandator person", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompleteMandatorPerson);
+    testXpertQueryImports.add_test("xpert query import import error with missing mandatory values in complete mandator institute", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompleteMandatorInstitute);
+    testXpertQueryImports.add_test("xpert query import import error with missing mandatory values in complete patient person", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompletePatientPerson);
+    testXpertQueryImports.add_test("xpert query import import error with missing mandatory values in complete patient institute", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompletePatientInstitute);
+    testXpertQueryImports.add_test("xpert query import gets all values with complete XpertRequest", &TestXpertQueryImport::xpertQueryImport_getsAllValues_withCompleteXpertRequest);
+    testXpertQueryImports.add_test("xpert query import get default values with minimal XpertRequest", &TestXpertQueryImport::xpertQueryImport_getDefaultValues_WithMinimalXpertRequest);
+    testXpertQueryImports.add_test("xpert query import import error without XpertRequest", &TestXpertQueryImport::xpertQueryImport_importError_withoutXpertRequest);
+    testXpertQueryImports.add_test("xpert query import import error with missing mandatory in XpertRequest", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryInXpertRequest);
+    testXpertQueryImports.add_test("xpert query import import error with file badly formatted", &TestXpertQueryImport::xpertQueryImport_importError_withFileBadlyFormatted);
+    testXpertQueryImports.add_test("xpert query import import error with non existing file", &TestXpertQueryImport::xpertQueryImport_importError_withNonExistingFile);
 
     res = testXpertQueryImports.run(argc, argv);
     if (res != 0) {
@@ -153,8 +153,8 @@ int main(int argc, char** argv)
 #if defined(test_xpertquerytocoreextractor)
     TestXpertQueryToCoreExtractor testXpertQueryToCoreExtractor;
 
-    testXpertQueryToCoreExtractor.add_test("Extracts good drug treatment", &TestXpertQueryToCoreExtractor::extractGoodDrugTreatment);
-    testXpertQueryToCoreExtractor.add_test("Extracts bad drug treatment", &TestXpertQueryToCoreExtractor::extractBadDrugTreatment);
+    testXpertQueryToCoreExtractor.add_test("extract drug treatment success with drug elements present once.", &TestXpertQueryToCoreExtractor::extractDrugTreatment_success_withDrugElementsPresentOnce);
+    testXpertQueryToCoreExtractor.add_test("extract drug treatment failure with multiple or no drug elements", &TestXpertQueryToCoreExtractor::extractDrugTreatment_failure_withMultipleOrNoDrugElements);
 
     res = testXpertQueryToCoreExtractor.run(argc, argv);
     if (res != 0) {
@@ -168,18 +168,19 @@ int main(int argc, char** argv)
 
 
     /***********************************************************
-     *                  GlobalResult creation                   *
+     *               XpertQueryResult creation                 *
      ***********************************************************/
 
-#if defined(test_globalresultcreation)
-    TestGlobalResultCreation testGlobalResultCreation;
+#if defined(test_xpertqueryresultcreation)
+    TestXpertQueryResultCreation testXpertQueryResultCreation;
 
-    testGlobalResultCreation.add_test("Query pointer invalidation", &TestGlobalResultCreation::queryPtrInvalidation);
-    testGlobalResultCreation.add_test("Retrieves administrative data", &TestGlobalResultCreation::retrieveAdministrativeData);
-    testGlobalResultCreation.add_test("Retrieves xpert request results", &TestGlobalResultCreation::retrieveXpertRequestResult);
-    testGlobalResultCreation.add_test("Retrieves generation date", &TestGlobalResultCreation::retrieveComputationTime);
+    testXpertQueryResultCreation.add_test("XpertQueryResult creation takes XpertQueryData ownership.", &TestXpertQueryResultCreation::xpertQueryResultCreation_takesXpertQueryDataOwnership);
+    testXpertQueryResultCreation.add_test("getAdminData of XpertQueyResult returns correct values with or without admin in query.", &TestXpertQueryResultCreation::getAdminDataOfXpertQueyResult_returnsCorrectValues_withOrWithoutAdminInQuery);
+    testXpertQueryResultCreation.add_test("getXpertRequestResults of XpertQueryResult returns correct values with valid and invalid xpertRequest.", &TestXpertQueryResultCreation::getXpertRequestResultsOfXpertQueryResult_returnsCorrectValues_withValidAndInvalidXpertRequest);
+    testXpertQueryResultCreation.add_test("getXpertRequestData of XpertRequestResult returns correct values with full and minimal xpertRequest.", &TestXpertQueryResultCreation::getXpertRequestDataOfXpertRequestResult_returnsCorrectValues_withFullAndMinimalXpertRequest);
+    testXpertQueryResultCreation.add_test("getComputationTime of XpertRequestResult returns correct DateTime.", &TestXpertQueryResultCreation::getComputationTimeOfXpertRequestResult_returnsCorrectDateTime);
 
-    res = testGlobalResultCreation.run(argc, argv);
+    res = testXpertQueryResultCreation.run(argc, argv);
     if (res != 0) {
         std::cout << "GlobalResult creation tests failed" << std::endl << std::endl;
         exit(1);
@@ -196,22 +197,22 @@ int main(int argc, char** argv)
 #if defined(test_covariatevalidatorandmodelselector)
     TestCovariateValidatorAndModelSelector testCovariateValidatorAndModelSelector;
 
-    testCovariateValidatorAndModelSelector.add_test("Gets an error when no treatment.", &TestCovariateValidatorAndModelSelector::errorWhenNoTreatment);
-    testCovariateValidatorAndModelSelector.add_test("No corresponding model for drug id", &TestCovariateValidatorAndModelSelector::noCorrespondingModelForDrugId);
-    testCovariateValidatorAndModelSelector.add_test("No result if the query formulations and routes are not equal.", &TestCovariateValidatorAndModelSelector::noResultIfQueryFormulationsAndRoutesAreNotEqual);
-    testCovariateValidatorAndModelSelector.add_test("No result if only one model with incompatible formulation and route.", &TestCovariateValidatorAndModelSelector::noResultOneModelIncompatibleFormulationAndRoute);
-    testCovariateValidatorAndModelSelector.add_test("Gets one result if there are one model with incompatible formulation and route and a second compatible.", &TestCovariateValidatorAndModelSelector::getResultOneModelIncompatibleFormulationAndRouteSecondCompatible);
-    testCovariateValidatorAndModelSelector.add_test("No result if one model with incompatible hard constraint.", &TestCovariateValidatorAndModelSelector::noResultOneModelIncompatibleConstraint);
-    testCovariateValidatorAndModelSelector.add_test("Gets one result if there are one model with hard constraint not respected and a second compatible.", &TestCovariateValidatorAndModelSelector::getResultOneModelIncompatibleConstraintSecondCompatible);
-    testCovariateValidatorAndModelSelector.add_test("Gets one result if one model with partially incompatible soft constraint.", &TestCovariateValidatorAndModelSelector::getResultOneModelPartiallyCompatibleSoftConstraint);
-    testCovariateValidatorAndModelSelector.add_test("No result when multiple birthdates even with models left.", &TestCovariateValidatorAndModelSelector::noResultMultipleBirthdate);
-    testCovariateValidatorAndModelSelector.add_test("No result when birthdate with bad datatype even with models left.", &TestCovariateValidatorAndModelSelector::noResultBadDatatypeBirthdate);
-    testCovariateValidatorAndModelSelector.add_test("No result when gist with bad unit even with models left.", &TestCovariateValidatorAndModelSelector::noResultBadUnitGist);
-    testCovariateValidatorAndModelSelector.add_test("Gets the best result out of 3 models without tie.", &TestCovariateValidatorAndModelSelector::getResultOutofThreeNoTie);
-    testCovariateValidatorAndModelSelector.add_test("Gets the best result out of 2 models with tie.", &TestCovariateValidatorAndModelSelector::getResultOutofTwoTie);
-    testCovariateValidatorAndModelSelector.add_test("Selection failed when selected model covariates does not support request language without english fallbabk.", &TestCovariateValidatorAndModelSelector::requestFailDefinitionsNotSupportingLanguageWithoutEnglishBackup);
-    testCovariateValidatorAndModelSelector.add_test("Checks that the translations match the requests languages.", &TestCovariateValidatorAndModelSelector::getGoodCovariateWarningTranslation);
-    testCovariateValidatorAndModelSelector.add_test("Gets and checks the content of the covariate results.", &TestCovariateValidatorAndModelSelector::getCovariateResults);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure when treatment nullptr.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_whenTreatmentNullptr);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure when no drug model for drug id.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_whenNoDrugModelForDrugId);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure when treatment formulations and routes are different.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_whenTreatmentFormulationsAndRoutesAreDifferent);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure with only one model with different formulation and route.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_withOnlyOneModelWithDifferentFormulationAndRoute);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector success with one model with different and one model with same formulation and route.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_success_withOneModelWithDifferentAndOneModelWithSameFormulationAndRoute);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure with one model hard constraint not met.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_withOneModelHardConstraintNotMet);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector success with one model hard constraint not met and other model ok.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_success_withOneModelHardConstraintNotMetAndOtherModelOk);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector success with one model soft constraint not met.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_success_withOneModelSoftConstraintNotMet);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure multiple birth date one model with age one model without.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_multipleBirthDateOneModelWithAgeOneModelWithout);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure bad birth date data type one model with age one model without.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_badBirthDateDataTypeOneModelWithAgeOneModelWithout);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure bad gist unit one model with gist one model without.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_badGistUnitOneModelWithGistOneModelWithout);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector get the best model between three models and no tie.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_getTheBestModel_betweenThreeModelsAndNoTie);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector get the best model between two models with tie.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_getTheBestModel_betweenTwoModelsWithTie);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector failure when selected model not supporting requested language and english.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_failure_whenSelectedModelNotSupportingRequestedLanguageAndEnglish);
+    testCovariateValidatorAndModelSelector.add_test("covariateValidatorAndModelSelector get good translation with model that supports request language and model only english.", &TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_getGoodTranslations_withModelThatSupportsRequestLanguageAndModelOnlyEnglish);
+    testCovariateValidatorAndModelSelector.add_test("getCovariateValidationResults returns correct values when covariateValidatorAndModelSelector success.", &TestCovariateValidatorAndModelSelector::getCovariateValidationResults_returnsCorrectValues_whenCovariateValidatorAndModelSelectorSuccess);
 
 
     res = testCovariateValidatorAndModelSelector.run(argc, argv);
@@ -232,14 +233,14 @@ int main(int argc, char** argv)
 #if defined(test_dosevalidator)
     TestDoseValidator testDoseValidator;
 
-    testDoseValidator.add_test("Gets an error when no treatment.", &TestDoseValidator::errorWhenNoTreatment);
-    testDoseValidator.add_test("Gets an error when no drug model.", &TestDoseValidator::errorWhenNoDrugModel);
-    testDoseValidator.add_test("The resulting map is empty when there is no dosage.", &TestDoseValidator::emptyResultWhenNoDosages);
-    testDoseValidator.add_test("The resulting dose result contains a warning when underdosing.", &TestDoseValidator::warningUnderdose);
-    testDoseValidator.add_test("The resulting dose result contains a warning when overdosing.", &TestDoseValidator::warningOverdose);
-    testDoseValidator.add_test("Gets an error when the unit conversion fails.", &TestDoseValidator::errorFailUnitConversion);
-    testDoseValidator.add_test("Gets an error when the formulation and route not supported by model.", &TestDoseValidator::errorFormulationAndRouteNotSupported);
-    testDoseValidator.add_test("Checks that result is fine with multiple dosage type and timerange.", &TestDoseValidator::multipleDosageTypeAndDosageTimeRange);
+    testDoseValidator.add_test("doseValidator failure when treatment nullptr.", &TestDoseValidator::doseValidator_failure_whenTreatmentNullptr);
+    testDoseValidator.add_test("doseValidator failure when drug model nullptr.", &TestDoseValidator::doseValidator_failure_whenDrugModelNullptr);
+    testDoseValidator.add_test("getDoseValidationResults is empty when no dose in query.", &TestDoseValidator::getDoseValidationResults_isEmpty_whenNoDoseInQuery);
+    testDoseValidator.add_test("doseValidationResult has warning when under dosing.", &TestDoseValidator::doseValidationResult_hasWarning_whenUnderDosing);
+    testDoseValidator.add_test("doseValidationResult has warning when over dosing.", &TestDoseValidator::doseValidationResult_hasWarning_whenOverDosing);
+    testDoseValidator.add_test("doseValidator failure when bad dose unit.", &TestDoseValidator::doseValidator_failure_whenBadDoseUnit);
+    testDoseValidator.add_test("doseValidator failure when formulation and route not supported by model.", &TestDoseValidator::doseValidator_failure_whenFormulationAndRouteNotSupportedByModel);
+    testDoseValidator.add_test("doseValidator returns correct values with all dosage type and multiple time range.", &TestDoseValidator::doseValidator_returnsCorrectValues_withAllDosageTypeAndMultipleTimeRange);
 
 
     res = testDoseValidator.run(argc, argv);
@@ -258,14 +259,14 @@ int main(int argc, char** argv)
 #if defined(test_samplevalidator)
     TestSampleValidator testSampleValidator;
 
-    testSampleValidator.add_test("Gets an error when no treatment.", &TestSampleValidator::errorWhenNoTreatment);
-    testSampleValidator.add_test("Gets an error when there are samples but no dosage.", &TestSampleValidator::errorWhenSamplesButNoDosage);
-    testSampleValidator.add_test("Gets an error when no drug model.", &TestSampleValidator::errorWhenNoDrugModel);
-    testSampleValidator.add_test("Gets warnings for a given group position over 99 percentiles.", &TestSampleValidator::warningForGroupPositionOver99Percentiles);
-    testSampleValidator.add_test("Gets some group positions over 99 percentile.", &TestSampleValidator::findGroupPositionOver99Percentiles);
-    testSampleValidator.add_test("Gets an exception when the sample unit cannot be converted.", &TestSampleValidator::getExceptionUnitConversion);
-    testSampleValidator.add_test("Gets an exception when the sample date cannot be found.", &TestSampleValidator::getExceptionDateNotFound);
-    testSampleValidator.add_test("Gets and checks the content of the sample results is sorted.", &TestSampleValidator::getSampleResultsSorted);
+    testSampleValidator.add_test("sampleValidator failure when treatment nullptr.", &TestSampleValidator::sampleValidator_failure_whenTreatmentNullptr);
+    testSampleValidator.add_test("sampleValidator failure when samples without dosages.", &TestSampleValidator::sampleValidator_failure_whenSamplesWithoutDosages);
+    testSampleValidator.add_test("sampleValidator failure when drug model nullptr.", &TestSampleValidator::sampleValidator_failure_whenDrugModelNullptr);
+    testSampleValidator.add_test("sampleValidationResult computes correct warning.", &TestSampleValidator::sampleValidationResult_computesCorrectWarning);
+    testSampleValidator.add_test("findGroupPositionOver99Percentiles behaves correctly with given percentilesData and samples.", &TestSampleValidator::findGroupPositionOver99Percentiles_behavesCorrectly_withGivenPercentilesDataAndSamples);
+    testSampleValidator.add_test("findGroupPositionOver99Percentiles throw invalid argument when sample unit conversion failure.", &TestSampleValidator::findGroupPositionOver99Percentiles_throwInvalidArgument_whenSampleUnitConversionFailure);
+    testSampleValidator.add_test("findGroupPositionOver99Percentiles throw invalid argument when sample date not found in CycleData.", &TestSampleValidator::findGroupPositionOver99Percentiles_throwInvalidArgument_whenSampleDateNotFoundInCycleData);
+    testSampleValidator.add_test("getSampleValidationResult is sorted when not empty.", &TestSampleValidator::getSampleValidationResult_isSorted_whenNotEmpty);
 
     res = testSampleValidator.run(argc, argv);
     if (res != 0) {
@@ -283,12 +284,12 @@ int main(int argc, char** argv)
 #if defined(test_targetvalidator)
     TestTargetValidator testTargetValidator;
 
-    testTargetValidator.add_test("Gets an error when no treatment.", &TestTargetValidator::errorWhenNoTreatment);
-    testTargetValidator.add_test("Gets an error when no drug model.", &TestTargetValidator::errorWhenNoDrugModel);
-    testTargetValidator.add_test("No error when no patient's target.", &TestTargetValidator::noErrorWhenNoTarget);
-    testTargetValidator.add_test("Gets an error when two patient's targets have the same active moiety and type.", &TestTargetValidator::errorWhenTargetsWithSameActiveMoietyAndType);
-    testTargetValidator.add_test("No error when two patient's targets have the same active moiety but different type.", &TestTargetValidator::noErrorWhenTargetsWithSameActiveMoietyButDifferentType);
-    testTargetValidator.add_test("Gets an error when one patient's target have a different active moiety than the ones from drug model.", &TestTargetValidator::errorWhenTargetsWithActiveMoietyNotInDrugModel);
+    testTargetValidator.add_test("targetValidator failure whent treatment nullptr.", &TestTargetValidator::targetValidator_failure_whenTreatmentNullptr);
+    testTargetValidator.add_test("targetValidator failure when drug model nullptr.", &TestTargetValidator::targetValidator_failure_whenDrugModelNullptr);
+    testTargetValidator.add_test("targetValidator success when no target in treatment.", &TestTargetValidator::targetValidator_success_whenNoTargetInTreatment);
+    testTargetValidator.add_test("targetValidator failure when target with same active moiety and type in treatment.", &TestTargetValidator::targetValidator_failure_whenTargetWithSameActiveMoietyAndTypeInTreatment);
+    testTargetValidator.add_test("targetValidator success when target with same active moiety but different type in treatment.", &TestTargetValidator::targetValidator_success_whenTargetWithSameActiveMoietyButDifferentTypeInTreatment);
+    testTargetValidator.add_test("targetValidator failure when treatment target with active moiety not in drug model.", &TestTargetValidator::targetValidator_failure_whenTreatmentTargetWithActiveMoietyNotInDrugModel);
 
 
     res = testTargetValidator.run(argc, argv);
@@ -307,35 +308,35 @@ int main(int argc, char** argv)
 #if defined(test_adjustmenttraitcreator)
     TestAdjustmentTraitCreator testAdjustmentTraitCreator;
 
-    testAdjustmentTraitCreator.add_test("Get an error when no treatment.", &TestAdjustmentTraitCreator::errorWhenNoTreatment);
-    testAdjustmentTraitCreator.add_test("Get an error when no drug model.", &TestAdjustmentTraitCreator::errorWhenNoDrugModel);
-    testAdjustmentTraitCreator.add_test("The number of points per hour is twenty.", &TestAdjustmentTraitCreator::nbPointsPerJourIsTwenty);
-    testAdjustmentTraitCreator.add_test("The computing option retrieves all (statistics, covariates and parameters) and is on all active moieties", &TestAdjustmentTraitCreator::computingOptionIsRetrieveAllAndAllActiveMoieties);
-    testAdjustmentTraitCreator.add_test("The computing option prediction parameters type is Apriori when no dosage and no sample", &TestAdjustmentTraitCreator::computingOptionIsAprioriWhenNoDosageAndNoSample);
-    testAdjustmentTraitCreator.add_test("The computing option prediction parameters type is Apriori when dosage but no sample", &TestAdjustmentTraitCreator::computingOptionIsAprioriWhenDosageButNoSample);
-    testAdjustmentTraitCreator.add_test("The computing option prediction parameters type is Aposteriori when dosage and sample", &TestAdjustmentTraitCreator::computingOptionIsAposterioriWhenDosageAndSample);
-    testAdjustmentTraitCreator.add_test("The adjustment time is the adjustment time of the request when set manually.", &TestAdjustmentTraitCreator::adjustmentTimeIsRequestAdjustmentTimeWhenManuallySet);
-    testAdjustmentTraitCreator.add_test("The adjustment time is the computing time plus one hour when there is no dosage history and it is not manually set.", &TestAdjustmentTraitCreator::adjustmentTimeIsComputingTimePlusOneHourWithoutDosageHistoryAndNotManuallySet);
-    testAdjustmentTraitCreator.add_test("The adjustment time is the computing time plus one hour when there is a dosage history in the future and it is not manually set.", &TestAdjustmentTraitCreator::adjustmentTimeIsComputingTimePlusOneHourWithFutureDosageHistoryAndNotManuallySet);
-    testAdjustmentTraitCreator.add_test("The adjustment time is the next intake time when there is an ongoing dosage history and not manually set.", &TestAdjustmentTraitCreator::adjustmentTimeIsNextIntakeTimeWhenOngoingDosageHistoryAndNotManuallySet);
-    testAdjustmentTraitCreator.add_test("The adjustment time is half life approximated when the dosage history is over and not manually set.", &TestAdjustmentTraitCreator::adjustmentTimeIsHalfLifeApproximatedWhenDosageHistoryOverAndNotManuallySet);
-    testAdjustmentTraitCreator.add_test("The start and end date times are the dosage history start plus the standard treatment duration when there are an on ongoing standard treatment and a dosage history.", &TestAdjustmentTraitCreator::startEndDatesAreDosageHistoryStartPlusStandardTreatmentDurationWhenOngoingStandardTreatmentAndDosageHistory);
-    testAdjustmentTraitCreator.add_test("The start and end date times are computation time plus the standard treatment duration when there is a standard treatment but no dosage history.", &TestAdjustmentTraitCreator::startEndDatesAreDosageHistoryStartPlusStandardTreatmentDurationWhenOngoingStandardTreatmentAndDosageHistory);
-    testAdjustmentTraitCreator.add_test("Get an error when there is a standard treatment but it is already over.", &TestAdjustmentTraitCreator::errorWhenStandardTreatmentIsOverBeforeComputationTime);
-    testAdjustmentTraitCreator.add_test("The start and end date times are defined based on the adjustment time when there is no standard treatment.", &TestAdjustmentTraitCreator::startEndDatesAreDefinedOnAdjustmentTimeWhenNoStandardTreatment);
-    testAdjustmentTraitCreator.add_test("The best candidates option is best dosage per interval.", &TestAdjustmentTraitCreator::bestCandidatesOptionIsBestDosagePerInterval);
-    testAdjustmentTraitCreator.add_test("The loading option is retrieved from request when set.", &TestAdjustmentTraitCreator::loadingOptionIsRetrievedFromRequestWhenSet);
-    testAdjustmentTraitCreator.add_test("The loading option is retrieved from drug model when not set.", &TestAdjustmentTraitCreator::loadingOptionIsRetrievedFromDrugModelWhenNotSet);
-    testAdjustmentTraitCreator.add_test("The rest period option is retrieved from request when set.", &TestAdjustmentTraitCreator::restPeriodOptionIsRetrievedFromRequestWhenSet);
-    testAdjustmentTraitCreator.add_test("The rest period option is retrieved from drug model when not set.", &TestAdjustmentTraitCreator::restPeriodOptionIsRetrievedFromDrugModelWhenNotSet);
-    testAdjustmentTraitCreator.add_test("The steady state target option is within treatment time range when there is a standard treatment.", &TestAdjustmentTraitCreator::steadyStateTargetOptionIsWithinTreatmentTimeRangeWhenStandardTreatment);
-    testAdjustmentTraitCreator.add_test("The steady state target option is at steady state when there is no standard treatment.", &TestAdjustmentTraitCreator::steadyStateTargetOptionIsAtSteadyStateWhenNoStandardTreatment);
-    testAdjustmentTraitCreator.add_test("The target extraction option is retrieved from request when set.", &TestAdjustmentTraitCreator::targetExtractionOptionIsRetrievedFromRequestWhenSet);
-    testAdjustmentTraitCreator.add_test("The target extraction option is population values when not set.", &TestAdjustmentTraitCreator::targetExtractionOptionIsDefinitionIfNoIndividualTargetWhenNotSet);
-    testAdjustmentTraitCreator.add_test("The formulation and route selection option is retrieved from request when set.", &TestAdjustmentTraitCreator::formulationAndRouteSelectionOptionIsRetrievedFromRequestWhenSet);
-    testAdjustmentTraitCreator.add_test("The formulation and route selection option is last formulation and route when not set.", &TestAdjustmentTraitCreator::formulationAndRouteSelectionOptionIsLastFormulationAndRouteWhenNotSet);
-    testAdjustmentTraitCreator.add_test("The last intake is correctly set in the XpertRequestResult when there is a treatment.", &TestAdjustmentTraitCreator::lastIntakeIsCorrectlySetWithTreatment);
-    testAdjustmentTraitCreator.add_test("The last intake is nullptr in the XpertRequestResult when there is no treatment.", &TestAdjustmentTraitCreator::lastIntakeIsNullptrWithoutTreatment);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator failure when treatment nullptr.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_failure_whenTreatmentNullptr);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator failure when drug model nullptr.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_failure_whenDrugModelNullptr);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets 20 points per hour.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_sets20PointsPerHour);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets good fixed computing options.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsGoodFixedComputingOptions);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets a priori parameter type when no dosage and no sample.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsAprioriParameterType_whenNoDosageAndNoSample);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets a priori parameter type when dosages but no sample.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsAprioriParameterType_whenDosagesButNoSample);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets a posteriori parameter type when dosages and samples.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsAposterioriParameterType_whenDosagesAndSamples);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct adjustment time when set in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectAdjustmentTime_whenSetInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets adjustment time to computing time plus one hour when not set in XpertRequest and no dosage history.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsAdjustmentTimeToComputingTimePlusOneHour_whenNotSetInXpertRequestAndNoDosageHistory);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets adjustment time to computing time plus one hour when not set in XpertRequest and future dosage hstory.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsAdjustmentTimeToComputingTimePlusOneHour_whenNotSetInXpertRequestAndFutureDosageHistory);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets adjustment time to next intake time when not set in XpertRequest and ongoing dosage history.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsAdjustmentTimeToNextIntakeTime_whenNotSetInXpertRequestAndOngoingDosageHistory);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets adjustment time with half-life approximation when not set in XpertRequest and completed dosage history.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsAdjustmentTimeWithHalfLifeApproximation_whenNotSetInXpertRequestAndCompletedDosageHistory);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets start and end dates correctly when standard treatment and dosage history.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsStartAndEndDatesCorrectly_whenStandardTreatmentAndDosageHistory);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets start and end dates correctly when standard treatment but no dosage history.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsStartAndEndDatesCorrectly_whenStandardTreatmentButNoDosageHistory);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator failure when standard treatment is over before adjustment time.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_failure_whenStandardTreatmentIsOverBeforeAdjustmentTime);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets start end dates on adjustment time when no standard treatment.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsStartEndDatesOnAdjustmentTime_whenNoStandardTreatment);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator best candidates option is best dosage per interval.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_bestCandidatesOptionIsBestDosagePerInterval);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct loading option when defined in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectLoadingOption_whenDefinedInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct loading option when not defined in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectLoadingOption_whenNotDefinedInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct rest period option when defined in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectRestPeriodOption_whenDefinedInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct rest period option when not defined in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectRestPeriodOption_whenNotDefinedInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets steady state target option to within treatment time range when standard treatment.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsSteadyStateTargetOptionToWithinTreatmentTimeRange_whenStandardTreatment);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets steady state target option to at steady state when no standard treatment.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsSteadyStateTargetOptionToAtSteadyState_whenNoStandardTreatment);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct target extraction option when set in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectTargetExtractionOption_whenSetInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct target extraction option when not set in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectTargetExtractionOption_whenNotSetInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct formulation and route selection option when set in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectFormulationAndRouteSelectionOption_whenSetInXpertRequest);
+    testAdjustmentTraitCreator.add_test("adjustmentTraitCreator sets correct formulation and route selection option when not set in XpertRequest.", &TestAdjustmentTraitCreator::adjustmentTraitCreator_setsCorrectFormulationAndRouteSelectionOption_whenNotSetInXpertRequest);
+    testAdjustmentTraitCreator.add_test("getLastIntake returns correct values when dosage history.", &TestAdjustmentTraitCreator::getLastIntake_returnsCorrectValues_whenDosageHistory);
+    testAdjustmentTraitCreator.add_test("getLastIntake returns nullptr when no dosage history.", &TestAdjustmentTraitCreator::getLastIntake_returnsNullptr_whenNoDosageHistory);
 
 
     res = testAdjustmentTraitCreator.run(argc, argv);
@@ -354,11 +355,13 @@ int main(int argc, char** argv)
 #if defined(test_requestexecutor)
     TestRequestExecutor testRequestExecutor;
 
-    testRequestExecutor.add_test("Get an error when request failed.", &TestRequestExecutor::errorWhenRequestFailed);
-    testRequestExecutor.add_test("Get correct adjustment data when request succeed.", &TestRequestExecutor::getCorrectAdjustmentDataWhenRequestSucceed);
-    testRequestExecutor.add_test("Get correct statistics when request succeed.", &TestRequestExecutor::getCorrectStatisticsWhenRequestSucceed);
-    testRequestExecutor.add_test("Get the typical, apriori and aposteriori parameters when the adjustment trait is aposteriori.", &TestRequestExecutor::getTypicalAprioriAposterioriParametersWhenAposterioriTrait);
-    testRequestExecutor.add_test("Get the typical and apriori parameters when the adjustment trait is apriori.", &TestRequestExecutor::getTypicalAprioriParametersWhenAprioriTrait);
+    testRequestExecutor.add_test("requestExecutor failure when adjustment trait nullptr.", &TestRequestExecutor::requestExecutor_failure_whenAdjustmentTraitNullptr);
+    testRequestExecutor.add_test("requestExecutor failure when drug model nullptr.", &TestRequestExecutor::requestExecutor_failure_whenDrugModelNullptr);
+    testRequestExecutor.add_test("requestExecutor failure when request execution failed.", &TestRequestExecutor::requestExecutor_failure_whenRequestExecutionFailed);
+    testRequestExecutor.add_test("requestExecutor gets correct adjustment data when request execution succeed.", &TestRequestExecutor::requestExecutor_getsCorrectAdjustmentData_whenRequestExecutionSucceed);
+    testRequestExecutor.add_test("requestExecutor gets the statistics when request execution succeed.", &TestRequestExecutor::requestExecutor_getsTheStatistics_whenRequestExecutionSucceed);
+    testRequestExecutor.add_test("requestExecutor gets typical apriori aposteriori parameters when aposteriori trait.", &TestRequestExecutor::requestExecutor_getsTypicalAprioriAposterioriParameters_whenAposterioriTrait);
+    testRequestExecutor.add_test("requestExecutor gets typical apriori parameters when apriori trait.", &TestRequestExecutor::requestExecutor_getsTypicalAprioriParameters_whenAprioriTrait);
 
     res = testRequestExecutor.run(argc, argv);
     if (res != 0) {

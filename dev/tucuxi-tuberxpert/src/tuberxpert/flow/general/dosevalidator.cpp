@@ -13,18 +13,15 @@ using namespace std;
 namespace Tucuxi {
 namespace Xpert {
 
-DoseValidator::DoseValidator()
-{}
-
 void DoseValidator::perform(XpertRequestResult& _xpertRequestResult)
 {
-    // Checks treatment
+    // Check if there is a treatment.
     if (_xpertRequestResult.getTreatment() == nullptr) {
         _xpertRequestResult.setErrorMessage("No treatment set.");
         return;
     }
 
-    // Checks drug model
+    // Check if there is a drug model.
     if (_xpertRequestResult.getDrugModel() == nullptr) {
         _xpertRequestResult.setErrorMessage("No drug model set.");
         return;
@@ -33,6 +30,7 @@ void DoseValidator::perform(XpertRequestResult& _xpertRequestResult)
     const Core::DosageHistory& dosageHistory = _xpertRequestResult.getTreatment()->getDosageHistory();
     const Core::FormulationAndRoutes& modelFormulationAndRoutes = _xpertRequestResult.getDrugModel()->getFormulationAndRoutes();
 
+    // Explore the dosage history to validate doses.
     try {
         map<const Core::SingleDose *, DoseValidationResult> results;
         checkDoses(dosageHistory, modelFormulationAndRoutes, results);
@@ -43,32 +41,33 @@ void DoseValidator::perform(XpertRequestResult& _xpertRequestResult)
 }
 
 void DoseValidator::checkDoses(const Core::DosageHistory& _dosageHistory,
-                               const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               map<const Core::SingleDose *, DoseValidationResult>& _doseResults) const
+                               const Core::FormulationAndRoutes& _modelFormulationsAndRoutes,
+                               map<const Core::SingleDose *, DoseValidationResult>& _results) const
 {
 
+    // For each dosage time range.
     for(const unique_ptr<Core::DosageTimeRange>& timeRange : _dosageHistory.getDosageTimeRanges()){
-        checkDoses(*timeRange, _modelFormulationAndRoutes, _doseResults);
+        checkDoses(*timeRange, _modelFormulationsAndRoutes, _results);
     }
 
 }
 
 void DoseValidator::checkDoses(const Core::DosageTimeRange& _timeRange,
-                               const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               map<const Core::SingleDose*, DoseValidationResult>& _doseResults) const
+                               const Core::FormulationAndRoutes& _modelFormulationsAndRoutes,
+                               map<const Core::SingleDose*, DoseValidationResult>& _results) const
 {
-    checkDoses(*_timeRange.getDosage(), _modelFormulationAndRoutes, _doseResults);
+    checkDoses(*_timeRange.getDosage(), _modelFormulationsAndRoutes, _results);
 }
 
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
-#define TRY_CHECK(Type)                                                                                       \
-    if (dynamic_cast<const Tucuxi::Core::Type*>(&_dosage)) {                                                  \
-    checkDoses(*dynamic_cast<const Tucuxi::Core::Type*>(&_dosage), _modelFormulationAndRoutes, _doseResults); \
+#define TRY_CHECK(Type)                                                                                    \
+    if (dynamic_cast<const Tucuxi::Core::Type*>(&_dosage)) {                                               \
+    checkDoses(*dynamic_cast<const Tucuxi::Core::Type*>(&_dosage), _modelFormulationsAndRoutes, _results); \
 }
 
 void DoseValidator::checkDoses(const Core::Dosage& _dosage,
-                               const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               std::map<const Core::SingleDose*, DoseValidationResult> &_doseResults) const
+                               const Core::FormulationAndRoutes& _modelFormulationsAndRoutes,
+                               std::map<const Core::SingleDose*, DoseValidationResult>& _results) const
 {
     // The calls order is important here.
     // First start with the subclasses, else it won't work
@@ -80,78 +79,86 @@ void DoseValidator::checkDoses(const Core::Dosage& _dosage,
 }
 
 void DoseValidator::checkDoses(const Core::DosageLoop& _dosageLoop,
-                               const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               map<const Core::SingleDose*, DoseValidationResult>& _doseResults) const
+                               const Core::FormulationAndRoutes& _modelFormulationsAndRoutes,
+                               map<const Core::SingleDose*, DoseValidationResult>& _results) const
 {
-    checkDoses(*_dosageLoop.getDosage(), _modelFormulationAndRoutes, _doseResults);
+    checkDoses(*_dosageLoop.getDosage(), _modelFormulationsAndRoutes, _results);
 }
 
 void DoseValidator::checkDoses(const Core::DosageRepeat& _dosageRepeat,
-                               const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               map<const Core::SingleDose*, DoseValidationResult>& _doseResults) const
+                               const Core::FormulationAndRoutes& _modelFormulationsAndRoutes,
+                               map<const Core::SingleDose*, DoseValidationResult>& _results) const
 {
-    checkDoses(*_dosageRepeat.getDosage(), _modelFormulationAndRoutes, _doseResults);
+    checkDoses(*_dosageRepeat.getDosage(), _modelFormulationsAndRoutes, _results);
 }
 
 void DoseValidator::checkDoses(const Core::DosageSequence& _dosageSequence,
-                               const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               map<const Core::SingleDose*, DoseValidationResult>& _doseResults) const
+                               const Core::FormulationAndRoutes& _modelFormulationsAndRoutes,
+                               map<const Core::SingleDose*, DoseValidationResult>& _results) const
 {
-    checkDosageBoundedList(_dosageSequence.getDosageList(), _modelFormulationAndRoutes, _doseResults);
+    checkDosageBoundedList(_dosageSequence.getDosageList(), _modelFormulationsAndRoutes, _results);
 }
 
 void DoseValidator::checkDoses(const Core::ParallelDosageSequence& _parallelDosageSequence,
-                               const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               map<const Core::SingleDose*, DoseValidationResult>& _doseResults) const
+                               const Core::FormulationAndRoutes& _modelFormulationsAndRoutes,
+                               map<const Core::SingleDose*, DoseValidationResult>& _results) const
 {
-    checkDosageBoundedList(_parallelDosageSequence.getDosageList(), _modelFormulationAndRoutes, _doseResults);
+    checkDosageBoundedList(_parallelDosageSequence.getDosageList(), _modelFormulationsAndRoutes, _results);
 }
 
 void DoseValidator::checkDosageBoundedList(const Core::DosageBoundedList& _dosageBoundedList,
-                                           const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                                           map<const Core::SingleDose*, DoseValidationResult>& _doseResults) const
+                                           const Core::FormulationAndRoutes& _modelFormulationsAndRoutes,
+                                           map<const Core::SingleDose*, DoseValidationResult>& _results) const
 {
+    // For each dosage.
     for (const std::unique_ptr<Tucuxi::Core::DosageBounded>& dosage : _dosageBoundedList) {
-        checkDoses(*dosage, _modelFormulationAndRoutes, _doseResults);
+        checkDoses(*dosage, _modelFormulationsAndRoutes, _results);
     }
 }
 
 void DoseValidator::checkDoses(const Core::SingleDose& _singleDose,
-                               const Core::FormulationAndRoutes& _modelFormulationAndRoutes,
-                               map<const Core::SingleDose*, DoseValidationResult>& _doseResults) const
+                               const Core::FormulationAndRoutes& _modelFormulationsAndRoutes,
+                               map<const Core::SingleDose*, DoseValidationResult>& _results) const
 {
-    // Get drug model dosage that correspond to the formulation and route.
-    const std::vector<std::unique_ptr<Core::FullFormulationAndRoute>>& ffrList = _modelFormulationAndRoutes.getList();
-    const Core::FullFormulationAndRoute* matchingFr = nullptr;
-
+    // Get the formulation and route from the model that is equal to the
+    // single dose formulation and route.
     const Core::FormulationAndRoute dosageFr = _singleDose.getLastFormulationAndRoute();
 
-    auto it = find_if(ffrList.begin(), ffrList.end(), [&dosageFr](const std::unique_ptr<Core::FullFormulationAndRoute>& ffr){
+    auto compatibleFormulationAndRouteIt = find_if(_modelFormulationsAndRoutes.getList().begin(),
+                                                   _modelFormulationsAndRoutes.getList().end(),
+                                                   [&dosageFr](const std::unique_ptr<Core::FullFormulationAndRoute>& ffr){
         return dosageFr == ffr->getFormulationAndRoute();
     });
 
     // Converting and comparing.
-    if (it != ffrList.end()) {
-        matchingFr = it.base()->get();
+    if (compatibleFormulationAndRouteIt !=  _modelFormulationsAndRoutes.getList().end()) {
+        const Core::FullFormulationAndRoute* ModelFormAndRoute = compatibleFormulationAndRouteIt.base()->get();
 
-        double value = Common::UnitManager::convertToUnit(_singleDose.getDose(), _singleDose.getDoseUnit(), matchingFr->getValidDoses()->getUnit());
+        // Convert the single dose value to match model formulation and route unit.
+        double value = Common::UnitManager::convertToUnit(_singleDose.getDose(), _singleDose.getDoseUnit(), ModelFormAndRoute->getValidDoses()->getUnit());
 
-        // Checking if in adviced limits and sets warning.
+        // Checking if limits are respected.
         string warning = "";
-        if(value < matchingFr->getValidDoses()->getFromValue()) {
-            // (for example in english) : warning = Minimum recommended dosage reached (1 mg/l)
+
+        // Too low.
+        if(value < ModelFormAndRoute->getValidDoses()->getFromValue()) {
+
+            // Set the warning message (for example in english) : warning = Minimum recommended dosage reached (1 mg/l)
             warning = LanguageManager::getInstance().translate("minimum_dosage_warning") +
-                    " (" + varToString(matchingFr->getValidDoses()->getFromValue()) + " " +  matchingFr->getValidDoses()->getUnit().toString() + ")";
-        } else if (value > matchingFr->getValidDoses()->getToValue()) {
-            // (for example in english) : warning = Maximum recommended dosage reached (1 mg/l)
+                    " (" + doubleToString(ModelFormAndRoute->getValidDoses()->getFromValue()) + " " +  ModelFormAndRoute->getValidDoses()->getUnit().toString() + ")";
+
+        // Too high.
+        } else if (value > ModelFormAndRoute->getValidDoses()->getToValue()) {
+
+            // Set the warning message (for example in english) : warning = Maximum recommended dosage reached (1 mg/l)
             warning = LanguageManager::getInstance().translate("maximum_dosage_warning") +
-                    " (" + varToString(matchingFr->getValidDoses()->getToValue()) + " " +  matchingFr->getValidDoses()->getUnit().toString() + ")";
+                    " (" + doubleToString(ModelFormAndRoute->getValidDoses()->getToValue()) + " " +  ModelFormAndRoute->getValidDoses()->getUnit().toString() + ")";
         }
 
-        _doseResults.emplace(make_pair(&_singleDose, DoseValidationResult(&_singleDose, warning)));
+        _results.emplace(make_pair(&_singleDose, DoseValidationResult(&_singleDose, warning)));
 
     } else {
-        throw invalid_argument("no corresponding full formulation and route found for a dosage.");
+        throw invalid_argument("No corresponding full formulation and route found for a dosage.");
     }
 
 }

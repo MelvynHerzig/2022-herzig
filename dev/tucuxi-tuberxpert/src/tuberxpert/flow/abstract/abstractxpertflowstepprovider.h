@@ -9,20 +9,20 @@ namespace Tucuxi {
 namespace Xpert {
 
 /// \brief Abstract class that must be implemented by xpert flow step providers.
-///        A drug xpert is an object responsible to provide the execution steps
-///        for a given drug. An execution step is:
-///        1) Validate covariates and select drug model
-///        2) Validate dosages
-///        3) Validate samples
-///        4) Validate targets
-///        5) Create adjustment trait
-///        6) Execute the requests
-///        7) Print the final report
+///        An xpert flow step provider is an object responsible for providing
+///        the execution steps for a given drug. An execution step is:
+///        - 1) Validate the covariates and select drug model
+///        - 2) Validate the doses
+///        - 3) Validate the samples
+///        - 4) Validate the targets
+///        - 5) Create the adjustment trait
+///        - 6) Execute the requests
+///        - 7) Print the adjustment report
 ///
-///        An execution step is an implementation of the abstract xpert flow step class.
+///        An flow step is an implementation of the AbstractXpertFlowStep class.
 ///
-///        The main interest of this factory system is to be able to offer a specific
-///        implementation for each drug: ImatinibXpertFlowStepProvider, RifampicinXpertFlowStepProvider...
+///        When necessary, this factory system allows to be able to offer a specific
+///        implementation for a drug: ImatinibXpertFlowStepProvider, RifampicinXpertFlowStepProvider...
 ///
 /// \date 20/06/2022
 /// \author Herzig Melvyn
@@ -31,7 +31,7 @@ class AbstractXpertFlowStepProvider
 
 public:
 
-    /// \brief Constructor. Simply set attributes to nullptr.
+    /// \brief Constructor. Simply set members to nullptr.
     AbstractXpertFlowStepProvider() :
         m_covariateValidatorAndModelSelector(nullptr),
         m_doseValidator(nullptr),
@@ -44,55 +44,55 @@ public:
     /// \brief Destructor.
     virtual ~AbstractXpertFlowStepProvider() {};
 
-    /// \brief Get the step responsible to validate the covariates and to select the drug model.
-    /// \return Return the corresponding AbstractXpertFlowStep.
+    /// \brief Get the step responsible for covariate validation and drug model selection.
+    /// \return The corresponding AbstractXpertFlowStep.
     virtual const std::unique_ptr<AbstractXpertFlowStep>& getCovariateValidatorAndModelSelector() const = 0;
 
-    /// \brief Get the step responsible to validate the doses.
-    /// \return Return the corresponding AbstractXpertFlowStep.
+    /// \brief Get the step responsible for doses validation.
+    /// \return The corresponding AbstractXpertFlowStep.
     virtual const std::unique_ptr<AbstractXpertFlowStep>& getDoseValidator() const = 0;
 
-    /// \brief Get the step responsible to validate the samples.
-    /// \return Return the corresponding AbstractXpertFlowStep.
+    /// \brief Get the step responsible for sample validation.
+    /// \return The corresponding AbstractXpertFlowStep.
     virtual const std::unique_ptr<AbstractXpertFlowStep>& getSampleValidator() const = 0;
 
-    /// \brief Get the step responsible to validate the targets.
-    /// \return Return the corresponding AbstractXpertFlowStep.
+    /// \brief Get the step responsible for target validation.
+    /// \return The corresponding AbstractXpertFlowStep.
     virtual const std::unique_ptr<AbstractXpertFlowStep>& getTargetValidator() const = 0;
 
-    /// \brief Get the step responsible to create the adjustment trait.
-    /// \return Return the corresponding AbstractXpertFlowStep.
+    /// \brief Get the step responsible for adjustment trait creation.
+    /// \return The corresponding AbstractXpertFlowStep.
     virtual const std::unique_ptr<AbstractXpertFlowStep>& getAdjustmentTraitCreator() const = 0;
 
-    /// \brief Get the step responsible to execute the requests.
-    /// \return Return the corresponding AbstractXpertFlowStep.
+    /// \brief Get the step responsible for request execution.
+    /// \return The corresponding AbstractXpertFlowStep.
     virtual const std::unique_ptr<AbstractXpertFlowStep>& getRequestExecutor() const = 0;
 
-    /// \brief Get the step responsible to print the report.
-    /// \return Return the corresponding AbstractXpertFlowStep.
+    /// \brief Get the step responsible for report generation.
+    /// \return The corresponding AbstractXpertFlowStep.
     virtual const std::unique_ptr<AbstractXpertFlowStep>& getReportPrinter() const = 0;
 
 protected:
 
-    /// \brief Step responsible to validate covariates and select the best drug model.
+    /// \brief The step responsible for covariate validation and drug model selection.
     std::unique_ptr<AbstractXpertFlowStep> m_covariateValidatorAndModelSelector;
 
-    /// \brief Step responsible to validate the doses.
+    /// \brief The step responsible for doses validation.
     std::unique_ptr<AbstractXpertFlowStep> m_doseValidator;
 
-    /// \brief Step responsible to validate the sampels.
+    /// \brief The step responsible for sample validation.
     std::unique_ptr<AbstractXpertFlowStep> m_sampleValidator;
 
-    /// \brief Step responsible to validate the targets.
+    /// \brief The step responsible for target validation.
     std::unique_ptr<AbstractXpertFlowStep> m_targetValidator;
 
-    /// \brief Step responsible to create the adjustment trait to submit.
+    /// \brief The step responsible for adjustment trait creation.
     std::unique_ptr<AbstractXpertFlowStep> m_adjustmentTraitCreator;
 
-    /// \brief Step responsible to submit the requests to the core.
+    /// \brief The step responsible for request execution.
     std::unique_ptr<AbstractXpertFlowStep> m_requestExecutor;;
 
-    /// \brief Step responsible to print the final report.
+    /// \brief The step responsible for report generation.
     std::unique_ptr<AbstractXpertFlowStep> m_reportPrinter;
 
 };

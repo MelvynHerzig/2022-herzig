@@ -5,8 +5,8 @@
 
     <queryId>imatinib</queryId>
     <clientId>124568</clientId>
-    <date>2022-06-24T13:45:30</date> <!-- Date that define the computation time -->
-    <language>en</language>
+    <date>2022-06-24T13:45:30</date> <!-- Date that defines the computation time -->
+    <language>en</language>          <!-- Unused --> 
 
     <admin>
 		<mandator>
@@ -17,7 +17,7 @@
 				<lastName>Doe</lastName>
 				<address>
 					<street>Av. de l'Ours 2</street>
-					<postCode>1010</postCode>
+					<postalCode>1010</postalCode>
 					<city>Lausanne</city>
 					<state>Vaud</state>
 					<country>Suisse</country>
@@ -36,7 +36,7 @@
 				<name>CHUV</name>
 				<address>
 					<street>Av. de l'Ours 1</street>
-					<postCode>1010</postCode>
+					<postalCode>1010</postalCode>
 					<city>Lausanne</city>
 					<state>Vaud</state>
 					<country>Suisse</country>
@@ -58,7 +58,7 @@
 				<lastName>Aupaysdesmerveilles</lastName>
 				<address>
 					<street>Av. d'Ouchy 27</street>
-					<postCode>1006</postCode>
+					<postalCode>1006</postalCode>
 					<city>Lausanne</city>
 					<state>Vaud</state>
 					<country>Suisse</country>
@@ -73,9 +73,9 @@
 				</email>
 			</person>
 		</patient>
-		<clinicalData>
-			<clinicalDataEntry key="uneNote">le contenu de la note</clinicalDataEntry>
-		</clinicalData>
+		<clinicalDatas>
+			<clinicalData key="uneNote">le contenu de la note</clinicalData>
+		</clinicalDatas>
 	</admin>
 
     <drugTreatment>
@@ -198,7 +198,7 @@
     </drugTreatment>
     <requests>
         <!-- List of the requests we want the TuberXpert to take care of -->
-        <requestXpert>
+        <xpertRequest>
             <drugId>imatinib</drugId>
             <output>
                 <format>pdf</format>
@@ -206,11 +206,11 @@
             </output>
             <adjustmentDate>2018-07-11T08:00:00</adjustmentDate>
             <options>
-                <loadingOption>LoadingDoseAllowed</loadingOption>
-                <restPeriodOption>RestPeriodAllowed</restPeriodOption>
+                <loadingOption>loadingDoseAllowed</loadingOption>
+                <restPeriodOption>restPeriodAllowed</restPeriodOption>
                 <targetExtractionOption>individualTargets</targetExtractionOption>
                 <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
             </options>
-        </requestXpert>
+        </xpertRequest>
     </requests>
 </query>

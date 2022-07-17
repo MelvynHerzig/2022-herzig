@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += console c++11
+CONFIG += console c++17
 CONFIG -= app_bundle
 CONFIG -= qt
 
@@ -18,7 +18,8 @@ include(../../tucuxi-core/make/qtcreator/tucuquery.pri)
 include(../src/tuberxpert/tuberxpert.pri)
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+        testutils.cpp
 
 !win32 {
     # Because of Eigen:
@@ -32,12 +33,12 @@ DEFINES+= \
     test_adjustmenttraitcreator \
     test_covariatevalidatorandmodelselector \
     test_dosevalidator \
-    test_globalresultcreation \
-    test_language \
+    test_xpertqueryresultcreation \
+    test_languagemanager \
     test_requestexecutor \
-    test_query \
     test_samplevalidator \
     test_targetvalidator \
+    test_xpertqueryimport \
     test_xpertquerytocoreextractor \
     test_xpertutils \
 
@@ -45,12 +46,13 @@ HEADERS += \
     test_adjustmenttraitcreator.h \
     test_covariatevalidatorandmodelselector.h \
     test_dosevalidator.h \
-    test_globalresultcreation.h \
+    test_xpertqueryresultcreation.h \
     test_languagemanager.h \
     test_requestexecutor.h \
     test_samplevalidator.h \
     test_targetvalidator.h \
     test_xpertqueryimport.h \
     test_xpertquerytocoreextractor.h \
-    test_xpertutils.h
+    test_xpertutils.h \
+    testutils.h
 

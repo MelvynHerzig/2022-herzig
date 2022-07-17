@@ -14,47 +14,46 @@ namespace Tucuxi {
 namespace Xpert {
 
 
-/// \brief This class evaluates patient's samples.
+/// \brief This class evaluates patient samples.
 ///
-///        Per sample, it makes an "a priori" percentile request and submits it to Tucuxi computing core.
-///        The request asks for the percentiles 1 - 99. Then, it locates the position of the sample in the result.
+///        Per sample, it makes an "a priori" percentile request and submits it to the Tucuxi computing core.
+///        The query asks for the percentiles 1 - 99, and then locates the position of the sample in the result.
 ///
-///        The group is a number from 1 to 100 that corresponds to the 100
-///        separations produced by de 99 percentiles.
+///        The group is a number from 1 to 100 that corresponds to the 100 separations produced by the 99 percentiles.
 ///
-///        If the group number is 1, the sample is located before the first percentile,
-///        if the group number is 2, the sample is located before the second percentile but after the first
-///        and so on...
+///        If the group number is 1, the sample is located before the first percentile.
+///        If the group number is 2, the sample is located before the second percentile but after the first.
+///        And so on...
 ///
 ///        The 100th group is the one that is after the 99th percentile.
 ///
-///        Each sample is evaluated. In futur version, maybe consider forgetting too old samples.
+///        Each sample is evaluated. In the future version, perhaps consider forgetting the too old samples.
+///
+///        It assumes that the LanguageManager is loaded with a complete translations file.
 /// \date 08/06/2022
 /// \author Herzig Melvyn
 class SampleValidator : public AbstractXpertFlowStep
 {
 public:
 
-    /// \brief Constructor.
-    SampleValidator();
-
-    /// \brief Evaluates each sample in the treatment from the XpertRequestResult.
+    /// \brief Evaluate each sample in the treatment from the XpertRequestResult.
     /// \param _xpertRequestResult XpertRequestResult containing samples to evaluate.
     void perform(XpertRequestResult& _xpertRequestResult);
 
 protected:
 
-    /// \brief Given a percentiles data (response from Tucuxi core) find where is located the sample.
-    ///        This methods only consider times[0] and concentrations[0] of the cycleData. Consider changing it
-    ///        when the cycleData implements the analytes featue.
-    /// \param _percentilesData Response from the core with 99 percentiles.
-    /// \param _sample Patient's sample to position.
-    /// \return Returns the position of sample relatively to the percentiles from 1 to 100.
-    /// \throw invalida_argument exception of the consersion of the sample to match the percentiles unit fails or if the
-    ///        sample date is not bound by any cycleData.
-    unsigned findGroupPositionOver99Percentiles(const Core::PercentilesData* _percentilesData, const std::unique_ptr<Core::Sample>& _sample) const;
+    /// \brief Given a percentiles data (Tucuxi core response) find where the sample is located.
+    ///        This methods only takes times[0] and concentrations[0] of the cycleData. Think to
+    ///        modify it when the cycleData will implement the analytes features.
+    /// \param _percentilesData Response of the core with 99 percentiles.
+    /// \param _sample The patient sample to be positioned.
+    /// \return The position of the sample with respect to the percentiles from 1 to 100.
+    /// \throw invalida_argument When the consversion of the sample to match the percentile unit
+    ///        fails or if the sample date is not linked to any cycleData.
+    unsigned findGroupPositionOver99Percentiles(const Core::PercentilesData* _percentilesData,
+                                                const std::unique_ptr<Core::Sample>& _sample) const;
 
-    // For testing purpose. the tests works with findGroupPositionOver99Percentiles and not with getSampleValidations. It is easier
+    // For testing purposes, the tests works with findGroupPositionOver99Percentiles and not with getSampleValidations. This is easier
     // because it allows us to forge our own percentiles data and to be able to predict the location of some predetermined samples.
     friend TestSampleValidator;
 };

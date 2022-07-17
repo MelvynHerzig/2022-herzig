@@ -12,21 +12,21 @@ unique_ptr<Core::DrugTreatment> XpertQueryToCoreExtractor::extractDrugTreatment(
         const XpertQueryData& _xpertQuery,
         string& _errorMessage) const
 {
-    string drugId = _xpertRequest->getDrugID();
+    // Identifier of the drug to extract.
+    string drugId = _xpertRequest->getDrugId();
 
-    // Gets the number of matching drugs by id.
-    auto drugDataBegin = _xpertQuery.getpParameters().getDrugs().begin();
-    auto drugDataEnd = _xpertQuery.getpParameters().getDrugs().end();
+    // Get the number of matching drugs.
+    auto drugsDataBegin = _xpertQuery.getpParameters().getDrugs().begin();
+    auto drugsDataEnd = _xpertQuery.getpParameters().getDrugs().end();
 
-    // Uses lambda to count the matching drug data.
-    int nbMatchingDrug = count_if(drugDataBegin, drugDataEnd, [drugId](const unique_ptr<Query::DrugData>& drugData) {
+    int nbMatchingDrug = count_if(drugsDataBegin, drugsDataEnd, [&drugId](const unique_ptr<Query::DrugData>& drugData) {
         if (drugData->getDrugID()  == drugId) {
             return true;
         }
         return false;
     });
 
-    // If there is none or multiple drugs matching.
+    // If there is no drug matching or multiple drugs matching.
     if (nbMatchingDrug != 1) {
         if (nbMatchingDrug == 0) {
             _errorMessage = "No drug matching. Could not extract drug treatment.";
@@ -36,13 +36,15 @@ unique_ptr<Core::DrugTreatment> XpertQueryToCoreExtractor::extractDrugTreatment(
         return nullptr;
     }
 
-    // There is only one drug matching, extract the tratment.
+    // There is only one drug matching. Extract the treatment.
+    // To do this, prepare a request data so that QueryToCoreExtractor::extractDrugTreatment
+    // can extract the correct treatment.
     string requestId = "";
     string drugModelId = "";
-    Query::RequestData rd {requestId, drugId, drugModelId, nullptr};
+    Query::RequestData requestData {requestId, drugId, drugModelId, nullptr};
 
     _errorMessage = "";
-    return QueryToCoreExtractor::extractDrugTreatment(_xpertQuery, rd);
+    return QueryToCoreExtractor::extractDrugTreatment(_xpertQuery, requestData);
 }
 
 } // namespace Xpert

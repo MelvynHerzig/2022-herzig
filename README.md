@@ -203,7 +203,7 @@ Example of TuberXpert request:
 <query>
     [...]
     <requests>
-		<requestXpert>
+		<xpertRequest>
             <drugId>imatinib</drugId>
             <output>
                 <format>pdf</format>
@@ -216,7 +216,7 @@ Example of TuberXpert request:
                 <targetExtractionOption>definitionIfNoIndividualTarget</targetExtractionOption>
                 <formulationAndRouteSelectionOption>lastFormulationAndRoute</formulationAndRouteSelectionOption>
             </options>
-        </requestXpert>
+        </xpertRequest>
         [...]
     </requests>
 </query>    

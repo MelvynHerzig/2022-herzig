@@ -11,67 +11,69 @@
 namespace Tucuxi {
 namespace Xpert {
 
-/// \brief Enum used to specify the source of a covariate
+/// \brief Enum used to specify the source of a covariate.
 enum class CovariateType {
-    Patient,
-    Model
+    Patient, /**< The covariate value comes from the query. It's the patient's value. */
+    Model    /**< The covariate value comes from the drug model. This is the default value. */
 };
 
-/// \brief This class stores results for patients covariates.
+/// \brief This class stores the validation result for a patient covariate.
+///        This class is created during the "covariate validator and model selector"
+///        phase. It's purpose is to tell what the computing core will receive:
 ///
-///        This class is created during the ModelSelector phase. It aims to
-///        tell what the computing core will receive:
-///
-///         - The value from the drugmodel
+///         - The value of the drugmodel.
 ///              or
-///         - The value from the patient + the drug model definition associated.
+///         - The patient value.
 ///
-///         When the value from the patient is used, it is possible to set a
-///         warning if the covariateDefinition validation is not respected.
+///         When the patient value is used, it is possible to set a
+///         warning if the validation of the covariate definition is not respected.
 /// \date 20/05/2022
 /// \author Herzig Melvyn
 class CovariateValidationResult : public AbstractValidationResult<Core::CovariateDefinition>
 {
 public:
 
-    /// \brief Constructor. Used in ModelSelector.
-    /// \param _definition. Associated drug model definition.
-    /// \param _patient Related patient covariate if present.
-    /// \param _warning Warning noticed.
+    /// \brief Constructor.
+    /// \param _definition Definition of the covariate in the drug model. Should never be nullptr.
+    ///                    The definition must have at least the same lifetime as this object.
+    /// \param _patient Patient-related covariate, if present. May be nullptr, if not defined.
+    ///                 The patient-related covariate must have at least the same lifetime as this object.
+    /// \param _warning Associated warning message.
     CovariateValidationResult(const Core::CovariateDefinition* _definition,
                     const Core::PatientCovariate* _patient,
                     const std::string& _warning);
 
-    /// \brief Gets the value (as string) of the covariate.
-    ///        If the patient is set, use it otherwise returns
-    ///        the value from the definition.
+    // Getters
+
+    /// \brief Get the value of the covariate. If the patient-related covariate is defined,
+    ///        it is used, otherwise it returns the value of the definition.
     /// \return The value.
     std::string getValue() const;
 
-    /// \brief Gets data type of the value
-    /// \return Return the data type of the falue
+    /// \brief Get the data type of the covariate value.
+    /// \return The data type.
     Core::DataType getDataType() const;
 
-    /// \brief Gets the data's unit of measure.
-    ///        If the patient is set, use it otherwise returns
-    ///        the unit from the definition.
-    /// \return Data's unit of measure.
+    /// \brief Get the unit of measurement of the value. If the patient is defined,
+    ///        it uses its unit, otherwise it uses the definition.
+    /// \return The measurement unit.
     Common::TucuUnit getUnit() const;
 
-    /// \brief Gets information about the source of getUnit and getValue
-    /// \return Return CovariateType::Patient if patient is not nullptr
+    /// \brief Get where the value, the unit and the data type come from.
+    /// \return CovariateType::Patient if it comes from the patient,
     ///         otherwise CovariateType::Model
     CovariateType getType() const;
 
 
-    /// \brief Gets the possible patientCovariate that override the definition.
-    /// \return The patient covariate. May be nullptr.
+    /// \brief Get the pointer on the patient covariate that overrides the definition.
+    ///        The pointer returned by this method must not to be deleted.
+    /// \return The pointer on the patient's covariate if it exists, otherwise nullptr.
     const Core::PatientCovariate* getPatient() const;
 
 
 protected:
 
-    /// \brief The possible patientCovariate that override the definition.
+    /// \brief The possible patient's covariate that overrides the definition.
     const Core::PatientCovariate* m_patient;
 
 };

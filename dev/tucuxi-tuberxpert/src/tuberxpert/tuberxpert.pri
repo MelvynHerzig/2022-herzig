@@ -51,8 +51,8 @@ HEADERS += \
     $$PWD/result/abstractvalidationresult.h \
     $$PWD/result/covariatevalidationresult.h \
     $$PWD/result/dosevalidationresult.h \
-    $$PWD/result/globalresult.h \
     $$PWD/result/samplevalidationresult.h \
+    $$PWD/result/xpertqueryresult.h \
     $$PWD/result/xpertrequestresult.h \
     $$PWD/utils/xpertutils.h
 
@@ -79,7 +79,7 @@ SOURCES += \
     $$PWD/query/xpertrequestdata.cpp \
     $$PWD/result/covariatevalidationresult.cpp \
     $$PWD/result/dosevalidationresult.cpp \
-    $$PWD/result/globalresult.cpp \
     $$PWD/result/samplevalidationresult.cpp \
+    $$PWD/result/xpertqueryresult.cpp \
     $$PWD/result/xpertrequestresult.cpp \
     $$PWD/utils/xpertutils.cpp

@@ -8,13 +8,15 @@ namespace Tucuxi {
 namespace Xpert {
 
 CovariateValidationResult::CovariateValidationResult(const Core::CovariateDefinition* _definition,
-                                 const Core::PatientCovariate* _patient,
-                                 const string& _warning):
-    AbstractValidationResult<Core::CovariateDefinition>(_definition, _warning), m_patient(_patient)
+                                                     const Core::PatientCovariate* _patient,
+                                                     const string& _warning):
+    AbstractValidationResult<Core::CovariateDefinition>(_definition, _warning),
+    m_patient(_patient)
 {}
 
-std::string CovariateValidationResult::getValue() const
+string CovariateValidationResult::getValue() const
 {
+    // If the patient's covariate is defined.
     if (m_patient != nullptr) {
         return m_patient->getValue();
     }
@@ -24,6 +26,7 @@ std::string CovariateValidationResult::getValue() const
 
 Core::DataType CovariateValidationResult::getDataType() const
 {
+    // If the patient's covariate is defined.
     if (m_patient != nullptr) {
         return m_patient->getDataType();
     }
@@ -33,6 +36,7 @@ Core::DataType CovariateValidationResult::getDataType() const
 
 Common::TucuUnit CovariateValidationResult::getUnit() const
 {
+    // If the patient's covariate is defined.
     if (m_patient != nullptr) {
         return m_patient->getUnit();
     }
@@ -42,6 +46,7 @@ Common::TucuUnit CovariateValidationResult::getUnit() const
 
 CovariateType CovariateValidationResult::getType() const
 {
+    // If the patient's covariate is defined.
     if (m_patient != nullptr) {
         return CovariateType::Patient;
     }

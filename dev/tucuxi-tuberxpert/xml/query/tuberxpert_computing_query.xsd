@@ -30,7 +30,7 @@
 			<xs:element name="requests">
 			<xs:complexType>
 		        <xs:sequence>
-				  	<xs:element name="requestXpert" type="requestXpertType" minOccurs="1" maxOccurs="unbounded"/>	
+				  	<xs:element name="xpertRequest" type="xpertRequestType" minOccurs="1" maxOccurs="unbounded"/>	
 		          	<xs:element name="request" type="requestType" minOccurs="0" maxOccurs="unbounded" />
 		        </xs:sequence>
 			</xs:complexType>
@@ -70,10 +70,10 @@
 				</xs:sequence>
 			</xs:complexType>	
 		</xs:element>
-		<xs:element name="clinicalData" minOccurs="0">
+		<xs:element name="clinicalDatas" minOccurs="0">
 			<xs:complexType>
 				<xs:sequence>
-					<xs:element name="clinicalDataEntry" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="clinicalData" minOccurs="0" maxOccurs="unbounded">
 						<xs:complexType>
 							<xs:simpleContent>
 								<xs:extension base="xs:string">
@@ -109,7 +109,7 @@
 <xs:complexType name="addressType">
 	<xs:sequence>
 		<xs:element name="street" type="xs:string" />
-		<xs:element name="postCode" >
+		<xs:element name="postalCode" >
 			<xs:simpleType>
 				 <xs:restriction base="xs:string">
 				 	<!-- 4 digit number that can't begin with a 0 -->
@@ -693,7 +693,7 @@ with the DosageHistory class and AbstractDosage subclasses -->
 	</xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="requestXpertType">
+<xs:complexType name="xpertRequestType">
 	<xs:sequence>
 		<xs:element name="drugId" type="xs:string" />
 		<xs:element name="output">

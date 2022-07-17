@@ -35,18 +35,22 @@ LanguageManager& LanguageManager::getInstance()
 
 string LanguageManager::translate(const string &key) const
 {
-    auto it = m_keyToEntry.find(key);
-    if (it != m_keyToEntry.end()) {
+    // Try to find the key.
+    auto it = m_keyToTranslation.find(key);
+
+    // Key found!
+    if (it != m_keyToTranslation.end()) {
         return it->second;
     }
+    // Key not found!
     else {
         return s_defaultTranslation;
     }
 }
 
-void LanguageManager::loadDictionary(const string& _xmlString)
+void LanguageManager::loadTranslations(const string& _xmlString)
 {
-    m_keyToEntry.clear();
+    m_keyToTranslation.clear();
     Common::XmlDocument document;
 
     if (_xmlString == "" || !document.fromString(_xmlString)) {
@@ -54,33 +58,33 @@ void LanguageManager::loadDictionary(const string& _xmlString)
     }
 
     Common::XmlNode root = document.getRoot();
-    Common::XmlNodeIterator it = root.getChildren();
+    Common::XmlNodeIterator childrenIt = root.getChildren();
 
 
     // Iterating over child elements of root.
-    while (it != Common::XmlNodeIterator::none()) {
+    while (childrenIt != Common::XmlNodeIterator::none()) {
 
-        // Checks if named correctly.
-        if (it->getName() != "entry") {
-            throw LanguageException("element name must be entry.");
+        // Check if the name of the element is correct.
+        if (childrenIt->getName() != "translation") {
+            throw LanguageException("Element name must be \"translation\".");
         }
 
-        // Checks if only attribute is "key".
-        Common::XmlAttributeIterator ait = it->getAttributes();
+        // Check if only attribute is named "key".
+        Common::XmlAttributeIterator attributeIt = childrenIt->getAttributes();
 
-        if (ait == Common::XmlAttributeIterator::none()) {
-            throw LanguageException("entry need one attribute.");
+        if (attributeIt == Common::XmlAttributeIterator::none()) {
+            throw LanguageException("Translation element needs one attribute.");
         }
 
-        while (ait != Common::XmlAttributeIterator::none()) {
-            if (ait->getName() != "key") {
-                throw LanguageException("attribute expected must be key.");
+        while (attributeIt != Common::XmlAttributeIterator::none()) {
+            if (attributeIt->getName() != "key") {
+                throw LanguageException("Only one attribute named \"key\" expected.");
             }
-            ait++;
+            attributeIt++;
         }
 
-        m_keyToEntry[it->getAttribute("key").getValue()] = it->getValue();
-        it++;
+        m_keyToTranslation[childrenIt->getAttribute("key").getValue()] = childrenIt->getValue();
+        childrenIt++;
     }
 }
 

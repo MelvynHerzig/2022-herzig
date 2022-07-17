@@ -12,135 +12,139 @@
 namespace Tucuxi {
 namespace Xpert {
 
-/// \brief This class exports an XpertRequestResult into xml.
+/// \brief This class exports an XpertRequestResult in xml.
+///
+///        If a value to export is nullptr, no node is created
+///        and added.
 /// \date 23/06/2022
 /// \author Herzig Melvyn
 class XpertRequestResultXmlExport : public AbstractXpertRequestResultExport, protected Query::ComputingQueryResponseXmlExport
 {
 public:
 
-    /// \brief Constructor.
-    XpertRequestResultXmlExport();
-
-    /// \brief Export the xpert request result to file. The export may fail. In that
-    ///        case, the error message of the XpertRequestResult gets set.
-    /// \param _xpertRequestResult Xpert request result to export.
+    /// \brief Export the result of the xpertRequest to a file. The export may fail. In this
+    ///        case, the XpertRequestResult error message is set.
+    /// \param _xpertRequestResult Result of the xpertRequest to export.
     void exportToFile(XpertRequestResult& _xpertRequestResult) override;
 
 protected:
 
-    /// \brief Transform the given XpertRequestResult into an XML string.
-    /// \param _xpertRequestResult XpertRequestResult to transform.
-    /// \param _xmlString Resulting string.
+    /// \brief Transforms the given XpertRequestResult into an XML string.
+    /// \param _xpertRequestResult Result of the xpertRequest to transform.
+    /// \param _xmlString The resulting xml string.
     void makeXmlString(const XpertRequestResult& _xpertRequestResult, std::string& _xmlString);
 
     /// \brief Create and append the "introduction" xml nodes: computation time, drugID, last dose and drug model id.
-    /// \param _xpertRequestResult XpertRquestResult to retrieve the information.
-    /// \param _rootNode Root node where to append the created nodes.
+    /// \param _xpertRequestResult XpertRquestResult to get the information.
+    /// \param _rootNode Root node where to add the created nodes.
     void exportDrugIntro(const XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
 
-    ///
     /// \brief Create and append the admin data.
     /// \param _admin AdminData to export.
-    /// \param _rootNode Root node where to append the creates nodes.
+    /// \param _rootNode  Root node where to add the created nodes.
     void exportAdminData(const std::unique_ptr<AdminData>& _admin, Common::XmlNode& _rootNode);
 
-    /// \brief Create and append a patient/mandator node to the admin node.
-    /// \param _fullPerson Information to export.
-    /// \param _adminNode Admin node where to append.
-    /// \param _nodeName Name of the node (expect "patient" or "mandator").
+    /// \brief Create and append a patient/mandator node to an admin node.
+    /// \param _fullPerson FullPerson information to export.
+    /// \param _adminNode Admin node where to add the created node.
+    /// \param _nodeName Name of the node to add. (Expect: "patient" or "mandator").
     void exportFullPersonData(const std::unique_ptr<FullPersonData>& _fullPerson, Common::XmlNode& _adminNode, const std::string& _nodeName);
 
     /// \brief Create and append a person node to a patient/mandator node.
+    ///        The identifier and the title are not exported if they are empty.
     /// \param _person Person data to export.
-    /// \param _patientMandatorNode Patient/mandator node where to append.
+    /// \param _patientMandatorNode Patient/mandator node where to add the created node.
     void exportPersonData(const PersonData& _person, Common::XmlNode& _patientMandatorNode);
 
-    /// \brief Create and append the institude node of a patient/mandator.
+    /// \brief Create and append an institude node to a patient/mandator node.
+    ///        The identifier is not exported if it is empty.
     /// \param _institute Institute data to export.
-    /// \param _patientMandatorNode Patient/mandator node where to append.
+    /// \param _patientMandatorNode Patient/mandator node where to add the created node.
     void exportInstituteData(const std::unique_ptr<InstituteData>& _institute, Common::XmlNode& _patientMandatorNode);
 
     /// \brief Create and append an address node to a person/institute node.
+    ///        The state and the country are not exported if they are empty.
     /// \param _address Address data to export.
-    /// \param _personInstitutNode Person/institute node where to append.
-    void exportAddressData(const std::unique_ptr<AddressData>& _address, Common::XmlNode& _personInstitutNode);
+    /// \param _personInstituteNode Person/institute node where to add the created node.
+    void exportAddressData(const std::unique_ptr<AddressData>& _address, Common::XmlNode& _personInstituteNode);
 
-    /// \brief Create and append an phone node to a person/institute node.
+    /// \brief Create and append a phone node to a person/institute node.
+    ///        The type is not exported if it is empty.
     /// \param _phone Phone data to export.
-    /// \param _personInstitutNode Person/institute node where to append.
-    void exportPhoneData(const std::unique_ptr<PhoneData>& _phone, Common::XmlNode& _personInstitutNode);
+    /// \param _personInstituteNode Person/institute node where to add the created node.
+    void exportPhoneData(const std::unique_ptr<PhoneData>& _phone, Common::XmlNode& _personInstituteNode);
 
-    /// \brief Create and append an Email node to a person/institute node.
+    /// \brief Create and append an email node to a person/institute node.
+    ///        The type is not exported if it is empty.
     /// \param _email Email data to export.
-    /// \param _personInstitutNode Person/institute node where to append.
-    void exportEmailData(const std::unique_ptr<EmailData>& _email, Common::XmlNode& _personInstitutNode);
+    /// \param _personInstituteNode Person/institute node where to add the created node.
+    void exportEmailData(const std::unique_ptr<EmailData>& _email, Common::XmlNode& _personInstituteNode);
 
-    /// \brief Create and append the clinicalData node to the admin node.
-    /// \param _clinicalData ClinicalData to export.
-    /// \param _adminNode Admin node where to append.
-    void exportClinicalData(const std::unique_ptr<ClinicalData>& _clinicalData, Common::XmlNode& _adminNode);
+    /// \brief Create and append a clinicalDatas node to an admin node.
+    /// \param _clinicalDatas Clinical data to export.
+    /// \param _adminNode Admin node where to add the created node.
+    void exportClinicalDatas(const std::unique_ptr<ClinicalDatas>& _clinicalDatas, Common::XmlNode& _adminNode);
 
-    /// \brief Create and append the covariates validation results.
+    /// \brief Create and append the covariates validation results nodes to the root node.
     /// \param _covariateResults Covariate validation results to export.
-    /// \param _rootNode Root node where to append.
+    /// \param _rootNode Root node where to add the created nodes.
     void exportCovariateResults(const std::vector<CovariateValidationResult>& _covariateResults, Common::XmlNode& _rootNode);
 
-    /// \brief Create and append the treatment node to the root node. Mainly use the inherithed methods.
+    /// \brief Create and append the treatment node to the root node.
     /// \param _treatment Treatment to export.
-    /// \param _rootNode Root node where to append.
+    /// \param _rootNode Root node where to add the created node.
     void exportTreatment(const std::unique_ptr<Core::DrugTreatment>& _treatment, Common::XmlNode& _rootNode);
 
-    /// \brief Override of the inherited method in order to include the warning related to a single dose.
-    ///        Create and append a dose to a parent node.
+    /// \brief Create and append a dose to a parent node.
+    ///        Override the inherited method to include the single dose warning.
     /// \param _dosage Single dose to export.
-    /// \param _parentNode Node where to append the single dose.
+    /// \param _parentNode Node where to add the created node.
     void exportDose(const Core::SingleDose& _dosage, Common::XmlNode& _parentNode) override;
 
-    /// \brief Create and append the sample results to the root node.
-    /// \param _sampleResults Sample results to export.
-    /// \param _rootNode Root node where to append.
+    /// \brief Create and append the sample validation results nodes to the root node.
+    /// \param _sampleResults Sample validation results to export.
+    /// \param _rootNode Root node where to add the created nodes.
     void exportSampleResults(const std::vector<SampleValidationResult>& _sampleResults, Common::XmlNode& _rootNode);
 
     /// \brief Create and append the adjustment data node to the root node.
     /// \param _adjustmentData Adjustment data to export.
-    /// \param _rootNode Root node where to append.
+    /// \param _rootNode Root node where to add the created node.
     void exportAdjustmentData(const std::unique_ptr<Core::AdjustmentData>& _adjustmentData, Common::XmlNode& _rootNode);
 
-    /// \brief Create and append a cycle data node to the cycleDatas node of an adjustment.
-    ///        Override the inherited method to only export the needed information and not
-    ///        the covariate, the statistics nor the parameters.
-    /// \param _cycleData Cycle data to export
-    /// \param _cycleDatasNode CycleDatas node where to append.
+    /// \brief Create and append a cycleData node to a cycleDatas node of an adjustment.
+    ///        Override inherited method to export only the needed information and not
+    ///        the covariates, the statistics and the parameters.
+    /// \param _cycleData Cycle data to export.
+    /// \param _cycleDatasNode CycleDatas node  where to add the created node.
     /// \return True.
     bool exportCycleData(const Core::CycleData& _cycleData, Common::XmlNode& _cycleDatasNode) override;
 
-    /// \brief Create and append the paramters values to the root node.
-    ///        It creates the parameters for typical and apriori types. If possible, it makes aposteriori.
+    /// \brief Create and append the parameter values to the root node.
+    ///        It creates the parameters for typical and a priori types. If possible, it makes a posteriori.
     /// \param _xpertRequestResult XpertRequestResult containing the parameters to export.
-    /// \param _rootNode Root node where to append.
+    /// \param _rootNode Root node where to add the created nodes.
     void exportParameters(const XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
 
-    /// \brief Create and append the statistics at steady state to the root node.
-    /// \param _xpertRequestResult XpertRequestResult containing the statistics at steady state.
-    /// \param _rootNode Root node where to append.
+    /// \brief Create and append the statistics at steady state nodes to the root node.
+    /// \param _xpertRequestResult XpertRequestResult containing the statistics at steady state to export.
+    /// \param _rootNode Root node where to add the created nodes.
     void exportStatistics(const XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
 
-    /// \brief Create and append the covariate used for the computation nodes to the root node.
-    /// \param _xpertRequestResult XpertRequestResult containing the covariates used during computation.
-    /// \param _rootNode Root node where to append.
+    /// \brief Create and append the covariates used during the computation nodes to the root node.
+    /// \param _xpertRequestResult XpertRequestResult containing the covariates used during computation to export.
+    /// \param _rootNode Root node where to add the created nodes.
     void exportComputationCovariates(const XpertRequestResult& _xpertRequestResult, Common::XmlNode& _rootNode);
 
-    /// \brief For a given validation result object, create and append its node to a parent node.
-    /// \param _validationResult Validation result value to export.
-    /// \param _parentNode Parent node where to append.
+    /// \brief For a given validation result object, create and append a warning node to a parent node.
+    /// \param _validationResult Validation result to export.
+    /// \param _parentNode Parent node where to add the created node.
     template<typename T>
     void exportWarning(const AbstractValidationResult<T>& _validationResult, Common::XmlNode& _parentNode) {
 
         if (!_validationResult.getWarning().empty()) {
             Common::XmlNode warningNode =
                     m_xmlDocument.createNode(Common::EXmlNodeType::Element, "warning", _validationResult.getWarning());
-            auto levelAttribute = m_xmlDocument.createAttribute("level", varToString(_validationResult.getWarningLevel()));
+            auto levelAttribute = m_xmlDocument.createAttribute("level", warningLevelToString(_validationResult.getWarningLevel()));
             warningNode.addAttribute(levelAttribute);
             _parentNode.addChild(warningNode);
         }
@@ -148,13 +152,13 @@ protected:
 
 protected:
 
-    /// \brief We keep a reference on the xml document variable in order to create xml nodes
-    ///        in any method without needing to pass it as argument everywhere.
+    /// \brief We keep a reference on the xml document variable to create xml nodes
+    ///        in any method without having to pass it as an argument everywhere.
     Common::XmlDocument m_xmlDocument;
 
-    /// \brief We need to keep a reference on the xpert request result in order
-    ///        to retreive the dose validation results map, to retreive
-    ///        the computation time and to retreive the output language.
+    /// \brief We need to keep a reference on the xpertRequest result
+    ///        to retreive the dose validation results map,
+    ///        the computation time and the output language.
     const XpertRequestResult* m_xpertRequestResultInUse;
 };
 
