@@ -30,10 +30,8 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
-                                        <queryId>rifampicin_1</queryId>
-                                        <clientId>124568</clientId>
+
                                         <date>2018-07-11T13:45:30</date>
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -131,10 +129,8 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                             <query version="1.0"
                                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                                 xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
-                                                <queryId>rifampicin_1</queryId>
-                                                <clientId>124568</clientId>
+
                                                 <date>2018-07-11T13:45:30</date>
-                                                <language>en</language>
 
                                                 <drugTreatment>
                                                     <!-- All the information regarding the patient -->
@@ -181,10 +177,8 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                             <query version="1.0"
                                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                                 xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
-                                                <queryId>rifampicin_1</queryId>
-                                                <clientId>124568</clientId>
+
                                                 <date>2018-07-11T13:45:30</date>
-                                                <language>en</language>
 
                                                 <admin>
                                                     <mandator>
@@ -436,10 +430,8 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                             <query version="1.0"
                                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                                 xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
-                                                <queryId>rifampicin_1</queryId>
-                                                <clientId>124568</clientId>
+
                                                 <date>2018-07-11T13:45:30</date>
-                                                <language>en</language>
 
                                                 <drugTreatment>
                                                     <!-- All the information regarding the patient -->
@@ -545,10 +537,8 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                             <query version="1.0"
                                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                                 xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
-                                                <queryId>rifampicin_1</queryId>
-                                                <clientId>124568</clientId>
+
                                                 <date>2018-07-11T13:45:30</date>
-                                                <language>en</language>
 
                                                 <drugTreatment>
                                                     <!-- All the information regarding the patient -->
@@ -653,10 +643,8 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                      <query version="1.0"
                                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                          xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
-                                         <queryId>rifampicin_1</queryId>
-                                         <clientId>124568</clientId>
+
                                          <date>2018-07-11T13:45:30</date>
-                                         <language>en</language>
 
                                          <drugTreatment>
                                              <!-- All the information regarding the patient -->

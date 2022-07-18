@@ -3,10 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-    <queryId>imatinib</queryId>
-    <clientId>124568</clientId>
     <date>2022-06-24T13:45:30</date> <!-- Date that defines the computation time -->
-    <language>en</language>          <!-- Unused --> 
 
     <admin>
 		<mandator>

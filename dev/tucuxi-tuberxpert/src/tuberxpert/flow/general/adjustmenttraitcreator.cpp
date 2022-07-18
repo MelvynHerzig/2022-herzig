@@ -292,7 +292,7 @@ void AdjustmentTraitCreator::getPeriod(const Core::FullFormulationAndRoute* _ful
 
     // If this is not a standard treatment.
     } else {
-        _start = _adjustmentTime - Common::Duration(std::chrono::hours(int(1)));;
+        _start = _adjustmentTime;
         _end = _start + Common::Duration(Common::days(int(7)));
     }
 }

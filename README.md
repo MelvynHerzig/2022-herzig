@@ -103,6 +103,8 @@ TuberXpert receives the runtime data trough an XML input file. The file follows 
 
 > Unlike tucuxi-core in which the date element is not really used. TuberXpert uses it to set the computation time. The computation time allows the user to define the "present" time to use when launching the computation. For example, to calculate an age from a date of birth, the difference is made between the computation time and the date of birth. This allows the user to simulate the execution not only in the present, but also in the past and the future.
 
+> However, to execute TuberXpert, the query does not require the queryId, clientId, language and request elements. These elements are accepted but ignored. The rest is unchanged.
+
 Only two elements differ from the base specification:
 
 <h4> <u>Administrative data:</u> </h4>

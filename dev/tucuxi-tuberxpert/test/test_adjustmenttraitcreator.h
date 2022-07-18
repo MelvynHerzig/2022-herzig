@@ -28,12 +28,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -84,12 +81,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -155,12 +149,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -230,12 +221,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -312,12 +300,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -387,12 +372,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -482,12 +464,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -590,12 +569,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -666,12 +642,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -739,12 +712,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -834,12 +804,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -932,12 +899,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -1029,12 +993,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>busulfan</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -1127,12 +1088,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>busulfan</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -1204,12 +1162,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>busulfan</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -1297,10 +1252,10 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
     }
 
     /// \brief This method checks that the start and end dates are placed in relation to the adjustment time.
-    ///        The start must correspond to the adjustment time minus one hour
+    ///        The start must correspond to the adjustment time.
     ///        The end must correspond to the start plus seven days.
-    ///        In this test, the adjustment time is 20.6.2022 20h. Therefore, the start should be 20.6.2022 19h
-    ///        and the end should be 27.6.2022 19h
+    ///        In this test, the adjustment time is 20.6.2022 20h. Therefore, the start should be 20.6.2022 20h
+    ///        and the end should be 27.6.2022 20h
     ///        There must be no error (i.e. shouldContinueProcessing returns true).
     ///        It doesn't matter if the adjustment time is manually set or not.
     /// \param _testName Name of the test
@@ -1309,12 +1264,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -1391,8 +1343,8 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
 
         // Compare
         fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
-        fructose_assert_eq(xpertRequestResult.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2022-06-20T19:00:00", TestUtils::date_format));
-        fructose_assert_eq(xpertRequestResult.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2022-06-27T19:00:00", TestUtils::date_format));
+        fructose_assert_eq(xpertRequestResult.getAdjustmentTrait()->getStart(),  Tucuxi::Common::DateTime("2022-06-20T20:00:00", TestUtils::date_format));
+        fructose_assert_eq(xpertRequestResult.getAdjustmentTrait()->getEnd(),  Tucuxi::Common::DateTime("2022-06-27T20:00:00", TestUtils::date_format));
     }
 
     /// \brief This method checks that best candidates option is best dosage per interval.
@@ -1404,12 +1356,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -1479,12 +1428,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -1560,12 +1506,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -1634,12 +1577,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -1715,12 +1655,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -1816,12 +1753,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>busulfan</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -1890,12 +1824,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -1963,12 +1894,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -2039,12 +1967,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -2112,12 +2037,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -2188,12 +2110,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -2260,12 +2179,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -2374,12 +2290,9 @@ struct TestAdjustmentTraitCreator : public fructose::test_base<TestAdjustmentTra
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->

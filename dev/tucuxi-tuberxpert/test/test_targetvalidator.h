@@ -27,12 +27,9 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2022-06-20T10:00:00</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -83,12 +80,9 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -154,12 +148,9 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib_2</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -227,12 +218,9 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib_2</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -320,12 +308,9 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib_2</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -415,12 +400,9 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
         std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="computing_query.xsd">
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-                                        <queryId>imatinib_2</queryId>
-                                        <clientId>124568</clientId>
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -485,7 +467,7 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
         // Compare
         fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "A target is related to an active moiety that does not belong to the drug model: ch.tucuxi.imatinib.gotta2012");
+        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "A target is related to an active moiety (randomactivemoiety) that does not belong to the drug model: ch.tucuxi.imatinib.gotta2012");
     }
 };
 

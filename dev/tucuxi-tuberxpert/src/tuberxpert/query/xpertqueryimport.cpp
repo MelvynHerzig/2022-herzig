@@ -56,8 +56,18 @@ Common::IImport::Status XpertQueryImport::importDocument(unique_ptr<XpertQueryDa
 
     Common::XmlNode root = _document.getRoot();
 
-    string queryId = root.getChildren(QUERY_ID_NODE_NAME)->getValue();
-    string clientId = root.getChildren(CLIENT_ID_NODE_NAME)->getValue();
+    auto queryIdIterator = root.getChildren(QUERY_ID_NODE_NAME);
+    string queryId = "";
+    if (queryIdIterator->isValid()) {
+        queryId = queryIdIterator->getValue();
+    }
+
+
+    auto clientIdIterator = root.getChildren(QUERY_ID_NODE_NAME);
+    string clientId = ""; root.getChildren(CLIENT_ID_NODE_NAME)->getValue();
+    if (clientIdIterator->isValid()) {
+        clientId = clientIdIterator->getValue();
+    }
 
     Common::XmlNodeIterator dateIterator = root.getChildren(DATE_NODE_NAME);
     Common::DateTime date;
@@ -65,7 +75,11 @@ Common::IImport::Status XpertQueryImport::importDocument(unique_ptr<XpertQueryDa
         date = extractDateTime(dateIterator);
     }
 
-    string language = root.getChildren(LANGUAGE_NODE_NAME)->getValue();
+    Common::XmlNodeIterator languageIterator = root.getChildren(LANGUAGE_NODE_NAME);
+    string language = "";
+    if (queryIdIterator->isValid()) {
+        language = languageIterator->getValue();
+    }
 
     unique_ptr<AdminData> pAdministrativeData = createAdminData(_document);
 
@@ -75,7 +89,6 @@ Common::IImport::Status XpertQueryImport::importDocument(unique_ptr<XpertQueryDa
     checkNodeIterator(requestsRootIterator, REQUESTS_NODE_NAME);
 
     vector<unique_ptr<Query::RequestData> > requests;
-
 
     requestsRootIterator = root.getChildren(REQUESTS_NODE_NAME);
     Common::XmlNodeIterator requestsXpertIterator = requestsRootIterator->getChildren(XPERT_REQUEST_REQUESTS_NODE_NAME);

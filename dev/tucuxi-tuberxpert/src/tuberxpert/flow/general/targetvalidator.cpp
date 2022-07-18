@@ -68,7 +68,7 @@ void TargetValidator::perform(XpertRequestResult& _xpertRequestResult)
 
         // If no active moiety found.
         if (activeMoietiesIt == modelActiveMoieties.end()) {
-            _xpertRequestResult.setErrorMessage("A target is related to an active moiety that does not belong to the drug model: " +
+            _xpertRequestResult.setErrorMessage("A target is related to an active moiety (" + target->getActiveMoietyId().toString() + ") that does not belong to the drug model: " +
                                                 _xpertRequestResult.getDrugModel()->getDrugModelId());
             return;
         }

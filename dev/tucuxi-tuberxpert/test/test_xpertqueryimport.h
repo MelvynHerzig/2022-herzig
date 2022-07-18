@@ -22,11 +22,9 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                    <query version="1.0"
                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                       xsi:noNamespaceSchemaLocation="custom_computing_query.xsd">
-                                       <queryId>rifampicin_1</queryId>
-                                       <clientId>124568</clientId>
-                                       <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                       <language>en</language>
+                                       xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
+
+                                       <date>2018-07-11T13:45:30</date>
 
                                        <admin>
                                            <mandator>
@@ -256,11 +254,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="custom_computing_query.xsd">
-                                        <queryId>rifampicin_1</queryId>
-                                        <clientId>124568</clientId>
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -330,11 +325,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="custom_computing_query.xsd">
-                                        <queryId>rifampicin_1</queryId>
-                                        <clientId>124568</clientId>
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <admin></admin>
 
@@ -410,11 +402,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="custom_computing_query.xsd">
-                                        <queryId>rifampicin_1</queryId>
-                                        <clientId>124568</clientId>
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <admin>
                                             <mandator>
@@ -519,11 +508,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="custom_computing_query.xsd">
-                                        <queryId>rifampicin_1</queryId>
-                                        <clientId>124568</clientId>
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <admin>
                                             <mandator>
@@ -629,9 +615,7 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="custom_computing_query.xsd">
-                                        <queryId>rifampicin_1</queryId>
-                                        <clientId>124568</clientId>
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
                                         <language>en</language>
 
@@ -808,11 +792,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="custom_computing_query.xsd">
-                                        <queryId>rifampicin_1</queryId>
-                                        <clientId>124568</clientId>
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <admin>
                                             <mandator>
@@ -900,11 +881,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="custom_computing_query.xsd">
-                                        <queryId>rifampicin_1</queryId>
-                                        <clientId>124568</clientId>
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <admin>
                                             <mandator>
@@ -1006,11 +984,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="custom_computing_query.xsd">
-                                        <queryId>rifampicin_1</queryId>
-                                        <clientId>124568</clientId>
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <admin>
                                             <patient>
@@ -1098,11 +1073,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="custom_computing_query.xsd">
-                                        <queryId>rifampicin_1</queryId>
-                                        <clientId>124568</clientId>
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <admin>
                                             <patient>
@@ -1204,11 +1176,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="custom_computing_query.xsd">
-                                        <queryId>rifampicin_1</queryId>
-                                        <clientId>124568</clientId>
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -1291,11 +1260,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="custom_computing_query.xsd">
-                                        <queryId>rifampicin_1</queryId>
-                                        <clientId>124568</clientId>
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -1367,11 +1333,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="custom_computing_query.xsd">
-                                        <queryId>rifampicin_1</queryId>
-                                        <clientId>124568</clientId>
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
@@ -1427,11 +1390,8 @@ struct TestXpertQueryImport : public fructose::test_base<TestXpertQueryImport>
         std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="custom_computing_query.xsd">
-                                        <queryId>rifampicin_1</queryId>
-                                        <clientId>124568</clientId>
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
                                         <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-                                        <language>en</language>
 
                                         <drugTreatment>
                                             <!-- All the information regarding the patient -->
