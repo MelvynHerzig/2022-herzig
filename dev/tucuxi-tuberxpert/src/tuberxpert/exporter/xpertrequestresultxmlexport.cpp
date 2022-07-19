@@ -361,7 +361,14 @@ void XpertRequestResultXmlExport::exportCovariateResults(const vector<CovariateV
         addNode(covariateNode, "unit", covariateValidationResult.getUnit().toString());
 
         //       <datatype>
-        addNode(covariateNode, "dataType", dataTypeToString(covariateValidationResult.getDataType()));
+        string dataType = dataTypeToString(covariateValidationResult.getDataType());
+
+        // If the source is "age" the data type is int.
+        if (covariateValidationResult.getSource()->getId() == "age") {
+            dataType = dataTypeToString(Core::DataType::Int);
+        }
+
+        addNode(covariateNode, "dataType", dataType);
 
         //       <desc>
         addNode(covariateNode, "desc", getStringWithEnglishFallback(covariateValidationResult.getSource()->getDescription(),
@@ -526,11 +533,46 @@ void XpertRequestResultXmlExport::exportAdjustmentData(const unique_ptr<Core::Ad
             //                  <max>
             addNode(targetEvaluationNode, "max", target.getTarget().getValueMax());
 
+
+            // --------------- /!\ TO ADD WHEN ADJUSTMENT DATA HAS TARGET INEFFICACY AND TOXICITY /!\ -----------
+
+//            //                  <inefficacyAlarm>
+//            addNode(targetEvaluationNode, "inefficacyAlarm", target.getTarget().getInefficacyAlarm());
+
+//            //                  <toxicityAlarm>
+//            addNode(targetEvaluationNode, "toxicityAlarm", target.getTarget().getToxicityAlarm());
+
+            // --------------- /!\                      END TO ADD                                /!\ -----------
+
+
+            // --------------- /!\ TO REMOVE WHEN ADJUSTMENT DATA HAS TARGET INEFFICACY AND TOXICITY /!\ -----------
+
+            // Get the active moieties and find the active moiety of the target
+            const Core::ActiveMoieties& activeMoieties = m_xpertRequestResultInUse->getDrugModel()->getActiveMoieties();
+            auto activeMoityIt = find_if(activeMoieties.begin(), activeMoieties.end(),
+                                         [&target](const unique_ptr<Core::ActiveMoiety>& activeMoiety){
+                return activeMoiety->getActiveMoietyId() == target.getTarget().getActiveMoietyId();
+            });
+
+            // Get the target definitions of the active moiety and search if there is a target definition that
+            // matches the current target type.
+            const Core::TargetDefinitions& modelTargets = (*activeMoityIt)->getTargetDefinitions();
+            auto targetDefinitionIt = find_if(modelTargets.begin(), modelTargets.end(),
+                                              [&target](const unique_ptr<Core::TargetDefinition>& targetDefinition) {
+               return targetDefinition->getTargetType() == target.getTargetType();
+            });
+
+            // Display the values of the definition if there is one, otherwise -1.
+            double inefficacyAlarm = targetDefinitionIt !=  modelTargets.end() ? (*targetDefinitionIt)->getInefficacyAlarm().getValue() : -1;
+            double toxicityAlarm = targetDefinitionIt   !=  modelTargets.end() ? (*targetDefinitionIt)->getToxicityAlarm().getValue()   : -1;
+
             //                  <inefficacyAlarm>
-            addNode(targetEvaluationNode, "inefficacyAlarm", target.getTarget().getInefficacyAlarm());
+            addNode(targetEvaluationNode, "inefficacyAlarm", inefficacyAlarm);
 
             //                  <toxicityAlarm>
-            addNode(targetEvaluationNode, "toxicityAlarm", target.getTarget().getToxicityAlarm());
+            addNode(targetEvaluationNode, "toxicityAlarm", toxicityAlarm);
+
+            // --------------- /!\                      END TO REMOVE                                 /!\ -----------
         }
 
         //          <dosageHistory>

@@ -43,7 +43,7 @@ void XpertRequestResultHtmlExport::exportToFile(const string& _fileName, XpertRe
         // Write the html body.
         fileStream << makeBodyString(_xpertRequestResult);
 
-    } catch (inja::RenderError e) {
+    } catch (inja::RenderError& e) {
         _xpertRequestResult.setErrorMessage("Failed to render html: " + string(e.what()));
         return ;
     }
@@ -660,7 +660,7 @@ string XpertRequestResultHtmlExport::makeBodyString(const XpertRequestResult& _x
 
        <<               "    <!-- Predictions -->" << endl
        <<               "    <div class='avoid-break-inside'>" << endl
-       <<               "        <h5 class='underline'> {{ predictions.translation }}</h5>" << endl
+       <<               "        <h4 class='underline'> {{ predictions.translation }}</h4>" << endl
        <<               "        <table class='predictions bg-light-grey'>" << endl
        <<               "            <tr>" << endl
        <<               "                <th>{{ predictions.extrapolated_steady_state_auc24_translation }}</th>" << endl
@@ -1454,15 +1454,56 @@ void XpertRequestResultHtmlExport::getTargetsJson(const unique_ptr<Core::Adjustm
         // Get the score
         targetJson["score"] = doubleToString(target.getScore());
 
+        // --------------- /!\ TO ADD WHEN ADJUSTMENT DATA HAS TARGET INEFFICACY AND TOXICITY /!\ -----------
+
+//        // Get the bounds
+//        stringstream boundsStream;
+//        boundsStream << langMgr.translate("inefficacy") << ": " << int(target.getTarget().getInefficacyAlarm()) << " / "
+//                     << "<b>"
+//                     << langMgr.translate("min") << ": " << int(target.getTarget().getValueMin()) << " / "
+//                     << langMgr.translate("best") << ": " << int(target.getTarget().getValueBest()) << " / "
+//                     << langMgr.translate("max") << ": " << int(target.getTarget().getValueMax()) << " / "
+//                     << "</b>"
+//                     << langMgr.translate("toxicity") << ": " << int(target.getTarget().getToxicityAlarm());
+
+        // --------------- /!\                      END TO ADD                                /!\ -----------
+
+
+        // --------------- /!\ TO REMOVE WHEN ADJUSTMENT DATA HAS TARGET INEFFICACY AND TOXICITY /!\ -----------
+
+        // Get the active moieties and find the active moiety of the target
+        const Core::ActiveMoieties& activeMoieties = m_xpertRequestResultInUse->getDrugModel()->getActiveMoieties();
+        auto activeMoityIt = find_if(activeMoieties.begin(), activeMoieties.end(),
+                                     [&target](const unique_ptr<Core::ActiveMoiety>& activeMoiety){
+            return activeMoiety->getActiveMoietyId() == target.getTarget().getActiveMoietyId();
+        });
+
+        // Get the target definitions of the active moiety and search if there is a target definition that
+        // matches the current target type.
+        const Core::TargetDefinitions& modelTargets = (*activeMoityIt)->getTargetDefinitions();
+        auto targetDefinitionIt = find_if(modelTargets.begin(), modelTargets.end(),
+                                          [&target](const unique_ptr<Core::TargetDefinition>& targetDefinition) {
+           return targetDefinition->getTargetType() == target.getTargetType();
+        });
+
+        // Display the values of the definition if there is one, otherwise -1.
+        string inefficacyAlarm = targetDefinitionIt !=  modelTargets.end() ?
+                    to_string(int((*targetDefinitionIt)->getInefficacyAlarm().getValue())) : langMgr.translate("unknown");
+        string toxicityAlarm = targetDefinitionIt   !=  modelTargets.end() ?
+                    to_string(int((*targetDefinitionIt)->getToxicityAlarm().getValue()))   : langMgr.translate("unknown");
+
+
         // Get the bounds
         stringstream boundsStream;
-        boundsStream << langMgr.translate("inefficacy") << ": " << int(target.getTarget().getInefficacyAlarm()) << " / "
+        boundsStream << langMgr.translate("inefficacy") << ": " << inefficacyAlarm << " / "
                      << "<b>"
                      << langMgr.translate("min") << ": " << int(target.getTarget().getValueMin()) << " / "
                      << langMgr.translate("best") << ": " << int(target.getTarget().getValueBest()) << " / "
                      << langMgr.translate("max") << ": " << int(target.getTarget().getValueMax()) << " / "
                      << "</b>"
-                     << langMgr.translate("toxicity") << ": " << int(target.getTarget().getToxicityAlarm());
+                     << langMgr.translate("toxicity") << ": " << toxicityAlarm;
+
+        // --------------- /!\                      END TO REMOVE                                 /!\ -----------
 
         targetJson["bounds"] = boundsStream.str();
 

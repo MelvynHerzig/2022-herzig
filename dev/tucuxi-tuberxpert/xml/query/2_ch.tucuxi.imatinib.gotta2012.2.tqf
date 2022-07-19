@@ -199,7 +199,7 @@
             <drugId>imatinib</drugId>
             <output>
                 <format>pdf</format>
-                <language>fr</language>
+                <language>en</language>
             </output>
             <adjustmentDate>2018-07-11T08:00:00</adjustmentDate>
             <options>

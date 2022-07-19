@@ -156,7 +156,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
     ///        - "1.0" Sex (no id) must be "Man"
     ///        - "0.0" Sex (no id) must be "Woman"
     ///        - "0.5" Sex (no id) must be "Undefined"
-    ///        - "42" Int age must be "42"
+    ///        - "42.00" Int age must be "42"
     ///        - "72.652222" Double bodyweight must be "72.65"
     /// \param _testName Name of the test.
     void beautifyString_behavesCorrectly(const std::string& _testName)
@@ -173,7 +173,7 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
         fructose_assert_eq(Tucuxi::Xpert::beautifyString("0.0", Tucuxi::Core::DataType::Double, "sex"), "Woman");
         fructose_assert_eq(Tucuxi::Xpert::beautifyString("0.5", Tucuxi::Core::DataType::Double, "sex"), "Undefined");
 
-        fructose_assert_eq(Tucuxi::Xpert::beautifyString("42", Tucuxi::Core::DataType::Int, "age"), "42");
+        fructose_assert_eq(Tucuxi::Xpert::beautifyString("42.00", Tucuxi::Core::DataType::Int, "age"), "42");
 
         fructose_assert_eq(Tucuxi::Xpert::beautifyString("72.652222", Tucuxi::Core::DataType::Double, "bodyweight"), "72.65");
     }

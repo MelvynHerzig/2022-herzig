@@ -149,6 +149,8 @@ string beautifyString(const string& _value, Core::DataType _type, const string& 
     // Only print two decimals if it is a double.
     } else if (_type == Core::DataType::Double && _id != "sex") {
         return doubleToString(stod(_value));
+    } else if (_type == Core::DataType::Int) {
+        return to_string(stoi(_value));
     }
 
     // Convert the value to man/woman/undefined for nice display.
