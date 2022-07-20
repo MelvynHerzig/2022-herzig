@@ -54,8 +54,8 @@ struct TestXpertUtils : public fructose::test_base<TestXpertUtils>
     {
         std::cout << _testName << std::endl;
 
-        fructose_assert_eq(Tucuxi::Xpert::covariateTypeToString(Tucuxi::Xpert::CovariateType::Model), "default");
-        fructose_assert_eq(Tucuxi::Xpert::covariateTypeToString(Tucuxi::Xpert::CovariateType::Patient), "patient");
+        fructose_assert_eq(Tucuxi::Xpert::covariateTypeToString(Tucuxi::Xpert::CovariateType::MODEL), "default");
+        fructose_assert_eq(Tucuxi::Xpert::covariateTypeToString(Tucuxi::Xpert::CovariateType::PATIENT), "patient");
         fructose_assert_exception(Tucuxi::Xpert::covariateTypeToString(Tucuxi::Xpert::CovariateType(-1)), std::invalid_argument);
     }
 

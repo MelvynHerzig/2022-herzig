@@ -229,10 +229,10 @@ Example of TuberXpert request:
 
 The program requires four arguments to run:
 
-* -i </path/to/xml/query> to indicate the location of the input/query xml file. There is a few examples in "_/dev/tucuxi-tuberxpert/xml/query_".
+* -i </path/to/xml/query> to indicate the location of the input/query xml file. There are a few examples in "_/dev/tucuxi-tuberxpert/xml/query_".
 * -o </path/to/directory/> to indicate where the result report should be printed.
-* -l </path/to/directory/with/translations> to indicate where are the translation files. Actually, TuberXpert supports English and French in "_/dev/tucuxi-tuberxpert/language_".
-* -d </path/to/drugfiles> to indicate where are the drug files (drug behavior information). There is a basic collection in "_/dev/tucuxi-drugs/drugfiles_".
+* -l </path/to/directory/with/translations> to indicate where the translation files are. Actually, TuberXpert supports English and French in "_/dev/tucuxi-tuberxpert/language_".
+* -d </path/to/drugfiles> to indicate where the drug model files are (drug behavior information). There is a basic collection in "_/dev/tucuxi-drugs/drugfiles_".
 
 <br>
 <h3> Report </h3>

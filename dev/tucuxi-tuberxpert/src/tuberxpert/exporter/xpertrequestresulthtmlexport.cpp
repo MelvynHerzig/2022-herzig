@@ -1076,9 +1076,9 @@ void XpertRequestResultHtmlExport::getCovariatesJson(const vector<CovariateValid
         // Format the value + unit + source
         stringstream valueStream;
 
-        if (cvr.getSource()->getId() == "age" && cvr.getPatient() != nullptr) {
+        if (cvr.getSource()->getId() == "age" && cvr.getPatientCovariate() != nullptr) {
             valueStream << int(getAgeIn(cvr.getSource()->getType(),
-                                        cvr.getPatient()->getValueAsDate(),
+                                        cvr.getPatientCovariate()->getValueAsDate(),
                                         m_xpertRequestResultInUse->getXpertQueryResult().getComputationTime()));
         } else {
             valueStream << value;
@@ -1093,8 +1093,8 @@ void XpertRequestResultHtmlExport::getCovariatesJson(const vector<CovariateValid
         covariateJson["value"] = valueStream.str();
 
         // Get the covariate date if it is a patient covariate
-        if (cvr.getPatient() != nullptr) {
-            covariateJson["date"] = dateTimeToString(cvr.getPatient()->getEventTime(), false);
+        if (cvr.getPatientCovariate() != nullptr) {
+            covariateJson["date"] = dateTimeToString(cvr.getPatientCovariate()->getEventTime(), false);
         }
 
         _covariatesJson["covariates"].emplace_back(covariateJson);

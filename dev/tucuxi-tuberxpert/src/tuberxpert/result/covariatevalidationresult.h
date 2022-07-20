@@ -13,8 +13,8 @@ namespace Xpert {
 
 /// \brief Enum used to specify the source of a covariate.
 enum class CovariateType {
-    Patient, /**< The covariate value comes from the query. It's the patient's value. */
-    Model    /**< The covariate value comes from the drug model. This is the default value. */
+    PATIENT, /**< The covariate value comes from the query. It's the patient's value. */
+    MODEL    /**< The covariate value comes from the drug model. This is the default value. */
 };
 
 /// \brief This class stores the validation result for a patient covariate.
@@ -68,13 +68,13 @@ public:
     /// \brief Get the pointer on the patient covariate that overrides the definition.
     ///        The pointer returned by this method must not to be deleted.
     /// \return The pointer on the patient's covariate if it exists, otherwise nullptr.
-    const Core::PatientCovariate* getPatient() const;
+    const Core::PatientCovariate* getPatientCovariate() const;
 
 
 protected:
 
     /// \brief The possible patient's covariate that overrides the definition.
-    const Core::PatientCovariate* m_patient;
+    const Core::PatientCovariate* m_patientCovariate;
 
 };
 

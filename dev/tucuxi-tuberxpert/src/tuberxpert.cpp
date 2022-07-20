@@ -45,8 +45,8 @@ bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, stri
         options.allow_unrecognised_options().add_options()
                 ("d,drugpath", "Drug files directory path", cxxopts::value<string>())
                 ("i,input", "Input request file path", cxxopts::value<string>())
-                ("o,outputpath", "Output response directory path", cxxopts::value<string>())
-                ("l,languagepath", "Language files directory path", cxxopts::value<string>())
+                ("o,outputpath", "Output report directory path", cxxopts::value<string>())
+                ("l,languagepath", "Translations files directory path", cxxopts::value<string>())
                 ("help", "Print help");
 
 
@@ -60,7 +60,7 @@ bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, stri
         if (result.count("drugpath") > 0) {
             drugPath = result["drugpath"].as<string>();
         } else {
-            cout << "The drug files directory is mandatory" << endl << endl;
+            cout << "The drug model files directory is mandatory" << endl << endl;
             cout << options.help({"", "Group"}) << endl;
             return false;
         }
@@ -69,7 +69,7 @@ bool parse(int argc, char* argv[], string& drugPath, string& inputFileName, stri
             inputFileName = result["input"].as<string>();
         }
         else {
-            cout << "The input file is mandatory" << endl << endl;
+            cout << "The input query file is mandatory" << endl << endl;
             cout << options.help({"", "Group"}) << endl;
             return false;
         }
@@ -127,8 +127,8 @@ int main(int argc, char** argv)
     logHelper.info("Tuberxpert console application is starting up...");
 
     // Computation start
-    Tucuxi::Xpert::Computer txc;
-    Tucuxi::Xpert::ComputingStatus result = txc.computeFromFile(drugPath, inputFileName, outputPath, languagePath);
+    Tucuxi::Xpert::Computer xpertComputer;
+    Tucuxi::Xpert::ComputingStatus result = xpertComputer.computeFromFile(drugPath, inputFileName, outputPath, languagePath);
 
     logHelper.info("Tuberxpert console application is exiting...");
     logHelper.info("********************************************************");

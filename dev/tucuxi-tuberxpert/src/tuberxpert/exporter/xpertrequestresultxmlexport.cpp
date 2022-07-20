@@ -339,8 +339,8 @@ void XpertRequestResultXmlExport::exportCovariateResults(const vector<CovariateV
         addNode(covariateNode, "covariateId", covariateValidationResult.getSource()->getId());
 
         //       <date>
-        if (covariateValidationResult.getPatient() != nullptr) {
-            addNode(covariateNode, "date", dateTimeToXmlString(covariateValidationResult.getPatient()->getEventTime()));
+        if (covariateValidationResult.getPatientCovariate() != nullptr) {
+            addNode(covariateNode, "date", dateTimeToXmlString(covariateValidationResult.getPatientCovariate()->getEventTime()));
         }
 
         //       <name>
@@ -348,9 +348,9 @@ void XpertRequestResultXmlExport::exportCovariateResults(const vector<CovariateV
                                                                     m_xpertRequestResultInUse->getXpertRequest().getOutputLang()));
 
         //       <value>
-        if (covariateValidationResult.getSource()->getId() == "age" && covariateValidationResult.getPatient() != nullptr) {
+        if (covariateValidationResult.getSource()->getId() == "age" && covariateValidationResult.getPatientCovariate() != nullptr) {
             int age = int(getAgeIn(covariateValidationResult.getSource()->getType(),
-                                   covariateValidationResult.getPatient()->getValueAsDate(),
+                                   covariateValidationResult.getPatientCovariate()->getValueAsDate(),
                                    m_xpertRequestResultInUse->getXpertQueryResult().getComputationTime()));
             addNode(covariateNode, "value", to_string(age));
         } else {

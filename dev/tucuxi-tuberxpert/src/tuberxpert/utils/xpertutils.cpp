@@ -44,8 +44,8 @@ string doubleToString(const double& _double)
 string covariateTypeToString(CovariateType _covariateType)
 {
     switch (_covariateType) {
-    case CovariateType::Model : return "default";
-    case CovariateType::Patient  : return "patient";
+    case CovariateType::MODEL : return "default";
+    case CovariateType::PATIENT  : return "patient";
     default : throw invalid_argument("Unknown covariate type"); // If properly  maintained, should never be used.
     }
 }

@@ -10596,7 +10596,7 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                         <desc lang='en'>Gastrointestinal stromal tumour</desc>
                                                     </description>
                                                     <unit>-</unit>
-                                                    <covariateType>standard</covariateType>
+                                                    <covariateType>standard</covaPATIENTpe>
                                                     <dataType>bool</dataType>
                                                     <interpolationType>direct</interpolationType>
                                                     <refreshPeriod>
@@ -10604,28 +10604,28 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
                                                       <value>1</value>
                                                     </refreshPeriod>
                                                     <covariateValue>
-                                                        <standardValue>0</standardValue>
+            MODEL                                       <standardValue>0</standardValue>
                                                     </covariateValue>
                                                     <validation>
                                                         <errorMessage>
                                                             <text lang='en'>Always correct.</text>
                                                         </errorMessage>
                                                         <operation>
-                                                            <softFormula>
+             MODEL                                          <softFormula>
                                                                 <inputs>
                                                                     <input>
                                                                         <id>gist</id>
                                                                         <type>bool</type>
                                                                     </input>
                                                                 </inputs>
-                                                                <code>
+       PATIENT                                                  <code>
                                                                     <![CDATA[return true;
                                                                     ]]>
                                                                 </code>
                                                             </softFormula>
                                                             <comments/>
                                                         </operation>
-                                                        <comments/>
+            PATIENT                                     <comments/>
                                                     </validation>
                                                     <comments/>
                                                 </covariate>
@@ -11244,35 +11244,35 @@ struct TestCovariateValidatorAndModelSelector : public fructose::test_base<TestC
         fructose_assert_eq(results[0].getValue(), "1990-01-01 00:00:00");
         fructose_assert_eq(results[0].getUnit().toString(), "");
         fructose_assert_eq(Tucuxi::Xpert::dataTypeToString(results[0].getDataType()), "date");
-        fructose_assert_eq(results[0].getType() == Tucuxi::Xpert::CovariateType::Patient, true);
+        fructose_assert_eq(results[0].getType() == Tucuxi::Xpert::CovariateType::PATIENT, true);
         fructose_assert_eq(results[0].getWarning(), "");
 
         fructose_assert_eq(results[1].getSource()->getId(), "gist");
         fructose_assert_eq(results[1].getValue(), "0.000000");
         fructose_assert_eq(results[1].getUnit().toString(), "-");
         fructose_assert_eq(Tucuxi::Xpert::dataTypeToString(results[1].getDataType()), "bool");
-        fructose_assert_eq(results[1].getType() == Tucuxi::Xpert::CovariateType::Model, true);
+        fructose_assert_eq(results[1].getType() == Tucuxi::Xpert::CovariateType::MODEL, true);
         fructose_assert_eq(results[1].getWarning(), "");
 
         fructose_assert_eq(results[2].getSource()->getId(), "sex");
         fructose_assert_eq(results[2].getValue(), "0.500000");
         fructose_assert_eq(results[2].getUnit().toString(), "-");
         fructose_assert_eq(Tucuxi::Xpert::dataTypeToString(results[2].getDataType()), "double");
-        fructose_assert_eq(results[2].getType() == Tucuxi::Xpert::CovariateType::Model, true);
+        fructose_assert_eq(results[2].getType() == Tucuxi::Xpert::CovariateType::MODEL, true);
         fructose_assert_eq(results[2].getWarning(), "");
 
         fructose_assert_eq(results[3].getSource()->getId(), "bodyweight");
         fructose_assert_eq(results[3].getValue(), "70");
         fructose_assert_eq(results[3].getUnit().toString(), "kg");
         fructose_assert_eq(Tucuxi::Xpert::dataTypeToString(results[3].getDataType()), "double");
-        fructose_assert_eq(results[3].getType() == Tucuxi::Xpert::CovariateType::Patient, true);
+        fructose_assert_eq(results[3].getType() == Tucuxi::Xpert::CovariateType::PATIENT, true);
         fructose_assert_eq(results[3].getWarning(), "");
 
         fructose_assert_eq(results[4].getSource()->getId(), "bodyweight");
         fructose_assert_eq(results[4].getValue(), "150000");
         fructose_assert_eq(results[4].getUnit().toString(), "g");
         fructose_assert_eq(Tucuxi::Xpert::dataTypeToString(results[4].getDataType()), "double");
-        fructose_assert_eq(results[4].getType() == Tucuxi::Xpert::CovariateType::Patient, true);
+        fructose_assert_eq(results[4].getType() == Tucuxi::Xpert::CovariateType::PATIENT, true);
         fructose_assert_eq(results[4].getWarning(), "The body weight shall be in the interval [44,100].");
     }
 };

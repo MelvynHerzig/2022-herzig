@@ -11,14 +11,14 @@ CovariateValidationResult::CovariateValidationResult(const Core::CovariateDefini
                                                      const Core::PatientCovariate* _patient,
                                                      const string& _warning):
     AbstractValidationResult<Core::CovariateDefinition>(_definition, _warning),
-    m_patient(_patient)
+    m_patientCovariate(_patient)
 {}
 
 string CovariateValidationResult::getValue() const
 {
     // If the patient's covariate is defined.
-    if (m_patient != nullptr) {
-        return m_patient->getValue();
+    if (m_patientCovariate != nullptr) {
+        return m_patientCovariate->getValue();
     }
 
     return Common::Utils::varToString(m_source->getValue());
@@ -27,8 +27,8 @@ string CovariateValidationResult::getValue() const
 Core::DataType CovariateValidationResult::getDataType() const
 {
     // If the patient's covariate is defined.
-    if (m_patient != nullptr) {
-        return m_patient->getDataType();
+    if (m_patientCovariate != nullptr) {
+        return m_patientCovariate->getDataType();
     }
 
     return m_source->getDataType();
@@ -37,8 +37,8 @@ Core::DataType CovariateValidationResult::getDataType() const
 Common::TucuUnit CovariateValidationResult::getUnit() const
 {
     // If the patient's covariate is defined.
-    if (m_patient != nullptr) {
-        return m_patient->getUnit();
+    if (m_patientCovariate != nullptr) {
+        return m_patientCovariate->getUnit();
     }
 
     return m_source->getUnit();
@@ -47,17 +47,17 @@ Common::TucuUnit CovariateValidationResult::getUnit() const
 CovariateType CovariateValidationResult::getType() const
 {
     // If the patient's covariate is defined.
-    if (m_patient != nullptr) {
-        return CovariateType::Patient;
+    if (m_patientCovariate != nullptr) {
+        return CovariateType::PATIENT;
     }
 
-    return CovariateType::Model;
+    return CovariateType::MODEL;
 }
 
 
-const Core::PatientCovariate* CovariateValidationResult::getPatient() const
+const Core::PatientCovariate* CovariateValidationResult::getPatientCovariate() const
 {
-    return m_patient;
+    return m_patientCovariate;
 }
 
 } // namespace Xpert

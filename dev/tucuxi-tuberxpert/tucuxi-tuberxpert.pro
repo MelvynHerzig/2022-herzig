@@ -31,8 +31,9 @@ SOURCES += \
 }
 
 OTHER_FILES += \
-    language/dictionary.xsd \
+    language/translations_file.xsd \
     language/en.xml \
     language/fr.xml \
-    query/tuberxpert_computing_query.xsd
+    xml/query/tuberxpert_computing_query.xsd \
+    xml/response/tuberxpert_computing_response.xsd \
 

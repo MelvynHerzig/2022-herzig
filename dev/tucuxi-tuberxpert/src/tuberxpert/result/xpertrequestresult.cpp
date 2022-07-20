@@ -117,8 +117,8 @@ void XpertRequestResult::setCovariateResults(vector<CovariateValidationResult>&&
         // Normally this if is always true. The only time there is the
         // same name is when the patient has multiple measures.
         // So, this is just a fool guard.
-        } else if(covValRes_1.getPatient() != nullptr && covValRes_2.getPatient() != nullptr){
-            return covValRes_1.getPatient()->getEventTime() < covValRes_2.getPatient()->getEventTime();
+        } else if(covValRes_1.getPatientCovariate() != nullptr && covValRes_2.getPatientCovariate() != nullptr){
+            return covValRes_1.getPatientCovariate()->getEventTime() < covValRes_2.getPatientCovariate()->getEventTime();
         }
 
         // Should never happen.
