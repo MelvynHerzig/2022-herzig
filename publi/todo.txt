@@ -5,3 +5,4 @@ TODO:
 - Annex on how to add a language: TuberXpert_add_language
 - Conclusion
 - Be consistent with method/class name maybe italic ?
+- Generate Doxygen tests and use it as annex for the documentation. Call it tuberxpert_test_documentation

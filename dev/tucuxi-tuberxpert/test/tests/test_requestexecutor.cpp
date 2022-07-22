@@ -1,171 +1,145 @@
-#ifndef TEST_REQUESTEXECUTOR_H
-#define TEST_REQUESTEXECUTOR_H
+#include "test_requestexecutor.h"
 
-#include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
-#include "tuberxpert/result/xpertqueryresult.h"
+using namespace std;
+using namespace Tucuxi;
 
-#include "testutils.h"
+void TestRequestExecutor::requestExecutor_failure_whenAdjustmentTraitNullptr(const string& _testName)
+{
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <query version="1.0"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
 
-#include "fructose/fructose.h"
+                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
 
-/// \brief Tests for RequestExecutor from the XpertFlowStepProvider.
-///        The tests use the AdjustmentTraitCreator object and assume
-///        that this object works as intended.
-/// \date 25/06/2022
-/// \author Herzig Melvyn
-struct TestRequestExecutor : public fructose::test_base<TestRequestExecutor>
+                                        <drugTreatment>
+                                            <!-- All the information regarding the patient -->
+                                            <patient>
+                                                <covariates>
+                                                </covariates>
+                                            </patient>
+                                            <!-- List of the drugs informations we have concerning the patient -->
+                                            <drugs>
+                                                <!-- All the information regarding the drug -->
+                                                <drug>
+                                                    <drugId>imatinib</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <!-- All the information regarding the treatment -->
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <!-- Samples history -->
+                                                    <samples>
+                                                    </samples>
+                                                    <!-- Personalised targets -->
+                                                    <targets>
+                                                    </targets>
+                                                </drug>
+                                            </drugs>
+                                        </drugTreatment>
+                                        <!-- List of the requests we want the server to take care of -->
+                                        <requests>
+                                            <xpertRequest>
+                                                <drugId>imatinib</drugId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>en</language>
+                                                </output>
+                                            </xpertRequest>
+                                        </requests>
+                                    </query>)";
+
+    cout << _testName << endl;
+
+    // Prepare the XpertRequestResult
+    vector<string> models {TestUtils::originalImatinibModelString};
+    unique_ptr<Xpert::XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryString, models, xpertQueryResult);
+
+    Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+
+    // Execute
+    TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
+
+    // Compare
+    fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
+    fructose_assert_eq(xpertRequestResult.getErrorMessage(), "No adjustment trait set.");
+}
+
+void TestRequestExecutor::requestExecutor_failure_whenDrugModelNullptr(const string& _testName)
+{
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <query version="1.0"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
+
+                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
+
+                                        <drugTreatment>
+                                            <!-- All the information regarding the patient -->
+                                            <patient>
+                                                <covariates>
+                                                </covariates>
+                                            </patient>
+                                            <!-- List of the drugs informations we have concerning the patient -->
+                                            <drugs>
+                                                <!-- All the information regarding the drug -->
+                                                <drug>
+                                                    <drugId>imatinib</drugId>
+                                                    <activePrinciple>something</activePrinciple>
+                                                    <brandName>somebrand</brandName>
+                                                    <atc>something</atc>
+                                                    <!-- All the information regarding the treatment -->
+                                                    <treatment>
+                                                        <dosageHistory>
+                                                        </dosageHistory>
+                                                    </treatment>
+                                                    <!-- Samples history -->
+                                                    <samples>
+                                                    </samples>
+                                                    <!-- Personalised targets -->
+                                                    <targets>
+                                                    </targets>
+                                                </drug>
+                                            </drugs>
+                                        </drugTreatment>
+                                        <!-- List of the requests we want the server to take care of -->
+                                        <requests>
+                                            <xpertRequest>
+                                                <drugId>imatinib</drugId>
+                                                <output>
+                                                    <format>xml</format>
+                                                    <language>en</language>
+                                                </output>
+                                            </xpertRequest>
+                                        </requests>
+                                    </query>)";
+
+    cout << _testName << endl;
+
+    // Prepare the XpertRequestResult
+    unique_ptr<Xpert::XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
+
+    Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+
+    // Execute
+    TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
+    xpertRequestResult.setDrugModel(nullptr);
+    TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
+
+    // Compare
+    fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
+    fructose_assert_eq(xpertRequestResult.getErrorMessage(), "No drug model set.");
+}
+
+void TestRequestExecutor::requestExecutor_failure_whenRequestExecutionFailed(const string& _testName)
 {
 
-    /// \brief Check that there is an error if the adjustment trait of an XpertRequestResult is nullptr
-    ///        in RequestExecutor.
-    ///        The RequestExecutor must set the error in the XpertRequestResult and
-    ///        shouldBeProcessed must return false
-    /// \param _testName Name of the test
-    void requestExecutor_failure_whenAdjustmentTraitNullptr(const std::string& _testName)
-    {
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                    <query version="1.0"
-                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
-
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-
-                                        <drugTreatment>
-                                            <!-- All the information regarding the patient -->
-                                            <patient>
-                                                <covariates>
-                                                </covariates>
-                                            </patient>
-                                            <!-- List of the drugs informations we have concerning the patient -->
-                                            <drugs>
-                                                <!-- All the information regarding the drug -->
-                                                <drug>
-                                                    <drugId>imatinib</drugId>
-                                                    <activePrinciple>something</activePrinciple>
-                                                    <brandName>somebrand</brandName>
-                                                    <atc>something</atc>
-                                                    <!-- All the information regarding the treatment -->
-                                                    <treatment>
-                                                        <dosageHistory>
-                                                        </dosageHistory>
-                                                    </treatment>
-                                                    <!-- Samples history -->
-                                                    <samples>
-                                                    </samples>
-                                                    <!-- Personalised targets -->
-                                                    <targets>
-                                                    </targets>
-                                                </drug>
-                                            </drugs>
-                                        </drugTreatment>
-                                        <!-- List of the requests we want the server to take care of -->
-                                        <requests>
-                                            <xpertRequest>
-                                                <drugId>imatinib</drugId>
-                                                <output>
-                                                    <format>xml</format>
-                                                    <language>en</language>
-                                                </output>
-                                            </xpertRequest>
-                                        </requests>
-                                    </query>)";
-
-        std::cout << _testName << std::endl;
-
-        // Prepare the XpertRequestResult
-        std::vector<std::string> models {TestUtils::originalImatinibModelString};
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult;
-        TestUtils::setupEnv(queryString, models, xpertQueryResult);
-
-        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
-
-        // Execute
-        TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
-
-        // Compare
-        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "No adjustment trait set.");
-    }
-
-    /// \brief The test loads an xpertRequest without assigning a drug model to it.
-    ///        The RequestExecutor must set the error in the XpertRequestResult,
-    ///        shouldBeProcessed must return false.
-    /// \param _testName Name of the test
-    void requestExecutor_failure_whenDrugModelNullptr(const std::string& _testName)
-    {
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                    <query version="1.0"
-                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
-
-                                        <date>2018-07-11T13:45:30</date> <!-- Date the xml has been sent -->
-
-                                        <drugTreatment>
-                                            <!-- All the information regarding the patient -->
-                                            <patient>
-                                                <covariates>
-                                                </covariates>
-                                            </patient>
-                                            <!-- List of the drugs informations we have concerning the patient -->
-                                            <drugs>
-                                                <!-- All the information regarding the drug -->
-                                                <drug>
-                                                    <drugId>imatinib</drugId>
-                                                    <activePrinciple>something</activePrinciple>
-                                                    <brandName>somebrand</brandName>
-                                                    <atc>something</atc>
-                                                    <!-- All the information regarding the treatment -->
-                                                    <treatment>
-                                                        <dosageHistory>
-                                                        </dosageHistory>
-                                                    </treatment>
-                                                    <!-- Samples history -->
-                                                    <samples>
-                                                    </samples>
-                                                    <!-- Personalised targets -->
-                                                    <targets>
-                                                    </targets>
-                                                </drug>
-                                            </drugs>
-                                        </drugTreatment>
-                                        <!-- List of the requests we want the server to take care of -->
-                                        <requests>
-                                            <xpertRequest>
-                                                <drugId>imatinib</drugId>
-                                                <output>
-                                                    <format>xml</format>
-                                                    <language>en</language>
-                                                </output>
-                                            </xpertRequest>
-                                        </requests>
-                                    </query>)";
-
-        std::cout << _testName << std::endl;
-
-        // Prepare the XpertRequestResult
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult;
-        TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
-
-        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
-
-        // Execute
-        TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
-        xpertRequestResult.setDrugModel(nullptr);
-        TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
-
-        // Compare
-        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "No drug model set.");
-    }
-
-    /// \brief This method modifies the trait of the XpertRequestResult to fail.
-    ///        The returned adjustmentData must be nullptr, the XpertRequestResult receives an error message
-    ///        and shouldContinuProcessing returns false.
-    /// \param _testName Name of the test
-    void requestExecutor_failure_whenRequestExecutionFailed(const std::string& _testName)
-    {
-
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -212,55 +186,50 @@ struct TestRequestExecutor : public fructose::test_base<TestRequestExecutor>
                                         </requests>
                                     </query>)";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Prepare the XpertRequestResult
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult;
-        TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
+    // Prepare the XpertRequestResult
+    unique_ptr<Xpert::XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+    Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
-        // Execute
-        // Prepare a new trait that is invalid by inverting start and end dates.
-        TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
-        std::unique_ptr<Tucuxi::Core::ComputingTraitAdjustment> baseTrait =
-                std::make_unique<Tucuxi::Core::ComputingTraitAdjustment>(*xpertRequestResult.getAdjustmentTrait());
+    // Execute
+    // Prepare a new trait that is invalid by inverting start and end dates.
+    TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
+    unique_ptr<Core::ComputingTraitAdjustment> baseTrait =
+            make_unique<Core::ComputingTraitAdjustment>(*xpertRequestResult.getAdjustmentTrait());
 
-        std::unique_ptr<Tucuxi::Core::ComputingTraitAdjustment> newInvalidTrait = nullptr;
-        newInvalidTrait = std::make_unique<Tucuxi::Core::ComputingTraitAdjustment>(
-                    "",
-                    baseTrait->getEnd(),
-                    baseTrait->getStart(),
-                    baseTrait->getNbPointsPerHour(),
-                    baseTrait->getComputingOption(),
-                    baseTrait->getAdjustmentTime(),
-                    Tucuxi::Core::BestCandidatesOption::BestDosage,
-                    baseTrait->getLoadingOption(),
-                    baseTrait->getRestPeriodOption(),
-                    baseTrait->getSteadyStateTargetOption(),
-                    baseTrait->getTargetExtractionOption(),
-                    baseTrait->getFormulationAndRouteSelectionOption()
-                    );
+    unique_ptr<Core::ComputingTraitAdjustment> newInvalidTrait = nullptr;
+    newInvalidTrait = make_unique<Core::ComputingTraitAdjustment>(
+                "",
+                baseTrait->getEnd(),
+                baseTrait->getStart(),
+                baseTrait->getNbPointsPerHour(),
+                baseTrait->getComputingOption(),
+                baseTrait->getAdjustmentTime(),
+                Core::BestCandidatesOption::BestDosage,
+                baseTrait->getLoadingOption(),
+                baseTrait->getRestPeriodOption(),
+                baseTrait->getSteadyStateTargetOption(),
+                baseTrait->getTargetExtractionOption(),
+                baseTrait->getFormulationAndRouteSelectionOption()
+                );
 
-        xpertRequestResult.setAdjustmentTrait(*newInvalidTrait);
+    xpertRequestResult.setAdjustmentTrait(*newInvalidTrait);
 
-        TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
+    TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
 
-        // Compare
-        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Adjustment request execution failed.");
-        fructose_assert_eq(xpertRequestResult.getAdjustmentData().get(), nullptr);
-    }
+    // Compare
+    fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
+    fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Adjustment request execution failed.");
+    fructose_assert_eq(xpertRequestResult.getAdjustmentData().get(), nullptr);
+}
 
-    /// \brief This method checks that when a valid adjustment request is made,
-    ///        the adjustmentData is not nullptr, houldContinuProcessing returns true and
-    ///        their is an adjustment in the adjustmentData.
-    ///
-    /// \param _testName Name of the test
-    void requestExecutor_getsCorrectAdjustmentData_whenRequestExecutionSucceed(const std::string& _testName)
-    {
+void TestRequestExecutor::requestExecutor_getsCorrectAdjustmentData_whenRequestExecutionSucceed(const string& _testName)
+{
 
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -307,32 +276,28 @@ struct TestRequestExecutor : public fructose::test_base<TestRequestExecutor>
                                         </requests>
                                     </query>)";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Prepare the XpertRequestResult
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult;
-        TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
+    // Prepare the XpertRequestResult
+    unique_ptr<Xpert::XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+    Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
-        // Execute
-        TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
-        TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
+    // Execute
+    TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
+    TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
 
-        // Compare
-        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
-        fructose_assert_ne(xpertRequestResult.getAdjustmentData().get(), nullptr);
-        fructose_assert_eq(xpertRequestResult.getAdjustmentData()->getAdjustments().empty(), false);
-    }
+    // Compare
+    fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
+    fructose_assert_ne(xpertRequestResult.getAdjustmentData().get(), nullptr);
+    fructose_assert_eq(xpertRequestResult.getAdjustmentData()->getAdjustments().empty(), false);
+}
 
-    /// \brief This method checks that when a valid adjustment request is performed,
-    ///        there are 9 statistics at steady state.
-    ///        The method shouldContinueProcessing must return true.
-    /// \param _testName Name of the test
-    void requestExecutor_getsTheStatistics_whenRequestExecutionSucceed(const std::string& _testName)
-    {
+void TestRequestExecutor::requestExecutor_getsTheStatistics_whenRequestExecutionSucceed(const string& _testName)
+{
 
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -384,33 +349,28 @@ struct TestRequestExecutor : public fructose::test_base<TestRequestExecutor>
                                         </requests>
                                     </query>)";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Prepare the XpertRequestResult
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult;
-        TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
+    // Prepare the XpertRequestResult
+    unique_ptr<Xpert::XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+    Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
-        // Execute
-        TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
-        TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
+    // Execute
+    TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
+    TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
 
-        // Compare
-        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
-        fructose_assert_eq(xpertRequestResult.getCycleStats().getStats().empty(), false);
-        fructose_assert_eq(xpertRequestResult.getCycleStats().getStats()[0].size(), 9);
-    }
+    // Compare
+    fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
+    fructose_assert_eq(xpertRequestResult.getCycleStats().getStats().empty(), false);
+    fructose_assert_eq(xpertRequestResult.getCycleStats().getStats()[0].size(), 9);
+}
 
-    /// \brief This method checks that the typical, apriori and aposteriori parameters are
-    ///        defined when the base trait of the XpertRequestResult is aposteriori. The parameters
-    ///        groups are not empty and they have the same size.
-    ///        The method shouldContinueProcessing must return true.
-    /// \param _testName Name of the test
-    void requestExecutor_getsTypicalAprioriAposterioriParameters_whenAposterioriTrait(const std::string& _testName)
-    {
+void TestRequestExecutor::requestExecutor_getsTypicalAprioriAposterioriParameters_whenAposterioriTrait(const string& _testName)
+{
 
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -490,35 +450,30 @@ struct TestRequestExecutor : public fructose::test_base<TestRequestExecutor>
                                         </requests>
                                     </query>)";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Prepare the XpertRequestResult
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult;
-        TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
+    // Prepare the XpertRequestResult
+    unique_ptr<Xpert::XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+    Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
-        // Execute
-        TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
-        TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
+    // Execute
+    TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
+    TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
 
-        // Compare
-        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
-        fructose_assert_eq(xpertRequestResult.getParameters().size(), 3);
-        fructose_assert_eq(xpertRequestResult.getParameters()[0].empty(), false);
-        fructose_assert_eq(xpertRequestResult.getParameters()[0].size(), xpertRequestResult.getParameters()[1].size());
-        fructose_assert_eq(xpertRequestResult.getParameters()[1].size(), xpertRequestResult.getParameters()[2].size());
-    }
+    // Compare
+    fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
+    fructose_assert_eq(xpertRequestResult.getParameters().size(), 3);
+    fructose_assert_eq(xpertRequestResult.getParameters()[0].empty(), false);
+    fructose_assert_eq(xpertRequestResult.getParameters()[0].size(), xpertRequestResult.getParameters()[1].size());
+    fructose_assert_eq(xpertRequestResult.getParameters()[1].size(), xpertRequestResult.getParameters()[2].size());
+}
 
-    /// \brief This method checks that the typical and apriori parameters are
-    ///        defined when the base trait of the XpertRequestResult is apriori. The parameters
-    ///        groups are not empty and they have the same size.
-    ///        The method shouldContinueProcessing must return true.
-    /// \param _testName Name of the test
-    void requestExecutor_getsTypicalAprioriParameters_whenAprioriTrait(const std::string& _testName)
-    {
+void TestRequestExecutor::requestExecutor_getsTypicalAprioriParameters_whenAprioriTrait(const string& _testName)
+{
 
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -565,24 +520,21 @@ struct TestRequestExecutor : public fructose::test_base<TestRequestExecutor>
                                         </requests>
                                     </query>)";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Prepare the XpertRequestResult
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult;
-        TestUtils::setupEnv(queryString,TestUtils::originalImatinibModelString, xpertQueryResult);
+    // Prepare the XpertRequestResult
+    unique_ptr<Xpert::XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryString,TestUtils::originalImatinibModelString, xpertQueryResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+    Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
-        // Execute
-        TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
-        TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
+    // Execute
+    TestUtils::flowStepProvider.getAdjustmentTraitCreator()->perform(xpertRequestResult);
+    TestUtils::flowStepProvider.getRequestExecutor()->perform(xpertRequestResult);
 
-        // Compare
-        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
-        fructose_assert_eq(xpertRequestResult.getParameters().size(), 2);
-        fructose_assert_eq(xpertRequestResult.getParameters()[0].empty(), false);
-        fructose_assert_eq(xpertRequestResult.getParameters()[0].size(), xpertRequestResult.getParameters()[1].size());;
-    }
-};
-
-#endif // TEST_REQUESTEXECUTOR_H
+    // Compare
+    fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
+    fructose_assert_eq(xpertRequestResult.getParameters().size(), 2);
+    fructose_assert_eq(xpertRequestResult.getParameters()[0].empty(), false);
+    fructose_assert_eq(xpertRequestResult.getParameters()[0].size(), xpertRequestResult.getParameters()[1].size());;
+}

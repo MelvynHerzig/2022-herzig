@@ -6,7 +6,7 @@
 #include "tuberxpert/flow/general/generalxpertflowstepprovider.h"
 #include "tuberxpert/query/xpertquerydata.h"
 
-/// \brief Class that regroup common elements used by multiple tests.
+/// \brief Class that regroups common elements used by several tests.
 /// \date 15/07/2022
 /// \author Herzig Melvyn
 class TestUtils

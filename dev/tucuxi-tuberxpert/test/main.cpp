@@ -1,47 +1,47 @@
 #include <iostream>
 
 #if defined(test_xpertutils)
-#include "test_xpertutils.h"
+#include "tests/test_xpertutils.h"
 #endif
 
 #if defined(test_languagemanager)
-#include "test_languagemanager.h"
+#include "tests/test_languagemanager.h"
 #endif
 
 #if defined(test_xpertqueryimport)
-#include "test_xpertqueryimport.h"
+#include "tests/test_xpertqueryimport.h"
 #endif
 
 #if defined(test_xpertquerytocoreextractor)
-#include "test_xpertquerytocoreextractor.h"
+#include "tests/test_xpertquerytocoreextractor.h"
 #endif
 
 #if defined(test_xpertqueryresultcreation)
-#include "test_xpertqueryresultcreation.h"
+#include "tests/test_xpertqueryresultcreation.h"
 #endif
 
 #if defined(test_covariatevalidatorandmodelselector)
-#include "test_covariatevalidatorandmodelselector.h"
+#include "tests/test_covariatevalidatorandmodelselector.h"
 #endif
 
 #if defined(test_dosevalidator)
-#include "test_dosevalidator.h"
+#include "tests/test_dosevalidator.h"
 #endif
 
 #if defined(test_samplevalidator)
-#include "test_samplevalidator.h"
+#include "tests/test_samplevalidator.h"
 #endif
 
 #if defined(test_targetvalidator)
-#include "test_targetvalidator.h"
+#include "tests/test_targetvalidator.h"
 #endif
 
 #if defined(test_adjustmenttraitcreator)
-#include "test_adjustmenttraitcreator.h"
+#include "tests/test_adjustmenttraitcreator.h"
 #endif
 
 #if defined(test_requestexecutor)
-#include "test_requestexecutor.h"
+#include "tests/test_requestexecutor.h"
 #endif
 
 
@@ -63,15 +63,15 @@ int main(int argc, char** argv)
 #if defined(test_xpertutils)
     TestXpertUtils xpertUtilsTests;
 
-    xpertUtilsTests.add_test("DataType to string behaves correctly with all dataTypes.", &TestXpertUtils::dataTypeToString_behavesCorrectly_withAllDataType);
+    xpertUtilsTests.add_test("DataType to string behaves correctly with all DataTypes.", &TestXpertUtils::dataTypeToString_behavesCorrectly_withAllDataType);
     xpertUtilsTests.add_test("Double to string behaves correctly.", &TestXpertUtils::doubleToString_behavesCorrectly);
-    xpertUtilsTests.add_test("CovariateType to string behaves correctly with all the covariateTypes.", &TestXpertUtils::covariateTypeToString_behavesCorrectly_withAllTheCovariateTypes);
-    xpertUtilsTests.add_test("OutputLang to string behaves correctly with all outputLang and unsupported values.", &TestXpertUtils::outputLangToString_behavesCorrectly_withAllOutputLangAndUnsupportedValues);
+    xpertUtilsTests.add_test("CovariateType to string behaves correctly with all the covariateTypes and unsupported values.", &TestXpertUtils::covariateTypeToString_behavesCorrectly_withAllTheCovariateTypesAndUnsupportedValues);
+    xpertUtilsTests.add_test("OutputLang to string behaves correctly with all output lang and unsupported values.", &TestXpertUtils::outputLangToString_behavesCorrectly_withAllOutputLangAndUnsupportedValues);
     xpertUtilsTests.add_test("WarningLevel to string behaves correctly with all warningLevel and unsupported values.", &TestXpertUtils::warningLevelToString_behavesCorrectly_withAllWarningLevelAndUnsupportedValues);
     xpertUtilsTests.add_test("DateTime to xml string behaves correctly.", &TestXpertUtils::dateTimeToXmlString_behavesCorrectly);
     xpertUtilsTests.add_test("Time to string behaves correctly.", &TestXpertUtils::timeToString_behavesCorrectly);
     xpertUtilsTests.add_test("DateTime to string behaves correctly.", &TestXpertUtils::dateTimeToString_behavesCorrectly);
-    xpertUtilsTests.add_test("Beautify strin _behaves correctly", &TestXpertUtils::beautifyString_behavesCorrectly);
+    xpertUtilsTests.add_test("Beautify string behaves correctly.", &TestXpertUtils::beautifyString_behavesCorrectly);
     xpertUtilsTests.add_test("Get string with english fallback behaves correctly.", &TestXpertUtils::getStringWithEnglishFallback_behavesCorrectly);
     xpertUtilsTests.add_test("Get oldest dosageTimeRange start behaves correctly.", &TestXpertUtils::getOldestDosageTimeRangeStart_behavesCorrectly);
     xpertUtilsTests.add_test("Get latest dosageTimeRange start behaves correctly.", &TestXpertUtils::getLatestDosageTimeRangeStart_behavesCorrectly);
@@ -129,7 +129,7 @@ int main(int argc, char** argv)
     testXpertQueryImports.add_test("xpert query import import error with missing mandatory values in complete patient person", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompletePatientPerson);
     testXpertQueryImports.add_test("xpert query import import error with missing mandatory values in complete patient institute", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryValuesInCompletePatientInstitute);
     testXpertQueryImports.add_test("xpert query import gets all values with complete XpertRequest", &TestXpertQueryImport::xpertQueryImport_getsAllValues_withCompleteXpertRequest);
-    testXpertQueryImports.add_test("xpert query import get default values with minimal XpertRequest", &TestXpertQueryImport::xpertQueryImport_getDefaultValues_WithMinimalXpertRequest);
+    testXpertQueryImports.add_test("xpert query import get default values with minimal XpertRequest", &TestXpertQueryImport::xpertQueryImport_getDefaultValues_withMinimalXpertRequest);
     testXpertQueryImports.add_test("xpert query import import error without XpertRequest", &TestXpertQueryImport::xpertQueryImport_importError_withoutXpertRequest);
     testXpertQueryImports.add_test("xpert query import import error with missing mandatory in XpertRequest", &TestXpertQueryImport::xpertQueryImport_importError_withMissingMandatoryInXpertRequest);
     testXpertQueryImports.add_test("xpert query import import error with file badly formatted", &TestXpertQueryImport::xpertQueryImport_importError_withFileBadlyFormatted);

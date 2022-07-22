@@ -19,6 +19,17 @@ include(../src/tuberxpert/tuberxpert.pri)
 
 SOURCES += \
         main.cpp \
+        tests/test_adjustmenttraitcreator.cpp \
+        tests/test_covariatevalidatorandmodelselector.cpp \
+        tests/test_dosevalidator.cpp \
+        tests/test_languagemanager.cpp \
+        tests/test_requestexecutor.cpp \
+        tests/test_samplevalidator.cpp \
+        tests/test_targetvalidator.cpp \
+        tests/test_xpertqueryimport.cpp \
+        tests/test_xpertqueryresultcreation.cpp \
+        tests/test_xpertquerytocoreextractor.cpp \
+        tests/test_xpertutils.cpp \
         testutils.cpp
 
 !win32 {
@@ -43,16 +54,16 @@ DEFINES+= \
     test_xpertutils \
 
 HEADERS += \
-    test_adjustmenttraitcreator.h \
-    test_covariatevalidatorandmodelselector.h \
-    test_dosevalidator.h \
-    test_xpertqueryresultcreation.h \
-    test_languagemanager.h \
-    test_requestexecutor.h \
-    test_samplevalidator.h \
-    test_targetvalidator.h \
-    test_xpertqueryimport.h \
-    test_xpertquerytocoreextractor.h \
-    test_xpertutils.h \
+    tests/test_adjustmenttraitcreator.h \
+    tests/test_covariatevalidatorandmodelselector.h \
+    tests/test_dosevalidator.h \
+    tests/test_xpertqueryresultcreation.h \
+    tests/test_languagemanager.h \
+    tests/test_requestexecutor.h \
+    tests/test_samplevalidator.h \
+    tests/test_targetvalidator.h \
+    tests/test_xpertqueryimport.h \
+    tests/test_xpertquerytocoreextractor.h \
+    tests/test_xpertutils.h \
     testutils.h
 

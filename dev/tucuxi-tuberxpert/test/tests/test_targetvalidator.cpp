@@ -1,30 +1,13 @@
-#ifndef TEST_TARGETVALIDATOR_H
-#define TEST_TARGETVALIDATOR_H
+#include "test_targetvalidator.h"
 
-#include <memory>
+using namespace std;
+using namespace Tucuxi;
 
-#include "tuberxpert/result/xpertqueryresult.h"
-
-#include "testutils.h"
-
-#include "fructose/fructose.h"
-
-/// \brief Tests for TargetValidator from the XpertFlowStepProvider.
-/// \date 09/06/2022
-/// \author Herzig Melvyn
-struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
+void TestTargetValidator::targetValidator_failure_whenTreatmentNullptr(const string& _testName)
 {
+    cout << _testName << endl;
 
-    /// \brief Check that there is an error if the treatment of an XpertRequestResult is nullptr
-    ///        in TargetValidator.
-    ///        The TargetValidator must set the error in the XpertRequestResult and
-    ///        shouldBeProcessed must return false
-    /// \param _testName Name of the test
-    void targetValidator_failure_whenTreatmentNullptr(const std::string& _testName)
-    {
-        std::cout << _testName << std::endl;
-
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -54,30 +37,26 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
                                         </requests>
                                     </query>)";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Prepare the XpertRequestResult
-        std::vector<std::string> models {TestUtils::originalImatinibModelString};
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult;
-        TestUtils::setupEnv(queryString, models, xpertQueryResult);
+    // Prepare the XpertRequestResult
+    vector<string> models {TestUtils::originalImatinibModelString};
+    unique_ptr<Xpert::XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryString, models, xpertQueryResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+    Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
-        // Execute
-        TestUtils::flowStepProvider.getTargetValidator()->perform(xpertRequestResult);
+    // Execute
+    TestUtils::flowStepProvider.getTargetValidator()->perform(xpertRequestResult);
 
-        // Compare
-        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "No treatment set.");
-    }
+    // Compare
+    fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
+    fructose_assert_eq(xpertRequestResult.getErrorMessage(), "No treatment set.");
+}
 
-    /// \brief The test loads an xpertRequest without assigning a drug model to it.
-    ///        The TargetValidator must set the error in the XpertRequestResult and
-    ///        shouldBeProcessed must return false.
-    /// \param _testName Name of the test
-    void targetValidator_failure_whenDrugModelNullptr(const std::string& _testName)
-    {
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+void TestTargetValidator::targetValidator_failure_whenDrugModelNullptr(const string& _testName)
+{
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -122,30 +101,27 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
                                         </requests>
                                     </query>)";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Prepare the XpertRequestResult
-        std::vector<std::string> models {TestUtils::originalImatinibModelString};
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult;
-        TestUtils::setupEnv(queryString, models, xpertQueryResult);
+    // Prepare the XpertRequestResult
+    vector<string> models {TestUtils::originalImatinibModelString};
+    unique_ptr<Xpert::XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryString, models, xpertQueryResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+    Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
-        // Execute
-        TestUtils::flowStepProvider.getTargetValidator()->perform(xpertRequestResult);
+    // Execute
+    TestUtils::flowStepProvider.getTargetValidator()->perform(xpertRequestResult);
 
-        // Compare
-        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "No drug model set.");
-    }
+    // Compare
+    fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
+    fructose_assert_eq(xpertRequestResult.getErrorMessage(), "No drug model set.");
+}
 
-    /// \brief This method performs a target validation with a treatment that does not specify custom targets.
-    ///        XpertRequestResult::shouldBeProcessed must return true.
-    /// \param _testName Name of the test
-    void targetValidator_success_whenNoTargetInTreatment(const std::string& _testName)
-    {
+void TestTargetValidator::targetValidator_success_whenNoTargetInTreatment(const string& _testName)
+{
 
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -192,30 +168,26 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
                                         </requests>
                                     </query>)";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Prepare the XpertRequestResult
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult;
-        TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
+    // Prepare the XpertRequestResult
+    unique_ptr<Xpert::XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+    Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
-        // Execute
-        TestUtils::flowStepProvider.getTargetValidator()->perform(xpertRequestResult);
+    // Execute
+    TestUtils::flowStepProvider.getTargetValidator()->perform(xpertRequestResult);
 
-        // Compare
-        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
-    }
+    // Compare
+    fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
+    fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
+}
 
-    /// \brief This method performs a target validation with a treatment that specifies custom targets
-    ///        that have the same active moiety and the sametarget type.
-    ///        The XpertRequestResult must have an error and shouldContinueProcessing must return false.
-    /// \param _testName Name of the test
-    void targetValidator_failure_whenTargetWithSameActiveMoietyAndTypeInTreatment(const std::string& _testName)
-    {
+void TestTargetValidator::targetValidator_failure_whenTargetWithSameActiveMoietyAndTypeInTreatment(const string& _testName)
+{
 
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -282,30 +254,26 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
                                         </requests>
                                     </query>)";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Prepare the XpertRequestResult
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult;
-        TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
+    // Prepare the XpertRequestResult
+    unique_ptr<Xpert::XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+    Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
-        // Execute
-        TestUtils::flowStepProvider.getTargetValidator()->perform(xpertRequestResult);
+    // Execute
+    TestUtils::flowStepProvider.getTargetValidator()->perform(xpertRequestResult);
 
-        // Compare
-        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Two patient's targets with the same active moiety and the same target type detected.");
-    }
+    // Compare
+    fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
+    fructose_assert_eq(xpertRequestResult.getErrorMessage(), "Two patient's targets with the same active moiety and the same target type detected.");
+}
 
-    /// \brief This method performs a target validation with a treatment that specifes custom targets
-    ///        that have the same active moiety but a different target type.
-    ///        The XpertRequestResult must not contain any errors and shouldContinueProcessing must return true.
-    /// \param _testName Name of the test
-    void targetValidator_success_whenTargetWithSameActiveMoietyButDifferentTypeInTreatment(const std::string& _testName)
-    {
+void TestTargetValidator::targetValidator_success_whenTargetWithSameActiveMoietyButDifferentTypeInTreatment(const string& _testName)
+{
 
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -374,30 +342,26 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
 
 
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Prepare the XpertRequestResult
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult;
-        TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
+    // Prepare the XpertRequestResult
+    unique_ptr<Xpert::XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+    Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
-        // Execute
-        TestUtils::flowStepProvider.getTargetValidator()->perform(xpertRequestResult);
+    // Execute
+    TestUtils::flowStepProvider.getTargetValidator()->perform(xpertRequestResult);
 
-        // Compare
-        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
-    }
+    // Compare
+    fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), true);
+    fructose_assert_eq(xpertRequestResult.getErrorMessage(), "");
+}
 
-    /// \brief This method performs a target validation with a treatment that specifes a custom target
-    ///        that has a different active moiety than the imatinib drug model.
-    ///        The XpertRequestResult must have an error and shouldContinueProcessing must return false.
-    /// \param _testName Name of the test
-    void targetValidator_failure_whenTreatmentTargetWithActiveMoietyNotInDrugModel(const std::string& _testName)
-    {
+void TestTargetValidator::targetValidator_failure_whenTreatmentTargetWithActiveMoietyNotInDrugModel(const string& _testName)
+{
 
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -454,21 +418,18 @@ struct TestTargetValidator : public fructose::test_base<TestTargetValidator>
                                         </requests>
                                     </query>)";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Prepare the XpertRequestResult
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryResult> xpertQueryResult;
-        TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
+    // Prepare the XpertRequestResult
+    unique_ptr<Xpert::XpertQueryResult> xpertQueryResult;
+    TestUtils::setupEnv(queryString, TestUtils::originalImatinibModelString, xpertQueryResult);
 
-        Tucuxi::Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
+    Xpert::XpertRequestResult& xpertRequestResult = xpertQueryResult->getXpertRequestResults()[0];
 
-        // Execute
-        TestUtils::flowStepProvider.getTargetValidator()->perform(xpertRequestResult);
+    // Execute
+    TestUtils::flowStepProvider.getTargetValidator()->perform(xpertRequestResult);
 
-        // Compare
-        fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
-        fructose_assert_eq(xpertRequestResult.getErrorMessage(), "A target is related to an active moiety (randomactivemoiety) that does not belong to the drug model: ch.tucuxi.imatinib.gotta2012");
-    }
-};
-
-#endif // TEST_TARGETVALIDATOR_H
+    // Compare
+    fructose_assert_eq(xpertRequestResult.shouldContinueProcessing(), false);
+    fructose_assert_eq(xpertRequestResult.getErrorMessage(), "A target is related to an active moiety (randomactivemoiety) that does not belong to the drug model: ch.tucuxi.imatinib.gotta2012");
+}

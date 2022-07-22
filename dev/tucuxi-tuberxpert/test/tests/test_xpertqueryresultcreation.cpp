@@ -1,32 +1,13 @@
-#ifndef TEST_GLOBALRESULTCREATION_H
-#define TEST_GLOBALRESULTCREATION_H
+#include "test_xpertqueryresultcreation.h"
 
-#include "fructose/fructose.h"
+using namespace std;
+using namespace Tucuxi;
 
-#include "testutils.h"
 
-#include "tuberxpert/language/languagemanager.h"
-#include "tuberxpert/query/xpertquerydata.h"
-#include "tuberxpert/query/xpertqueryimport.h"
-#include "tuberxpert/result/xpertqueryresult.h"
-
-/// \brief Tests for the creation of XpertQueryResult.
-///        This struct tests the XpertQueryResult constructor with various queries and checks
-///        that the expected values can be correctly retrieved.
-/// \date 25/05/2022
-/// \author Herzig Melvyn
-struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryResultCreation>
+void TestXpertQueryResultCreation::xpertQueryResultCreation_takesXpertQueryDataOwnership(const string& _testName)
 {
 
-    /// \brief Check that the ownership of the xpertQueryData is taken by XpertRequestResult.
-    ///        The test succeeds if the XpertQueryData pointer is not nullptr before the
-    ///        XpertQueryResult construction and if the XpertQueryData pointer is nullptr
-    ///        after the XpertQueryResult construction.
-    /// \param _testName Name of the test
-    void xpertQueryResultCreation_takesXpertQueryDataOwnership(const std::string& _testName)
-    {
-
-        std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -100,32 +81,26 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                     </query>
                                     )";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
+    unique_ptr<Xpert::XpertQueryData> query = nullptr;
 
-        Tucuxi::Xpert::XpertQueryImport importer;
-        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
+    Xpert::XpertQueryImport importer;
+    Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        // Must not be nullptr.
-        fructose_assert_ne(query.get(), nullptr);
+    // Must not be nullptr.
+    fructose_assert_ne(query.get(), nullptr);
 
-        Tucuxi::Xpert::XpertQueryResult xpertQueryResult(std::move(query), "");
+    Xpert::XpertQueryResult xpertQueryResult(move(query), "");
 
-        fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(query.get(), nullptr);
-    }
+    fructose_assert_eq(importResult, Xpert::XpertQueryImport::Status::Ok);
+    fructose_assert_eq(query.get(), nullptr);
+}
 
-    /// \brief Check that the admin data are correctly retrieved.
-    ///        The test imports two xpert queries.
-    ///        The first one has no admin element. Using XpertQueryResult::getAdminData, the value is nullptr.
-    ///        The second one has a full admin element. When using XpertQueryResult::getAdminData, all
-    ///        values of the admin element can be retrieved.
-    /// \param _testName Name of the test
-    void getAdminDataOfXpertQueyResult_returnsCorrectValues_withOrWithoutAdminInQuery(const std::string& _testName)
-    {
+void TestXpertQueryResultCreation::getAdminDataOfXpertQueyResult_returnsCorrectValues_withOrWithoutAdminInQuery(const string& _testName)
+{
 
-        std::string emptyAdminString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string emptyAdminString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                             <query version="1.0"
                                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                                 xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -173,7 +148,7 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                             </query>
                                             )";
 
-        std::string fullAdminString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string fullAdminString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                             <query version="1.0"
                                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                                 xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -311,122 +286,105 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                             </query>
                                             )";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Import the queries
+    // Import the queries
 
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> queryEmptyAdmin = nullptr;
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> queryCompleteAdmin = nullptr;
+    unique_ptr<Xpert::XpertQueryData> queryEmptyAdmin = nullptr;
+    unique_ptr<Xpert::XpertQueryData> queryCompleteAdmin = nullptr;
 
-        Tucuxi::Xpert::XpertQueryImport importer;
-        Tucuxi::Xpert::XpertQueryImport::Status importResultEmptyAdmin = importer.importFromString(queryEmptyAdmin, emptyAdminString);
-        Tucuxi::Xpert::XpertQueryImport::Status importResultFullAdmin = importer.importFromString(queryCompleteAdmin, fullAdminString);
+    Xpert::XpertQueryImport importer;
+    Xpert::XpertQueryImport::Status importResultEmptyAdmin = importer.importFromString(queryEmptyAdmin, emptyAdminString);
+    Xpert::XpertQueryImport::Status importResultFullAdmin = importer.importFromString(queryCompleteAdmin, fullAdminString);
 
-        // Execute
+    // Execute
 
-        Tucuxi::Xpert::XpertQueryResult xpertQueryResultWithEmptyAdmin(std::move(queryEmptyAdmin), "");
-        Tucuxi::Xpert::XpertQueryResult xpertQueryResultWithFullAdmin(std::move(queryCompleteAdmin), "");
+    Xpert::XpertQueryResult xpertQueryResultWithEmptyAdmin(move(queryEmptyAdmin), "");
+    Xpert::XpertQueryResult xpertQueryResultWithFullAdmin(move(queryCompleteAdmin), "");
 
-        // Compare
+    // Compare
 
-        fructose_assert_eq(importResultEmptyAdmin, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(importResultFullAdmin, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
+    fructose_assert_eq(importResultEmptyAdmin, Xpert::XpertQueryImport::Status::Ok);
+    fructose_assert_eq(importResultFullAdmin, Xpert::XpertQueryImport::Status::Ok);
 
-        fructose_assert_eq(xpertQueryResultWithEmptyAdmin.getAdminData().get(), nullptr);
-        fructose_assert_ne(xpertQueryResultWithFullAdmin.getAdminData().get(), nullptr);
+    fructose_assert_eq(xpertQueryResultWithEmptyAdmin.getAdminData().get(), nullptr);
+    fructose_assert_ne(xpertQueryResultWithFullAdmin.getAdminData().get(), nullptr);
 
-        const Tucuxi::Xpert::PersonData& mandator = xpertQueryResultWithFullAdmin.getAdminData()->getMandator()->getPerson();
-        const Tucuxi::Xpert::AddressData& mandatorAddress = *mandator.getAddress();
-        const Tucuxi::Xpert::PhoneData& mandatorPhone = *mandator.getPhone();
-        const Tucuxi::Xpert::EmailData& mandatorEmail = *mandator.getEmail();
-        const Tucuxi::Xpert::InstituteData& mandatorInstitute = *xpertQueryResultWithFullAdmin.getAdminData()->getMandator()->getInstitute();
-        const Tucuxi::Xpert::AddressData& mandatorInstituteAddress = *mandatorInstitute.getAddress();
-        const Tucuxi::Xpert::PhoneData& mandatorInstitutePhone = *mandatorInstitute.getPhone();
-        const Tucuxi::Xpert::EmailData& mandatorInstituteEmail = *mandatorInstitute.getEmail();
+    const Xpert::PersonData& mandator = xpertQueryResultWithFullAdmin.getAdminData()->getMandator()->getPerson();
+    const Xpert::AddressData& mandatorAddress = *mandator.getAddress();
+    const Xpert::PhoneData& mandatorPhone = *mandator.getPhone();
+    const Xpert::EmailData& mandatorEmail = *mandator.getEmail();
+    const Xpert::InstituteData& mandatorInstitute = *xpertQueryResultWithFullAdmin.getAdminData()->getMandator()->getInstitute();
+    const Xpert::AddressData& mandatorInstituteAddress = *mandatorInstitute.getAddress();
+    const Xpert::PhoneData& mandatorInstitutePhone = *mandatorInstitute.getPhone();
+    const Xpert::EmailData& mandatorInstituteEmail = *mandatorInstitute.getEmail();
 
-        fructose_assert_eq(mandator.getId(), "asdf");
-        fructose_assert_eq(mandator.getTitle(), "Dr.");
-        fructose_assert_eq(mandator.getFirstName(), "John");
-        fructose_assert_eq(mandator.getLastName(), "Doe");
-        fructose_assert_eq(mandatorAddress.getStreet(), "Av. de l'Ours 2");
-        fructose_assert_eq(mandatorAddress.getPostalCode(), 1010);
-        fructose_assert_eq(mandatorAddress.getCity(), "Lausanne");
-        fructose_assert_eq(mandatorAddress.getState(), "Vaud");
-        fructose_assert_eq(mandatorAddress.getCountry(), "Suisse");
-        fructose_assert_eq(mandatorPhone.getNumber(), "0213140002");
-        fructose_assert_eq(mandatorPhone.getType(), "professional");
-        fructose_assert_eq(mandatorEmail.getAddress(), "john.doe@chuv.com");
-        fructose_assert_eq(mandatorEmail.getType(), "professional");
-        fructose_assert_eq(mandatorInstitute.getId(), "456789");
-        fructose_assert_eq(mandatorInstitute.getName(), "CHUV");
-        fructose_assert_eq(mandatorInstituteAddress.getStreet(), "Av. de l'Ours 1");
-        fructose_assert_eq(mandatorInstituteAddress.getPostalCode(), 1010);
-        fructose_assert_eq(mandatorInstituteAddress.getCity(), "Lausanne");
-        fructose_assert_eq(mandatorInstituteAddress.getState(), "Vaud");
-        fructose_assert_eq(mandatorInstituteAddress.getCountry(), "Suisse");
-        fructose_assert_eq(mandatorInstitutePhone.getNumber(), "0213140001");
-        fructose_assert_eq(mandatorInstitutePhone.getType(), "professional");
-        fructose_assert_eq(mandatorInstituteEmail.getAddress(), "info@chuv.com");
-        fructose_assert_eq(mandatorInstituteEmail.getType(), "professional");
+    fructose_assert_eq(mandator.getId(), "asdf");
+    fructose_assert_eq(mandator.getTitle(), "Dr.");
+    fructose_assert_eq(mandator.getFirstName(), "John");
+    fructose_assert_eq(mandator.getLastName(), "Doe");
+    fructose_assert_eq(mandatorAddress.getStreet(), "Av. de l'Ours 2");
+    fructose_assert_eq(mandatorAddress.getPostalCode(), 1010);
+    fructose_assert_eq(mandatorAddress.getCity(), "Lausanne");
+    fructose_assert_eq(mandatorAddress.getState(), "Vaud");
+    fructose_assert_eq(mandatorAddress.getCountry(), "Suisse");
+    fructose_assert_eq(mandatorPhone.getNumber(), "0213140002");
+    fructose_assert_eq(mandatorPhone.getType(), "professional");
+    fructose_assert_eq(mandatorEmail.getAddress(), "john.doe@chuv.com");
+    fructose_assert_eq(mandatorEmail.getType(), "professional");
+    fructose_assert_eq(mandatorInstitute.getId(), "456789");
+    fructose_assert_eq(mandatorInstitute.getName(), "CHUV");
+    fructose_assert_eq(mandatorInstituteAddress.getStreet(), "Av. de l'Ours 1");
+    fructose_assert_eq(mandatorInstituteAddress.getPostalCode(), 1010);
+    fructose_assert_eq(mandatorInstituteAddress.getCity(), "Lausanne");
+    fructose_assert_eq(mandatorInstituteAddress.getState(), "Vaud");
+    fructose_assert_eq(mandatorInstituteAddress.getCountry(), "Suisse");
+    fructose_assert_eq(mandatorInstitutePhone.getNumber(), "0213140001");
+    fructose_assert_eq(mandatorInstitutePhone.getType(), "professional");
+    fructose_assert_eq(mandatorInstituteEmail.getAddress(), "info@chuv.com");
+    fructose_assert_eq(mandatorInstituteEmail.getType(), "professional");
 
-        const Tucuxi::Xpert::PersonData& patient =  xpertQueryResultWithFullAdmin.getAdminData()->getPatient()->getPerson();
-        const Tucuxi::Xpert::AddressData& patientAddress = *patient.getAddress();
-        const Tucuxi::Xpert::PhoneData& patientPhone = *patient.getPhone();
-        const Tucuxi::Xpert::EmailData& patientEmail = *patient.getEmail();
-        const Tucuxi::Xpert::InstituteData& patientInstitute = *xpertQueryResultWithFullAdmin.getAdminData()->getPatient()->getInstitute();
-        const Tucuxi::Xpert::AddressData& patientInstituteAddress = *patientInstitute.getAddress();
-        const Tucuxi::Xpert::PhoneData& patientInstitutePhone = *patientInstitute.getPhone();
-        const Tucuxi::Xpert::EmailData& patientInstituteEmail = *patientInstitute.getEmail();
+    const Xpert::PersonData& patient =  xpertQueryResultWithFullAdmin.getAdminData()->getPatient()->getPerson();
+    const Xpert::AddressData& patientAddress = *patient.getAddress();
+    const Xpert::PhoneData& patientPhone = *patient.getPhone();
+    const Xpert::EmailData& patientEmail = *patient.getEmail();
+    const Xpert::InstituteData& patientInstitute = *xpertQueryResultWithFullAdmin.getAdminData()->getPatient()->getInstitute();
+    const Xpert::AddressData& patientInstituteAddress = *patientInstitute.getAddress();
+    const Xpert::PhoneData& patientInstitutePhone = *patientInstitute.getPhone();
+    const Xpert::EmailData& patientInstituteEmail = *patientInstitute.getEmail();
 
-        fructose_assert_eq(patient.getId(), "123456");
-        fructose_assert_eq(patient.getFirstName(), "Alice");
-        fructose_assert_eq(patient.getLastName(), "Aupaysdesmerveilles");
-        fructose_assert_eq(patientAddress.getStreet(), "Av. d'Ouchy 27");
-        fructose_assert_eq(patientAddress.getPostalCode(), 1006);
-        fructose_assert_eq(patientAddress.getCity(), "Lausanne");
-        fructose_assert_eq(patientAddress.getState(), "Vaud");
-        fructose_assert_eq(patientAddress.getCountry(), "Suisse");
-        fructose_assert_eq(patientPhone.getNumber(), "0216170002");
-        fructose_assert_eq(patientPhone.getType(), "professional");
-        fructose_assert_eq(patientEmail.getAddress(), "alice.apdm@gmail.com");
-        fructose_assert_eq(patientEmail.getType(), "private");
-        fructose_assert_eq(patientInstitute.getId(), "1234");
-        fructose_assert_eq(patientInstitute.getName(), "EHNV");
-        fructose_assert_eq(patientInstituteAddress.getStreet(), "Street name 2");
-        fructose_assert_eq(patientInstituteAddress.getPostalCode(), 1400);
-        fructose_assert_eq(patientInstituteAddress.getCity(), "Yverdon-les-Bains");
-        fructose_assert_eq(patientInstituteAddress.getState(), "Vaud");
-        fructose_assert_eq(patientInstituteAddress.getCountry(), "Suisse");
-        fructose_assert_eq(patientInstitutePhone.getNumber(), "0123456789");
-        fructose_assert_eq(patientInstitutePhone.getType(), "professional");
-        fructose_assert_eq(patientInstituteEmail.getAddress(), "info@ehnv.com");
-        fructose_assert_eq(patientInstituteEmail.getType(), "professional");
+    fructose_assert_eq(patient.getId(), "123456");
+    fructose_assert_eq(patient.getFirstName(), "Alice");
+    fructose_assert_eq(patient.getLastName(), "Aupaysdesmerveilles");
+    fructose_assert_eq(patientAddress.getStreet(), "Av. d'Ouchy 27");
+    fructose_assert_eq(patientAddress.getPostalCode(), 1006);
+    fructose_assert_eq(patientAddress.getCity(), "Lausanne");
+    fructose_assert_eq(patientAddress.getState(), "Vaud");
+    fructose_assert_eq(patientAddress.getCountry(), "Suisse");
+    fructose_assert_eq(patientPhone.getNumber(), "0216170002");
+    fructose_assert_eq(patientPhone.getType(), "professional");
+    fructose_assert_eq(patientEmail.getAddress(), "alice.apdm@gmail.com");
+    fructose_assert_eq(patientEmail.getType(), "private");
+    fructose_assert_eq(patientInstitute.getId(), "1234");
+    fructose_assert_eq(patientInstitute.getName(), "EHNV");
+    fructose_assert_eq(patientInstituteAddress.getStreet(), "Street name 2");
+    fructose_assert_eq(patientInstituteAddress.getPostalCode(), 1400);
+    fructose_assert_eq(patientInstituteAddress.getCity(), "Yverdon-les-Bains");
+    fructose_assert_eq(patientInstituteAddress.getState(), "Vaud");
+    fructose_assert_eq(patientInstituteAddress.getCountry(), "Suisse");
+    fructose_assert_eq(patientInstitutePhone.getNumber(), "0123456789");
+    fructose_assert_eq(patientInstitutePhone.getType(), "professional");
+    fructose_assert_eq(patientInstituteEmail.getAddress(), "info@ehnv.com");
+    fructose_assert_eq(patientInstituteEmail.getType(), "professional");
 
-        fructose_assert_eq(xpertQueryResultWithFullAdmin.getAdminData()->getClinicalDatas()->getData().find("goodNote")->second, " nice ");
-        fructose_assert_eq(xpertQueryResultWithFullAdmin.getAdminData()->getClinicalDatas()->getData().find("badNote")->second, "");
-    }
+    fructose_assert_eq(xpertQueryResultWithFullAdmin.getAdminData()->getClinicalDatas()->getData().find("goodNote")->second, " nice ");
+    fructose_assert_eq(xpertQueryResultWithFullAdmin.getAdminData()->getClinicalDatas()->getData().find("badNote")->second, "");
+}
 
+void TestXpertQueryResultCreation::getXpertRequestResultsOfXpertQueryResult_returnsCorrectValues_withValidAndInvalidXpertRequest(const string& _testName)
+{
 
-    /// \brief Check that the XpertRequestResult are correctly created.
-    ///        The query has two xpertRequests. One if for imatinib and the other
-    ///        is for rifampicin.
-    ///
-    ///        Rifampicin:
-    ///           - The XpertRequestResult has no errors and can still be processed.
-    ///           - The treatment is not nullptr.
-    ///           - The drug model is nullptr.
-    ///
-    ///        Imatinib:
-    ///           - The XpertRequestResult has an error because the query doesn't have a
-    ///             drug element for imatinib.
-    ///           - It should no longer be processed.
-    ///           - The treatment is nullptr.
-    ///           - The drug model is nullptr.
-    /// \param _testName Name of the test
-    void getXpertRequestResultsOfXpertQueryResult_returnsCorrectValues_withValidAndInvalidXpertRequest(const std::string& _testName)
-    {
-
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                             <query version="1.0"
                                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                                 xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -495,45 +453,39 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                             </query>
                                             )";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Import the query
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
+    // Import the query
+    unique_ptr<Xpert::XpertQueryData> query = nullptr;
 
-        Tucuxi::Xpert::XpertQueryImport importer;
-        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
+    Xpert::XpertQueryImport importer;
+    Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
 
-        // Execute
-        Tucuxi::Xpert::XpertQueryResult xpertQueryResult(std::move(query), "");
+    // Execute
+    Xpert::XpertQueryResult xpertQueryResult(move(query), "");
 
-        // Compare
-        fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
+    // Compare
+    fructose_assert_eq(importResult, Xpert::XpertQueryImport::Status::Ok);
 
-        fructose_assert_eq(xpertQueryResult.getXpertRequestResults().size(), 2);
+    fructose_assert_eq(xpertQueryResult.getXpertRequestResults().size(), 2);
 
-        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].getDrugModel(), nullptr);
-        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].getErrorMessage(), "");
-        fructose_assert_ne(xpertQueryResult.getXpertRequestResults()[0].getTreatment().get(), nullptr);
-        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].getXpertRequest().getDrugId(), "rifampicin");
-        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].shouldContinueProcessing(), true);
+    fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].getDrugModel(), nullptr);
+    fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].getErrorMessage(), "");
+    fructose_assert_ne(xpertQueryResult.getXpertRequestResults()[0].getTreatment().get(), nullptr);
+    fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].getXpertRequest().getDrugId(), "rifampicin");
+    fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[0].shouldContinueProcessing(), true);
 
-        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[1].getDrugModel(), nullptr);
-        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[1].getErrorMessage(), "No drug matching. Could not extract drug treatment.");
-        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[1].getTreatment().get(), nullptr);
-        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[1].getXpertRequest().getDrugId(), "imatinib");
-        fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[1].shouldContinueProcessing(), false);
-    }
+    fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[1].getDrugModel(), nullptr);
+    fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[1].getErrorMessage(), "No drug matching. Could not extract drug treatment.");
+    fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[1].getTreatment().get(), nullptr);
+    fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[1].getXpertRequest().getDrugId(), "imatinib");
+    fructose_assert_eq(xpertQueryResult.getXpertRequestResults()[1].shouldContinueProcessing(), false);
+}
 
-    /// \brief Check that the xpertRequest data are correctly retrieved in the XpertRequestResult.
-    ///        The test imports a query with two xpertRequest elements.
-    ///        The first element is a complete xpertRequest. All values must be retrieved correctly.
-    ///        The second element is a minimal xpertRequest. All values must be retrieved correctly, but
-    ///        the missing values have default values.
-    /// \param _testName Name of the test
-    void getXpertRequestDataOfXpertRequestResult_returnsCorrectValues_withFullAndMinimalXpertRequest(const std::string& _testName)
-    {
+void TestXpertQueryResultCreation::getXpertRequestDataOfXpertRequestResult_returnsCorrectValues_withFullAndMinimalXpertRequest(const string& _testName)
+{
 
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                             <query version="1.0"
                                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                                 xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -595,51 +547,47 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                             </query>
                                             )";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Import the query
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
+    // Import the query
+    unique_ptr<Xpert::XpertQueryData> query = nullptr;
 
-        Tucuxi::Xpert::XpertQueryImport importer;
-        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
+    Xpert::XpertQueryImport importer;
+    Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
 
-        // Execute
-        Tucuxi::Xpert::XpertQueryResult xpertQueryResult(std::move(query), "");
+    // Execute
+    Xpert::XpertQueryResult xpertQueryResult(move(query), "");
 
-        // Compare
-        fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
+    // Compare
+    fructose_assert_eq(importResult, Xpert::XpertQueryImport::Status::Ok);
 
-        const Tucuxi::Xpert::XpertRequestData& completeXpertRequest = xpertQueryResult.getXpertRequestResults()[0].getXpertRequest();
-        const Tucuxi::Xpert::XpertRequestData& minimalXpertRequest = xpertQueryResult.getXpertRequestResults()[1].getXpertRequest();
+    const Xpert::XpertRequestData& completeXpertRequest = xpertQueryResult.getXpertRequestResults()[0].getXpertRequest();
+    const Xpert::XpertRequestData& minimalXpertRequest = xpertQueryResult.getXpertRequestResults()[1].getXpertRequest();
 
-        fructose_assert_eq(completeXpertRequest.getDrugId(), "rifampicin");
-        fructose_assert_eq(completeXpertRequest.getOutputLang() == Tucuxi::Xpert::OutputLang::ENGLISH, true);
-        fructose_assert_eq(completeXpertRequest.getOutputFormat() == Tucuxi::Xpert::OutputFormat::XML, true);
-        fructose_assert_eq(completeXpertRequest.getAdjustmentTime(), Tucuxi::Common::DateTime("2018-07-06T08:00:00", TestUtils::date_format));
-        fructose_assert_eq(completeXpertRequest.getLoadingOption() == Tucuxi::Xpert::LoadingOption::NoLoadingDose, true);
-        fructose_assert_eq(completeXpertRequest.getRestPeriodOption() == Tucuxi::Xpert::RestPeriodOption::NoRestPeriod, true);
-        fructose_assert_eq(completeXpertRequest.getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::PopulationValues, true);
-        fructose_assert_eq(completeXpertRequest.getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::DefaultFormulationAndRoute, true);
+    fructose_assert_eq(completeXpertRequest.getDrugId(), "rifampicin");
+    fructose_assert_eq(completeXpertRequest.getOutputLang() == Xpert::OutputLang::ENGLISH, true);
+    fructose_assert_eq(completeXpertRequest.getOutputFormat() == Xpert::OutputFormat::XML, true);
+    fructose_assert_eq(completeXpertRequest.getAdjustmentTime(), Common::DateTime("2018-07-06T08:00:00", TestUtils::date_format));
+    fructose_assert_eq(completeXpertRequest.getLoadingOption() == Xpert::LoadingOption::NoLoadingDose, true);
+    fructose_assert_eq(completeXpertRequest.getRestPeriodOption() == Xpert::RestPeriodOption::NoRestPeriod, true);
+    fructose_assert_eq(completeXpertRequest.getTargetExtractionOption() == Core::TargetExtractionOption::PopulationValues, true);
+    fructose_assert_eq(completeXpertRequest.getFormulationAndRouteSelectionOption() == Core::FormulationAndRouteSelectionOption::DefaultFormulationAndRoute, true);
 
 
-        fructose_assert_eq(minimalXpertRequest.getDrugId(), "imatinib");
-        fructose_assert_eq(minimalXpertRequest.getOutputLang() == Tucuxi::Xpert::OutputLang::FRENCH, true);
-        fructose_assert_eq(minimalXpertRequest.getOutputFormat() == Tucuxi::Xpert::OutputFormat::HTML, true);
-        fructose_assert_eq(minimalXpertRequest.getAdjustmentTime().isUndefined(), true);
-        fructose_assert_eq(minimalXpertRequest.getLoadingOption() == Tucuxi::Xpert::LoadingOption::Unspecified, true);
-        fructose_assert_eq(minimalXpertRequest.getRestPeriodOption() == Tucuxi::Xpert::RestPeriodOption::Unspecified, true);
-        fructose_assert_eq(minimalXpertRequest.getTargetExtractionOption() == Tucuxi::Core::TargetExtractionOption::DefinitionIfNoIndividualTarget, true);
-        fructose_assert_eq(minimalXpertRequest.getFormulationAndRouteSelectionOption() == Tucuxi::Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute, true);
-    }
+    fructose_assert_eq(minimalXpertRequest.getDrugId(), "imatinib");
+    fructose_assert_eq(minimalXpertRequest.getOutputLang() == Xpert::OutputLang::FRENCH, true);
+    fructose_assert_eq(minimalXpertRequest.getOutputFormat() == Xpert::OutputFormat::HTML, true);
+    fructose_assert_eq(minimalXpertRequest.getAdjustmentTime().isUndefined(), true);
+    fructose_assert_eq(minimalXpertRequest.getLoadingOption() == Xpert::LoadingOption::Unspecified, true);
+    fructose_assert_eq(minimalXpertRequest.getRestPeriodOption() == Xpert::RestPeriodOption::Unspecified, true);
+    fructose_assert_eq(minimalXpertRequest.getTargetExtractionOption() == Core::TargetExtractionOption::DefinitionIfNoIndividualTarget, true);
+    fructose_assert_eq(minimalXpertRequest.getFormulationAndRouteSelectionOption() == Core::FormulationAndRouteSelectionOption::LastFormulationAndRoute, true);
+}
 
-    /// \brief Check that computation time of the XpertRequestResult is retrieved from the xpert query.
-    ///        At top of the xpert query, the date element is "2018-07-11T13:45:30".
-    ///        XpertQueryResult::getComputationTime should return the equivalent date of "2018-07-11T13:45:30".
-    /// \param _testName Name of the test
-    void getComputationTimeOfXpertRequestResult_returnsCorrectDateTime(const std::string& _testName)
-    {
+void TestXpertQueryResultCreation::getComputationTimeOfXpertRequestResult_returnsCorrectDateTime(const string& _testName)
+{
 
-        std::string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string queryString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                      <query version="1.0"
                                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                          xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -687,23 +635,19 @@ struct TestXpertQueryResultCreation : public fructose::test_base<TestXpertQueryR
                                      </query>
                                      )";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Import the query
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
+    // Import the query
+    unique_ptr<Xpert::XpertQueryData> query = nullptr;
 
-        Tucuxi::Xpert::XpertQueryImport importer;
-        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
+    Xpert::XpertQueryImport importer;
+    Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, queryString);
 
-        // Execute
-        Tucuxi::Xpert::XpertQueryResult xpertQueryResult(std::move(query), "");
+    // Execute
+    Xpert::XpertQueryResult xpertQueryResult(move(query), "");
 
-        // Compare
-        fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(xpertQueryResult.getComputationTime(), Tucuxi::Common::DateTime("2018-07-11T13:45:30", TestUtils::date_format));
+    // Compare
+    fructose_assert_eq(importResult, Xpert::XpertQueryImport::Status::Ok);
+    fructose_assert_eq(xpertQueryResult.getComputationTime(), Common::DateTime("2018-07-11T13:45:30", TestUtils::date_format));
 
-    }
-
-};
-
-#endif // TEST_GLOBALRESULTCREATION_H
+}

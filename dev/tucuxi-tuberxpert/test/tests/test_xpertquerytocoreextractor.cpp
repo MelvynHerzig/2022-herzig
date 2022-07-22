@@ -1,38 +1,13 @@
-#ifndef TEST_XPERTQUERYTOCOREEXTRACTOR_H
-#define TEST_XPERTQUERYTOCOREEXTRACTOR_H
+#include "test_xpertquerytocoreextractor.h"
 
-#include <string>
-#include <memory>
+using namespace std;
+using namespace Tucuxi;
 
-#include "fructose/fructose.h"
 
-#include "tucucore/drugtreatment/drugtreatment.h"
-
-#include "tuberxpert/query/xpertquerydata.h"
-#include "tuberxpert/query/xpertqueryimport.h"
-#include "tuberxpert/query/xpertquerytocoreextractor.h"
-
-/// \brief Tests for XpertQueryToCoreExtractor.
-///        This struct tests only the methods created by XpertQueryToCoreExtractor.
-///        Therefore, it doesn't test the inherited methods. Here, to goal is to check
-///        that the returned drugTreatment is not null and that the error message is empty string.
-/// \date 25/05/2022
-/// \author Herzig Melvyn
-struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQueryToCoreExtractor>
+void TestXpertQueryToCoreExtractor::extractDrugTreatment_success_withDrugElementsPresentOnce(const string& _testName)
 {
 
-    /// \brief Check that the drug treatment is normally extracted for
-    ///        the xpertRequest that requires a valid drug. A drug is valid
-    ///        if it appears only once.
-    ///        There are two xpertRequests.
-    ///        One for imatinib and one for rifampicin. There is exactly
-    ///        one drug element for each of these drugs. The extraction
-    ///        must succeed without any error and the treatment pointers are not nullptr.
-    /// \param _testName Name of the test
-    void extractDrugTreatment_success_withDrugElementsPresentOnce(const std::string& _testName)
-    {
-
-        std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -105,46 +80,40 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
                                     </query>
                                     )";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Extract the treatments
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
+    // Extract the treatments
+    unique_ptr<Xpert::XpertQueryData> query = nullptr;
 
-        Tucuxi::Xpert::XpertQueryImport importer;
-        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
+    Xpert::XpertQueryImport importer;
+    Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        Tucuxi::Xpert::XpertQueryToCoreExtractor extractor;
+    Xpert::XpertQueryToCoreExtractor extractor;
 
-        std::string errorMessage0;
-        std::unique_ptr<Tucuxi::Core::DrugTreatment> drugTreatment0 = extractor.extractDrugTreatment(
-                            query->getXpertRequests()[0],
-                            *query,
-                            errorMessage0);
+    string errorMessage0;
+    unique_ptr<Core::DrugTreatment> drugTreatment0 = extractor.extractDrugTreatment(
+                query->getXpertRequests()[0],
+            *query,
+            errorMessage0);
 
-        std::string errorMessage1;
-        std::unique_ptr<Tucuxi::Core::DrugTreatment> drugTreatment1 = extractor.extractDrugTreatment(
-                            query->getXpertRequests()[1],
-                            *query,
-                            errorMessage1);
+    string errorMessage1;
+    unique_ptr<Core::DrugTreatment> drugTreatment1 = extractor.extractDrugTreatment(
+                query->getXpertRequests()[1],
+            *query,
+            errorMessage1);
 
-        // Compare
-        fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(errorMessage0, "");
-        fructose_assert_eq(errorMessage1, "");
-        fructose_assert_ne(drugTreatment0.get(), nullptr);
-        fructose_assert_ne(drugTreatment1.get(), nullptr);
-    }
+    // Compare
+    fructose_assert_eq(importResult, Xpert::XpertQueryImport::Status::Ok);
+    fructose_assert_eq(errorMessage0, "");
+    fructose_assert_eq(errorMessage1, "");
+    fructose_assert_ne(drugTreatment0.get(), nullptr);
+    fructose_assert_ne(drugTreatment1.get(), nullptr);
+}
 
-    /// \brief When there is no drug or multiple drugs that match a requested drug, it checks
-    ///        that an error message is returned and that the drugTreatment pointers are nullptr.
-    ///        There are two xpertRequests.
-    ///        One for rifampicin and one for imatinib.
-    ///        In this case, rifampicin is present twice and imatinib none.
-    /// \param _testName Name of the test
-    void extractDrugTreatment_failure_withMultipleOrNoDrugElements(const std::string& _testName)
-    {
+void TestXpertQueryToCoreExtractor::extractDrugTreatment_failure_withMultipleOrNoDrugElements(const string& _testName)
+{
 
-        std::string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    string xmlString = R"(<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                                     <query version="1.0"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xsi:noNamespaceSchemaLocation="tuberxpert_computing_query.xsd">
@@ -217,36 +186,33 @@ struct TestXpertQueryToCoreExtractor : public fructose::test_base<TestXpertQuery
                                     </query>
                                     )";
 
-        std::cout << _testName << std::endl;
+    cout << _testName << endl;
 
-        // Extract the treatments
-        std::unique_ptr<Tucuxi::Xpert::XpertQueryData> query = nullptr;
+    // Extract the treatments
+    unique_ptr<Xpert::XpertQueryData> query = nullptr;
 
-        Tucuxi::Xpert::XpertQueryImport importer;
-        Tucuxi::Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
+    Xpert::XpertQueryImport importer;
+    Xpert::XpertQueryImport::Status importResult = importer.importFromString(query, xmlString);
 
-        Tucuxi::Xpert::XpertQueryToCoreExtractor extractor;
+    Xpert::XpertQueryToCoreExtractor extractor;
 
-        std::string errorMessage0;
-        std::unique_ptr<Tucuxi::Core::DrugTreatment> drugTreatment0 = extractor.extractDrugTreatment(
-                            query->getXpertRequests()[0],
-                            *query,
-                            errorMessage0);
+    string errorMessage0;
+    unique_ptr<Core::DrugTreatment> drugTreatment0 = extractor.extractDrugTreatment(
+                query->getXpertRequests()[0],
+            *query,
+            errorMessage0);
 
-        std::string errorMessage1;
-        std::unique_ptr<Tucuxi::Core::DrugTreatment> drugTreatment1 = extractor.extractDrugTreatment(
-                            query->getXpertRequests()[1],
-                            *query,
-                            errorMessage1);
+    string errorMessage1;
+    unique_ptr<Core::DrugTreatment> drugTreatment1 = extractor.extractDrugTreatment(
+                query->getXpertRequests()[1],
+            *query,
+            errorMessage1);
 
 
-        // Compare
-        fructose_assert_eq(importResult, Tucuxi::Xpert::XpertQueryImport::Status::Ok);
-        fructose_assert_eq(errorMessage0, "Too many drugs matching. Could not extract drug treatment.");
-        fructose_assert_eq(errorMessage1, "No drug matching. Could not extract drug treatment.");
-        fructose_assert_eq(drugTreatment0.get(), nullptr);
-        fructose_assert_eq(drugTreatment1.get(), nullptr);
-    }
-};
-
-#endif // TEST_XPERTQUERYTOCOREEXTRACTOR_H
+    // Compare
+    fructose_assert_eq(importResult, Xpert::XpertQueryImport::Status::Ok);
+    fructose_assert_eq(errorMessage0, "Too many drugs matching. Could not extract drug treatment.");
+    fructose_assert_eq(errorMessage1, "No drug matching. Could not extract drug treatment.");
+    fructose_assert_eq(drugTreatment0.get(), nullptr);
+    fructose_assert_eq(drugTreatment1.get(), nullptr);
+}

@@ -9,7 +9,6 @@
 
 #include <iostream>
 
-#include "tucucore/computingcomponent.h"
 #include "tucucore/computingservice/computingrequest.h"
 #include "tucucore/computingservice/computingtrait.h"
 #include "tucucore/definitions.h"
