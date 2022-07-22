@@ -16,8 +16,9 @@ namespace Xpert {
 
 /// \brief This class evaluates patient samples.
 ///
-///        Per sample, it makes an "a priori" percentile request and submits it to the Tucuxi computing core.
-///        The query asks for the percentiles 1 - 99, and then locates the position of the sample in the result.
+///        Per sample, it makes an "a priori" percentile request for the sample and submits it
+///        to the Tucuxi computing core. The query asks for the percentiles 1 - 99, and then locates the
+///        position of the sample in the result.
 ///
 ///        The group is a number from 1 to 100 that corresponds to the 100 separations produced by the 99 percentiles.
 ///
@@ -44,7 +45,7 @@ protected:
 
     /// \brief Given a percentiles data (Tucuxi core response) find where the sample is located.
     ///        This methods only takes times[0] and concentrations[0] of the cycleData. Think to
-    ///        modify it when the cycleData will implement the analytes features.
+    ///        modify it when the cycleData will implement the analytes feature.
     /// \param _percentilesData Response of the core with 99 percentiles.
     /// \param _sample The patient sample to be positioned.
     /// \return The position of the sample with respect to the percentiles from 1 to 100.

@@ -365,7 +365,7 @@ void XpertRequestResultXmlExport::exportCovariateResults(const vector<CovariateV
 
         // If the source is "age" the data type is int.
         if (covariateValidationResult.getSource()->getId() == "age") {
-            dataType = dataTypeToString(Core::DataType::Int);
+            dataType = dataTypeToString(Core::DataType::Double);
         }
 
         addNode(covariateNode, "dataType", dataType);
@@ -384,14 +384,14 @@ void XpertRequestResultXmlExport::exportCovariateResults(const vector<CovariateV
 
 void XpertRequestResultXmlExport::exportTreatment(const unique_ptr<Core::DrugTreatment>& _treatment, Common::XmlNode& _rootNode)
 {
-    if (_treatment == nullptr) {
-        return;
-    }
-
     // <treatment>
     Common::XmlNode treatmentNode =
             m_xmlDocument.createNode(Common::EXmlNodeType::Element, "treatment");
     _rootNode.addChild(treatmentNode);
+
+    if (_treatment == nullptr) {
+        return;
+    }
 
     //   <dosageHistory>
     exportDosageHistory(_treatment->getDosageHistory(), treatmentNode);

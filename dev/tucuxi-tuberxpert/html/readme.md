@@ -1,6 +1,7 @@
 <h1> TuberXpert JavaScript converter </h1>
 
 The PDF converter (wkhtmltopdf) requires JavaScript code in EcmaScript 5 version to work. This node project uses Babel to perform this conversion.
+It demonstrates how to convert an HTML report that uses EcmaScript 6 to EcmaScript 5.
 
 <h3> src </h3>
 
@@ -29,3 +30,5 @@ Build and transpile
 ```
 $ npm run build
 ``` 
+
+Now just use the path of the JS in the build folder instead of the JS in the src folder.

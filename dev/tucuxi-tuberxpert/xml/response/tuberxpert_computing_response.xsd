@@ -20,12 +20,12 @@
             <xs:element name="covariates">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="covariate" type="covariateType" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="covariate" type="covariateType" maxOccurs="unbounded" />
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
 
-            <xs:element name="treatment" type="treatmentType" minOccurs="0"/>
+            <xs:element name="treatment" type="treatmentType"/>
 
             <xs:element name="samples">
                 <xs:complexType>
@@ -229,7 +229,7 @@
 			</xs:simpleType>
 		</xs:element>
 		<xs:element name="desc" type="xs:string" />
-        <xs:element name="source"  minOccurs="0">
+        <xs:element name="source">
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:enumeration value="patient" />
@@ -337,7 +337,7 @@
 	<xs:sequence>
 		<xs:element name="value" type="xs:decimal" />
 		<xs:element name="unit" type="unitType" />
-		<xs:element name="infusionTimeInMinutes" type="xs:decimal" minOccurs="0"/>
+		<xs:element name="infusionTimeInMinutes" type="xs:decimal"/>
         <xs:element name="warning" type="warningType" minOccurs="0" />
 	</xs:sequence>
 </xs:complexType>
@@ -433,7 +433,7 @@
 		<xs:element name="adjustments">
             <xs:complexType>
                 <xs:sequence>
-                    <xs:element name="adjustment" type="adjustmentType" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="adjustment" type="adjustmentType" maxOccurs="unbounded" />
                 </xs:sequence>
             </xs:complexType>
 		</xs:element>

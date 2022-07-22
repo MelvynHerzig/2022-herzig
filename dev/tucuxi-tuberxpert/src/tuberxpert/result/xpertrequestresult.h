@@ -245,7 +245,7 @@ protected:
     ///        - In index 0, the typical patient.
     ///        - In index 1, the a priori values.
     ///        - In index 2, the a posteriori values. (Does not exist if the type of computation
-    ///        of the adjustment trait is a priori.)
+    ///        of the base adjustment trait is a priori.)
     std::vector<std::vector<Core::ParameterValue>> m_parameters;
 
     /// \brief Extrapolated statistics at steady state.

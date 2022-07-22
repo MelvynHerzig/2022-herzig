@@ -16,7 +16,7 @@ namespace Xpert {
 ///        the necessary css and js to be autonomous.
 ///
 ///        This class has setup a tamplate string and fills it using
-///        the inja library (https://github.com/pantor/inja).
+///        the inja library (https://github.com/pantor/inja) v3.3.0.
 ///
 ///        A example result (not as an all-in-one file) is available
 ///        in: /dev/tucuxi-tuberxpert/html/src/index.html.
