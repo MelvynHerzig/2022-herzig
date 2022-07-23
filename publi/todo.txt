@@ -1,9 +1,9 @@
 TODO:
 - Generate Doxygen and use it as annex for the documentation. Call it tuberxpert_code_documentation
 - Poster
-- Annex on how to add a language: tuberxpert_add_language
 - Conclusion
 - Be consistent with method/class name maybe italic ?
 - Generate Doxygen tests and use it as annex for the documentation. Call it tuberxpert_test_documentation
 
 - Post the publishable summary.
+- Convert the add language doc into pdf

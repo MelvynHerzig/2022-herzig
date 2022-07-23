@@ -17,8 +17,6 @@
 					<xs:restriction base="xs:string">
 						<xs:enumeration value="en" />
 						<xs:enumeration value="fr" />
-						<xs:enumeration value="de" />
-						<xs:enumeration value="it" />
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>

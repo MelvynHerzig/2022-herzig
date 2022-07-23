@@ -11,7 +11,16 @@
 
 			<xs:element name="computationTime" type="xs:dateTime" />
 
-			<xs:element name="language" type="xs:string" />
+			<xs:element name="language">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="en" />
+						<xs:enumeration value="fr" />
+						<!-- <xs:enumeration value="de" /> -->
+						<!-- <xs:enumeration value="it" /> -->
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
 			
 			<xs:element name="drug" type="drugIntroType"/>
 
