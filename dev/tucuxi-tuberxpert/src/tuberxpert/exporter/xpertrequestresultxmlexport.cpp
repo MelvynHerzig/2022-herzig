@@ -126,7 +126,8 @@ void XpertRequestResultXmlExport::exportDrugIntro(const XpertRequestResult& _xpe
 void XpertRequestResultXmlExport::exportAdminData(const unique_ptr<AdminData>& _admin, Common::XmlNode& _rootNode)
 {
     // We export the admin if it contains at least one of its elements.
-    if (_admin->getMandator() == nullptr && _admin->getPatient() == nullptr && _admin->getClinicalDatas() == nullptr) {
+    if (_admin == nullptr ||
+            (_admin->getMandator() == nullptr && _admin->getPatient() == nullptr && _admin->getClinicalDatas() == nullptr)) {
         return;
     }
 

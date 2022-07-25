@@ -7,56 +7,67 @@
 
     <admin>
 		<mandator>
-            <person>
-				<title>Dr.</title>
+			<person>
 				<firstName>John</firstName>
 				<lastName>Doe</lastName>
+				<address>
+					<street>Av. de l'Ours 2</street>
+					<postalCode>1010</postalCode>
+					<city>Lausanne</city>
+				</address>
+				<phone>
+					<number>0213140002</number>
+				</phone>
+				<email>
+					<address>john.doe@chuv.com</address>
+				</email>
 			</person>
 			<institute>
-				<id>456789</id>
 				<name>CHUV</name>
 				<address>
 					<street>Av. de l'Ours 1</street>
 					<postalCode>1010</postalCode>
 					<city>Lausanne</city>
-					<state>Vaud</state>
-					<country>Suisse</country>
 				</address>
 				<phone>
 					<number>0213140001</number>
-					<type>private</type>
 				</phone>
 				<email>
 					<address>info@chuv.com</address>
-					<type>professional</type>
 				</email>
 			</institute>
 		</mandator>
 		<patient>
 			<person>
-				<id>123456</id>
 				<firstName>Alice</firstName>
 				<lastName>Aupaysdesmerveilles</lastName>
 				<address>
 					<street>Av. d'Ouchy 27</street>
 					<postalCode>1006</postalCode>
 					<city>Lausanne</city>
-					<state>Vaud</state>
-					<country>Suisse</country>
 				</address>
 				<phone>
 					<number>0216170002</number>
-					<type>professional</type>
 				</phone>
 				<email>
 					<address>alice.apdm@gmail.com</address>
-					<type>private</type>
 				</email>
 			</person>
+            <institute>
+				<name>EHNV</name>
+				<address>
+					<street>Av. des Bains 34</street>
+					<postalCode>1400</postalCode>
+					<city>Yverdon-les-Bains</city>
+				</address>
+				<phone>
+					<number>987654321</number>
+				</phone>
+				<email>
+					<address>info@ehnv.com</address>
+				</email>
+			</institute>
 		</patient>
-		<clinicalDatas>
-			<clinicalData key="aNote">Note content</clinicalData>
-		</clinicalDatas>
 	</admin>
 
     <drugTreatment>
@@ -66,7 +77,7 @@
                 <covariate>
                     <covariateId>ffm</covariateId>
                     <date>2018-07-11T10:45:30</date>
-                    <value>150</value>
+                    <value>50</value>
                     <unit>kg</unit>
                       <dataType>double</dataType>
                     <nature>continuous</nature>
@@ -84,6 +95,30 @@
                 <!-- All the information regarding the treatment -->
                 <treatment>
                     <dosageHistory>
+                        <dosageTimeRange>
+                            <start>2018-06-20T08:00:00</start>
+                            <end>2018-07-06T08:00:00</end>
+                            <dosage>
+                                <dosageRepeat>
+                                    <iterations>2</iterations>
+                                    <weeklyDosage>
+                                        <day>2</day>
+                                        <time>11:00:00</time>
+                                        <dose>
+                                            <value>50</value>
+                                            <unit>mg</unit>
+                                            <infusionTimeInMinutes>60</infusionTimeInMinutes>
+                                        </dose>
+                                        <formulationAndRoute>
+                                            <formulation>parenteralSolution</formulation>
+                                            <administrationName>foo bar</administrationName>
+                                            <administrationRoute>oral</administrationRoute>
+                                            <absorptionModel>extravascular</absorptionModel>
+                                        </formulationAndRoute>
+                                    </weeklyDosage>
+                                </dosageRepeat>
+                            </dosage>
+                        </dosageTimeRange>
                         <dosageTimeRange>
                             <start>2018-07-06T08:00:00</start>
                             <end>2018-07-18T08:00:00</end>
@@ -146,7 +181,7 @@
         <xpertRequest>
             <drugId>rifampicin</drugId>
             <output>
-                <format>pdf</format>
+                <format>html</format>
                 <language>en</language>
             </output>
             <adjustmentDate>2018-07-11T08:00:00</adjustmentDate>

@@ -7,56 +7,24 @@
 
     <admin>
 		<mandator>
-            <person>
-				<title>Dr.</title>
+			<person>
 				<firstName>John</firstName>
 				<lastName>Doe</lastName>
 			</person>
-			<institute>
-				<id>456789</id>
+            <institute>
 				<name>CHUV</name>
-				<address>
-					<street>Av. de l'Ours 1</street>
-					<postalCode>1010</postalCode>
-					<city>Lausanne</city>
-					<state>Vaud</state>
-					<country>Suisse</country>
-				</address>
-				<phone>
-					<number>0213140001</number>
-					<type>private</type>
-				</phone>
-				<email>
-					<address>info@chuv.com</address>
-					<type>professional</type>
-				</email>
 			</institute>
 		</mandator>
 		<patient>
 			<person>
-				<id>123456</id>
 				<firstName>Alice</firstName>
 				<lastName>Aupaysdesmerveilles</lastName>
-				<address>
-					<street>Av. d'Ouchy 27</street>
-					<postalCode>1006</postalCode>
-					<city>Lausanne</city>
-					<state>Vaud</state>
-					<country>Suisse</country>
-				</address>
-				<phone>
-					<number>0216170002</number>
-					<type>professional</type>
-				</phone>
-				<email>
-					<address>alice.apdm@gmail.com</address>
-					<type>private</type>
-				</email>
 			</person>
+            <institute>
+				<name>EHNV</name>
+			</institute>
 		</patient>
-		<clinicalDatas>
-			<clinicalData key="aNote">Note content</clinicalData>
-		</clinicalDatas>
+		<clinicalDatas/>
 	</admin>
 
     <drugTreatment>
