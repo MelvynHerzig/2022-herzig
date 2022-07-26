@@ -166,6 +166,7 @@ void Computer::executeFlow(XpertRequestResult& _xpertRequestResult,
 
         // Somehow, the loading of the translation file failed.
         // Leave this xpertRequest and try the next one.
+        _xpertRequestResult.setErrorMessage(e.what());
         return;
     }
 

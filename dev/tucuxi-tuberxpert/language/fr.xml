@@ -131,7 +131,7 @@
 
     <!-- Report Predictions -->
     <translation key="predictions">Prédictions</translation>
-    <translation key="extrapolated_steady_state_auc24">AUC24 extrapolée à l'état d'équilibre</translation>
+    <translation key="extrapolated_steady_state_auc24">AUC24 à l'état d'équilibre</translation>
     <translation key="steady_state_peak">Sommet à l'état d'équilibre</translation>
     <translation key="steady_state_residual">Résiduel à l'état d'équilibre</translation>
 
