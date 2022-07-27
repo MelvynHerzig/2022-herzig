@@ -51,6 +51,7 @@
 		<patient>
 			<person>
 				<id>123456</id>
+                <title>Ms.</title>
 				<firstName>Alice</firstName>
 				<lastName>Aupaysdesmerveilles</lastName>
 				<address>

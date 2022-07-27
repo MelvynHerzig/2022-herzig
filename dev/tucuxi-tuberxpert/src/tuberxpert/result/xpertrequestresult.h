@@ -142,8 +142,9 @@ public:
     void setDrugModel(const Core::DrugModel* _drugModel);
 
     /// \brief Set a new vector of covariate validation results.
-    ///        The results are sorted by covariate name and by date if same covariate  name occurs
+    ///        The results are sorted by covariate name and by date if same covariate name occurs
     ///        several times. Used during the CovariateValidatiorAndModelSelector flow step.
+    ///        The names are sorted according to the C++ comparison. This means that 'Z' < 'Â'.
     /// \param _covariateValidationResults Covariate validation results to store.
     void setCovariateResults(std::vector<CovariateValidationResult>&& _covariateValidationResults);
 

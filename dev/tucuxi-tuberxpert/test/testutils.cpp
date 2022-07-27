@@ -174,7 +174,7 @@ const string TestUtils::originalImatinibModelString = R"(<?xml version="1.0" enc
                                                                          </covariateName>
                                                                          <description>
                                                                              <desc lang='en'>Total body weight of patient, in kilogramms</desc>
-                                                                             <desc lang='fr'>Poids total du patient, en kilogramme</desc>
+                                                                             <desc lang='fr'>Poids total du patient, en kilogrammes</desc>
                                                                          </description>
                                                                          <unit>kg</unit>
                                                                          <covariateType>standard</covariateType>
@@ -190,7 +190,7 @@ const string TestUtils::originalImatinibModelString = R"(<?xml version="1.0" enc
                                                                          <validation>
                                                                              <errorMessage>
                                                                                  <text lang='en'>The body weight shall be in the interval [44,100].</text>
-                                                                                 <text lang='fr'>Le poids doit etre dans compris entre [44,100].</text>
+                                                                                 <text lang='fr'>Le poids total doit être compris dans l'intervalle [44,100].</text>
                                                                              </errorMessage>
                                                                              <operation>
                                                                                  <softFormula>
@@ -280,7 +280,7 @@ const string TestUtils::originalImatinibModelString = R"(<?xml version="1.0" enc
                                                                          <validation>
                                                                              <errorMessage>
                                                                                  <text lang='en'>The sex is a double within the range [0,1]. 0 for female, 1 for male</text>
-                                                                                 <text lang='fr'>Le sexe est un double entre 0 et 1. 0 pour une femme et 1 pour un homme.</text>
+                                                                                 <text lang='fr'>Le sexe est un double de l'intervalle [0,1]. 0 pour une femme, 1 pour un homme.</text>
                                                                              </errorMessage>
                                                                              <operation>
                                                                                  <softFormula>
@@ -305,7 +305,7 @@ const string TestUtils::originalImatinibModelString = R"(<?xml version="1.0" enc
                                                                          <covariateId>age</covariateId>
                                                                          <covariateName>
                                                                              <name lang='en'>Age</name>
-                                                                             <name lang='fr'>Age</name>
+                                                                             <name lang='fr'>Âge</name>
                                                                          </covariateName>
                                                                          <description>
                                                                              <desc lang='en'>Age of the patient, in years</desc>
@@ -325,7 +325,7 @@ const string TestUtils::originalImatinibModelString = R"(<?xml version="1.0" enc
                                                                          <validation>
                                                                              <errorMessage>
                                                                                  <text lang='en'>The age shall be in the interval [20,88].</text>
-                                                                                 <text lang='fr'>L'âge doit être entre 22 et 88.</text>
+                                                                                 <text lang='fr'>L'âge doit se situer dans l'intervalle [20,88].</text>
                                                                              </errorMessage>
                                                                              <operation>
                                                                                  <softFormula>
@@ -868,7 +868,7 @@ const string TestUtils::originalBusulfanModelString = R"(<?xml version="1.0" enc
                                                                          <covariateId>age</covariateId>
                                                                          <covariateName>
                                                                              <name lang='en'>Age</name>
-                                                                             <name lang='fr'>Age</name>
+                                                                             <name lang='fr'>Âge</name>
                                                                          </covariateName>
                                                                          <description>
                                                                              <desc lang='en'>Age of the patient, in years, only used for domain checking</desc>
@@ -886,7 +886,10 @@ const string TestUtils::originalBusulfanModelString = R"(<?xml version="1.0" enc
                                                                              <standardValue>10</standardValue>
                                                                          </covariateValue>
                                                                          <validation> <!-- pourrait être une contrainte -->
-                                                                             <errorMessage><text lang="fr"></text></errorMessage>
+                                                                             <errorMessage>
+                                                                                <text lang="en">The age shall be positive.</text>
+                                                                                <text lang="fr">L'âge doit être positif.</text>
+                                                                             </errorMessage>
                                                                              <operation>
                                                                                  <softFormula>
                                                                                      <inputs>
@@ -914,7 +917,7 @@ const string TestUtils::originalBusulfanModelString = R"(<?xml version="1.0" enc
                                                                          </covariateName>
                                                                          <description>
                                                                              <desc lang="en">Total body weight of patient, in kilogramms</desc>
-                                                                             <desc lang="fr">Poids total du patient, en kilogramme</desc>
+                                                                             <desc lang="fr">Poids total du patient, en kilogrammes</desc>
                                                                          </description>
                                                                          <unit>kg</unit>
                                                                          <covariateType>standard</covariateType>
@@ -928,7 +931,10 @@ const string TestUtils::originalBusulfanModelString = R"(<?xml version="1.0" enc
                                                                              <standardValue>9</standardValue>
                                                                          </covariateValue>
                                                                          <validation> <!-- pourrait être une contrainte -->
-                                                                             <errorMessage><text lang="fr"></text></errorMessage>
+                                                                             <errorMessage>
+                                                                                 <text lang="en">The body weight shall be in the interval [0,300].</text>
+                                                                                 <text lang="fr">Le poids total doit être compris dans l'intervalle [0,300].</text>
+                                                                             </errorMessage>
                                                                              <operation>
                                                                                  <softFormula>
                                                                                      <inputs>

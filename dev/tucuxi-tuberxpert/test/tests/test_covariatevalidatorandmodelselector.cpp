@@ -11011,11 +11011,11 @@ void TestCovariateValidatorAndModelSelector::covariateValidatorAndModelSelector_
     // French supported
     fructose_assert_eq(xpertRequestResultFrench.shouldContinueProcessing(), true);
     fructose_assert_eq(xpertRequestResultFrench.getErrorMessage(), "");
-    fructose_assert_eq(Xpert::getStringWithEnglishFallback(xpertRequestResultFrench.getCovariateValidationResults()[2].getSource()->getName(), Lang1),
+    fructose_assert_eq(Xpert::getStringWithEnglishFallback(xpertRequestResultFrench.getCovariateValidationResults()[1].getSource()->getName(), Lang1),
             "Poids total");
-    fructose_assert_eq(Xpert::getStringWithEnglishFallback(xpertRequestResultFrench.getCovariateValidationResults()[2].getSource()->getDescription(), Lang1),
-            "Poids total du patient, en kilogramme");
-    fructose_assert_eq(xpertRequestResultFrench.getCovariateValidationResults()[2].getWarning(), "Le poids doit etre dans compris entre [44,100].");
+    fructose_assert_eq(Xpert::getStringWithEnglishFallback(xpertRequestResultFrench.getCovariateValidationResults()[1].getSource()->getDescription(), Lang1),
+            "Poids total du patient, en kilogrammes");
+    fructose_assert_eq(xpertRequestResultFrench.getCovariateValidationResults()[1].getWarning(), "Le poids total doit être compris dans l'intervalle [44,100].");
 
     // Only english supported
     fructose_assert_eq(xpertRequestResultEnglish.shouldContinueProcessing(), true);
