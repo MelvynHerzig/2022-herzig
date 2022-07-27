@@ -6154,7 +6154,7 @@
 									"font": "Arial;13;0",
 									"left": 647,
 									"top": 278,
-									"width": 70.4716796875,
+									"width": 70.83349609375,
 									"height": 13,
 									"alpha": -0.11809203833410908,
 									"distance": 118.82760622010359,
@@ -6162,7 +6162,7 @@
 										"$ref": "AAAAAAGAhCxhpPRTWSw="
 									},
 									"edgePosition": 1,
-									"text": "#can have"
+									"text": "#can have a"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -13635,7 +13635,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGAhCNTBOz12Sk="
 							},
-							"name": "can have",
+							"name": "can have a",
 							"end1": {
 								"_type": "UMLAssociationEnd",
 								"_id": "AAAAAAGAhCxhpPRQQ64=",
