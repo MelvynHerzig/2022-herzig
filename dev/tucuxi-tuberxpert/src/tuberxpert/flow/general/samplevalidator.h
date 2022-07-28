@@ -15,7 +15,6 @@ namespace Xpert {
 
 
 /// \brief This class evaluates patient samples.
-///
 ///        Per sample, it makes an "a priori" percentile request for the sample and submits it
 ///        to the Tucuxi computing core. The query asks for the percentiles 1 - 99, and then locates the
 ///        position of the sample in the result.

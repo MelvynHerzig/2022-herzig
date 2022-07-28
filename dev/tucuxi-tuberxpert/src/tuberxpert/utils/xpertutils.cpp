@@ -94,7 +94,7 @@ string dateTimeToXmlString(const Tucuxi::Common::DateTime& _dateTime)
     return result;
 }
 
-string TimeOfDayToString(const Common::TimeOfDay& _timeOfDay)
+string timeOfDayToString(const Common::TimeOfDay& _timeOfDay)
 {
     stringstream timeStream;
 
@@ -126,7 +126,7 @@ string dateTimeToString(const Common::DateTime& _dateTime, bool _withTime)
     }
 
     // Setting the time part.
-    dateTimeStream << ' ' << TimeOfDayToString(Common::Duration(
+    dateTimeStream << ' ' << timeOfDayToString(Common::Duration(
                                                    chrono::hours(_dateTime.hour()),
                                                    chrono::minutes(_dateTime.minute()),
                                                    chrono::seconds(_dateTime.second()))

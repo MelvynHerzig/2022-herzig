@@ -9,8 +9,8 @@
 namespace Tucuxi {
 namespace Xpert {
 
-/// \brief This class extends the tucuxi-core query importer to import admin data
-///        and the custom requests "xpertRequest" when loading the xml query.
+/// \brief This class extends the Tucuxi computation core query importer to import admin data
+///        and the custom requests "xpertRequest" when loading the XML query.
 /// \date 23/04/2022
 /// \author Herzig Melvyn
 class XpertQueryImport : public Query::QueryImport
@@ -26,9 +26,9 @@ public:
     /// \return Status::Ok if the import went well, otherwise another Status.
     Status importFromFile(std::unique_ptr<XpertQueryData>& _query, const std::string& _fileName);
 
-    /// \brief Import a query based on an xml string. This function is reentrant.
+    /// \brief Import a query based on an XML string. This function is reentrant.
     /// \param _query A reference to an xpert query pointer that will be allocated in the function.
-    /// \param _xml An xml string that represents the query.
+    /// \param _xml An XML string that represents the query.
     /// \return Status::Ok if the import went well, otherwise another Status.
     Status importFromString(std::unique_ptr<XpertQueryData>& _query, const std::string& _xml);
 

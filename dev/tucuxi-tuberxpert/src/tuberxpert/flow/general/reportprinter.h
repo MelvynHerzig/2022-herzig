@@ -9,7 +9,7 @@ namespace Xpert {
 
 /// \brief This step selects the exporter that matches the
 ///        desired output format of the XpertRequest.
-///        In other words, it selects between the xml, html or pdf exporter
+///        In other words, it selects between the XML, HTML or PDF exporter
 ///        and send him the the XpertRequestResult to be exported.
 ///
 ///        This class chooses between:

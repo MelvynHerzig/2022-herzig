@@ -114,9 +114,6 @@ protected:
                                 const Core::FormulationAndRoutes& _modelFormulationsAndRoutes,
                                 std::map<const Core::SingleDose*, DoseValidationResult>& _results) const;
 
-
-
-
     /// \brief For a single dose, check its compatibility with the drug model's recommended doses.
     ///        The drug model doses are located in the list of formulations and routes in argument.
     /// \param _singleDose Single dose to check.

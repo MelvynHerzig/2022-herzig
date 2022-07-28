@@ -7,7 +7,7 @@ namespace Tucuxi {
 namespace Xpert {
 
 /// \brief This class contains the static file strings for the HTML export.
-///        Static files are the files that does not change between two
+///        Static files are the files that do not change between two
 ///        exports. These files are the CSS and JS files used by the index page.
 ///
 ///        The CSS files are minified versions of the files found in
@@ -32,12 +32,12 @@ public:
      *                             CSS                            *
      * ************************************************************/
 
-    /// \brief Css from https://necolas.github.io/normalize.css/. It makes the rendering
+    /// \brief CSS from https://necolas.github.io/normalize.css/. It makes the rendering
     ///        of the elements more consistent between browsers.
     ///        It is in: tucuxi-tuberxpert/html/src/asset/css/normalize.css
     static const std::string normalizeCssStr;
 
-    /// \brief Css responsible for the style of the report.
+    /// \brief CSS responsible for the style of the report.
     ///        It is in: tucuxi-tuberxpert/html/src/asset/css/tuberxpert.css
     static const std::string tuberxpertCssStr;
 
@@ -45,15 +45,15 @@ public:
      *                             JS                            *
      * ************************************************************/
 
-    /// \brief Js which implements the data necessary for the realization of graphics.
+    /// \brief JS which implements the data necessary for the realization of graphs.
     ///        It is in: tucuxi-tuberxpert/html/build/asset/js/graphdata.js
     static const std::string graphdataJsStr;
 
-    /// \brief Js that implements the graph creation methods for the graph data.
+    /// \brief JS that implements the graph creation methods for the graph data.
     ///        It is in: tucuxi-tuberxpert/html/build/asset/js/graphing.js
     static const std::string graphingJsStr;
 
-    /// \brief Js that takes the data from the index and creates the graph
+    /// \brief JS that takes the data from the index and creates the graph
     ///        data and starts the graph creation process.
     ///        It is in: tucuxi-tuberxpert/html/build/asset/js/tuberxpert.js
     static const std::string tuberxpertJsStr;

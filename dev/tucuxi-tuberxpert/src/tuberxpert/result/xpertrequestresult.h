@@ -25,7 +25,7 @@ class XpertQueryResult;
 /// \brief This is object stores the results of TuberXpert flow steps against a given
 ///        xpertRequest.
 ///
-///        An XpertRequestResult allowes to retrieve all information needed to
+///        An XpertRequestResult allows to retrieve all information needed to
 ///        generate the adjustment report.
 ///
 ///        Typically, an XpertRequestResult gives access to:
@@ -38,9 +38,9 @@ class XpertQueryResult;
 ///            - The dose validation results (DoseValidationResult).
 ///            - The sample validation results (SampleValidationResult).
 ///            - The adjustment trait used to find a better treatment.
-///            - The adjustment data returned by Tucuxi computing core.
+///            - The adjustment data returned by Tucuxi computation core.
 ///            - The last intake.
-///            - The parameters (Typical, A priori and eventually A posteriori).
+///            - The parameters (Typical patient, A priori and eventually A posteriori).
 ///            - The statistics at steady state.
 /// \date 20/05/2022
 /// \author Herzig Melvyn
@@ -120,9 +120,9 @@ public:
     ///        The data is retrieved by the RequestExecutor flow step.
     /// \return The parameters groups. This may be empty if the flow step has failed/has not been performed.
     ///         - In index 0, the typical patient.
-    ///         - In index 1, the a priori values.
-    ///         - In index 2, the a posteriori values. (Does not exist if the type of computation
-    ///           of the adjustment trait is a priori.)
+    ///         - In index 1, the A priori values.
+    ///         - In index 2, the A posteriori values. (Does not exist if the type of computation
+    ///           of the adjustment trait is A priori.)
     const std::vector<std::vector<Core::ParameterValue>>& getParameters() const;
 
     /// \brief Get the extrapolated statistics at steady state.
@@ -175,12 +175,12 @@ public:
 
     /// \brief Emplace front a group of parameters.
     ///        Used during the RequestExecutor flow step.
-    ///        When the adjustment trait is apriori, this method is called
-    ///        two times: for the parameters a priori, then for the parameters of the
+    ///        When the adjustment trait is A priori, this method is called
+    ///        two times: for the parameters A priori, then for the parameters of the
     ///        typical patient.
-    ///        When the adjustment trait is aposteriori, this method is called three times:
-    ///        for the parameters a posteriori, then for the parameters a priori and finally for
-    ///        the parameters of the typical patient.
+    ///        When the adjustment trait is A posteriori, this method is called three times:
+    ///        for the parameters A posteriori, then for the parameters a priori and finally for
+    ///        the parameters of the Typical patient.
     /// \param _paramters The parameters to saves.
     void addParameters(const std::vector<Core::ParameterValue>& _parameters);
 

@@ -78,8 +78,8 @@ void TestXpertUtils::timeToString_behavesCorrectly(const string& _testName)
                     chrono::seconds(1))};
 
     // Check
-    fructose_assert_eq(Xpert::TimeOfDayToString(timeOfDayWithoutMinute), "8h");
-    fructose_assert_eq(Xpert::TimeOfDayToString(timeOfDayWithMinute), "8h30");
+    fructose_assert_eq(Xpert::timeOfDayToString(timeOfDayWithoutMinute), "8h");
+    fructose_assert_eq(Xpert::timeOfDayToString(timeOfDayWithMinute), "8h30");
 }
 
 void TestXpertUtils::dateTimeToString_behavesCorrectly(const string& _testName)

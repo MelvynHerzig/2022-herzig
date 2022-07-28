@@ -15,8 +15,8 @@
 namespace Tucuxi {
 namespace Xpert {
 
-/// \brief This class is responsible for creating the adjustment trait the will be submitted
-///        to Tucuxi core in a computing request. It uses the whole dosage history.
+/// \brief This class is responsible for creating the adjustment trait that will be submitted
+///        to Tucuxi core. It uses the whole dosage history.
 ///
 ///        Since this class must compute the intakes of the patient, it also defines his
 ///        last intake.
@@ -45,7 +45,7 @@ protected:
     ///        - If the adjustment time is set in the XpertRequest, it returns it.
     ///        - Otherwise:
     ///            - If there is a treatment in progress, it returns the next intake time.
-    ///            - If there is a completed treatment, from the last intake time,it adds 2 * half life of the
+    ///            - If there is a completed treatment, from the last intake time,it adds 2 * half-life of the
     ///              drug until the computation time is reached. The resulting time is returned.
     ///            - If there is no treatment, it returns the computing time plus 1 hour.
     /// \param _xpertRequestResult XpertRequestResult containing the treatment and the drug model to extract intakes
@@ -74,7 +74,7 @@ protected:
 
     /// \brief Extract the start and end time of the adjustment.
     ///        - If the treatment is not a standard treatment:
-    ///            - start = adjustmentTime - 1 hour
+    ///            - start = adjustment time
     ///            - end = start + 7 days
     ///        - else, if the treatment is a standard treatment:
     ///            - start = the start time of the oldest time range in the dosage history or
@@ -91,7 +91,7 @@ protected:
                    Common::DateTime& _start,
                    Common::DateTime& _end) const;
 
-    /// \brief Retrieve the loading option of the XpertRequest or the full
+    /// \brief Retrieve the loading option of the xpertRequest or the full
     ///        formulation and route if not defined in request.
     /// \param _request Request where the rest period option may be set.
     /// \param _fullFormulationAndRoute Full formulation and route from which use "isLoadingDoseRecommended"
@@ -100,7 +100,7 @@ protected:
     Core::LoadingOption getLoadingOption(const XpertRequestData& _request,
                                          const Core::FullFormulationAndRoute* _fullFormulationAndRoute) const;
 
-    /// \brief Retrieve the rest period option of the XpertRequest or the full
+    /// \brief Retrieve the rest period option of the xpertRequest or the full
     ///        formulation and route if not defined in request.
     /// \param _request Request where the rest period option may be set.
     /// \param _fullFormulationAndRoute Full formulation and route from which use "isRestPeriodRecommended"
@@ -112,7 +112,7 @@ protected:
     /// \brief Define the steady state target option to be used.
     ///        - If the full formulation and route defines a standard treatment:
     ///             - within treatment time range.
-    ///        -Else:
+    ///        - Else:
     ///             - at steady state.
     /// \param _fullFormulationAndRoute Full formulation and route from the drug model used with
     ///        the drug treatment which indicates whether it is a standard treatment.

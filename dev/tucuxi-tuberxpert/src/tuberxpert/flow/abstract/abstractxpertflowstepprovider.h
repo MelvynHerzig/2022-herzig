@@ -17,9 +17,9 @@ namespace Xpert {
 ///        - 4) Validate the targets
 ///        - 5) Create the adjustment trait
 ///        - 6) Execute the requests
-///        - 7) Print the adjustment report
+///        - 7) Print the treatment adjustment report
 ///
-///        An flow step is an implementation of the AbstractXpertFlowStep class.
+///        A flow step is an implementation of the AbstractXpertFlowStep class.
 ///
 ///        When necessary, this factory system allows to be able to offer a specific
 ///        implementation for a drug: ImatinibXpertFlowStepProvider, RifampicinXpertFlowStepProvider...
@@ -48,7 +48,7 @@ public:
     /// \return The corresponding AbstractXpertFlowStep.
     virtual const std::unique_ptr<AbstractXpertFlowStep>& getCovariateValidatorAndModelSelector() const = 0;
 
-    /// \brief Get the step responsible for doses validation.
+    /// \brief Get the step responsible for dose validation.
     /// \return The corresponding AbstractXpertFlowStep.
     virtual const std::unique_ptr<AbstractXpertFlowStep>& getDoseValidator() const = 0;
 
@@ -77,7 +77,7 @@ protected:
     /// \brief The step responsible for covariate validation and drug model selection.
     std::unique_ptr<AbstractXpertFlowStep> m_covariateValidatorAndModelSelector;
 
-    /// \brief The step responsible for doses validation.
+    /// \brief The step responsible for dose validation.
     std::unique_ptr<AbstractXpertFlowStep> m_doseValidator;
 
     /// \brief The step responsible for sample validation.

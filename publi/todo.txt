@@ -5,11 +5,6 @@ TODO:
 
 - Generate Doxygen tests and use it as annex for the documentation. Call it tuberxpert_test_documentation
 
-- Déplacer schéma global
-
-- Add the annex list:
-	- ... ?
-
 - Post the publishable summary.
 
 - Convert the add language doc into pdf

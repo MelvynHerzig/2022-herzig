@@ -12,9 +12,9 @@
 namespace Tucuxi {
 namespace Xpert {
 
-/// \brief This class extends the QueryToCoreExtractor of tucuquery.
+/// \brief This class extends the QueryToCoreExtractor of Tucuxi.
 ///        The main point of this class is to provide a method
-///        to extract a drugTreatment for a given XpertRequestData.
+///        to extract a DrugTreatment for a given XpertRequestData.
 /// \date 23/04/2022
 /// \author Herzig Melvyn
 class XpertQueryToCoreExtractor : Query::QueryToCoreExtractor

@@ -12,10 +12,7 @@
 namespace Tucuxi {
 namespace Xpert {
 
-/// \brief This class exports an XpertRequestResult in xml.
-///
-///        If a value to export is nullptr, no node is created
-///        and added.
+/// \brief This class exports an XpertRequestResult in XML.
 /// \date 23/06/2022
 /// \author Herzig Melvyn
 class XpertRequestResultXmlExport : public AbstractXpertRequestResultExport, protected Query::ComputingQueryResponseXmlExport
@@ -29,7 +26,7 @@ public:
 
 protected:
 
-    /// \brief Transforms the given XpertRequestResult into an XML string.
+    /// \brief Transform the given XpertRequestResult into an XML string.
     /// \param _xpertRequestResult Result of the xpertRequest to transform.
     /// \param _xmlString The resulting xml string.
     void makeXmlString(const XpertRequestResult& _xpertRequestResult, std::string& _xmlString);
@@ -115,7 +112,7 @@ protected:
     ///        Override inherited method to export only the needed information and not
     ///        the covariates, the statistics and the parameters.
     /// \param _cycleData Cycle data to export.
-    /// \param _cycleDatasNode CycleDatas node  where to add the created node.
+    /// \param _cycleDatasNode CycleDatas node where to add the created node.
     /// \return True.
     bool exportCycleData(const Core::CycleData& _cycleData, Common::XmlNode& _cycleDatasNode) override;
 
@@ -152,7 +149,7 @@ protected:
 
 protected:
 
-    /// \brief We keep a reference on the xml document variable to create xml nodes
+    /// \brief We keep a reference on the XML document variable to create XML nodes
     ///        in any method without having to pass it as an argument everywhere.
     Common::XmlDocument m_xmlDocument;
 

@@ -10,51 +10,50 @@
 namespace Tucuxi {
 namespace Xpert {
 
-/// \brief This class exports an XpertRequestResult in html.
-///
+/// \brief This class exports an XpertRequestResult in HTML.
 ///        It creates an all-in-one html file that contains
 ///        the necessary css and js to be autonomous.
 ///
 ///        This class has setup a tamplate string and fills it using
 ///        the inja library (https://github.com/pantor/inja) v3.3.0.
 ///
-///        A example result (not as an all-in-one file) is available
+///        An example result (not as an all-in-one file) is available
 ///        in: /dev/tucuxi-tuberxpert/html/src/index.html.
 ///        This class tries to reproduce the layout of this example.
 ///
 ///        There is a few tricks to know about this template.
 ///
 ///        This template is made to work with wkhtmltopdf in order
-///        to have a really simple pdf exporter. However, wkhtmltopdf
-///        is not really recent. As a result, it doesn't support modern css
-///        (such as flex box) and it doesn't support JS above EcmaScript5.
+///        to have a really simple PDF exporter. However, wkhtmltopdf
+///        is not really recent. As a result, it does not support modern CSS
+///        (such as flex box) and it does not support JS above EcmaScript5.
 ///
 ///        The solutions to those problems are as follows:
 ///             - The layout of the page is made with tables.
-///             - The JS need to be transpiled with Babel (see: /dev/tucuxi-tuberxpert/html/readme.md)
+///             - The JS needs to be transpiled with Babel (see: /dev/tucuxi-tuberxpert/html/readme.md)
 ///
-///        The width of the html content corresponds to an A4 page without margin.
+///        The width of the HTML content corresponds to an A4 page without margin.
 ///        The elements have been organized so as not to be spread over two pages.
-///        The css avoid splitting tables, rows and div with the "avoid-break-inside" class
+///        The CSS avoid splitting tables, rows and div with the "avoid-break-inside" class
 ///        which is really useful to group things together and avoid page breaks inside.
 ///
 ///        Keep it in mind, the template places each data in its own table. With this approach it is
-///        really easy to avoid that elements being left alone.
+///        really easy to avoid elements being left alone.
 ///
 ///        Let's say we have the title "Covariates" and a series of two covariates, but we want to avoid
 ///        that the title is alone before a page break.
-///        We can organize the html as follows:
+///        We can organize the HTML as follows:
 ///
-///        <div class="avoid-page-break>
-///             <h1> Covariates </h1>
-///             <table> <!-- The first covariate-->  </table>
-///        </div>
-///        <table> <!-- The second covariate-->  </table>
+///        \<div class="avoid-page-break\>                                                      <br>
+///        &emsp; \<h1\> Covariates \</h1\>                                                     <br>
+///        &emsp; \<table\>  The first covariate  \</table\>                                    <br>
+///        \</div\>                                                                             <br>
+///        \<table\> The second covariate  \</table\>                                           <br>
 ///
 ///         With this technique, we have the guarantee that the title will always be with the first covariate
-///         without preventing a page break between the covariates (which would not have been possible if all
-///         covariates were represented by a set of rows in the same table). This approach is often used in
-///         the html template of this class when we don't know where a group of data is going to start.
+///         without preventing a page break between the covariates which would not have been possible if all
+///         covariates were represented by a set of rows in the same table. This approach is often used in
+///         the HTML template of this class when we do not know where a group of data is going to start.
 ///
 /// \date 23/06/2022
 /// \author Herzig Melvyn
@@ -75,12 +74,12 @@ public:
 
 protected:
 
-    /// \brief Prepare the first part of the html document from <!doctype html> to </head> as a string.
-    ///        Insert the meta element and the css and js minified strings from FileString.
+    /// \brief Prepare the first part of the HTML document from <!doctype html> to </head> as a string.
+    ///        Insert the meta elements and the CSS and JS minified strings from FileString.
     /// \return The resulting string.
     std::string makeHeaderString() const;
 
-    /// \brief Prepare the second part of the html document from <body> to </html> as a string.
+    /// \brief Prepare the second part of the HTML document from <body> to </html> as a string.
     ///        Insert the XpertRequestResult content as the page content.
     /// \param _xpertRequestResult Result of the xpertRequest to export.
     /// \return The resulting string.

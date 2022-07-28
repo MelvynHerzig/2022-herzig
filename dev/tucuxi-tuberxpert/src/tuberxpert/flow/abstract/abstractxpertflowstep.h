@@ -19,7 +19,7 @@ public:
     /// \brief Destructor.
     virtual ~AbstractXpertFlowStep(){};
 
-    /// \brief Method to call in order to perform the step.
+    /// \brief Method to call in order to perform the flow step.
     /// \param _xpertRequestResult XpertRequestResult object which will contain the
     ///        result of this flow step and which contains the information
     ///        necessary for the execution of this flow step.

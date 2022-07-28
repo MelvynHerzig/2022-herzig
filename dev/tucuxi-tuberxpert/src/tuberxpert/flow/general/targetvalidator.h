@@ -8,7 +8,6 @@ namespace Tucuxi {
 namespace Xpert {
 
 /// \brief This class is used to check the consistency of the patient's targets.
-///
 ///        - Two patient targets cannot have the same target type for the same active moitety.
 ///        - Each patient target active moiety must exist in the drug model.
 /// \date 10/06/2022

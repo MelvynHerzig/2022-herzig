@@ -11,12 +11,12 @@ namespace Xpert {
 /// \brief General provider of xpert flow step (generically for the drugs).
 ///        It provides instances of:
 ///        - 1) CovariateValidatorAndModelSelector
-///        - 2) DosageValidator
+///        - 2) DoseValidator
 ///        - 3) SampleValidator
 ///        - 4) TargetValidator
 ///        - 5) AdjustmentTraitCreator
-///        - 6) Execute the requests
-///        - 7) Print the final report
+///        - 6) RequestExecutor
+///        - 7) ReportPrinter
 ///
 /// \date 20/06/2022
 /// \author Herzig Melvyn

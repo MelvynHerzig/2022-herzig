@@ -7,7 +7,7 @@
 namespace Tucuxi {
 namespace Xpert {
 
-/// \brief This step takes the adjustment trait in the xpertRequestResul
+/// \brief This step takes the adjustment trait in the XpertRequestResult
 ///        and executes it, then makes a new request to extract statistics
 ///        at steady states and requests to get parameters at "previous types".
 /// \date 25/06/2022
@@ -17,20 +17,20 @@ class RequestExecutor : public AbstractXpertFlowStep
 public:
 
     /// \brief Extract the adjustment trait from the XpertRequestResult, make the request for Tucuxi core and submit it.
-    ///        If something fails, the error message of the xpert request result is set and it must not be processed anymore.
+    ///        If something fails, the error message of the XpertRequestResult is set and it must not be processed anymore.
     /// \param _xpertRequestResult XpertRequestResult containing the adjustment trait to use.
     void perform(XpertRequestResult& _xpertRequestResult) override;
 
 protected:
 
-    /// \brief This methods is called after the first request to Tucuxi core succeed (in perform).
+    /// \brief This method is called after the first request to Tucuxi core succeed (in perform).
     ///        It collects the statistics at steady state and the parameters for previous prediction types.
     ///        To do so, it creates new traits the extend the end date to reach steady state or that change the parameters type.
     /// \param _xpertRequestResult XpertRequestResult to set the additional data and to get the base adjustment trait.
     void gatherAdditionalData(XpertRequestResult& _xpertRequestResult) const;
 
     /// \brief Copy a computing adjustment trait but with a different end time,
-    ///        points per hour or prediction paramter type. Set the best candidate option to BestDosage,
+    ///        points per hour or prediction parameter type. Set the best candidate option to BestDosage,
     ///        since that is the only one we are interested in.
     /// \param _baseTrait Base adjustment trait to copy.
     /// \param _newEnd New end time to use.

@@ -56,7 +56,7 @@ std::string dateTimeToXmlString(const Common::DateTime& _dateTime);
 ///        For example in English: 8h30 or 10h (when the minutes are equalt to 0).
 /// \param _timeOfDay TimeOfDay to convert.
 /// \return The string of the resulting conversion.
-std::string TimeOfDayToString(const Common::TimeOfDay& _timeOfDay);
+std::string timeOfDayToString(const Common::TimeOfDay& _timeOfDay);
 
 /// \brief Convert a DateTime to a string.
 ///        Format: <day>.<month>.<year> <hour><hour acronym><minutes>

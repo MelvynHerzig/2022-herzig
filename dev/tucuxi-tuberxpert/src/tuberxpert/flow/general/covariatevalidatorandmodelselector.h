@@ -18,13 +18,13 @@ namespace Xpert {
 ///        and and validating the relevance of covariates.
 ///
 ///        For each available model of a given drug that matches to the formulation and route
-///        of the dosages, we calculate a dissimilarity score S based on the covariates of the model.
+///        of the doses, we calculate a dissimilarity score S based on the covariates of the model.
 ///        S =∑ (missing covariate) + ∑(covariate not respecting constraint (maximum once per covariate definition))
 ///        The model with the lowest dissimilarity score is chosen. In case of a tie, the model with the most
 ///        covariate definitions is chosen.
 ///
-///        The selected drug model must support the xpertRequest language. If it doesn't, the XpertRequestResult
-///        gets its error message set and it is not processed anymore.
+///        The selected drug model must support the xpertRequest language or at least English.
+///        If it doesn't, the XpertRequestResult gets its error message set and it is not processed anymore.
 ///
 /// \date 18/05/2022
 /// \author Herzig Melvyn

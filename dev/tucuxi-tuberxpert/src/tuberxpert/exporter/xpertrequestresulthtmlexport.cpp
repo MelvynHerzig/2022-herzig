@@ -1221,7 +1221,7 @@ void XpertRequestResultHtmlExport::getDosageJson(const Core::ParallelDosageSeque
     for (const unique_ptr<Tucuxi::Core::DosageBounded>& dosage : _dosage.getDosageList()) {
 
         stringstream offsetStream;
-        offsetStream << langMgr.translate("offset") << " " << TimeOfDayToString(TimeOfDay::buildUnnormalized(*timeOffsetIt));
+        offsetStream << langMgr.translate("offset") << " " << timeOfDayToString(TimeOfDay::buildUnnormalized(*timeOffsetIt));
         string newPosologyIndicationChain = prefixPosology(offsetStream.str(), _posologyIndicationChain);
 
         getAbstractDosageJson(*dosage,  _dosageTimeRangeJson, newPosologyIndicationChain);
@@ -1235,7 +1235,7 @@ void XpertRequestResultHtmlExport::getDosageJson(const Core::LastingDose& _dosag
     LanguageManager& langMgr = LanguageManager::getInstance();
 
     stringstream posologyStream;
-    posologyStream << langMgr.translate("interval") << " " << TimeOfDayToString(TimeOfDay::buildUnnormalized(_dosage.getTimeStep()));
+    posologyStream << langMgr.translate("interval") << " " << timeOfDayToString(TimeOfDay::buildUnnormalized(_dosage.getTimeStep()));
     string newPosologyIndicationChain = prefixPosology(posologyStream.str(), _posologyIndicationChain);
 
     // Export the single dose
@@ -1248,7 +1248,7 @@ void XpertRequestResultHtmlExport::getDosageJson(const Core::DailyDose& _dosage,
     LanguageManager& langMgr = LanguageManager::getInstance();
 
     stringstream posologyStream;
-    posologyStream << langMgr.translate("daily_at") << " " << TimeOfDayToString(_dosage.getTimeOfDay());
+    posologyStream << langMgr.translate("daily_at") << " " << timeOfDayToString(_dosage.getTimeOfDay());
     string newPosologyIndicationChain = prefixPosology(posologyStream.str(), _posologyIndicationChain);
 
     // Export the single dose
@@ -1262,7 +1262,7 @@ void XpertRequestResultHtmlExport::getDosageJson(const Core::WeeklyDose& _dosage
 
     stringstream posologyStream;
     posologyStream << langMgr.translate("every") << " " << langMgr.translate("day_" + to_string(_dosage.getDayOfWeek().operator unsigned int()))
-                   << " " <<langMgr.translate("at") << " " << TimeOfDayToString(_dosage.getTimeOfDay());
+                   << " " <<langMgr.translate("at") << " " << timeOfDayToString(_dosage.getTimeOfDay());
     string newPosologyIndicationChain = prefixPosology(posologyStream.str(), _posologyIndicationChain);
 
     // Export the single dose
