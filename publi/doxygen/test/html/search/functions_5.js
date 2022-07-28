@@ -1,0 +1,6 @@
+var searchData=
+[
+  ['findgrouppositionover99percentiles_5fbehavescorrectly_5fwithgivenpercentilesdataandsamples_0',['findGroupPositionOver99Percentiles_behavesCorrectly_withGivenPercentilesDataAndSamples',['../struct_test_sample_validator.html#addf73b67b1a808cf9a267074098c878d',1,'TestSampleValidator']]],
+  ['findgrouppositionover99percentiles_5fthrowinvalidargument_5fwhensampledatenotfoundincycledata_1',['findGroupPositionOver99Percentiles_throwInvalidArgument_whenSampleDateNotFoundInCycleData',['../struct_test_sample_validator.html#ab09779ece662fece7dd669314daaea1f',1,'TestSampleValidator']]],
+  ['findgrouppositionover99percentiles_5fthrowinvalidargument_5fwhensampleunitconversionfailure_2',['findGroupPositionOver99Percentiles_throwInvalidArgument_whenSampleUnitConversionFailure',['../struct_test_sample_validator.html#a78ba8cb9b686889afd1aa6f80d62d3bc',1,'TestSampleValidator']]]
+];

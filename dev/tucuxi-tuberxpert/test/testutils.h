@@ -28,7 +28,7 @@ public:
     static const std::string englishTranslationFile;
 
     /// \brief Set up the test environment. Load the query, make the
-    ///        XpertQueryResult object, load the model, assigns it to the first XpertRequestResult
+    ///        XpertQueryResult object, load the model, assign it to the first XpertRequestResult
     ///        of the XpertQueryResult and loads an english translationFile.
     /// \param _queryString Query string to load.
     /// \param _modelString Model string to put as drug model of the XpertRequestResult of the first request.

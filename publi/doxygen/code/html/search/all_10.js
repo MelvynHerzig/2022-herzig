@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['make_5funique_0',['make_unique',['../class_tucuxi_1_1_xpert_1_1_language_manager.html#a423fc8123daec6f11fcd194ed90b3560',1,'Tucuxi::Xpert::LanguageManager']]],
+  ['s_5fdefaulttranslation_1',['s_defaultTranslation',['../class_tucuxi_1_1_xpert_1_1_language_manager.html#a2f227bc2f4cdd4455cb7757ebea31f4f',1,'Tucuxi::Xpert::LanguageManager']]],
+  ['samplevalidationresult_2',['SampleValidationResult',['../class_tucuxi_1_1_xpert_1_1_sample_validation_result.html#af94a313daf87ceb03803a99ff2f7efcb',1,'Tucuxi::Xpert::SampleValidationResult::SampleValidationResult()'],['../class_tucuxi_1_1_xpert_1_1_sample_validation_result.html',1,'Tucuxi::Xpert::SampleValidationResult']]],
+  ['samplevalidationresult_2ecpp_3',['samplevalidationresult.cpp',['../samplevalidationresult_8cpp.html',1,'']]],
+  ['samplevalidationresult_2eh_4',['samplevalidationresult.h',['../samplevalidationresult_8h.html',1,'']]],
+  ['samplevalidator_5',['SampleValidator',['../class_tucuxi_1_1_xpert_1_1_sample_validator.html',1,'Tucuxi::Xpert']]],
+  ['samplevalidator_2ecpp_6',['samplevalidator.cpp',['../samplevalidator_8cpp.html',1,'']]],
+  ['samplevalidator_2eh_7',['samplevalidator.h',['../samplevalidator_8h.html',1,'']]],
+  ['setadjustmentdata_8',['setAdjustmentData',['../class_tucuxi_1_1_xpert_1_1_xpert_request_result.html#a31283a0c35aaa5944203a2d8f99801aa',1,'Tucuxi::Xpert::XpertRequestResult']]],
+  ['setadjustmenttrait_9',['setAdjustmentTrait',['../class_tucuxi_1_1_xpert_1_1_xpert_request_result.html#a4053021b6ef8256da190166cbab76864',1,'Tucuxi::Xpert::XpertRequestResult']]],
+  ['setcovariateresults_10',['setCovariateResults',['../class_tucuxi_1_1_xpert_1_1_xpert_request_result.html#a8a686b6527fabb9a9c1df0f9439ac406',1,'Tucuxi::Xpert::XpertRequestResult']]],
+  ['setcyclestats_11',['setCycleStats',['../class_tucuxi_1_1_xpert_1_1_xpert_request_result.html#a16fb5e28d2fdd4ab2abd41cd0fd1215e',1,'Tucuxi::Xpert::XpertRequestResult']]],
+  ['setdoseresults_12',['setDoseResults',['../class_tucuxi_1_1_xpert_1_1_xpert_request_result.html#af1015fbdb60ddd6cd7e61882b6aa0cb2',1,'Tucuxi::Xpert::XpertRequestResult']]],
+  ['setdrugmodel_13',['setDrugModel',['../class_tucuxi_1_1_xpert_1_1_xpert_request_result.html#a8261435b1cf22e96791f6bea4c8a9ecd',1,'Tucuxi::Xpert::XpertRequestResult']]],
+  ['seterrormessage_14',['setErrorMessage',['../class_tucuxi_1_1_xpert_1_1_xpert_request_result.html#a0fd83142ee4736f04852b91fb2925124',1,'Tucuxi::Xpert::XpertRequestResult']]],
+  ['setlastintake_15',['setLastIntake',['../class_tucuxi_1_1_xpert_1_1_xpert_request_result.html#a1934cb7757e1e1441f5dc5ede9b7675a',1,'Tucuxi::Xpert::XpertRequestResult']]],
+  ['setsampleresults_16',['setSampleResults',['../class_tucuxi_1_1_xpert_1_1_xpert_request_result.html#acf2d53f261a241348539fcd242c5319a',1,'Tucuxi::Xpert::XpertRequestResult']]],
+  ['shouldcontinueprocessing_17',['shouldContinueProcessing',['../class_tucuxi_1_1_xpert_1_1_xpert_request_result.html#ab5b7f4beaeb33d08c89649dcb5882a6f',1,'Tucuxi::Xpert::XpertRequestResult']]],
+  ['some_5frequests_5fsucceeded_18',['SOME_REQUESTS_SUCCEEDED',['../namespace_tucuxi_1_1_xpert.html#a93d688060593a94f8dd8e092e96313baaa66fe04242b79dd6879928c064ddcf45',1,'Tucuxi::Xpert']]]
+];

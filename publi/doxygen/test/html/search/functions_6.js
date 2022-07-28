@@ -1,0 +1,16 @@
+var searchData=
+[
+  ['getadmindataofxpertqueyresult_5freturnscorrectvalues_5fwithorwithoutadmininquery_0',['getAdminDataOfXpertQueyResult_returnsCorrectValues_withOrWithoutAdminInQuery',['../struct_test_xpert_query_result_creation.html#a55997fc7bb44a1c12ba8305d11786f7f',1,'TestXpertQueryResultCreation']]],
+  ['getagein_5fbehavescorrectly_1',['getAgeIn_behavesCorrectly',['../struct_test_xpert_utils.html#a414fd847de96ed6a49b12aa694fc4434',1,'TestXpertUtils']]],
+  ['getcomputationtimeofxpertrequestresult_5freturnscorrectdatetime_2',['getComputationTimeOfXpertRequestResult_returnsCorrectDateTime',['../struct_test_xpert_query_result_creation.html#a0098d87bcc5f2ecc7e88495ea998aaed',1,'TestXpertQueryResultCreation']]],
+  ['getcovariatevalidationresults_5freturnscorrectvalues_5fwhencovariatevalidatorandmodelselectorsuccess_3',['getCovariateValidationResults_returnsCorrectValues_whenCovariateValidatorAndModelSelectorSuccess',['../struct_test_covariate_validator_and_model_selector.html#af4ceee3ee292c64713747d7d9e48b1db',1,'TestCovariateValidatorAndModelSelector']]],
+  ['getdosevalidationresults_5fisempty_5fwhennodoseinquery_4',['getDoseValidationResults_isEmpty_whenNoDoseInQuery',['../struct_test_dose_validator.html#a1b6b5e5e6cecbb4b52229ca54dc77488',1,'TestDoseValidator']]],
+  ['getlastintake_5freturnscorrectvalues_5fwhendosagehistory_5',['getLastIntake_returnsCorrectValues_whenDosageHistory',['../struct_test_adjustment_trait_creator.html#a974e06dd5ecea2d2e97323c427c3a0d9',1,'TestAdjustmentTraitCreator']]],
+  ['getlastintake_5freturnsnullptr_5fwhennodosagehistory_6',['getLastIntake_returnsNullptr_whenNoDosageHistory',['../struct_test_adjustment_trait_creator.html#a2fc9bdfb583d13ce799795cc1f171b88',1,'TestAdjustmentTraitCreator']]],
+  ['getlatestdosagetimerangestart_5fbehavescorrectly_7',['getLatestDosageTimeRangeStart_behavesCorrectly',['../struct_test_xpert_utils.html#aec3e6bbb80b9a4805dc1e5b4b3cd74d9',1,'TestXpertUtils']]],
+  ['getoldestdosagetimerangestart_5fbehavescorrectly_8',['getOldestDosageTimeRangeStart_behavesCorrectly',['../struct_test_xpert_utils.html#a229e2dedb6fc2c16bb0e5f4451a78d65',1,'TestXpertUtils']]],
+  ['getsamplevalidationresult_5fissorted_5fwhennotempty_9',['getSampleValidationResult_isSorted_whenNotEmpty',['../struct_test_sample_validator.html#ab30bab349316fe601574dadda94b337a',1,'TestSampleValidator']]],
+  ['getstringwithenglishfallback_5fbehavescorrectly_10',['getStringWithEnglishFallback_behavesCorrectly',['../struct_test_xpert_utils.html#a73bdafb577b38eb9c64f9f0b8144f669',1,'TestXpertUtils']]],
+  ['getxpertrequestdataofxpertrequestresult_5freturnscorrectvalues_5fwithfullandminimalxpertrequest_11',['getXpertRequestDataOfXpertRequestResult_returnsCorrectValues_withFullAndMinimalXpertRequest',['../struct_test_xpert_query_result_creation.html#aa7ff3ade8177a2545d570d1ac169b4cf',1,'TestXpertQueryResultCreation']]],
+  ['getxpertrequestresultsofxpertqueryresult_5freturnscorrectvalues_5fwithvalidandinvalidxpertrequest_12',['getXpertRequestResultsOfXpertQueryResult_returnsCorrectValues_withValidAndInvalidXpertRequest',['../struct_test_xpert_query_result_creation.html#a22d9f9be3de00ee8a0b8d9d0dca3e1e2',1,'TestXpertQueryResultCreation']]]
+];
