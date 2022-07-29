@@ -95,8 +95,8 @@
 			</institute>
 		</patient>
 		<clinicalDatas>
-			<clinicalData key='numeroDeChambre'>404</clinicalData>
-			<clinicalData key='uneNote'>le contenu de la note</clinicalData>
+			<clinicalData key='aNote'>the content</clinicalData>
+			<clinicalData key='roomNumber'>404</clinicalData>
 		</clinicalDatas>
 	</admin>
 	<covariates>
@@ -204,7 +204,7 @@
 			<concentrations>
 				<concentration>
 					<analyteId>imatinib</analyteId>
-					<percentile>33</percentile>
+					<percentile>34</percentile>
 					<value>0.700000</value>
 					<unit>mg/l</unit>
 				</concentration>
