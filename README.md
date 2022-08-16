@@ -76,6 +76,12 @@ For the automatically generated documentation of the code: <br>
 
 * Init and update the git submodules ( "_/dev/tucuxi-core_" & "_/dev/tucuxi-drugs_").
 
+* Go to the [wkhtmltopdf website](https://wkhtmltopdf.org/downloads.html), download the installer for Windows and run it.
+
+![wkhtmltopdf windows installer](https://user-images.githubusercontent.com/34660483/184912560-87d2da99-3070-48b7-9405-66c115a5ce78.png)
+
+* On your file system, go to the installation location of wkhtmltopdf. In the "_bin_" folder, copy the file "_wkhtmltox.dll_" and paste it into the project in "_dev/tucuxi-tuberxpert/libs/wkhtmltox/windows_".
+
 * Open the file "_/dev/tucuxi-tuberxpert/tucuxi-tuberxpert.pro_" with Qt Creator and you are good to go.
 
 <h3> Ubuntu installation process </h3>
@@ -83,6 +89,16 @@ For the automatically generated documentation of the code: <br>
 * Clone the TuberXpert repository.
 
 * Init and update the git submodules ( "_/dev/tucuxi-core_" & "_/dev/tucuxi-drugs_").
+
+* Go to the [wkhtmltopdf website](https://wkhtmltopdf.org/downloads.html), download the installer for Ubuntu 22.04 and run it.
+
+![wkhtmltopdf ubuntu installer](https://user-images.githubusercontent.com/34660483/184914622-b244f5f1-5606-4c36-a652-4aeb04ab638b.png)
+
+```
+$ sudo apt install <wkhtmltopdf deb file location>
+```
+
+* On your file system, go to "_usr/local/lib_", copy the file "_libwkhtmltox.so.0.12.6_" and paste it into the project in "_dev/tucuxi-tuberxpert/libs/wkhtmltox/ubuntu_".
 
 * Run the script "_/dev/tucuxi-core/make/build.sh_" .
 
